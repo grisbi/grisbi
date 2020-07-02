@@ -1757,7 +1757,7 @@ void bet_historical_set_page_title ( gint account_number )
                     gsb_data_account_get_name ( account_number ) );
     else
         title = g_strdup_printf (
-                    _("Amounts by %s in %s for the account: «%s»"),
+                    _("Amounts by %s in %s for the account: '%s'"),
                     hist_srce_name,
                     gsb_data_fyear_get_name ( result ),
                     gsb_data_account_get_name ( account_number ) );
