@@ -12,7 +12,7 @@ version=$(git rev-parse --short HEAD)
 echo "Using git version: $version"
 
 FILE=configure.ac
-sed -i.old -E "s/grisbi_micro_version, ([0-9]+)/grisbi_micro_version, \1-$version/" $FILE
+sed -i.old -E "s/GRISBI_GIT_HASH/$version/" $FILE
 
 ./autogen.sh
 ./configure --prefix=$PREFIX --with-openssl --with-ofx --with-goffice --with-libxml2
