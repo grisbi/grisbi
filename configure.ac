@@ -33,6 +33,8 @@ LIBOFX_REQUIRED=0.9
 LIBSSL_REQUIRED=1.0.0
 LIBXML_REQUIRED=2.5.0
 
+# last commit for package
+grisbi_git_hash=GRISBI_GIT_HASH
 
 dnl ================================================================
 dnl Standard checks.
@@ -107,7 +109,11 @@ else
 	if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 		AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
 		git_hash=`git rev-parse --short HEAD`
-		AC_DEFINE_UNQUOTED(GIT_HASH, ["$git_hash"], [git head short hash])
+		if test [ -z "$git_hash"]; then
+			AC_DEFINE_UNQUOTED(GIT_HASH, ["$grisbi_git_hash"], [git head short hash])
+		else
+			AC_DEFINE_UNQUOTED(GIT_HASH, ["$git_hash"], [git head short hash])
+		fi
 	fi
 fi
 

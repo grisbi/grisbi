@@ -216,8 +216,6 @@ NULL};
     logo = gsb_select_icon_get_logo_pixbuf ( );
     if (logo == NULL )
     {
-		GdkPixbuf *pixbuf;
-
         logo =  gsb_select_icon_get_default_logo_pixbuf ();
 		logo_is_local = TRUE;
     }
