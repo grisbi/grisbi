@@ -5,7 +5,7 @@ New in version 2.0.0
 - Amélioration de l'utilisation de grisbi avec des écrans de faible définition
 - Refonte du module de gestion des crédits
 - Ajout de règles d'importation pour les fichiers CSV
-- 
+- Correction de bugs
 
 New in version 1.2.2
 - Bug fixes
