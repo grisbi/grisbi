@@ -7,7 +7,6 @@ EXTRA_DIST = \
     grisbi.spec \
     win32 \
     win32-msys2\
-    src/ui\
     $(man_MANS)
 
 ACLOCAL_AMFLAGS = -I m4
