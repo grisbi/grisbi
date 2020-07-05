@@ -47,7 +47,7 @@ combobox arrow {
 #accueil_solde_alarme_high {
 	background-color:@background_ligne_compte;
 	background-image: none;
-	color: @couleur_solde_alarme_rouge_normal;
+	color: @couleur_solde_alarme_high_normal;
 }
 
 #accueil_solde_alarme_high:hover {
