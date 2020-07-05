@@ -245,7 +245,7 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
 			gchar *name_logo;
 
 			name_logo = g_path_get_basename (chemin_logo);
-			if (g_strcmp0 (name_logo, "grisbi-logo.png") != 0)
+			if (g_strcmp0 (name_logo, "grisbi.svg") != 0)
 				etat.name_logo = chemin_logo;
 			else
 				etat.name_logo = NULL;

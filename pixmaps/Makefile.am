@@ -3,8 +3,6 @@ SUBDIRS = flags
 grisbi_pixmapsdir = $(datadir)/pixmaps/$(PACKAGE)
 
 grisbi_pixmaps_DATA = \
-	grisbi-logo.png \
-	grisbi-32.png \
 	grisbi.svg \
 	gsb-amount-32.png \
 	gsb-ac-asset-32.png \

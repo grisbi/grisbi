@@ -38,6 +38,7 @@
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_dirs.h"
+#include "gsb_select_icon.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_str.h"
@@ -94,7 +95,7 @@ static gboolean gsb_assistant_change_page ( GtkNotebook *notebook,
  * \param title			Title of the assistant.
  * \param explanation		Short text to display in the first
  *				page of the assistant.
- * \param image_filename	Icon to display in the title. (if NULL, use grisbi.png, default logo)
+ * \param image_filename	Icon to display in the title. (if NULL, use grisbi.svg, default logo)
  * \param enter_callback	A callback to connect to the "switch-page" callback when go to the first page
  *				of the Grisbi assistant notebook. (the callback should
  *				be : gboolean callback ( GtkWidget *assistant, gint new_page ) )
@@ -108,6 +109,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
     GtkWidget * button_cancel, * button_prev, * button_next;
     GtkWidget *button_select;
+	GdkPixbuf *pixbuf;
     GtkTextBuffer * buffer;
     gchar *tmpstr;
     gint width = 140;
@@ -159,12 +161,18 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
 
     if (!image_filename)
-        image_filename = "grisbi-32.png";
-
-    tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), image_filename, NULL);
-    image = gtk_image_new_from_file ( tmpstr );
-    g_free ( tmpstr );
+	{
+		pixbuf = gsb_select_icon_get_default_logo_pixbuf ();
+	}
+	else
+	{
+		tmpstr = g_build_filename (gsb_dirs_get_pixmaps_dir (), image_filename, NULL);
+		pixbuf = gdk_pixbuf_new_from_file_at_scale (tmpstr, LOGO_WIDTH, LOGO_HEIGHT, FALSE, NULL);
+		g_free (tmpstr);
+	}
+	image = gtk_image_new_from_pixbuf (pixbuf);
     gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );
+	g_object_unref (pixbuf);
 
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( assistant ) ), eb, FALSE, FALSE, 0 );
 

@@ -10,7 +10,6 @@ AM_CPPFLAGS = -I$(top_srcdir) \
 	      $(GOFFICE_CFLAGS)	\
 	      -DLOCALEDIR="\"$(localedir)\""	\
 	      -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\""	\
-	      -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\""	\
 	      -DDATA_PATH="\"$(datadir)/@PACKAGE@\""	\
 	      -DHELP_PATH="\"$(docdir)\""	\
 	      -DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""

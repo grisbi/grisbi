@@ -630,7 +630,7 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 	gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (win));
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi-logo.png", NULL);
+    string = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL);
     if (g_file_test (string, G_FILE_TEST_EXISTS))
         gtk_window_set_default_icon_from_file (string, NULL);
 

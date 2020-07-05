@@ -563,7 +563,7 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf (void)
     GError *error = NULL;
 	gchar *filename;
 
-	filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi-logo.png", NULL);
+	filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL);
     pixbuf = gdk_pixbuf_new_from_file_at_scale (filename, LOGO_WIDTH, LOGO_HEIGHT, FALSE, &error);
 	g_free (filename);
 
