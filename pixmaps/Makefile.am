@@ -114,8 +114,24 @@ grisbi_pixmaps_DATA = \
 	gtk-select-color-24.png \
 	gtk-window-new-16.png
 
-grisbi_iconsdir = $(datadir)/icons/hicolor/scalable/apps
-grisbi_icons_DATA = grisbi.svg
+grisbi_svgiconsdir = $(datadir)/icons/hicolor/scalable/apps
+grisbi_svgicons_DATA = grisbi.svg
 
-EXTRA_DIST = $(grisbi_pixmaps_DATA) $(grisbi_icons_DATA)
+grisbi_mimesvgicondir = $(datadir)/icons/hicolor/scalable/mimetypes
+grisbi_mimesvgicon_DATA = application-x-grisbi.svg
+
+EXTRA_DIST = $(grisbi_pixmaps_DATA) $(grisbi_icons_DATA) $(grisbi_mimesvgicon_DATA)
+
+gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
+
+install-data-hook: update-icon-cache
+uninstall-hook: update-icon-cache
+update-icon-cache:
+	@-if test -z "$(DESTDIR)"; then \
+		echo "Updating Gtk icon cache."; \
+		$(gtk_update_icon_cache); \
+	else \
+		echo "*** Icon cache not updated.  After (un)install, run this:"; \
+		echo "***   $(gtk_update_icon_cache)"; \
+	fi
 

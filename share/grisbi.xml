@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info"> [^]
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-grisbi">
          <comment>Grisbi file</comment>
          <comment xml:lang="en">Grisbi file</comment>
          <comment xml:lang="fr">Fichier Grisbi</comment>
          <glob pattern="*.gsb"/>
          <glob pattern="*.grisbi"/>
-    <icon name="grisbi"/>
   </mime-type>
 </mime-info>
