@@ -13,9 +13,7 @@ grisbi_help_image_icon_DATA = \
 	display_large.png \
 	display_medium.png \
 	display_small.png \
-	form_close.png \
 	form_open.png \
-	grisbi.png \
 	next_motif.gif \
 	previous_motif.gif \
 	properties.png \
