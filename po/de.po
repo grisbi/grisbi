@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-02 11:01+0200\n"
-"PO-Revision-Date: 2020-04-19 11:34+0200\n"
+"PO-Revision-Date: 2020-07-12 11:21+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.12.3\n"
+"X-Generator: Lokalize 20.04.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/ui/bet_graph.ui.h:1
@@ -132,7 +132,6 @@ msgid "Account data"
 msgstr "Konto Daten"
 
 #: ../src/ui/csv_template_rule.ui.h:5
-#, fuzzy
 msgid "Import account Id: "
 msgstr "Importiertes Konto Id:"
 
@@ -1237,15 +1236,14 @@ msgid "Theme"
 msgstr "Design"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:8
-#, fuzzy
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
 "selecting one of options below)"
-msgstr "Wenn die Darstellung nicht korrekt ist folgendes Design verwenden"
+msgstr "(Wenn die Darstellung nicht korrekt ist folgendes Design verwenden)"
 
 #: ../src/ui/prefs_page_display_fonts.ui.h:9
 msgid "CSS rules"
-msgstr ""
+msgstr "CSS Regeln"
 
 #: ../src/ui/prefs_page_display_form.ui.h:1
 msgid "Form structure preview"
@@ -1704,7 +1702,6 @@ msgid "Type: "
 msgstr "Art: "
 
 #: ../src/ui/prefs_page_payment_method.ui.h:4
-#, fuzzy
 msgid "Add a number"
 msgstr "nach Nummer"
 
@@ -1742,7 +1739,6 @@ msgid "Delete a payment method"
 msgstr "Zahlungsweise löschen - Grisbi"
 
 #: ../src/ui/prefs_page_payment_method.ui.h:13
-#, fuzzy
 msgid ""
 "Some transactions still use that payment method. As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
@@ -1942,14 +1938,13 @@ msgstr "Notizen"
 
 #: ../src/widgets/widget_css_rules.ui.h:2
 msgid "Text height of status bar: "
-msgstr ""
+msgstr "Text Höhe Status Anzeige:"
 
 #: ../src/widgets/widget_css_rules.ui.h:3
 msgid "Home"
-msgstr ""
+msgstr "Startseite"
 
 #: ../src/widgets/widget_css_rules.ui.h:4
-#, fuzzy
 msgid "Transactions list"
 msgstr "Buchungsübersicht Zellen"
 
@@ -1963,17 +1958,20 @@ msgid "Preferences"
 msgstr "Einstellungen"
 
 #: ../src/widgets/widget_css_rules.ui.h:7
-#, fuzzy
 msgid "back to default"
 msgstr "Voreinstellung"
 
 #: ../src/widgets/widget_css_rules.ui.h:8
 msgid "This action deletes the personal CSS file and resets all colors"
 msgstr ""
+"Mit dieser Aktion werden alle benutzerdefinierte CSS Einstellungen"
+" zurückgesetzt"
 
 #: ../src/widgets/widget_css_rules.ui.h:9
 msgid "(This action deletes the personal CSS file and resets all colors)"
 msgstr ""
+"(Mit dieser Aktion werden alle benutzerdefinierte CSS Einstellungen"
+" zurückgesetzt)"
 
 #: ../src/widgets/widget_currency_details.ui.h:2
 msgid "Sign: "
@@ -2008,10 +2006,11 @@ msgid ""
 "Right click to select the sort column.\n"
 "Sort by default country name."
 msgstr ""
+"Mit Rechtsklick die Spalte für die Sortierung auswählen.\n"
+"Die Standardsortierung ist Landesname."
 
 #: ../src/widgets/widget_currency_popup.ui.h:4
 #: ../src/widgets/widget_currency_popup.c:134
-#, fuzzy
 msgid "Country"
 msgstr "Landesname"
 
@@ -2120,27 +2119,24 @@ msgid "Deferred debit card"
 msgstr "Ausgabenkonto mit verzögerten Buchungen"
 
 #: ../src/widgets/widget_transfer.ui.h:4
-#, fuzzy
 msgid "Order date: "
-msgstr "Beginndatum: "
+msgstr "Datum Bestellung:"
 
 #: ../src/widgets/widget_transfer.ui.h:6
-#, fuzzy
 msgid "Date retained: "
-msgstr "Ausgabedatum: "
+msgstr "Datum einbehalten:"
 
 #: ../src/widgets/widget_transfer.ui.h:7
 msgid "Choice of order day: "
-msgstr ""
+msgstr "Auswahl für Bestelldatum:"
 
 #: ../src/widgets/widget_transfer.ui.h:8
-#, fuzzy
 msgid "Fixed date"
-msgstr "Datum Ende"
+msgstr "Fixes Datum"
 
 #: ../src/widgets/widget_transfer.ui.h:9
 msgid "First next working day if the date is not a working day"
-msgstr ""
+msgstr "Nächster Werktag wenn das Datum auf keinen Werktag fällt"
 
 #: ../src/widgets/widget_transfer.ui.h:10
 msgid "Main account"
@@ -2152,7 +2148,7 @@ msgstr "Ausgabedatum: "
 
 #: ../src/widgets/widget_transfer.ui.h:12
 msgid "Choice of direct debit day: "
-msgstr ""
+msgstr "Auswahl für Belastungsdatum:"
 
 #: ../src/widgets/widget_transfer.ui.h:13
 msgid "Last banking day of the month"
@@ -2160,7 +2156,7 @@ msgstr "Letzter Buchungstag im Monat"
 
 #: ../src/widgets/widget_transfer.ui.h:14
 msgid "First previous working day if the date is not a working day"
-msgstr ""
+msgstr "Vorheriger Werktag wenn das Datum auf keinen Werktag fällt"
 
 #: ../src/widgets/widget_transfer.ui.h:15
 msgid "Automatic creation of the direct debit transaction"
@@ -2172,7 +2168,7 @@ msgstr "Die geplante Buchung in der Prognose ersetzen"
 
 #: ../src/widgets/widget_transfer.ui.h:17
 msgid "Allows you to select the working day following the date entered"
-msgstr ""
+msgstr "Auswahl für Werktag"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:1
 msgid "First use of Grisbi"
@@ -3336,19 +3332,19 @@ msgid "Error of configuration"
 msgstr "Konfigurationsfehler"
 
 #: ../src/bet_future.c:2170
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Warning: You are about to delete the deferred debit card: \"%s\"\n"
 "Are you sure?"
 msgstr ""
-"Bei einem Empfänger wird der Name %s mit %s ersetzt.\n"
-"\n"
-"Soll die Ersetzung durchgeführt werden?"
+"Warnung: Sie sind dabei das Ausgabenkonto mit verzögerten Buchungen \"%s\" zu"
+" löschen.\n"
+"Soll dieser Vorgang fortgesetzt werden?"
 
 #: ../src/bet_future.c:2173
-#, fuzzy
 msgid "Confirmation of deletion of a deferred debit card"
-msgstr "Bestätigung für das Zusammenführen von Buchungen in: %s"
+msgstr ""
+"Bestätigung für das Löschen von einem Ausgabenkonto mit verzögerten Buchungen"
 
 #: ../src/bet_graph.c:153
 msgid "Jan"
@@ -3589,7 +3585,7 @@ msgid "Amounts by %s on 12 months rolling for the account: '%s'"
 msgstr "Beträge nach %s in der Zeitspanne von 12 Monaten für das Konto: '%s'"
 
 #: ../src/bet_hist.c:1760
-#, fuzzy, c-format
+#, c-format
 msgid "Amounts by %s in %s for the account: '%s'"
 msgstr "Beträge nach %s in der Zeitspanne %s für das Konto: '%s'"
 
@@ -3701,7 +3697,7 @@ msgstr "Daten zurücksetzen"
 
 #: ../src/bet_tab.c:1572
 msgid "Balance at "
-msgstr "Bilanz am "
+msgstr "Saldo am "
 
 #. on ajoute maintenant la frame pour la description
 #: ../src/bet_tab.c:1983 ../src/etats_onglet.c:857
@@ -9603,7 +9599,7 @@ msgid "Cannot save encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht gespeichert werden '%s'"
 
 #: ../src/gsb_file_save.c:2886
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot save CSS file '%s': %s"
 msgstr "Die CSS-Datei kann nicht gespeichert werden '%s': %s"
 
@@ -10004,140 +10000,116 @@ msgid "Unable to compile regex: %s\n"
 msgstr "Der reguläre Ausdruck kann nicht ausgewertet werden: %s\n"
 
 #: ../src/gsb_rgba.c:66
-#, fuzzy
 msgid "Background color of account row"
-msgstr "Hintergrund prognostizierte hinzugefügte Buchungen"
+msgstr "Hintergrund ausgewähltes Konto"
 
 #: ../src/gsb_rgba.c:67
-#, fuzzy
 msgid "Background color of logo title"
-msgstr "Hintergrund prognostizierter Saldo"
+msgstr "Hintergrund Logo"
 
 #: ../src/gsb_rgba.c:68
-#, fuzzy
 msgid "Color of account text"
-msgstr "Textfarbe Buchungen"
+msgstr "Textfarbe Konten"
 
 #: ../src/gsb_rgba.c:69
-#, fuzzy
 msgid "Color of account text hovered"
-msgstr "Textfarbe Buchungen"
+msgstr "Textfarbe Konten bei schwebender Darstellung"
 
 #: ../src/gsb_rgba.c:70
-#, fuzzy
 msgid "Color of balance text"
-msgstr "Textfarbe Buchungen"
+msgstr "Textfarbe Saldo"
 
 #: ../src/gsb_rgba.c:71
-#, fuzzy
 msgid "Color of balance text hovered"
-msgstr "Textfarbe Buchungen"
+msgstr "Textfarbe Saldo bei schwebender Darstellung"
 
 #: ../src/gsb_rgba.c:72
 msgid "Color of balance text in low alarm"
-msgstr ""
+msgstr "Textfarbe Saldo niedrige Warnstufe"
 
 #: ../src/gsb_rgba.c:73
 msgid "Color of balance text hovered in low alarm"
-msgstr ""
+msgstr "Textfarbe  Saldo niedrige Warnstufe bei schwebender Darstellung"
 
 #: ../src/gsb_rgba.c:74
 msgid "Color of balance text in high alarm"
-msgstr ""
+msgstr "Textfarbe Saldo hohe Warnstufe"
 
 #: ../src/gsb_rgba.c:75
 msgid "Color of balance text hovered in high alarm"
-msgstr ""
+msgstr "Textfarbe  Saldo hohe Warnstufe bei schwebender Darstellung"
 
 #: ../src/gsb_rgba.c:95
-#, fuzzy
 msgid "Background color 1 in lists of transactions"
-msgstr "Hintergrund nicht auswählbarer geplanter Buchungen"
+msgstr "Hintergrund 1 in Buchungsliste"
 
 #: ../src/gsb_rgba.c:96
-#, fuzzy
 msgid "Background color 2 in lists of transactions"
-msgstr "Hintergrund nicht auswählbarer geplanter Buchungen"
+msgstr "Hintergrund 2 in Buchungsliste"
 
 #: ../src/gsb_rgba.c:97
-#, fuzzy
 msgid "Background of the transaction that gives the balance today"
-msgstr "Aktuellen Saldo hervorheben"
+msgstr "Hintergrund aktueller Saldo"
 
 #: ../src/gsb_rgba.c:98
-#, fuzzy
 msgid "Background color of split transaction children"
-msgstr "Hintergrund nicht auswählbarer geplanter Buchungen"
+msgstr "Hintergrund Teilbuchungen von Splittbuchungen"
 
 #: ../src/gsb_rgba.c:99
-#, fuzzy
 msgid "Background color of selected transaction"
-msgstr "Hintergrund nicht auswählbarer geplanter Buchungen"
+msgstr "Hintergrund ausgewählte Buchung"
 
 #: ../src/gsb_rgba.c:100
-#, fuzzy
 msgid "Background color of virtual scheduled transactions"
 msgstr "Hintergrund nicht auswählbarer geplanter Buchungen"
 
 #: ../src/gsb_rgba.c:101
-#, fuzzy
 msgid "Background color of archives"
-msgstr "Hintergrund prognostizierte berechnete Buchungen"
+msgstr "Hintergrund Archive"
 
 #: ../src/gsb_rgba.c:102
-#, fuzzy
 msgid "Color of transaction text"
 msgstr "Textfarbe Buchungen"
 
 #: ../src/gsb_rgba.c:103
-#, fuzzy
 msgid "Color of unfinished split transaction text"
 msgstr "Textfarbe unvollständige Splittbuchungen"
 
 #: ../src/gsb_rgba.c:104
-#, fuzzy
 msgid "Text color of a negative balance"
-msgstr "Hintergrund prognostizierter Saldo"
+msgstr "Textfarbe negativer Saldo"
 
 #: ../src/gsb_rgba.c:105
-#, fuzzy
 msgid "Color of selected transaction text"
-msgstr "Textfarbe Buchungen"
+msgstr "Textfarbe ausgewählte Buchung"
 
 #: ../src/gsb_rgba.c:106
-#, fuzzy
 msgid "Color of unsensitive text"
-msgstr "Textfarbe Buchungen"
+msgstr "Textfarbe nicht auswählbarer Text"
 
 #: ../src/gsb_rgba.c:118
-#, fuzzy
 msgid "Background color of historical data"
-msgstr "Hintergrund prognostizierte berechnete Buchungen"
+msgstr "Hintergrund vergangene Buchungen"
 
 #: ../src/gsb_rgba.c:119
-#, fuzzy
 msgid "Background color of futur data"
-msgstr "Hintergrund prognostizierte hinzugefügte Buchungen"
+msgstr "Hintergrund zukünftige Buchungen"
 
 #: ../src/gsb_rgba.c:120
-#, fuzzy
 msgid "Background color of month balance"
-msgstr "Hintergrund prognostizierter Saldo"
+msgstr "Hintergrund monatlicher Saldo"
 
 #: ../src/gsb_rgba.c:121
-#, fuzzy
 msgid "Background color of transfer data"
-msgstr "Hintergrund prognostizierte Umbuchungen"
+msgstr "Hintergrund Umbuchungen"
 
 #: ../src/gsb_rgba.c:130
-#, fuzzy
 msgid "Color of gsetting text"
-msgstr "Textfarbe Buchungen"
+msgstr "Textfarbe Einstellungen"
 
 #: ../src/gsb_rgba.c:131
-#, fuzzy
 msgid "Color of gsetting text hovered"
-msgstr "Textfarbe Buchungen"
+msgstr "Textfarbe Einstellungen bei schwebender Darstellung"
 
 #. popup view menu
 #: ../src/gsb_scheduler_list.c:112
@@ -10681,7 +10653,7 @@ msgstr ""
 "Buchungen anzeigen\" nicht gesetzt ist."
 
 #: ../src/gsb_transactions_list_sort.c:362
-#, fuzzy, c-format
+#, c-format
 msgid "Ask for the sort number %d which doesn't exist... return by date"
 msgstr "die Nummer %d ist nicht vorhanden... es wird nach Datum sortiert"
 
@@ -10871,7 +10843,7 @@ msgid "Choose file to import in %s"
 msgstr "Ausgewähltes Verzeichnis: %s"
 
 #: ../src/import.c:1332
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unzip file '%s': %s"
 msgstr "Die Datei kann nicht extrahiert werden '%s': %s"
 
@@ -11270,7 +11242,6 @@ msgid "Warning: Invalid data"
 msgstr "Warnung: Ungültige Daten"
 
 #: ../src/import_csv.c:843 ../src/import_csv.c:847
-#, fuzzy
 msgid "Transaction amount"
 msgstr "Buchungsbetrag"
 
@@ -12124,6 +12095,8 @@ msgid ""
 "There is a link between this currency and another currency.\n"
 "Please delete this link first."
 msgstr ""
+"Es gibt bereits eine Verknüpfung zwischen diesen beiden Währungen.\n\n"
+"Bitte die bestehende Verbindung löschen."
 
 #: ../src/prefs/prefs_page_currency_link.c:151
 msgid "You must create at least another currency to continue."
@@ -12165,6 +12138,8 @@ msgid ""
 "Warning : The currency '%s' may be used for transactions.\n"
 "The next time you use it, you will need to enter a new exchange rate."
 msgstr ""
+"Warnung: Die Währung '%s' kann nach für Buchungen verwendet werden.\n"
+"Bei der nächsten Verwendung muss ein neuer Wechselkurs erfasst werden."
 
 #: ../src/prefs/prefs_page_display_fonts.c:350
 msgid "Select a new logo"
@@ -12350,7 +12325,6 @@ msgid "%d transactions associated"
 msgstr "%d Buchungen zugeordnet"
 
 #: ../src/prefs/prefs_page_fyear.c:423
-#, fuzzy
 msgid "No transaction to associate"
 msgstr "Es sind keine Buchungen für eine Zuordnung vorhanden"
 
@@ -13395,11 +13369,14 @@ msgid ""
 "This operation will be final.\n"
 "Do you want to delete the file: \"%s\"?"
 msgstr ""
+"Warnung: die Datei mit den den Einstellungen für Farben wird"
+" unwiederbringlich gelöscht.\n"
+"Es gibt keine Wiederherstellung.\n"
+"Soll die Datei \"%s\" gelöscht werden?"
 
 #: ../src/widgets/widget_css_rules.c:137
-#, fuzzy
 msgid "Delete CSS user file"
-msgstr "Eine Importregel löschen"
+msgstr "Benutzerdefinierte CSS Datei löschen"
 
 #: ../src/widgets/widget_currency_popup.c:146
 #: ../src/widgets/widget_currency_popup.c:321
