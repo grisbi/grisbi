@@ -2012,7 +2012,7 @@ static void bet_data_transfert_create_reset_credit_card ( TransfertData *transfe
 
 
 /**
- * update la date de la ligne transfert lorsque la date de bascule est atteinte
+ * update la date de la ligne transfert lorsque la date de bascule est dépassée
  *
  * \param struct transfert contenant les données
  *
@@ -2029,7 +2029,7 @@ void bet_data_transfert_update_date_if_necessary (TransfertData *transfert,
 
     date_jour = gdate_today ( );
 
-    if ( g_date_compare ( date_jour, date_bascule ) >= 0 )
+    if ( g_date_compare ( date_jour, date_bascule ) > 0 )
     {
         gchar *msg;
         const gchar *tmp_str;
