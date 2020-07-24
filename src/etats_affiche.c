@@ -1251,11 +1251,10 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 	nb_ope_exo_etat = 0;
 
 	/* comme il y a un changement d'état, on remet exo_en_cours_etat à celle de l'opé en cours */
-
 	if (transaction_number)
 	    exo_en_cours_etat = gsb_data_transaction_get_financial_year_number (transaction_number);
 	else
-	    date_debut_periode = NULL;
+	    exo_en_cours_etat = -1;
     }
 
     return (ligne );
@@ -1848,11 +1847,11 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 	     &&
 	     !changement_de_groupe_etat )
 	{
-	    /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la période en le forçant si besoin */
+	    ligne = etat_affiche_affiche_total_periode (transaction_number, ligne, 1);
 
-	    ligne = etat_affiche_affiche_total_periode ( transaction_number,
-							 ligne,
-							 1 );
+		/* on affiche le total de l'exercice en le forçant si besoin*/
+		ligne = etat_affiche_affiche_total_exercice (transaction_number, ligne, 1);
 
 	    /* on ajoute les totaux de tout ce qu'il y a derrière la catégorie */
 
