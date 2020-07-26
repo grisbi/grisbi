@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-02 11:01+0200\n"
+"POT-Creation-Date: 2020-07-26 09:27+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -195,7 +195,7 @@ msgstr "Общие параметры"
 #: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
 #: ../src/ui/prefs_page_files.ui.h:22
 #: ../src/ui/prefs_page_form_completion.ui.h:14
-#: ../src/ui/prefs_page_form_options.ui.h:8 ../src/ui/prefs_page_fyear.ui.h:9
+#: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
 #: ../src/ui/prefs_page_import.ui.h:1 ../src/ui/prefs_page_metatree.ui.h:14
 #: ../src/ui/prefs_page_msg_delete.ui.h:2
 #: ../src/ui/prefs_page_msg_warning.ui.h:4
@@ -271,7 +271,7 @@ msgstr ""
 #. 1
 #: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
 #: ../src/bet_finance_ui.c:1825 ../src/bet_future.c:525 ../src/bet_tab.c:1966
-#: ../src/etats_affiche.c:2464 ../src/export_csv.c:368
+#: ../src/etats_affiche.c:2463 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1981
 #: ../src/gsb_form_widget.c:549 ../src/gsb_reconcile.c:214
 #: ../src/gsb_transactions_list.c:109 ../src/import.c:1867 ../src/import.c:4277
@@ -313,7 +313,7 @@ msgid "Selection of transactions by:"
 msgstr "Выбрать все проводки"
 
 #. 2
-#: ../src/ui/etats_prefs.ui.h:17 ../src/etats_affiche.c:2471
+#: ../src/ui/etats_prefs.ui.h:17 ../src/etats_affiche.c:2470
 #: ../src/export_csv.c:371 ../src/gsb_form.c:1987 ../src/gsb_form.c:2798
 #: ../src/gsb_form.c:2825 ../src/gsb_form_widget.c:561
 #: ../src/gsb_transactions_list.c:110 ../src/import_csv.c:73
@@ -462,7 +462,7 @@ msgstr "Показывать подытог для каждой учётной �
 
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:541
-#: ../src/etats_affiche.c:2485 ../src/etats_config.c:2914
+#: ../src/etats_affiche.c:2484 ../src/etats_config.c:2914
 #: ../src/etats_prefs.c:679 ../src/export_csv.c:383 ../src/grisbi_win.c:491
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2004
 #: ../src/gsb_form_widget.c:569 ../src/gsb_scheduler_list.c:856
@@ -555,7 +555,7 @@ msgid "Select categories to include: "
 msgstr "Выберите категории для включения в отчёт:"
 
 #: ../src/ui/etats_prefs.ui.h:67 ../src/etats_prefs.c:1868 ../src/export.c:422
-#: ../src/gsb_assistant.c:127 ../src/tiers_onglet.c:1387
+#: ../src/gsb_assistant.c:129 ../src/tiers_onglet.c:1387
 #: ../src/tiers_onglet.c:1405 ../src/utils_buttons.c:273
 msgid "Select all"
 msgstr "Выделить все"
@@ -1674,6 +1674,12 @@ msgstr "Автоматический разделитель сумм"
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr "По волшебству добавлять не указанный разделитель между полями сумм"
 
+#: ../src/ui/prefs_page_form_options.ui.h:8
+#: ../src/org.gtk.grisbi.gschema.xml.h:61
+#, fuzzy
+msgid "Selected transaction after validate split transaction"
+msgstr "Объединять импортированные транзакции с запланированными"
+
 #: ../src/ui/prefs_page_fyear.ui.h:1
 msgid "Known financial years"
 msgstr "Известные финансовые года"
@@ -1810,12 +1816,12 @@ msgid "Highlights the transaction that gives the balance today"
 msgstr "Подсвечивать проводку, дающую баланс текущего дня"
 
 #: ../src/ui/prefs_page_options_ope.ui.h:8
-#: ../src/org.gtk.grisbi.gschema.xml.h:86
+#: ../src/org.gtk.grisbi.gschema.xml.h:88
 msgid "Primary sorting option"
 msgstr ""
 
 #: ../src/ui/prefs_page_options_ope.ui.h:9
-#: ../src/org.gtk.grisbi.gschema.xml.h:88
+#: ../src/org.gtk.grisbi.gschema.xml.h:90
 msgid "Secondary sorting option"
 msgstr ""
 
@@ -2083,7 +2089,7 @@ msgstr "Факс"
 
 #. 4
 #: ../src/widgets/widget_bank_details.ui.h:11 ../src/bet_future.c:568
-#: ../src/etats_affiche.c:2506 ../src/export_csv.c:401 ../src/gsb_form.c:2037
+#: ../src/etats_affiche.c:2505 ../src/export_csv.c:401 ../src/gsb_form.c:2037
 #: ../src/gsb_form_widget.c:585 ../src/gsb_scheduler_list.c:270
 #: ../src/gsb_scheduler_list.c:856 ../src/gsb_scheduler_list.c:1120
 #: ../src/gsb_transactions_list.c:123 ../src/import_csv.c:75
@@ -2613,322 +2619,328 @@ msgstr "Использовать свой шрифт для проводок"
 msgid "If TRUE, the \"Enter\" key finishes the transaction."
 msgstr "Использовать свой шрифт для проводок"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:61
+#: ../src/org.gtk.grisbi.gschema.xml.h:62
+msgid ""
+"Selected transaction after validate split transaction: FALSE select a new "
+"transaction, TRUE select the mother transaction."
+msgstr ""
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:63
 msgid "Sort order for the fyear combobox"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:62
+#: ../src/org.gtk.grisbi.gschema.xml.h:64
 msgid ""
 "Sort order for the fyear combobox : GTK_SORT_ASCENDING (0) by default, sort "
 "by GTK_SORT_DESCENDING: a number different of 0."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:63
+#: ../src/org.gtk.grisbi.gschema.xml.h:65
 #, fuzzy
 msgid "Limit completion to current account"
 msgstr "_Удалить активный счёт"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:64
+#: ../src/org.gtk.grisbi.gschema.xml.h:66
 msgid ""
 "If TRUE, limit the payee completion to the current account, otherwise do a "
 "full search."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:65
+#: ../src/org.gtk.grisbi.gschema.xml.h:67
 #, fuzzy
 msgid "Browser command"
 msgstr "Команда вызова браузера:"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:66
+#: ../src/org.gtk.grisbi.gschema.xml.h:68
 #, fuzzy
 msgid "Browser command."
 msgstr "Команда вызова браузера:"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:67
+#: ../src/org.gtk.grisbi.gschema.xml.h:69
 #, fuzzy
 msgid "Current theme"
 msgstr "За текущий месяц"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:68
+#: ../src/org.gtk.grisbi.gschema.xml.h:70
 #, fuzzy
 msgid "Current theme."
 msgstr "За текущий месяц"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:69
+#: ../src/org.gtk.grisbi.gschema.xml.h:71
 #, fuzzy
 msgid "Use custom fonts for lists"
 msgstr "Использовать свой шрифт для проводок"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:70
-msgid "If TRUE, Grisbi uses custom fonts for lists."
-msgstr ""
-
-#: ../src/org.gtk.grisbi.gschema.xml.h:71
-#, fuzzy
-msgid "Font name"
-msgstr "Название счёта"
-
 #: ../src/org.gtk.grisbi.gschema.xml.h:72
-msgid "If utilise-fonte-listes = TRUE, this is the name of the custom font."
+msgid "If TRUE, Grisbi uses custom fonts for lists."
 msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:73
 #, fuzzy
+msgid "Font name"
+msgstr "Название счёта"
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:74
+msgid "If utilise-fonte-listes = TRUE, this is the name of the custom font."
+msgstr ""
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:75
+#, fuzzy
 msgid "Force type of theme"
 msgstr "Архивация по дате"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:74
+#: ../src/org.gtk.grisbi.gschema.xml.h:76
 msgid ""
 "Force the use a type of theme when the automatic selection is not available. "
 "0 = auto 1 = standard 2 = dark theme 3 = light theme."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:75
+#: ../src/org.gtk.grisbi.gschema.xml.h:77
 msgid "Language for interface"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:76
+#: ../src/org.gtk.grisbi.gschema.xml.h:78
 #, fuzzy
 msgid "Choose the language of interface."
 msgstr "Выберите финансовый год"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:77
+#: ../src/org.gtk.grisbi.gschema.xml.h:79
 msgid "Last path used by Grisbi"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:78
+#: ../src/org.gtk.grisbi.gschema.xml.h:80
 msgid "This is the last path used by Grisbi to open a file."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:79
+#: ../src/org.gtk.grisbi.gschema.xml.h:81
 msgid "Fixe orthographe pluriel"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:80
+#: ../src/org.gtk.grisbi.gschema.xml.h:82
 msgid ""
 "Specific in french : Fixe l'orthographe de pluriel : FALSE = finals, TRUE = "
 "finaux."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:81
+#: ../src/org.gtk.grisbi.gschema.xml.h:83
 msgid "Right-click action on a sub-category"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:82
+#: ../src/org.gtk.grisbi.gschema.xml.h:84
 msgid ""
 "Right-click action on a sub-category: gtk default, Edit Category, manage "
 "division if possible."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:83
+#: ../src/org.gtk.grisbi.gschema.xml.h:85
 msgid ""
 "\n"
 "\n"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:87
+#: ../src/org.gtk.grisbi.gschema.xml.h:89
 msgid ""
 "Sort by value date, if fail, try with the date, Sort by value date and then "
 "by date. Forced sort by transaction date."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:89
+#: ../src/org.gtk.grisbi.gschema.xml.h:91
 msgid ""
 "Sort by transaction number, Sort by type of amount : credit, debit, Sort by "
 "payee name, if fail, by transaction number, Sort by date and then by "
 "transaction number."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:90
+#: ../src/org.gtk.grisbi.gschema.xml.h:92
 msgid "Main window maximized state"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:91
+#: ../src/org.gtk.grisbi.gschema.xml.h:93
 msgid "Whether the main window should start maximized."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:92
+#: ../src/org.gtk.grisbi.gschema.xml.h:94
 msgid "Main window fullscreen state"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:93
+#: ../src/org.gtk.grisbi.gschema.xml.h:95
 msgid "Whether the main window should start in fullscreen."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:94
+#: ../src/org.gtk.grisbi.gschema.xml.h:96
 msgid "Use low resolution screen"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:95
+#: ../src/org.gtk.grisbi.gschema.xml.h:97
 msgid "TRUE when use a low resolution screen."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:96
+#: ../src/org.gtk.grisbi.gschema.xml.h:98
 msgid "Width of the main window"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:97
+#: ../src/org.gtk.grisbi.gschema.xml.h:99
 msgid "The width of the main window."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:98
+#: ../src/org.gtk.grisbi.gschema.xml.h:100
 #, fuzzy
 msgid "Height of main window"
 msgstr "Создается главное окно программы"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:99
+#: ../src/org.gtk.grisbi.gschema.xml.h:101
 #, fuzzy
 msgid "The height of the main window."
 msgstr "Создается главное окно программы"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:100
+#: ../src/org.gtk.grisbi.gschema.xml.h:102
 #, fuzzy
 msgid "X position of main window"
 msgstr "Создается главное окно программы"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:101
-msgid "The X position of the main window."
-msgstr ""
-
-#: ../src/org.gtk.grisbi.gschema.xml.h:102
-#, fuzzy
-msgid "Y position of main window"
-msgstr "Создается главное окно программы"
-
 #: ../src/org.gtk.grisbi.gschema.xml.h:103
-msgid "The Y position of the main window."
+msgid "The X position of the main window."
 msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:104
 #, fuzzy
-msgid "Display warning"
-msgstr "Показывать логотип"
+msgid "Y position of main window"
+msgstr "Создается главное окно программы"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:105
-msgid "TRUE to display message"
+msgid "The Y position of the main window."
 msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:106
 #, fuzzy
-msgid "Last tip"
-msgstr "Последняя выписка: нет"
+msgid "Display warning"
+msgstr "Показывать логотип"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:107
-msgid "The last visited tip ."
+msgid "TRUE to display message"
 msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:108
 #, fuzzy
-msgid "Show tip"
-msgstr "Показать _выверенные"
+msgid "Last tip"
+msgstr "Последняя выписка: нет"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:109
-msgid "True if we show the tips."
+msgid "The last visited tip ."
 msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:110
-msgid "Active mouse scrolling in the left_panel."
-msgstr ""
+#, fuzzy
+msgid "Show tip"
+msgstr "Показать _выверенные"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:111
-msgid "If TRUE, the scrolling with the mouse is actived in the left panel."
+msgid "True if we show the tips."
 msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:112
-msgid "Width of the navigation panel"
+msgid "Active mouse scrolling in the left_panel."
 msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:113
-msgid "The width of the navigation panel."
+msgid "If TRUE, the scrolling with the mouse is actived in the left panel."
 msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:114
+msgid "Width of the navigation panel"
+msgstr ""
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:115
+msgid "The width of the navigation panel."
+msgstr ""
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:116
 #, fuzzy
 msgid "Sort order of the archives"
 msgstr "Удалить этот архив"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:115
+#: ../src/org.gtk.grisbi.gschema.xml.h:117
 msgid ""
 "Sort order of the archives : GTK_SORT_ASCENDING (0) by default, sort by "
 "GTK_SORT_DESCENDING: a number different of 0."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:116
+#: ../src/org.gtk.grisbi.gschema.xml.h:118
 #, fuzzy
 msgid "Sort order of the financial years"
 msgstr "Устанавливать финансовый год"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:117
+#: ../src/org.gtk.grisbi.gschema.xml.h:119
 msgid ""
 "Sort order of the financial years : GTK_SORT_ASCENDING (0) by default, sort "
 "by GTK_SORT_DESCENDING: a number different of 0."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:118
+#: ../src/org.gtk.grisbi.gschema.xml.h:120
 #, fuzzy
 msgid "Height of the preference window"
 msgstr "Создается главное окно программы"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:119
+#: ../src/org.gtk.grisbi.gschema.xml.h:121
 #, fuzzy
 msgid "The height of the preference window."
 msgstr "Создается главное окно программы"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:120
+#: ../src/org.gtk.grisbi.gschema.xml.h:122
 msgid "Width of the preference panel"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:121
+#: ../src/org.gtk.grisbi.gschema.xml.h:123
 msgid "The width of the preference panel."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:122
+#: ../src/org.gtk.grisbi.gschema.xml.h:124
 msgid "Width of the preference window"
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:123
+#: ../src/org.gtk.grisbi.gschema.xml.h:125
 msgid "The width of the preference window."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:124
+#: ../src/org.gtk.grisbi.gschema.xml.h:126
 #, fuzzy
 msgid "if TRUE Execute the scheduled transactions of the month"
 msgstr "Предупреждать о/Исполнять запланированные на месяц проводки"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:125
+#: ../src/org.gtk.grisbi.gschema.xml.h:127
 msgid ""
 "Si coché toutes les opérations planifiées sont lancées en début de mois "
 "sinon au fil de l'eau. La date effective dépend du nombre de jours avant "
 "lancement."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:126
+#: ../src/org.gtk.grisbi.gschema.xml.h:128
 #, fuzzy
 msgid "Number of days before scheduled operations start"
 msgstr "Количество дней перед предупреждением или выполнением:"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:127
+#: ../src/org.gtk.grisbi.gschema.xml.h:129
 msgid ""
 "Nombre de jours avant le lancement des opérations planifiées par rapport à "
 "leur date d'exécution."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:128
+#: ../src/org.gtk.grisbi.gschema.xml.h:130
 #, fuzzy
 msgid "Fixed day to initiate scheduled transactions on a monthly basis"
 msgstr "Предупреждать о/Исполнять запланированные на месяц проводки"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:129
+#: ../src/org.gtk.grisbi.gschema.xml.h:131
 msgid ""
 "Utiliser un jour fixe pour lancer mensuellement les opérations planifiées."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:130
+#: ../src/org.gtk.grisbi.gschema.xml.h:132
 #, fuzzy
 msgid "Fixed day for sheduled transactions"
 msgstr "Показать запланированные транзакции"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:131
+#: ../src/org.gtk.grisbi.gschema.xml.h:133
 msgid "Jour fixe du lancement mensuel des opérations planifiées."
 msgstr ""
 
@@ -3300,7 +3312,7 @@ msgstr "Банковский счёт:"
 
 #. create columns
 #. numéro ou date de l'échéance
-#: ../src/bet_finance_ui.c:1804 ../src/etats_affiche.c:2457
+#: ../src/bet_finance_ui.c:1804 ../src/etats_affiche.c:2456
 msgid "Number"
 msgstr "Номер"
 
@@ -3383,7 +3395,7 @@ msgstr ""
 msgid "Categories : Sub-categories"
 msgstr ""
 
-#: ../src/bet_future.c:563 ../src/bet_hist.c:1593 ../src/etats_affiche.c:2499
+#: ../src/bet_future.c:563 ../src/bet_hist.c:1593 ../src/etats_affiche.c:2498
 #: ../src/etats_config.c:2906 ../src/gsb_form.c:2031
 #: ../src/gsb_form_widget.c:581 ../src/gsb_transactions_list.c:112
 #: ../src/imputation_budgetaire.c:185 ../src/meta_budgetary.c:88
@@ -3469,7 +3481,7 @@ msgstr ""
 #. Transfer = Virement
 #. Direct deposit remplacé par Transfert = Virement
 #: ../src/bet_future.c:1317 ../src/bet_future.c:1617
-#: ../src/etats_affiche.c:1886 ../src/export_csv.c:672 ../src/export_csv.c:803
+#: ../src/etats_affiche.c:1885 ../src/export_csv.c:672 ../src/export_csv.c:803
 #: ../src/export_csv.c:815 ../src/gsb_data_category.c:1085
 #: ../src/gsb_data_payment.c:634 ../src/gsb_data_payment.c:718
 #: ../src/gsb_data_payment.c:757 ../src/gsb_form.c:2956 ../src/import.c:2471
@@ -3715,7 +3727,7 @@ msgstr "Валюта для этого счёта:"
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:2404 ../src/etats_affiche.c:2331
+#: ../src/bet_graph.c:2404 ../src/etats_affiche.c:2330
 msgid "Incomes"
 msgstr "Входящие"
 
@@ -3733,7 +3745,7 @@ msgstr "Выбрать"
 #. name of the div sous-div column
 #. 6
 #: ../src/bet_hist.c:513 ../src/bet_hist.c:1600 ../src/categories_onglet.c:182
-#: ../src/etats_affiche.c:2492 ../src/etats_config.c:2902
+#: ../src/etats_affiche.c:2491 ../src/etats_config.c:2902
 #: ../src/export_csv.c:395 ../src/gsb_transactions_list.c:120
 #: ../src/import_csv.c:77 ../src/meta_categories.c:67 ../src/utils_widgets.c:96
 msgid "Category"
@@ -3742,7 +3754,7 @@ msgstr "Категория"
 #. on ajoute le montant
 #. 10
 #: ../src/bet_hist.c:534 ../src/categories_onglet.c:203
-#: ../src/etats_affiche.c:2547 ../src/etats_prefs.c:2162
+#: ../src/etats_affiche.c:2546 ../src/etats_prefs.c:2162
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:856
 #: ../src/gsb_transactions_list.c:116 ../src/import.c:4291
 #: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:206
@@ -3837,13 +3849,13 @@ msgid "No data by default"
 msgstr "Сбросить до исходных"
 
 #: ../src/bet_tab.c:963 ../src/bet_tab.c:1011 ../src/bet_tab.c:1069
-#: ../src/etats_affiche.c:1902 ../src/etats_config.c:773
+#: ../src/etats_affiche.c:1901 ../src/etats_config.c:773
 #: ../src/gsb_data_category.c:165 ../src/meta_categories.c:70
 msgid "No category"
 msgstr ""
 
 #: ../src/bet_tab.c:969 ../src/bet_tab.c:1019 ../src/bet_tab.c:1075
-#: ../src/etats_affiche.c:2066 ../src/etats_config.c:781
+#: ../src/etats_affiche.c:2065 ../src/etats_config.c:781
 #: ../src/meta_budgetary.c:91
 msgid "No budgetary line"
 msgstr ""
@@ -4663,65 +4675,65 @@ msgstr "Активировать финансовый год в формуляр
 msgid "Result without financial year: "
 msgstr "Устанавливать финансовый год:"
 
-#: ../src/etats_affiche.c:1411 ../src/gsb_data_transaction.c:2832
+#: ../src/etats_affiche.c:1410 ../src/gsb_data_transaction.c:2832
 #: ../src/gsb_scheduler_list.c:1454
 #, c-format
 msgid "Transfer to %s"
 msgstr "Передать %s"
 
-#: ../src/etats_affiche.c:1413 ../src/gsb_data_transaction.c:2835
+#: ../src/etats_affiche.c:1412 ../src/gsb_data_transaction.c:2835
 #: ../src/gsb_scheduler_list.c:1459
 #, c-format
 msgid "Transfer from %s"
 msgstr "Передать от %s"
 
-#: ../src/etats_affiche.c:1691
+#: ../src/etats_affiche.c:1690
 #, fuzzy, c-format
 msgid "Total expense (%d transaction): "
 msgstr "Общие расходы (%d проводка):"
 
-#: ../src/etats_affiche.c:1698
+#: ../src/etats_affiche.c:1697
 #, fuzzy, c-format
 msgid "Total expenses (%d transactions): "
 msgstr "Общие расходы (%d проводок):"
 
-#: ../src/etats_affiche.c:1707
+#: ../src/etats_affiche.c:1706
 #, fuzzy
 msgid "Total expenses: "
 msgstr "Всего расходов:"
 
-#: ../src/etats_affiche.c:1721
+#: ../src/etats_affiche.c:1720
 #, fuzzy, c-format
 msgid "Total income (%d transaction): "
 msgstr "Общие доходы (%d проводка):"
 
-#: ../src/etats_affiche.c:1728
+#: ../src/etats_affiche.c:1727
 #, fuzzy, c-format
 msgid "Total income (%d transactions): "
 msgstr "Общие доходы (%d проводок):"
 
-#: ../src/etats_affiche.c:1737
+#: ../src/etats_affiche.c:1736
 #, fuzzy
 msgid "Total income: "
 msgstr "Общие доходы:"
 
-#: ../src/etats_affiche.c:1787
+#: ../src/etats_affiche.c:1786
 #, fuzzy, c-format
 msgid "General total (%d transaction): "
 msgstr "Итого (%d проводка):"
 
-#: ../src/etats_affiche.c:1789
+#: ../src/etats_affiche.c:1788
 #, fuzzy, c-format
 msgid "General total (%d transactions): "
 msgstr "Итого (%d проводок):"
 
-#: ../src/etats_affiche.c:1793
+#: ../src/etats_affiche.c:1792
 #, fuzzy
 msgid "General total: "
 msgstr "Итого в целом:"
 
 #. select Split of transaction in list
-#: ../src/etats_affiche.c:1895 ../src/export_csv.c:645
+#: ../src/etats_affiche.c:1894 ../src/export_csv.c:645
 #: ../src/gsb_data_category.c:1084 ../src/gsb_data_transaction.c:2810
 #: ../src/gsb_form.c:247 ../src/gsb_form.c:909 ../src/gsb_form.c:1593
 #: ../src/gsb_form.c:2484 ../src/gsb_form_scheduler.c:309
@@ -4729,52 +4741,52 @@ msgstr "Итого в целом:"
 msgid "Split of transaction"
 msgstr ""
 
-#: ../src/etats_affiche.c:1984 ../src/etats_config.c:774
+#: ../src/etats_affiche.c:1983 ../src/etats_config.c:774
 msgid "No subcategory"
 msgstr ""
 
-#: ../src/etats_affiche.c:2147 ../src/etats_config.c:782
+#: ../src/etats_affiche.c:2146 ../src/etats_config.c:782
 #: ../src/meta_budgetary.c:92
 msgid "No sub-budgetary line"
 msgstr ""
 
-#: ../src/etats_affiche.c:2296 ../src/gsb_data_payee.c:274
+#: ../src/etats_affiche.c:2295 ../src/gsb_data_payee.c:274
 #: ../src/meta_payee.c:82
 msgid "No payee"
 msgstr "Без получателя"
 
-#: ../src/etats_affiche.c:2358
+#: ../src/etats_affiche.c:2357
 msgid "Outgoings"
 msgstr "Исходящие"
 
-#: ../src/etats_affiche.c:2478 ../src/export_csv.c:377
+#: ../src/etats_affiche.c:2477 ../src/export_csv.c:377
 #: ../src/gsb_assistant_archive_export.c:153 ../src/gsb_form_widget.c:565
 #: ../src/gsb_transactions_list.c:119 ../src/prefs/prefs_page_archives.c:485
 msgid "Financial year"
 msgstr "Финансовый год"
 
 #. On récupère le nom de la page
-#: ../src/etats_affiche.c:2513 ../src/etats_prefs.c:704
+#: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:704
 #: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:545
 #: ../src/prefs/prefs_page_payment_method.c:1285
 msgid "Payment methods"
 msgstr "Способы платежа"
 
-#: ../src/etats_affiche.c:2520 ../src/gsb_data_payment.c:746
+#: ../src/etats_affiche.c:2519 ../src/gsb_data_payment.c:746
 msgid "Cheque"
 msgstr "Чек"
 
-#: ../src/etats_affiche.c:2527 ../src/export_csv.c:410 ../src/gsb_form.c:2103
+#: ../src/etats_affiche.c:2526 ../src/export_csv.c:410 ../src/gsb_form.c:2103
 #: ../src/gsb_form_widget.c:605 ../src/gsb_transactions_list.c:122
 msgid "Voucher"
 msgstr "Поручитель"
 
-#: ../src/etats_affiche.c:2534 ../src/export_csv.c:416 ../src/gsb_form.c:2097
+#: ../src/etats_affiche.c:2533 ../src/export_csv.c:416 ../src/gsb_form.c:2097
 #: ../src/gsb_form_widget.c:609 ../src/gsb_transactions_list.c:124
 msgid "Bank references"
 msgstr ""
 
-#: ../src/etats_affiche.c:2541
+#: ../src/etats_affiche.c:2540
 msgid "Statement"
 msgstr "Выписка"
 
@@ -6289,11 +6301,11 @@ msgstr "Выверенные проводки"
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Выверенные проводки"
 
-#: ../src/grisbi_conf.c:454
+#: ../src/grisbi_conf.c:459
 msgid "Monospace 10"
 msgstr ""
 
-#: ../src/grisbi_conf.c:1121
+#: ../src/grisbi_conf.c:1130
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Не удалось открыть файл «%s»: %s"
@@ -6379,7 +6391,7 @@ msgid "Transaction form"
 msgstr "Формуляр транзакции"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:504 ../src/prefs/prefs_page_form_options.c:111
+#: ../src/grisbi_prefs.c:504 ../src/prefs/prefs_page_form_options.c:112
 msgid "Form behavior"
 msgstr "Поведение формуляра"
 
@@ -6426,7 +6438,7 @@ msgstr "Подробнее о счёте"
 msgid "Preferences stop"
 msgstr "_Параметры"
 
-#: ../src/grisbi_settings.c:256
+#: ../src/grisbi_settings.c:257
 msgid "No font defined"
 msgstr "Шрифт не определён"
 
@@ -6639,7 +6651,7 @@ msgstr "Изменить валюту проводок"
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
-#: ../src/gsb_assistant.c:281
+#: ../src/gsb_assistant.c:289
 #, c-format
 msgid "%s (%d of %d)"
 msgstr "%s (шаг %d из %d)"
@@ -12100,34 +12112,45 @@ msgid "Form completion"
 msgstr "Заполнение формуляра"
 
 #. set the form_enter_key variable
-#: ../src/prefs/prefs_page_form_options.c:116
+#: ../src/prefs/prefs_page_form_options.c:117
 msgid "selects next field"
 msgstr "выбирать следующее поле"
 
-#: ../src/prefs/prefs_page_form_options.c:117
+#: ../src/prefs/prefs_page_form_options.c:118
 msgid "terminates transaction"
 msgstr "завершать проводку"
 
 #. set the form_date_force_prev_year variable
-#: ../src/prefs/prefs_page_form_options.c:124
+#: ../src/prefs/prefs_page_form_options.c:125
 msgid "Replace the year of future dates with the previous year"
 msgstr ""
 
 #. set the affichage_exercice_automatique variable
-#: ../src/prefs/prefs_page_form_options.c:132
+#: ../src/prefs/prefs_page_form_options.c:133
 msgid "according to transaction date"
 msgstr "согласно дате проводки"
 
-#: ../src/prefs/prefs_page_form_options.c:133
+#: ../src/prefs/prefs_page_form_options.c:134
 #, fuzzy
 msgid "according to transaction value date"
 msgstr "согласно дате проводки"
 
 #. set the fyear_combobox_sort_order variable
-#: ../src/prefs/prefs_page_form_options.c:140
+#: ../src/prefs/prefs_page_form_options.c:141
 #, fuzzy
 msgid "Sorting descending of the exercises"
 msgstr "Удалить этот архив"
+
+#. set Selected transaction after validate split transaction
+#: ../src/prefs/prefs_page_form_options.c:152
+#, fuzzy
+msgid "selects new transaction"
+msgstr "Удалить транзакцию"
+
+#: ../src/prefs/prefs_page_form_options.c:153
+#, fuzzy
+msgid "selects mother transaction"
+msgstr "Удалить транзакцию"
 
 #: ../src/prefs/prefs_page_fyear.c:256
 msgid "New financial year"
@@ -13771,9 +13794,6 @@ msgstr ""
 
 #~ msgid "Category line"
 #~ msgstr "Линия категории"
-
-#~ msgid "merge transactions imported with planned transactions"
-#~ msgstr "Объединять импортированные транзакции с запланированными"
 
 #~ msgid "Sub-Category"
 #~ msgstr "Подкатегория"
