@@ -3344,7 +3344,10 @@ gboolean gsb_form_finish_edition (void)
 			&& transaction_list_get_variance (gsb_data_account_get_current_transaction_number (account_number)))
         {
             gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
-            transaction_list_select (-1);
+			if (conf.form_validate_split)
+				transaction_list_select (mother_number);
+			else
+            	transaction_list_select (-1);
         }
         else if (!is_transaction && !execute_scheduled && gsb_data_scheduled_get_variance (mother_number))
         {

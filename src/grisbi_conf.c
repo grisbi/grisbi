@@ -117,6 +117,7 @@ static void grisbi_conf_clean_config (void)
     conf.automatic_recover_splits = FALSE;
 	conf.completion_minimum_key_length = 1;
 	conf.form_enter_key = FALSE;
+	conf.form_validate_split = FALSE;
 	conf.fyear_combobox_sort_order = 0;
     conf.limit_completion_to_current_account = FALSE;
 
@@ -401,6 +402,10 @@ gboolean grisbi_conf_load_app_config (void)
 												 "Form",
 												 "form-enter-key",
 												 NULL);
+	conf.form_validate_split = g_key_file_get_boolean (config,
+													   "Form",
+													   "form-validate-split",
+													   NULL);
 	conf.fyear_combobox_sort_order = g_key_file_get_integer (config,
 															 "Form",
 															 "fyear-combobox-sort-order",
@@ -879,6 +884,10 @@ gboolean grisbi_conf_save_app_config (void)
 	g_key_file_set_boolean (config,
 							"Form",
 							"form-enter-key", conf.form_enter_key);
+	g_key_file_set_boolean (config,
+							"Form",
+							"form-validate-split",
+							conf.form_validate_split);
     g_key_file_set_integer (config,
 							"Form",
 							"fyear-combobox-sort-order",

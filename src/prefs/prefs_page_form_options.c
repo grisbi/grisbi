@@ -60,6 +60,7 @@ struct _PrefsPageFormOptionsPrivate
 	GtkWidget *			box_fyear_combobox_sort_order;
     GtkWidget *         box_form_date_force_prev_year;
 	GtkWidget *			box_form_enter_key;
+	GtkWidget *			box_form_validate_split;
     GtkWidget *			checkbutton_automatic_separator;
 };
 
@@ -147,6 +148,14 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_automatic_separator),
 								  etat.automatic_separator);
 
+	/* set Selected transaction after validate split transaction */
+	button = gsb_automem_radiobutton_gsettings_new (_("selects new transaction"),
+													_("selects mother transaction"),
+													&conf.form_validate_split,
+													NULL,
+													NULL);
+	gtk_box_pack_start (GTK_BOX (priv->box_form_validate_split), button, FALSE, FALSE, 0);
+
 	if (!is_loading)
 	{
 		gtk_widget_set_sensitive (priv->box_form_date_force_prev_year, FALSE);
@@ -196,6 +205,9 @@ static void prefs_page_form_options_class_init (PrefsPageFormOptionsClass *klass
 												  PrefsPageFormOptions,
 												  box_form_enter_key);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFormOptions, box_form_enter_key);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageFormOptions,
+												  box_form_validate_split);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
 												  PrefsPageFormOptions,
 												  checkbutton_automatic_separator);

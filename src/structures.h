@@ -255,6 +255,7 @@ struct GrisbiAppConf
 	gint		completion_minimum_key_length;				/* Minimum length of the search key in characters */
 	gboolean	completion_ignore_accents;
     gboolean    form_enter_key;								/* si TRUE, la touche entrée finit l'opération */
+	gboolean	form_validate_split;						/* 0 select a new transaction, 1 select the mother transaction */
     gint        fyear_combobox_sort_order;                  /* fyear combobox type sort, GTK_SORT_ASCENDING by default */
     gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */
 
