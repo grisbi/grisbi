@@ -642,7 +642,7 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
     gtk_paned_pack2 (GTK_PANED (priv->hpaned_general),
 					 grisbi_win_create_general_notebook (win),
 					 TRUE,
-					 TRUE);
+					 FALSE);
     gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned_general), MARGIN_BOX);
 
     if (conf.panel_width > 250)
