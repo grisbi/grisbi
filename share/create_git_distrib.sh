@@ -11,7 +11,7 @@ FILE=configure.ac
 sed -i.old -E "s/GRISBI_GIT_HASH/$version/" $FILE
 
 ./autogen.sh
-./configure --with-openssl --with-ofx --with-goffice --with-libxml2
+./configure --with-openssl --with-ofx --with-goffice --with-libxml2 $@
 make clean
 
 echo "création du package de Grisbi"
