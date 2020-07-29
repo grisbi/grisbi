@@ -8,20 +8,9 @@ then
 	exit
 fi
 
-version=$(git rev-parse --short HEAD)
-echo "Using git version: $version"
+share/create_git_distrib.sh --prefix=$PREFIX
 
-FILE=configure.ac
-sed -i.old -E "s/GRISBI_GIT_HASH/$version/" $FILE
-
-./autogen.sh
-./configure --prefix=$PREFIX --with-openssl --with-ofx --with-goffice --with-libxml2
-make clean
-make dist
 make
 make install
 rm -f MacOS/Grisbi-*.dmg
 make bundle
-
-# restore configure.ac
-mv $FILE.old $FILE
