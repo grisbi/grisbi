@@ -448,15 +448,16 @@ gboolean grisbi_conf_load_app_config (void)
 													   "General",
 													   "custom-fonte-listes",
 													   NULL);
+	printf ("conf.custom_fonte_listes = %d\n", conf.custom_fonte_listes);
 	if (conf.custom_fonte_listes)
     {
         conf.font_string = g_key_file_get_string (config,
 											      "General",
 											      "font-string",
 											      NULL);
-		if (strlen (conf.font_string) == 0)
+		if (!conf.font_string || strlen (conf.font_string) == 0)
 		{
-			conf.font_string = my_strdup (_("Monospace 10"));
+			conf.font_string = g_strdup ("Monospace 10");
 			conf.custom_fonte_listes = FALSE;
 		}
     }
