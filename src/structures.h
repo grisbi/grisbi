@@ -248,8 +248,8 @@ struct GrisbiAppConf
     gint        max_non_archived_transactions_for_check;    /* the max number of transaction before grisbi warm at the opening */
 
 /* form part*/
-    gint        affichage_exercice_automatique;             /* automatic fyear :0 to set according to the date, 1 according to value date */
-    gint        automatic_completion_payee;                 /* 1 pour autoriser la completion automatique des opérations */
+    gboolean    affichage_exercice_automatique;             /* automatic fyear :0 to set according to the date, 1 according to value date */
+    gboolean    automatic_completion_payee;                 /* 1 pour autoriser la completion automatique des opérations */
     gboolean    automatic_erase_credit_debit;               /* 1 pour effacer les champs crédit et débit */
     gboolean    automatic_recover_splits;                   /* 1 pour recréer automatiquement les sous opérations */
 	gint		completion_minimum_key_length;				/* Minimum length of the search key in characters */
