@@ -21,24 +21,27 @@
 		href="https://bluefish.svn.sourceforge.net/svnroot/"/>
 	<repository type='tarball' name='ftp.gnome.org'
 		href="ftp://ftp.gnome.org/pub/gnome/sources/"/>
+	<repository type="git" name="github"
+	      href="git://github.com/"/>
 	
 	<autotools id="gmp">
-		<branch repo="ftp.gmplib.org" module="gmp-5.0.1/gmp-5.0.1.tar.bz2" version="5.0.1"/>	
+		<branch repo="ftp.gmplib.org" module="gmp/gmp-6.2.0.tar.bz2" version="6.2.0"/>
 	</autotools>
 
 	<autotools id='readline' >
 		<branch repo="ftp.gnu.org" module="readline/readline-6.0.tar.gz" version="6.0"/>
 	</autotools>
 
-	<autotools id="OpenSP" autogen-template="%(srcdir)s/autoinit.sh &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s" autogenargs="--disable-static --enable-shared --disable-doc-build --disable-nls">
+	<autotools id="OpenSP" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s" autogenargs="--disable-static --enable-shared --disable-doc-build --disable-nls">
 		<branch repo="sourceforge" module="openjade/OpenSP-1.5.2.tar.gz" version='1.5.2'/>
 	</autotools>
 
 	<autotools id="libofx" autogen-template="%(srcdir)s/configure --prefix=%(prefix)s --with-opensp-includes=%(prefix)s/include/OpenSP --with-opensp-libs=%(prefix)s/include">
-		<branch repo="sourceforge" module="libofx/libofx-0.9.4.tar.gz" version='0.9.4'/>
+		<branch repo="sourceforge" module="libofx/libofx-0.9.15.tar.gz" version='0.9.15'/>
 		<dependencies>
 			<dep package='guile'/>
 			<dep package="OpenSP"/>
+			<dep package="gmp"/>
 		</dependencies>
 	</autotools>
 
@@ -51,51 +54,49 @@
 	</autotools>
 	
 	<autotools id="goffice" autogen-sh="autogen.sh">
-		<branch repo="ftp.gnome.org" module="goffice/0.8/goffice-0.8.17.tar.bz2" version='0.8.17'>
-			<patch file="http://download.grisbi.org/sources/patches/libgoffice-0.8.17.patch" strip="1"/>
-		</branch>
+		<branch repo="ftp.gnome.org" module="goffice/0.10/goffice-0.10.48.tar.xz" version='0.10.48'/>
 		<dependencies>
 			<dep package='libgsf'/>
 		</dependencies>
 	</autotools>
 
 	<autotools id="libgsf" autogen-sh="configure">
-		<branch repo="ftp.gnome.org" module="libgsf/1.14/libgsf-1.14.21.tar.bz2" version='1.14.21'/>
+		<branch repo="ftp.gnome.org" module="libgsf/1.14/libgsf-1.14.47.tar.xz" version='1.14.47'/>
 	</autotools>
 
 	<autotools id="guile" autogen-sh="configure">
-		<branch repo="ftp.gnu.org" module="guile/guile-1.8.7.tar.gz" version="1.8.7" />
+		<branch repo="ftp.gnu.org" module="guile/guile-3.0.4.tar.xz" version="3.0.4" />
 		<dependencies>
 			<dep package='readline'/>
 			<dep package="gmp"/>
+			<dep package="libunistring"/>
+			<dep package="bdw-gc"/>
 		</dependencies>
 	</autotools>
 
 	<autotools id="grisbi" autogen-sh="configure">
-		<branch repo="sourceforge" version="0.8.8" module="grisbi/grisbi-0.8.8.tar.bz2" />
+		<branch repo="sourceforge" version="1.2.2" module="grisbi/grisbi-1.2.2.tar.bz2" />
 		<dependencies>
-			<dep package="meta-gtk-osx-core"/>
+			<dep package="jhbuild build meta-gtk-osx-gtk3"/>
 			<dep package="libofx"/>
-			<dep package="gmp"/>
+			<dep package="goffice"/>
 		</dependencies>
 	</autotools>
 
 	<autotools id="grisbi-testing" autogen-sh="configure">
-		<branch repo="sourceforge" version="0.9.4" module="grisbi/grisbi-0.9.4.tar.bz2" />
+		<branch repo="sourceforge" version="1.9.96" module="grisbi/grisbi-1.9.96.tar.bz2" />
 		<dependencies>
-			<dep package="meta-gtk-osx-core"/>
+			<dep package="jhbuild build meta-gtk-osx-gtk3"/>
 			<dep package="libofx"/>
-			<dep package="gmp"/>
 			<dep package="goffice"/>
 		</dependencies>
 	</autotools>
 
 	<autotools id="grisbi-devel" autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s">
-		<branch repo="grisbi.git.sourceforge.net" module="grisbi/grisbi" checkoudir="grisbi" />
+		<branch repo="github" module="grisbi/grisbi" checkoudir="grisbi" />
 		<dependencies>
-			<dep package="meta-gtk-osx-core"/>
+			<dep package="jhbuild build meta-gtk-osx-gtk3"/>
 			<dep package="libofx"/>
-			<dep package="gmp"/>
 			<dep package="goffice"/>
 		</dependencies>
 	</autotools>
