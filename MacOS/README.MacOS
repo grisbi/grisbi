@@ -16,32 +16,35 @@ Then use the following command lines:
 % ./gtk-osx-build-setup.sh
 
 % # Build prerequiste tools
-% jhbuild bootstrap
-
-% # install GTK2 env
-% jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-core
+% jhbuild bootstrap-gtk-osx
 
 % # install GTK3 env
 % jhbuild build meta-gtk-osx-gtk3
 
 % # required package for Grisbi
-% jhbuild build libgsf
+% edit the file ~/.config/jhbuildrc-custom and add the lines:
+
+```
+moduleset = "grisbi"
+
+use_local_modulesets = True
+modulesets_dir = "PATH_TO_grisbi/contrib/jhbuild/modulesets/"
+```
+
+% This jhbuild modulesets defines the grisbi depencencies
 
 % # ensure that mac-integration is properly installed for both GTK2 and GTK3
-% jhbuild build -f  gtk-mac-integration
+% jhbuild build -f gtk-mac-integration
 
 
-Optionnaly download goffice
-  Patch goffice.c) (180, 184) to rename "quartz_*" function calls to "gtkosx_*".
-  Compile and install goffice :
-  % jhbuild shell
-  % ./configure --prefix=$PREFIX
-  % make
-  % make install
+% # install goffice
+% jhbuild build goffice
 
-Optionnaly download "libofx" (Broken at the moment)
-  https://sourceforge.net/projects/libofx/files/latest/download
-  https://sourceforge.net/projects/openjade/files/opensp/1.5.1/OpenSP-1.5.1.tar.gz
+% # install libofx
+% jhbuild build libofx
+
+% # install OpenSSL
+% jhbuild build openssl
 
 Download gtk-mac-bundler from https://wiki.gnome.org/Projects/GTK+/OSX/Bundling
 Use the git version. Version 0.7.4 failed for me.
@@ -51,11 +54,13 @@ Use the git version. Version 0.7.4 failed for me.
 % jhbuild shell
 % ./autogen.sh
 % ./configure --prefix=$PREFIX # PREFIX var is set by jhbuild
+% make
 
 
 3. Package
 
 % jhbuild shell
+% make install
 % make bundle
 
 Grisbi.dmg should appear in MacOS/ directory
