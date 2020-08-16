@@ -14,6 +14,7 @@ share/icons/Adwaita/16x16/actions/go-up-symbolic.symbolic.png
 share/icons/Adwaita/16x16/actions/list-add-symbolic.symbolic.png
 share/icons/Adwaita/16x16/actions/list-remove-all-symbolic.symbolic.png
 share/icons/Adwaita/16x16/actions/list-remove-symbolic.symbolic.png
+share/icons/Adwaita/16x16/legacy/edit-undo.png
 share/icons/Adwaita/16x16/legacy/go-down.png
 share/icons/Adwaita/16x16/legacy/go-up.png
 share/icons/Adwaita/16x16/legacy/list-add.png
@@ -90,6 +91,7 @@ share/icons/Adwaita/scalable/actions/list-remove-all-symbolic.svg
 share/icons/Adwaita/scalable/actions/list-remove-symbolic.svg
 share/icons/Adwaita/scalable/actions/list-remove-symbolic.svg
 share/icons/Adwaita/scalable/actions/media-eject-symbolic.svg
+share/icons/Adwaita/scalable/actions/object-select-symbolic.svg
 share/icons/Adwaita/scalable/devices/drive-harddisk-symbolic.svg
 share/icons/Adwaita/scalable/mimetypes/inode-directory-symbolic.svg
 share/icons/Adwaita/scalable/mimetypes/text-x-generic-symbolic.svg
@@ -119,7 +121,6 @@ share/icons/Adwaita/scalable/ui/pan-start-symbolic.svg
 share/icons/Adwaita/scalable/ui/pan-up-symbolic.svg
 share/icons/Adwaita/scalable/ui/window-close-symbolic.svg
 share/icons/Adwaita/scalable/ui/window-close-symbolic.svg
-share/icons/HighContrast/scalable/status/image-missing.svg
 "
 
 if [ -z "$PREFIX" ]
