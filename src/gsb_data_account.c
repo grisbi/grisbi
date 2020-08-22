@@ -2708,8 +2708,6 @@ gchar *gsb_data_account_get_account_standard_pixbuf_filename ( KindAccount accou
  * */
 void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 {
-    GdkPixbuf *pixbuf;
-    GtkWidget *image;
     gchar *std_pixbuf_filename;
     gchar *name_icon;
     gchar *new_icon;
@@ -2728,24 +2726,32 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 
     new_icon = gsb_select_icon_create_window ( name_icon );
 
-    if ( new_icon && strcmp ( new_icon, name_icon ) != 0 )
+	if ( new_icon && strcmp ( new_icon, name_icon ) != 0 )
     {
-        if ( strcmp ( new_icon, std_pixbuf_filename ) == 0 )
+    	GtkWidget *image;
+
+		if ( strcmp ( new_icon, std_pixbuf_filename ) == 0 )
         {
             gsb_data_account_set_name_icon ( current_account, NULL );
             gsb_data_account_set_account_icon_pixbuf ( current_account, NULL );
+
+			image = gsb_data_account_get_account_icon_image ( current_account );
+			gtk_button_set_image ( GTK_BUTTON ( button ), image );
+			gsb_gui_navigation_update_account ( current_account );
         }
         else
         {
-            gsb_data_account_set_name_icon ( current_account, new_icon );
+    		GdkPixbuf *pixbuf;
+
+			gsb_data_account_set_name_icon ( current_account, new_icon );
             pixbuf = gsb_select_icon_new_account_pixbuf_from_file (new_icon);
             gsb_data_account_set_account_icon_pixbuf ( current_account, pixbuf );
+
+			image = gsb_data_account_get_account_icon_image ( current_account );
+			gtk_button_set_image ( GTK_BUTTON ( button ), image );
+			gsb_gui_navigation_update_account ( current_account );
 			g_object_unref (G_OBJECT (pixbuf));
         }
-
-        image = gsb_data_account_get_account_icon_image ( current_account );
-        gtk_button_set_image ( GTK_BUTTON ( button ), image );
-        gsb_gui_navigation_update_account ( current_account );
 
         gsb_file_set_modified ( TRUE );
     }
