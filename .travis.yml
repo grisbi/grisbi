@@ -1,8 +1,5 @@
 language: c
 
-services:
-  - docker
-
 os:
   - linux
   - osx
@@ -16,22 +13,22 @@ addons:
     update: true
     brewfile: true
 
-before_install:
-    # Linux: create Docker image
-    - export DIST_NAME=debian DIST_VERS=testing TAG=grisbi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker pull ${DIST_NAME}:${DIST_VERS} ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker build --rm=true --file=travis-ci/Dockerfile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} travis-ci ; fi
+  apt:
+    packages:
+      - autoconf
+      - automake
+      - build-essential
+      - intltool
+      - libgoffice-0.10-dev
+      - libgsf-1-dev
+      - libgtk-3-dev
+      - libofx-dev
+      - libssl-dev
+      - libtool-bin
+      - m4
 
 script:
     - echo "export TRAVIS_OS_NAME=$TRAVIS_OS_NAME" > travis-ci/env
     - echo "export CONF=$CONF" >> travis-ci/env
 
-    # Command to execute
-    - CMD=". travis-ci/env ; ./travis-ci/travis-autogen.sh ; make"
-
-    # Linux
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker run --volume=`pwd`:/build ${DIST_NAME}-${DIST_VERS}:${TAG}
-      /bin/sh -c "$CMD" ; fi
-    # macOS
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      /bin/sh -c "$CMD" ; fi
+    - . travis-ci/env ; ./travis-ci/travis-autogen.sh ; make
