@@ -35,6 +35,7 @@
 #include <errno.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
+#include <stdlib.h>
 
 /*START_INCLUDE*/
 #include "prefs_page_reconcile_sort.h"
