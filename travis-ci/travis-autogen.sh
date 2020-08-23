@@ -31,9 +31,6 @@ CFLAGS+=" -Wunused"
 # warnings disabled on purpose
 CFLAGS+=" -Wno-unused-parameter"
 
-export CFLAGS
-echo "CFLAGS: $CFLAGS"
-
 configure_args=""
 
 # special configurations
@@ -48,11 +45,9 @@ case "$CONF" in
 			# build with:
 			# /usr/local/Cellar/gdk-pixbuf/2.38.1_1/include/gdk-pixbuf-2.0/gdk-pixbuf/gdk-pixbuf-animation.h:122:85: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
 			CFLAGS+=" -Wno-deprecated-declarations"
-			export CFLAGS
 		else
 			# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
 			CFLAGS+=" -Wno-deprecated-declarations"
-			export CFLAGS
 		fi
 
 		# disable goffice since it uses -pthread that generate warnings and then
@@ -65,6 +60,9 @@ case "$CONF" in
 		configure_args+=" --with-goffice"
 	;;
 esac
+
+export CFLAGS
+echo "CFLAGS: $CFLAGS"
 
 if [ "$TRAVIS_OS_NAME" = "osx" ]
 then
