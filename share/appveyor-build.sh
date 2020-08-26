@@ -66,11 +66,13 @@ echo "CFLAGS: $CFLAGS"
 PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/tmp/inst/lib/pkgconfig
 export PKG_CONFIG_PATH
 
-./configure \
-	--prefix /c/projects/grisbi-inst/ \
-	--with-ofx \
-	--with-goffice \
-	--enable-config-file
+configure_args=""
+configure_args+="--prefix /c/projects/grisbi-inst/ "
+configure_args+="--with-ofx "
+configure_args+="--with-goffice "
+configure_args+="--enable-config-file "
+echo "configure_args: $configure_args $@"
+./configure $configure_args "$@"
 
 v=$(grep PACKAGE_VERSION config.h | cut -f2 -d '"')
 minor=$(echo $v|cut -f2 -d.)
