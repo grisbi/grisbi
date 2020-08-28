@@ -175,6 +175,9 @@ static void dialogue_special (GtkMessageType param,
 
     primary_text = hint ? hint : text;
 
+    if (NULL == grisbi_app_get_active_window (NULL))
+        return;
+
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 param, GTK_BUTTONS_CLOSE,
