@@ -624,8 +624,11 @@ gboolean debug_start_log ( void )
         tmp_str = gsb_ImportFormats_get_list_formats_to_string ( );
         tmp_str_2 = g_strconcat ( tmp_str, "\n", NULL );
 
-        fwrite ( tmp_str_2, sizeof (gchar), strlen ( tmp_str_2 ), debug_file );
-	    fflush ( debug_file );
+        if (tmp_str_2)
+        {
+            fwrite ( tmp_str_2, sizeof (gchar), strlen ( tmp_str_2 ), debug_file );
+            fflush ( debug_file );
+        }
 
         g_free ( tmp_str );
         g_free ( tmp_str_2 );
