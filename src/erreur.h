@@ -15,6 +15,7 @@
 
 #define devel_debug_int(x) debug_message_int("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)
 #define devel_debug_real(x) debug_message_real("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)
+#define devel_debug_ptr(x) debug_message_ptr("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)
 #define devel_debug(x) debug_message_string("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)
 #define notice_debug(x) debug_message_string("Info",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_INFO,FALSE)
 #define warning_debug(x) debug_message_string("Warning",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_NOTICE,FALSE)
@@ -37,6 +38,13 @@ void 		debug_message_real 				(const gchar *prefixe,
 											 gint line,
 											 const char *function,
 											 GsbReal message,
+											 gint level,
+											 gboolean force_debug_display);
+void 		debug_message_ptr 				(const gchar *prefixe,
+											 const gchar *file,
+											 gint line,
+											 const char *function,
+											 void * message,
 											 gint level,
 											 gboolean force_debug_display);
 void 		debug_message_string 			(const gchar *prefixe,

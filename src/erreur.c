@@ -493,6 +493,20 @@ void debug_message_real ( const gchar *prefixe,
 	g_free ( tmp_str );
 }
 
+void debug_message_ptr ( const gchar *prefixe,
+                        const gchar *file,
+                        gint line,
+                        const char *function,
+                        void * message,
+                        gint level,
+                        gboolean force_debug_display )
+{
+	gchar* tmp_str;
+	tmp_str = g_strdup_printf("%p", message);
+	debug_message_string(prefixe, file, line, function, tmp_str, level, force_debug_display);
+	g_free ( tmp_str );
+}
+
 /**
  * called by menu : begin the debug mode
  * show a message to say where the log will be saved
