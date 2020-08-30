@@ -456,25 +456,10 @@ void debug_message_int ( const gchar *prefixe,
                         gint level,
                         gboolean force_debug_display )
 {
-	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || debug_mode )
-    {
-        gchar* tmp_str;
-
-        /* on affiche dans la console le message */
-        tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %d\n"),
-                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
-                        file, line, function, message);
-
-        if (debug_mode)
-        {
-            fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
-            fflush ( debug_file );
-        }
-
-        g_print( "%s", tmp_str );
-        g_free ( tmp_str );
-    }
+	gchar* tmp_str;
+	tmp_str = g_strdup_printf("%d", message);
+	debug_message_string(prefixe, file, line, function, tmp_str, level, force_debug_display);
+	g_free ( tmp_str );
 }
 
 
@@ -502,25 +487,10 @@ void debug_message_real ( const gchar *prefixe,
                         gint level,
                         gboolean force_debug_display )
 {
-	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || debug_mode )
-    {
-        gchar* tmp_str;
-
-        /* on affiche dans la console le message */
-        tmp_str = g_strdup_printf ("%s, %2f : %s - %s:%d:%s - %"G_GINT64_MODIFIER"d E %d\n",
-                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
-                        file, line, function, message.mantissa, message.exponent );
-
-        if ( debug_mode )
-        {
-            fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
-            fflush ( debug_file );
-        }
-
-        g_print( "%s", tmp_str );
-        g_free ( tmp_str );
-    }
+	gchar* tmp_str;
+	tmp_str = g_strdup_printf("%"G_GINT64_MODIFIER"d E %d", message.mantissa, message.exponent);
+	debug_message_string(prefixe, file, line, function, tmp_str, level, force_debug_display);
+	g_free ( tmp_str );
 }
 
 /**
