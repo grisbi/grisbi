@@ -806,7 +806,8 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 	}
 
 #ifdef DEBUG
-		if (priv->debug_level == 0 && priv->debug_level < 5)
+		/* On peut forcer le niveau 0 (pas de debug) */
+		if (priv->debug_level >= 0 && priv->debug_level < MAX_DEBUG_LEVEL)
 			debug_set_cmd_line_debug_level (priv->debug_level);
 #else
 		if (priv->debug_level > 0)
