@@ -1067,8 +1067,10 @@ static void grisbi_app_activate (GApplication *application)
 
 	GrisbiWin *win;
     gboolean load_file = FALSE;
+	GrisbiAppPrivate *priv;
 
 	devel_debug (NULL);
+	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 
 	/* création de la fenêtre pincipale */
     win = grisbi_app_create_window (GRISBI_APP (application), NULL);
@@ -1080,10 +1082,10 @@ static void grisbi_app_activate (GApplication *application)
                                                    GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     /* lance un assistant si première utilisation */
-    if (conf.first_use)
+    if ((priv->a_conf)->first_use)
     {
         gsb_assistant_first_run ();
-        conf.first_use = FALSE;
+        (priv->a_conf)->first_use = FALSE;
     }
     else
     {
