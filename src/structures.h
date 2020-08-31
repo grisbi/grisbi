@@ -208,9 +208,6 @@ struct _GrisbiWinEtat
 /* structure conf variables configured by gsettings or grisbi.conf */
 struct _GrisbiAppConf
 {
-/* NO SAVE IN GSETTINGS */
-    gboolean	debug_mode;									/* TRUE in debug mode, FALSE for normale mode */
-
 /* root part*/
     gint        first_use;                                  /* première utilisation ou réinitialisation de grisbi */
 

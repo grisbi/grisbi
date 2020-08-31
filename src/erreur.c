@@ -56,16 +56,17 @@
 
 
 /*START_STATIC*/
-/*END_STATIC*/
-
-/*START_EXTERN*/
-/*END_EXTERN*/
-
+static gboolean debug_mode = FALSE;
 static gint debugging_grisbi;
 
 /* path and name of the file containing the log when debug mode is active
  * this values should not be freed when begin a new file to continue the log */
 static FILE *debug_file = NULL;
+
+/*END_STATIC*/
+
+/*START_EXTERN*/
+/*END_EXTERN*/
 
  /**
  * return a string with the current time
@@ -221,7 +222,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
 
 		grisbi_win_status_bar_message ( _("Save file") );
 
-		gsb_file_save_save_file ( nom_fichier_comptes, conf.compress_file, FALSE );
+		gsb_file_save_save_file (nom_fichier_comptes, FALSE, 0);
 
 		grisbi_win_status_bar_clear();
 
@@ -406,7 +407,7 @@ void debug_message_string ( const gchar *prefixe,
 {
 
 	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if (level <= debugging_grisbi || force_debug_display || conf.debug_mode)
+    if (level <= debugging_grisbi || force_debug_display || debug_mode)
     {
         gchar* tmp_str;
 
@@ -420,7 +421,7 @@ void debug_message_string ( const gchar *prefixe,
                         debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function);
 
-        if ( conf.debug_mode )
+        if ( debug_mode )
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -456,7 +457,7 @@ void debug_message_int ( const gchar *prefixe,
                         gboolean force_debug_display )
 {
 	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || conf.debug_mode )
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || debug_mode )
     {
         gchar* tmp_str;
 
@@ -465,7 +466,7 @@ void debug_message_int ( const gchar *prefixe,
                         debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
 
-        if (conf.debug_mode)
+        if (debug_mode)
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -502,7 +503,7 @@ void debug_message_real ( const gchar *prefixe,
                         gboolean force_debug_display )
 {
 	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || conf.debug_mode )
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || debug_mode )
     {
         gchar* tmp_str;
 
@@ -511,7 +512,7 @@ void debug_message_real ( const gchar *prefixe,
                         debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message.mantissa, message.exponent );
 
-        if ( conf.debug_mode )
+        if ( debug_mode )
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -577,7 +578,7 @@ gboolean debug_start_log ( void )
     {
         gchar *tmp_str_2;
 
-		conf.debug_mode = TRUE;
+		debug_mode = TRUE;
         /* début du mode de débogage */
         tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
                         debug_get_debug_time ( ),
@@ -694,6 +695,11 @@ void debug_print_log_string ( const gchar *prefixe,
  *
  * \return
  **/
+gboolean debug_get_debug_mode (void)
+{
+	return debug_mode;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

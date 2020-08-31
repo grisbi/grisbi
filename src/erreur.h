@@ -24,6 +24,7 @@
 #define devel_print_str(x) debug_print_log_string("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x)
 
 /* START_DECLARATION */
+gboolean	debug_get_debug_mode			(void);
 void 		debug_message_int 				(const gchar *prefixe,
 											 const gchar *file,
 											 gint line,
