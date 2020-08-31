@@ -1012,28 +1012,6 @@ static void grisbi_win_init (GrisbiWin *win)
  **/
 static void grisbi_win_finalize (GObject *object)
 {
-	GrisbiWinPrivate *priv;
-
-    devel_debug (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (object));
-
-    g_free (priv->filename);
-    priv->filename = NULL;
-
-    g_free (priv->window_title);
-    priv->window_title = NULL;
-
-	g_free (priv->form_organization);
-
-    g_clear_object (&priv->builder);
-    g_clear_object (&priv->menu);
-
-    /* libération de la mémoiré utilisée par w_etat */
-	grisbi_win_free_w_etat (priv->w_etat);
-
-	/* libération mémoire de la structure run */
-	grisbi_win_free_w_run (priv->w_run);
-
 	G_OBJECT_CLASS (grisbi_win_parent_class)->finalize (object);
 }
 
@@ -1758,9 +1736,6 @@ void grisbi_win_close_window (GtkWindow *win)
 
 	/* libération mémoire de la structure run */
 	grisbi_win_free_w_run (priv->w_run);
-
-	gtk_window_close (GTK_WINDOW (win));
-
 }
 
 /* NO_FILE_PAGE */

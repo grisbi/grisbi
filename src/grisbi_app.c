@@ -586,7 +586,7 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
 
 	if (result)
 	{
-		gtk_window_close (GTK_WINDOW (win));
+		grisbi_win_close_window (GTK_WINDOW (win));
 		gtk_application_remove_window (GTK_APPLICATION (app), GTK_WINDOW (win));
 
 		if (last_win)
