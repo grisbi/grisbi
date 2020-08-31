@@ -66,7 +66,7 @@ static GtkCssProvider *	css_provider = NULL;    /* css provider */
 static gchar *			css_data = NULL;		/* fichier css sous forme de string */
 
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
-                                             GdkScreen *screen);
+                                            GdkScreen *screen);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -204,7 +204,6 @@ static void grisbi_app_struct_conf_free (void)
 
 	gsb_file_free_last_path ();
 	gsb_file_free_backup_path ();
-
 }
 
 /* ACCELERATORS*/
@@ -309,6 +308,15 @@ static void grisbi_app_new_window (GSimpleAction *action,
     grisbi_app_create_window (GRISBI_APP (app), NULL);
 }
 
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void grisbi_app_quit (GSimpleAction *action,
                              GVariant      *parameter,
                              gpointer       user_data)
@@ -1114,6 +1122,26 @@ static void grisbi_app_open (GApplication *application,
 /* Fonctions propres à l'initialisation de l'application                      */
 /******************************************************************************/
 /**
+ * grisbi_app_init
+ *
+ * \param GApplication *app
+ *
+ * \return
+ **/
+static void grisbi_app_init (GrisbiApp *app)
+{
+    /* initialize debugging */
+#ifdef DEBUG
+	debug_initialize_debugging (5);
+#endif
+
+    g_set_application_name ("Grisbi");
+
+	/* add options for app */
+    g_application_add_main_option_entries (G_APPLICATION (app), options);
+}
+
+/**
  * grisbi_app_dispose
  *
  * \param GApplication *app
@@ -1182,29 +1210,6 @@ static void grisbi_app_shutdown (GApplication *application)
     grisbi_app_struct_conf_free ();
 
     G_APPLICATION_CLASS (grisbi_app_parent_class)->shutdown (application);
-}
-
-/**
- * grisbi_app_init
- *
- * \param GApplication *app
- *
- * \return
- **/
-static void grisbi_app_init (GrisbiApp *app)
-{
-    /* initialize debugging */
-#ifdef DEBUG
-	debug_initialize_debugging (5);
-#endif
-
-    g_set_application_name ("Grisbi");
-
-	/* add options for app */
-    g_application_add_main_option_entries (G_APPLICATION (app), options);
-
-    /* initialisation de la variable conf */
-    grisbi_app_struct_conf_init ();
 }
 
 /**

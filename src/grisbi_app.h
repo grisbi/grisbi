@@ -10,20 +10,29 @@
 G_BEGIN_DECLS
 
 #define GRISBI_APP_TYPE         (grisbi_app_get_type ())
+#define GRISBI_APP(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), GRISBI_APP_TYPE, GrisbiApp))
 
-G_DECLARE_DERIVABLE_TYPE (GrisbiApp, grisbi_app, GRISBI, APP, GtkApplication)
+typedef struct _GrisbiApp       GrisbiApp;
+typedef struct _GrisbiAppClass  GrisbiAppClass;
+
+struct _GrisbiApp
+{
+    GtkApplication parent;
+};
 
 struct _GrisbiAppClass
 {
     GtkApplicationClass parent_class;
 };
 
+GType				grisbi_app_get_type						(void) G_GNUC_CONST;
+
 void				grisbi_app_display_gui_dump_accels		(GtkApplication *application,
-													 GtkWidget *text_view);
+															 GtkWidget *text_view);
 GrisbiWin *			grisbi_app_get_active_window			(GrisbiApp *app);
 const gchar *		grisbi_app_get_css_data					(void);
 GtkCssProvider *	grisbi_app_get_css_provider				(void);
-gboolean			grisbi_app_get_has_app_menu			(GrisbiApp *app);
+gboolean			grisbi_app_get_has_app_menu				(GrisbiApp *app);
 GMenu *				grisbi_app_get_menu_edit				(void);
 GAction *			grisbi_app_get_prefs_action				(void);
 gchar **			grisbi_app_get_recent_files_array		(void);

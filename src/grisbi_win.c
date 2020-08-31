@@ -171,6 +171,15 @@ struct _GrisbiWinEtat etat;
 /* Private functions                                                          */
 /******************************************************************************/
 /* HEADINGS_EB */
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void grisbi_win_headings_private_update_label_markup (GtkLabel *label,
                                                              const gchar *text,
                                                              gboolean escape_text)
@@ -601,8 +610,8 @@ static void grisbi_win_init_general_widgets (GrisbiWin *win)
  **/
 static void grisbi_win_create_general_widgets (GrisbiWin *win)
 {
-	GrisbiWinPrivate *priv;
 	GtkWidget *navigation_pane;
+	GrisbiWinPrivate *priv;
 
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
