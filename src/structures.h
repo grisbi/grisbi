@@ -92,7 +92,7 @@
 /* variables initialisées lors de l'ouverture de grisbi par gsettings ou grisbi.conf
  * remplacées à terme par w_etat et w_run
  */
-extern struct GrisbiAppConf conf;				/* declared in grisbi_app.c */
+extern struct _GrisbiAppConf conf;				/* declared in grisbi_app.c */
 
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 extern struct _GrisbiWinRun run;				/* declared in grisbi_win.c */
@@ -102,6 +102,7 @@ extern struct _GrisbiWinEtat etat;				/* declared in grisbi_win.c */
 /******************************************************************************/
 /* Structures                                                                 */
 /******************************************************************************/
+typedef struct _GrisbiAppConf			GrisbiAppConf;
 typedef struct _GrisbiWinEtat			GrisbiWinEtat;
 typedef struct _GrisbiWinRun			GrisbiWinRun;
 
@@ -205,7 +206,7 @@ struct _GrisbiWinEtat
 };
 
 /* structure conf variables configured by gsettings or grisbi.conf */
-struct GrisbiAppConf
+struct _GrisbiAppConf
 {
 /* NO SAVE IN GSETTINGS */
     gboolean	debug_mode;									/* TRUE in debug mode, FALSE for normale mode */

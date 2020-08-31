@@ -89,6 +89,9 @@ struct _GrisbiAppPrivate
     GMenu *				item_recent_files;
     GMenu *				item_edit;
     GAction *			prefs_action;
+
+	/* config structure */
+	GrisbiAppConf		*a_conf;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (GrisbiApp, grisbi_app, GTK_TYPE_APPLICATION)
@@ -101,7 +104,7 @@ struct AcceleratorStruct
 };
 
 /* global variable, see structures.h */
-struct GrisbiAppConf    conf;                   /* conf structure Provisoire */
+struct _GrisbiAppConf	conf;                   /* conf structure Provisoire */
 
 static struct AcceleratorStruct accels[] = {
 		{ "app.new-window", { "<Alt>n", NULL }, N_("New_window")},
@@ -149,16 +152,21 @@ static struct AcceleratorStruct accels_classic[] = {
  *
  * \return
  **/
-static void grisbi_app_struct_conf_init (void)
+static void grisbi_app_struct_conf_init (GrisbiApp *app)
 {
-    devel_debug (NULL);
+    GrisbiAppPrivate *priv;
 
-    conf.browser_command = NULL;
-	conf.current_theme = g_strdup ("null");
-    conf.font_string = NULL;
-	conf.import_directory = NULL;
-	conf.language_chosen = NULL;
-    conf.last_open_file = NULL;
+	devel_debug (NULL);
+	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
+
+	priv->a_conf = g_malloc0 (sizeof (GrisbiAppConf));
+
+    (priv->a_conf)->browser_command = NULL;
+	(priv->a_conf)->current_theme = g_strdup ("null");
+    (priv->a_conf)->font_string = NULL;
+	(priv->a_conf)->import_directory = NULL;
+	(priv->a_conf)->language_chosen = NULL;
+    (priv->a_conf)->last_open_file = NULL;
 }
 
 /**
@@ -168,38 +176,41 @@ static void grisbi_app_struct_conf_init (void)
  *
  * \return
  **/
-static void grisbi_app_struct_conf_free (void)
+static void grisbi_app_struct_conf_free (GrisbiApp *app)
 {
-    devel_debug (NULL);
+    GrisbiAppPrivate *priv;
 
-	g_free (conf.current_theme);
-	if (conf.font_string)
+	devel_debug (NULL);
+	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
+
+	g_free ((priv->a_conf)->current_theme);
+	if ((priv->a_conf)->font_string)
     {
-		g_free (conf.font_string);
-		conf.font_string = NULL;
+		g_free ((priv->a_conf)->font_string);
+		(priv->a_conf)->font_string = NULL;
     }
-	if (conf.browser_command)
+	if ((priv->a_conf)->browser_command)
 	{
-        g_free (conf.browser_command);
-		conf.browser_command = NULL;
+        g_free ((priv->a_conf)->browser_command);
+		(priv->a_conf)->browser_command = NULL;
 	}
 
-    if (conf.import_directory)
+    if ((priv->a_conf)->import_directory)
     {
-        g_free (conf.import_directory);
-        conf.import_directory = NULL;
+        g_free ((priv->a_conf)->import_directory);
+        (priv->a_conf)->import_directory = NULL;
     }
 
-    if (conf.language_chosen)
+    if ((priv->a_conf)->language_chosen)
     {
-        g_free (conf.language_chosen);
-        conf.language_chosen = NULL;
+        g_free ((priv->a_conf)->language_chosen);
+        (priv->a_conf)->language_chosen = NULL;
     }
 
-	if (conf.last_open_file)
+	if ((priv->a_conf)->last_open_file)
     {
-        g_free (conf.last_open_file);
-        conf.last_open_file = NULL;
+        g_free ((priv->a_conf)->last_open_file);
+        (priv->a_conf)->last_open_file = NULL;
     }
 
 	gsb_file_free_last_path ();
@@ -956,12 +967,18 @@ static void grisbi_app_startup (GApplication *application)
 	gchar *css_filename;
 	gchar *theme_name = NULL;
 	gboolean has_app_menu = FALSE;
+    GrisbiAppPrivate *priv;
 
 	/* Chain up parent's startup */
     G_APPLICATION_CLASS (grisbi_app_parent_class)->startup (application);
 
-    /* on commence par détourner le signal SIGSEGV */
+	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
+
+	/* on commence par détourner le signal SIGSEGV */
     grisbi_app_trappe_signaux ();
+
+    /* initialisation de la variable conf */
+    grisbi_app_struct_conf_init (app);
 
     /* initialisation des variables de configuration globales */
 #ifdef USE_CONFIG_FILE
@@ -1207,7 +1224,7 @@ static void grisbi_app_shutdown (GApplication *application)
     gsb_dirs_shutdown ();
 
 	/* on libère la mémoire utilisée par conf */
-    grisbi_app_struct_conf_free ();
+    grisbi_app_struct_conf_free (GRISBI_APP (application));
 
     G_APPLICATION_CLASS (grisbi_app_parent_class)->shutdown (application);
 }
@@ -1363,6 +1380,17 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t\t-> <Primary>r\n"), -1);
 }
 
+gpointer grisbi_app_get_a_conf (void)
+{
+	GApplication *app;
+	GrisbiAppPrivate *priv;
+
+	app = g_application_get_default ();
+	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
+
+	return priv->a_conf;
+}
+
 /**
  * get active window.
  *
@@ -1416,6 +1444,24 @@ GMenu *grisbi_app_get_menu_edit (void)
 	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
 	return priv->item_edit;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean grisbi_app_get_low_resolution_screen (void)
+{
+	GApplication *app;
+	GrisbiAppPrivate *priv;
+
+	app = g_application_get_default ();
+	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
+
+	return (priv->a_conf)->low_resolution_screen;
 }
 
 /**

@@ -29,10 +29,12 @@ GType				grisbi_app_get_type						(void) G_GNUC_CONST;
 
 void				grisbi_app_display_gui_dump_accels		(GtkApplication *application,
 															 GtkWidget *text_view);
+gpointer			grisbi_app_get_a_conf					(void);
 GrisbiWin *			grisbi_app_get_active_window			(GrisbiApp *app);
 const gchar *		grisbi_app_get_css_data					(void);
 GtkCssProvider *	grisbi_app_get_css_provider				(void);
 gboolean			grisbi_app_get_has_app_menu				(GrisbiApp *app);
+gboolean			grisbi_app_get_low_resolution_screen	(void);
 GMenu *				grisbi_app_get_menu_edit				(void);
 GAction *			grisbi_app_get_prefs_action				(void);
 gchar **			grisbi_app_get_recent_files_array		(void);
