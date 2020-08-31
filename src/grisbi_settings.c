@@ -86,10 +86,11 @@ static GrisbiSettings *singleton = NULL;
  *
  * \return
  **/
-static void grisbi_settings_init_settings_root (GSettings *settings)
+static void grisbi_settings_init_settings_root (GSettings *settings,
+												GrisbiAppConf *a_conf)
 {
     /* first use */
-    conf.first_use = g_settings_get_boolean (settings, "first-use");
+    a_conf->first_use = g_settings_get_boolean (settings, "first-use");
 }
 
 /**
@@ -99,7 +100,8 @@ static void grisbi_settings_init_settings_root (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_backup (GSettings *settings)
+static void grisbi_settings_init_settings_backup (GSettings *settings,
+												  GrisbiAppConf *a_conf)
 {
     gchar *tmp_path;
 
@@ -113,14 +115,14 @@ static void grisbi_settings_init_settings_backup (GSettings *settings)
     gsb_file_set_backup_path (tmp_path);
     g_free (tmp_path);
 
-    conf.compress_backup = g_settings_get_boolean (settings, "compress-backup");
-    conf.make_backup_every_minutes = g_settings_get_boolean (settings, "make-backup-every-minutes");
-    conf.make_backup_nb_minutes = g_settings_get_int (settings, "make-backup-nb-minutes");
-    conf.make_bakup_single_file = g_settings_get_boolean (settings, "make-backup-single-file");
-    conf.remove_backup_files = g_settings_get_boolean (settings, "remove-backup-files");
-    conf.remove_backup_months = g_settings_get_int (settings, "remove-backup-months");
-    conf.sauvegarde_fermeture = g_settings_get_boolean (settings, "sauvegarde-fermeture");
-    conf.sauvegarde_demarrage = g_settings_get_boolean (settings, "sauvegarde-ouverture");
+    a_conf->compress_backup = g_settings_get_boolean (settings, "compress-backup");
+    a_conf->make_backup_every_minutes = g_settings_get_boolean (settings, "make-backup-every-minutes");
+    a_conf->make_backup_nb_minutes = g_settings_get_int (settings, "make-backup-nb-minutes");
+    a_conf->make_bakup_single_file = g_settings_get_boolean (settings, "make-backup-single-file");
+    a_conf->remove_backup_files = g_settings_get_boolean (settings, "remove-backup-files");
+    a_conf->remove_backup_months = g_settings_get_int (settings, "remove-backup-months");
+    a_conf->sauvegarde_fermeture = g_settings_get_boolean (settings, "sauvegarde-fermeture");
+    a_conf->sauvegarde_demarrage = g_settings_get_boolean (settings, "sauvegarde-ouverture");
 }
 
 /**
@@ -130,32 +132,33 @@ static void grisbi_settings_init_settings_backup (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_display (GSettings *settings)
+static void grisbi_settings_init_settings_display (GSettings *settings,
+												   GrisbiAppConf *a_conf)
 {
     gchar *tmp_str;
 
     tmp_str = g_settings_get_string (settings, "display-window-title");
     if (g_strcmp0 (tmp_str, "Holder name") == 0)
-        conf.display_window_title = 1;
+        a_conf->display_window_title = 1;
     else if (g_strcmp0 (tmp_str, "Filename") == 0)
-        conf.display_window_title = 2;
+        a_conf->display_window_title = 2;
     else
-        conf.display_window_title = 0;
+        a_conf->display_window_title = 0;
     g_free (tmp_str);
 
     tmp_str = g_settings_get_string (settings, "display-toolbar");
     if (g_strcmp0 (tmp_str, "Text") == 0)
-        conf.display_toolbar = GSB_BUTTON_TEXT;
+        a_conf->display_toolbar = GSB_BUTTON_TEXT;
     else if (g_strcmp0 (tmp_str, "Icons") == 0)
-        conf.display_toolbar = GSB_BUTTON_ICON;
+        a_conf->display_toolbar = GSB_BUTTON_ICON;
     else
-        conf.display_toolbar = GSB_BUTTON_BOTH;
+        a_conf->display_toolbar = GSB_BUTTON_BOTH;
     g_free (tmp_str);
 
-    conf.formulaire_toujours_affiche = g_settings_get_boolean (settings, "formulaire-toujours-affiche");
-    conf.group_partial_balance_under_accounts = g_settings_get_boolean (settings, "group-partial-balance-under-accounts");
-    conf.show_closed_accounts = g_settings_get_boolean (settings, "show-closed-accounts");
-    conf.show_headings_bar = g_settings_get_boolean (settings, "show-headings-bar");
+    a_conf->formulaire_toujours_affiche = g_settings_get_boolean (settings, "formulaire-toujours-affiche");
+    a_conf->group_partial_balance_under_accounts = g_settings_get_boolean (settings, "group-partial-balance-under-accounts");
+    a_conf->show_closed_accounts = g_settings_get_boolean (settings, "show-closed-accounts");
+    a_conf->show_headings_bar = g_settings_get_boolean (settings, "show-headings-bar");
 }
 
 /**
@@ -165,52 +168,53 @@ static void grisbi_settings_init_settings_display (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_file (GSettings *settings)
+static void grisbi_settings_init_settings_file (GSettings *settings,
+												GrisbiAppConf *a_conf)
 {
 	gchar **recent_array;
 	gchar *import_directory;
 
-    conf.compress_file = g_settings_get_boolean (settings, "compress-file");
-    conf.dernier_fichier_auto = g_settings_get_boolean (settings, "dernier-fichier-auto");
-    conf.force_enregistrement = g_settings_get_boolean (settings, "force-enregistrement");
-    conf.force_import_directory = g_settings_get_boolean (settings, "force-import-directory");
-    conf.nb_max_derniers_fichiers_ouverts = g_settings_get_int (settings, "nb-max-derniers-fichiers-ouverts");
-	conf.import_remove_file = g_settings_get_boolean (settings, "import-remove-file");
-    conf.sauvegarde_auto = g_settings_get_boolean (settings, "sauvegarde-auto");
+    a_conf->compress_file = g_settings_get_boolean (settings, "compress-file");
+    a_conf->dernier_fichier_auto = g_settings_get_boolean (settings, "dernier-fichier-auto");
+    a_conf->force_enregistrement = g_settings_get_boolean (settings, "force-enregistrement");
+    a_conf->force_import_directory = g_settings_get_boolean (settings, "force-import-directory");
+    a_conf->nb_max_derniers_fichiers_ouverts = g_settings_get_int (settings, "nb-max-derniers-fichiers-ouverts");
+	a_conf->import_remove_file = g_settings_get_boolean (settings, "import-remove-file");
+    a_conf->sauvegarde_auto = g_settings_get_boolean (settings, "sauvegarde-auto");
 
-	if (conf.force_import_directory)
+	if (a_conf->force_import_directory)
 	{
 		import_directory = g_settings_get_string (settings, "import-directory");
 		if (import_directory && strlen (import_directory) > 0)
 		{
-			conf.import_directory = my_strdup (import_directory);
+			a_conf->import_directory = my_strdup (import_directory);
 		}
 		else
 		{
-			conf.import_directory = my_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD));
+			a_conf->import_directory = my_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD));
 		}
 		g_free (import_directory);
 	}
 	recent_array = g_settings_get_strv (settings, "names-last-files");
     if (recent_array)
 	{
-        conf.nb_derniers_fichiers_ouverts = g_strv_length (recent_array);
-        if (conf.nb_derniers_fichiers_ouverts > 0)
+        a_conf->nb_derniers_fichiers_ouverts = g_strv_length (recent_array);
+        if (a_conf->nb_derniers_fichiers_ouverts > 0)
         {
-			if (conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts)
+			if (a_conf->nb_derniers_fichiers_ouverts > a_conf->nb_max_derniers_fichiers_ouverts)
 			{
-				conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
+				a_conf->nb_derniers_fichiers_ouverts = a_conf->nb_max_derniers_fichiers_ouverts;
 			}
 
-            conf.last_open_file = my_strdup (recent_array[0]);
+            a_conf->last_open_file = my_strdup (recent_array[0]);
         }
     }
 
 	grisbi_app_set_recent_files_array (recent_array);
 
     /* archive stuff */
-    conf.archives_check_auto = g_settings_get_boolean (settings, "archives-check-auto");
-    conf.max_non_archived_transactions_for_check = g_settings_get_int (settings, "max-transactions-before-warn-archival");
+    a_conf->archives_check_auto = g_settings_get_boolean (settings, "archives-check-auto");
+    a_conf->max_non_archived_transactions_for_check = g_settings_get_int (settings, "max-transactions-before-warn-archival");
 }
 
 /**
@@ -220,17 +224,18 @@ static void grisbi_settings_init_settings_file (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_form (GSettings *settings)
+static void grisbi_settings_init_settings_form (GSettings *settings,
+												GrisbiAppConf *a_conf)
 {
-    conf.affichage_exercice_automatique = g_settings_get_boolean (settings, "affichage-exercice-automatique");
-    conf.automatic_completion_payee = g_settings_get_boolean (settings, "automatic-completion-payee");
-    conf.automatic_erase_credit_debit = g_settings_get_boolean (settings, "automatic-erase-credit-debit");
-    conf.automatic_recover_splits = g_settings_get_boolean (settings, "automatic-recover-splits");
-	conf.completion_minimum_key_length = g_settings_get_int (settings, "completion-minimum-key-length");
-    conf.form_enter_key = g_settings_get_boolean (settings, "form-enter-key");
-	conf.form_validate_split = g_settings_get_boolean (settings, "form-validate-split");
-	conf.fyear_combobox_sort_order = g_settings_get_int (settings, "fyear-combobox-sort-order");
-    conf.limit_completion_to_current_account = g_settings_get_boolean (settings, "limit-completion-current-account");
+    a_conf->affichage_exercice_automatique = g_settings_get_boolean (settings, "affichage-exercice-automatique");
+    a_conf->automatic_completion_payee = g_settings_get_boolean (settings, "automatic-completion-payee");
+    a_conf->automatic_erase_credit_debit = g_settings_get_boolean (settings, "automatic-erase-credit-debit");
+    a_conf->automatic_recover_splits = g_settings_get_boolean (settings, "automatic-recover-splits");
+	a_conf->completion_minimum_key_length = g_settings_get_int (settings, "completion-minimum-key-length");
+    a_conf->form_enter_key = g_settings_get_boolean (settings, "form-enter-key");
+	a_conf->form_validate_split = g_settings_get_boolean (settings, "form-validate-split");
+	a_conf->fyear_combobox_sort_order = g_settings_get_int (settings, "fyear-combobox-sort-order");
+    a_conf->limit_completion_to_current_account = g_settings_get_boolean (settings, "limit-completion-current-account");
 }
 
 /**
@@ -240,22 +245,23 @@ static void grisbi_settings_init_settings_form (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_general (GSettings *settings)
+static void grisbi_settings_init_settings_general (GSettings *settings,
+												   GrisbiAppConf *a_conf)
 {
     gchar *tmp_str;
 
-	if (conf.current_theme)
-		g_free (conf.current_theme);
-	conf.current_theme = g_settings_get_string (settings, "current-theme");
+	if (a_conf->current_theme)
+		g_free (a_conf->current_theme);
+	a_conf->current_theme = g_settings_get_string (settings, "current-theme");
 
-	conf.custom_fonte_listes = g_settings_get_boolean (settings, "custom-fonte-listes");
-    if (conf.custom_fonte_listes)
+	a_conf->custom_fonte_listes = g_settings_get_boolean (settings, "custom-fonte-listes");
+    if (a_conf->custom_fonte_listes)
     {
-        conf.font_string = g_settings_get_string (settings, "font-string");
-		if (strlen (conf.font_string) == 0)
+        a_conf->font_string = g_settings_get_string (settings, "font-string");
+		if (strlen (a_conf->font_string) == 0)
 		{
-			conf.font_string = my_strdup (_("No font defined"));
-			conf.custom_fonte_listes = FALSE;
+			a_conf->font_string = my_strdup (_("No font defined"));
+			a_conf->custom_fonte_listes = FALSE;
 		}
     }
 
@@ -263,29 +269,29 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
     if (tmp_str == NULL || strlen (tmp_str) == 0)
     {
         g_settings_set_string (settings, "browser-command", ETAT_WWW_BROWSER);
-        conf.browser_command = g_strdup (ETAT_WWW_BROWSER);
+        a_conf->browser_command = g_strdup (ETAT_WWW_BROWSER);
     }
     else
     {
-        conf.browser_command = g_strdup (tmp_str);
+        a_conf->browser_command = g_strdup (tmp_str);
         g_free (tmp_str);
     }
 
-    conf.force_type_theme = g_settings_get_int (settings, "force-type-theme");
+    a_conf->force_type_theme = g_settings_get_int (settings, "force-type-theme");
 
     tmp_str = g_settings_get_string (settings, "language-chosen");
     if (tmp_str == NULL)
     {
-        conf.language_chosen = NULL;
+        a_conf->language_chosen = NULL;
     }
 	else if (strlen (tmp_str) == 0)
     {
-        conf.language_chosen = NULL;
+        a_conf->language_chosen = NULL;
         g_free (tmp_str);
     }
     else
     {
-        conf.language_chosen = g_strdup (tmp_str);
+        a_conf->language_chosen = g_strdup (tmp_str);
         g_free (tmp_str);
     }
 
@@ -309,40 +315,40 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
     g_free (tmp_str);
 
     /* Home page */
-    conf.pluriel_final = g_settings_get_boolean (settings, "pluriel-final");
+    a_conf->pluriel_final = g_settings_get_boolean (settings, "pluriel-final");
 
     /* variables for the list of categories */
     tmp_str = g_settings_get_string (settings, "metatree-action-2button-press");
     if (g_strcmp0 (tmp_str, "Edit Category") == 0)
-        conf.metatree_action_2button_press = 1;
+        a_conf->metatree_action_2button_press = 1;
     else if (g_strcmp0 (tmp_str, "Manage division") == 0)
-        conf.metatree_action_2button_press = 2;
+        a_conf->metatree_action_2button_press = 2;
     else
-        conf.metatree_action_2button_press = 0;
+        a_conf->metatree_action_2button_press = 0;
     g_free (tmp_str);
 
     /* variables for the list of transactions */
-    conf.show_transaction_gives_balance = g_settings_get_boolean (settings, "show-transaction-gives-balance");
-    conf.show_transaction_selected_in_form = g_settings_get_boolean (settings, "show-transaction-selected-in-form");
+    a_conf->show_transaction_gives_balance = g_settings_get_boolean (settings, "show-transaction-gives-balance");
+    a_conf->show_transaction_selected_in_form = g_settings_get_boolean (settings, "show-transaction-selected-in-form");
 
     tmp_str = g_settings_get_string (settings, "transactions-list-primary-sorting");
     if (g_strcmp0 (tmp_str, "Sort by value date") == 0)
-        conf.transactions_list_primary_sorting = 0;
+        a_conf->transactions_list_primary_sorting = 0;
     else if (g_strcmp0 (tmp_str, "Forced sort by date") == 0)
-        conf.transactions_list_primary_sorting = 2;
+        a_conf->transactions_list_primary_sorting = 2;
     else
-        conf.transactions_list_primary_sorting = 1;
+        a_conf->transactions_list_primary_sorting = 1;
     g_free (tmp_str);
 
     tmp_str = g_settings_get_string (settings, "transactions-list-secondary-sorting");
     if (g_strcmp0 (tmp_str, "Sort by transaction number") == 0)
-        conf.transactions_list_secondary_sorting = 0;
+        a_conf->transactions_list_secondary_sorting = 0;
     else if (g_strcmp0 (tmp_str, "Sort by type of amount") == 0)
-        conf.transactions_list_secondary_sorting = 1;
+        a_conf->transactions_list_secondary_sorting = 1;
     else if (g_strcmp0 (tmp_str, "Sort by payee name") == 0)
-        conf.transactions_list_secondary_sorting = 2;
+        a_conf->transactions_list_secondary_sorting = 2;
     else
-        conf.transactions_list_secondary_sorting = 3;
+        a_conf->transactions_list_secondary_sorting = 3;
     g_free (tmp_str);
 }
 
@@ -353,15 +359,16 @@ static void grisbi_settings_init_settings_general (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_geometry (GSettings *settings)
+static void grisbi_settings_init_settings_geometry (GSettings *settings,
+													GrisbiAppConf *a_conf)
 {
-    conf.low_resolution_screen = g_settings_get_boolean (settings, "low-resolution-screen");
-    conf.x_position = g_settings_get_int (settings, "x-position");
-    conf.y_position = g_settings_get_int (settings, "y-position");
-    conf.main_height = g_settings_get_int (settings, "main-height");
-    conf.main_width = g_settings_get_int (settings, "main-width");
-    conf.full_screen = g_settings_get_boolean (settings, "fullscreen");
-    conf.maximize_screen = g_settings_get_boolean (settings, "maximized");
+    a_conf->low_resolution_screen = g_settings_get_boolean (settings, "low-resolution-screen");
+    a_conf->x_position = g_settings_get_int (settings, "x-position");
+    a_conf->y_position = g_settings_get_int (settings, "y-position");
+    a_conf->main_height = g_settings_get_int (settings, "main-height");
+    a_conf->main_width = g_settings_get_int (settings, "main-width");
+    a_conf->full_screen = g_settings_get_boolean (settings, "fullscreen");
+    a_conf->maximize_screen = g_settings_get_boolean (settings, "maximized");
 }
 
 /**
@@ -371,7 +378,8 @@ static void grisbi_settings_init_settings_geometry (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_messages_delete (GSettings *settings)
+static void grisbi_settings_init_settings_messages_delete (GSettings *settings,
+														   GrisbiAppConf *a_conf)
 {
     gint i;
 	ConditionalMsg *warning;
@@ -392,10 +400,11 @@ static void grisbi_settings_init_settings_messages_delete (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_messages_tips (GSettings *settings)
+static void grisbi_settings_init_settings_messages_tips (GSettings *settings,
+														 GrisbiAppConf *a_conf)
 {
-    conf.last_tip = g_settings_get_int (settings, "last-tip");
-    conf.show_tip = g_settings_get_boolean (settings, "show-tip");
+    a_conf->last_tip = g_settings_get_int (settings, "last-tip");
+    a_conf->show_tip = g_settings_get_boolean (settings, "show-tip");
 }
 
 /**
@@ -405,7 +414,8 @@ static void grisbi_settings_init_settings_messages_tips (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_messages_warnings (GSettings *settings)
+static void grisbi_settings_init_settings_messages_warnings (GSettings *settings,
+															 GrisbiAppConf *a_conf)
 {
     gint i;
 	ConditionalMsg *warning;
@@ -426,10 +436,11 @@ static void grisbi_settings_init_settings_messages_warnings (GSettings *settings
  *
  * \return
  **/
-static void grisbi_settings_init_settings_panel (GSettings *settings)
+static void grisbi_settings_init_settings_panel (GSettings *settings,
+												 GrisbiAppConf *a_conf)
 {
-    conf.active_scrolling_left_pane = g_settings_get_boolean (settings, "active-scrolling-left-pane");
-    conf.panel_width = g_settings_get_int (settings, "panel-width");
+    a_conf->active_scrolling_left_pane = g_settings_get_boolean (settings, "active-scrolling-left-pane");
+    a_conf->panel_width = g_settings_get_int (settings, "panel-width");
 }
 
 /**
@@ -439,13 +450,14 @@ static void grisbi_settings_init_settings_panel (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_prefs (GSettings *settings)
+static void grisbi_settings_init_settings_prefs (GSettings *settings,
+												 GrisbiAppConf *a_conf)
 {
-    conf.prefs_archives_sort_order = g_settings_get_boolean (settings, "prefs-archives-sort-order");
-    conf.prefs_fyear_sort_order = g_settings_get_boolean (settings, "prefs-fyear-sort-order");
-    conf.prefs_height = g_settings_get_int (settings, "prefs-height");
-    conf.prefs_panel_width = g_settings_get_int (settings, "prefs-panel-width");
-    conf.prefs_width = g_settings_get_int (settings, "prefs-width");
+    a_conf->prefs_archives_sort_order = g_settings_get_boolean (settings, "prefs-archives-sort-order");
+    a_conf->prefs_fyear_sort_order = g_settings_get_boolean (settings, "prefs-fyear-sort-order");
+    a_conf->prefs_height = g_settings_get_int (settings, "prefs-height");
+    a_conf->prefs_panel_width = g_settings_get_int (settings, "prefs-panel-width");
+    a_conf->prefs_width = g_settings_get_int (settings, "prefs-width");
 }
 
 /**
@@ -455,13 +467,14 @@ static void grisbi_settings_init_settings_prefs (GSettings *settings)
  *
  * \return
  **/
-static void grisbi_settings_init_settings_scheduled (GSettings *settings)
+static void grisbi_settings_init_settings_scheduled (GSettings *settings,
+													 GrisbiAppConf *a_conf)
 {
-    conf.balances_with_scheduled = g_settings_get_boolean (settings, "balances-with-scheduled");
-    conf.execute_scheduled_of_month = g_settings_get_boolean (settings, "execute-scheduled-of-month");
-    conf.nb_days_before_scheduled = g_settings_get_int (settings, "nb-days-before-scheduled");
-    conf.scheduler_set_fixed_day = g_settings_get_boolean (settings, "scheduler-set-fixed-day");
-    conf.scheduler_fixed_day = g_settings_get_int (settings, "scheduler-fixed-day");
+    a_conf->balances_with_scheduled = g_settings_get_boolean (settings, "balances-with-scheduled");
+    a_conf->execute_scheduled_of_month = g_settings_get_boolean (settings, "execute-scheduled-of-month");
+    a_conf->nb_days_before_scheduled = g_settings_get_int (settings, "nb-days-before-scheduled");
+    a_conf->scheduler_set_fixed_day = g_settings_get_boolean (settings, "scheduler-set-fixed-day");
+    a_conf->scheduler_fixed_day = g_settings_get_int (settings, "scheduler-fixed-day");
 }
 
 /**
@@ -474,49 +487,52 @@ static void grisbi_settings_init_settings_scheduled (GSettings *settings)
 static void grisbi_settings_init (GrisbiSettings *self)
 {
     GrisbiSettingsPrivate *priv;
+	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
+
+	a_conf = grisbi_app_get_a_conf ();
 
     priv = grisbi_settings_get_instance_private (self);
 
     priv->settings_root = g_settings_new ("org.gtk.grisbi");
-    grisbi_settings_init_settings_root (priv->settings_root);
+    grisbi_settings_init_settings_root (priv->settings_root, a_conf);
 
     priv->settings_backup = g_settings_new ("org.gtk.grisbi.files.backup");
-    grisbi_settings_init_settings_backup (priv->settings_backup);
+    grisbi_settings_init_settings_backup (priv->settings_backup, a_conf);
 
     priv->settings_display = g_settings_new ("org.gtk.grisbi.display");
-    grisbi_settings_init_settings_display (priv->settings_display);
+    grisbi_settings_init_settings_display (priv->settings_display, a_conf);
 
     priv->settings_file = g_settings_new ("org.gtk.grisbi.files.file");
-    grisbi_settings_init_settings_file (priv->settings_file);
+    grisbi_settings_init_settings_file (priv->settings_file, a_conf);
 
     priv->settings_form = g_settings_new ("org.gtk.grisbi.form");
-    grisbi_settings_init_settings_form (priv->settings_form);
+    grisbi_settings_init_settings_form (priv->settings_form, a_conf);
 
     priv->settings_general = g_settings_new ("org.gtk.grisbi.general");
-    grisbi_settings_init_settings_general (priv->settings_general);
+    grisbi_settings_init_settings_general (priv->settings_general, a_conf);
 
     priv->settings_geometry = g_settings_new ("org.gtk.grisbi.geometry");
-    grisbi_settings_init_settings_geometry (priv->settings_geometry);
+    grisbi_settings_init_settings_geometry (priv->settings_geometry, a_conf);
 
     priv->settings_messages_delete = g_settings_new ("org.gtk.grisbi.messages.delete");
-    grisbi_settings_init_settings_messages_delete (priv->settings_messages_delete);
+    grisbi_settings_init_settings_messages_delete (priv->settings_messages_delete, a_conf);
 
     priv->settings_messages_tips = g_settings_new ("org.gtk.grisbi.messages.tips");
-    grisbi_settings_init_settings_messages_tips (priv->settings_messages_tips);
+    grisbi_settings_init_settings_messages_tips (priv->settings_messages_tips, a_conf);
 
     priv->settings_messages_warnings = g_settings_new ("org.gtk.grisbi.messages.warnings");
-    grisbi_settings_init_settings_messages_warnings (priv->settings_messages_warnings);
+    grisbi_settings_init_settings_messages_warnings (priv->settings_messages_warnings, a_conf);
 
     priv->settings_panel = g_settings_new ("org.gtk.grisbi.panel");
-    grisbi_settings_init_settings_panel (priv->settings_panel);
+    grisbi_settings_init_settings_panel (priv->settings_panel, a_conf);
 
     priv->settings_prefs = g_settings_new ("org.gtk.grisbi.prefs");
-    grisbi_settings_init_settings_prefs (priv->settings_prefs);
+    grisbi_settings_init_settings_prefs (priv->settings_prefs, a_conf);
 
     priv->settings_scheduled = g_settings_new ("org.gtk.grisbi.scheduled");
-    grisbi_settings_init_settings_scheduled (priv->settings_scheduled);
+    grisbi_settings_init_settings_scheduled (priv->settings_scheduled, a_conf);
 }
 
 
@@ -621,44 +637,46 @@ void grisbi_settings_save_app_config (void)
     GrisbiSettingsPrivate *priv;
 	gchar **recent_array;
     const gchar *tmp_str;
+	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
 
+	a_conf = grisbi_app_get_a_conf ();
     priv = grisbi_settings_get_instance_private (grisbi_settings_load_app_config ());
 
     /* priv->settings_root */
     g_settings_set_boolean (G_SETTINGS (priv->settings_root),
                         "first-use",
-                        conf.first_use);
+                        a_conf->first_use);
 
     /* priv->settings_backup */
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "make-backup-single-file",
-                        conf.make_bakup_single_file);
+                        a_conf->make_bakup_single_file);
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "compress-backup",
-                        conf.compress_backup);
+                        a_conf->compress_backup);
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "remove-backup-files",
-                        conf.remove_backup_files);
+                        a_conf->remove_backup_files);
     g_settings_set_int (G_SETTINGS (priv->settings_backup),
                         "remove-backup-months",
-                        conf.remove_backup_months);
+                        a_conf->remove_backup_months);
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "sauvegarde-ouverture",
-                        conf.sauvegarde_demarrage);
+                        a_conf->sauvegarde_demarrage);
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "sauvegarde-fermeture",
-                        conf.sauvegarde_fermeture);
+                        a_conf->sauvegarde_fermeture);
     g_settings_set_boolean (G_SETTINGS (priv->settings_backup),
                         "make-backup-every-minutes",
-                        conf.make_backup_every_minutes);
+                        a_conf->make_backup_every_minutes);
     g_settings_set_int (G_SETTINGS (priv->settings_backup),
                         "make-backup-nb-minutes",
-                        conf.make_backup_nb_minutes);
+                        a_conf->make_backup_nb_minutes);
 
     /* priv->settings_display */
-    switch (conf.display_window_title)
+    switch (a_conf->display_window_title)
     {
         case 1:
             tmp_str = "Holder name";
@@ -675,37 +693,37 @@ void grisbi_settings_save_app_config (void)
 
     g_settings_set_boolean ( G_SETTINGS (priv->settings_display),
                         "formulaire-toujours-affiche",
-                        conf.formulaire_toujours_affiche);
+                        a_conf->formulaire_toujours_affiche);
     g_settings_set_boolean (G_SETTINGS (priv->settings_display),
                         "show-closed-accounts",
-                        conf.show_closed_accounts);
+                        a_conf->show_closed_accounts);
 
     /* priv->settings_file */
     g_settings_set_boolean ( G_SETTINGS (priv->settings_file),
                         "dernier-fichier-auto",
-                        conf.dernier_fichier_auto);
+                        a_conf->dernier_fichier_auto);
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "sauvegarde-auto",
-                        conf.sauvegarde_auto);
+                        a_conf->sauvegarde_auto);
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "force-enregistrement",
-                        conf.force_enregistrement);
+                        a_conf->force_enregistrement);
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "force-import-directory",
-                        conf.force_import_directory);
-	if (conf.force_import_directory)
+                        a_conf->force_import_directory);
+	if (a_conf->force_import_directory)
 	{
 		g_settings_set_string (G_SETTINGS (priv->settings_file),
 										   "import-directory",
-										   conf.import_directory);
+										   a_conf->import_directory);
 	}
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "import-remove-file",
-                        conf.import_remove_file);
+                        a_conf->import_remove_file);
 
     g_settings_set_boolean (G_SETTINGS (priv->settings_file),
                         "compress-file",
-                        conf.compress_file);
+                        a_conf->compress_file);
 
 	recent_array = grisbi_app_get_recent_files_array ();
     if (g_strv_length (recent_array))
@@ -717,36 +735,36 @@ void grisbi_settings_save_app_config (void)
 
     g_settings_set_int (G_SETTINGS (priv->settings_file),
                         "nb-max-derniers-fichiers-ouverts",
-                        conf.nb_max_derniers_fichiers_ouverts);
+                        a_conf->nb_max_derniers_fichiers_ouverts);
 
     g_settings_set_boolean (priv->settings_file,
                         "archives-check-auto",
-                        conf.archives_check_auto);
+                        a_conf->archives_check_auto);
     g_settings_set_int (priv->settings_file,
                         "max-transactions-before-warn-archival",
-                        conf.max_non_archived_transactions_for_check);
+                        a_conf->max_non_archived_transactions_for_check);
 
     /* priv->settings_form */
     g_settings_set_boolean ( G_SETTINGS (priv->settings_form),
                         "affichage-exercice-automatique",
-                        conf.affichage_exercice_automatique);
+                        a_conf->affichage_exercice_automatique);
     g_settings_set_boolean ( G_SETTINGS (priv->settings_form),
-                            "form-enter-key", conf.form_enter_key);
-	if (conf.form_validate_split)
+                            "form-enter-key", a_conf->form_enter_key);
+	if (a_conf->form_validate_split)
 		g_settings_set_boolean (G_SETTINGS (priv->settings_form),
 								"form-validate-split",
-								conf.form_validate_split);
+								a_conf->form_validate_split);
 	else
 		g_settings_reset (G_SETTINGS (priv->settings_form),
 						  "form-validate-split");
 
     /* priv->settings_general */
-    if (conf.browser_command)
+    if (a_conf->browser_command)
         g_settings_set_string (G_SETTINGS (priv->settings_general),
                         "browser-command",
-                        conf.browser_command);
+                        a_conf->browser_command);
 
-    switch (conf.metatree_action_2button_press)
+    switch (a_conf->metatree_action_2button_press)
     {
         case 1:
             tmp_str = "Edit Category";
@@ -763,54 +781,54 @@ void grisbi_settings_save_app_config (void)
 
     g_settings_set_boolean (G_SETTINGS (priv->settings_general),
                             "show-transaction-gives-balance",
-                            conf.show_transaction_gives_balance);
+                            a_conf->show_transaction_gives_balance);
 
     /* priv->settings_geometry */
     g_settings_set_int (G_SETTINGS (priv->settings_geometry),
                         "x-position",
-                        conf.x_position);
+                        a_conf->x_position);
     g_settings_set_int (G_SETTINGS (priv->settings_geometry),
                         "y-position",
-                        conf.y_position);
+                        a_conf->y_position);
     g_settings_set_int (G_SETTINGS (priv->settings_geometry),
                         "main-height",
-                        conf.main_height);
+                        a_conf->main_height);
     g_settings_set_int (G_SETTINGS (priv->settings_geometry),
                         "main-width",
-                        conf.main_width);
+                        a_conf->main_width);
     g_settings_set_boolean (G_SETTINGS (priv->settings_geometry),
                         "fullscreen",
-                        conf.full_screen);
+                        a_conf->full_screen);
     g_settings_set_boolean (G_SETTINGS (priv->settings_geometry),
                         "maximized",
-                        conf.maximize_screen);
+                        a_conf->maximize_screen);
 
     /* priv->settings_messages_tips */
     g_settings_set_int (G_SETTINGS (priv->settings_messages_tips),
                          "last-tip",
-                         conf.last_tip);
+                         a_conf->last_tip);
     g_settings_set_boolean (G_SETTINGS (priv->settings_messages_tips),
                          "show-tip",
-                         conf.show_tip);
+                         a_conf->show_tip);
 
     /* priv->settings_panel */
     g_settings_set_int (G_SETTINGS (priv->settings_panel),
                         "panel-width",
-                        conf.panel_width);
+                        a_conf->panel_width);
 
     /* priv->settings_scheduled */
     g_settings_set_boolean (priv->settings_scheduled,
                         "execute-scheduled-of-month",
-                        conf.execute_scheduled_of_month);
+                        a_conf->execute_scheduled_of_month);
     g_settings_set_int (priv->settings_scheduled,
                         "nb-days-before-scheduled",
-                        conf.nb_days_before_scheduled);
+                        a_conf->nb_days_before_scheduled);
     g_settings_set_boolean (priv->settings_scheduled,
 							"scheduler-set-fixed-day",
-							conf.scheduler_set_fixed_day);
+							a_conf->scheduler_set_fixed_day);
     g_settings_set_int (priv->settings_scheduled,
 						"scheduler-fixed-day",
-						conf.scheduler_fixed_day);
+						a_conf->scheduler_fixed_day);
 }
 
 GSettings *grisbi_settings_get_settings (gint schema)
