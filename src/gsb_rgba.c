@@ -622,8 +622,10 @@ gchar *gsb_css_get_filename (void)
 {
 	gchar *css_filename = NULL;
 	gchar *tmp_str = NULL;
+	GrisbiAppConf *a_conf;
 
-	if (conf.use_type_theme == 2)
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (a_conf->use_type_theme == 2)
 		tmp_str = g_strdup ("grisbi-dark.css");
 	else
 		tmp_str = g_strdup ("grisbi.css");
@@ -770,8 +772,10 @@ gboolean gsb_css_test_user_css_file (void)
 {
 	gchar *css_filename = NULL;
 	gchar *tmp_str = NULL;
+	GrisbiAppConf *a_conf;
 
-	if (conf.use_type_theme == 2)
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (a_conf->use_type_theme == 2)
 		tmp_str = g_strdup ("grisbi-dark.css");
 	else
 		tmp_str = g_strdup ("grisbi.css");

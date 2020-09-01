@@ -2865,6 +2865,10 @@ gulong gsb_file_save_bet_graph_part ( gulong iterator,
  **/
 gboolean gsb_file_save_css_local_file (const gchar *css_data)
 {
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
 	/* on sauvegarde le fichier CSS en local qu'en cas de modification */
 	if (conf.prefs_change_css_data)
 	{
@@ -2872,7 +2876,7 @@ gboolean gsb_file_save_css_local_file (const gchar *css_data)
 		gchar *tmp_str = NULL;
 		GError *error = NULL;
 
-		if (conf.use_type_theme == 2)
+		if (a_conf->use_type_theme == 2)
 			tmp_str = g_strdup ("grisbi-dark.css");
 		else
 			tmp_str = g_strdup ("grisbi.css");

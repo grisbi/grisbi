@@ -141,7 +141,7 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
 			else
 				a_conf->force_type_theme = value;	/* dark theme ou light theme */
 			g_settings_set_int (G_SETTINGS (settings), "force-type-theme", a_conf->force_type_theme);
-			conf.use_type_theme = value;
+			a_conf->use_type_theme = value;
 
 			grisbi_app_window_style_updated (GTK_WIDGET (grisbi_app_get_active_window (NULL)), GINT_TO_POINTER (TRUE));
 		}
@@ -149,7 +149,7 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
 		{
 			g_settings_reset (G_SETTINGS (settings), "force-type-theme");
 			a_conf->force_type_theme = 0;
-			conf.use_type_theme = 0;
+			a_conf->use_type_theme = 0;
 		}
 
 	}
