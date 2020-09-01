@@ -247,7 +247,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
     /* automatically save file at closing */
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
-					  &conf.sauvegarde_auto, NULL, NULL);
+					  &a_conf->sauvegarde_auto, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 

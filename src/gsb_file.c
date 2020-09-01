@@ -596,7 +596,7 @@ static gboolean gsb_file_save_file (gint origine)
     }
 
     /* on commence par demander si on sauvegarde ou pas sauf pour "sauvegarder sous" */
-    if (!conf.sauvegarde_auto && origine != -2)
+    if (!a_conf->sauvegarde_auto && origine != -2)
     {
         result = gsb_file_dialog_save (filename, origine);
         if (result == GTK_RESPONSE_NO)
@@ -1100,12 +1100,15 @@ gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
 gboolean gsb_file_close (void)
 {
 	gchar *filename;
+	GrisbiAppConf *a_conf;
 
 	devel_debug (NULL);
     if (!assert_account_loaded ())
 	{
         return TRUE;
 	}
+
+	a_conf = grisbi_app_get_a_conf ();
 
 	/* on récupère le nom du fichier */
 	filename = g_strdup (grisbi_win_get_filename (NULL));
@@ -1116,7 +1119,7 @@ gboolean gsb_file_close (void)
 	    if (!gsb_file_save_file (-1))
             return FALSE;
     }
-    else if (conf.sauvegarde_auto && filename)
+    else if (a_conf->sauvegarde_auto && filename)
     {
         /* try to save */
 	    if (!gsb_file_save_file (-1))
@@ -1289,12 +1292,15 @@ void gsb_file_copy_old_file (const gchar *filename)
 gboolean gsb_file_quit (void)
 {
 	gchar *filename;
+	GrisbiAppConf *a_conf;
 
 	devel_debug (NULL);
     if (!assert_account_loaded ())
 	{
         return TRUE;
 	}
+
+	a_conf = grisbi_app_get_a_conf ();
 
 	/* on récupère le nom du fichier */
 	filename = g_strdup (grisbi_win_get_filename (NULL));
@@ -1305,7 +1311,7 @@ gboolean gsb_file_quit (void)
 	    if (!gsb_file_save_file (-1))
             return FALSE;
     }
-    else if (conf.sauvegarde_auto && filename)
+    else if (a_conf->sauvegarde_auto && filename)
     {
         /* try to save */
 	    if (!gsb_file_save_file (-1))
