@@ -424,7 +424,7 @@ static void prefs_page_display_fonts_init_combo_force_theme (PrefsPageDisplayFon
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	/* set label with the name of selected theme */
-	tmp_label = g_strdup_printf (_("The automatically selected theme is: '%s'"), conf.current_theme);
+	tmp_label = g_strdup_printf (_("The automatically selected theme is: '%s'"), a_conf->current_theme);
 	gtk_label_set_label (GTK_LABEL (priv->label_theme_selected), tmp_label);
 	g_free (tmp_label);
 

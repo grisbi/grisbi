@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "widget_css_rules.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_rgba.h"
@@ -127,6 +128,9 @@ static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *butto
 	gchar *tmp_str = NULL;
 	gchar *text;
 	gboolean ret;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	css_filename = gsb_css_get_filename ();
 	text = g_strdup_printf (_("Warning: you will delete your grisbi color adjustment file.\n"
@@ -140,7 +144,7 @@ static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *butto
 	if (!ret)
 		return;
 
-	if (conf.use_type_theme == 2)
+	if (a_conf->use_type_theme == 2)
 		tmp_str = g_strdup ("grisbi-dark.css");
 	else
 		tmp_str = g_strdup ("grisbi.css");

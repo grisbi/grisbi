@@ -995,7 +995,7 @@ static void grisbi_app_startup (GApplication *application)
 					  "gtk-theme-name", &theme_name,
 					  NULL);
 
-		if (g_strcmp0 (conf.current_theme, theme_name) == 0)
+		if (g_strcmp0 ((priv->a_conf)->current_theme, theme_name) == 0)
 		{
 
 			if ((priv->a_conf)->force_type_theme)
@@ -1008,8 +1008,8 @@ static void grisbi_app_startup (GApplication *application)
 		else
 		{
 
-			g_free (conf.current_theme);
-			conf.current_theme = theme_name;
+			g_free ((priv->a_conf)->current_theme);
+			(priv->a_conf)->current_theme = theme_name;
 			grisbi_settings_set_current_theme (theme_name, 0);
 			(priv->a_conf)->use_type_theme = gsb_rgba_get_type_theme (theme_name);
 			(priv->a_conf)->force_type_theme = 0;
@@ -1280,10 +1280,10 @@ void grisbi_app_window_style_updated (GtkWidget *win,
 					  "gtk-theme-name", &tmp_theme_name,
 					  NULL);
 
-		if (g_strcmp0 (tmp_theme_name, conf.current_theme) || forced)
+		if (g_strcmp0 (tmp_theme_name, a_conf->current_theme) || forced)
 		{
-			g_free (conf.current_theme);
-			conf.current_theme = tmp_theme_name;
+			g_free (a_conf->current_theme);
+			a_conf->current_theme = tmp_theme_name;
 
 			/* set force_type_theme en automatique sauf si commande forcée */
 			if (!forced)
