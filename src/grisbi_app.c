@@ -1583,8 +1583,8 @@ void grisbi_app_update_recent_files_menu (void)
 	/* on vide le sous menu recent_files */
 	g_menu_remove_all (priv->item_recent_files);
 
-	if (conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts)
-		conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
+	if ((priv->a_conf)->nb_derniers_fichiers_ouverts > (priv->a_conf)->nb_max_derniers_fichiers_ouverts)
+		(priv->a_conf)->nb_derniers_fichiers_ouverts = (priv->a_conf)->nb_max_derniers_fichiers_ouverts;
 
 	for (i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++)
 	{

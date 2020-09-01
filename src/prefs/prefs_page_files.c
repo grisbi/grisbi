@@ -126,7 +126,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 
 	/* set the max number of files */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_nb_max_derniers_fichiers),
-							   conf.nb_max_derniers_fichiers_ouverts);
+							   a_conf->nb_max_derniers_fichiers_ouverts);
 
     /* Connect signal */
     g_signal_connect (priv->checkbutton_load_last_file,
@@ -165,7 +165,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->spinbutton_nb_max_derniers_fichiers,
                         "value-changed",
                         G_CALLBACK (utils_prefs_spinbutton_changed),
-                        &conf.nb_max_derniers_fichiers_ouverts);
+                        &a_conf->nb_max_derniers_fichiers_ouverts);
 
 	g_signal_connect_after (priv->spinbutton_nb_max_derniers_fichiers,
                         "value-changed",

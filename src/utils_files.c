@@ -377,11 +377,13 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
     gchar *dernier;
     gint position;
     gint i;
+	GrisbiAppConf *a_conf;
 
     if (!filename)
         return;
 
-    if (conf.nb_max_derniers_fichiers_ouverts == 0)
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+    if (a_conf->nb_max_derniers_fichiers_ouverts == 0)
         return;
 
     if (conf.nb_derniers_fichiers_ouverts < 0)
@@ -450,7 +452,7 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
 		recent_array = g_realloc (recent_array, (++conf.nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
 	}
 
-	if (conf.nb_derniers_fichiers_ouverts <= conf.nb_max_derniers_fichiers_ouverts)
+	if (conf.nb_derniers_fichiers_ouverts <= a_conf->nb_max_derniers_fichiers_ouverts)
 		recent_array[conf.nb_derniers_fichiers_ouverts-1] = dernier;
 
 	recent_array[conf.nb_derniers_fichiers_ouverts] = NULL;
