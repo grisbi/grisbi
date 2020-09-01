@@ -995,7 +995,7 @@ static void grisbi_win_init (GrisbiWin *win)
 
 	/* adding accueil_page */
 	grisbi_win_no_file_page_new (win);
-	if ((a_conf->dernier_fichier_auto && conf.last_open_file))
+	if ((a_conf->dernier_fichier_auto && a_conf->last_open_file))
 	{
 		grisbi_win_init_general_widgets (win);
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");
