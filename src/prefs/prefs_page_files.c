@@ -182,7 +182,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_backup),
 								  conf.sauvegarde_fermeture);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_backup_every_minutes),
-								  conf.make_backup_every_minutes);
+								  a_conf->make_backup_every_minutes);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_remove_backup_files),
 								  conf.remove_backup_files);
     /* set minutes */
@@ -234,7 +234,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->checkbutton_make_backup_every_minutes,
                       "toggled",
                       G_CALLBACK (utils_prefs_page_checkbutton_changed),
-                      &conf.make_backup_every_minutes);
+                      &a_conf->make_backup_every_minutes);
 
     g_signal_connect (priv->checkbutton_remove_backup_files,
                       "toggled",
@@ -246,7 +246,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
                        "button", priv->checkbutton_make_backup_every_minutes);
 	g_object_set_data (G_OBJECT (priv->checkbutton_make_backup_every_minutes),
                        "widget", priv->spinbutton_make_backup_nb_minutes);
-	if (!conf.make_backup_every_minutes)
+	if (!a_conf->make_backup_every_minutes)
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_make_backup_nb_minutes), FALSE);
 
     g_signal_connect (priv->spinbutton_make_backup_nb_minutes,

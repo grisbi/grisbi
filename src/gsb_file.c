@@ -487,7 +487,7 @@ static gboolean gsb_file_save_backup (gboolean make_bakup_single_file,
     }
     /* create a filename for the backup :
      * filename_yyyymmddTmmhhss.gsb */
-    if (conf.make_bakup_single_file)
+    if (make_bakup_single_file)
     {
         new_filename =  g_strdup_printf ("%s%s%s_backup.gsb",
 										 gsb_file_get_backup_path (),
@@ -535,13 +535,13 @@ static gboolean gsb_file_automatic_backup (gpointer p_conf)
 	devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) p_conf;
 
-    if (!conf.make_backup_every_minutes)
+    if (!a_conf->make_backup_every_minutes)
 	/* stop the timeout */
         return FALSE;
 
     /* we save only if there is a nb of minutes, but don't stop the timer if not */
-    if (conf.make_backup_nb_minutes)
-        gsb_file_save_backup (conf.make_bakup_single_file, a_conf->compress_backup);
+    if (a_conf->make_backup_nb_minutes)
+        gsb_file_save_backup (a_conf->make_bakup_single_file, a_conf->compress_backup);
 
     return TRUE;
 }
@@ -570,6 +570,8 @@ static gboolean gsb_file_save_file (gint origine)
         notice_debug ("nothing done in gsb_file_save_file");
         return (TRUE);
     }
+
+	a_conf = grisbi_app_get_a_conf ();
 
 	/* on récupère le nom du fichier */
 	filename = g_strdup (grisbi_win_get_filename (NULL));
@@ -871,7 +873,10 @@ void gsb_file_set_backup_path (const gchar *path)
  **/
 gboolean gsb_file_open_file (const gchar *filename)
 {
-    devel_debug (filename);
+	GrisbiAppConf *a_conf;
+
+	devel_debug (filename);
+	a_conf = grisbi_app_get_a_conf ();
 
 	if (!gsb_file_test_file (filename))
 	{
@@ -932,7 +937,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 
 		tmp_str1 = g_strdup_printf (_("Error loading file '%s'"), filename);
 
-        if (conf.sauvegarde_demarrage || conf.sauvegarde_fermeture || conf.make_backup_every_minutes)
+        if (conf.sauvegarde_demarrage || conf.sauvegarde_fermeture || a_conf->make_backup_every_minutes)
         {
             tmp_str2 = g_strdup_printf (_("Grisbi was unable to load file. You should find the last "
 										  "backups in '%s', they are saved with date and time into "
@@ -1031,7 +1036,10 @@ gboolean gsb_file_save_as (void)
 gboolean gsb_file_automatic_backup_start (GtkWidget *checkbutton,
 										  gpointer null)
 {
-    devel_debug_int (conf.make_backup_every_minutes);
+	GrisbiAppConf *a_conf;
+
+	a_conf = grisbi_app_get_a_conf ();
+	devel_debug_int (a_conf->make_backup_every_minutes);
 
     /* if there is already a timeout, we remove it */
     if (id_timeout)
@@ -1041,10 +1049,10 @@ gboolean gsb_file_automatic_backup_start (GtkWidget *checkbutton,
     }
 
     /* launch the timeout only if active and if there is some minutes */
-    if (conf.make_backup_every_minutes && conf.make_backup_nb_minutes)
-		id_timeout = g_timeout_add_seconds (conf.make_backup_nb_minutes * 60,
+    if (a_conf->make_backup_every_minutes && conf.make_backup_nb_minutes)
+		id_timeout = g_timeout_add_seconds (a_conf->make_backup_nb_minutes * 60,
 											gsb_file_automatic_backup,
-											NULL);
+											a_conf);
     return FALSE;
 }
 
@@ -1059,7 +1067,10 @@ gboolean gsb_file_automatic_backup_start (GtkWidget *checkbutton,
 gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
 												gpointer null)
 {
-    devel_debug_int (conf.make_backup_nb_minutes);
+	GrisbiAppConf *a_conf;
+
+	a_conf = grisbi_app_get_a_conf ();
+	devel_debug_int (a_conf->make_backup_every_minutes);
 
     /* if there is already a timeout, we stop it */
     if (id_timeout)
@@ -1069,10 +1080,10 @@ gboolean gsb_file_automatic_backup_change_time (GtkWidget *spinbutton,
     }
 
     /* set a new timeout only if there is an interval */
-    if (conf.make_backup_nb_minutes)
-	id_timeout = g_timeout_add_seconds (conf.make_backup_nb_minutes * 60,
-					     gsb_file_automatic_backup,
-					     NULL);
+    if (a_conf->make_backup_nb_minutes)
+	id_timeout = g_timeout_add_seconds (a_conf->make_backup_nb_minutes * 60,
+										gsb_file_automatic_backup,
+										a_conf);
 
     return FALSE;
 }

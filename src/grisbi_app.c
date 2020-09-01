@@ -1101,7 +1101,7 @@ static void grisbi_app_activate (GApplication *application)
     }
 
     /* Si sauvegarde automatique on la lance ici */
-    if (conf.make_backup_every_minutes
+	if ((priv->a_conf)->make_backup_every_minutes
         &&
         conf.make_backup_nb_minutes)
         gsb_file_automatic_backup_start (NULL, NULL);

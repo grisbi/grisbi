@@ -198,11 +198,13 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gchar *text;
     GtkWidget *hbox;
     GtkWidget *dialog;
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
-	w_etat = grisbi_win_get_w_etat ();
-	w_run = grisbi_win_get_w_run ();
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
@@ -276,7 +278,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
-					  &conf.make_backup_every_minutes,
+					  &a_conf->make_backup_every_minutes,
 					  G_CALLBACK (gsb_file_automatic_backup_start), NULL);
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
