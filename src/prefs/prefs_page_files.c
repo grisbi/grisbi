@@ -174,7 +174,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 
     /* set the variables for backup tab */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_bakup_single_file),
-								  conf.make_bakup_single_file);
+								  a_conf->make_bakup_single_file);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_compress_backup),
 								  a_conf->compress_backup);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_sauvegarde_demarrage),
@@ -214,7 +214,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->checkbutton_make_bakup_single_file,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.make_bakup_single_file);
+					  &a_conf->make_bakup_single_file);
 
     g_signal_connect (priv->checkbutton_compress_backup,
 					  "toggled",

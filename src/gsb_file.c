@@ -622,7 +622,7 @@ static gboolean gsb_file_save_file (gint origine)
 
     /* make backup before saving if asked */
     if (a_conf->sauvegarde_fermeture)
-        gsb_file_save_backup (conf.make_bakup_single_file, a_conf->compress_backup);
+        gsb_file_save_backup (a_conf->make_bakup_single_file, a_conf->compress_backup);
 
     /*  on a maintenant un nom de fichier et on sait qu'on peut sauvegarder */
     grisbi_win_status_bar_message (_("Saving file"));
@@ -908,7 +908,7 @@ gboolean gsb_file_open_file (const gchar *filename)
         /* we make a backup if necessary */
         if (conf.sauvegarde_demarrage)
         {
-			gsb_file_save_backup (conf.make_bakup_single_file, a_conf->compress_backup);
+			gsb_file_save_backup (a_conf->make_bakup_single_file, a_conf->compress_backup);
 			gsb_file_set_modified (FALSE);
         }
     }
