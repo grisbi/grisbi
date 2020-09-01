@@ -117,7 +117,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_sauvegarde_auto),
 								  conf.sauvegarde_auto);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_force_enregistrement),
-								  conf.force_enregistrement);
+								  a_conf->force_enregistrement);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_compress_file),
 								  a_conf->compress_file);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_crypt_file),
@@ -142,7 +142,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->checkbutton_force_enregistrement,
                       "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-                      &conf.force_enregistrement);
+                      &a_conf->force_enregistrement);
 
     g_signal_connect (priv->checkbutton_compress_file,
                       "toggled",

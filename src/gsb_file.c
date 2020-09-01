@@ -578,7 +578,7 @@ static gboolean gsb_file_save_file (gint origine)
 	filename = g_strdup (grisbi_win_get_filename (NULL));
 
 	/* on vérifie que le fichier n'est pas locké si il l'est on sort */
-    if (etat.fichier_deja_ouvert && !conf.force_enregistrement && origine != -2)
+    if (etat.fichier_deja_ouvert && !a_conf->force_enregistrement && origine != -2)
     {
         gchar* tmp_str1;
         gchar* tmp_str2;
