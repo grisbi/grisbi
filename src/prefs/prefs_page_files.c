@@ -178,7 +178,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_compress_backup),
 								  a_conf->compress_backup);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_sauvegarde_demarrage),
-								  conf.sauvegarde_demarrage);
+								  a_conf->sauvegarde_demarrage);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_backup),
 								  conf.sauvegarde_fermeture);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_backup_every_minutes),
@@ -224,7 +224,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->checkbutton_sauvegarde_demarrage,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-                      &conf.sauvegarde_demarrage);
+                      &a_conf->sauvegarde_demarrage);
 
     g_signal_connect (priv->checkbutton_make_backup,
 					  "toggled",

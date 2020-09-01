@@ -906,7 +906,7 @@ gboolean gsb_file_open_file (const gchar *filename)
         gsb_file_util_modify_lock (filename, TRUE);
 
         /* we make a backup if necessary */
-        if (conf.sauvegarde_demarrage)
+        if (a_conf->sauvegarde_demarrage)
         {
 			gsb_file_save_backup (a_conf->make_bakup_single_file, a_conf->compress_backup);
 			gsb_file_set_modified (FALSE);
@@ -937,7 +937,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 
 		tmp_str1 = g_strdup_printf (_("Error loading file '%s'"), filename);
 
-        if (conf.sauvegarde_demarrage || conf.sauvegarde_fermeture || a_conf->make_backup_every_minutes)
+        if (a_conf->sauvegarde_demarrage || conf.sauvegarde_fermeture || a_conf->make_backup_every_minutes)
         {
             tmp_str2 = g_strdup_printf (_("Grisbi was unable to load file. You should find the last "
 										  "backups in '%s', they are saved with date and time into "

@@ -42,7 +42,7 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "export_csv.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
 #include "gsb_calendar.h"
@@ -4084,6 +4084,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
     gchar *file_content;
     gchar *tmp_file_content;
     gulong length;
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 
     devel_debug (filename);
@@ -4097,6 +4098,8 @@ gboolean gsb_file_load_open_file (const gchar *filename )
     if ( !return_value && buffer_stat.st_mode != 33152 )
         gsb_file_util_display_warning_permissions ();
 #endif /* G_OS_WIN32 */
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	/* load the file */
     if (gsb_file_util_get_contents (filename, &tmp_file_content, &length))
@@ -4228,7 +4231,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 			gsb_data_account_renum_account_number_0 (filename);
 		}
 
-		if ( conf.sauvegarde_demarrage )
+		if ( a_conf->sauvegarde_demarrage )
 			gsb_file_set_modified ( TRUE );
 
     }
