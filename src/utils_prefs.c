@@ -587,12 +587,14 @@ void utils_prefs_page_dir_chosen (GtkWidget *button,
 	else if (strcmp (dirname, "import_directory") == 0)
 	{
 		GSettings *settings;
+		GrisbiAppConf *a_conf;
 
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
         settings = grisbi_settings_get_settings (SETTINGS_FILES_FILE);
         g_settings_set_string (G_SETTINGS (settings), "import-directory", tmp_dir);
-		if (conf.import_directory)
-			g_free (conf.import_directory);
-		conf.import_directory = my_strdup (tmp_dir);
+		if (a_conf->import_directory)
+			g_free (a_conf->import_directory);
+		a_conf->import_directory = my_strdup (tmp_dir);
 
 	}
 

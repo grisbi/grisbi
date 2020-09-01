@@ -202,7 +202,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 								  a_conf->force_import_directory);
 	if (a_conf->import_directory)
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (priv->filechooserbutton_force_import_directory),
-											 conf.import_directory);
+											 a_conf->import_directory);
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->filechooserbutton_force_import_directory), FALSE);
 

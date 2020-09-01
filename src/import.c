@@ -1628,6 +1628,7 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 	GFileEnumerator *direnum;
 	GFile *dir;
     GSList *filenames = NULL;
+	GrisbiAppConf *a_conf;
 
 	devel_debug (charmap_imported);
 	if (add_csv_page)
@@ -1641,11 +1642,12 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 	/* Don't allow going to next page if no file is selected yet. */
     gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant), "button_next"), FALSE);
 
-	/* if conf.import_directory is not set force a default directory */
-	if (!conf.import_directory)
-		conf.import_directory = my_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD));
+	/* if a_conf->import_directory is not set force a default directory */
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (!a_conf->import_directory)
+		a_conf->import_directory = my_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD));
 
-	dir =  g_file_new_for_path (conf.import_directory);
+	dir =  g_file_new_for_path (a_conf->import_directory);
 	direnum = g_file_enumerate_children (dir,
 										"standard::*",
 										G_FILE_QUERY_INFO_NONE,
@@ -1694,7 +1696,7 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 		{
 			gchar *tmp_filename;
 
-			tmp_filename = g_build_filename (conf.import_directory, G_DIR_SEPARATOR_S, filename, NULL);
+			tmp_filename = g_build_filename (a_conf->import_directory, G_DIR_SEPARATOR_S, filename, NULL);
 
 			filenames = g_slist_append (filenames, tmp_filename);
 		}
