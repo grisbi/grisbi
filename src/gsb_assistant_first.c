@@ -242,7 +242,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
     /* Automatically load last file on startup? */
     button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
-					  &conf.dernier_fichier_auto, NULL, NULL );
+					  &a_conf->dernier_fichier_auto, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* automatically save file at closing */

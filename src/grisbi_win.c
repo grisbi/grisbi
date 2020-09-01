@@ -959,7 +959,9 @@ static void grisbi_win_free_w_run (GrisbiWinRun *w_run)
 static void grisbi_win_init (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
+	GrisbiAppConf *a_conf;
 
+	a_conf = grisbi_app_get_a_conf ();
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	/* initialisation des variables chaînes */
@@ -993,7 +995,7 @@ static void grisbi_win_init (GrisbiWin *win)
 
 	/* adding accueil_page */
 	grisbi_win_no_file_page_new (win);
-	if ((conf.dernier_fichier_auto && conf.last_open_file))
+	if ((a_conf->dernier_fichier_auto && conf.last_open_file))
 	{
 		grisbi_win_init_general_widgets (win);
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");

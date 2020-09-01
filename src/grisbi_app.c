@@ -931,7 +931,7 @@ static gboolean grisbi_app_load_file_if_necessary (GrisbiApp *app)
     else
     {
         /* open the last file if needed, filename was set while loading the configuration */
-        if (conf.dernier_fichier_auto && conf.last_open_file)
+        if ((priv->a_conf)->dernier_fichier_auto && conf.last_open_file)
         {
             if (!gsb_file_open_file (conf.last_open_file))
             {

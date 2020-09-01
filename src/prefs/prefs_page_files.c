@@ -113,7 +113,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 
     /* set the variables for account */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_load_last_file),
-								  conf.dernier_fichier_auto);
+								  a_conf->dernier_fichier_auto);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_sauvegarde_auto),
 								  conf.sauvegarde_auto);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_force_enregistrement),
@@ -132,7 +132,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->checkbutton_load_last_file,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.dernier_fichier_auto);
+					  &a_conf->dernier_fichier_auto);
 
     g_signal_connect (priv->checkbutton_sauvegarde_auto,
                       "toggled",
