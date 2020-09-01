@@ -191,7 +191,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 
 	/* set months */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_remove_backup_months),
-							   conf.remove_backup_months);
+							   a_conf->remove_backup_months);
 
     /* set current folder for backup files */
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (priv->filechooserbutton_backup),
@@ -265,7 +265,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->spinbutton_remove_backup_months,
 					  "value-changed",
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
-					  &conf.remove_backup_months);
+					  &a_conf->remove_backup_months);
 
     /* connect the signal for filechooserbutton_backup */
     g_signal_connect (G_OBJECT (priv->filechooserbutton_backup),

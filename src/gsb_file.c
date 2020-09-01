@@ -89,7 +89,8 @@ gint id_timeout = 0;
  *
  * \return
  **/
-static void gsb_file_remove_old_backup (const gchar *filename)
+static void gsb_file_remove_old_backup (const gchar *filename,
+										gint remove_backup_months)
 {
 	GFileEnumerator *direnum;
 	GFile *dir;
@@ -120,7 +121,7 @@ static void gsb_file_remove_old_backup (const gchar *filename)
 
 	/* get today date and first_old_date */
 	first_old_date = gdate_today ();
-	g_date_subtract_months (first_old_date, conf.remove_backup_months);
+	g_date_subtract_months (first_old_date, remove_backup_months);
 
 	/* balayage du répertoire de sauvegarde */
 	dir =  g_file_new_for_path (backup_path);
@@ -656,7 +657,7 @@ static gboolean gsb_file_save_file (gint origine)
 			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 			if (!w_run->remove_backup_files)
 			{
-				gsb_file_remove_old_backup (nouveau_nom_enregistrement);
+				gsb_file_remove_old_backup (nouveau_nom_enregistrement,a_conf->remove_backup_months);
 				w_run->remove_backup_files = TRUE;
 			}
 		}
