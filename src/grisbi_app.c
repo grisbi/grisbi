@@ -998,8 +998,8 @@ static void grisbi_app_startup (GApplication *application)
 		if (g_strcmp0 (conf.current_theme, theme_name) == 0)
 		{
 
-			if (conf.force_type_theme)
-				conf.use_type_theme = conf.force_type_theme;
+			if ((priv->a_conf)->force_type_theme)
+				conf.use_type_theme = (priv->a_conf)->force_type_theme;
 			else	/* mode automatique */
 				conf.use_type_theme = gsb_rgba_get_type_theme (theme_name);
 
@@ -1012,7 +1012,7 @@ static void grisbi_app_startup (GApplication *application)
 			conf.current_theme = theme_name;
 			grisbi_settings_set_current_theme (theme_name, 0);
 			conf.use_type_theme = gsb_rgba_get_type_theme (theme_name);
-			conf.force_type_theme = 0;
+			(priv->a_conf)->force_type_theme = 0;
 		}
     }
 
@@ -1272,6 +1272,9 @@ void grisbi_app_window_style_updated (GtkWidget *win,
 		GFile *file = NULL;
 		gchar *tmp_theme_name;
 		const gchar *css_filename;
+		GrisbiAppConf *a_conf;
+
+		a_conf = grisbi_app_get_a_conf ();
 
 		g_object_get (G_OBJECT (settings),
 					  "gtk-theme-name", &tmp_theme_name,
@@ -1286,14 +1289,14 @@ void grisbi_app_window_style_updated (GtkWidget *win,
 			if (!forced)
 			{
 				conf.use_type_theme = gsb_rgba_get_type_theme (tmp_theme_name);
-				conf.force_type_theme = 0;
+				a_conf->force_type_theme = 0;
 			}
 			else
 			{
-				conf.use_type_theme = conf.force_type_theme;
+				conf.use_type_theme = a_conf->force_type_theme;
 			}
 
-			grisbi_settings_set_current_theme (tmp_theme_name, conf.force_type_theme);
+			grisbi_settings_set_current_theme (tmp_theme_name, a_conf->force_type_theme);
 
 			/* on sauvegarde éventuellement les données locales */
 			gsb_file_save_css_local_file (css_data);

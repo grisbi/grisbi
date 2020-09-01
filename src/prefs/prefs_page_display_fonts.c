@@ -127,7 +127,9 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
 		GtkTreeModel *model;
 		GSettings *settings;
 		gint value;
+		GrisbiAppConf *a_conf;
 
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
 		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &value, -1);
 
@@ -135,10 +137,10 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
 		if (value)
 		{
 			if (value == 1)						/* c'est un theme standard */
-				conf.force_type_theme = 0;
+				a_conf->force_type_theme = 0;
 			else
-				conf.force_type_theme = value;	/* dark theme ou light theme */
-			g_settings_set_int (G_SETTINGS (settings), "force-type-theme", conf.force_type_theme);
+				a_conf->force_type_theme = value;	/* dark theme ou light theme */
+			g_settings_set_int (G_SETTINGS (settings), "force-type-theme", a_conf->force_type_theme);
 			conf.use_type_theme = value;
 
 			grisbi_app_window_style_updated (GTK_WIDGET (grisbi_app_get_active_window (NULL)), GINT_TO_POINTER (TRUE));
@@ -146,7 +148,7 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
 		else
 		{
 			g_settings_reset (G_SETTINGS (settings), "force-type-theme");
-			conf.force_type_theme = 0;
+			a_conf->force_type_theme = 0;
 			conf.use_type_theme = 0;
 		}
 
@@ -414,10 +416,12 @@ static void prefs_page_display_fonts_init_combo_force_theme (PrefsPageDisplayFon
 									   NULL};
 	gchar *tmp_label;
 	gint i = 0;
+	GrisbiAppConf *a_conf;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_display_fonts_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	/* set label with the name of selected theme */
 	tmp_label = g_strdup_printf (_("The automatically selected theme is: '%s'"), conf.current_theme);
@@ -448,7 +452,7 @@ static void prefs_page_display_fonts_init_combo_force_theme (PrefsPageDisplayFon
                                     "text", 0,
                                     NULL);
 
-    gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_force_theme), conf.force_type_theme);
+    gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_force_theme), a_conf->force_type_theme);
 }
 
 /**
