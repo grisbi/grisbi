@@ -37,7 +37,7 @@
 /*START_INCLUDE*/
 #include "gsb_assistant_archive.h"
 #include "etats_support.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_archive.h"
@@ -130,17 +130,23 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
     gchar *tmpstr;
 
     if (origin)
-	/* come from check while opening file */
-	tmpstr = g_strdup_printf ( _("There are a lot of transactions in your file (%d) and it is advised not to keep more than about %d transactions unarchived.\n"
-				     "To increase speed, you should archive them "
-				     "(the current limit and the opening check-up can be changed in the Preferences)\n\n"
-				     "This assistant will guide you through the process of archiving transactions "
-				     "By default, Grisbi does not export any archive into separate files, "
-				     "it just mark transactions as archted and do not use them.\n\n"
-				     "You can still export them into a separate archive file if necessary.\n\n"
-				     "Press Cancel if you don't want make an archive now\n"),
-				   g_slist_length (gsb_data_transaction_get_transactions_list ()),
-				   conf.max_non_archived_transactions_for_check );
+	{
+		GrisbiAppConf *a_conf;
+
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+		/* come from check while opening file */
+		tmpstr = g_strdup_printf ( _("There are a lot of transactions in your file (%d) and it is advised not to keep more than about %d transactions unarchived.\n"
+						 "To increase speed, you should archive them "
+						 "(the current limit and the opening check-up can be changed in the Preferences)\n\n"
+						 "This assistant will guide you through the process of archiving transactions "
+						 "By default, Grisbi does not export any archive into separate files, "
+						 "it just mark transactions as archted and do not use them.\n\n"
+						 "You can still export them into a separate archive file if necessary.\n\n"
+						 "Press Cancel if you don't want make an archive now\n"),
+					   g_slist_length (gsb_data_transaction_get_transactions_list ()),
+					   a_conf->max_non_archived_transactions_for_check );
+	}
     else
 	/* come by menu action */
 	tmpstr = my_strdup (_("This assistant will guide you through the process of archiving transactions "

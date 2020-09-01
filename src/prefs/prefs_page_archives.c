@@ -641,7 +641,7 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 
 	/* set the max of transactions before archival and state */
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_archives_check_auto),
-							   conf.max_non_archived_transactions_for_check);
+							   a_conf->max_non_archived_transactions_for_check);
 
 	if (!a_conf->archives_check_auto)
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_archives_check_auto), FALSE);
@@ -655,7 +655,7 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
     g_signal_connect (priv->spinbutton_archives_check_auto,
 					  "value-changed",
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
-					  &conf.max_non_archived_transactions_for_check);
+					  &a_conf->max_non_archived_transactions_for_check);
 }
 
 /******************************************************************************/

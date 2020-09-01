@@ -4248,7 +4248,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
     if ( a_conf->archives_check_auto
      &&
      (gint) g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
-     conf.max_non_archived_transactions_for_check )
+     a_conf->max_non_archived_transactions_for_check )
         gsb_assistant_archive_run ( TRUE );
 
     /* if we opened an archive, we say it here */
