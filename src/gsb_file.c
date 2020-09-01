@@ -455,7 +455,8 @@ static gint gsb_file_dialog_save (const gchar *filename,
  *
  * \return TRUE ok, FALSE problem
  **/
-static gboolean gsb_file_save_backup (void)
+static gboolean gsb_file_save_backup (gboolean make_bakup_single_file,
+									  gboolean compress_backup)
 {
     gboolean retour;
 	gchar *new_filename;
@@ -509,7 +510,7 @@ static gboolean gsb_file_save_backup (void)
 										 day_time->tm_sec);
     }
 
-    retour = gsb_file_save_save_file (new_filename, conf.compress_backup, FALSE);
+    retour = gsb_file_save_save_file (new_filename, compress_backup, FALSE);
 
     g_free (new_filename);
     g_free (name);
@@ -527,9 +528,12 @@ static gboolean gsb_file_save_backup (void)
  *
  * \return TRUE to continue the timeout, FALSE to stop the timeout
  **/
-static gboolean gsb_file_automatic_backup (gpointer null)
+static gboolean gsb_file_automatic_backup (gpointer p_conf)
 {
-    devel_debug (NULL);
+	GrisbiAppConf *a_conf;
+
+	devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) p_conf;
 
     if (!conf.make_backup_every_minutes)
 	/* stop the timeout */
@@ -537,7 +541,7 @@ static gboolean gsb_file_automatic_backup (gpointer null)
 
     /* we save only if there is a nb of minutes, but don't stop the timer if not */
     if (conf.make_backup_nb_minutes)
-        gsb_file_save_backup ();
+        gsb_file_save_backup (conf.make_bakup_single_file, a_conf->compress_backup);
 
     return TRUE;
 }
@@ -554,6 +558,7 @@ static gboolean gsb_file_save_file (gint origine)
     gint result = 0;
     gchar *nouveau_nom_enregistrement;
 	gchar *filename;
+	GrisbiAppConf *a_conf;
 
     devel_debug_int (origine);
 
@@ -614,8 +619,8 @@ static gboolean gsb_file_save_file (gint origine)
         return FALSE;
 
     /* make backup before saving if asked */
-    if (conf.sauvegarde_fermeture)
-        gsb_file_save_backup();
+    if (a_conf->sauvegarde_fermeture)
+        gsb_file_save_backup (conf.make_bakup_single_file, a_conf->compress_backup);
 
     /*  on a maintenant un nom de fichier et on sait qu'on peut sauvegarder */
     grisbi_win_status_bar_message (_("Saving file"));
@@ -898,8 +903,8 @@ gboolean gsb_file_open_file (const gchar *filename)
         /* we make a backup if necessary */
         if (conf.sauvegarde_demarrage)
         {
-            gsb_file_save_backup ();
-            gsb_file_set_modified (FALSE);
+			gsb_file_save_backup (conf.make_bakup_single_file, a_conf->compress_backup);
+			gsb_file_set_modified (FALSE);
         }
     }
     else

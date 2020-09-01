@@ -95,6 +95,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 {
 	GtkWidget *head_page;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 	PrefsPageFilesPrivate *priv;
 
@@ -102,6 +103,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 
 	priv = prefs_page_files_get_instance_private (page);
 	is_loading = grisbi_win_file_is_loading ();
+	a_conf = grisbi_app_get_a_conf ();
 	w_etat = grisbi_win_get_w_etat ();
 
 	/* On récupère le nom de la page */
@@ -174,7 +176,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_bakup_single_file),
 								  conf.make_bakup_single_file);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_compress_backup),
-								  conf.compress_backup);
+								  a_conf->compress_backup);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_sauvegarde_demarrage),
 								  conf.sauvegarde_demarrage);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_make_backup),
@@ -217,7 +219,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->checkbutton_compress_backup,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-                      &conf.compress_backup);
+                      &a_conf->compress_backup);
 
     g_signal_connect (priv->checkbutton_sauvegarde_demarrage,
 					  "toggled",

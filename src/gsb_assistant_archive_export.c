@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_archive_export.h"
+#include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "export_csv.h"
 #include "gsb_data_archive.h"
@@ -358,7 +359,9 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
     const gchar *export_name;
     gboolean success = FALSE;
     gchar* tmpstr;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (archive_export_treeview));
     archive_number = gsb_assistant_archive_export_get_selected_archive (model);
 
@@ -412,7 +415,7 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
             }
 		    success = gsb_file_util_test_overwrite (export_name)
 			&&
-			gsb_file_save_save_file ( export_name, conf.compress_backup, archive_number);
+			gsb_file_save_save_file ( export_name, a_conf->compress_backup, archive_number);
 		    break;
 
 		case 1:
