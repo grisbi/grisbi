@@ -649,7 +649,7 @@ static gboolean gsb_file_save_file (gint origine)
         grisbi_win_set_window_title (gsb_gui_navigation_get_current_account ());
 
 		/* Si nettoyage des fichiers de backup on le fait ici */
-		if (conf.remove_backup_files)
+		if (a_conf->remove_backup_files)
 		{
 			GrisbiWinRun *w_run;
 
