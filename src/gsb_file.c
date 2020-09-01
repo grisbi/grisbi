@@ -628,7 +628,7 @@ static gboolean gsb_file_save_file (gint origine)
     /*  on a maintenant un nom de fichier et on sait qu'on peut sauvegarder */
     grisbi_win_status_bar_message (_("Saving file"));
 
-    result = gsb_file_save_save_file (nouveau_nom_enregistrement, conf.compress_file, FALSE);
+    result = gsb_file_save_save_file (nouveau_nom_enregistrement, a_conf->compress_file, FALSE);
 
     if (result)
     {
