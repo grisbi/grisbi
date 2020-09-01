@@ -199,8 +199,8 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 
     /* set current folder for import files */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_force_import_directory),
-								  conf.force_import_directory);
-	if (conf.import_directory)
+								  a_conf->force_import_directory);
+	if (a_conf->import_directory)
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (priv->filechooserbutton_force_import_directory),
 											 conf.import_directory);
 	else
@@ -276,7 +276,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->checkbutton_force_import_directory,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.force_import_directory);
+					  &a_conf->force_import_directory);
 
     /* connect the signal for filechooserbutton_force_import_directory */
     g_signal_connect (G_OBJECT (priv->filechooserbutton_force_import_directory),

@@ -1081,9 +1081,11 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
     GtkTreeIter iter;
 	gchar *type;
     gboolean toggle_item;
+	GrisbiAppConf *a_conf;
 
 	assistant = g_object_get_data (G_OBJECT (model), "assistant");
 	qif_button = g_object_get_data (G_OBJECT (assistant), "qif_button");
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	path = gtk_tree_path_new_from_string (path_str);
     gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
@@ -1094,7 +1096,7 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         IMPORT_FILESEL_SELECTED, !toggle_item, -1);
 
-	if (conf.force_import_directory)
+	if (a_conf->force_import_directory)
 	{
 		gchar *contents;
 		gchar *tmp_contents;
@@ -1190,6 +1192,7 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     gchar *tmp_str;
     const gchar *tmp_char;
     gchar *tmp_last_directory;
+	GrisbiAppConf *a_conf;
 
     dialog = gtk_file_chooser_dialog_new (_("Choose files to import."),
                         GTK_WINDOW (parent),
@@ -1200,8 +1203,9 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 
     gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
 
-	if (conf.force_import_directory)
-		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), conf.import_directory);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (a_conf->force_import_directory)
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), a_conf->import_directory);
 	else
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
 
@@ -1286,7 +1290,7 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     charmap_imported = g_strdup (go_charmap_sel_get_encoding ((GOCharmapSel *)go_charmap_sel));
 
 	tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
-	if (!conf.force_import_directory)
+	if (!a_conf->force_import_directory)
 		gsb_file_update_last_path (tmp_last_directory);
 
 	/* set label of paddingbox file_selection_page */
@@ -1463,7 +1467,7 @@ static void gsb_import_select_file (GSList *filenames,
     GSList *iterator;
     GtkTreeModel *model;
 	gboolean selected;
-	devel_debug (NULL);
+	GrisbiAppConf *a_conf;
 
 	devel_debug (charmap_imported);
     model = g_object_get_data (G_OBJECT (assistant), "model");
@@ -1472,7 +1476,8 @@ static void gsb_import_select_file (GSList *filenames,
 	else
 		gtk_tree_store_clear (GTK_TREE_STORE (model));
 
-	if (conf.force_import_directory)
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (a_conf->force_import_directory)
 	{
 		selected = FALSE;
 	}
@@ -1569,7 +1574,7 @@ static void gsb_import_select_file (GSList *filenames,
 		}
 		else
 		{
-			if (charmap && !conf.force_import_directory)
+			if (charmap && !a_conf->force_import_directory)
 			{
 				contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
 
@@ -1751,13 +1756,15 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
     GtkTreeModel *model, *list_acc;
     GSList *tmp_list;
 	gchar *tmp_str;
+	GrisbiAppConf *a_conf;
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
-	if (conf.force_import_directory)
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (a_conf->force_import_directory)
 	{
-		tmp_str = g_strdup_printf (_("Choose file to import from the directory: %s"), conf.import_directory);
+		tmp_str = g_strdup_printf (_("Choose file to import from the directory: %s"), a_conf->import_directory);
 		paddingbox = new_paddingbox_with_title (vbox, TRUE, tmp_str);
 		g_free (tmp_str);
 	}
@@ -4836,6 +4843,7 @@ void gsb_import_assistant_importer_fichier (void)
     GtkWidget *assistant;
 	gchar *tmp_str;
     gchar *format_str;
+	GrisbiAppConf *a_conf;
 
 	devel_debug (NULL);
 	/* if nothing opened, we need to create a new file to set up all the variables */
@@ -4871,7 +4879,8 @@ void gsb_import_assistant_importer_fichier (void)
 		g_free (charmap_imported);
 	charmap_imported = g_get_codeset ();
 
-	if (conf.force_import_directory)
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (a_conf->force_import_directory)
 	{
 		gsb_assistant_add_page (assistant,
 							gsb_import_create_file_selection_page (assistant),
