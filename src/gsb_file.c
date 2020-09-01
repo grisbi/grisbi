@@ -1049,7 +1049,7 @@ gboolean gsb_file_automatic_backup_start (GtkWidget *checkbutton,
     }
 
     /* launch the timeout only if active and if there is some minutes */
-    if (a_conf->make_backup_every_minutes && conf.make_backup_nb_minutes)
+    if (a_conf->make_backup_every_minutes && a_conf->make_backup_nb_minutes)
 		id_timeout = g_timeout_add_seconds (a_conf->make_backup_nb_minutes * 60,
 											gsb_file_automatic_backup,
 											a_conf);

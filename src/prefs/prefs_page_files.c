@@ -187,7 +187,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 								  conf.remove_backup_files);
     /* set minutes */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_make_backup_nb_minutes),
-							   conf.make_backup_nb_minutes);
+							   a_conf->make_backup_nb_minutes);
 
 	/* set months */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_remove_backup_months),
@@ -252,7 +252,7 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     g_signal_connect (priv->spinbutton_make_backup_nb_minutes,
 					  "value-changed",
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
-					  &conf.make_backup_nb_minutes);
+					  &a_conf->make_backup_nb_minutes);
 
     /* callback for spinbutton_remove_backup_months */
     g_object_set_data (G_OBJECT (priv->spinbutton_remove_backup_months),

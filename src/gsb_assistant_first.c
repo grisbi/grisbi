@@ -282,7 +282,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 					  G_CALLBACK (gsb_file_automatic_backup_start), NULL);
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
-    button = gsb_automem_spin_button_new ( &conf.make_backup_nb_minutes,
+    button = gsb_automem_spin_button_new ( &a_conf->make_backup_nb_minutes,
 					   G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
 
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
