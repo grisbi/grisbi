@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_page_archives.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_account_property.h"
 #include "gsb_autofunc.h"
@@ -557,11 +558,13 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 	GtkWidget *head_page;
 	gchar* tmp_str;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	PrefsPageArchivesPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_archives_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
@@ -628,19 +631,19 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 
 	/* set the checkbutton for the automatic check */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_archives_check_auto),
-								  conf.archives_check_auto);
+								  a_conf->archives_check_auto);
 
 	/* Connect signal */
     g_signal_connect (priv->checkbutton_archives_check_auto,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.archives_check_auto);
+					  &a_conf->archives_check_auto);
 
 	/* set the max of transactions before archival and state */
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_archives_check_auto),
 							   conf.max_non_archived_transactions_for_check);
 
-	if (!conf.archives_check_auto)
+	if (!a_conf->archives_check_auto)
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_archives_check_auto), FALSE);
 
     /* callback for spinbutton_ */
