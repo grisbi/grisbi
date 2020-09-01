@@ -466,7 +466,7 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 		return;
 	}
 
-	for (i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++)
+	for (i = 0 ; i < (priv->a_conf)->nb_derniers_fichiers_ouverts ; i++)
 	{
 		if (g_file_test (priv->recent_array[i], G_FILE_TEST_EXISTS))
 		{
@@ -485,17 +485,17 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 		{
 			gint j;
 
-			for (j = i; j < conf.nb_derniers_fichiers_ouverts -1; j++)
+			for (j = i; j < (priv->a_conf)->nb_derniers_fichiers_ouverts -1; j++)
 			{
 				priv->recent_array[j] = priv->recent_array[j+1];
 			}
 		}
 	}
-	if (index < conf.nb_derniers_fichiers_ouverts)
+	if (index < (priv->a_conf)->nb_derniers_fichiers_ouverts)
 	{
 		priv->recent_array = g_realloc (priv->recent_array, (index + 1) * sizeof (gchar*));
 		priv->recent_array[index] = NULL;
-		conf.nb_derniers_fichiers_ouverts = index;
+		(priv->a_conf)->nb_derniers_fichiers_ouverts = index;
 	}
 }
 
@@ -1586,7 +1586,7 @@ void grisbi_app_update_recent_files_menu (void)
 	if ((priv->a_conf)->nb_derniers_fichiers_ouverts > (priv->a_conf)->nb_max_derniers_fichiers_ouverts)
 		(priv->a_conf)->nb_derniers_fichiers_ouverts = (priv->a_conf)->nb_max_derniers_fichiers_ouverts;
 
-	for (i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++)
+	for (i = 0 ; i < (priv->a_conf)->nb_derniers_fichiers_ouverts ; i++)
 	{
 		gchar *menu_name;
 

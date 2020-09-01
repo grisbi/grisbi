@@ -379,16 +379,16 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
     gint i;
 	GrisbiAppConf *a_conf;
 
-    if (!filename)
-        return;
+	if (!filename)
+		return;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     if (a_conf->nb_max_derniers_fichiers_ouverts == 0)
         return;
 
-    if (conf.nb_derniers_fichiers_ouverts < 0)
+    if (a_conf->nb_derniers_fichiers_ouverts < 0)
 	{
-        conf.nb_derniers_fichiers_ouverts = 0;
+        a_conf->nb_derniers_fichiers_ouverts = 0;
 	}
 
 	recent_array = grisbi_app_get_recent_files_array ();
@@ -396,9 +396,9 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
     /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts  */
     position = 0;
 
-    if (conf.nb_derniers_fichiers_ouverts)
+    if (a_conf->nb_derniers_fichiers_ouverts)
     {
-        for (i = 0; i < conf.nb_derniers_fichiers_ouverts; i++)
+        for (i = 0; i < a_conf->nb_derniers_fichiers_ouverts; i++)
         {
             if (!strcmp (filename, recent_array[i]))
             {
@@ -430,8 +430,8 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
 
         /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
         /* on garde le ptit dernier dans le cas contraire */
-        dernier = recent_array[conf.nb_derniers_fichiers_ouverts-1];
-        for (i = conf.nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i--)
+        dernier = recent_array[a_conf->nb_derniers_fichiers_ouverts-1];
+        for (i = a_conf->nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i--)
 		{
             recent_array[i] = recent_array[i-1];
 		}
@@ -443,19 +443,19 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
 
 	/* on ajoute 1 nom de fichier */
 
-	if (conf.nb_derniers_fichiers_ouverts == 0)
+	if (a_conf->nb_derniers_fichiers_ouverts == 0)
 	{
-		recent_array = g_malloc0 ((++conf.nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
+		recent_array = g_malloc0 ((++a_conf->nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
 	}
 	else
 	{
-		recent_array = g_realloc (recent_array, (++conf.nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
+		recent_array = g_realloc (recent_array, (++a_conf->nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
 	}
 
-	if (conf.nb_derniers_fichiers_ouverts <= a_conf->nb_max_derniers_fichiers_ouverts)
-		recent_array[conf.nb_derniers_fichiers_ouverts-1] = dernier;
+	if (a_conf->nb_derniers_fichiers_ouverts <= a_conf->nb_max_derniers_fichiers_ouverts)
+		recent_array[a_conf->nb_derniers_fichiers_ouverts-1] = dernier;
 
-	recent_array[conf.nb_derniers_fichiers_ouverts] = NULL;
+	recent_array[a_conf->nb_derniers_fichiers_ouverts] = NULL;
 
     recent_array[0] = my_strdup (filename);
 	grisbi_app_set_recent_files_array (recent_array);

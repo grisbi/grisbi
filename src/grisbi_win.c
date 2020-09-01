@@ -683,9 +683,11 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	gint i;
     gint col = 0;
     gint row = 1;
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
     devel_debug (NULL);
+	a_conf = grisbi_app_get_a_conf ();
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	gtk_container_set_border_width (GTK_CONTAINER (priv->no_file_page), MARGIN_BOX);
@@ -739,7 +741,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 
 	/* set the recent files buttons */
 	recent_files_array = grisbi_app_get_recent_files_array ();
-	for (i = 0; i < conf.nb_derniers_fichiers_ouverts; i++)
+	for (i = 0; i < a_conf->nb_derniers_fichiers_ouverts; i++)
     {
 		if (g_file_test (recent_files_array[i], G_FILE_TEST_EXISTS))
 		{
@@ -1763,10 +1765,12 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 	gint i;
     gint col = 0;
     gint row = 1;
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
     devel_debug (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	a_conf = grisbi_app_get_a_conf ();
 
 	if ((priv->w_run)->file_is_loading == TRUE)
 	{
@@ -1774,7 +1778,7 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 	}
 
 	recent_files_array = grisbi_app_get_recent_files_array ();
-	for (i = 0; i < conf.nb_derniers_fichiers_ouverts; i++)
+	for (i = 0; i < a_conf->nb_derniers_fichiers_ouverts; i++)
 	{
 		GtkWidget *bouton;
         gchar *tmp_str;
