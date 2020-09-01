@@ -1017,7 +1017,7 @@ static void grisbi_app_startup (GApplication *application)
     }
 
 	/* set language and init locale parameters */
-	gsb_locale_init_language (conf.language_chosen);
+	gsb_locale_init_language ((priv->a_conf)->language_chosen);
 	gsb_locale_init_lconv_struct ();
 
 	/* Print variables if necessary */

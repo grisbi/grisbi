@@ -40,6 +40,7 @@
 #include "prefs_page_divers.h"
 #include "bet_finance_ui.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
@@ -413,19 +414,21 @@ static void prefs_page_divers_choose_language_changed (GtkComboBox *combo,
 		gchar *tmp_str;
 		gchar *hint;
 		gint index;
+		GrisbiAppConf *a_conf;
 
 		settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
 		gtk_tree_model_get (model, &iter, 0, &string, 1, &index, -1);
 		if (index == 0)
 		{
-			conf.language_chosen = NULL;
+			a_conf->language_chosen = NULL;
 			g_settings_reset (G_SETTINGS (settings), "language-chosen");
 		}
 		else
 		{
-			conf.language_chosen = string;
-			g_settings_set_string (G_SETTINGS (settings), "language-chosen", conf.language_chosen);
+			a_conf->language_chosen = string;
+			g_settings_set_string (G_SETTINGS (settings), "language-chosen", a_conf->language_chosen);
 		}
 
 		tmp_str = g_strdup (_("You will have to restart Grisbi for the new language to take effect."));
@@ -441,7 +444,8 @@ static void prefs_page_divers_choose_language_changed (GtkComboBox *combo,
  *
  * \return
  **/
-static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
+static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo,
+														GrisbiAppConf *a_conf)
 {
 	GtkListStore *store = NULL;
 	GtkTreeIter iter;
@@ -490,7 +494,7 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo)
 
 	while (tmp_list)
 	{
-		if (g_strcmp0 (conf.language_chosen, tmp_list->data) == 0)
+		if (g_strcmp0 (a_conf->language_chosen, tmp_list->data) == 0)
 			activ_index = i;
         gtk_list_store_append (store, &iter);
         gtk_list_store_set (store, &iter, 0, (gchar *) tmp_list->data, 1, i, 2, str_color, -1);
@@ -528,11 +532,13 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
     GtkWidget *combo;
 	gint combo_index;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	PrefsPageDiversPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_divers_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
@@ -671,7 +677,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 
 	/* set the localization parameters */
 	/* set the language */
-	combo_index = prefs_page_divers_choose_language_list_new (priv->combo_choose_language);
+	combo_index = prefs_page_divers_choose_language_list_new (priv->combo_choose_language, a_conf);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_choose_language), combo_index);
 	g_signal_connect (G_OBJECT (priv->combo_choose_language),
