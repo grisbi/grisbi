@@ -937,7 +937,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 
 		tmp_str1 = g_strdup_printf (_("Error loading file '%s'"), filename);
 
-        if (a_conf->sauvegarde_demarrage || conf.sauvegarde_fermeture || a_conf->make_backup_every_minutes)
+        if (a_conf->sauvegarde_demarrage || a_conf->sauvegarde_fermeture || a_conf->make_backup_every_minutes)
         {
             tmp_str2 = g_strdup_printf (_("Grisbi was unable to load file. You should find the last "
 										  "backups in '%s', they are saved with date and time into "
