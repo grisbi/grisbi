@@ -35,7 +35,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_fyear.h"
+#include "grisbi_app.h"
 #include "gsb_data_fyear.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -248,12 +250,14 @@ gboolean gsb_fyear_update_fyear_list_new ( GtkTreeModel *model,
 	GSList *copy_list = NULL;
 	GSList *tmp_list;
     GtkTreeIter iter;
+	GrisbiAppConf *a_conf;
 
     /* if no filter, thats because not created, but don't create here
      * because we can come here without needed of fyear button */
-    if ( !model_filter )
-        return FALSE;
+	if ( !model_filter )
+		return FALSE;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     gtk_list_store_clear (GTK_LIST_STORE ( model ) );
 
     /* put at the beginning title */
@@ -272,7 +276,10 @@ gboolean gsb_fyear_update_fyear_list_new ( GtkTreeModel *model,
 	    FyearStruct *fyear;
 
 		fyear = tmp_list ->data;
-		copy_list = g_slist_insert_sorted (copy_list, fyear, (GCompareFunc) gsb_data_fyear_compare_from_struct);
+		copy_list = g_slist_insert_sorted_with_data (copy_list,
+													 fyear,
+													 (GCompareDataFunc) gsb_data_fyear_compare_from_struct,
+													 GINT_TO_POINTER (a_conf->fyear_combobox_sort_order));
 
         tmp_list = tmp_list->next;
     }

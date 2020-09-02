@@ -30,7 +30,8 @@ gboolean 		gsb_data_fyear_check_for_invalid 			(gint fyear_number);
 gint 			gsb_data_fyear_compare 						(gint fyear_number_1,
 															 gint fyear_number_2);
 gint 			gsb_data_fyear_compare_from_struct 			(FyearStruct *fyear_1,
-															 FyearStruct *fyear_2);
+															 FyearStruct *fyear_2,
+															 gpointer sort_order);
 GDate *			gsb_data_fyear_get_beginning_date 			(gint fyear_number);
 GDate *			gsb_data_fyear_get_end_date 				(gint fyear_number);
 gboolean 		gsb_data_fyear_get_form_show 				(gint fyear_number);

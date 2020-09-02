@@ -687,7 +687,7 @@ gint gsb_data_fyear_compare ( gint fyear_number_1, gint fyear_number_2 )
     fyear_1 = gsb_data_fyear_get_structure (fyear_number_1);
     fyear_2 = gsb_data_fyear_get_structure (fyear_number_2);
 
-    return gsb_data_fyear_compare_from_struct ( fyear_1, fyear_2 );
+    return gsb_data_fyear_compare_from_struct ( fyear_1, fyear_2, 0);
 
  }
 
@@ -700,15 +700,20 @@ gint gsb_data_fyear_compare ( gint fyear_number_1, gint fyear_number_2 )
  *
  * \return -1 if fyear 2 is before 1 ; +1 if fyear 2 is after 1 ; 0 if problem
  * */
-gint gsb_data_fyear_compare_from_struct ( FyearStruct *fyear_1,
-                        FyearStruct *fyear_2 )
+gint gsb_data_fyear_compare_from_struct (FyearStruct *fyear_1,
+										 FyearStruct *fyear_2,
+										 gpointer sort_order)
 {
+	gint fyear_combobox_sort_order;
+
+	fyear_combobox_sort_order = GPOINTER_TO_INT (sort_order);
+
     if ( !fyear_1 || !fyear_2 )
 	{
         return 0;
 	}
 
-	if (conf.fyear_combobox_sort_order)
+	if (fyear_combobox_sort_order)
 	{
 		if ( !fyear_1 -> beginning_date )
 			return 1;
