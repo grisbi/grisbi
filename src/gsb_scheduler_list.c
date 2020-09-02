@@ -1691,7 +1691,7 @@ static void gsb_scheduler_list_remove_orphan_list (GSList *orphan_scheduled,
  * \return FALSE
  **/
 static gboolean gsb_scheduler_list_selection_changed (GtkTreeSelection *selection,
-													  gpointer null)
+													  GrisbiAppConf *a_conf)
 {
     gint tmp_number = 0;
     gint account_number;
@@ -1705,8 +1705,8 @@ static gboolean gsb_scheduler_list_selection_changed (GtkTreeSelection *selectio
     if (tmp_number)
         last_scheduled_number = tmp_number;
 
-    /* if conf.show_transaction_selected_in_form => edit the scheduled transaction */
-    if (tmp_number != 0 && conf.show_transaction_selected_in_form)
+    /* if a_conf->show_transaction_selected_in_form => edit the scheduled transaction */
+    if (tmp_number != 0 && a_conf->show_transaction_selected_in_form)
             gsb_scheduler_list_edit_transaction (tmp_number);
     else if (tmp_number == 0)
     {
@@ -1932,8 +1932,10 @@ GtkWidget *gsb_scheduler_list_create_list (void)
     GtkWidget *tree_view;
     GtkWidget *frame;
 	GtkTreeModel *tree_model;
+	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     /* first, a vbox */
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
@@ -1977,7 +1979,7 @@ GtkWidget *gsb_scheduler_list_create_list (void)
     g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view))),
                       "changed",
                       G_CALLBACK (gsb_scheduler_list_selection_changed),
-                      NULL);
+                      a_conf);
 
     gtk_widget_show_all (vbox);
 

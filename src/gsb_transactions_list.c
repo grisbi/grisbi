@@ -1456,7 +1456,7 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
                          "reconciliation first."));
         return FALSE;
     }
-		
+
     /* if it's a child, we ask if we want to work with the mother */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
@@ -3335,7 +3335,10 @@ void gsb_transactions_list_selection_changed (gint new_selected_transaction)
      * only if the form is shown */
     if (grisbi_win_form_expander_is_visible ())
     {
-        if (conf.show_transaction_selected_in_form)
+		GrisbiAppConf *a_conf;
+
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+		if (a_conf->show_transaction_selected_in_form)
             gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
         else
             gsb_form_clean (account_number);
