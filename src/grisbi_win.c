@@ -1009,7 +1009,7 @@ static void grisbi_win_init (GrisbiWin *win)
 	}
 
 	/* initialisation de la barre d'état */
-	if (!conf.low_resolution_screen)
+	if (!a_conf->low_resolution_screen)
 		grisbi_win_init_statusbar (GRISBI_WIN (win));
 
 	/* initialisation du format de la date */
@@ -2245,19 +2245,21 @@ void grisbi_win_headings_update_suffix (const gchar *suffix)
  */
 void grisbi_win_init_statusbar (GrisbiWin *win)
 {
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
 	if (!win)
 		win = grisbi_app_get_active_window (NULL);
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	a_conf = grisbi_app_get_a_conf ();
 
     /* set status_bar PROVISOIRE */
     priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
     priv->message_id = G_MAXUINT;
 
 	/* set visible statusbar if necessary */
-	if (conf.low_resolution_screen)
+	if (a_conf->low_resolution_screen)
 		gtk_widget_hide (priv->statusbar);
 	else
 		gtk_widget_show (priv->statusbar);
@@ -2273,11 +2275,12 @@ void grisbi_win_init_statusbar (GrisbiWin *win)
  **/
 void grisbi_win_status_bar_clear (void)
 {
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
-
-    if (conf.low_resolution_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+	a_conf = grisbi_app_get_a_conf ();
+    if (a_conf->low_resolution_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
         return;
 
     if (priv->message_id < G_MAXUINT)
@@ -2299,11 +2302,12 @@ void grisbi_win_status_bar_clear (void)
  **/
 void grisbi_win_status_bar_message (gchar *message)
 {
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
-
-    if (conf.low_resolution_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+	a_conf = grisbi_app_get_a_conf ();
+    if (a_conf->low_resolution_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
         return;
 
     if (priv->message_id < G_MAXUINT)
@@ -2327,15 +2331,17 @@ void grisbi_win_status_bar_message (gchar *message)
  **/
 void grisbi_win_status_bar_wait (gboolean force_update)
 {
-    GrisbiWin *win;
-	GrisbiWinPrivate *priv;
     GdkCursor *cursor;
     GdkDevice *device;
     GdkDisplay *display;
     GdkWindow *current_window;
     GdkWindow *run_window;
+	GrisbiAppConf *a_conf;
+    GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-	if (conf.low_resolution_screen)
+	a_conf = grisbi_app_get_a_conf ();
+	if (a_conf->low_resolution_screen)
 		return;
 
     win = grisbi_app_get_active_window (NULL);
@@ -2390,8 +2396,10 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
 {
     GrisbiWin *win;
 	GrisbiWinPrivate *priv;
+	GrisbiAppConf *a_conf;
 
-	if (conf.low_resolution_screen)
+	a_conf = grisbi_app_get_a_conf ();
+	if (a_conf->low_resolution_screen)
 		return;
 
     win = grisbi_app_get_active_window (NULL);
@@ -2422,8 +2430,11 @@ void grisbi_win_status_bar_set_font_size (gint font_size)
 {
 	gchar *data = NULL;
 	gchar *font_size_str;
+	GrisbiAppConf *a_conf;
 
-	if (conf.low_resolution_screen)
+    devel_debug (NULL);
+	a_conf = grisbi_app_get_a_conf ();
+	if (a_conf->low_resolution_screen)
 		return;
 
 	font_size_str = utils_str_itoa (font_size);

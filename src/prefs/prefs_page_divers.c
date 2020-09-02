@@ -549,7 +549,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
     /* set the variables for programs */
 	entry_divers_programs = gsb_automem_entry_new (&a_conf->browser_command, NULL, NULL);
 	gtk_grid_attach (GTK_GRID (priv->grid_divers_programs), entry_divers_programs, 1, 0, 1, 1);
-	if (conf.low_resolution_screen)
+	if (a_conf->low_resolution_screen)
 	{
 		GtkWidget *label;
 

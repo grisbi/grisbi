@@ -176,7 +176,7 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 	settings = grisbi_settings_get_settings (SETTINGS_GEOMETRY);
     g_settings_set_boolean (G_SETTINGS (settings),
 							"low-resolution-screen",
-							conf.low_resolution_screen);
+							a_conf->low_resolution_screen);
 	if (etat)
 	{
 		/*reset all geometry keys */
@@ -241,12 +241,14 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 {
 	GtkWidget *head_page;
 	PangoTabArray *tabs;
-	PrefsPageDisplayGuiPrivate *priv;
+	GrisbiAppConf *a_conf;
 	GrisbiWinRun *w_run;
+	PrefsPageDisplayGuiPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_display_gui_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* On récupère le nom de la page */
@@ -256,13 +258,13 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 
     /* set the variables for low_resolution_screen */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_low_resolution_screen),
-								  conf.low_resolution_screen);
+								  a_conf->low_resolution_screen);
 
     /* Connect signal */
     g_signal_connect (priv->checkbutton_low_resolution_screen,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.low_resolution_screen);
+					  &a_conf->low_resolution_screen);
 
 	g_signal_connect_after (priv->checkbutton_low_resolution_screen,
 							"toggled",

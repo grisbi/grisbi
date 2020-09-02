@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "utils_str.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_data_report.h"
 #include "gsb_data_currency.h"
 #include "gsb_locale.h"
@@ -1309,7 +1310,7 @@ gchar *utils_str_break_form_name_field (const gchar *text,
 	if (!text)
 		return NULL;
 
-	if (conf.low_resolution_screen == FALSE)
+	if (!grisbi_app_get_low_resolution_screen ())
 	{
 		tmp_str = g_strdup (text);
 		return (tmp_str);

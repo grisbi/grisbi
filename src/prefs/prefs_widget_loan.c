@@ -39,7 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_widget_loan.h"
 #include "bet_finance_ui.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_data_currency.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_combo_box.h"
@@ -1650,9 +1650,9 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 
 	/* set widgets */
 
-	/* fix geometry with conf.low_resolution_screen */
+	/* fix geometry with low_resolution_screen variable*/
 	separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	if (conf.low_resolution_screen)
+	if (grisbi_app_get_low_resolution_screen ())
 	{
 		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_init_sch_with_loan, 0, 8, 3, 1);
 		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_init_scheduled, 3, 8, 3, 1);
@@ -1670,7 +1670,7 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_amortization_table, 0, 12, 6, 1);
 		gtk_widget_show (separator);
 	}
-	
+
 	/* Date of first Repayment */
 	priv->calendar_entry = gsb_calendar_entry_new (FALSE);
 	gtk_widget_show (priv->calendar_entry);

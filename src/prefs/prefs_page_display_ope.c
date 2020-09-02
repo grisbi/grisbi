@@ -362,7 +362,7 @@ static void prefs_page_display_ope_create_buttons_table (PrefsPageDisplayOpe *pa
 	priv = prefs_page_display_ope_get_instance_private (page);
 
 	/* calcul du nombre de colonnes et de lignes */
-	if (conf.low_resolution_screen)
+	if (grisbi_app_get_low_resolution_screen ())
 	{
 		max_column = 5;
 		max_row = 6;

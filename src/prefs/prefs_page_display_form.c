@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_page_display_form.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_data_form.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
@@ -407,7 +408,7 @@ static void prefs_page_display_form_create_buttons_table (PrefsPageDisplayForm *
 	priv = prefs_page_display_form_get_instance_private (page);
 
 	/* calcul du nombre de colonnes et de lignes */
-	if (conf.low_resolution_screen)
+	if (grisbi_app_get_low_resolution_screen ())
 	{
 		max_column = 5;
 		max_row = 6;
