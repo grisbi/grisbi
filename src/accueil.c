@@ -576,7 +576,8 @@ static void affiche_solde_des_comptes (GtkWidget *table,
 									   gint nb_comptes,
 									   gint currency_number,
 									   GsbReal solde_global_courant,
-									   GsbReal solde_global_pointe)
+									   GsbReal solde_global_pointe,
+									   GrisbiAppConf *a_conf)
 {
     GtkWidget *label;
     gchar *tmp_str;
@@ -589,7 +590,7 @@ static void affiche_solde_des_comptes (GtkWidget *table,
     label = gtk_label_new (NULL);
     if (nb_comptes == 1)
         tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balance: "), "</span>", NULL);
-    else if (conf.pluriel_final)
+    else if (a_conf->pluriel_final)
         tmp_str = g_strconcat ("<span weight=\"bold\">", "Soldes finaux: ", "</span>", NULL);
     else
         tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balances: "), "</span>", NULL);
@@ -633,7 +634,8 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 											gint currency_number,
 											gint nb_comptes,
 											gint new_comptes,
-											gint type_compte)
+											gint type_compte,
+											GrisbiAppConf *a_conf)
 {
     GSList *list_tmp;
     GsbReal solde_global_courant;
@@ -835,7 +837,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 
     /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
        elle contient la somme des soldes de chaque compte */
-    affiche_solde_des_comptes (pTable, i, nb_comptes, currency_number, solde_global_courant, solde_global_pointe);
+    affiche_solde_des_comptes (pTable, i, nb_comptes, currency_number, solde_global_courant, solde_global_pointe, a_conf);
 }
 
 /**
@@ -959,7 +961,8 @@ static gint affiche_soldes_additionnels (GtkWidget *table,
  *
  * \return
  **/
-static void update_liste_comptes_accueil (gboolean force)
+static void update_liste_comptes_accueil (gboolean force,
+										  GrisbiAppConf *a_conf)
 {
     GtkWidget *pTable, *vbox, *paddingbox;
     GSList *devise;
@@ -1077,7 +1080,8 @@ static void update_liste_comptes_accueil (gboolean force)
 											currency_number,
                         					nb_comptes_bancaires,
                         					new_comptes_bancaires,
-                        					GSB_TYPE_BANK | GSB_TYPE_CASH);
+                        					GSB_TYPE_BANK | GSB_TYPE_CASH,
+											a_conf);
 
             gtk_widget_show_all (paddingbox);
             gtk_widget_show_all (pTable);
@@ -1116,7 +1120,8 @@ static void update_liste_comptes_accueil (gboolean force)
                         					currency_number,
                         					nb_comptes_passif,
                         					new_comptes_passif,
-                        					GSB_TYPE_LIABILITIES);
+                        					GSB_TYPE_LIABILITIES,
+											a_conf);
 
             gtk_widget_show_all (paddingbox);
             gtk_widget_show_all (pTable);
@@ -1155,7 +1160,8 @@ static void update_liste_comptes_accueil (gboolean force)
 											currency_number,
 											nb_comptes_actif,
 											new_comptes_actif,
-											GSB_TYPE_ASSET);
+											GSB_TYPE_ASSET,
+											a_conf);
 
             gtk_widget_show_all (paddingbox);
             gtk_widget_show_all (pTable);
@@ -1211,7 +1217,9 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
     GtkWidget *button;
 	GtkWidget *form_transaction_part;
     gint result;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	form_transaction_part = gsb_form_get_form_transaction_part ();
     parent_save = gtk_widget_get_parent (form_transaction_part);
 
@@ -1267,7 +1275,7 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
 
     /* update the home page */
     update_liste_echeances_manuelles_accueil (TRUE);
-    update_liste_comptes_accueil (TRUE);
+    update_liste_comptes_accueil (TRUE, a_conf);
     return FALSE;
 }
 
@@ -1725,8 +1733,10 @@ GtkWidget *creation_onglet_accueil (void)
     GtkWidget *base;
     GtkWidget *base_scroll;
     GtkWidget *eb;
+	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_widget_show (vbox);
@@ -1833,7 +1843,7 @@ GtkWidget *creation_onglet_accueil (void)
 
     gtk_box_pack_start (GTK_BOX (vbox), base_scroll, TRUE, TRUE, 0);
 
-	update_liste_comptes_accueil (TRUE);
+	update_liste_comptes_accueil (TRUE, a_conf);
 
     return (vbox);
 }
@@ -1849,7 +1859,11 @@ GtkWidget *creation_onglet_accueil (void)
  **/
 void mise_a_jour_accueil (gboolean force)
 {
-    update_liste_comptes_accueil (force);
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	update_liste_comptes_accueil (force, a_conf);
     update_liste_echeances_manuelles_accueil (force);
     update_liste_echeances_auto_accueil (force);
     update_soldes_minimaux (force);

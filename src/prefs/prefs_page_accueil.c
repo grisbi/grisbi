@@ -135,7 +135,7 @@ static gboolean prefs_page_accueil_checkbutton_partial_balance_toggle (GtkToggle
 }
 
 /**
- * callback function for conf.pluriel_final variable
+ * callback function for a_conf->pluriel_final variable
  *
  * \param button        object clicked
  * \param user_data
@@ -143,14 +143,14 @@ static gboolean prefs_page_accueil_checkbutton_partial_balance_toggle (GtkToggle
  * \return              FALSE
  * */
 static gboolean prefs_page_accueil_checkbutton_pluriel_final_toggle (GtkToggleButton *button,
-																	 gpointer null)
+																	 GrisbiAppConf *a_conf)
 {
 	GSettings *settings;
 
 	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
     g_settings_set_boolean (G_SETTINGS (settings),
 							"pluriel-final",
-							conf.pluriel_final);
+							a_conf->pluriel_final);
     gsb_gui_navigation_update_home_page ();
 	utils_prefs_gsb_file_set_modified ();
 
@@ -197,11 +197,13 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 	const gchar *langue;
 	gchar *tmp_str;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	PrefsPageAccueilPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_accueil_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
@@ -218,9 +220,9 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 
 		vbox_button = gsb_automem_radiobutton_gsettings_new ("Soldes finals",
 														"Soldes finaux",
-														&conf.pluriel_final,
+														&a_conf->pluriel_final,
 														G_CALLBACK (prefs_page_accueil_checkbutton_pluriel_final_toggle),
-														NULL);
+														a_conf);
 		gtk_box_pack_start (GTK_BOX (priv->box_lang_fr), vbox_button, FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, FALSE, FALSE, 0);
 		gtk_box_reorder_child (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, 1);
