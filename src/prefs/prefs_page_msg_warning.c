@@ -226,11 +226,12 @@ static GtkWidget *prefs_page_msg_warning_create_tree_view (PrefsPageMsgWarning *
 static void prefs_page_msg_warning_setup_page (PrefsPageMsgWarning *page)
 {
 	GtkWidget *head_page;
+	GrisbiAppConf *a_conf;
 	PrefsPageMsgWarningPrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = prefs_page_msg_warning_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Messages & warnings"), "gsb-warnings-32.png");
@@ -238,7 +239,7 @@ static void prefs_page_msg_warning_setup_page (PrefsPageMsgWarning *page)
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_msg_warning), head_page, 0);
 
     /* set variable for checkbutton_show_tip */
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_tip), conf.show_tip);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_tip), a_conf->show_tip);
 
 	/* set treeview */
 	priv->treeview_display_msg = prefs_page_msg_warning_create_tree_view (page);
@@ -248,7 +249,7 @@ static void prefs_page_msg_warning_setup_page (PrefsPageMsgWarning *page)
     g_signal_connect (priv->checkbutton_show_tip,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.show_tip);
+					  &a_conf->show_tip);
 }
 
 /******************************************************************************/

@@ -32,6 +32,7 @@
 #define START_INCLUDE
 #include "tip.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "structures.h"
 #define END_INCLUDE
@@ -124,22 +125,24 @@ void display_tip ( gboolean force )
     GtkWidget * checkbox;
     GtkWidget * dialog = NULL;
     GtkWidget *btn_back, *btn_forward, *btn_close;
+	GrisbiAppConf *a_conf;
 
-    if ( !force && !conf.show_tip )
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+    if ( !force && !a_conf->show_tip )
         return;
 
-    conf.last_tip = CLAMP ( conf.last_tip+1, 0, (gint) (sizeof(tips)/sizeof(gpointer)-1));
+    a_conf->last_tip = CLAMP ( a_conf->last_tip+1, 0, (gint) (sizeof(tips)/sizeof(gpointer)-1));
 
     /* the dialog is created with empty text because we set it using gtk's markup
        function instead */
     dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
                                        "", _("Did you know that...") );
     gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
-                                                 "%s", g_dgettext (NULL, tips[conf.last_tip]) );
+                                                 "%s", g_dgettext (NULL, tips[a_conf->last_tip]) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
     checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"),
-                        &(conf.show_tip), NULL, NULL );
+                        &(a_conf->show_tip), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog )  ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
 
@@ -155,24 +158,24 @@ void display_tip ( gboolean force )
     switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
     {
         case 1:
-        if ( conf.last_tip > 0 )
-            conf.last_tip--;
+        if ( a_conf->last_tip > 0 )
+            a_conf->last_tip--;
 		else
-			conf.last_tip = sizeof(tips)/sizeof(gpointer)-1;
+			a_conf->last_tip = sizeof(tips)/sizeof(gpointer)-1;
 
         gtk_widget_set_sensitive (btn_forward, TRUE);
         gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
-                                                     "%s", g_dgettext (NULL, tips[conf.last_tip]) );
+                                                     "%s", g_dgettext (NULL, tips[a_conf->last_tip]) );
         break;
 
         case 2:
-        if ( conf.last_tip < (gint) (sizeof(tips)/sizeof(gpointer)-1))
-            conf.last_tip++;
+        if ( a_conf->last_tip < (gint) (sizeof(tips)/sizeof(gpointer)-1))
+            a_conf->last_tip++;
 		else
-			conf.last_tip = 0;
+			a_conf->last_tip = 0;
 
         gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
-                                                     "%s", g_dgettext (NULL, tips[conf.last_tip]) );
+                                                     "%s", g_dgettext (NULL, tips[a_conf->last_tip]) );
         gtk_widget_set_sensitive (btn_back, TRUE);
         break;
 
