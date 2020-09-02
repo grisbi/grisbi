@@ -188,17 +188,20 @@ gboolean lance_navigateur_web (const gchar *url)
     gchar **split;
     gchar *chaine = NULL;
     gchar* tmp_str;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 #ifdef G_OS_WIN32
     gboolean use_default_browser = TRUE;
 
-    if (conf.browser_command && strlen (conf.browser_command))
+    if (a_conf->browser_command && strlen (a_conf->browser_command))
     {
-        use_default_browser = !strcmp (conf.browser_command,ETAT_WWW_BROWSER);
+        use_default_browser = !strcmp (a_conf->browser_command,ETAT_WWW_BROWSER);
     }
 
 #else /* G_OS_WIN32 */
-    if (!(conf.browser_command && strlen (conf.browser_command)))
+    if (!(a_conf->browser_command && strlen (a_conf->browser_command)))
     {
         tmp_str = g_strdup_printf (_("Grisbi was unable to execute a web browser to "
                         "browse url:\n<span foreground=\"blue\">%s</span>.\n\n"
@@ -216,7 +219,7 @@ gboolean lance_navigateur_web (const gchar *url)
 #endif /* G_OS_WIN32 */
         /* search if the sequence `%s' is in the string
          * and split the string before and after this delimiter */
-        split = g_strsplit (conf.browser_command, "%s", 0);
+        split = g_strsplit (a_conf->browser_command, "%s", 0);
 
         if (split[1])
         {
@@ -233,7 +236,7 @@ gboolean lance_navigateur_web (const gchar *url)
             chaine = tmp_str;
         }
         else
-            chaine = g_strconcat (conf.browser_command, " \"", url, "\"&", NULL);
+            chaine = g_strconcat (a_conf->browser_command, " \"", url, "\"&", NULL);
 
         if (system (chaine) == -1)
         {
