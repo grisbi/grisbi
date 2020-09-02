@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_form_options.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_file.h"
@@ -100,11 +101,13 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
 	GtkWidget *head_page;
 	GtkWidget *button;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 	PrefsPageFormOptionsPrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_form_options_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	is_loading = grisbi_win_file_is_loading ();
 
@@ -132,7 +135,7 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
     /* set the affichage_exercice_automatique variable */
     button = gsb_automem_radiobutton_gsettings_new (_("according to transaction date"),
 													_("according to transaction value date"),
-												    &conf.affichage_exercice_automatique,
+												    &a_conf->affichage_exercice_automatique,
 												    NULL,
 												    NULL);
 	gtk_box_pack_start (GTK_BOX (priv->box_affichage_exercice_automatique), button, FALSE, FALSE, 0);

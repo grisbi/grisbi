@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                 2009-2018 Pierre Biava (grisbi@pierre.biava.name)          */
-/*          https://www.grisbi.org/                                            */
+/*                 2009-2020 Pierre Biava (grisbi@pierre.biava.name)          */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -511,7 +511,10 @@ static void gsb_form_take_datas_from_form (gint transaction_number,
 			case TRANSACTION_FORM_EXERCICE:
 			if (is_transaction)
 			{
-				if (conf.affichage_exercice_automatique)
+				GrisbiAppConf *a_conf;
+
+				a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+				if (a_conf->affichage_exercice_automatique)
 				{
 					if (gsb_form_widget_check_empty (gsb_form_widget_get_widget (TRANSACTION_FORM_VALUE_DATE)))
 						gsb_data_transaction_set_financial_year_number (transaction_number,
