@@ -85,7 +85,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageAccueil, prefs_page_accueil, GTK_TYPE_BOX)
  * \return  FALSE
  * */
 static gboolean prefs_page_accueil_checkbutton_balances_with_scheduled_toggle (GtkToggleButton *button,
-																			   gpointer null)
+																			   GrisbiAppConf *a_conf)
 {
     GSList *list_tmp;
 	GSettings *settings;
@@ -93,7 +93,7 @@ static gboolean prefs_page_accueil_checkbutton_balances_with_scheduled_toggle (G
 	settings = grisbi_settings_get_settings (SETTINGS_SCHEDULED);
     g_settings_set_boolean (G_SETTINGS (settings),
 							"balances-with-scheduled",
-							conf.balances_with_scheduled);
+							a_conf->balances_with_scheduled);
 
     list_tmp = gsb_data_account_get_list_accounts ();
     while (list_tmp)
@@ -112,7 +112,7 @@ static gboolean prefs_page_accueil_checkbutton_balances_with_scheduled_toggle (G
 }
 
 /**
- * callback function for conf.group_partial_balance_under_account variable
+ * callback function for a_conf->group_partial_balance_under_account variable
  *
  * \param button        object clicked
  * \param user_data
@@ -229,9 +229,9 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
     }
 	g_free (tmp_str);
 
-	/* set conf.balances_with_scheduled */
+	/* set a_conf->balances_with_scheduled */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_balances_with_scheduled),
-								  conf.balances_with_scheduled);
+								  a_conf->balances_with_scheduled);
 
 	/* set a_conf->group_partial_balance_under_accounts */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_partial_balance),
@@ -246,7 +246,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
     g_signal_connect (priv->checkbutton_balances_with_scheduled,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.balances_with_scheduled);
+					  &a_conf->balances_with_scheduled);
 
 	/* Connect signal checkbutton_partial_balance */
     g_signal_connect (priv->checkbutton_partial_balance,
@@ -424,8 +424,6 @@ static void prefs_page_accueil_class_init (PrefsPageAccueilClass *klass)
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_add);
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_edit);
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_remove);
-	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass),
-											 prefs_page_accueil_checkbutton_balances_with_scheduled_toggle);
 }
 
 /******************************************************************************/

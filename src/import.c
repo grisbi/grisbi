@@ -4649,9 +4649,12 @@ static void traitement_operations_importees (GtkWindow *parent)
 {
     GSList *tmp_list;
     gint new_file;
+	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
-    /* when come here, all the currencies are already created
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	/* when come here, all the currencies are already created
      * and init_variables is already called
      * (see affichage_recapitulatif_importation) */
 
@@ -4724,7 +4727,7 @@ static void traitement_operations_importees (GtkWindow *parent)
     }
 
     /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
-    if (conf.balances_with_scheduled == FALSE)
+    if (a_conf->balances_with_scheduled == FALSE)
         gsb_data_account_set_balances_are_dirty (account_number);
     /* MAJ des données du module bet */
     gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
@@ -5459,7 +5462,7 @@ gboolean gsb_import_by_rule (gint rule)
     mise_a_jour_accueil (FALSE);
 
     /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
-    if (conf.balances_with_scheduled == FALSE)
+    if (a_conf->balances_with_scheduled == FALSE)
         gsb_data_account_set_balances_are_dirty (account_number);
 
     /* force the update module budget */

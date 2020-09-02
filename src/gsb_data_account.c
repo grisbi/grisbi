@@ -39,7 +39,7 @@
 #include "bet_data.h"
 #include "custom_list.h"
 #include "dialog.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_import_rule.h"
@@ -1075,6 +1075,7 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances ( gint account_nu
 	GsbReal marked_balance_later = null_real;
     gint floating_point;
 	gboolean has_pointed = FALSE;
+	GrisbiAppConf *a_conf;
 
     /* devel_debug_int ( account_number ); */
     account = gsb_data_account_get_structure ( account_number );
@@ -1091,8 +1092,9 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances ( gint account_nu
 
     date_jour = gdate_today ( );
 
-    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
+	tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
 	gint transaction_number;
@@ -1100,7 +1102,7 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances ( gint account_nu
 
 	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
     /* on regarde si on tient compte ou pas des échéances pour les soldes */
-    if ( conf.balances_with_scheduled )
+    if ( a_conf->balances_with_scheduled )
         res = 0;
     else
     {

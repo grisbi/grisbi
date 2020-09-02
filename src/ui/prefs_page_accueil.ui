@@ -68,7 +68,6 @@
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="prefs_page_accueil_checkbutton_balances_with_scheduled_toggle" after="yes" swapped="no"/>
                             <child>
                               <object class="GtkLabel">
                                 <property name="name">label_gsetting_option</property>

@@ -1061,7 +1061,7 @@ static void update_liste_comptes_accueil (gboolean force,
 
 
             /* Creating the table which will store accounts with their balances. */
-            if (conf.balances_with_scheduled == FALSE)
+            if (a_conf->balances_with_scheduled == FALSE)
                 tmp_str = g_strdup_printf (_("Accounts balance in %s at %s"),
                                 gsb_data_currency_get_name (currency_number),
                                 gsb_date_today ());
@@ -1101,7 +1101,7 @@ static void update_liste_comptes_accueil (gboolean force,
                 continue;
 
             /* Creating the table which will store accounts with their balances   */
-            if (conf.balances_with_scheduled == FALSE)
+            if (a_conf->balances_with_scheduled == FALSE)
                 tmp_str = g_strdup_printf (_("Liabilities accounts balance in %s at %s"),
 										   gsb_data_currency_get_name (currency_number),
 										   gsb_date_today ());
@@ -1141,7 +1141,7 @@ static void update_liste_comptes_accueil (gboolean force,
                 continue;
 
             /* Creating the table which will store accounts with their balances    */
-            if (conf.balances_with_scheduled == FALSE)
+            if (a_conf->balances_with_scheduled == FALSE)
                 tmp_str = g_strdup_printf (_("Assets accounts balance in %s at %s"),
 										   gsb_data_currency_get_name (currency_number),
 										   gsb_date_today ());
@@ -1177,7 +1177,7 @@ static void update_liste_comptes_accueil (gboolean force,
             tmp_str_2 = g_strdup (_("Additional balance"));
         else
             tmp_str_2 = g_strdup (_("Additional balances"));
-        if (conf.balances_with_scheduled == FALSE)
+        if (a_conf->balances_with_scheduled == FALSE)
         {
             tmp_str = g_strconcat (tmp_str_2, _(" at "), gsb_date_today (), NULL);
             g_free (tmp_str_2);
