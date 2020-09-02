@@ -256,6 +256,31 @@ static void grisbi_app_setup_accelerators (GApplication *application,
 /**
  *
  *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void grisbi_app_save_win_geometry_data (GrisbiApp *app,
+											   GtkWindow *win)
+{
+    GrisbiAppPrivate *priv;
+
+	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
+
+	if ((priv->a_conf)->full_screen == 0 && (priv->a_conf)->maximize_screen == 0)
+	{
+		/* sauvegarde la position de la fenetre principale */
+		gtk_window_get_position (GTK_WINDOW (win), &(priv->a_conf)->x_position, &(priv->a_conf)->y_position);
+
+		/* sauvegarde de la taille de la fenêtre si nécessaire */
+		gtk_window_get_size (GTK_WINDOW (win), &(priv->a_conf)->main_width, &(priv->a_conf)->main_height);
+	}
+}
+
+/**
+ *
+ *
  * \param GSimpleAction     action
  * \param GVariant          state
  * \param gpointer          user_data
@@ -347,14 +372,7 @@ static void grisbi_app_quit (GSimpleAction *action,
     {
         if (first_win)
         {
-            if (l->data && conf.full_screen == 0 && conf.maximize_screen == 0)
-            {
-                /* sauvegarde la position de la fenetre principale */
-                gtk_window_get_position (GTK_WINDOW (l->data), &conf.x_position, &conf.y_position);
-
-                /* sauvegarde de la taille de la fenêtre si nécessaire */
-                gtk_window_get_size (GTK_WINDOW (l->data), &conf.main_width, &conf.main_height);
-            }
+			grisbi_app_save_win_geometry_data (app, GTK_WINDOW (l->data));
             first_win = FALSE;
         }
         if (gsb_file_quit ())
@@ -589,15 +607,7 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
 		last_win = TRUE;
 	}
 
-    if (conf.full_screen == 0 && conf.maximize_screen == 0)
-    {
-        /* sauvegarde la position de la fenetre principale */
-        gtk_window_get_position (GTK_WINDOW (win), &conf.x_position, &conf.y_position);
-
-        /* sauvegarde de la taille de la fenêtre si nécessaire */
-        gtk_window_get_size (GTK_WINDOW (win), &conf.main_width, &conf.main_height);
-    }
-
+	grisbi_app_save_win_geometry_data (app, GTK_WINDOW (win));
 	if (last_win)
 		result = gsb_file_quit ();
 	else

@@ -1691,6 +1691,9 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
     GdkGeometry size_hints = {
     1020, 700, -1, -1, 1020, 700, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
   };
+	GrisbiAppConf *a_conf;
+
+	a_conf = grisbi_app_get_a_conf ();
 
     /* on fixe la taille mini remplacer main_box par plus pertinent.*/
     gtk_window_set_geometry_hints (GTK_WINDOW (win),
@@ -1707,7 +1710,7 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
         gtk_window_set_default_size (GTK_WINDOW (win), 1024, 768);
 
     /* display window at position */
-    gtk_window_move (GTK_WINDOW (win), conf.x_position, conf.y_position);
+    gtk_window_move (GTK_WINDOW (win), a_conf->x_position, a_conf->y_position);
 
     /* set the full screen if necessary */
     if (conf.full_screen)
