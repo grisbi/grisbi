@@ -644,7 +644,7 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 
     priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
-	win = g_object_new (GRISBI_TYPE_WIN, "application", app, NULL);
+	win = g_object_new (GRISBI_WIN_TYPE, "application", app, NULL);
 
     g_signal_connect (win,
 					  "delete_event",

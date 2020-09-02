@@ -8,9 +8,9 @@
 
 G_BEGIN_DECLS
 
-#define GRISBI_TYPE_WIN         (grisbi_win_get_type ())
-#define GRISBI_WIN(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), GRISBI_TYPE_WIN, GrisbiWin))
-#define GRISBI_IS_WINDOW(obj)   (G_TYPE_CHECK_INSTANCE_TYPE((obj), GRISBI_TYPE_WIN))
+#define GRISBI_WIN_TYPE         (grisbi_win_get_type ())
+#define GRISBI_WIN(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), GRISBI_WIN_TYPE, GrisbiWin))
+#define GRISBI_IS_WINDOW(obj)   (G_TYPE_CHECK_INSTANCE_TYPE((obj), GRISBI_WIN_TYPE))
 
 typedef struct _GrisbiWin       GrisbiWin;
 typedef struct _GrisbiWinClass  GrisbiWinClass;
