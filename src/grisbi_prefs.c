@@ -122,19 +122,19 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiPrefs, grisbi_prefs, GTK_TYPE_DIALOG)
  **/
 static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
 											GtkAllocation *allocation,
-											gpointer null)
+												GrisbiAppConf *a_conf)
 {
 
 	GSettings *settings;
 
 	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-    conf.prefs_height = allocation->height;
-	conf.prefs_width = allocation->width;
+    a_conf->prefs_height = allocation->height;
+	a_conf->prefs_width = allocation->width;
 
     /* save settings_prefs */
-	g_settings_set_int (G_SETTINGS (settings), "prefs-height", conf.prefs_height);
-	g_settings_set_int (G_SETTINGS (settings), "prefs-width", conf.prefs_width);
-	g_settings_set_int (G_SETTINGS (settings), "prefs-panel-width", conf.prefs_panel_width);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-height", a_conf->prefs_height);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-width", a_conf->prefs_width);
+	g_settings_set_int (G_SETTINGS (settings), "prefs-panel-width", a_conf->prefs_panel_width);
 
 	return FALSE;
 }
@@ -150,9 +150,9 @@ static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
  **/
 static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
 												  GtkAllocation *allocation,
-												  gpointer null)
+												  	GrisbiAppConf *a_conf)
 {
-    conf.prefs_panel_width = gtk_paned_get_position (GTK_PANED (prefs_hpaned));
+    a_conf->prefs_panel_width = gtk_paned_get_position (GTK_PANED (prefs_hpaned));
 
 	return FALSE;
 }
@@ -233,7 +233,7 @@ static void grisbi_prefs_notebook_import_switch_page_cliked (GtkNotebook *notebo
 	GrisbiWinRun *w_run;
 
 	devel_debug_int (page_num);
-		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	w_run->prefs_import_tab = page_num;
 }
@@ -643,29 +643,31 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 									 GrisbiWin *win)
 {
 	GtkWidget *notebook;
+	GrisbiAppConf *a_conf;
 	GrisbiWinRun *w_run;
 	GrisbiPrefsPrivate *priv;
 
 	devel_debug (NULL);
 	priv = grisbi_prefs_get_instance_private (prefs);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* initialise left_tree_view */
 	grisbi_prefs_left_tree_view_setup (prefs, priv->treeview_left, w_run);
 
 	/* set geometry */
-	if (conf.prefs_height && conf.prefs_width)
+	if (a_conf->prefs_height && a_conf->prefs_width)
 	{
-        gtk_widget_set_size_request (GTK_WIDGET (prefs), conf.prefs_width, conf.prefs_height);
+        gtk_widget_set_size_request (GTK_WIDGET (prefs), a_conf->prefs_width, a_conf->prefs_height);
 	}
     else
 	{
         gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_MIN_WIN_WIDTH, PREFS_MIN_WIN_HEIGHT);
 	}
 
-	if (conf.prefs_panel_width)
+	if (a_conf->prefs_panel_width)
 	{
-        gtk_paned_set_position (GTK_PANED (priv->paned_prefs), conf.prefs_panel_width);
+        gtk_paned_set_position (GTK_PANED (priv->paned_prefs), a_conf->prefs_panel_width);
 	}
     else
 	{
@@ -705,13 +707,13 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 	g_signal_connect (G_OBJECT (prefs),
 	                  "size-allocate",
 	                  (GCallback) grisbi_prefs_size_allocate,
-	                  NULL);
+	                  a_conf);
 
 	/* set signal paned_prefs */
 	g_signal_connect (G_OBJECT (priv->paned_prefs),
 	                  "size-allocate",
 	                  (GCallback) grisbi_prefs_paned_size_allocate,
-	                  NULL);
+	                  a_conf);
 
 	/* set signal notebook_impert */
 	g_signal_connect (G_OBJECT (notebook),
@@ -793,6 +795,7 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
     devel_debug (NULL);
 	if (result_id == GTK_RESPONSE_CLOSE)
 	{
+		GrisbiAppConf *a_conf;
 		GrisbiWinRun *w_run;
 
 		grisbi_win_status_bar_message (_("Preferences stop"));
@@ -803,22 +806,23 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 			return;
 		}
 		/* on récupère éventuellement la dimension de la fenêtre */
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 		settings = grisbi_settings_get_settings (SETTINGS_PREFS);
 		if (w_run->resolution_screen_toggled == FALSE)
 		{
-			gtk_window_get_size (GTK_WINDOW (prefs), &conf.prefs_width, &conf.prefs_height);
+			gtk_window_get_size (GTK_WINDOW (prefs), &a_conf->prefs_width, &a_conf->prefs_height);
 			g_settings_set_int (G_SETTINGS (settings),
 								"prefs-height",
-								conf.prefs_height);
+								a_conf->prefs_height);
 
 			g_settings_set_int (G_SETTINGS (settings),
 								"prefs-panel-width",
-								conf.prefs_panel_width);
+								a_conf->prefs_panel_width);
 
 			g_settings_set_int (G_SETTINGS (settings),
 								"prefs-width",
-								conf.prefs_width);
+								a_conf->prefs_width);
 		}
 		else
 		{
@@ -827,9 +831,9 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 			g_settings_reset (G_SETTINGS (settings), "prefs-panel-width");
 			g_settings_reset (G_SETTINGS (settings), "prefs-width");
 
-			conf.prefs_height = g_settings_get_int (settings, "prefs-height");
-			conf.prefs_panel_width = g_settings_get_int (settings, "prefs-panel-width");
-			conf.prefs_width = g_settings_get_int (settings, "prefs-width");
+			a_conf->prefs_height = g_settings_get_int (settings, "prefs-height");
+			a_conf->prefs_panel_width = g_settings_get_int (settings, "prefs-panel-width");
+			a_conf->prefs_width = g_settings_get_int (settings, "prefs-width");
 		}
 	}
 	gtk_widget_destroy (GTK_WIDGET (prefs));
