@@ -185,7 +185,7 @@ static void prefs_page_form_completion_save_checkbuton_value (GtkWidget *button)
 	}
 	if (strcmp (tmp_name, "checkbutton_automatic_recover_splits") == 0)
 	{
-		if (conf.automatic_recover_splits)
+		if (a_conf->automatic_recover_splits)
 			g_settings_set_boolean (G_SETTINGS (settings), "automatic-recover-splits", TRUE);
 		else
 			g_settings_reset (G_SETTINGS (settings), "automatic-recover-splits");
@@ -343,7 +343,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_automatic_erase_credit_debit),
 									  conf.automatic_erase_credit_debit);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_automatic_recover_splits),
-									  conf.automatic_recover_splits);
+									  a_conf->automatic_recover_splits);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_limit_completion_to_current_account),
 									  conf.limit_completion_to_current_account);
 	}
@@ -396,7 +396,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	g_signal_connect (priv->checkbutton_automatic_recover_splits,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.automatic_recover_splits);
+					  &a_conf->automatic_recover_splits);
 
 	g_signal_connect_after (priv->checkbutton_automatic_recover_splits,
 							"toggled",

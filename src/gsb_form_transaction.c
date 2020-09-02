@@ -176,7 +176,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 
 			form_button_recover_split = gsb_form_get_recover_split_button ();
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( form_button_recover_split ),
-                        conf.automatic_recover_splits );
+                        a_conf->automatic_recover_splits );
             gtk_widget_show ( form_button_recover_split );
         }
     }
