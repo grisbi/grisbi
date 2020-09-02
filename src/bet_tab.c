@@ -752,6 +752,9 @@ static gboolean bet_array_list_set_background_color (GtkWidget *tree_view)
         gint origine;
         gint current_color = 0;
 		gchar *color_str;
+		GrisbiAppConf *a_conf;
+
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
         do
         {
@@ -817,7 +820,7 @@ static gboolean bet_array_list_set_background_color (GtkWidget *tree_view)
             }
 
             /* gestion de la date du jour */
-            if (conf.show_transaction_gives_balance && absent)
+            if (a_conf->show_transaction_gives_balance && absent)
             {
                 GValue date_value = G_VALUE_INIT;
                 GDate* date;

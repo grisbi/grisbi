@@ -320,7 +320,7 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_retient_affichage_par_compte),
 								  w_etat->retient_affichage_par_compte);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_transaction_gives_balance),
-								  conf.show_transaction_gives_balance);
+								  a_conf->show_transaction_gives_balance);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_transaction_selected_in_form),
 								  conf.show_transaction_selected_in_form);
 
@@ -360,7 +360,7 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
     g_signal_connect (priv->checkbutton_show_transaction_gives_balance,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.show_transaction_gives_balance);
+					  &a_conf->show_transaction_gives_balance);
     g_signal_connect (priv->checkbutton_show_transaction_selected_in_form,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),

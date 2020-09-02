@@ -886,9 +886,11 @@ static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tre
     GSList *tmp_list;
     gint selected_transaction;
     gint element_number;
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 
     devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     account_number = gsb_gui_navigation_get_current_account ();
@@ -971,7 +973,7 @@ static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tre
     transaction_list_set_balances ();
     transaction_list_sort ();
     transaction_list_colorize ();
-	if (conf.show_transaction_gives_balance)
+	if (a_conf->show_transaction_gives_balance)
 		transaction_list_set_color_jour (account_number);
 	transaction_list_select (selected_transaction);
 
@@ -2658,19 +2660,21 @@ void gsb_transactions_list_update_tree_view (gint account_number,
 											 gboolean keep_selected_transaction)
 {
     gint selected_transaction = 0;
+	GrisbiAppConf *a_conf;
 
 	/* called sometimes with gsb_gui_navigation_get_current_account, so check we are
      * on an account */
-    if (account_number <= 0)
-        return;
+	if (account_number <= 0)
+		return;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     if (keep_selected_transaction)
         selected_transaction = transaction_list_select_get ();
     transaction_list_filter (account_number);
     transaction_list_set_balances ();
     transaction_list_sort ();
     transaction_list_colorize ();
-    if (conf.show_transaction_gives_balance)
+    if (a_conf->show_transaction_gives_balance)
 		transaction_list_set_color_jour (account_number);
 	if (keep_selected_transaction)
 	{
@@ -3410,6 +3414,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
 {
     gchar *tmp_str;
     gint account_number;
+	GrisbiAppConf *a_conf;
 
     devel_debug_int (transaction_number);
 
@@ -3495,7 +3500,8 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
 
     /* update the tree view */
     transaction_list_colorize ();
-	if (conf.show_transaction_gives_balance)
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (a_conf->show_transaction_gives_balance)
         transaction_list_set_color_jour (account_number);
     transaction_list_set_balances ();
 	transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
