@@ -194,7 +194,7 @@ static void prefs_page_form_completion_save_checkbuton_value (GtkWidget *button)
 	}
 	if (strcmp (tmp_name, "checkbutton_limit_completion_to_current_account") == 0)
 	{
-		if (conf.limit_completion_to_current_account)
+		if (a_conf->limit_completion_to_current_account)
 			g_settings_set_boolean (G_SETTINGS (settings), "limit-completion-current-account", TRUE);
 		else
 			g_settings_reset (G_SETTINGS (settings), "limit-completion-current-account");
@@ -347,7 +347,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_automatic_recover_splits),
 									  a_conf->automatic_recover_splits);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_limit_completion_to_current_account),
-									  conf.limit_completion_to_current_account);
+									  a_conf->limit_completion_to_current_account);
 	}
 
     /* Connect signal checkbutton_combofix_case_sensitive */
@@ -409,7 +409,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
     g_signal_connect (priv->checkbutton_limit_completion_to_current_account,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.limit_completion_to_current_account);
+					  &a_conf->limit_completion_to_current_account);
 
     g_signal_connect_after (priv->checkbutton_limit_completion_to_current_account,
 							"toggled",

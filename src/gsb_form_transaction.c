@@ -257,14 +257,16 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
  *
  * \return the number of the transaction found, or 0
  * */
-gint gsb_form_transactions_look_for_last_party ( gint no_party,
-                        gint no_new_transaction,
-                        gint account_number )
+gint gsb_form_transactions_look_for_last_party (gint no_party,
+												gint no_new_transaction,
+												gint account_number)
 {
     GSList *list_tmp_transactions;
     gint last_transaction_with_party_in_account = 0;
     gint last_transaction_with_party_not_in_account = 0;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp_transactions )
@@ -292,7 +294,7 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
 
     /* if we don't want to complete with a transaction in another account,
      * go away here */
-    if ( conf.limit_completion_to_current_account )
+    if ( a_conf->limit_completion_to_current_account )
 	return 0;
 
     return last_transaction_with_party_not_in_account;
