@@ -249,33 +249,35 @@ static void prefs_page_form_completion_spinbutton_completion_minimum_key_length_
 	GtkWidget *entry;
 	GtkEntryCompletion *completion;
 	GSettings *settings;
+	GrisbiAppConf *a_conf;
 
 	settings = grisbi_settings_get_settings (SETTINGS_FORM);
+	a_conf = grisbi_app_get_a_conf ();
 	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 	if (combofix && GTK_IS_COMBOFIX (combofix))
 	{
 		entry = gtk_combofix_get_entry (GTK_COMBOFIX (combofix));
 		completion = gtk_entry_get_completion (GTK_ENTRY (entry));
-		gtk_entry_completion_set_minimum_key_length (completion, conf.completion_minimum_key_length);
+		gtk_entry_completion_set_minimum_key_length (completion, a_conf->completion_minimum_key_length);
 	}
 	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 	if (combofix && GTK_IS_COMBOFIX (combofix))
 	{
 		entry = gtk_combofix_get_entry (GTK_COMBOFIX (combofix));
 		completion = gtk_entry_get_completion (GTK_ENTRY (entry));
-		gtk_entry_completion_set_minimum_key_length (completion, conf.completion_minimum_key_length);
+		gtk_entry_completion_set_minimum_key_length (completion, a_conf->completion_minimum_key_length);
 	}
 	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET);
 	if (combofix && GTK_IS_COMBOFIX (combofix))
 	{
 		entry = gtk_combofix_get_entry (GTK_COMBOFIX (combofix));
 		completion = gtk_entry_get_completion (GTK_ENTRY (entry));
-		gtk_entry_completion_set_minimum_key_length (completion, conf.completion_minimum_key_length);
+		gtk_entry_completion_set_minimum_key_length (completion, a_conf->completion_minimum_key_length);
 	}
-	if (conf.completion_minimum_key_length > 1)
+	if (a_conf->completion_minimum_key_length > 1)
 		g_settings_set_int (G_SETTINGS (settings),
 							"completion-minimum-key-length",
-							conf.completion_minimum_key_length);
+							a_conf->completion_minimum_key_length);
 	else
 		g_settings_reset (G_SETTINGS (settings), "completion-minimum-key-length");}
 
@@ -306,7 +308,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 
 	/* initialise le bouton nombre minimal de caractères avant propositions dans les champs de saisie */
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_completion_minimum_key_length),
-							   conf.completion_minimum_key_length);
+							   a_conf->completion_minimum_key_length);
 
 	/* set active widgets if is_loading = TRUE else set sensitive widget*/
 	if (is_loading)
@@ -363,7 +365,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
     g_signal_connect (priv->spinbutton_completion_minimum_key_length,
 					  "value-changed",
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
-					  &conf.completion_minimum_key_length);
+					  &a_conf->completion_minimum_key_length);
 
     g_signal_connect_after (priv->spinbutton_completion_minimum_key_length,
 							"value-changed",

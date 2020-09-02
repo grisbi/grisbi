@@ -33,7 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -1284,9 +1284,11 @@ static gboolean gtk_combofix_key_press_event (GtkWidget *entry,
 											  GdkEventKey *ev,
 											  GtkComboFix *combofix)
 {
+	GrisbiAppConf *a_conf;
     GtkComboFixPrivate *priv;
 
     priv = gtk_combofix_get_instance_private (combofix);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     switch (ev->keyval)
     {
@@ -1307,7 +1309,7 @@ static gboolean gtk_combofix_key_press_event (GtkWidget *entry,
 				}
 			}
 			else if ((gint) strlen (gtk_entry_get_text (GTK_ENTRY (priv->entry))) >=
-					 conf.completion_minimum_key_length)
+					 a_conf->completion_minimum_key_length)
 			{
 				gtk_combofix_completion_choose_first_item (entry);
 			}
@@ -1634,9 +1636,11 @@ static void gtk_combofix_create_entry (GtkComboFix *combofix)
 {
 	GtkEntryCompletion *completion;
 	GtkListStore *completion_store;
+	GrisbiAppConf *a_conf;
     GtkComboFixPrivate *priv;
 
     priv = gtk_combofix_get_instance_private (combofix);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	/* create entry */
     priv->entry = gtk_entry_new ();
@@ -1649,7 +1653,7 @@ static void gtk_combofix_create_entry (GtkComboFix *combofix)
 											 (GtkEntryCompletionMatchFunc) gtk_combofix_completion_match_func,
 											 NULL,
 											 NULL);
-	gtk_entry_completion_set_minimum_key_length (completion, conf.completion_minimum_key_length);
+	gtk_entry_completion_set_minimum_key_length (completion, a_conf->completion_minimum_key_length);
 	gtk_entry_completion_set_popup_single_match (completion, TRUE);
 	gtk_entry_completion_set_text_column (completion, 0);
 
