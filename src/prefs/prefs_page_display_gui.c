@@ -216,7 +216,7 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
  * \return FALSE
  **/
 static gboolean prefs_page_display_gui_switch_headings_bar (GtkWidget *toggle_button,
-															gpointer null)
+															GrisbiAppConf *a_conf)
 {
 	GSettings *settings;
 
@@ -225,7 +225,7 @@ static gboolean prefs_page_display_gui_switch_headings_bar (GtkWidget *toggle_bu
 	settings = grisbi_settings_get_settings (SETTINGS_DISPLAY);
     g_settings_set_boolean (G_SETTINGS (settings),
 							"show-headings-bar",
-							conf.show_headings_bar);
+							a_conf->show_headings_bar);
 
 	return FALSE;
 }
@@ -273,17 +273,17 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 
 	/* set the variables for show_headings_bar */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_headings_bar),
-								  conf.show_headings_bar);
+								  a_conf->show_headings_bar);
     /* Connect signal */
     g_signal_connect (priv->checkbutton_show_headings_bar,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.show_headings_bar);
+					  &a_conf->show_headings_bar);
 
 	g_signal_connect_after (priv->checkbutton_show_headings_bar,
 							"toggled",
 							G_CALLBACK (prefs_page_display_gui_switch_headings_bar),
-							NULL);
+							a_conf);
 
     /* set the variables for active_scrolling_left_pane */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_active_scrolling_left_pane),

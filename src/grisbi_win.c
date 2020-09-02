@@ -611,9 +611,11 @@ static void grisbi_win_init_general_widgets (GrisbiWin *win)
 static void grisbi_win_create_general_widgets (GrisbiWin *win)
 {
 	GtkWidget *navigation_pane;
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	a_conf = grisbi_app_get_a_conf ();
 
     /* création de vbox_general */
 	if (priv->vbox_general == NULL)
@@ -626,7 +628,7 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
     /* initialisation de headings_eb */
     grisbi_win_create_headings_eb (GRISBI_WIN (win));
     gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->headings_eb, FALSE, FALSE, 0);
-    if (conf.show_headings_bar)
+    if (a_conf->show_headings_bar)
         gtk_widget_show_all (priv->headings_eb);
     else
         gtk_widget_hide (priv->headings_eb);
@@ -636,7 +638,7 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
     g_signal_connect (G_OBJECT (priv->hpaned_general),
                       "size_allocate",
                       G_CALLBACK (grisbi_win_hpaned_size_allocate),
-                      priv);
+                      a_conf);
     gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);
 
 	/* recuperation des enfants pour gestion dimmension */
@@ -2192,9 +2194,11 @@ void grisbi_win_headings_sensitive_headings (gboolean sensitive)
 gboolean grisbi_win_headings_update_show_headings (void)
 {
     GtkWidget *headings_eb;
+	GrisbiAppConf *a_conf;
 
+	a_conf = grisbi_app_get_a_conf ();
     headings_eb = grisbi_win_get_headings_eb (NULL);
-    if (conf.show_headings_bar)
+    if (a_conf->show_headings_bar)
     {
         gtk_widget_show_all (headings_eb);
     }
@@ -2213,9 +2217,11 @@ gboolean grisbi_win_headings_update_show_headings (void)
  */
 void grisbi_win_headings_update_title (gchar *title)
 {
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
-	if (!conf.show_headings_bar)
+	a_conf = grisbi_app_get_a_conf ();
+	if (!a_conf->show_headings_bar)
 		return;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
@@ -2231,9 +2237,11 @@ void grisbi_win_headings_update_title (gchar *title)
  */
 void grisbi_win_headings_update_suffix (const gchar *suffix)
 {
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
-	if (!conf.show_headings_bar)
+	a_conf = grisbi_app_get_a_conf ();
+	if (!a_conf->show_headings_bar)
 		return;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
