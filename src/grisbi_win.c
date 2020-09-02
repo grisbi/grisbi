@@ -824,14 +824,17 @@ static gboolean grisbi_win_change_state_window (GtkWidget *window,
 												gpointer null)
 {
 	static GtkAllocation allocation;
+	GrisbiAppConf *a_conf;
 
-	/* en premier on fixe conf.maximize_screen */
+	a_conf = grisbi_app_get_a_conf ();
+
+	/* en premier on fixe a_conf->maximize_screen */
 	if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
 	{
 		gboolean show;
 
 		show = !(event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED);
-		conf.maximize_screen = !show;
+		a_conf->maximize_screen = !show;
 	}
 
 	/* on traite l'agrandissement ou le rétressissement de la fenêtre */
@@ -845,7 +848,7 @@ static gboolean grisbi_win_change_state_window (GtkWidget *window,
 		priv = grisbi_win_get_instance_private (GRISBI_WIN (window));
 		current_page = gsb_gui_navigation_get_current_page ();
 
-		if (conf.maximize_screen || conf.full_screen)
+		if (a_conf->maximize_screen || a_conf->full_screen)
 		{
 			if (current_page == GSB_ACCOUNT_PAGE)
 			{
@@ -1713,11 +1716,11 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
     gtk_window_move (GTK_WINDOW (win), a_conf->x_position, a_conf->y_position);
 
     /* set the full screen if necessary */
-    if (conf.full_screen)
+    if (a_conf->full_screen)
         gtk_window_fullscreen (GTK_WINDOW (win));
 
     /* put up the screen if necessary */
-    if (conf.maximize_screen)
+    if (a_conf->maximize_screen)
         gtk_window_maximize (GTK_WINDOW (win));
 }
 

@@ -292,17 +292,21 @@ static void grisbi_app_change_fullscreen_state (GSimpleAction *action,
 												gpointer user_data)
 {
     GtkWindow *win;
+    GrisbiApp *app;
+	GrisbiAppPrivate *priv;
 
-    win = GTK_WINDOW (grisbi_app_get_active_window (user_data));
+	app = GRISBI_APP (user_data);
+	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
+    win = GTK_WINDOW (grisbi_app_get_active_window (app));
     if (g_variant_get_boolean (state))
     {
-        conf.full_screen = TRUE;
+        (priv->a_conf)->full_screen = TRUE;
         gtk_window_fullscreen (win);
     }
     else
     {
-        conf.full_screen = FALSE;
+        (priv->a_conf)->full_screen = FALSE;
         gtk_window_unfullscreen (win);
     }
 
