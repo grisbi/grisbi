@@ -640,7 +640,6 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 {
     GrisbiWin *win;
     GrisbiAppPrivate *priv;
-    gchar *string;
 
     priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
@@ -658,13 +657,6 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 					  GINT_TO_POINTER (FALSE));
 
 	gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (win));
-
-    /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL);
-    if (g_file_test (string, G_FILE_TEST_EXISTS))
-        gtk_window_set_default_icon_from_file (string, NULL);
-
-    g_free (string);
 
 	/* Adding pixmaps_dir in the icon theme */
 	gsb_select_icon_set_gtk_icon_theme_path ();
@@ -1077,6 +1069,7 @@ static void grisbi_app_activate (GApplication *application)
 {
 
 	GrisbiWin *win;
+    gchar *string;
     gboolean load_file = FALSE;
 	GrisbiAppPrivate *priv;
 
@@ -1086,7 +1079,13 @@ static void grisbi_app_activate (GApplication *application)
 	/* création de la fenêtre pincipale */
     win = grisbi_app_create_window (GRISBI_APP (application), NULL);
 
-    /* set the CSS properties */
+    /* create the icon of grisbi (set in the panel of gnome or other) */
+    string = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL);
+    if (g_file_test (string, G_FILE_TEST_EXISTS))
+        gtk_window_set_default_icon_from_file (string, NULL);
+    g_free (string);
+
+	/* set the CSS properties */
     if (css_provider)
         gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
                                                    GTK_STYLE_PROVIDER (css_provider),
