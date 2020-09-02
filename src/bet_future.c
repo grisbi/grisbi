@@ -206,6 +206,9 @@ static GtkWidget *bet_form_widget_get_next_element (gint element_number,
     gint return_value_number = 0;
     gint form_column_number = BET_FUTURE_FORM_WIDTH;
     gint form_row_number = 5;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     if (form_type) /* le widget initial est sur la partie scheduled du formulaire */
     {
@@ -222,7 +225,7 @@ static GtkWidget *bet_form_widget_get_next_element (gint element_number,
                     {
                         /* we are on the bottom right, we finish the edition or
                          * go to the upper left */
-                        if (!conf.form_enter_key)
+                        if (!a_conf->form_enter_key)
                         {
                             return_value_number = -2;
                             continue;
@@ -266,7 +269,7 @@ static GtkWidget *bet_form_widget_get_next_element (gint element_number,
             {
                 /* we are on the bottom right, we finish the edition or
                  * go to the upper left */
-                if (!conf.form_enter_key)
+                if (!a_conf->form_enter_key)
                 {
                     return_value_number = -2;
                     continue;
@@ -353,6 +356,9 @@ static gboolean bet_form_key_press_event (GtkWidget *widget,
     GtkWidget *widget_prov;
     gint element_number;
     gint form_type = 0;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     form_type = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "form_type"));
 
@@ -363,7 +369,7 @@ static gboolean bet_form_key_press_event (GtkWidget *widget,
     element_number = GPOINTER_TO_INT (ptr_origin);
 
     /* if form_key_entree = 1, entry finish the transaction, else does as tab */
-    if (!conf.form_enter_key && (ev->keyval == GDK_KEY_Return || ev->keyval == GDK_KEY_KP_Enter))
+    if (!a_conf->form_enter_key && (ev->keyval == GDK_KEY_Return || ev->keyval == GDK_KEY_KP_Enter))
 		ev->keyval = GDK_KEY_Tab ;
 
     switch (ev->keyval)

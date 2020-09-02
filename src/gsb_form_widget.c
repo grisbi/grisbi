@@ -36,6 +36,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_widget.h"
+#include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
@@ -676,9 +677,13 @@ gint gsb_form_widget_next_element (gint account_number,
 				 &&
 				 row == (form_row_number - 1))
 			{
+				GrisbiAppConf *a_conf;
+
+				a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
 				/* we are on the bottom right, we finish the edition or
 				 * go to the upper left */
-				if (!conf.form_enter_key)
+				if (!a_conf->form_enter_key)
 				{
 				return_value_number = -2;
 				continue;

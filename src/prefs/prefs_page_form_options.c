@@ -119,7 +119,7 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
 	/* set the form_enter_key variable */
 	button = gsb_automem_radiobutton_gsettings_new (_("selects next field"),
 													_("terminates transaction"),
-													&conf.form_enter_key,
+													&a_conf->form_enter_key,
 													NULL,
 													NULL);
 	gtk_box_pack_start (GTK_BOX (priv->box_form_enter_key), button, FALSE, FALSE, 0);

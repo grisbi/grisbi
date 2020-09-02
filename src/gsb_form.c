@@ -2718,12 +2718,15 @@ gboolean gsb_form_key_press_event (GtkWidget *widget,
     gint account_number;
     gint element_number;
     gint element_suivant;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
 
-    /* if conf.form_enter_key = 1, entry finish the transaction, else does as tab */
-    if (!conf.form_enter_key && (ev->keyval == GDK_KEY_Return || ev->keyval == GDK_KEY_KP_Enter))
+    /* if a_conf->form_enter_key = 1, entry finish the transaction, else does as tab */
+    if (!a_conf->form_enter_key && (ev->keyval == GDK_KEY_Return || ev->keyval == GDK_KEY_KP_Enter))
 		ev->keyval = GDK_KEY_Tab ;
 
     if (!g_object_get_data (G_OBJECT (transaction_form), "transaction_number_in_form"))
