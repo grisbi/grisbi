@@ -37,7 +37,7 @@
 #include "categories_onglet.h"
 #include "gsb_currency.h"
 #include "dialog.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_data_payee.h"
 #include "gsb_file.h"
@@ -297,12 +297,13 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	GtkWidget *head_page;
 	GtkWidget *vbox_button;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 	PrefsPageMetatreePrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = prefs_page_metatree_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_etat = grisbi_win_get_w_etat ();
 	is_loading = grisbi_win_file_is_loading ();
 
@@ -369,9 +370,9 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 	vbox_button = gsb_automem_radiobutton3_gsettings_new (_("Expand the line"),
 														  _("Edit the line"),
 														  _("Manage the line"),
-														  &conf.metatree_action_2button_press,
+														  &a_conf->metatree_action_2button_press,
 													 	  G_CALLBACK (prefs_page_onglet_metatree_action_changed),
-													 	  &conf.metatree_action_2button_press,
+													 	  &a_conf->metatree_action_2button_press,
 													 	  GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (GTK_BOX (priv->box_metatree_action_2button), vbox_button, FALSE, FALSE, 0);
 

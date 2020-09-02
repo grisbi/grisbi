@@ -387,6 +387,7 @@ static gboolean payee_list_button_press (GtkWidget *tree_view,
         GtkTreeIter iter;
         GtkTreePath *path = NULL;
         enum MetaTreeRowType type_division;
+		GrisbiAppConf *a_conf;
 
         type_division = metatree_get_row_type_from_tree_view (tree_view);
         if (type_division == META_TREE_TRANSACTION)
@@ -396,7 +397,8 @@ static gboolean payee_list_button_press (GtkWidget *tree_view,
         if (selection && gtk_tree_selection_get_selected (selection, &model, &iter))
             path = gtk_tree_model_get_path  (model, &iter);
 
-        if (conf.metatree_action_2button_press == 1)
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+        if (a_conf->metatree_action_2button_press == 1)
         {
             edit_payee (GTK_TREE_VIEW (tree_view));
 
