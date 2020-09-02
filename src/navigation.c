@@ -244,7 +244,9 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gint i;
     gint xpad;
     gint ypad;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
     grid = gtk_grid_new ();
 
@@ -325,7 +327,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
 
-    if ( conf.active_scrolling_left_pane == 0 )
+    if ( a_conf->active_scrolling_left_pane == 0 )
         g_signal_handlers_block_by_func ( gsb_gui_navigation_get_tree_view ( ),
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );

@@ -85,11 +85,11 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayGui, prefs_page_display_gui, GTK_TYP
  * \return FALSE
  **/
 static gboolean prefs_page_display_gui_active_scrolling_left_pane (GtkWidget *toggle_button,
-																   gpointer null)
+																   GrisbiAppConf *a_conf)
 {
 	GSettings *settings;
 
-	if (conf.active_scrolling_left_pane)
+	if (a_conf->active_scrolling_left_pane)
         g_signal_handlers_unblock_by_func (gsb_gui_navigation_get_tree_view (),
 										   G_CALLBACK (gsb_gui_navigation_check_scroll),
 										   NULL);
@@ -101,7 +101,7 @@ static gboolean prefs_page_display_gui_active_scrolling_left_pane (GtkWidget *to
 	settings = grisbi_settings_get_settings (SETTINGS_PANEL);
     g_settings_set_boolean (G_SETTINGS (settings),
 							"active-scrolling-left-pane",
-							conf.active_scrolling_left_pane);
+							a_conf->active_scrolling_left_pane);
 
 	return FALSE;
 }
@@ -288,17 +288,17 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 
     /* set the variables for active_scrolling_left_pane */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_active_scrolling_left_pane),
-								  conf.active_scrolling_left_pane);
+								  a_conf->active_scrolling_left_pane);
     /* Connect signal */
     g_signal_connect (priv->checkbutton_active_scrolling_left_pane,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.active_scrolling_left_pane);
+					  &a_conf->active_scrolling_left_pane);
 
 	g_signal_connect_after (priv->checkbutton_active_scrolling_left_pane,
 							"toggled",
 							G_CALLBACK (prefs_page_display_gui_active_scrolling_left_pane),
-							NULL);
+							a_conf);
 
     /* set the variables for display toolbar */
 	switch (a_conf->display_toolbar)
