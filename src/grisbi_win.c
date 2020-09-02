@@ -2475,8 +2475,10 @@ void grisbi_win_status_bar_set_font_size (gint font_size)
 void grisbi_win_update_all_toolbars (void)
 {
     gint toolbar_style = 0;
+	GrisbiAppConf *a_conf;
 
-    switch (conf.display_toolbar)
+	a_conf = grisbi_app_get_a_conf ();
+    switch (a_conf->display_toolbar)
     {
         case GSB_BUTTON_TEXT:
             toolbar_style = GTK_TOOLBAR_TEXT;

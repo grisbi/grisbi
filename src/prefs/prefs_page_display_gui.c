@@ -113,7 +113,8 @@ static gboolean prefs_page_display_gui_active_scrolling_left_pane (GtkWidget *to
  *
  * \return FALSE
  **/
-static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButton *button)
+static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButton *button,
+																	GrisbiAppConf *a_conf)
 {
     GSettings *settings;
     const gchar *tmp_str;
@@ -125,10 +126,10 @@ static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButt
         return FALSE;
 
     /* save the new parameter */
-    conf.display_toolbar = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(button), "display"));
+    a_conf->display_toolbar = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(button), "display"));
 
     /* update GSettings */
-    switch (conf.display_toolbar)
+    switch (a_conf->display_toolbar)
     {
         case GSB_BUTTON_TEXT:
             tmp_str = "Text";
@@ -300,7 +301,7 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 							NULL);
 
     /* set the variables for display toolbar */
-	switch (conf.display_toolbar)
+	switch (a_conf->display_toolbar)
 	{
 		case GSB_BUTTON_BOTH:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_both), TRUE);
@@ -340,22 +341,22 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 	g_signal_connect (G_OBJECT (priv->radiobutton_display_both),
 					  "toggled",
 					  G_CALLBACK (prefs_page_display_gui_change_toolbar_display_mode),
-					  NULL);
+					  a_conf);
 
 	g_signal_connect (G_OBJECT (priv->radiobutton_display_both_horiz),
 					  "toggled",
 					  G_CALLBACK (prefs_page_display_gui_change_toolbar_display_mode),
-					  NULL);
+					  a_conf);
 
 	g_signal_connect (G_OBJECT (priv->radiobutton_display_icon),
 					  "toggled",
 					  G_CALLBACK (prefs_page_display_gui_change_toolbar_display_mode),
-					  NULL);
+					  a_conf);
 
 	g_signal_connect (G_OBJECT (priv->radiobutton_display_text),
 					  "toggled",
 					  G_CALLBACK (prefs_page_display_gui_change_toolbar_display_mode),
-					  NULL);
+					  a_conf);
 
 	/* set shortcuts text_view */
 	tabs = pango_tab_array_new (3, TRUE);
