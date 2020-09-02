@@ -1010,7 +1010,7 @@ void gsb_gui_navigation_add_account ( gint account_number,
 gboolean gsb_gui_navigation_change_account ( gint new_account )
 {
     gint current_account;
-    //~ printf ("gsb_gui_navigation_change_account : new_account = %d\n", new_account);
+	GrisbiAppConf *a_conf;
 
     devel_debug_int (new_account);
     if ( new_account < 0 )
@@ -1041,7 +1041,8 @@ gboolean gsb_gui_navigation_change_account ( gint new_account )
 	gsb_transactions_list_show_menu_import_rule (new_account);
 
 	/* Update the title of the file if needed */
-    if ( conf.display_window_title == GSB_ACCOUNT_HOLDER )
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+    if ( a_conf->display_window_title == GSB_ACCOUNT_HOLDER )
         grisbi_win_set_window_title ( new_account );
 
     /* select the good tab */

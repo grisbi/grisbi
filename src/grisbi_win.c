@@ -1628,14 +1628,16 @@ gboolean grisbi_win_set_window_title (gint account_number)
     }
     else
     {
-		GrisbiWinEtat *w_etat;
 		gchar *titre = NULL;
 		gint tmp_number;
+		GrisbiAppConf *a_conf;
+		GrisbiWinEtat *w_etat;
 
 		devel_debug_int (account_number);
+		a_conf = grisbi_app_get_a_conf ();
 		w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-        switch (conf.display_window_title)
+        switch (a_conf->display_window_title)
         {
             case GSB_ACCOUNT_ENTITY:
                 if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))

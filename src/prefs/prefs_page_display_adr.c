@@ -39,7 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_page_display_adr.h"
 #include "gsb_autofunc.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils_prefs.h"
@@ -131,14 +131,16 @@ static void prefs_page_display_adr_accounting_entity_changed (GtkEditable *entry
 static gboolean prefs_page_display_adr_window_title_toggled (GtkRadioButton *button,
 															 GtkWidget *entry)
 {
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
     {
-        conf.display_window_title = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "display"));
+        a_conf->display_window_title = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "display"));
     }
 
-    switch (conf.display_window_title)
+    switch (a_conf->display_window_title)
     {
         case GSB_ACCOUNT_ENTITY:
             gtk_widget_set_sensitive (entry, TRUE);
@@ -179,11 +181,13 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 	GtkWidget *head_page;
 	GtkTextBuffer *buffer;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 	PrefsPageDisplayAdrPrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_display_adr_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	is_loading = grisbi_win_file_is_loading ();
 
@@ -204,7 +208,7 @@ static void prefs_page_display_adr_setup_display_adr_page (PrefsPageDisplayAdr *
 	}
 
     /* set the variables for title */
-	switch (conf.display_window_title)
+	switch (a_conf->display_window_title)
 	{
 		case GSB_ACCOUNT_ENTITY:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_accounting_entity), TRUE);
