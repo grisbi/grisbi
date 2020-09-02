@@ -649,7 +649,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
     solde_global_pointe = null_real;
 
     /* on traite les numéros des comptes composant le solde partiel si nécessaire */
-    if (new_comptes > 0 && conf.group_partial_balance_under_accounts)
+    if (new_comptes > 0 && a_conf->group_partial_balance_under_accounts)
     {
         GSList *list_partial = NULL;
 		gboolean compte_simple = FALSE;
@@ -827,7 +827,7 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
             list_tmp = list_tmp -> next;
         }
         /* affichage des soldes partiels s'ils existent */
-        if (new_comptes > 0 && conf.group_partial_balance_under_accounts == 0)
+        if (new_comptes > 0 && a_conf->group_partial_balance_under_accounts == 0)
         {
             list_tmp = gsb_data_partial_balance_get_list ();
             if (list_tmp)

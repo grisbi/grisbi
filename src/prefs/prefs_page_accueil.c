@@ -120,14 +120,14 @@ static gboolean prefs_page_accueil_checkbutton_balances_with_scheduled_toggle (G
  * \return              FALSE
  * */
 static gboolean prefs_page_accueil_checkbutton_partial_balance_toggle (GtkToggleButton *button,
-																	   gpointer null)
+																	   GrisbiAppConf *a_conf)
 {
 	GSettings *settings;
 
 	settings = grisbi_settings_get_settings (SETTINGS_DISPLAY);
     g_settings_set_boolean (G_SETTINGS (settings),
 							"group-partial-balance-under-accounts",
-							conf.group_partial_balance_under_accounts);
+							a_conf->group_partial_balance_under_accounts);
     gsb_gui_navigation_update_home_page ();
 	utils_prefs_gsb_file_set_modified ();
 
@@ -233,9 +233,9 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_balances_with_scheduled),
 								  conf.balances_with_scheduled);
 
-	/* set conf.group_partial_balance_under_accounts */
+	/* set a_conf->group_partial_balance_under_accounts */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_partial_balance),
-								  conf.group_partial_balance_under_accounts);
+								  a_conf->group_partial_balance_under_accounts);
 
 	/* set data for buttons */
 	g_object_set_data (G_OBJECT (priv->vbox_accueil), "add_button", priv->button_partial_balance_add);
@@ -252,7 +252,17 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
     g_signal_connect (priv->checkbutton_partial_balance,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.group_partial_balance_under_accounts);
+					  &a_conf->group_partial_balance_under_accounts);
+
+	/* set gsettings */
+	g_signal_connect_after (priv->checkbutton_balances_with_scheduled,
+							"toggled",
+							G_CALLBACK (prefs_page_accueil_checkbutton_balances_with_scheduled_toggle),
+							a_conf);
+    g_signal_connect_after (priv->checkbutton_partial_balance,
+							"toggled",
+							G_CALLBACK (prefs_page_accueil_checkbutton_partial_balance_toggle),
+							a_conf);
 
 	if (is_loading)
 	{
@@ -414,8 +424,6 @@ static void prefs_page_accueil_class_init (PrefsPageAccueilClass *klass)
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_add);
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_edit);
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), gsb_partial_balance_remove);
-	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass),
-											 prefs_page_accueil_checkbutton_partial_balance_toggle);
 	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass),
 											 prefs_page_accueil_checkbutton_balances_with_scheduled_toggle);
 }
