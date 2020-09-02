@@ -3349,8 +3349,11 @@ gboolean gsb_form_finish_edition (void)
         if (is_transaction
 			&& transaction_list_get_variance (gsb_data_account_get_current_transaction_number (account_number)))
         {
+			GrisbiAppConf *a_conf;
+
+			a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
             gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
-			if (conf.form_validate_split)
+			if (a_conf->form_validate_split)
 				transaction_list_select (mother_number);
 			else
             	transaction_list_select (-1);

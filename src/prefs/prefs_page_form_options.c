@@ -154,7 +154,7 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
 	/* set Selected transaction after validate split transaction */
 	button = gsb_automem_radiobutton_gsettings_new (_("selects new transaction"),
 													_("selects mother transaction"),
-													&conf.form_validate_split,
+													&a_conf->form_validate_split,
 													NULL,
 													NULL);
 	gtk_box_pack_start (GTK_BOX (priv->box_form_validate_split), button, FALSE, FALSE, 0);
