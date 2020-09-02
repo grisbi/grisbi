@@ -1559,7 +1559,8 @@ static void update_liste_echeances_auto_accueil (gboolean force)
  *
  * \return
  **/
-static void update_soldes_minimaux (gboolean force)
+static void update_soldes_minimaux (gboolean force,
+									GrisbiAppConf *a_conf)
 {
     GtkWidget *vbox_1;
     GtkWidget *vbox_2;
@@ -1591,7 +1592,7 @@ static void update_soldes_minimaux (gboolean force)
 
         i = gsb_data_account_get_no_account (list_tmp -> data);
 
-        if (gsb_data_account_get_closed_account (i) && !conf.show_closed_accounts)
+        if (gsb_data_account_get_closed_account (i) && !a_conf->show_closed_accounts)
         {
             list_tmp = list_tmp -> next;
             continue;
@@ -1656,7 +1657,8 @@ static void update_soldes_minimaux (gboolean force)
  *
  * \return
  **/
-static void update_fin_comptes_passifs (gboolean force)
+static void update_fin_comptes_passifs (gboolean force,
+										GrisbiAppConf *a_conf)
 {
     GtkWidget *vbox;
     GtkWidget *label;
@@ -1676,7 +1678,7 @@ static void update_fin_comptes_passifs (gboolean force)
     utils_container_remove_children (frame_etat_fin_compte_passif);
     hide_paddingbox (frame_etat_fin_compte_passif);
 
-    if (!conf.show_closed_accounts)
+    if (!a_conf->show_closed_accounts)
         return;
 
     list_tmp = gsb_data_account_get_list_accounts ();
@@ -1866,8 +1868,8 @@ void mise_a_jour_accueil (gboolean force)
 	update_liste_comptes_accueil (force, a_conf);
     update_liste_echeances_manuelles_accueil (force);
     update_liste_echeances_auto_accueil (force);
-    update_soldes_minimaux (force);
-    update_fin_comptes_passifs (force);
+    update_soldes_minimaux (force, a_conf);
+    update_fin_comptes_passifs (force, a_conf);
 }
 
 /**

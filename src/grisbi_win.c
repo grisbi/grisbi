@@ -1382,12 +1382,15 @@ void grisbi_win_init_menubar (GrisbiWin *win,
     };
     const gchar **tmp = items;
     gboolean has_app_menu;
+	GrisbiAppConf *a_conf;
+
+	a_conf = grisbi_app_get_a_conf ();
 
 	/* initialisations sub menus */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-form");
     g_action_change_state (G_ACTION (action), g_variant_new_boolean (conf.formulaire_toujours_affiche));
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-closed-acc");
-    g_action_change_state (G_ACTION (action), g_variant_new_boolean (conf.show_closed_accounts));
+    g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->show_closed_accounts));
 
 	/* disabled menus */
     while (*tmp)

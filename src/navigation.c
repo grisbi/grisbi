@@ -546,7 +546,9 @@ void gsb_gui_navigation_create_account_list ( GtkTreeModel *model )
     GSList *list_tmp;
     GtkTreeIter parent, child;
     GtkTreePath *path;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     path = gsb_gui_navigation_get_page_path ( model, GSB_HOME_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( model ), &parent, path );
 	gtk_tree_path_free (path);
@@ -563,7 +565,7 @@ void gsb_gui_navigation_create_account_list ( GtkTreeModel *model )
     {
         gint i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-        if ( conf.show_closed_accounts ||
+        if ( a_conf->show_closed_accounts ||
              ! gsb_data_account_get_closed_account ( i ) )
         {
             gsb_gui_navigation_add_account ( i, FALSE );

@@ -886,11 +886,14 @@ void grisbi_cmd_show_closed_acc_toggle (GSimpleAction *action,
 										GVariant *state,
 										gpointer app)
 {
-    conf.show_closed_accounts = !conf.show_closed_accounts;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	a_conf->show_closed_accounts = !a_conf->show_closed_accounts;
 
     gsb_gui_navigation_create_account_list (gsb_gui_navigation_get_model ());
     gsb_gui_navigation_update_home_page ();
-    g_action_change_state (G_ACTION (action), g_variant_new_boolean (conf.show_closed_accounts));
+    g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->show_closed_accounts));
 
     gsb_file_set_modified (TRUE);
 }
