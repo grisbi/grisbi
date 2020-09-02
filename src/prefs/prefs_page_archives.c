@@ -450,11 +450,13 @@ static void prefs_page_archives_button_sort_order_clicked (GtkWidget *toggle_but
 	GSettings *settings;
     GtkTreeModel *model;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
 	g_settings_set_boolean (G_SETTINGS (settings),
                         	"prefs-archives-sort-order",
-                        	conf.prefs_archives_sort_order);
+                        	a_conf->prefs_archives_sort_order);
 
 	is_loading = grisbi_win_file_is_loading ();
 	if (is_loading)
@@ -462,7 +464,7 @@ static void prefs_page_archives_button_sort_order_clicked (GtkWidget *toggle_but
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
 		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (model),
 											  ARCHIVES_FYEAR_NAME,
-											  conf.prefs_archives_sort_order);
+											  a_conf->prefs_archives_sort_order);
 		gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE (model));
 		prefs_page_archives_fill_list (GTK_LIST_STORE (model));
     	utils_set_list_store_background_color (treeview, ARCHIVES_BACKGROUND_COLOR);
@@ -476,7 +478,8 @@ static void prefs_page_archives_button_sort_order_clicked (GtkWidget *toggle_but
  *
  * \return
  **/
-static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page)
+static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page,
+														 GrisbiAppConf *a_conf)
 {
 	PrefsPageArchivesPrivate *priv;
     GtkListStore *archives_model;
@@ -529,7 +532,7 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
     /* Sort columns accordingly */
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (archives_model),
                                           ARCHIVES_FYEAR_NAME,
-                                          conf.prefs_archives_sort_order);
+                                          a_conf->prefs_archives_sort_order);
 
 	/* fill the list */
     prefs_page_archives_fill_list (archives_model);
@@ -584,7 +587,7 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 	/* setup treeview_archives */
 	if (is_loading)
 	{
-		prefs_page_archives_setup_treeview_archives (page);
+		prefs_page_archives_setup_treeview_archives (page, a_conf);
 	}
 	else
 	{
@@ -596,13 +599,13 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 
     /* set the checkbutton to sort archives */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_archives_sort_order),
-								  conf.prefs_archives_sort_order);
+								  a_conf->prefs_archives_sort_order);
 
     /* Connect signal */
     g_signal_connect (priv->checkbutton_archives_sort_order,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.prefs_archives_sort_order);
+					  &a_conf->prefs_archives_sort_order);
 
 	g_signal_connect_after (priv->checkbutton_archives_sort_order,
 							"toggled",
