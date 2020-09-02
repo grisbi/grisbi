@@ -53,6 +53,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+/* variables de tri primaire et secondaire */
+static gint transactions_list_primary_sorting = 0;
+static gint transactions_list_secondary_sorting = 0;
+
 static gint gsb_transactions_list_sort_by_amount ( gint transaction_number_1,
                         gint transaction_number_2 );
 static gint gsb_transactions_list_sort_by_bank ( gint transaction_number_1,
@@ -103,7 +107,6 @@ static gint gsb_transactions_list_sort_initial_by_secondary_key ( gint transacti
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
 
 /**
  * called by a click on the column, used to sort the list
@@ -513,10 +516,10 @@ gint gsb_transactions_list_sort_by_no ( gint transaction_number_1,
 gint gsb_transactions_list_sort_by_date ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
-    if ( conf.transactions_list_secondary_sorting == 1 )
+    if (transactions_list_secondary_sorting == 1 )
         return gsb_transactions_list_sort_by_date_and_amount (
                         transaction_number_1, transaction_number_2 );
-    else if ( conf.transactions_list_secondary_sorting == 2 )
+    else if (transactions_list_secondary_sorting == 2 )
         return gsb_transactions_list_sort_by_date_and_party (
                         transaction_number_1, transaction_number_2 );
     else
@@ -541,17 +544,17 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
     const GDate *value_date_1 = NULL;
     const GDate *value_date_2 = NULL;
 
-	if (conf.transactions_list_primary_sorting == 2)
+	if (transactions_list_primary_sorting == 2)
 		return gsb_transactions_list_sort_by_date (transaction_number_1, transaction_number_2);
 
    /* need to work a little more here because value date is not obligatory filled,
      * if we compare 2 transactions and 1 has no value date, set the value date before */
     value_date_1 = gsb_data_transaction_get_value_date ( transaction_number_1 );
-    if ( !value_date_1 && !conf.transactions_list_primary_sorting )
+    if ( !value_date_1 && !transactions_list_primary_sorting )
         value_date_1 = gsb_data_transaction_get_date ( transaction_number_1 );
 
     value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
-    if ( !value_date_2 && !conf.transactions_list_primary_sorting )
+    if ( !value_date_2 && !transactions_list_primary_sorting )
         value_date_2 = gsb_data_transaction_get_date ( transaction_number_2 );
 
     if ( value_date_1 )
@@ -1179,20 +1182,50 @@ gint gsb_transactions_list_sort_initial (CustomRecord **a,
 gint gsb_transactions_list_sort_initial_by_secondary_key ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
-    if ( conf.transactions_list_secondary_sorting == 1 )
+    if (transactions_list_secondary_sorting == 1 )
         return gsb_transactions_list_sort_by_amount (
                         transaction_number_1, transaction_number_2 );
-    else if ( conf.transactions_list_secondary_sorting == 2 )
+    else if (transactions_list_secondary_sorting == 2 )
         return gsb_transactions_list_sort_by_party (
                         transaction_number_1, transaction_number_2 );
-    else if ( conf.transactions_list_secondary_sorting == 3 )
+    else if (transactions_list_secondary_sorting == 3 )
         return gsb_transactions_list_sort_by_date_and_no (
                         transaction_number_1, transaction_number_2 );
     else
         return transaction_number_1 - transaction_number_2;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_transactions_list_set_primary_sort (gint primary_sort)
+{
+	transactions_list_primary_sorting = primary_sort;
+}
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_transactions_list_set_secondary_sort (gint secondary_sort)
+{
+	transactions_list_secondary_sorting = secondary_sort;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

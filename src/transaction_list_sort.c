@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "transaction_list_sort.h"
 #include "custom_list.h"
+#include "grisbi_app.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "gsb_reconcile_list.h"
@@ -86,7 +87,7 @@ void transaction_list_sort (void)
 
     /* resort */
     if (custom_list -> user_sort_reconcile)
-        g_qsort_with_data(custom_list->visibles_rows,
+        g_qsort_with_data (custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_reconcile_list_sort_func,
@@ -94,11 +95,22 @@ void transaction_list_sort (void)
     else if ( transaction_list_sort_get_initial_sort ( ) && custom_list -> sort_order == GTK_SORT_ASCENDING )
         return;
 	else
-		g_qsort_with_data(custom_list->visibles_rows,
+	{
+		GrisbiAppConf *a_conf;
+
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+		/* initialise les options de tri */
+		gsb_transactions_list_set_primary_sort (a_conf->transactions_list_primary_sorting);
+		gsb_transactions_list_set_secondary_sort (a_conf->transactions_list_secondary_sorting);
+
+		/* sort of the list */
+		g_qsort_with_data (custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_transactions_list_sort,
                         custom_list);
+	}
 
 	/* fixes bug 1875 */
 	if (custom_list->num_visibles_rows == 0)

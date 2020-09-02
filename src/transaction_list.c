@@ -668,7 +668,9 @@ void transaction_list_filter ( gint account_number )
     gint i;
     gint *neworder;
     CustomList *custom_list;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     custom_list = transaction_model_get_model ();
 
     devel_debug (NULL);
@@ -833,8 +835,12 @@ void transaction_list_filter ( gint account_number )
 
     gtk_tree_path_free(path);
 
+	/* initialise les options de tri */
+	gsb_transactions_list_set_primary_sort (a_conf->transactions_list_primary_sorting);
+	gsb_transactions_list_set_secondary_sort (a_conf->transactions_list_secondary_sorting);
+
     /* initial sort of the list */
-    g_qsort_with_data(custom_list->visibles_rows,
+    g_qsort_with_data (custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_transactions_list_sort_initial,

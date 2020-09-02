@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          http://www.grisbi.org                                                */
+/*          https://www.grisbi.org                                               */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_options_ope.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_file.h"
 #include "gsb_rgba.h"
@@ -130,7 +131,9 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     gint account_nb;
     gint value = 0;
     gint sort_type = 0;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
 
     page_number = gsb_gui_navigation_get_current_page ();
@@ -140,7 +143,7 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     switch (sort_type)
     {
         case PRIMARY_SORT:
-            conf.transactions_list_primary_sorting = value;
+            a_conf->transactions_list_primary_sorting = value;
             switch (value)
             {
                 case 0:
@@ -158,7 +161,7 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
 			}
             break;
         case SECONDARY_SORT:
-            conf.transactions_list_secondary_sorting = value;
+            a_conf->transactions_list_secondary_sorting = value;
             switch (value)
             {
                 case 0:
@@ -203,7 +206,8 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
  *
  * \return
  **/
-static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page)
+static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page,
+													   GrisbiAppConf *a_conf)
 {
 	GtkListStore *store = NULL;
 	GtkTreeIter iter;
@@ -248,7 +252,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 									"foreground", 2,
 									NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_transactions_list_primary_sorting),
-							  conf.transactions_list_primary_sorting);
+							  a_conf->transactions_list_primary_sorting);
 
 	g_signal_connect (G_OBJECT (priv->combo_transactions_list_primary_sorting),
 					  "changed",
@@ -273,7 +277,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 									"foreground", 2,
 									NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_transactions_list_secondary_sorting),
-							  conf.transactions_list_secondary_sorting);
+							  a_conf->transactions_list_secondary_sorting);
 
 	g_signal_connect (G_OBJECT (priv->combo_transactions_list_secondary_sorting),
 					  "changed",
@@ -294,12 +298,14 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
 {
 	GtkWidget *head_page;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 	PrefsPageOptionsOpePrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_options_ope_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	is_loading = grisbi_win_file_is_loading ();
@@ -319,7 +325,7 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
 								  conf.show_transaction_selected_in_form);
 
 	/* set combos sorting */
-	prefs_page_options_ope_init_combo_sorting (page);
+	prefs_page_options_ope_init_combo_sorting (page, a_conf);
 
 	/* set combo display lines */
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->combo_display_one_line), w_run->display_one_line);

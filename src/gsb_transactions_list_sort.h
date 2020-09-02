@@ -6,6 +6,8 @@
 
 
 /* START_DECLARATION */
+void	gsb_transactions_list_set_primary_sort		(gint primary_sort);
+void	gsb_transactions_list_set_secondary_sort	(gint secondary_sort);
 gint	gsb_transactions_list_sort					(CustomRecord **a,
                         							 CustomRecord **b,
                         							 CustomList *custom_list);
