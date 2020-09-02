@@ -41,7 +41,7 @@
 #include "transaction_list.h"
 #include "custom_list.h"
 #include "dialog.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_archive_store.h"
@@ -1956,6 +1956,9 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 {
     gint column;
     CustomRecord *newrecord;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     /* create the new record */
     newrecord = g_malloc0 (sizeof (CustomRecord));
@@ -1970,8 +1973,8 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 																					element_number);
 	}
 
-    if ( conf.custom_fonte_listes )
-	    newrecord -> font = conf.font_string;
+    if ( a_conf->custom_fonte_listes )
+	    newrecord -> font = a_conf->font_string;
     newrecord -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (transaction_number);
     newrecord -> what_is_line = IS_TRANSACTION;
     newrecord -> line_in_transaction = line_in_transaction;

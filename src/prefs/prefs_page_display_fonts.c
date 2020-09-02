@@ -164,12 +164,12 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
  * \return
  * */
 static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
-                                                          gpointer null)
+                                                          GrisbiAppConf *a_conf)
 {
     GValue value = G_VALUE_INIT;
     gchar *font;
 
-    if (conf.custom_fonte_listes)
+    if (a_conf->custom_fonte_listes)
 		font = fontname;
     else
 	{
@@ -194,11 +194,9 @@ static void prefs_page_display_fonts_checkbutton_checked (GtkWidget *checkbutton
                                                           gboolean *value)
 {
 	GSettings *settings;
-	gchar *tmp_str;
 
 	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
-	tmp_str = g_object_get_data (G_OBJECT (checkbutton), "custom-fonte-listes");
-	g_settings_set_boolean (G_SETTINGS (settings), tmp_str, *value);
+	g_settings_set_boolean (G_SETTINGS (settings), "custom-fonte-listes", *value);
 }
 
 /**
@@ -291,14 +289,12 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
 
 
 static void prefs_page_display_fonts_font_button_clicked (GtkWidget *button,
-                                                          gchar *value)
+                                                          gchar **value)
 {
 	GSettings *settings;
-	gchar *tmp_str;
 
 	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
-	tmp_str = g_object_get_data (G_OBJECT (button), "font-string");
-	g_settings_set_string (G_SETTINGS (settings), tmp_str, conf.font_string);
+	g_settings_set_string (G_SETTINGS (settings), "font-string", *value);
 }
 
 /**
@@ -523,11 +519,13 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	GtkWidget *preview;
 	GdkPixbuf *pixbuf = NULL;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	GrisbiWinRun *w_run = NULL;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_display_fonts_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Fonts & logo"), "gsb-fonts-32.png");
@@ -569,16 +567,16 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 
 	/* set the elements for fonts */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_display_fonts),
-								  conf.custom_fonte_listes);
+								  a_conf->custom_fonte_listes);
 
 	/* Create font button */
-    font_button = utils_prefs_fonts_create_button (&conf.font_string,
+    font_button = utils_prefs_fonts_create_button (&a_conf->font_string,
                                                    G_CALLBACK (prefs_page_display_fonts_update_fonte_listes),
-                                                   NULL);
+                                                   a_conf);
 	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts), "widget", font_button);
     gtk_box_pack_start (GTK_BOX (priv->hbox_display_fonts), font_button, FALSE, FALSE, 0);
 
-    if (!conf.custom_fonte_listes)
+    if (!a_conf->custom_fonte_listes)
     {
         gtk_widget_set_sensitive (font_button, FALSE);
     }
@@ -588,23 +586,18 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	g_signal_connect (priv->checkbutton_display_fonts,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.custom_fonte_listes);
+					  &a_conf->custom_fonte_listes);
 
 	/* set g_settings for fonts */
 	g_signal_connect_after (priv->checkbutton_display_fonts,
 							"toggled",
 							G_CALLBACK (prefs_page_display_fonts_checkbutton_checked),
-							&conf.custom_fonte_listes);
-
-	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts),
-					   "custom-fonte-listes",
-					   (gpointer) "custom-fonte-listes");
+							&a_conf->custom_fonte_listes);
 
 	g_signal_connect_after (font_button,
 							"clicked",
 							G_CALLBACK (prefs_page_display_fonts_font_button_clicked),
-							&conf.font_string);
-	g_object_set_data (G_OBJECT (font_button), "font-string", (gpointer) "font-string");
+							&a_conf->font_string);
 
 	/* set the themes buttons */
 	prefs_page_display_fonts_init_combo_force_theme (page);

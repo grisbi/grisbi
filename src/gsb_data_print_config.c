@@ -36,6 +36,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_print_config.h"
+#include "grisbi_app.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -77,6 +78,9 @@ static PangoFontDescription *report_font_title = NULL;
 void gsb_data_print_config_init ( void )
 {
     PangoFontDescription *new_font;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     /* init transactions list config */
     draw_lines = TRUE;
@@ -89,8 +93,8 @@ void gsb_data_print_config_init ( void )
     draw_interval_dates = FALSE;
     draw_dates_are_value_dates = FALSE;
 
-    if ( conf.custom_fonte_listes && conf.font_string )
-	new_font = pango_font_description_from_string ( conf.font_string );
+    if ( a_conf->custom_fonte_listes && a_conf->font_string )
+	new_font = pango_font_description_from_string ( a_conf->font_string );
     else
 	new_font = pango_font_description_from_string  ("sans 6");
 

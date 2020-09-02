@@ -173,9 +173,12 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
     }
     else
     {
+		GrisbiAppConf *a_conf;
+
 		font_name = my_strdup ("Monospace");
 		font_size = g_strdup ("10");
-		conf.custom_fonte_listes = FALSE;
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+		a_conf->custom_fonte_listes = FALSE;
     }
 
     gtk_label_set_text (GTK_LABEL(font_name_label), font_name);
