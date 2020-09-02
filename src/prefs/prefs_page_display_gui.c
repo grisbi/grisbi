@@ -188,7 +188,7 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 
 		settings = grisbi_settings_get_settings (SETTINGS_PANEL);
 		g_settings_reset (G_SETTINGS (settings), "panel-width");
-		conf.panel_width = g_settings_get_int (settings, "panel-width");
+		a_conf->panel_width = g_settings_get_int (settings, "panel-width");
 
 		gtk_window_resize (GTK_WINDOW (grisbi_app_get_active_window (NULL)), a_conf->main_width, a_conf->main_height);
 	}

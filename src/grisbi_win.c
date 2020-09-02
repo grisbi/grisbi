@@ -307,12 +307,13 @@ static void grisbi_win_create_headings_eb (GrisbiWin *win)
  */
 static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 												 GtkAllocation *allocation,
-												 gpointer data)
+												 GrisbiAppConf *a_conf)
 {
+	;
 	gint position;
 
     position = gtk_paned_get_position (GTK_PANED (hpaned_general));
-	conf.panel_width = position;
+	a_conf->panel_width = position;
 
 	return FALSE;
 }
@@ -661,8 +662,8 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
 					 FALSE);
     gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned_general), MARGIN_BOX);
 
-    if (conf.panel_width > 250)
-        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), conf.panel_width);
+    if (a_conf->panel_width > 250)
+        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), a_conf->panel_width);
     else
     {
         gint width, height;
