@@ -251,7 +251,6 @@ struct _GrisbiAppConf
     gboolean    automatic_erase_credit_debit;               /* 1 pour effacer les champs crédit et débit */
     gboolean    automatic_recover_splits;                   /* 1 pour recréer automatiquement les sous opérations */
 	gint		completion_minimum_key_length;				/* Minimum length of the search key in characters */
-	gboolean	completion_ignore_accents;
     gboolean    form_enter_key;								/* si TRUE, la touche entrée finit l'opération */
 	gboolean	form_validate_split;						/* 0 select a new transaction, 1 select the mother transaction */
     gint        fyear_combobox_sort_order;                  /* fyear combobox type sort, GTK_SORT_ASCENDING by default */
