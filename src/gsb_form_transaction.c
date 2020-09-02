@@ -180,9 +180,9 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
             gtk_widget_show ( form_button_recover_split );
         }
     }
-    else if ( ( element -> element_number == TRANSACTION_FORM_CREDIT && !conf.automatic_erase_credit_debit )
+    else if ( ( element -> element_number == TRANSACTION_FORM_CREDIT && !a_conf->automatic_erase_credit_debit )
          ||
-         ( element -> element_number == TRANSACTION_FORM_DEBIT && !conf.automatic_erase_credit_debit ) )
+         ( element -> element_number == TRANSACTION_FORM_DEBIT && !a_conf->automatic_erase_credit_debit ) )
     {
         gsb_form_fill_element ( element -> element_number,
                         account_number,
