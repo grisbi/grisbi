@@ -592,9 +592,9 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     {
 		gint last_day;
 
-		if (conf.scheduler_set_fixed_day
+		if (a_conf->scheduler_set_fixed_day
 			&&
-			g_date_get_day (date) >= conf.scheduler_fixed_day )
+			g_date_get_day (date) >= a_conf->scheduler_fixed_day )
 
 		{
 			g_date_add_months (date, 1);

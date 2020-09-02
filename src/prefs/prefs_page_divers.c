@@ -593,11 +593,11 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 
 	/* Init checkbutton set fixed day */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_fixed_day),
-								  conf.scheduler_set_fixed_day);
+								  a_conf->scheduler_set_fixed_day);
 
 	/* Init spinbutton_scheduler_fixed_day */
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_scheduler_fixed_day),
-							   conf.scheduler_fixed_day);
+							   a_conf->scheduler_fixed_day);
 
 	/* Init checkbutton set fixed date */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_fixed_date),
@@ -636,7 +636,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 		gtk_widget_set_sensitive (priv->hbox_divers_scheduler_set_fixed_day, FALSE);
 	}
 
-	if (!conf.scheduler_set_fixed_day)
+	if (!a_conf->scheduler_set_fixed_day)
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_scheduler_fixed_day), FALSE);
 
 	/* Connect signal */
@@ -650,7 +650,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
     g_signal_connect (priv->checkbutton_scheduler_set_fixed_day,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.scheduler_set_fixed_day);
+					  &a_conf->scheduler_set_fixed_day);
 
 	g_signal_connect_after (G_OBJECT (priv->checkbutton_scheduler_set_fixed_day),
 							"toggled",
@@ -661,7 +661,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
     g_signal_connect (priv->spinbutton_scheduler_fixed_day,
 					  "value-changed",
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
-					  &conf.scheduler_fixed_day);
+					  &a_conf->scheduler_fixed_day);
 
     /* callback for checkbutton_scheduler_set_fixed_date */
 		g_signal_connect (priv->checkbutton_scheduler_set_fixed_date,
