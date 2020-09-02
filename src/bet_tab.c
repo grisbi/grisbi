@@ -2967,7 +2967,9 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
     GDateMonth month;
     GDateYear year;
     gboolean find = FALSE;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     day = g_date_get_day (transfert->date_debit);
     month = g_date_get_month (transfert->date_debit);
     year = g_date_get_year (transfert->date_debit);
@@ -2980,9 +2982,9 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
 
     date_jour = gdate_today ();
     date_exec = g_date_new_dmy (day, month, year);
-    g_date_subtract_days (date_exec, conf.nb_days_before_scheduled);
+    g_date_subtract_days (date_exec, a_conf->nb_days_before_scheduled);
 
-    if (conf.execute_scheduled_of_month || g_date_compare (date_jour, date_exec) >= 0)
+    if (a_conf->execute_scheduled_of_month || g_date_compare (date_jour, date_exec) >= 0)
     {
         GDate *date_bascule;
 

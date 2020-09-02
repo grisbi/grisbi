@@ -578,7 +578,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	/* set the scheduled variables */
 	vbox_button = gsb_automem_radiobutton_gsettings_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
 													_("Warn/Execute the scheduled transactions of the month"),
-													&conf.execute_scheduled_of_month,
+													&a_conf->execute_scheduled_of_month,
 													(GCallback) prefs_page_divers_scheduler_warm_button_changed,
 													page);
 
@@ -626,7 +626,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	gtk_widget_show (combo);
 
 	/* sensitive widgets */
-	if (conf.execute_scheduled_of_month)
+	if (a_conf->execute_scheduled_of_month)
 	{
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_nb_days_before_scheduled), FALSE);
 		gtk_widget_set_sensitive (priv->hbox_divers_scheduler_set_fixed_day, TRUE);

@@ -36,7 +36,7 @@
 #include "gsb_scheduler.h"
 #include "accueil.h"
 #include "bet_finance_ui.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_fyear.h"
@@ -568,8 +568,10 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     GDate *date;
     GSList *tmp_list;
     gboolean automatic_transactions_taken = FALSE;
+	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     /* the scheduled transactions to take will be check here,
      * but the scheduled transactions taken will be add to the already appended ones */
@@ -586,7 +588,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     date = gdate_today ();
     /* now date is in conf.nb_days_before_scheduled, if we want the transactions of the month,
      * we change date to the end of its month */
-    if (conf.execute_scheduled_of_month)
+    if (a_conf->execute_scheduled_of_month)
     {
 		gint last_day;
 

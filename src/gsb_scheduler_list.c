@@ -2613,14 +2613,15 @@ gboolean gsb_scheduler_list_select (gint scheduled_number)
 GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
 {
     GDate *end_date;
+	GrisbiAppConf *a_conf;
 
-    /* on récupère la date du jour et la met dans end_date pour les
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	/* on récupère la date du jour et la met dans end_date pour les
     * vérifications ultérieures */
-
     end_date = gdate_today ();
 
     /* on calcule la date de fin de l'affichage */
-
     switch (etat.affichage_echeances)
     {
 		case SCHEDULER_PERIODICITY_ONCE_VIEW:
@@ -2670,7 +2671,7 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
 
 				case PERIODICITY_MONTHS:
 					g_date_add_months (end_date, etat.affichage_echeances_perso_nb_libre);
-					if (conf.execute_scheduled_of_month)	/* dans ce cas on affiche toutes les transactions du mois */
+					if (a_conf->execute_scheduled_of_month)	/* dans ce cas on affiche toutes les transactions du mois */
 					{
 						GDate *tmp_date;
 
