@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_page_fyear.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_autofunc.h"
 #include "gsb_calendar_entry.h"
@@ -560,7 +561,8 @@ static void prefs_page_fyear_fill_list (GtkTreeModel *store)
  *
  * \return the tree_view
  **/
-static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page)
+static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page,
+											  GrisbiAppConf *a_conf)
 {
     GtkCellRenderer *cell_renderer;
 	GtkListStore *store = NULL;
@@ -619,7 +621,7 @@ static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page)
     }
 
     /* Sort columns accordingly */
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (store), FYEAR_NAME_COLUMN, conf.prefs_fyear_sort_order);
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (store), FYEAR_NAME_COLUMN, a_conf->prefs_fyear_sort_order);
 	prefs_page_fyear_fill_list (GTK_TREE_MODEL (store));
 
 	/* set signal */
@@ -645,19 +647,21 @@ static void prefs_page_fyear_button_sort_order_toggled (GtkWidget *toggle_button
 	GSettings *settings;
     GtkTreeModel *model;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	is_loading = grisbi_win_file_is_loading ();
 	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
 	g_settings_set_boolean (G_SETTINGS (settings),
                         	"prefs-fyear-sort-order",
-                        	conf.prefs_fyear_sort_order);
+                        	a_conf->prefs_fyear_sort_order);
 
 	if (is_loading)
 	{
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
 											  FYEAR_NAME_COLUMN,
-											  conf.prefs_fyear_sort_order);
+											  a_conf->prefs_fyear_sort_order);
 		gtk_tree_sortable_sort_column_changed (GTK_TREE_SORTABLE(model));
 		prefs_page_fyear_fill_list (model);
 
@@ -676,10 +680,12 @@ static void prefs_page_fyear_setup_page (PrefsPageFyear *page)
 {
 	GtkWidget *head_page;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	PrefsPageFyearPrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_fyear_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
@@ -689,14 +695,14 @@ static void prefs_page_fyear_setup_page (PrefsPageFyear *page)
 
     /* set the checkbutton_fyear_sort_order  */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_fyear_sort_order),
-								  conf.prefs_fyear_sort_order);
+								  a_conf->prefs_fyear_sort_order);
 
 	if (is_loading)
 	{
 		GtkWidget *entry;
 		GtkTreeModel *model;
 
-		prefs_page_fyear_setup_tree_view (page);
+		prefs_page_fyear_setup_tree_view (page, a_conf);
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_fyear));
 
 		g_object_set_data (G_OBJECT (model), "button_fyear_associate", priv->button_fyear_associate);
@@ -769,7 +775,7 @@ static void prefs_page_fyear_setup_page (PrefsPageFyear *page)
     g_signal_connect (priv->checkbutton_fyear_sort_order,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.prefs_fyear_sort_order);
+					  &a_conf->prefs_fyear_sort_order);
 
     g_signal_connect_after (priv->checkbutton_fyear_sort_order,
 							"toggled",
