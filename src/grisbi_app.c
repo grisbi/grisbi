@@ -103,9 +103,6 @@ struct AcceleratorStruct
 	const gchar *translate_string;
 };
 
-/* global variable, see structures.h */
-struct _GrisbiAppConf	conf;                   /* conf structure Provisoire */
-
 static struct AcceleratorStruct accels[] = {
 		{ "app.new-window", { "<Alt>n", NULL }, N_("New_window")},
 		{ "app.prefs", { "<Primary><Shift>p", NULL }, N_("Preferences")},
