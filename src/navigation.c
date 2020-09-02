@@ -1191,8 +1191,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gint report_number;
     gchar *title = NULL;
     gboolean clear_suffix = TRUE;
+	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     page_number = gsb_gui_navigation_get_current_page ();
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( grisbi_win_get_notebook_general ( ) ), page_number );
@@ -1254,7 +1256,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 											   NULL,
 											   gtk_notebook_get_current_page (GTK_NOTEBOOK (account_page)),
 											   NULL );
-			if (conf.formulaire_toujours_affiche)
+			if (a_conf->formulaire_toujours_affiche)
 				gsb_form_show (TRUE);
 			else
 				gsb_form_show (FALSE);

@@ -359,12 +359,15 @@ static gboolean grisbi_win_form_size_allocate (GtkWidget *form_expander,
 static gboolean grisbi_win_form_expander_activate (GtkWidget *expander,
 												   GrisbiWin *win)
 {
+	GrisbiAppConf *a_conf;
+
     devel_debug (NULL);
+	a_conf = grisbi_app_get_a_conf ();
 
     if (gtk_expander_get_expanded (GTK_EXPANDER (expander)))
 		gsb_form_expander_is_extanded (expander);
     else
-		conf.formulaire_toujours_affiche = FALSE;
+		a_conf->formulaire_toujours_affiche = FALSE;
 
 	gsb_menu_gui_toggle_show_form ();
 
@@ -382,10 +385,12 @@ static GtkWidget *grisbi_win_form_new (GrisbiWin *win)
 {
 	GtkWidget *label;
 	gchar *tmp_str;
+	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
     devel_debug (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	a_conf = grisbi_app_get_a_conf ();
 
 	/* Create the form frame */
 	priv->form_frame = gtk_frame_new ("");
@@ -394,7 +399,7 @@ static GtkWidget *grisbi_win_form_new (GrisbiWin *win)
     priv->form_expander = gtk_expander_new ("");
 	utils_widget_set_padding (priv->form_expander, MARGIN_BOX, MARGIN_BOX);
 
-    gtk_expander_set_expanded (GTK_EXPANDER (priv->form_expander), conf.formulaire_toujours_affiche);
+    gtk_expander_set_expanded (GTK_EXPANDER (priv->form_expander), a_conf->formulaire_toujours_affiche);
 	gtk_container_add (GTK_CONTAINER (priv->form_frame), priv->form_expander);
 
 	g_object_set_data (G_OBJECT (priv->form_frame), "form_expander", priv->form_expander);
@@ -1390,7 +1395,7 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 
 	/* initialisations sub menus */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-form");
-    g_action_change_state (G_ACTION (action), g_variant_new_boolean (conf.formulaire_toujours_affiche));
+    g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->formulaire_toujours_affiche));
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-closed-acc");
     g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->show_closed_accounts));
 

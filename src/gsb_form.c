@@ -1805,9 +1805,12 @@ void gsb_form_fill_element (gint element_number,
 void gsb_form_expander_is_extanded (GtkWidget *expander)
 {
 	GtkWidget *date_entry;
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	gsb_form_show (TRUE);
-	conf.formulaire_toujours_affiche = TRUE;
+	a_conf->formulaire_toujours_affiche = TRUE;
 	gsb_form_widget_set_focus (TRANSACTION_FORM_DATE);
 	date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
 	gsb_form_widget_set_empty (date_entry, TRUE);
@@ -3435,12 +3438,15 @@ gboolean gsb_form_finish_edition (void)
  **/
 gboolean gsb_form_escape_form (void)
 {
+	GrisbiAppConf *a_conf;
+
     devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     /* in all case clean the scheduler part of the form */
     gsb_form_scheduler_clean ();
 
-    if (conf.formulaire_toujours_affiche)
+    if (a_conf->formulaire_toujours_affiche)
     {
         gsb_form_clean (gsb_form_get_account_number ());
     }

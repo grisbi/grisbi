@@ -805,10 +805,13 @@ void grisbi_cmd_show_form_toggle (GSimpleAction *action,
 								  GVariant *parameter,
 								  gpointer app)
 {
-    grisbi_win_switch_form_expander ();
-    conf.formulaire_toujours_affiche = !conf.formulaire_toujours_affiche;
+	GrisbiAppConf *a_conf;
 
-    g_action_change_state (G_ACTION (action), g_variant_new_boolean (conf.formulaire_toujours_affiche));
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	grisbi_win_switch_form_expander ();
+    a_conf->formulaire_toujours_affiche = !a_conf->formulaire_toujours_affiche;
+
+    g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->formulaire_toujours_affiche));
 }
 
 /**
@@ -992,11 +995,13 @@ gboolean gsb_menu_gui_toggle_show_form (void)
 {
     GrisbiWin *win;
     GAction *action;
+	GrisbiAppConf *a_conf;
 
     win = grisbi_app_get_active_window (NULL);
     action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-form");
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     g_action_change_state (G_ACTION (action),
-                           g_variant_new_boolean (conf.formulaire_toujours_affiche));
+                           g_variant_new_boolean (a_conf->formulaire_toujours_affiche));
 
     return FALSE;
 }
