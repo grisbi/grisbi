@@ -578,15 +578,15 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     scheduled_transactions_to_take = NULL;
 
-    /* get the date today + conf.nb_days_before_scheduled */
+    /* get the date today + a_conf->nb_days_before_scheduled */
 
     /* the date untill we execute the scheduled transactions is :
-     * - either today + conf.nb_days_before_scheduled if warn n days before the scheduled
-     * - either the end of the month in conf.nb_days_before_scheduled days (so current month or next month)
+     * - either today + a_conf->nb_days_before_scheduled if warn n days before the scheduled
+     * - either the end of the month in a_conf->nb_days_before_scheduled days (so current month or next month)
 	 *   or the fixed date
      *   */
     date = gdate_today ();
-    /* now date is in conf.nb_days_before_scheduled, if we want the transactions of the month,
+    /* now date is in a_conf->nb_days_before_scheduled, if we want the transactions of the month,
      * we change date to the end of its month */
     if (a_conf->execute_scheduled_of_month)
     {
@@ -606,7 +606,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     }
 	else
 	{
-		g_date_add_days ( date, conf.nb_days_before_scheduled );
+		g_date_add_days ( date, a_conf->nb_days_before_scheduled );
 	}
 
     /* check all the scheduled transactions,

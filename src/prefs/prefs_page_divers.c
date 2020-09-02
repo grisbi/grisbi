@@ -589,7 +589,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 
 	/* initialise le bouton nombre de jours avant alerte execution */
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_nb_days_before_scheduled),
-							   conf.nb_days_before_scheduled);
+							   a_conf->nb_days_before_scheduled);
 
 	/* Init checkbutton set fixed day */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_fixed_day),
@@ -644,7 +644,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
     g_signal_connect (priv->spinbutton_nb_days_before_scheduled,
 					  "value-changed",
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
-					  &conf.nb_days_before_scheduled);
+					  &a_conf->nb_days_before_scheduled);
 
     /* callback for checkbutton_scheduler_set_fixed_day */
     g_signal_connect (priv->checkbutton_scheduler_set_fixed_day,
