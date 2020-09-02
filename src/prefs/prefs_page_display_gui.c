@@ -166,9 +166,11 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 	GtkTreeModel *model;
 	GSettings *settings;
 	gint etat;
+	GrisbiAppConf *a_conf;
 
 	devel_debug (NULL);
 	etat = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_run->resolution_screen_toggled = etat;
 
 	settings = grisbi_settings_get_settings (SETTINGS_GEOMETRY);
@@ -180,14 +182,14 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 		/*reset all geometry keys */
 		g_settings_reset (G_SETTINGS (settings), "main-height");
 		g_settings_reset (G_SETTINGS (settings), "main-width");
-		conf.main_height = g_settings_get_int (settings, "main-height");
-		conf.main_width = g_settings_get_int (settings, "main-width");
+		a_conf->main_height = g_settings_get_int (settings, "main-height");
+		a_conf->main_width = g_settings_get_int (settings, "main-width");
 
 		settings = grisbi_settings_get_settings (SETTINGS_PANEL);
 		g_settings_reset (G_SETTINGS (settings), "panel-width");
 		conf.panel_width = g_settings_get_int (settings, "panel-width");
 
-		gtk_window_resize (GTK_WINDOW (grisbi_app_get_active_window (NULL)), conf.main_width, conf.main_height);
+		gtk_window_resize (GTK_WINDOW (grisbi_app_get_active_window (NULL)), a_conf->main_width, a_conf->main_height);
 	}
 
 	/* init status bar */

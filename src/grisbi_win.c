@@ -1704,8 +1704,8 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
                                    GDK_HINT_BASE_SIZE);
 
     /* set the size of the window */
-    if (conf.main_width && conf.main_height)
-        gtk_window_set_default_size (GTK_WINDOW (win), conf.main_width, conf.main_height);
+    if (a_conf->main_width && a_conf->main_height)
+        gtk_window_set_default_size (GTK_WINDOW (win), a_conf->main_width, a_conf->main_height);
     else
         gtk_window_set_default_size (GTK_WINDOW (win), 1024, 768);
 
