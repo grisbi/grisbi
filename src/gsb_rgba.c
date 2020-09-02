@@ -712,9 +712,12 @@ void gsb_css_set_color_property (GdkRGBA *color,
 	new_data = gsb_rgba_css_color_get_data_with_new_color (line_needle, new_color_string);
 	if (new_data)
 	{
+		GrisbiAppConf *a_conf;
+
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
 		grisbi_app_set_css_data (new_data);
-		conf.prefs_change_css_data = TRUE;
+		a_conf->prefs_change_css_data = TRUE;
 
 		g_free (new_data);
 	}
@@ -745,7 +748,9 @@ void gsb_css_set_rule_from_name (const gchar *name,
 		gchar *first_part = NULL;
 		gchar *new_data = NULL;
 		gchar **tab_rule;
+		GrisbiAppConf *a_conf;
 
+		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		first_part = g_strndup (css_data, tmp_str - css_data);
 		tab_rule = g_strsplit (tmp_str, "#", 3);
 		new_data = g_strconcat (first_part, rule, "\n#", tab_rule[2], NULL);
@@ -753,7 +758,7 @@ void gsb_css_set_rule_from_name (const gchar *name,
 		css_provider = grisbi_app_get_css_provider ();
 		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
 		grisbi_app_set_css_data (new_data);
-		conf.prefs_change_css_data = TRUE;
+		a_conf->prefs_change_css_data = TRUE;
 
 		g_free (first_part);
 		g_free (new_data);

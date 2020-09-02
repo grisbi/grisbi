@@ -155,7 +155,7 @@ static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *butto
 
 	/* set old css rules */
 	gsb_css_load_css_data_from_file (NULL);
-	conf.prefs_change_css_data = FALSE;
+	a_conf->prefs_change_css_data = FALSE;
 }
 
 /**

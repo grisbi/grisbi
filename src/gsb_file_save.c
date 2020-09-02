@@ -2870,7 +2870,7 @@ gboolean gsb_file_save_css_local_file (const gchar *css_data)
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	/* on sauvegarde le fichier CSS en local qu'en cas de modification */
-	if (conf.prefs_change_css_data)
+	if (a_conf->prefs_change_css_data)
 	{
 		gchar *css_filename;
 		gchar *tmp_str = NULL;
