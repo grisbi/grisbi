@@ -5,8 +5,8 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -38,6 +38,7 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_form_completion.h"
+#include "grisbi_app.h"
 #include "grisbi_settings.h"
 #include "gsb_category.h"
 #include "gsb_data_form.h"
@@ -159,12 +160,14 @@ static void prefs_page_form_completion_save_checkbuton_value (GtkWidget *button)
 {
 	const gchar *tmp_name;
 	GSettings *settings;
+	GrisbiAppConf *a_conf;
 
 	settings = grisbi_settings_get_settings (SETTINGS_FORM);
+	a_conf = grisbi_app_get_a_conf ();
 	tmp_name = gtk_widget_get_name (button);
 	if (strcmp (tmp_name, "checkbutton_automatic_completion_payee") ==0)
 	{
-		if (conf.automatic_completion_payee)
+		if (a_conf->automatic_completion_payee)
 			g_settings_set_boolean (G_SETTINGS (settings), "automatic-completion-payee", TRUE);
 		else
 			g_settings_reset (G_SETTINGS (settings), "automatic-completion-payee");
@@ -287,12 +290,14 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 {
 	GtkWidget *head_page;
 	gboolean is_loading;
+	GrisbiAppConf *a_conf;
 	PrefsPageFormCompletionPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_form_completion_get_instance_private (page);
 	is_loading = grisbi_win_file_is_loading ();
+	a_conf = grisbi_app_get_a_conf ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Form completion"), "gsb-form-32.png");
@@ -326,10 +331,10 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 		gtk_widget_set_sensitive (priv->checkbutton_combofix_force_category, FALSE);
 	}
 
-	/* set conf.automatic_completion_payee */
+	/* set a_conf->automatic_completion_payee */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_automatic_completion_payee),
-								  conf.automatic_completion_payee);
-	if (!conf.automatic_completion_payee)
+								  a_conf->automatic_completion_payee);
+	if (!a_conf->automatic_completion_payee)
 	{
 		gtk_widget_set_sensitive (priv->hbox_automatic_completion_payee, FALSE);
 	}
@@ -369,7 +374,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
     g_signal_connect (priv->checkbutton_automatic_completion_payee,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &conf.automatic_completion_payee);
+					  &a_conf->automatic_completion_payee);
 
     g_signal_connect_after (priv->checkbutton_automatic_completion_payee,
 							"toggled",

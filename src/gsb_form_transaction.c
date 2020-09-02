@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "gsb_form_transaction.h"
 #include "etats_calculs.h"
+#include "grisbi_app.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency_link.h"
@@ -78,8 +79,10 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
     gint transaction_number = 0;
     gint account_number;
     GSList *tmp_list;
+	GrisbiAppConf *a_conf;
 
     devel_debug (payee_name);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     if ( !strlen (payee_name))
     return FALSE;
@@ -124,10 +127,8 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         return TRUE;
 
     /* find the last transaction with that payee */
-    if ( conf.automatic_completion_payee )
-    transaction_number = gsb_form_transactions_look_for_last_party ( payee_number,
-                        0,
-                        account_number );
+    if ( a_conf->automatic_completion_payee )
+    	transaction_number = gsb_form_transactions_look_for_last_party (payee_number, 0, account_number);
 
     /* if no same transaction, go away */
     if ( !transaction_number )
