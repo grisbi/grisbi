@@ -1069,7 +1069,7 @@ static void grisbi_app_activate (GApplication *application)
 {
 
 	GrisbiWin *win;
-    gchar *string;
+    //~ gchar *string;
     gboolean load_file = FALSE;
 	GrisbiAppPrivate *priv;
 
@@ -1080,10 +1080,10 @@ static void grisbi_app_activate (GApplication *application)
     win = grisbi_app_create_window (GRISBI_APP (application), NULL);
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL);
-    if (g_file_test (string, G_FILE_TEST_EXISTS))
-        gtk_window_set_default_icon_from_file (string, NULL);
-    g_free (string);
+    //~ string = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL);
+    //~ if (g_file_test (string, G_FILE_TEST_EXISTS))
+        //~ gtk_window_set_default_icon_from_file (string, NULL);
+    //~ g_free (string);
 
 	/* set the CSS properties */
     if (css_provider)
