@@ -70,7 +70,7 @@ configure_args=""
 configure_args+="--prefix /c/projects/grisbi-inst/ "
 configure_args+="--with-ofx "
 configure_args+="--with-goffice "
-configure_args+="--enable-config-file "
+#configure_args+="--enable-config-file "
 echo "configure_args: $configure_args $@"
 ./configure $configure_args "$@"
 
