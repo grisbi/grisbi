@@ -211,6 +211,9 @@ gchar *gsb_locale_get_print_locale_var (void)
     gchar *negative_sign;
     gchar *currency_symbol;
 
+    if (NULL == _locale)
+        return g_strdup("locale not yet configured\n");
+
     /* test local pour les nombres */
 	currency_symbol = g_strdup (_locale->currency_symbol);
 	mon_thousands_sep = g_strdup (_locale->mon_thousands_sep);
