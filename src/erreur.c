@@ -630,7 +630,10 @@ gboolean debug_start_log ( void )
 void debug_finish_log ( void )
 {
     if ( debug_file )
+    {
         fclose (debug_file);
+        debug_file = NULL;
+    }
 }
 
 
