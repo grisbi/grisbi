@@ -421,7 +421,7 @@ void debug_message_string ( const gchar *prefixe,
                         debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function);
 
-        if ( debug_mode )
+        if ( debug_mode && debug_file)
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
