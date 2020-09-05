@@ -1206,12 +1206,6 @@ static void grisbi_app_shutdown (GApplication *application)
 {
 	devel_debug (NULL);
 
-    /* clean finish of the debug file */
-    if (debug_get_debug_mode ())
-	{
-        debug_finish_log ();
-	}
-
 	/* on sauvegarde éventuellement le fichier CSS local */
 	gsb_file_save_css_local_file (css_data);
 
@@ -1236,6 +1230,12 @@ static void grisbi_app_shutdown (GApplication *application)
 
 	/* on libère la mémoire utilisée par conf */
     grisbi_app_struct_conf_free (GRISBI_APP (application));
+
+    /* clean finish of the debug file */
+    if (debug_get_debug_mode ())
+	{
+        debug_finish_log ();
+	}
 
     G_APPLICATION_CLASS (grisbi_app_parent_class)->shutdown (application);
 }
