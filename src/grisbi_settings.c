@@ -135,26 +135,8 @@ static void grisbi_settings_init_settings_backup (GSettings *settings,
 static void grisbi_settings_init_settings_display (GSettings *settings,
 												   GrisbiAppConf *a_conf)
 {
-    gchar *tmp_str;
-
-    tmp_str = g_settings_get_string (settings, "display-window-title");
-    if (g_strcmp0 (tmp_str, "Holder name") == 0)
-        a_conf->display_window_title = 1;
-    else if (g_strcmp0 (tmp_str, "Filename") == 0)
-        a_conf->display_window_title = 2;
-    else
-        a_conf->display_window_title = 0;
-    g_free (tmp_str);
-
-    tmp_str = g_settings_get_string (settings, "display-toolbar");
-    if (g_strcmp0 (tmp_str, "Text") == 0)
-        a_conf->display_toolbar = GSB_BUTTON_TEXT;
-    else if (g_strcmp0 (tmp_str, "Icons") == 0)
-        a_conf->display_toolbar = GSB_BUTTON_ICON;
-    else
-        a_conf->display_toolbar = GSB_BUTTON_BOTH;
-    g_free (tmp_str);
-
+    a_conf->display_window_title = g_settings_get_int (settings, "display-window-title");
+    a_conf->display_toolbar = g_settings_get_int (settings, "display-toolbar");
     a_conf->formulaire_toujours_affiche = g_settings_get_boolean (settings, "formulaire-toujours-affiche");
     a_conf->group_partial_balance_under_accounts = g_settings_get_boolean (settings, "group-partial-balance-under-accounts");
     a_conf->show_closed_accounts = g_settings_get_boolean (settings, "show-closed-accounts");
@@ -318,38 +300,13 @@ static void grisbi_settings_init_settings_general (GSettings *settings,
     a_conf->pluriel_final = g_settings_get_boolean (settings, "pluriel-final");
 
     /* variables for the list of categories */
-    tmp_str = g_settings_get_string (settings, "metatree-action-2button-press");
-    if (g_strcmp0 (tmp_str, "Edit Category") == 0)
-        a_conf->metatree_action_2button_press = 1;
-    else if (g_strcmp0 (tmp_str, "Manage division") == 0)
-        a_conf->metatree_action_2button_press = 2;
-    else
-        a_conf->metatree_action_2button_press = 0;
-    g_free (tmp_str);
+    a_conf->metatree_action_2button_press = g_settings_get_int (settings, "metatree-action-2button-press");
 
     /* variables for the list of transactions */
     a_conf->show_transaction_gives_balance = g_settings_get_boolean (settings, "show-transaction-gives-balance");
     a_conf->show_transaction_selected_in_form = g_settings_get_boolean (settings, "show-transaction-selected-in-form");
-
-    tmp_str = g_settings_get_string (settings, "transactions-list-primary-sorting");
-    if (g_strcmp0 (tmp_str, "Sort by value date") == 0)
-        a_conf->transactions_list_primary_sorting = 0;
-    else if (g_strcmp0 (tmp_str, "Forced sort by date") == 0)
-        a_conf->transactions_list_primary_sorting = 2;
-    else
-        a_conf->transactions_list_primary_sorting = 1;
-    g_free (tmp_str);
-
-    tmp_str = g_settings_get_string (settings, "transactions-list-secondary-sorting");
-    if (g_strcmp0 (tmp_str, "Sort by transaction number") == 0)
-        a_conf->transactions_list_secondary_sorting = 0;
-    else if (g_strcmp0 (tmp_str, "Sort by type of amount") == 0)
-        a_conf->transactions_list_secondary_sorting = 1;
-    else if (g_strcmp0 (tmp_str, "Sort by payee name") == 0)
-        a_conf->transactions_list_secondary_sorting = 2;
-    else
-        a_conf->transactions_list_secondary_sorting = 3;
-    g_free (tmp_str);
+    a_conf->transactions_list_primary_sorting = g_settings_get_int (settings, "transactions-list-primary-sorting");
+    a_conf->transactions_list_secondary_sorting = g_settings_get_int (settings, "transactions-list-secondary-sorting");
 }
 
 /**
@@ -636,7 +593,6 @@ void grisbi_settings_save_app_config (void)
 {
     GrisbiSettingsPrivate *priv;
 	gchar **recent_array;
-    const gchar *tmp_str;
 	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
@@ -676,20 +632,13 @@ void grisbi_settings_save_app_config (void)
                         a_conf->make_backup_nb_minutes);
 
     /* priv->settings_display */
-    switch (a_conf->display_window_title)
-    {
-        case 1:
-            tmp_str = "Holder name";
-            break;
-        case 2:
-            tmp_str = "Filename";
-            break;
-        default:
-            tmp_str = "Entity name";
-    }
-    g_settings_set_string (G_SETTINGS (priv->settings_display),
-                        "display-window-title",
-                        tmp_str);
+	if (a_conf->display_window_title)
+		g_settings_set_int (G_SETTINGS (priv->settings_display),
+							"display-window-title",
+							a_conf->display_window_title);
+	else
+		g_settings_reset (G_SETTINGS (priv->settings_display),
+						  "display-window-title");
 
     g_settings_set_boolean ( G_SETTINGS (priv->settings_display),
                         "formulaire-toujours-affiche",
@@ -759,25 +708,18 @@ void grisbi_settings_save_app_config (void)
 						  "form-validate-split");
 
     /* priv->settings_general */
-    if (a_conf->browser_command)
-        g_settings_set_string (G_SETTINGS (priv->settings_general),
-                        "browser-command",
-                        a_conf->browser_command);
+	if (a_conf->browser_command)
+		g_settings_set_string (G_SETTINGS (priv->settings_general),
+							   "browser-command",
+							   a_conf->browser_command);
 
-    switch (a_conf->metatree_action_2button_press)
-    {
-        case 1:
-            tmp_str = "Edit Category";
-            break;
-        case 2:
-            tmp_str = "Manage division";
-            break;
-        default:
-            tmp_str = "gtk default";
-    }
-    g_settings_set_string (G_SETTINGS (priv->settings_general),
-                           "metatree-action-2button-press",
-                           tmp_str);
+	if (a_conf->metatree_action_2button_press)
+		g_settings_set_int (G_SETTINGS (priv->settings_general),
+							"metatree-action-2button-press",
+							a_conf->metatree_action_2button_press);
+	else
+		g_settings_reset (G_SETTINGS (priv->settings_general),
+						  "metatree-action-2button-press");
 
     g_settings_set_boolean (G_SETTINGS (priv->settings_general),
                             "show-transaction-gives-balance",

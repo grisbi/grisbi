@@ -67,30 +67,25 @@
 
   <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/display/" id='org.gtk.grisbi.display'>
   <!-- options des onglets Adresse et titre, Eléments de l'interface et menu Affichage-->
-	  <key name="display-window-title" type="s">
-	    <choices>
-		    <choice value="Entity name"/>
-		    <choice value="Holder name"/>
-		    <choice value="Filename"/>
-		</choices>
-			<default>"Entity name"</default>
+	  <key name="display-window-title" type="i">
+		<default>0</default>
 	    <summary>Select the name of the main window of Grisbi</summary>
 	    <description>
-        Select the name of the main window of Grisbi :
-		0 = Name of the accounting entity
-        1 = Holder name of the account
-		2 = Filename.
+        	Select the name of the main window of Grisbi :
+			0 = Name of the accounting entity
+        	1 = Holder name of the account
+			2 = Filename.
       </description>
 	  </key>
-	  <key name="display-toolbar" type="s">
-	  	    <choices>
-		    <choice value="Text"/>
-		    <choice value="Icons"/>
-		    <choice value="Text + Icons"/>
-		</choices>
-      <default>"Text + Icons"</default>
-	    <summary>Show buttons on toolbars as</summary>
-	    <description>Select the labels of buttons: Text, Icon or Text+Icon.</description>
+	  <key name="display-toolbar" type="i">
+      <default>2</default>
+	    <summary>
+		Show buttons on toolbars as</summary>
+	    <description>Select the labels of buttons:
+			0 = Text,
+			1 = Icon = 1,
+			2 = Text+Icon.
+		</description>
 	  </key>
 	  <key name="formulaire-toujours-affiche" type="b">
       <default>true</default>
@@ -307,17 +302,14 @@
         FALSE = finals, TRUE = finaux.
       </description>
     </key>
-    <key name="metatree-action-2button-press" type="s">
-        <choices>
-            <choice value="gtk default"/>
-            <choice value="Edit Category"/>
-            <choice value="Manage division"/>
-        </choices>
-	    <default>"gtk default"</default>
+    <key name="metatree-action-2button-press" type="i">
+	    <default>0</default>
 	    <summary>Right-click action on a sub-category</summary>
 	    <description>
-	      Right-click action on a sub-category: gtk default,
-	      Edit Category, manage division if possible.
+	    	Right-click action on a sub-category:
+			0 = gtk default,
+	    	1 = Edit Category,
+			2 = manage division if possible.
 	    </description>
 	</key>
     <key name="show-transaction-gives-balance" type="b">
@@ -334,36 +326,25 @@
 
       </description>
     </key>
-    <key name="transactions-list-primary-sorting" type="s">
-        <choices>
-            <choice value="Sort by value date"/>
-            <choice value="Sort by value date and then by date"/>
-            <choice value="Forced sort by date"/>
-        </choices>
-      <default>"Sort by value date"</default>
-      <summary>Primary sorting option</summary>
-      <description>
-        Sort by value date, if fail, try with the date,
-        Sort by value date and then by date.
-		Forced sort by transaction date.
-      </description>
-    </key>
-    <key name="transactions-list-secondary-sorting" type="s">
-        <choices>
-            <choice value="Sort by transaction number"/>
-            <choice value="Sort by type of amount"/>
-            <choice value="Sort by payee name"/>
-            <choice value="Sort by date and then by transaction number"/>
-        </choices>
-      <default>"Sort by transaction number"</default>
-      <summary>Secondary sorting option</summary>
-      <description>
-        Sort by transaction number,
-        Sort by type of amount : credit, debit,
-        Sort by payee name, if fail, by transaction number,
-        Sort by date and then by transaction number.
-      </description>
-    </key>
+	<key name="transactions-list-primary-sorting" type="i">
+    	<default>0</default>
+    	<summary>Primary sorting option</summary>
+    	<description>
+			0 = sort by value date, if fail, try with the date,
+			1 = sort by value date and then by date.
+			2 = forced sort by transaction date.
+		</description>
+	</key>
+	<key name="transactions-list-secondary-sorting" type="i">
+		<default>0</default>
+		<summary>Secondary sorting option</summary>
+		<description>
+			0 = sort by transaction number,
+			1 = sort by type of amount : credit, debit,
+			2 = sort by payee name, if fail, by transaction number,
+			3 = sort by date and then by transaction number.
+		</description>
+	</key>
   </schema>
 
   <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/geometry/" id='org.gtk.grisbi.geometry'>

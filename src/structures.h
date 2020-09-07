@@ -223,7 +223,7 @@ struct _GrisbiAppConf
 
 /* display part */
     gint        display_window_title;                       /* selection du titre principal de grisbi */
-    gboolean    display_toolbar;                            /* Display mode of toolbar. */
+    gint		display_toolbar;                            /* Display mode of toolbar. */
     gboolean    formulaire_toujours_affiche;                /* TRUE formulaire toujours affiché */
     gboolean    group_partial_balance_under_accounts;       /* TRUE = in home page group the partial balance with accounts */
     gboolean    show_headings_bar;                          /* Show headings bar or not. */
@@ -274,8 +274,8 @@ struct _GrisbiAppConf
 	/* variables for the list of transactions */
     gboolean    show_transaction_gives_balance;             /* TRUE si on visualise l'opération qui donne le solde du jour */
     gboolean    show_transaction_selected_in_form;          /* TRUE will show the selected transaction in the form */
-    gboolean    transactions_list_primary_sorting;          /* Primary sorting option for the transactions */
-    gboolean    transactions_list_secondary_sorting;        /* Secondary sorting option for the transactions */
+    gint		transactions_list_primary_sorting;          /* Primary sorting option for the transactions */
+    gint    	transactions_list_secondary_sorting;        /* Secondary sorting option for the transactions */
 
 /* geometry part */
     gint        x_position;                                 /* main_window x position */

@@ -117,7 +117,6 @@ static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButt
 																	GrisbiAppConf *a_conf)
 {
     GSettings *settings;
-    const gchar *tmp_str;
 
     /* Do not execute this callback twice,
      * as it is triggered for both unselected button and newly selected one.
@@ -129,21 +128,11 @@ static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButt
     a_conf->display_toolbar = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(button), "display"));
 
     /* update GSettings */
-    switch (a_conf->display_toolbar)
-    {
-        case GSB_BUTTON_TEXT:
-            tmp_str = "Text";
-            break;
-        case GSB_BUTTON_ICON:
-            tmp_str = "Icons";
-            break;
-        default:
-            tmp_str = "Text + Icons";
-    }
     settings = grisbi_settings_get_settings (SETTINGS_DISPLAY);
-    g_settings_set_string (G_SETTINGS (settings),
-						   "display-toolbar",
-						   tmp_str);
+	if (a_conf->display_toolbar == 2)
+		g_settings_reset (G_SETTINGS (settings), "display-toolbar");
+	else
+    	g_settings_set_int (G_SETTINGS (settings), "display-toolbar", a_conf->display_toolbar);
 
     /* update toolbars */
 	if (grisbi_win_file_is_loading ())

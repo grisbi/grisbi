@@ -144,45 +144,23 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     {
         case PRIMARY_SORT:
             a_conf->transactions_list_primary_sorting = value;
-            switch (value)
-            {
-                case 0:
-                    g_settings_reset (G_SETTINGS (settings), "transactions-list-primary-sorting");
-                    break;
-                case 1:
-                    g_settings_set_string (G_SETTINGS (settings),
-										   "transactions-list-primary-sorting",
-                                           "Sort by value date and then by date");
-                    break;
-                case 2:
-                    g_settings_set_string (G_SETTINGS (settings),
-										   "transactions-list-primary-sorting",
-                                           "Forced sort by date");
-			}
+			if (value)
+				g_settings_set_int (G_SETTINGS (settings),
+									"transactions-list-primary-sorting",
+									a_conf->transactions_list_primary_sorting);
+			else
+				g_settings_reset (G_SETTINGS (settings),
+								  "transactions-list-primary-sorting");
             break;
         case SECONDARY_SORT:
             a_conf->transactions_list_secondary_sorting = value;
-            switch (value)
-            {
-                case 0:
-                    g_settings_reset (G_SETTINGS (settings),
-									  "transactions-list-secondary-sorting");
-                    break;
-                case 1:
-                    g_settings_set_string (G_SETTINGS (settings),
-										   "transactions-list-secondary-sorting",
-                                           "Sort by type of amount");
-                    break;
-                case 2:
-                    g_settings_set_string (G_SETTINGS (settings),
-										   "transactions-list-secondary-sorting",
-                                           "Sort by payee name");
-                    break;
-                case 3:
-                    g_settings_set_string (G_SETTINGS (settings),
-										   "transactions-list-secondary-sorting",
-                                           "Sort by date and then by transaction number");
-            }
+			if (value)
+				g_settings_set_int (G_SETTINGS (settings),
+									"transactions-list-secondary-sorting",
+									a_conf->transactions_list_secondary_sorting);
+			else
+				g_settings_reset (G_SETTINGS (settings),
+								  "transactions-list-secondary-sorting");
             break;
     }
     gsb_file_set_modified (TRUE);
