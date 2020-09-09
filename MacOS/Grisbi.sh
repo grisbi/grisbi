@@ -141,6 +141,11 @@ else
     export LANG="en_US"
     export LC_MESSAGES="en_US"
 fi
+
+# add the UTF-8 suffix
+LANG="$LANG.UTF-8"
+LC_MESSAGES="$LC_MESSAGES.UTF-8"
+
 CURRENCY=`echo $APPLELOCALE |  sed -En 's/.*currency=([[:alpha:]]+).*/\1/p'`
 if test "x$CURRENCY" != "x"; then
 #The user has set a special currency. Gtk doesn't install LC_MONETARY files, but Apple does in /usr/share/locale, so we're going to look there for a locale to set LC_CURRENCY to.
