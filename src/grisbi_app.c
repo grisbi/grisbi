@@ -1186,8 +1186,10 @@ static void grisbi_app_dispose (GObject *object)
 	priv = grisbi_app_get_instance_private (GRISBI_APP (object));
 
     /* liberation de la mémoire utilisée par les objets de priv*/
-    g_clear_object (&priv->appmenu);
-    g_clear_object (&priv->menubar);
+	if (priv->appmenu)
+		g_clear_object (&priv->appmenu);
+	else
+		g_clear_object (&priv->menubar);
 
 	if (priv->recent_array && g_strv_length (priv->recent_array) > 0)
 		g_strfreev (priv->recent_array);
