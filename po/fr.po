@@ -10885,7 +10885,7 @@ msgstr "Impossible de décompresser le fichier « %s » : %s"
 #: ../src/import.c:1359
 #, c-format
 msgid "Adding '%s' as an import format"
-msgstr "Ajouter « %s » en tant que format d'importation"
+msgstr "Ajouter'%s' en tant que format d'importation"
 
 #: ../src/import.c:1421 ../src/import.c:1531 ../src/import_csv.c:174
 #: ../src/import_csv.c:220
