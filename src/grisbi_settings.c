@@ -300,7 +300,7 @@ static void grisbi_settings_init_settings_general (GSettings *settings,
     a_conf->pluriel_final = g_settings_get_boolean (settings, "pluriel-final");
 
     /* variables for the list of categories */
-    a_conf->metatree_action_2button_press = g_settings_get_int (settings, "metatree-action-2button-press");
+    a_conf->metatree_action_2button_press = g_settings_get_int (settings, "metatree-action-button-press");
 
     /* variables for the list of transactions */
     a_conf->show_transaction_gives_balance = g_settings_get_boolean (settings, "show-transaction-gives-balance");
@@ -715,11 +715,11 @@ void grisbi_settings_save_app_config (void)
 
 	if (a_conf->metatree_action_2button_press)
 		g_settings_set_int (G_SETTINGS (priv->settings_general),
-							"metatree-action-2button-press",
+							"metatree-action-button-press",
 							a_conf->metatree_action_2button_press);
 	else
 		g_settings_reset (G_SETTINGS (priv->settings_general),
-						  "metatree-action-2button-press");
+						  "metatree-action-button-press");
 
     g_settings_set_boolean (G_SETTINGS (priv->settings_general),
                             "show-transaction-gives-balance",

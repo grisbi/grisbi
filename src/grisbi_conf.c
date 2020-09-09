@@ -510,7 +510,7 @@ gboolean grisbi_conf_load_app_config (void)
 	/* variables for the list of categories */
     tmp_str = g_key_file_get_string (config,
 								     "General",
-								     "metatree-action-2button-press",
+								     "metatree-action-button-press",
 								     NULL);
     if (g_strcmp0 (tmp_str, "Edit Category") == 0)
         a_conf->metatree_action_2button_press = 1;
@@ -950,7 +950,7 @@ gboolean grisbi_conf_save_app_config (void)
     }
 	g_key_file_set_string (config,
 						   "General",
-                           "metatree-action-2button-press",
+                           "metatree-action-button-press",
                            tmp_str);
     g_key_file_set_boolean (config,
 						   	"General",

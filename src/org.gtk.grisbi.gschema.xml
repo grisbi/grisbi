@@ -302,7 +302,7 @@
         FALSE = finals, TRUE = finaux.
       </description>
     </key>
-    <key name="metatree-action-2button-press" type="i">
+    <key name="metatree-action-button-press" type="i">
 	    <default>0</default>
 	    <summary>Right-click action on a sub-category</summary>
 	    <description>
