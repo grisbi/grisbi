@@ -343,7 +343,16 @@ void gsb_locale_init_language (const gchar *new_language)
 	/* set LANGUAGE for gtk3 */
 	g_setenv ("LANGUAGE", language, TRUE);
 	/* set LANG for devise and numbers */
-	tmp_str = g_strconcat (language, ".UTF-8", NULL);
+	if (2 == strlen(language))
+	{
+		/* "it" -> "it_IT.UTF-8" */
+		gchar *LANGUAGE = g_ascii_strup(language, -1);
+		tmp_str = g_strconcat (language, "_", LANGUAGE,".UTF-8", NULL);
+		g_free(LANGUAGE);
+	}
+	else
+		/* language should already be in the form "en_GB" */
+		tmp_str = g_strconcat (language, ".UTF-8", NULL);
 	g_setenv ("LANG", tmp_str, TRUE);
 	g_free (tmp_str);
 	langue = g_strdup (language);
