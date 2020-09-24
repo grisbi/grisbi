@@ -11,8 +11,13 @@
 
 set -e
 
-xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj clean
-xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj
+cd $(dirname $0)
+
+# Build this project OUTSIDE of jhbuild or the link will fail with:
+# ld: unknown option: -target
+
+# xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj clean
+# xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj
 
 mv dist/Grisbi.app dist/Grisbi.app.real
 
