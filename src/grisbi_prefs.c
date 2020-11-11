@@ -857,6 +857,22 @@ GtkWidget *grisbi_prefs_get_child_by_page_name (const gchar *page_name)
  *
  * \return
  **/
+GtkWidget *grisbi_prefs_get_prefs_hpaned (GtkWidget *prefs)
+{
+	GrisbiPrefsPrivate *priv;
+
+	priv = grisbi_prefs_get_instance_private (GRISBI_PREFS (prefs));
+
+	return priv->paned_prefs;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 void grisbi_prefs_set_page_by_name (gchar *page_name)
 {
 	GrisbiPrefs *prefs;
