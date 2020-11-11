@@ -31,7 +31,6 @@
 /*START_INCLUDE*/
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "parametres.h"
 #include "structures.h"
 #include "erreur.h"
@@ -209,19 +208,7 @@ static void dialogue_special (GtkMessageType param,
 static gboolean dialogue_update_var (GtkWidget *checkbox,
 									 gint message)
 {
-	GSettings *settings;
-
     tab_warning_msg[message].hidden = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
-
-	/* set g_settings */
-	settings = grisbi_settings_get_settings (SETTINGS_MESSAGES_WARNINGS);
-	if (tab_warning_msg[message].hidden)
-		g_settings_set_boolean (G_SETTINGS (settings),
-								tab_warning_msg[message].name,
-								FALSE);
-	else
-		g_settings_reset (G_SETTINGS (settings),
-						  tab_warning_msg[message].name);
 
 	return FALSE;
 }

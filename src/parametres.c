@@ -41,7 +41,6 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
 #include "gsb_data_account.h"

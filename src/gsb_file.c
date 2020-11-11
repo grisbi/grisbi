@@ -43,7 +43,6 @@
 #include "dialog.h"
 #include "etats_gtktable.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
 #include "gsb_data_account.h"
@@ -801,8 +800,6 @@ void gsb_file_init_last_path (const gchar *last_path)
  **/
 void gsb_file_update_last_path (const gchar *last_path)
 {
-    GSettings *settings;
-
     devel_debug (last_path);
 
     if (last_path && strlen (last_path))
@@ -810,8 +807,6 @@ void gsb_file_update_last_path (const gchar *last_path)
         if (last_path_used)
             g_free (last_path_used);
         last_path_used = my_strdup (last_path);
-        settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
-        g_settings_set_string (G_SETTINGS (settings), "last-path", last_path_used);
     }
 }
 
