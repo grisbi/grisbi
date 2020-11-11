@@ -37,6 +37,15 @@
 #define PRIMARY_SORT            0
 #define SECONDARY_SORT          1
 
+/* Dimensions min et position de la fenetre de l'application */
+#define WIN_MIN_HEIGHT			700
+#define WIN_MIN_WIDTH			1020
+#define WIN_POS_X				10
+#define WIN_POS_Y				10
+
+/* Largeur min du panel de gauche de la fenetre principale */
+#define PANEL_MIN_WIDTH			250
+
 /* margin for widgets */
 #define MARGIN_BOX				 5				/* spacing for gtk_box_new () */
 #define MARGIN_END              10
@@ -52,9 +61,9 @@
 #define FORM_LONG_WIDTH			200				/* largeur minimale demandée pour les champs longs du formulaire */
 
 /* constants for Preferences */
-#define PREFS_MIN_WIN_HEIGHT	600				/* Hauteur Min de la fenetre des preferences */
-#define PREFS_MIN_WIN_WIDTH		885				/* Largeur Min de la fenetre des preferences */
-#define PREFS_MIN_PANED_WIDTH	235				/* Largeur Min du panel gauche des preferences */
+#define PREFS_PANED_MIN_WIDTH	235				/* Largeur Min du panel gauche des preferences */
+#define PREFS_WIN_MIN_HEIGHT	605				/* Hauteur Min de la fenetre des preferences */
+#define PREFS_WIN_MIN_WIDTH		910				/* Largeur Min de la fenetre des preferences */
 #define SW_COEFF_UTIL_PG        90             	/* Scrolled Window in paddinggrid in prefs */
 #define SW_COEFF_UTIL_SW        93				/* Scrolled Window in paddingbox in prefs */
 #define SW_MAX_CONTENT_WIDTH	600				/* Since Gtk-3.22 */
@@ -89,11 +98,6 @@
 #define TRANSACTION_LIST_ROWS_NB 		4		/* definition of the number of max rows for a line, for now limit to 4 */
 
 /*START_EXTERN*/
-/* variables initialisées lors de l'ouverture de grisbi par gsettings ou grisbi.conf
- * remplacées à terme par w_etat et w_run
- */
-extern struct _GrisbiAppConf conf;				/* declared in grisbi_app.c */
-
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 extern struct _GrisbiWinRun run;				/* declared in grisbi_win.c */
 extern struct _GrisbiWinEtat etat;				/* declared in grisbi_win.c */

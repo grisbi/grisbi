@@ -662,7 +662,7 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
 					 FALSE);
     gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned_general), MARGIN_BOX);
 
-    if (a_conf->panel_width > 250)
+    if (a_conf->panel_width > PANEL_MIN_WIDTH)
         gtk_paned_set_position (GTK_PANED (priv->hpaned_general), a_conf->panel_width);
     else
     {
@@ -1704,26 +1704,15 @@ gboolean grisbi_win_set_window_title (gint account_number)
  * */
 void grisbi_win_set_size_and_position (GtkWindow *win)
 {
-    GdkGeometry size_hints = {
-    1020, 700, -1, -1, 1020, 700, 10, 10, 1.5, 1.5, GDK_GRAVITY_NORTH_WEST
-  };
 	GrisbiAppConf *a_conf;
 
 	a_conf = grisbi_app_get_a_conf ();
-
-    /* on fixe la taille mini remplacer main_box par plus pertinent.*/
-    gtk_window_set_geometry_hints (GTK_WINDOW (win),
-                                   NULL,
-                                   &size_hints,
-                                   GDK_HINT_RESIZE_INC |
-                                   GDK_HINT_MIN_SIZE |
-                                   GDK_HINT_BASE_SIZE);
 
     /* set the size of the window */
     if (a_conf->main_width && a_conf->main_height)
         gtk_window_set_default_size (GTK_WINDOW (win), a_conf->main_width, a_conf->main_height);
     else
-        gtk_window_set_default_size (GTK_WINDOW (win), 1024, 768);
+        gtk_window_set_default_size (GTK_WINDOW (win), WIN_MIN_WIDTH, WIN_MIN_HEIGHT);
 
     /* display window at position */
     gtk_window_move (GTK_WINDOW (win), a_conf->x_position, a_conf->y_position);

@@ -140,7 +140,7 @@ static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
  **/
 static gboolean grisbi_prefs_paned_size_allocate (GtkWidget *prefs_hpaned,
 												  GtkAllocation *allocation,
-												  	GrisbiAppConf *a_conf)
+												  GrisbiAppConf *a_conf)
 {
     a_conf->prefs_panel_width = gtk_paned_get_position (GTK_PANED (prefs_hpaned));
 
@@ -652,7 +652,7 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 	}
     else
 	{
-        gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_MIN_WIN_WIDTH, PREFS_MIN_WIN_HEIGHT);
+        gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH, PREFS_WIN_MIN_HEIGHT);
 	}
 
 	if (a_conf->prefs_panel_width)
@@ -661,7 +661,7 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 	}
     else
 	{
-		gtk_paned_set_position (GTK_PANED (priv->paned_prefs), PREFS_MIN_PANED_WIDTH);
+		gtk_paned_set_position (GTK_PANED (priv->paned_prefs), PREFS_PANED_MIN_WIDTH);
 	}
 
 	/* positionne l'onglet import selectionné en fonction de run->prefs_import_tab */

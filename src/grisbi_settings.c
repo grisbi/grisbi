@@ -72,10 +72,9 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiSettings, grisbi_settings, G_TYPE_OBJECT)
 /* singleton object - all consumers of GrisbiSettings get the same object (refcounted) */
 static GrisbiSettings *singleton = NULL;
 
-
-/*******************************************************************************
- * Private Methods
- ******************************************************************************/
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
 /**
  * set root settings
  *
@@ -229,21 +228,6 @@ static void grisbi_settings_init_settings_general (GSettings *settings,
 {
     gchar *tmp_str;
 
-	if (a_conf->current_theme)
-		g_free (a_conf->current_theme);
-	a_conf->current_theme = g_settings_get_string (settings, "current-theme");
-
-	a_conf->custom_fonte_listes = g_settings_get_boolean (settings, "custom-fonte-listes");
-    if (a_conf->custom_fonte_listes)
-    {
-        a_conf->font_string = g_settings_get_string (settings, "font-string");
-		if (strlen (a_conf->font_string) == 0)
-		{
-			a_conf->font_string = my_strdup (_("No font defined"));
-			a_conf->custom_fonte_listes = FALSE;
-		}
-    }
-
     tmp_str = g_settings_get_string (settings, "browser-command");
     if (tmp_str == NULL || strlen (tmp_str) == 0)
     {
@@ -255,6 +239,24 @@ static void grisbi_settings_init_settings_general (GSettings *settings,
         a_conf->browser_command = g_strdup (tmp_str);
         g_free (tmp_str);
     }
+
+	if (a_conf->current_theme)
+		g_free (a_conf->current_theme);
+	a_conf->current_theme = g_settings_get_string (settings, "current-theme");
+
+	a_conf->custom_fonte_listes = g_settings_get_boolean (settings, "custom-fonte-listes");
+    if (a_conf->custom_fonte_listes)
+    {
+        a_conf->font_string = g_settings_get_string (settings, "font-string");
+		if (a_conf->font_string && strlen (a_conf->font_string) == 0)
+		{
+			g_settings_reset (G_SETTINGS (settings), "font-string");
+			a_conf->font_string = g_settings_get_string (settings, "font-string");
+			a_conf->custom_fonte_listes = FALSE;
+		}
+    }
+	else
+		a_conf->font_string = g_settings_get_string (settings, "font-string");
 
     a_conf->force_type_theme = g_settings_get_int (settings, "force-type-theme");
 
@@ -1061,7 +1063,7 @@ static void grisbi_settings_init (GrisbiSettings *self)
 }
 
 
- /**
+/**
  *
  *
  * \param
@@ -1092,7 +1094,6 @@ static void dispose (GObject *object)
     G_OBJECT_CLASS (grisbi_settings_parent_class)->dispose (object);
 }
 
-
  /**
  *
  *
@@ -1107,7 +1108,6 @@ static void finalize (GObject *object)
     /* Chain up to the parent class */
     G_OBJECT_CLASS (grisbi_settings_parent_class)->finalize (object);
 }
-
 
  /**
  *
@@ -1124,11 +1124,10 @@ static void grisbi_settings_class_init (GrisbiSettingsClass *klass)
         object_class->finalize = finalize;
 }
 
-
-/*******************************************************************************
- * Public Methods
- ******************************************************************************/
- /**
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
+/**
  *
  *
  * \param

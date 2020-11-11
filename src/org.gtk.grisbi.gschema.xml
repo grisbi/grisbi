@@ -1,566 +1,565 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <schemalist>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/" id='org.gtk.grisbi'>
+	<!-- options niveau root -->
+		<key name="first-use" type="b">
+			<default>true</default>
+			<summary>First use of Grisbi</summary>
+			<description>
+				If TRUE, a wizard starts to configure Grisbi at its first use.
+			</description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/" id='org.gtk.grisbi'>
-  <!-- options niveau root -->
-    <key name="first-use" type="b">
-      <default>true</default>
-      <summary>First use of Grisbi</summary>
-      <description>
-          If TRUE, a wizard starts to configure Grisbi at its first use.
-      </description>
-    </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/display/" id='org.gtk.grisbi.display'>
+	<!-- options des onglets Adresse et titre, Eléments de l'interface et menu Affichage-->
+		<key name="formulaire-toujours-affiche" type="b">
+			<default>true</default>
+			<summary>Form always displayed</summary>
+			<description>If TRUE, form is always displayed.</description>
+		</key>
+		<key name="group-partial-balance-under-accounts" type="b">
+			<default>true</default>
+			<summary></summary>
+			<description></description>
+		</key>
+		<key name="show-closed-accounts" type="b">
+			<default>false</default>
+			<summary>Show closed accounts</summary>
+			<description>If TRUE, the closed accounts are displayed.</description>
+		</key>
+		<key name="show-headings-bar" type="b">
+			<default>true</default>
+			<summary>Show heading bar</summary>
+			<description>If TRUE, heading bar is displayed.</description>
+		</key>
+		<key name="display-toolbar" type="i">
+			<default>2</default>
+			<summary>
+			Show buttons on toolbars as</summary>
+			<description>Select the labels of buttons:
+				0 = Text,
+				1 = Icon = 1,
+				2 = Text+Icon.
+			</description>
+		</key>
+		<key name="display-window-title" type="i">
+			<default>0</default>
+			<summary>Select the name of the main window of Grisbi</summary>
+			<description>
+				Select the name of the main window of Grisbi :
+				0 = Name of the accounting entity
+				1 = Holder name of the account
+				2 = Filename.
+		  </description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/files/backup/" id='org.gtk.grisbi.files.backup'>
-  <!-- options de l'onglet Fichiers -->
-	  <key name="backup-path" type="s">
-      <default>""</default>
-      <summary>Backup directory</summary>
-      <description>Backup directory.</description>
-    </key>
-	  <key name="compress-backup" type="b">
-      <default>false</default>
-	    <summary>Compress the backup file</summary>
-	    <description>TRUE if you want to compress the backup file.</description>
-	  </key>
-	  <key name="remove-backup-files" type="b">
-      <default>false</default>
-	    <summary>removing backup files</summary>
-	    <description>TRUE if you want to remove backup files.</description>
-	  </key>
-	  <key name="remove-backup-months" type="i">
-	    <default>12</default>
-	    <summary>Months before deleting backup files</summary>
-	    <description>Number of months before removing backup files.</description>
-	  </key>
-    <key name="sauvegarde-ouverture" type="b">
-      <default>true</default>
-      <summary>Backup before using file</summary>
-      <description>If TRUE, backup the account file before use.</description>
-    </key>
-	  <key name="sauvegarde-fermeture" type="b">
-      <default>true</default>
-	    <summary>Create a backup when save file</summary>
-	    <description>If TRUE, create a backup when save file.</description>
-	  </key>
-	  <key name="make-backup-every-minutes" type="b">
-      <default>false</default>
-	    <summary>Make backup every x mn</summary>
-	    <description>If TRUE, make backup every x mn.</description>
-	  </key>
-	  <key name="make-backup-nb-minutes" type="i">
-	    <default>5</default>
-	    <summary>Number of minutes to make a backup</summary>
-	    <description>The number of minutes we want to make a backup.</description>
-	  </key>
-	  <key name="make-backup-single-file" type="b">
-      <default>false</default>
-	    <summary>Make single backup file</summary>
-	    <description>
-        If TRUE, make a single backup file. Warning: this is dangerous
-        if this file is'nt saving regularly.
-      </description>
-	  </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/files/backup/" id='org.gtk.grisbi.files.backup'>
+	<!-- options de l'onglet Fichiers -->
+		<key name="backup-path" type="s">
+			<default>""</default>
+			<summary>Backup directory</summary>
+			<description>Backup directory.</description>
+		</key>
+		<key name="compress-backup" type="b">
+			<default>false</default>
+			<summary>Compress the backup file</summary>
+			<description>TRUE if you want to compress the backup file.</description>
+		</key>
+		<key name="make-backup-every-minutes" type="b">
+			<default>false</default>
+			<summary>Make backup every x mn</summary>
+			<description>If TRUE, make backup every x mn.</description>
+		</key>
+		<key name="make-backup-nb-minutes" type="i">
+			<default>5</default>
+			<summary>Number of minutes to make a backup</summary>
+			<description>The number of minutes we want to make a backup.</description>
+		</key>
+		<key name="make-backup-single-file" type="b">
+			<default>false</default>
+			<summary>Make single backup file</summary>
+			<description>
+				If TRUE, make a single backup file. Warning: this is dangerous
+				if this file is'nt saving regularly.
+			</description>
+		</key>
+		<key name="remove-backup-files" type="b">
+			<default>false</default>
+			<summary>removing backup files</summary>
+			<description>TRUE if you want to remove backup files.</description>
+		</key>
+		<key name="remove-backup-months" type="i">
+			<default>12</default>
+			<summary>Months before deleting backup files</summary>
+			<description>Number of months before removing backup files.</description>
+		</key>
+		<key name="sauvegarde-ouverture" type="b">
+			<default>true</default>
+			<summary>Backup before using file</summary>
+			<description>If TRUE, backup the account file before use.</description>
+		</key>
+		<key name="sauvegarde-fermeture" type="b">
+			<default>true</default>
+			<summary>Create a backup when save file</summary>
+			<description>If TRUE, create a backup when save file.</description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/display/" id='org.gtk.grisbi.display'>
-  <!-- options des onglets Adresse et titre, Eléments de l'interface et menu Affichage-->
-	  <key name="display-window-title" type="i">
-		<default>0</default>
-	    <summary>Select the name of the main window of Grisbi</summary>
-	    <description>
-        	Select the name of the main window of Grisbi :
-			0 = Name of the accounting entity
-        	1 = Holder name of the account
-			2 = Filename.
-      </description>
-	  </key>
-	  <key name="display-toolbar" type="i">
-      <default>2</default>
-	    <summary>
-		Show buttons on toolbars as</summary>
-	    <description>Select the labels of buttons:
-			0 = Text,
-			1 = Icon = 1,
-			2 = Text+Icon.
-		</description>
-	  </key>
-	  <key name="formulaire-toujours-affiche" type="b">
-      <default>true</default>
-	    <summary>Form always displayed</summary>
-	    <description>If TRUE, form is always displayed.</description>
-	  </key>
-	  <key name="group-partial-balance-under-accounts" type="b">
-      <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
-	  <key name="show-closed-accounts" type="b">
-        <default>false</default>
-	    <summary>Show closed accounts</summary>
-	    <description>If TRUE, the closed accounts are displayed.</description>
-	  </key>
-	  <key name="show-headings-bar" type="b">
-      <default>true</default>
-	    <summary>Show heading bar</summary>
-	    <description>If TRUE, heading bar is displayed.</description>
-	  </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/files/file/" id='org.gtk.grisbi.files.file'>
+	<!-- options de l'onglet Fichiers -->
+		<key name="archives-check-auto" type="b">
+			<default>true</default>
+			<summary></summary>
+			<description></description>
+		</key>
+		<key name="compress-file" type="b">
+			<default>false</default>
+			<summary>Compress the account file</summary>
+			<description>TRUE if you want to compress the account file.</description>
+		</key>
+		<key name="dernier-fichier-auto" type="b">
+		<default>false</default>
+			<summary>Automatically open the last file</summary>
+			<description>
+				If TRUE, the last account file is open automatically.
+			</description>
+		</key>
+		<key name="force-enregistrement" type="b">
+			<default>false</default>
+			<summary>Force recording of locked files</summary>
+			<description>
+				TRUE if you want to save the account file, even if it is already
+				open in another window.
+			</description>
+		</key>
+		<key name="force-import-directory" type="b">
+			<default>false</default>
+			<summary>Force the import directory</summary>
+			<description>
+				TRUE if you want to force the directory of imported files.
+			</description>
+		</key>
+		<key name="import-directory" type="s">
+			<default>""</default>
+			<summary>Import directory</summary>
+			<description>The directory for the import files.</description>
+		</key>
+		<key name="import-remove-file" type="b">
+			<default>false</default>
+			<summary>Remove imported file</summary>
+			<description>
+				TRUE if you want to remove the file after import.
+			</description>
+		</key>
+		<key name="max-transactions-before-warn-archival" type="i">
+			<default>3000</default>
+			<summary></summary>
+			<description></description>
+		</key>
+		<key name="names-last-files" type="as">
+			<default>[]</default>
+			<summary>The last files opened by Grisbi</summary>
+			<description>A list of the last files opened by Grisbi.</description>
+		</key>
+		<key name="nb-max-derniers-fichiers-ouverts" type="i">
+			<default>3</default>
+			<summary>Maximum of files in list of recently files</summary>
+			<description>
+				Maximum number of files in the list of recently opened files.
+			</description>
+		</key>
+		<key name="sauvegarde-auto" type="b">
+			<default>false</default>
+			<summary>Automatic backup before closing the account file</summary>
+			<description>
+				If TRUE, automatic backup before closing the account file.
+			</description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/files/file/" id='org.gtk.grisbi.files.file'>
-  <!-- options de l'onglet Fichiers -->
-    <key name="dernier-fichier-auto" type="b">
-      <default>false</default>
-      <summary>Automatically open the last file</summary>
-      <description>
-        If TRUE, the last account file is open automatically.
-      </description>
-    </key>
-    <key name="sauvegarde-auto" type="b">
-      <default>false</default>
-      <summary>Automatic backup before closing the account file</summary>
-      <description>
-        If TRUE, automatic backup before closing the account file.
-      </description>
-    </key>
-	  <key name="force-enregistrement" type="b">
-      <default>false</default>
-	    <summary>Force recording of locked files</summary>
-	    <description>
-	        TRUE if you want to save the account file, even if it is already
-	        open in another window.
-	    </description>
-	  </key>
-	  <key name="force-import-directory" type="b">
-      <default>false</default>
-	    <summary>Force the import directory</summary>
-	    <description>
-	        TRUE if you want to force the directory of imported files.
-	    </description>
-	  </key>
-	  <key name="compress-file" type="b">
-      <default>false</default>
-	    <summary>Compress the account file</summary>
-	    <description>TRUE if you want to compress the account file.</description>
-	  </key>
-	  <key name="import-directory" type="s">
-      <default>""</default>
-      <summary>Import directory</summary>
-      <description>The directory for the import files.</description>
-    </key>
-	  <key name="import-remove-file" type="b">
-      <default>false</default>
-	    <summary>Remove imported file</summary>
-	    <description>
-	        TRUE if you want to remove the file after import.
-	    </description>
-	  </key>
-    <key name="names-last-files" type="as">
-      <default>[]</default>
-      <summary>The last files opened by Grisbi</summary>
-      <description>A list of the last files opened by Grisbi.</description>
-    </key>
-    <key name="nb-max-derniers-fichiers-ouverts" type="i">
-      <default>3</default>
-      <summary>Maximum of files in list of recently files</summary>
-      <description>
-        Maximum number of files in the list of recently opened files.
-      </description>
-    </key>
-	  <key name="archives-check-auto" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
-	  <key name="max-transactions-before-warn-archival" type="i">
-	    <default>3000</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/form/" id='org.gtk.grisbi.form'>
+	<!-- options de l'onglet Formulaire des opérations -->
+		<key name="affichage-exercice-automatique" type="b">
+			<default>false</default>
+			<summary>Selecting the date that determines the fiscal year</summary>
+			<description>
+				If TRUE, the value date determines the financial year,
+				otherwise this is the date of transaction.
+			</description>
+		</key>
+		<key name="automatic-completion-payee" type="b">
+			<default>false</default>
+			<summary>Allow automatic completion of payees</summary>
+			<description>
+				TRUE to allow automatic completion of payees in transactions.
+			</description>
+		</key>
+		<key name="automatic-erase-credit-debit" type="b">
+			<default>false</default>
+			<summary>Erase debit and credit</summary>
+			<description>
+				If TRUE, the fields Credit and Debit are not initialized
+				during the completion of payee.</description>
+		</key>
+		<key name="automatic-recover-splits" type="b">
+			<default>false</default>
+			<summary>Recover splits in payee completion</summary>
+			<description>
+				If TRUE, splits transactions are recovered along with the parent
+				during the completion of payee.
+			</description>
+		</key>
+		<key name="completion-minimum-key-length" type="i">
+			<default>1</default>
+			<summary>Minimum length of the search key in characters</summary>
+			<description>Minimum length of the search key in characters for completion.</description>
+		</key>
+		<key name="form-enter-key" type="b">
+			<default>false</default>
+			<summary>"Enter" key finishes the transaction</summary>
+			<description>
+				If TRUE, the "Enter" key finishes the transaction.
+			</description>
+		</key>
+		<key name="form-validate-split" type="b">
+			<default>false</default>
+			<summary>Selected transaction after validate split transaction</summary>
+			<description>
+				Selected transaction after validate split transaction:
+				FALSE select a new transaction, TRUE select the mother transaction.
+			</description>
+		</key>
+		<key name="fyear-combobox-sort-order" type="i">
+			<default>0</default>
+			<summary>Sort order for the fyear combobox</summary>
+			<description>
+				Sort order for the fyear combobox : GTK_SORT_ASCENDING (0) by default,
+				sort by GTK_SORT_DESCENDING: a number different of 0.
+			</description>
+		</key>
+		<key name="limit-completion-current-account" type="b">
+			<default>false</default>
+			<summary>Limit completion to current account</summary>
+			<description>
+				If TRUE, limit the payee completion to the current account,
+				otherwise do a full search.
+			</description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/form/" id='org.gtk.grisbi.form'>
-  <!-- options de l'onglet Formulaire des opérations -->
-	  <key name="affichage-exercice-automatique" type="b">
-      <default>false</default>
-      <summary>Selecting the date that determines the fiscal year</summary>
-      <description>
-        If TRUE, the value date determines the financial year,
-		    otherwise this is the date of transaction.
-      </description>
-	  </key>
-	  <key name="automatic-completion-payee" type="b">
-      <default>false</default>
-	    <summary>Allow automatic completion of payees</summary>
-	    <description>
-	        TRUE to allow automatic completion of payees in transactions.
-	    </description>
-	  </key>
-	  <key name="automatic-erase-credit-debit" type="b">
-      <default>false</default>
-	    <summary>Erase debit and credit</summary>
-	    <description>
-	        If TRUE, the fields Credit and Debit are not initialized
-	        during the completion of payee.</description>
-	  </key>
-	  <key name="automatic-recover-splits" type="b">
-        <default>false</default>
-	    <summary>Recover splits in payee completion</summary>
-	    <description>
-	        If TRUE, splits transactions are recovered along with the parent
-	        during the completion of payee.
-        </description>
-	  </key>
-	  <key name="completion-minimum-key-length" type="i">
-	    <default>1</default>
-	    <summary>Minimum length of the search key in characters</summary>
-	    <description>Minimum length of the search key in characters for completion.</description>
-	  </key>
-	  <key name="form-enter-key" type="b">
-      <default>false</default>
-	    <summary>"Enter" key finishes the transaction</summary>
-	    <description>
-	      If TRUE, the "Enter" key finishes the transaction.
-	    </description>
-	  </key>
-	  <key name="form-validate-split" type="b">
-      <default>false</default>
-	    <summary>Selected transaction after validate split transaction</summary>
-	    <description>
-		Selected transaction after validate split transaction:
-	    FALSE select a new transaction, TRUE select the mother transaction.
-	    </description>
-	  </key>
-	  <key name="fyear-combobox-sort-order" type="i">
-	    <default>0</default>
-	    <summary>Sort order for the fyear combobox</summary>
-	    <description>
-	    Sort order for the fyear combobox : GTK_SORT_ASCENDING (0) by default,
-	    sort by GTK_SORT_DESCENDING: a number different of 0.
-	    </description>
-	  </key>
-	  <key name="limit-completion-current-account" type="b">
-      <default>false</default>
-	    <summary>Limit completion to current account</summary>
-	    <description>
-	      If TRUE, limit the payee completion to the current account,
-	      otherwise do a full search.
-	    </description>
-	  </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/general/" id='org.gtk.grisbi.general'>
+		<key name="browser-command" type="s">
+			<default>""</default>
+			<summary>Browser command</summary>
+			<description>Browser command.</description>
+		</key>
+		<key name="current-theme" type="s">
+			<default>""</default>
+			<summary>Current theme</summary>
+			<description>Current theme.</description>
+		</key>
+		<key name="custom-fonte-listes" type="b">
+			<default>false</default>
+			<summary>Use custom fonts for lists</summary>
+			<description>If TRUE, Grisbi uses custom fonts for lists.</description>
+		</key>
+		<key name="font-string" type="s">
+			<default>"Monospace 10"</default>
+			<summary>Font name</summary>
+			<description>
+				If utilise-fonte-listes = TRUE, this is the name of the custom font.
+			</description>
+		</key>
+		<key name="force-type-theme" type="i">
+			<default>0</default>
+			<summary>Force type of theme</summary>
+			<description>
+				Force the use a type of theme when the automatic selection is not available.
+				0 = auto 1 = standard 2 = dark theme 3 = light theme.
+			</description>
+		</key>
+		<key name="language-chosen" type="s">
+			<default>""</default>
+			<summary>Language for interface</summary>
+			<description>Choose the language of interface.</description>
+		</key>
+		<key name="last-path" type="s">
+			<default>""</default>
+			<summary>Last path used by Grisbi</summary>
+			<description>
+			This is the last path used by Grisbi to open a file.
+			</description>
+		</key>
+		<key name="metatree-action-button-press" type="i">
+			<default>0</default>
+			<summary>Right-click action on a sub-category</summary>
+			<description>
+				Right-click action on a sub-category:
+				0 = gtk default,
+				1 = Edit Category,
+				2 = manage division if possible.
+			</description>
+		</key>
+		<key name="pluriel-final" type="b">
+			<default>false</default>
+			<summary>Fixe orthographe pluriel</summary>
+			<description>
+				Specific in french : Fixe l'orthographe de pluriel :
+				FALSE = finals, TRUE = finaux.
+			</description>
+		</key>
+		<key name="show-transaction-gives-balance" type="b">
+			<default>false</default>
+			<summary>Colorize the day transaction</summary>
+			<description>
+				Colorize the day transaction in list
+			</description>
+		</key>
+		<key name="show-transaction-selected-in-form" type="b">
+			<default>true</default>
+			<summary>Show transaction in the form when select one</summary>
+			<description>
+				Show transaction in the form when select one
+			</description>
+		</key>
+		<key name="transactions-list-primary-sorting" type="i">
+			<default>0</default>
+			<summary>Primary sorting option</summary>
+			<description>
+				0 = sort by value date, if fail, try with the date,
+				1 = sort by value date and then by date.
+				2 = forced sort by transaction date.
+			</description>
+		</key>
+		<key name="transactions-list-secondary-sorting" type="i">
+			<default>0</default>
+			<summary>Secondary sorting option</summary>
+			<description>
+				0 = sort by transaction number,
+				1 = sort by type of amount : credit, debit,
+				2 = sort by payee name, if fail, by transaction number,
+				3 = sort by date and then by transaction number.
+			</description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/general/" id='org.gtk.grisbi.general'>
-    <key name="browser-command" type="s">
-      <default>""</default>
-      <summary>Browser command</summary>
-      <description>Browser command.</description>
-    </key>
-    <key name="current-theme" type="s">
-      <default>""</default>
-      <summary>Current theme</summary>
-      <description>Current theme.</description>
-    </key>
-    <key name="custom-fonte-listes" type="b">
-      <default>false</default>
-      <summary>Use custom fonts for lists</summary>
-      <description>If TRUE, Grisbi uses custom fonts for lists.</description>
-    </key>
-    <key name="font-string" type="s">
-      <default>"Monospace 10"</default>
-      <summary>Font name</summary>
-      <description>
-        If utilise-fonte-listes = TRUE, this is the name of the custom font.
-      </description>
-    </key>
-    <key name="force-type-theme" type="i">
-      <default>0</default>
-      <summary>Force type of theme</summary>
-      <description>
-        Force the use a type of theme when the automatic selection is not available.
-		0 = auto 1 = standard 2 = dark theme 3 = light theme.
-      </description>
-    </key>
-    <key name="language-chosen" type="s">
-      <default>""</default>
-      <summary>Language for interface</summary>
-      <description>Choose the language of interface.</description>
-    </key>
-    <key name="last-path" type="s">
-      <default>""</default>
-      <summary>Last path used by Grisbi</summary>
-      <description>
-        This is the last path used by Grisbi to open a file.
-      </description>
-    </key>
-    <key name="pluriel-final" type="b">
-      <default>false</default>
-      <summary>Fixe orthographe pluriel</summary>
-      <description>
-        Specific in french : Fixe l'orthographe de pluriel :
-        FALSE = finals, TRUE = finaux.
-      </description>
-    </key>
-    <key name="metatree-action-button-press" type="i">
-	    <default>0</default>
-	    <summary>Right-click action on a sub-category</summary>
-	    <description>
-	    	Right-click action on a sub-category:
-			0 = gtk default,
-	    	1 = Edit Category,
-			2 = manage division if possible.
-	    </description>
-	</key>
-    <key name="show-transaction-gives-balance" type="b">
-      <default>false</default>
-      <summary></summary>
-      <description>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/geometry/" id='org.gtk.grisbi.geometry'>
+		<key name="fullscreen" type="b">
+			<default>false</default>
+			<summary>Main window fullscreen state</summary>
+			<description>
+			Whether the main window should start in fullscreen.
+			</description>
+		</key>
+		<key name="low-resolution-screen" type="b">
+			<default>false</default>
+			<summary>Use low resolution screen</summary>
+			<description>
+			TRUE when use a low resolution screen.
+			</description>
+		</key>
+		<key name="main-width" type="i">
+			<default>1020</default>
+			<summary>Width of the main window</summary>
+			<description>The width of the main window.</description>
+		</key>
+		<key name="main-height" type="i">
+			<default>700</default>
+			<summary>Height of main window</summary>
+			<description>The height of the main window.</description>
+		</key>
+		<key name="maximized" type="b">
+			<default>false</default>
+			<summary>Main window maximized state</summary>
+			<description>Whether the main window should start maximized.</description>
+		</key>
+		<key name="x-position" type="i">
+			<default>100</default>
+			<summary>X position of main window</summary>
+			<description>The X position of the main window.</description>
+		</key>
+		<key name="y-position" type="i">
+			<default>100</default>
+			<summary>Y position of main window</summary>
+			<description>The Y position of the main window.</description>
+		</key>
+	</schema>
 
-      </description>
-    </key>
-    <key name="show-transaction-selected-in-form" type="b">
-      <default>true</default>
-      <summary></summary>
-      <description>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/messages/delete/" id='org.gtk.grisbi.messages.delete'>
+		<key name="delete-child-transaction" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="delete-transaction" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="delete-child-scheduled" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="delete-scheduled" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="delete-scheduled-occurrences" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="delete-rule" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		</schema>
 
-      </description>
-    </key>
-	<key name="transactions-list-primary-sorting" type="i">
-    	<default>0</default>
-    	<summary>Primary sorting option</summary>
-    	<description>
-			0 = sort by value date, if fail, try with the date,
-			1 = sort by value date and then by date.
-			2 = forced sort by transaction date.
-		</description>
-	</key>
-	<key name="transactions-list-secondary-sorting" type="i">
-		<default>0</default>
-		<summary>Secondary sorting option</summary>
-		<description>
-			0 = sort by transaction number,
-			1 = sort by type of amount : credit, debit,
-			2 = sort by payee name, if fail, by transaction number,
-			3 = sort by date and then by transaction number.
-		</description>
-	</key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/messages/tips/" id='org.gtk.grisbi.messages.tips'>
+		<key name="last-tip" type="i">
+			<default>0</default>
+			<summary>Last tip</summary>
+			<description>The last visited tip .</description>
+		</key>
+		<key name="show-tip" type="b">
+			<default>true</default>
+			<summary>Show tip</summary>
+			<description>True if we show the tips.</description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/geometry/" id='org.gtk.grisbi.geometry'>
-    <key name="maximized" type="b">
-      <default>false</default>
-      <summary>Main window maximized state</summary>
-      <description>Whether the main window should start maximized.</description>
-    </key>
-    <key name="fullscreen" type="b">
-      <default>false</default>
-      <summary>Main window fullscreen state</summary>
-      <description>
-        Whether the main window should start in fullscreen.
-      </description>
-    </key>
-    <key name="low-resolution-screen" type="b">
-      <default>false</default>
-      <summary>Use low resolution screen</summary>
-      <description>
-        TRUE when use a low resolution screen.
-      </description>
-    </key>
-	  <key name="main-width" type="i">
-	    <default>1020</default>
-	    <summary>Width of the main window</summary>
-	    <description>The width of the main window.</description>
-	  </key>
-	  <key name="main-height" type="i">
-	    <default>700</default>
-	    <summary>Height of main window</summary>
-	    <description>The height of the main window.</description>
-	  </key>
-	  <key name="x-position" type="i">
-	    <default>100</default>
-	    <summary>X position of main window</summary>
-	    <description>The X position of the main window.</description>
-	  </key>
-	  <key name="y-position" type="i">
-	    <default>100</default>
-	    <summary>Y position of main window</summary>
-	    <description>The Y position of the main window.</description>
-	  </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/messages/warnings/" id='org.gtk.grisbi.messages.warnings'>
+		<key name="account-file-readable" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="account-already-opened" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="development-version" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="encryption-is-irreversible" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="minimum-balance-alert" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="reconcile-transaction" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="unreconcile-transaction" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+		<key name="remove-backup-files" type="b">
+			<default>true</default>
+			<summary>Display warning</summary>
+			<description>TRUE to display message</description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/messages/delete/" id='org.gtk.grisbi.messages.delete'>
-	  <key name="delete-child-transaction" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="delete-transaction" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="delete-child-scheduled" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="delete-scheduled" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="delete-scheduled-occurrences" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="delete-rule" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/panel/" id='org.gtk.grisbi.panel'>
+		<key name="active-scrolling-left-pane" type="b">
+			<default>false</default>
+			<summary>Active mouse scrolling in the left_panel.</summary>
+			<description>
+				If TRUE, the scrolling with the mouse is actived in the left panel.
+			</description>
+		</key>
+		<key name="panel-width" type="i">
+			<default>250</default>
+			<summary>Width of the navigation panel</summary>
+			<description>The width of the navigation panel.</description>
+		</key>
+		</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/messages/tips/" id='org.gtk.grisbi.messages.tips'>
-	  <key name="last-tip" type="i">
-	    <default>0</default>
-	    <summary>Last tip</summary>
-	    <description>The last visited tip .</description>
-	  </key>
-	  <key name="show-tip" type="b">
-	    <default>true</default>
-	    <summary>Show tip</summary>
-	    <description>True if we show the tips.</description>
-	  </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/prefs/" id='org.gtk.grisbi.prefs'>
+		<key name="prefs-archives-sort-order" type="b">
+			<default>false</default>
+			<summary>Sort order of the archives</summary>
+			<description>
+				Sort order of the archives : GTK_SORT_ASCENDING (0) by default,
+				sort by GTK_SORT_DESCENDING: a number different of 0.
+			</description>
+		</key>
+		<key name="prefs-fyear-sort-order" type="b">
+			<default>false</default>
+			<summary>Sort order of the financial years</summary>
+			<description>
+				Sort order of the financial years : GTK_SORT_ASCENDING (0) by default,
+				sort by GTK_SORT_DESCENDING: a number different of 0.
+			</description>
+		</key>
+		<key name="prefs-height" type="i">
+			<default>605</default>
+			<summary>Height of the preference window</summary>
+			<description>The height of the preference window.</description>
+		</key>
+		<key name="prefs-panel-width" type="i">
+			<default>235</default>
+			<summary>Width of the preference panel</summary>
+			<description>The width of the preference panel.</description>
+		</key>
+		<key name="prefs-width" type="i">
+			<default>910</default>
+			<summary>Width of the preference window</summary>
+			<description>The width of the preference window.</description>
+		</key>
+	</schema>
 
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/messages/warnings/" id='org.gtk.grisbi.messages.warnings'>
-	  <key name="account-file-readable" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="account-already-opened" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="development-version" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="encryption-is-irreversible" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="minimum-balance-alert" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="reconcile-transaction" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="unreconcile-transaction" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-	  <key name="remove-backup-files" type="b">
-	    <default>true</default>
-	    <summary>Display warning</summary>
-	    <description>TRUE to display message</description>
-	  </key>
-  </schema>
-
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/panel/" id='org.gtk.grisbi.panel'>
-    <key name="active-scrolling-left-pane" type="b">
-      <default>false</default>
-      <summary>Active mouse scrolling in the left_panel.</summary>
-      <description>
-        If TRUE, the scrolling with the mouse is actived in the left panel.
-      </description>
-    </key>
-	  <key name="panel-width" type="i">
-	    <default>250</default>
-	    <summary>Width of the navigation panel</summary>
-	    <description>The width of the navigation panel.</description>
-	  </key>
-  </schema>
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/prefs/" id='org.gtk.grisbi.prefs'>
-	  <key name="prefs-archives-sort-order" type="b">
-	    <default>false</default>
-	    <summary>Sort order of the archives</summary>
-	    <description>
-	    Sort order of the archives : GTK_SORT_ASCENDING (0) by default,
-	    sort by GTK_SORT_DESCENDING: a number different of 0.
-	    </description>
-	  </key>
-	  <key name="prefs-fyear-sort-order" type="b">
-	    <default>false</default>
-	    <summary>Sort order of the financial years</summary>
-	    <description>
-	    Sort order of the financial years : GTK_SORT_ASCENDING (0) by default,
-	    sort by GTK_SORT_DESCENDING: a number different of 0.
-	    </description>
-	  </key>
-	  <key name="prefs-height" type="i">
-	    <default>600</default>
-	    <summary>Height of the preference window</summary>
-	    <description>The height of the preference window.</description>
-	  </key>
-	  <key name="prefs-panel-width" type="i">
-	    <default>230</default>
-	    <summary>Width of the preference panel</summary>
-	    <description>The width of the preference panel.</description>
-	  </key>
-	  <key name="prefs-width" type="i">
-	    <default>880</default>
-	    <summary>Width of the preference window</summary>
-	    <description>The width of the preference window.</description>
-	  </key>
-  </schema>
-
-  <schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/scheduled/" id='org.gtk.grisbi.scheduled'>
-	  <key name="execute-scheduled-of-month" type="b">
-	    <default>false</default>
-	    <summary>if TRUE Execute the scheduled transactions of the month</summary>
-	    <description>
-	    Si coché toutes les opérations planifiées sont lancées en début de mois sinon au fil de l'eau.
-	    La date effective dépend du nombre de jours avant lancement.
-	    </description>
-	  </key>
-	  <key name="balances-with-scheduled" type="b">
-	    <default>true</default>
-	    <summary></summary>
-	    <description></description>
-	  </key>
-	  <key name="nb-days-before-scheduled" type="i">
-	    <default>0</default>
-	    <summary>Number of days before scheduled operations start</summary>
-	    <description>
-	    Nombre de jours avant le lancement des opérations planifiées par rapport à leur date d'exécution.
-	    </description>
-	  </key>
-	  <key name="scheduler-set-fixed-day" type="b">
-	    <default>false</default>
-	    <summary>Fixed day to initiate scheduled transactions on a monthly basis</summary>
-	    <description>
-	    Utiliser un jour fixe pour lancer mensuellement les opérations planifiées.
-	    </description>
-	  </key>
-	  <key name="scheduler-fixed-day" type="i">
-	    <default>1</default>
-	    <summary>Fixed day for sheduled transactions</summary>
-	    <description>
-	    Jour fixe du lancement mensuel des opérations planifiées.
-	    </description>
-	  </key>
-  </schema>
+	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/scheduled/" id='org.gtk.grisbi.scheduled'>
+		<key name="balances-with-scheduled" type="b">
+			<default>true</default>
+			<summary></summary>
+			<description></description>
+		</key>
+		<key name="execute-scheduled-of-month" type="b">
+			<default>false</default>
+			<summary>if TRUE Execute the scheduled transactions of the month</summary>
+			<description>
+				Si coché toutes les opérations planifiées sont lancées en début de mois sinon au fil de l'eau.
+				La date effective dépend du nombre de jours avant lancement.
+			</description>
+		</key>
+		<key name="nb-days-before-scheduled" type="i">
+			<default>0</default>
+			<summary>Number of days before scheduled operations start</summary>
+			<description>
+				Nombre de jours avant le lancement des opérations planifiées par rapport à leur date d'exécution.
+			</description>
+		</key>
+			<key name="scheduler-set-fixed-day" type="b">
+			<default>false</default>
+			<summary>Fixed day to initiate scheduled transactions on a monthly basis</summary>
+			<description>
+				Utiliser un jour fixe pour lancer mensuellement les opérations planifiées.
+			</description>
+		</key>
+		<key name="scheduler-fixed-day" type="i">
+			<default>1</default>
+			<summary>Fixed day for sheduled transactions</summary>
+			<description>
+				Jour fixe du lancement mensuel des opérations planifiées.
+			</description>
+		</key>
+	</schema>
 
   </schemalist>

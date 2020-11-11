@@ -138,11 +138,11 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
 
     /* settings_geometry */
 	a_conf->full_screen = FALSE;
-    a_conf->main_height = 600;
-    a_conf->main_width = 1000;
+    a_conf->main_height = WIN_MIN_HEIGHT;
+    a_conf->main_width = WIN_MIN_WIDTH;
     a_conf->maximize_screen = FALSE;
-    a_conf->x_position = 100;
-   	a_conf->y_position= 100;
+    a_conf->x_position = WIN_POS_X;
+   	a_conf->y_position= WIN_POS_Y;
 
     /* settings_messages_delete */
 	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
@@ -164,7 +164,7 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
 
     /* settings_panel */
     a_conf->active_scrolling_left_pane = FALSE;
-    a_conf->panel_width = 250;
+    a_conf->panel_width = PANEL_MIN_WIDTH;
 
 	/* settings_prefs */
     a_conf->prefs_archives_sort_order = FALSE;
@@ -1158,6 +1158,8 @@ gboolean grisbi_conf_save_app_config (void)
  *
  * \return
  **/
+
+#endif	/* USE_CONFIG_FILE */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
