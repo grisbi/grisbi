@@ -37,12 +37,13 @@
 /*START_INCLUDE*/
 #include "grisbi_app.h"
 #include "dialog.h"
-#include "grisbi_settings.h"
 #include "gsb_assistant_first.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #ifdef USE_CONFIG_FILE
 #include "grisbi_conf.h"
+#else
+#include "grisbi_settings.h"
 #endif
 #include "gsb_file_save.h"
 #include "gsb_locale.h"
@@ -1045,10 +1046,8 @@ static void grisbi_app_startup (GApplication *application)
 		}
 		else
 		{
-
 			g_free ((priv->a_conf)->current_theme);
 			(priv->a_conf)->current_theme = theme_name;
-			grisbi_settings_set_current_theme (theme_name, 0);
 			(priv->a_conf)->use_type_theme = gsb_rgba_get_type_theme (theme_name);
 			(priv->a_conf)->force_type_theme = 0;
 		}
@@ -1342,8 +1341,6 @@ void grisbi_app_window_style_updated (GtkWidget *win,
 			{
 				a_conf->use_type_theme = a_conf->force_type_theme;
 			}
-
-			grisbi_settings_set_current_theme (tmp_theme_name, a_conf->force_type_theme);
 
 			/* on sauvegarde éventuellement les données locales */
 			gsb_file_save_css_local_file (css_data);

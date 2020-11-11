@@ -1,3 +1,5 @@
+#ifdef USE_CONFIG_FILE
+
 #ifndef _GSB_FILE_CONFIG_H
 #define _GSB_FILE_CONFIG_H (1)
 
@@ -9,3 +11,4 @@ gboolean grisbi_conf_save_app_config (void);
 /* END_DECLARATION */
 
 #endif
+#endif /* USE_CONFIG_FILE */
