@@ -40,7 +40,6 @@
 #include "prefs_page_archives.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_account_property.h"
 #include "gsb_autofunc.h"
 #include "gsb_data_account.h"
@@ -447,16 +446,11 @@ static void prefs_page_archives_fill_list (GtkListStore *store)
 static void prefs_page_archives_button_sort_order_clicked (GtkWidget *toggle_button,
 														   GtkWidget *treeview)
 {
-	GSettings *settings;
     GtkTreeModel *model;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-	g_settings_set_boolean (G_SETTINGS (settings),
-                        	"prefs-archives-sort-order",
-                        	a_conf->prefs_archives_sort_order);
 
 	is_loading = grisbi_win_file_is_loading ();
 	if (is_loading)

@@ -39,7 +39,6 @@
 /*START_INCLUDE*/
 #include "prefs_page_accueil.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_locale.h"
 #include "gsb_data_partial_balance.h"
@@ -88,14 +87,8 @@ static gboolean prefs_page_accueil_checkbutton_balances_with_scheduled_toggle (G
 																			   GrisbiAppConf *a_conf)
 {
     GSList *list_tmp;
-	GSettings *settings;
 
-	settings = grisbi_settings_get_settings (SETTINGS_SCHEDULED);
-    g_settings_set_boolean (G_SETTINGS (settings),
-							"balances-with-scheduled",
-							a_conf->balances_with_scheduled);
-
-    list_tmp = gsb_data_account_get_list_accounts ();
+	list_tmp = gsb_data_account_get_list_accounts ();
     while (list_tmp)
     {
         gint account_number;
@@ -122,12 +115,6 @@ static gboolean prefs_page_accueil_checkbutton_balances_with_scheduled_toggle (G
 static gboolean prefs_page_accueil_checkbutton_partial_balance_toggle (GtkToggleButton *button,
 																	   GrisbiAppConf *a_conf)
 {
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_DISPLAY);
-    g_settings_set_boolean (G_SETTINGS (settings),
-							"group-partial-balance-under-accounts",
-							a_conf->group_partial_balance_under_accounts);
     gsb_gui_navigation_update_home_page ();
 	utils_prefs_gsb_file_set_modified ();
 
@@ -145,12 +132,6 @@ static gboolean prefs_page_accueil_checkbutton_partial_balance_toggle (GtkToggle
 static gboolean prefs_page_accueil_checkbutton_pluriel_final_toggle (GtkToggleButton *button,
 																	 GrisbiAppConf *a_conf)
 {
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
-    g_settings_set_boolean (G_SETTINGS (settings),
-							"pluriel-final",
-							a_conf->pluriel_final);
     gsb_gui_navigation_update_home_page ();
 	utils_prefs_gsb_file_set_modified ();
 

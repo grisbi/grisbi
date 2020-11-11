@@ -40,7 +40,6 @@
 #include "prefs_page_msg_delete.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_file.h"
 #include "structures.h"
 #include "utils.h"
@@ -74,7 +73,6 @@ static gboolean prefs_page_msg_delete_msg_toggled (GtkCellRendererToggle *cell,
 {
     GtkTreePath *path;
     GtkTreeIter iter;
-	GSettings *settings;
 	gint position;
 	ConditionalMsg *warning;
 
@@ -89,16 +87,6 @@ static gboolean prefs_page_msg_delete_msg_toggled (GtkCellRendererToggle *cell,
 
     /* Set new value */
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, !(warning+position)->hidden, -1);
-
-	/* set g_settings */
-	settings = grisbi_settings_get_settings (SETTINGS_MESSAGES_WARNINGS);
-	if ((warning+position)->hidden)
-		g_settings_set_boolean (G_SETTINGS (settings),
-								(warning+position)->name,
-								FALSE);
-	else
-		g_settings_reset (G_SETTINGS (settings),
-						  (warning+position)->name);
 
     return TRUE;
 }

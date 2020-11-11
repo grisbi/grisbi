@@ -34,7 +34,6 @@
 /*START_INCLUDE*/
 #include "grisbi_prefs.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "utils_prefs.h"
 #include "prefs_page_accueil.h"
 #include "prefs_page_archives.h"
@@ -122,19 +121,10 @@ G_DEFINE_TYPE_WITH_PRIVATE (GrisbiPrefs, grisbi_prefs, GTK_TYPE_DIALOG)
  **/
 static gboolean grisbi_prefs_size_allocate (GtkWidget *prefs,
 											GtkAllocation *allocation,
-												GrisbiAppConf *a_conf)
+											GrisbiAppConf *a_conf)
 {
-
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
     a_conf->prefs_height = allocation->height;
 	a_conf->prefs_width = allocation->width;
-
-    /* save settings_prefs */
-	g_settings_set_int (G_SETTINGS (settings), "prefs-height", a_conf->prefs_height);
-	g_settings_set_int (G_SETTINGS (settings), "prefs-width", a_conf->prefs_width);
-	g_settings_set_int (G_SETTINGS (settings), "prefs-panel-width", a_conf->prefs_panel_width);
 
 	return FALSE;
 }
@@ -790,13 +780,12 @@ GrisbiPrefs *grisbi_prefs_new (GrisbiWin *win)
 void grisbi_prefs_dialog_response  (GtkDialog *prefs,
                                     gint result_id)
 {
-	GSettings *settings;
-
     devel_debug (NULL);
 	if (result_id == GTK_RESPONSE_CLOSE)
 	{
 		GrisbiAppConf *a_conf;
 		GrisbiWinRun *w_run;
+		GrisbiPrefsPrivate *priv;
 
 		grisbi_win_status_bar_message (_("Preferences stop"));
 		if (!prefs)
@@ -806,34 +795,21 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 			return;
 		}
 		/* on récupère éventuellement la dimension de la fenêtre */
+		priv = grisbi_prefs_get_instance_private (GRISBI_PREFS (prefs));
 		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-		settings = grisbi_settings_get_settings (SETTINGS_PREFS);
 		if (w_run->resolution_screen_toggled == FALSE)
 		{
 			gtk_window_get_size (GTK_WINDOW (prefs), &a_conf->prefs_width, &a_conf->prefs_height);
-			g_settings_set_int (G_SETTINGS (settings),
-								"prefs-height",
-								a_conf->prefs_height);
-
-			g_settings_set_int (G_SETTINGS (settings),
-								"prefs-panel-width",
-								a_conf->prefs_panel_width);
-
-			g_settings_set_int (G_SETTINGS (settings),
-								"prefs-width",
-								a_conf->prefs_width);
+			a_conf->panel_width = gtk_paned_get_position (GTK_PANED (priv->paned_prefs));
 		}
 		else
 		{
 			w_run->resolution_screen_toggled = FALSE;
-			g_settings_reset (G_SETTINGS (settings), "prefs-height");
-			g_settings_reset (G_SETTINGS (settings), "prefs-panel-width");
-			g_settings_reset (G_SETTINGS (settings), "prefs-width");
 
-			a_conf->prefs_height = g_settings_get_int (settings, "prefs-height");
-			a_conf->prefs_panel_width = g_settings_get_int (settings, "prefs-panel-width");
-			a_conf->prefs_width = g_settings_get_int (settings, "prefs-width");
+			a_conf->prefs_height = PREFS_WIN_MIN_HEIGHT;
+			a_conf->prefs_panel_width = PREFS_PANED_MIN_WIDTH;
+			a_conf->prefs_width = PREFS_WIN_MIN_WIDTH;
 		}
 	}
 	gtk_widget_destroy (GTK_WIDGET (prefs));

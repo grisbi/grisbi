@@ -39,7 +39,6 @@
 /*START_INCLUDE*/
 #include "prefs_page_options_ope.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_file.h"
 #include "gsb_rgba.h"
 #include "gsb_transactions_list.h"
@@ -126,7 +125,6 @@ static gboolean prefs_page_options_ope_display_mode_button_changed (GtkWidget *b
 static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget,
 															 gint *pointeur)
 {
-    GSettings *settings;
     gint page_number;
     gint account_nb;
     gint value = 0;
@@ -134,7 +132,6 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
 	GrisbiAppConf *a_conf;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-    settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
 
     page_number = gsb_gui_navigation_get_current_page ();
     value = gtk_combo_box_get_active (widget);
@@ -144,23 +141,9 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     {
         case PRIMARY_SORT:
             a_conf->transactions_list_primary_sorting = value;
-			if (value)
-				g_settings_set_int (G_SETTINGS (settings),
-									"transactions-list-primary-sorting",
-									a_conf->transactions_list_primary_sorting);
-			else
-				g_settings_reset (G_SETTINGS (settings),
-								  "transactions-list-primary-sorting");
             break;
         case SECONDARY_SORT:
             a_conf->transactions_list_secondary_sorting = value;
-			if (value)
-				g_settings_set_int (G_SETTINGS (settings),
-									"transactions-list-secondary-sorting",
-									a_conf->transactions_list_secondary_sorting);
-			else
-				g_settings_reset (G_SETTINGS (settings),
-								  "transactions-list-secondary-sorting");
             break;
     }
     gsb_file_set_modified (TRUE);

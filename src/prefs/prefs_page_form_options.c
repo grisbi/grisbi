@@ -39,7 +39,6 @@
 /*START_INCLUDE*/
 #include "prefs_page_form_options.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_automem.h"
 #include "gsb_file.h"
 #include "structures.h"
@@ -70,25 +69,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageFormOptions, prefs_page_form_options, GTK_T
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- **/
-static gboolean prefs_page_form_options_fyear_combobox_sort_order_changed (GtkWidget *checkbutton,
-																		   GrisbiAppConf *a_conf)
-{
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_FORM);
-	g_settings_set_int (G_SETTINGS (settings), "fyear-combobox-sort-order", a_conf->fyear_combobox_sort_order);
-
-	return FALSE;
-}
-
 /**
  * Création de la page de gestion des form_options
  *
@@ -143,7 +123,7 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
     /* set the fyear_combobox_sort_order variable */
 	button = gsb_automem_checkbutton_gsettings_new (_("Sorting descending of the exercises"),
 													&a_conf->fyear_combobox_sort_order,
-													G_CALLBACK (prefs_page_form_options_fyear_combobox_sort_order_changed),
+													NULL,
 													a_conf);
 	gtk_box_pack_start (GTK_BOX (priv->box_fyear_combobox_sort_order), button, FALSE, FALSE, 0);
 

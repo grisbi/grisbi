@@ -39,7 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_page_display_gui.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
+#include "grisbi_prefs.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils_buttons.h"
@@ -87,8 +87,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayGui, prefs_page_display_gui, GTK_TYP
 static gboolean prefs_page_display_gui_active_scrolling_left_pane (GtkWidget *toggle_button,
 																   GrisbiAppConf *a_conf)
 {
-	GSettings *settings;
-
 	if (a_conf->active_scrolling_left_pane)
         g_signal_handlers_unblock_by_func (gsb_gui_navigation_get_tree_view (),
 										   G_CALLBACK (gsb_gui_navigation_check_scroll),
@@ -97,11 +95,6 @@ static gboolean prefs_page_display_gui_active_scrolling_left_pane (GtkWidget *to
         g_signal_handlers_block_by_func (gsb_gui_navigation_get_tree_view (),
 										 G_CALLBACK (gsb_gui_navigation_check_scroll),
 										 NULL);
-
-	settings = grisbi_settings_get_settings (SETTINGS_PANEL);
-    g_settings_set_boolean (G_SETTINGS (settings),
-							"active-scrolling-left-pane",
-							a_conf->active_scrolling_left_pane);
 
 	return FALSE;
 }
@@ -116,8 +109,6 @@ static gboolean prefs_page_display_gui_active_scrolling_left_pane (GtkWidget *to
 static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButton *button,
 																	GrisbiAppConf *a_conf)
 {
-    GSettings *settings;
-
     /* Do not execute this callback twice,
      * as it is triggered for both unselected button and newly selected one.
      * We keep the call for the newly selected radio button */
@@ -126,13 +117,6 @@ static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButt
 
     /* save the new parameter */
     a_conf->display_toolbar = GPOINTER_TO_INT (g_object_get_data (G_OBJECT(button), "display"));
-
-    /* update GSettings */
-    settings = grisbi_settings_get_settings (SETTINGS_DISPLAY);
-	if (a_conf->display_toolbar == 2)
-		g_settings_reset (G_SETTINGS (settings), "display-toolbar");
-	else
-    	g_settings_set_int (G_SETTINGS (settings), "display-toolbar", a_conf->display_toolbar);
 
     /* update toolbars */
 	if (grisbi_win_file_is_loading ())
@@ -154,7 +138,6 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 
 {
 	GtkTreeModel *model;
-	GSettings *settings;
 	gint etat;
 	GrisbiAppConf *a_conf;
 
@@ -163,23 +146,21 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_run->resolution_screen_toggled = etat;
 
-	settings = grisbi_settings_get_settings (SETTINGS_GEOMETRY);
-    g_settings_set_boolean (G_SETTINGS (settings),
-							"low-resolution-screen",
-							a_conf->low_resolution_screen);
 	if (etat)
 	{
-		/*reset all geometry keys */
-		g_settings_reset (G_SETTINGS (settings), "main-height");
-		g_settings_reset (G_SETTINGS (settings), "main-width");
-		a_conf->main_height = g_settings_get_int (settings, "main-height");
-		a_conf->main_width = g_settings_get_int (settings, "main-width");
+		GtkWidget *prefs;
+		GtkWidget *hpaned;
 
-		settings = grisbi_settings_get_settings (SETTINGS_PANEL);
-		g_settings_reset (G_SETTINGS (settings), "panel-width");
-		a_conf->panel_width = g_settings_get_int (settings, "panel-width");
+		prefs = g_object_get_data (G_OBJECT (toggle_button), "paned_prefs");
+		hpaned = grisbi_prefs_get_prefs_hpaned (prefs);
+
+		/*reset all geometry keys */
+		a_conf->main_height = WIN_MIN_HEIGHT;
+		a_conf->main_width = WIN_MIN_WIDTH;
+		a_conf->panel_width = PANEL_MIN_WIDTH;
 
 		gtk_window_resize (GTK_WINDOW (grisbi_app_get_active_window (NULL)), a_conf->main_width, a_conf->main_height);
+		gtk_paned_set_position (GTK_PANED (hpaned), a_conf->panel_width);
 	}
 
 	/* init status bar */
@@ -208,14 +189,7 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 static gboolean prefs_page_display_gui_switch_headings_bar (GtkWidget *toggle_button,
 															GrisbiAppConf *a_conf)
 {
-	GSettings *settings;
-
     grisbi_win_headings_update_show_headings ();
-
-	settings = grisbi_settings_get_settings (SETTINGS_DISPLAY);
-    g_settings_set_boolean (G_SETTINGS (settings),
-							"show-headings-bar",
-							a_conf->show_headings_bar);
 
 	return FALSE;
 }
@@ -227,7 +201,8 @@ static gboolean prefs_page_display_gui_switch_headings_bar (GtkWidget *toggle_bu
  *
  * \return
  **/
-static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *page)
+static void prefs_page_display_gui_setup_page (PrefsPageDisplayGui *page,
+											   GrisbiPrefs *win)
 {
 	GtkWidget *head_page;
 	PangoTabArray *tabs;
@@ -249,6 +224,9 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
     /* set the variables for low_resolution_screen */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_low_resolution_screen),
 								  a_conf->low_resolution_screen);
+
+	/* on attache win pour recuperer paned_prefs */
+	g_object_set_data (G_OBJECT (priv->checkbutton_low_resolution_screen), "paned_prefs", win);
 
     /* Connect signal */
     g_signal_connect (priv->checkbutton_low_resolution_screen,
@@ -366,8 +344,6 @@ static void prefs_page_display_gui_setup_display_gui_page (PrefsPageDisplayGui *
 static void prefs_page_display_gui_init (PrefsPageDisplayGui *page)
 {
 	gtk_widget_init_template (GTK_WIDGET (page));
-
-	prefs_page_display_gui_setup_display_gui_page (page);
 }
 
 static void prefs_page_display_gui_dispose (GObject *object)
@@ -398,7 +374,12 @@ static void prefs_page_display_gui_class_init (PrefsPageDisplayGuiClass *klass)
 /******************************************************************************/
 PrefsPageDisplayGui *prefs_page_display_gui_new (GrisbiPrefs *win)
 {
-  return g_object_new (PREFS_PAGE_DISPLAY_GUI_TYPE, NULL);
+	PrefsPageDisplayGui *page;
+
+	page = g_object_new (PREFS_PAGE_DISPLAY_GUI_TYPE, NULL);
+	prefs_page_display_gui_setup_page (page, win);
+
+	return page;
 }
 
 /**

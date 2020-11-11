@@ -40,7 +40,6 @@
 #include "prefs_page_fyear.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_autofunc.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_fyear.h"
@@ -644,17 +643,12 @@ static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page,
 static void prefs_page_fyear_button_sort_order_toggled (GtkWidget *toggle_button,
 													    GtkWidget *tree_view)
 {
-	GSettings *settings;
     GtkTreeModel *model;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	is_loading = grisbi_win_file_is_loading ();
-	settings = grisbi_settings_get_settings (SETTINGS_PREFS);
-	g_settings_set_boolean (G_SETTINGS (settings),
-                        	"prefs-fyear-sort-order",
-                        	a_conf->prefs_fyear_sort_order);
 
 	if (is_loading)
 	{

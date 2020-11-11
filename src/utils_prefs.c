@@ -35,7 +35,6 @@
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "grisbi_prefs.h"
-#include "grisbi_settings.h"
 #include "gsb_file.h"
 #include "gsb_dirs.h"
 #include "parametres.h"
@@ -580,25 +579,16 @@ void utils_prefs_page_dir_chosen (GtkWidget *button,
 
 	if (strcmp (dirname, "backup_path") == 0)
 	{
-		GSettings *settings;
-
-        settings = grisbi_settings_get_settings (SETTINGS_FILES_BACKUP);
-        g_settings_set_string (G_SETTINGS (settings), "backup-path", tmp_dir);
-
         gsb_file_set_backup_path (tmp_dir);
 	}
 	else if (strcmp (dirname, "import_directory") == 0)
 	{
-		GSettings *settings;
 		GrisbiAppConf *a_conf;
 
 		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-        settings = grisbi_settings_get_settings (SETTINGS_FILES_FILE);
-        g_settings_set_string (G_SETTINGS (settings), "import-directory", tmp_dir);
 		if (a_conf->import_directory)
 			g_free (a_conf->import_directory);
 		a_conf->import_directory = my_strdup (tmp_dir);
-
 	}
 
     g_signal_handlers_unblock_by_func (button,
@@ -606,7 +596,8 @@ void utils_prefs_page_dir_chosen (GtkWidget *button,
 									   dirname);
 
 	utils_prefs_gsb_file_set_modified ();
-    /* memory free */
+
+	/* memory free */
     g_free (tmp_dir);
 }
 

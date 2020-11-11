@@ -41,7 +41,6 @@
 #include "bet_finance_ui.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_dirs.h"
@@ -408,7 +407,6 @@ static void prefs_page_divers_choose_language_changed (GtkComboBox *combo,
 
 	if (gtk_combo_box_get_active_iter (combo, &iter))
 	{
-		GSettings *settings;
 		GtkTreeModel *model;
 		gchar *string;
 		gchar *tmp_str;
@@ -416,19 +414,16 @@ static void prefs_page_divers_choose_language_changed (GtkComboBox *combo,
 		gint index;
 		GrisbiAppConf *a_conf;
 
-		settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
 		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
 		gtk_tree_model_get (model, &iter, 0, &string, 1, &index, -1);
 		if (index == 0)
 		{
 			a_conf->language_chosen = NULL;
-			g_settings_reset (G_SETTINGS (settings), "language-chosen");
 		}
 		else
 		{
 			a_conf->language_chosen = string;
-			g_settings_set_string (G_SETTINGS (settings), "language-chosen", a_conf->language_chosen);
 		}
 
 		tmp_str = g_strdup (_("You will have to restart Grisbi for the new language to take effect."));

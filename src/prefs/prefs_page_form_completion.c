@@ -39,7 +39,6 @@
 /*START_INCLUDE*/
 #include "prefs_page_form_completion.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "gsb_category.h"
 #include "gsb_data_form.h"
 #include "gsb_file.h"
@@ -150,60 +149,6 @@ static void prefs_page_form_completion_update_combofix (GtkWidget *checkbutton,
 }
 
 /**
- *
- *
- * \param
- *
- * \return
- **/
-static void prefs_page_form_completion_save_checkbuton_value (GtkWidget *button)
-{
-	const gchar *tmp_name;
-	GSettings *settings;
-	GrisbiAppConf *a_conf;
-
-	settings = grisbi_settings_get_settings (SETTINGS_FORM);
-	a_conf = grisbi_app_get_a_conf ();
-	tmp_name = gtk_widget_get_name (button);
-	if (strcmp (tmp_name, "checkbutton_automatic_completion_payee") ==0)
-	{
-		if (a_conf->automatic_completion_payee)
-			g_settings_set_boolean (G_SETTINGS (settings), "automatic-completion-payee", TRUE);
-		else
-			g_settings_reset (G_SETTINGS (settings), "automatic-completion-payee");
-
-		return;
-	}
-	if (strcmp (tmp_name, "checkbutton_automatic_erase_credit_debit") == 0)
-	{
-		if (a_conf->automatic_erase_credit_debit)
-			g_settings_set_boolean (G_SETTINGS (settings), "automatic-erase-credit-debit", TRUE);
-		else
-			g_settings_reset (G_SETTINGS (settings), "automatic-erase-credit-debit");
-
-		return;
-	}
-	if (strcmp (tmp_name, "checkbutton_automatic_recover_splits") == 0)
-	{
-		if (a_conf->automatic_recover_splits)
-			g_settings_set_boolean (G_SETTINGS (settings), "automatic-recover-splits", TRUE);
-		else
-			g_settings_reset (G_SETTINGS (settings), "automatic-recover-splits");
-
-		return;
-	}
-	if (strcmp (tmp_name, "checkbutton_limit_completion_to_current_account") == 0)
-	{
-		if (a_conf->limit_completion_to_current_account)
-			g_settings_set_boolean (G_SETTINGS (settings), "limit-completion-current-account", TRUE);
-		else
-			g_settings_reset (G_SETTINGS (settings), "limit-completion-current-account");
-
-		return;
-	}
-}
-
-/**
  * Appellée lorsqu'on coche la case "Automatic filling transactions from payee"
  *
  * \param
@@ -231,7 +176,6 @@ static void prefs_page_form_completion_checkbutton_automatic_completion_payee_to
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_limit_completion_to_current_account),
 									  FALSE);
     }
-	prefs_page_form_completion_save_checkbuton_value (checkbutton);
 }
 
 /**
@@ -248,10 +192,8 @@ static void prefs_page_form_completion_spinbutton_completion_minimum_key_length_
     GtkWidget *combofix;
 	GtkWidget *entry;
 	GtkEntryCompletion *completion;
-	GSettings *settings;
 	GrisbiAppConf *a_conf;
 
-	settings = grisbi_settings_get_settings (SETTINGS_FORM);
 	a_conf = grisbi_app_get_a_conf ();
 	combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 	if (combofix && GTK_IS_COMBOFIX (combofix))
@@ -274,12 +216,7 @@ static void prefs_page_form_completion_spinbutton_completion_minimum_key_length_
 		completion = gtk_entry_get_completion (GTK_ENTRY (entry));
 		gtk_entry_completion_set_minimum_key_length (completion, a_conf->completion_minimum_key_length);
 	}
-	if (a_conf->completion_minimum_key_length > 1)
-		g_settings_set_int (G_SETTINGS (settings),
-							"completion-minimum-key-length",
-							a_conf->completion_minimum_key_length);
-	else
-		g_settings_reset (G_SETTINGS (settings), "completion-minimum-key-length");}
+}
 
 /**
  * Création de la page de gestion des form_completion
@@ -389,32 +326,17 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &a_conf->automatic_erase_credit_debit);
 
-    g_signal_connect_after (priv->checkbutton_automatic_erase_credit_debit,
-							"toggled",
-							G_CALLBACK (prefs_page_form_completion_save_checkbuton_value),
-							NULL);
-
 	/* Connect signal checkbutton_checkbutton_automatic_recover_splits */
 	g_signal_connect (priv->checkbutton_automatic_recover_splits,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &a_conf->automatic_recover_splits);
 
-	g_signal_connect_after (priv->checkbutton_automatic_recover_splits,
-							"toggled",
-							G_CALLBACK (prefs_page_form_completion_save_checkbuton_value),
-							NULL);
-
     /* Connect signal checkbutton_checkbutton_limit_completion_to_current_account */
     g_signal_connect (priv->checkbutton_limit_completion_to_current_account,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &a_conf->limit_completion_to_current_account);
-
-    g_signal_connect_after (priv->checkbutton_limit_completion_to_current_account,
-							"toggled",
-							G_CALLBACK (prefs_page_form_completion_save_checkbuton_value),
-							NULL);
 
     /* Connect signal checkbutton_combofix_force_payee */
     g_signal_connect (priv->checkbutton_combofix_force_payee,

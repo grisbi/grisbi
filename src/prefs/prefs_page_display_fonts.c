@@ -43,7 +43,6 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_settings.h"
 #include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
@@ -125,7 +124,6 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
     if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo), &iter))
     {
 		GtkTreeModel *model;
-		GSettings *settings;
 		gint value;
 		GrisbiAppConf *a_conf;
 
@@ -133,21 +131,18 @@ static void	prefs_page_display_fonts_combo_force_theme_changed (GtkWidget *combo
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
 		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &value, -1);
 
-		settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
 		if (value)
 		{
 			if (value == 1)						/* c'est un theme standard */
 				a_conf->force_type_theme = 0;
 			else
 				a_conf->force_type_theme = value;	/* dark theme ou light theme */
-			g_settings_set_int (G_SETTINGS (settings), "force-type-theme", a_conf->force_type_theme);
 			a_conf->use_type_theme = value;
 
 			grisbi_app_window_style_updated (GTK_WIDGET (grisbi_app_get_active_window (NULL)), GINT_TO_POINTER (TRUE));
 		}
 		else
 		{
-			g_settings_reset (G_SETTINGS (settings), "force-type-theme");
 			a_conf->force_type_theme = 0;
 			a_conf->use_type_theme = 0;
 		}
@@ -180,23 +175,6 @@ static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
     g_value_init (&value, G_TYPE_STRING);
     g_value_set_string (&value, font);
     transaction_list_update_column (CUSTOM_MODEL_FONT, &value);
-}
-
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- * */
-static void prefs_page_display_fonts_checkbutton_checked (GtkWidget *checkbutton,
-                                                          gboolean *value)
-{
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
-	g_settings_set_boolean (G_SETTINGS (settings), "custom-fonte-listes", *value);
 }
 
 /**
@@ -285,16 +263,6 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
 
 	/* Mark file as modified */
 	utils_prefs_gsb_file_set_modified ();
-}
-
-
-static void prefs_page_display_fonts_font_button_clicked (GtkWidget *button,
-                                                          gchar **value)
-{
-	GSettings *settings;
-
-	settings = grisbi_settings_get_settings (SETTINGS_GENERAL);
-	g_settings_set_string (G_SETTINGS (settings), "font-string", *value);
 }
 
 /**
@@ -587,17 +555,6 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &a_conf->custom_fonte_listes);
-
-	/* set g_settings for fonts */
-	g_signal_connect_after (priv->checkbutton_display_fonts,
-							"toggled",
-							G_CALLBACK (prefs_page_display_fonts_checkbutton_checked),
-							&a_conf->custom_fonte_listes);
-
-	g_signal_connect_after (font_button,
-							"clicked",
-							G_CALLBACK (prefs_page_display_fonts_font_button_clicked),
-							&a_conf->font_string);
 
 	/* set the themes buttons */
 	prefs_page_display_fonts_init_combo_force_theme (page);
