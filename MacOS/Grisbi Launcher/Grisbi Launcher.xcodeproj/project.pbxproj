@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0009FDDE2561D36D000055F9 /* Grisbi.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0009FDDD2561D36D000055F9 /* Grisbi.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		003EAF4025164A2D00DAD696 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 003EAF3F25164A2D00DAD696 /* AppDelegate.m */; };
 		003EAF4225164A2E00DAD696 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 003EAF4125164A2E00DAD696 /* Assets.xcassets */; };
 		003EAF4525164A2E00DAD696 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 003EAF4325164A2E00DAD696 /* MainMenu.xib */; };
@@ -14,7 +15,21 @@
 		00B43013251653A00099EB4D /* Grisbi.icns in Resources */ = {isa = PBXBuildFile; fileRef = 00B43012251653A00099EB4D /* Grisbi.icns */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0009FDDC2561D310000055F9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				0009FDDE2561D36D000055F9 /* Grisbi.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0009FDDD2561D36D000055F9 /* Grisbi.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Grisbi.app; path = ../dist/Grisbi.app; sourceTree = "<group>"; };
 		003EAF3B25164A2D00DAD696 /* Grisbi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grisbi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		003EAF3E25164A2D00DAD696 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		003EAF3F25164A2D00DAD696 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -40,6 +55,7 @@
 		003EAF3225164A2D00DAD696 = {
 			isa = PBXGroup;
 			children = (
+				0009FDDD2561D36D000055F9 /* Grisbi.app */,
 				003EAF3D25164A2D00DAD696 /* Grisbi Launcher */,
 				003EAF3C25164A2D00DAD696 /* Products */,
 			);
@@ -78,6 +94,7 @@
 				003EAF3725164A2D00DAD696 /* Sources */,
 				003EAF3825164A2D00DAD696 /* Frameworks */,
 				003EAF3925164A2D00DAD696 /* Resources */,
+				0009FDDC2561D310000055F9 /* CopyFiles */,
 			);
 			buildRules = (
 			);
