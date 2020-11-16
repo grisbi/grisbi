@@ -22,7 +22,6 @@ export -n LD
 xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj clean
 xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj
 
-rm -rf dist.old
-mv dist dist.old
-mkdir dist
-cp -a Grisbi\ Launcher/build/Release/Grisbi.app dist
+rm -rf dist.new
+mkdir dist.new
+cp -a Grisbi\ Launcher/build/Release/Grisbi.app dist.new
