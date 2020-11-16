@@ -13,13 +13,16 @@ set -e
 
 cd $(dirname $0)
 
-# Build this project OUTSIDE of jhbuild or the link will fail with:
-# ld: unknown option: -target
+# sign Grisbi
+codesign --deep -s -  dist/Grisbi.app || true
 
-# xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj clean
-# xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj
+# undefine LD redifined by "jhbuild shell"
+export -n LD
 
-mv dist/Grisbi.app dist/Grisbi.app.real
+xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj clean
+xcodebuild -project Grisbi\ Launcher/Grisbi\ Launcher.xcodeproj
 
-cp -a Grisbi\ Launcher/build/Release/Grisbi.app dist/
-mv dist/Grisbi.app.real dist/Grisbi.app/Contents/Resources/Grisbi.app
+rm -rf dist.old
+mv dist dist.old
+mkdir dist
+cp -a Grisbi\ Launcher/build/Release/Grisbi.app dist
