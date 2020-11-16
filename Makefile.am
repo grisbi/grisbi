@@ -14,7 +14,6 @@ ACLOCAL_AMFLAGS = -I m4
 bundle:
 	@if [ "x$(UNDER_JHBUILD)" != "xtrue" ]; then echo "*** Please run this command under JHbuild env."; exit 1; fi
 	@if [ "x$(PREFIX)" != "x$(prefix)" ]; then echo "*** Please use ./configure --prefix=$(PREFIX) to configure Grisbi."; exit 1; fi
-	if [ -f $(srcdir)/MacOS/Grisbi-$(GRISBI_MAJOR_VERSION).$(GRISBI_MINOR_VERSION).$(GRISBI_MICRO_VERSION).dmg ]; then echo "*** DMG file already exist."; exit 1; fi
 	sed -i.old -e "s/VERSION/$(GRISBI_MAJOR_VERSION).$(GRISBI_MINOR_VERSION).$(GRISBI_MICRO_VERSION)/" MacOS/Info.plist
 	env GRIBSI_BUNDLE_PATH=$(srcdir) gtk-mac-bundler $(srcdir)/MacOS/Grisbi.bundle
 	$(srcdir)/MacOS/manual_add.sh
