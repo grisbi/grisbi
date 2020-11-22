@@ -1977,7 +1977,7 @@ msgstr "Préférences"
 
 #: ../src/widgets/widget_css_rules.ui.h:7
 msgid "back to default"
-msgstr "Retour à la valeur par défaut"
+msgstr "Retour aux valeurs par défaut"
 
 #: ../src/widgets/widget_css_rules.ui.h:8
 msgid "This action deletes the personal CSS file and resets all colors"
@@ -1985,7 +1985,7 @@ msgstr "Cette action supprime le fichier personnalisé des couleurs de Grisbi"
 
 #: ../src/widgets/widget_css_rules.ui.h:9
 msgid "(This action deletes the personal CSS file and resets all colors)"
-msgstr "Cette action supprime le fichier personnalisé des couleurs de Grisbi"
+msgstr "(Cette action supprime le fichier personnalisé des couleurs de Grisbi)"
 
 #: ../src/widgets/widget_currency_details.ui.h:2
 msgid "Sign: "
