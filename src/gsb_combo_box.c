@@ -376,6 +376,37 @@ GtkWidget *gsb_combo_box_gsettings_new_from_list (gchar **string,
 }
 
 /**
+ * new combo_box from glade widget
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *gsb_combo_box_new_with_index_from_ui (GtkWidget *combo,
+												 const gchar **string,
+												 GCallback func,
+												 gpointer data)
+{
+    GtkTreeModel *model;
+
+    model = GTK_TREE_MODEL (gsb_combo_box_list_store_new_from_array (string));
+    gtk_combo_box_set_model (GTK_COMBO_BOX (combo), model);
+
+    gsb_combo_box_set_text_renderer (GTK_COMBO_BOX (combo), 0);
+    gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
+    if (func)
+        g_signal_connect (G_OBJECT (combo),
+						  "changed",
+						  G_CALLBACK (func),
+						  data);
+
+    return combo;
+}
+
+/**
  *
  *
  * \param
