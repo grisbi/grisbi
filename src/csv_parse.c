@@ -62,6 +62,9 @@ GSList *csv_parse_line (gchar **contents,
     gsize len;
     GSList *list = NULL;
 
+	if (!separator || strlen (separator) == 0)
+		return NULL;
+
     len = strlen (separator);
     tmp = (*contents);
     begin = tmp;
