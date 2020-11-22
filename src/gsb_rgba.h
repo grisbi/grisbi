@@ -34,15 +34,16 @@ gboolean    gsb_rgba_set_couleur_with_indice        (const gchar *couleur,
                                                      gint indice,
                                                      const gchar *value);
 
+
 /* CSS FUNCTIONS */
 gchar *		gsb_css_get_filename					(void);
-gchar *		gsb_css_get_rule_from_name				(const gchar *name,
+gchar *		gsb_css_get_property_from_name			(const gchar *name,
 													 const gchar *property);
 void		gsb_css_load_css_data_from_file			(GtkCssProvider *css_provider);
 void		gsb_css_set_color_property				(GdkRGBA *color,
 													 gchar *property);
-void 		gsb_css_set_rule_from_name				(const gchar *name,
-													 const gchar *rule);
+void 		gsb_css_set_property_from_name			(const gchar *name,
+													 const gchar *value);
 gboolean	gsb_css_test_user_css_file				(void);
 /* END_DECLARATION */
 #endif

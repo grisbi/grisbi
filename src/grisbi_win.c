@@ -2450,7 +2450,7 @@ void grisbi_win_status_bar_set_font_size (gint font_size)
 
 	font_size_str = utils_str_itoa (font_size);
 	data = g_strconcat ("#global_statusbar {\n\tfont-size: ", font_size_str, "px;\n}\n",  NULL);
-	gsb_css_set_rule_from_name ("#global_statusbar", data);
+	gsb_css_set_property_from_name ("#global_statusbar", data);
 
 	g_free (font_size_str);
 	g_free (data);

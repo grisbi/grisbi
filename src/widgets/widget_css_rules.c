@@ -351,7 +351,7 @@ static void widget_css_rules_setup_page (WidgetCssRules *page)
 	g_object_set_data (G_OBJECT (priv->button_back_prefs_rules), "button_color_rules", priv->button_prefs_rules);
 
 	/* set font size of statusbar */
-	font_size_str = gsb_css_get_rule_from_name ("#global_statusbar","font-size");
+	font_size_str = gsb_css_get_property_from_name ("#global_statusbar","font-size");
 	font_size = utils_str_atoi (font_size_str);
 
 	/* on mémorise la valeur initiale de font_size pendant la session */

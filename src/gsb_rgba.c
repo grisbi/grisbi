@@ -650,7 +650,7 @@ gchar *gsb_css_get_filename (void)
  *
  * \return
  **/
-gchar *gsb_css_get_rule_from_name (const gchar *name,
+gchar *gsb_css_get_property_from_name (const gchar *name,
 								   const gchar *property)
 {
 	const gchar *css_data;
@@ -734,8 +734,8 @@ void gsb_css_set_color_property (GdkRGBA *color,
  *
  * \return
  **/
-void gsb_css_set_rule_from_name (const gchar *name,
-								 const gchar *rule)
+void gsb_css_set_property_from_name (const gchar *name,
+									 const gchar *value)
 {
 	const gchar *css_data;
 	gchar *tmp_str = NULL;
@@ -753,7 +753,7 @@ void gsb_css_set_rule_from_name (const gchar *name,
 		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		first_part = g_strndup (css_data, tmp_str - css_data);
 		tab_rule = g_strsplit (tmp_str, "#", 3);
-		new_data = g_strconcat (first_part, rule, "\n#", tab_rule[2], NULL);
+		new_data = g_strconcat (first_part, value, "\n#", tab_rule[2], NULL);
 
 		css_provider = grisbi_app_get_css_provider ();
 		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
