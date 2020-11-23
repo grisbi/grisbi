@@ -36,6 +36,10 @@ gboolean    gsb_rgba_set_couleur_with_indice        (const gchar *couleur,
 
 
 /* CSS FUNCTIONS */
+void		gsb_css_count_change_dec				(gboolean doublon);
+void		gsb_css_count_change_inc				(void);
+void		gsb_css_count_change_init				(void);
+
 gchar *		gsb_css_get_filename					(void);
 gchar *		gsb_css_get_property_from_name			(const gchar *name,
 													 const gchar *property);
@@ -43,6 +47,9 @@ void		gsb_css_load_css_data_from_file			(GtkCssProvider *css_provider);
 void		gsb_css_set_color_property				(GdkRGBA *color,
 													 gchar *property);
 void 		gsb_css_set_property_from_name			(const gchar *name,
+													 const gchar *value);
+void		gsb_css_set_property_from_selector		(const gchar *selector,
+													 const gchar *property,
 													 const gchar *value);
 gboolean	gsb_css_test_user_css_file				(void);
 /* END_DECLARATION */

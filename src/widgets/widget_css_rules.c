@@ -40,6 +40,7 @@
 #include "widget_css_rules.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "gsb_combo_box.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_rgba.h"
@@ -80,16 +81,147 @@ struct _WidgetCssRulesPrivate
 	GtkWidget *			button_prefs_rules;
 	GtkWidget *			combo_prefs_rules;
 
+	GtkWidget *			button_back_global_font;
+	GtkWidget *			combo_global_font;
+	GtkWidget *			label_global_font;
+
 	GtkWidget *			button_default_all_rules;
 };
 
+/* éléments pour la gestion de la dimension de la police de caractères */
+static const gchar *	AbsoluteSize[] = {"xx-small", "x-small", "small", "medium",
+										  "large", "x-large", "xx-large", "xxx-large",
+										  NULL};
+
+/* mémorise la hauteur initiale de la police de caractère */
+static gint				old_global_font_size = 0;
+static gboolean			global_font_size_changed = FALSE;
+
 /* mémorise la hauteur du texte de la barre de statut */
-static gint				old_font_size;
+static gint				old_statusbar_font_size = 0;
 
 G_DEFINE_TYPE_WITH_PRIVATE (WidgetCssRules, widget_css_rules, GTK_TYPE_BOX)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * called when back button of global font is clicked,
+ *
+ * \param back_button
+ * \param combobox
+ *
+ * \return
+ **/
+static void widget_css_rules_button_back_global_font_clicked (GtkWidget *back_button,
+															  GtkWidget *combo)
+{
+	gsb_combo_box_set_index (combo, old_global_font_size);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void widget_css_rules_combobox_global_font_changed (GtkWidget *combo,
+														   GtkWidget *back_button)
+{
+	GtkTreeIter iter;
+
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo), &iter))
+	{
+		GtkTreeModel *model;
+		gchar *value;
+		gint index;
+
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
+		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 0, &value, 1, &index, -1);
+		gsb_css_set_property_from_selector ("*", "font-size", value);
+
+		/* on gère le changement de réglage */
+		if (index == old_global_font_size)
+		{
+			gtk_widget_set_sensitive (back_button, FALSE);
+			global_font_size_changed = FALSE;
+			gsb_css_count_change_dec (TRUE);
+		}
+		else
+		{
+			gtk_widget_set_sensitive (back_button, TRUE);
+			global_font_size_changed = TRUE;
+		}
+
+		g_free (value);
+	}
+	else
+		gtk_widget_set_sensitive (back_button, FALSE);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gboolean widget_css_rules_init_combo_font_size_index (GtkWidget *combo)
+{
+	const gchar *css_data;
+	gchar *tmp_str = NULL;
+
+	css_data = grisbi_app_get_css_data ();
+	tmp_str = g_strstr_len (css_data, -1, "*");
+	if (tmp_str)
+	{
+		gchar *start_str;
+		gchar *end_str;
+		gchar *rule;
+
+		start_str = g_strstr_len (tmp_str, -1, "{");
+		end_str = g_strstr_len (tmp_str, -1, "}");
+		rule = g_strndup (start_str+1, (end_str-start_str-1));
+		tmp_str = g_strrstr (rule, "font-size");
+		if (tmp_str)
+		{
+			gchar **tab1;
+			gchar **tab2;
+			gchar *font_size_str;
+			gint i;
+
+			tab1 = g_strsplit (tmp_str, ":", 2);
+			tab2 = g_strsplit (tab1[1], ";", 2);
+			font_size_str = g_strdup (g_strstrip (tab2[0]));
+			g_strfreev (tab1);
+			g_strfreev (tab2);
+
+			for (i = 0; AbsoluteSize[i]; i++)
+			{
+				if (strcmp (font_size_str, AbsoluteSize[i]) == 0)
+				{
+					gsb_combo_box_set_index (combo, i);
+					if (old_global_font_size == 0)
+						old_global_font_size = i;
+
+					g_free (font_size_str);
+					g_free (rule);
+
+					return TRUE;
+				}
+			}
+			g_free (rule);
+		}
+		else
+			g_free (rule);
+	}
+	gsb_combo_box_set_index (combo, 3);
+	if (old_global_font_size == 0)
+		old_global_font_size = 3;
+
+	return FALSE;
+}
+
 /**
  * called when a back button of colors is clicked,
  *
@@ -117,6 +249,7 @@ static void widget_css_rules_button_back_rules_clicked (GtkWidget *back_button,
 		{
 			gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (color_button), old_color);
 			gtk_list_store_set (GTK_LIST_STORE (model), &iter, 3, 0, -1);
+
 		}
     }
 }
@@ -155,7 +288,7 @@ static void widget_css_rules_button_default_all_rules_clicked  (GtkWidget *butto
 
 	/* set old css rules */
 	gsb_css_load_css_data_from_file (NULL);
-	a_conf->prefs_change_css_data = FALSE;
+	gsb_css_count_change_init ();
 }
 
 /**
@@ -271,8 +404,8 @@ static void widget_css_rules_spinbutton_back_clicked (GtkWidget *back_button,
 													  GtkWidget *spin_button)
 {
 	gtk_widget_set_sensitive (back_button, FALSE);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), (gdouble) old_font_size);
-	grisbi_win_status_bar_set_font_size (old_font_size);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), (gdouble) old_statusbar_font_size);
+	grisbi_win_status_bar_set_font_size (old_statusbar_font_size);
 }
 
 /**
@@ -289,7 +422,7 @@ static void widget_css_rules_spinbutton_value_changed (GtkSpinButton *spin_butto
 	gint new_font_size;
 
 	new_font_size = gtk_spin_button_get_value_as_int (spin_button);
-	if (old_font_size == new_font_size)
+	if (old_statusbar_font_size == new_font_size)
 	{
 		return;
 	}
@@ -309,10 +442,12 @@ static void widget_css_rules_setup_page (WidgetCssRules *page)
 {
 	gchar *font_size_str;
 	gint font_size;
+	GrisbiAppConf *a_conf;
 	WidgetCssRulesPrivate *priv;
 
 	devel_debug (NULL);
 	priv = widget_css_rules_get_instance_private (page);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	/* set home rules */
 	gsb_rgba_create_color_combobox_from_ui (priv->combo_home_rules, CSS_HOME_RULES);
@@ -353,20 +488,46 @@ static void widget_css_rules_setup_page (WidgetCssRules *page)
 	/* set font size of statusbar */
 	font_size_str = gsb_css_get_property_from_name ("#global_statusbar","font-size");
 	font_size = utils_str_atoi (font_size_str);
+	g_free (font_size_str);
 
 	/* on mémorise la valeur initiale de font_size pendant la session */
-	if (old_font_size == 0)
-		old_font_size = font_size;
+	if (old_statusbar_font_size == 0)
+		old_statusbar_font_size = font_size;
 	else
 		gtk_widget_set_sensitive (priv->button_back_height_statusbar, TRUE);
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_height_statusbar), (gdouble) font_size);
 
-
-	/* set button remove all user rules */
-	if (gsb_css_test_user_css_file ())
+	/* set global font */
+	gsb_combo_box_new_with_index_from_ui (priv->combo_global_font,
+										  AbsoluteSize,
+										  NULL,
+										  NULL);
+	if (a_conf->use_css_local_file || global_font_size_changed)
 	{
+		if (widget_css_rules_init_combo_font_size_index (priv->combo_global_font))
+		{
+			/* on désactive les boutons pour la statusbar */
+			gtk_widget_set_sensitive (priv->spinbutton_height_statusbar, FALSE);
+			gtk_widget_set_sensitive (priv->button_back_height_statusbar, FALSE);
+
+			/* on active éventuellement le bouton retour pour global font */
+			if (global_font_size_changed)
+				gtk_widget_set_sensitive (priv->button_back_global_font, TRUE);
+			else
+				gtk_widget_set_sensitive (priv->button_back_global_font, FALSE);
+		}
+		else
+			gtk_widget_set_sensitive (priv->button_back_global_font, FALSE);
+
+		/* set button remove all user rules */
 		gtk_widget_set_sensitive (priv->button_default_all_rules, TRUE);
+	}
+	else
+	{
+		gsb_combo_box_set_index (priv->combo_global_font, 3);
+		old_global_font_size = 3;
+		gtk_widget_set_sensitive (priv->button_back_global_font, FALSE);
 	}
 
 	/* Connect signal home rules*/
@@ -394,7 +555,6 @@ static void widget_css_rules_setup_page (WidgetCssRules *page)
 					  "clicked",
 					  G_CALLBACK (widget_css_rules_spinbutton_back_clicked),
 					  priv->spinbutton_height_statusbar);
-
 
 	/* Connect signal transactions rules*/
 	g_signal_connect (G_OBJECT (priv->combo_transactions_rules),
@@ -450,6 +610,17 @@ static void widget_css_rules_setup_page (WidgetCssRules *page)
 					  G_CALLBACK (widget_css_rules_button_back_rules_clicked),
 					  priv->combo_prefs_rules);
 
+	/* set signal global font */
+	g_signal_connect (G_OBJECT (priv->combo_global_font),
+					  "changed",
+					  G_CALLBACK (widget_css_rules_combobox_global_font_changed),
+					  priv->button_back_global_font);
+
+	g_signal_connect (G_OBJECT (priv->button_back_global_font),
+					  "clicked",
+					  G_CALLBACK (widget_css_rules_button_back_global_font_clicked),
+					  priv->combo_global_font);
+
 	/* remove css user file */
 	g_signal_connect (G_OBJECT (priv->button_default_all_rules),
 					  "clicked",
@@ -499,6 +670,10 @@ static void widget_css_rules_class_init (WidgetCssRulesClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, button_back_prefs_rules);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, button_prefs_rules);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, combo_prefs_rules);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, button_back_global_font);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, combo_global_font);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, label_global_font);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCssRules, button_default_all_rules);
 }

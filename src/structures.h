@@ -296,7 +296,6 @@ struct _GrisbiAppConf
 
 /* prefs part */
 	gboolean	prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
-	gboolean	prefs_change_css_data;						/* TRUE si modification d'une couleur OPTION NON SAUVEGARDEE */
     gboolean	prefs_fyear_sort_order;                     /* fyear type sort, GTK_SORT_ASCENDING by default */
 	gint		prefs_height;								/* preferences height */
 	gint		prefs_panel_width;							/* preferences paned width */
@@ -312,6 +311,11 @@ struct _GrisbiAppConf
     /* Tips */
     gint        last_tip;
     gboolean    show_tip;
+
+	/* NOT SAVED */
+	/* CSS data */
+	gint		prefs_change_css_data;						/* compteur de modification d'une règle CSS */
+	gboolean	use_css_local_file;							/* TRUE si utilisation du fichier css local NOT SAVED*/
 };
 
 /* structure run

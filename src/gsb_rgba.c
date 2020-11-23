@@ -635,6 +635,11 @@ gchar *gsb_css_get_filename (void)
 	{
 		g_free (css_filename);
     	css_filename = g_build_filename (gsb_dirs_get_ui_dir (), tmp_str, NULL);
+		a_conf->use_css_local_file = FALSE;
+	}
+	else
+	{
+		a_conf->use_css_local_file = TRUE;
 	}
 
 	g_free (tmp_str);
@@ -714,12 +719,9 @@ void gsb_css_set_color_property (GdkRGBA *color,
 	new_data = gsb_rgba_css_color_get_data_with_new_color (line_needle, new_color_string);
 	if (new_data)
 	{
-		GrisbiAppConf *a_conf;
-
-		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
 		grisbi_app_set_css_data (new_data);
-		a_conf->prefs_change_css_data = TRUE;
+		gsb_css_count_change_inc ();
 
 		g_free (new_data);
 	}
@@ -750,9 +752,7 @@ void gsb_css_set_property_from_name (const gchar *name,
 		gchar *first_part = NULL;
 		gchar *new_data = NULL;
 		gchar **tab_rule;
-		GrisbiAppConf *a_conf;
 
-		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		first_part = g_strndup (css_data, tmp_str - css_data);
 		tab_rule = g_strsplit (tmp_str, "#", 3);
 		new_data = g_strconcat (first_part, value, "\n#", tab_rule[2], NULL);
@@ -760,12 +760,74 @@ void gsb_css_set_property_from_name (const gchar *name,
 		css_provider = grisbi_app_get_css_provider ();
 		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
 		grisbi_app_set_css_data (new_data);
-		a_conf->prefs_change_css_data = TRUE;
+		gsb_css_count_change_inc ();
 
 		g_free (first_part);
 		g_free (new_data);
 		g_strfreev (tab_rule);
 	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void gsb_css_set_property_from_selector (const gchar *selector,
+										 const gchar *property,
+										 const gchar *value)
+{
+	GtkCssProvider *css_provider = NULL;
+	gchar *first_part = NULL;
+	gchar *new_data = NULL;
+	gchar *tmp_str = NULL;
+	const gchar *css_data;
+
+	css_provider = grisbi_app_get_css_provider ();
+	css_data = grisbi_app_get_css_data ();
+
+	tmp_str = g_strrstr (css_data, selector);
+	if (tmp_str)
+	{
+		gchar *start_str;
+		gchar *end_str;
+		gchar *rule;
+
+		first_part = g_strndup (css_data, tmp_str - css_data);
+		start_str = g_strstr_len (tmp_str, -1, "{");
+		end_str = g_strstr_len (tmp_str, -1, "}");
+		rule = g_strndup (start_str+1, (end_str-start_str-1));
+		tmp_str = g_strrstr (rule, property);
+		if (tmp_str)
+		{
+			gchar **tab_property;
+
+			tab_property = g_strsplit (tmp_str, ":", 2);
+			new_data = g_strconcat (first_part, selector, " {\n  ", tab_property[0], ": ", value, ";\n", end_str, NULL);
+
+			g_free (rule);
+			g_strfreev (tab_property);
+		}
+	}
+	else
+	{
+		/* place la nouvelle règle avant la première règle fixe */
+		tmp_str = g_strrstr (css_data, "combobox arrow");
+		first_part = g_strndup (css_data, tmp_str - css_data);
+		new_data = g_strconcat (first_part, selector, " {\n  ", property, ": ", value, ";\n}\n", tmp_str, NULL);
+	}
+
+	/* set new css datas */
+	gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
+	grisbi_app_set_css_data (new_data);
+	gsb_css_count_change_inc ();
+
+	g_free (first_part);
+	g_free (new_data);
 }
 
 /**
@@ -826,6 +888,59 @@ void gsb_css_load_css_data_from_file (GtkCssProvider *css_provider)
 
 	css_data = gtk_css_provider_to_string (css_provider);
 	grisbi_app_set_css_data (css_data);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_css_count_change_dec (gboolean doublon)
+{
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (doublon)
+		a_conf->prefs_change_css_data = a_conf->prefs_change_css_data -2;
+	else
+		a_conf->prefs_change_css_data --;
+
+	if (a_conf->prefs_change_css_data < 0)
+		a_conf->prefs_change_css_data = 0;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_css_count_change_inc (void)
+{
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	a_conf->prefs_change_css_data ++;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_css_count_change_init (void)
+{
+	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	a_conf->prefs_change_css_data = 0;
 }
 
 /**
