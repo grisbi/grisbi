@@ -684,6 +684,8 @@ gchar *gsb_css_get_property_from_name (const gchar *name,
 
 			return tmp_str;
 		}
+		else
+			g_free (rule);
 	}
 
 	return NULL;
