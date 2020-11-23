@@ -651,7 +651,7 @@ gchar *gsb_css_get_filename (void)
  * \return
  **/
 gchar *gsb_css_get_property_from_name (const gchar *name,
-								   const gchar *property)
+									   const gchar *property)
 {
 	const gchar *css_data;
 	gchar *tmp_str = NULL;
