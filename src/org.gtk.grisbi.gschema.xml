@@ -39,7 +39,7 @@
 			Show buttons on toolbars as</summary>
 			<description>Select the labels of buttons:
 				0 = Text,
-				1 = Icon = 1,
+				1 = Icon,
 				2 = Text+Icon.
 			</description>
 		</key>
@@ -329,7 +329,7 @@
 			<summary>Primary sorting option</summary>
 			<description>
 				0 = sort by value date, if fail, try with the date,
-				1 = sort by value date and then by date.
+				1 = sort by value date and then by date,
 				2 = forced sort by transaction date.
 			</description>
 		</key>
