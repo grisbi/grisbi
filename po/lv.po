@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 10:06+0100\n"
+"POT-Creation-Date: 2020-11-29 11:27+0100\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -122,7 +122,7 @@ msgid "Display the grids above the plot"
 msgstr "Parādīt dienas padomus"
 
 #. On récupère le nom de la page
-#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:545
+#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:546
 #: ../src/prefs/prefs_page_bet_general.c:216
 msgid "General Options"
 msgstr "Vispārīgi iestatījumi"
@@ -169,7 +169,7 @@ msgstr ""
 msgid "Line number: "
 msgstr "IBAN numurs:"
 
-#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:9
+#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:12
 #: ../src/widgets/widget_currency_link.ui.h:2
 #, fuzzy
 msgid "1"
@@ -196,7 +196,7 @@ msgstr "Vispārīgie iestatījumi"
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
-#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
+#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:24
 #: ../src/ui/prefs_page_files.ui.h:22
 #: ../src/ui/prefs_page_form_completion.ui.h:14
 #: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
@@ -220,7 +220,7 @@ msgid "Title"
 msgstr "Nosaukumi"
 
 #: ../src/ui/csv_template_rule.ui.h:16
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
+#: ../src/ui/prefs_page_display_fonts.ui.h:7 ../src/ui/prefs_page_divers.ui.h:6
 msgid "label"
 msgstr ""
 
@@ -1399,74 +1399,104 @@ msgid "Transactions list contents"
 msgstr "Darījuma saturs"
 
 #: ../src/ui/prefs_page_divers.ui.h:1
-msgid "Programs"
-msgstr "Programmas"
+#, fuzzy
+msgid "Web browser"
+msgstr "Tīmekļa pārlūka komanda:"
 
 #: ../src/ui/prefs_page_divers.ui.h:2 ../src/gsb_assistant_first.c:225
 msgid "Web browser command: "
 msgstr "Tīmekļa pārlūka komanda:"
 
-#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:232
+#: ../src/ui/prefs_page_divers.ui.h:4
 #, fuzzy, no-c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgid "(You may use %s to expand the URL - I.e: 'firefox %s')"
 msgstr ""
 "Jūs varat izmantot % s, lai izvērstu URL. Piemēram:  'Firefox - tālvadības "
 "%s'"
 
 #: ../src/ui/prefs_page_divers.ui.h:5
 #, fuzzy
-msgid "Number of days before the warning or the execution: "
-msgstr "Dienu skaits pirms brīdinājuma vai izpildes:"
+msgid "Preferences settings"
+msgstr "_Iestatījumi"
 
-#: ../src/ui/prefs_page_divers.ui.h:6 ../src/ui/prefs_page_files.ui.h:14
-#: ../src/ui/prefs_page_payment_method.ui.h:6
-#: ../src/ui/prefs_widget_loan.ui.h:8
-msgid "0"
+#: ../src/ui/prefs_page_divers.ui.h:7
+#, fuzzy
+msgid "Reset window of preferences"
+msgstr "Grisbi iestatījumi"
+
+#: ../src/ui/prefs_page_divers.ui.h:8
+msgid "(Reset window dimensions of preferences)"
 msgstr ""
 
+#. append group page "Generalities"
+#: ../src/ui/prefs_page_divers.ui.h:9 ../src/widgets/widget_bank_details.ui.h:1
+#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:399
+msgid "Generalities"
+msgstr "Vispārīgi"
+
 #. set options
-#: ../src/ui/prefs_page_divers.ui.h:7 ../src/bet_graph.c:1358
+#: ../src/ui/prefs_page_divers.ui.h:10 ../src/bet_graph.c:1358
 #: ../src/tiers_onglet.c:1262
 msgid "Options"
 msgstr "Opcijas"
 
-#: ../src/ui/prefs_page_divers.ui.h:8
+#: ../src/ui/prefs_page_divers.ui.h:11
 #, fuzzy
 msgid "Launch day for scheduled operations performed monthly: "
 msgstr "Dienu skaits pirms brīdinājuma vai izpildes:"
 
-#: ../src/ui/prefs_page_divers.ui.h:10
+#: ../src/ui/prefs_page_divers.ui.h:13
 #, fuzzy
 msgid ""
 "Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
 msgstr "Brīdināt/Izpildīt plānotos darījumus par mēnesi"
 
-#: ../src/ui/prefs_page_divers.ui.h:11
+#: ../src/ui/prefs_page_divers.ui.h:14
 msgid "Use a default account for sheduler form: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:12
+#: ../src/ui/prefs_page_divers.ui.h:15 ../src/grisbi_win.c:501
+#: ../src/navigation.c:2086
+msgid "Scheduler"
+msgstr "Plānotājs"
+
+#: ../src/ui/prefs_page_divers.ui.h:16
 #, fuzzy
 msgid "Choose the language"
 msgstr "Izvēlēties kontu"
 
-#: ../src/ui/prefs_page_divers.ui.h:13 ../src/parametres.c:144
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:144
 #: ../src/parametres.c:152
 msgid "Choose the date format"
 msgstr "Izvēlieties datuma formātu"
 
-#: ../src/ui/prefs_page_divers.ui.h:14
+#: ../src/ui/prefs_page_divers.ui.h:18
 #, fuzzy
 msgid "Choose decimal and thousands separator"
 msgstr "Izvēlieties tūkstošu atdalītāju"
 
-#: ../src/ui/prefs_page_divers.ui.h:15 ../src/parametres.c:237
+#: ../src/ui/prefs_page_divers.ui.h:19 ../src/parametres.c:237
 msgid "Decimal point: "
 msgstr "Decimālais atdalītājs:"
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:250
+#: ../src/ui/prefs_page_divers.ui.h:20 ../src/parametres.c:250
 msgid "Thousands separator: "
 msgstr "Tūkstošu atdalītājs:"
+
+#: ../src/ui/prefs_page_divers.ui.h:21
+msgid "Localization"
+msgstr "Lokalizācija"
+
+#: ../src/ui/prefs_page_divers.ui.h:22
+#, fuzzy
+msgid "Number of days before the warning or the execution: "
+msgstr "Dienu skaits pirms brīdinājuma vai izpildes:"
+
+#: ../src/ui/prefs_page_divers.ui.h:23 ../src/ui/prefs_page_files.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:6
+#: ../src/ui/prefs_widget_loan.ui.h:8
+msgid "0"
+msgstr ""
 
 #: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:241
 msgid "Account files handling"
@@ -1995,12 +2025,6 @@ msgstr ""
 #: ../src/ui/prefs_widget_loan.ui.h:20
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr ""
-
-#. append group page "Generalities"
-#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:730
-#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:398
-msgid "Generalities"
-msgstr "Vispārīgi"
 
 #: ../src/widgets/widget_bank_details.ui.h:3
 msgid "Sort code: "
@@ -4010,7 +4034,7 @@ msgstr "Izveidot jaunu apakškategoriju"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:414 ../src/grisbi_win.c:739 ../src/import.c:1828
+#: ../src/grisbi_prefs.c:415 ../src/grisbi_win.c:739 ../src/import.c:1828
 #: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:759
 msgid "Import"
@@ -4733,7 +4757,7 @@ msgstr "Finanšu gads"
 
 #. On récupère le nom de la page
 #: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:535
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:536
 #: ../src/prefs/prefs_page_payment_method.c:1285
 msgid "Payment methods"
 msgstr "Apmaksas metodes"
@@ -5105,8 +5129,8 @@ msgstr "CSV fails"
 msgid "Exporting report..."
 msgstr "Eksportēt pārskatu..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:793
-#: ../src/grisbi_prefs.c:817 ../src/gsb_debug.c:848 ../src/gsb_file.c:518
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:794
+#: ../src/grisbi_prefs.c:818 ../src/gsb_debug.c:848 ../src/gsb_file.c:518
 #: ../src/gsb_file.c:667 ../src/gsb_file.c:992
 msgid "Done"
 msgstr "Izdarīt"
@@ -5294,14 +5318,14 @@ msgid "Titles"
 msgstr "Nosaukumi"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:457
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:458
 #: ../src/grisbi_win.c:473
 msgid "Transactions"
 msgstr "Darījumi"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:513 ../src/gsb_currency.c:952
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:514 ../src/gsb_currency.c:952
 #: ../src/prefs/prefs_page_currency.c:715
 msgid "Currencies"
 msgstr "Valūtas"
@@ -6332,129 +6356,130 @@ msgid "Cannot save configuration file '%s': %s"
 msgstr "Neizdevās saglabāt iestatījumu failu '%s': %s"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:402 ../src/prefs/prefs_page_files.c:110
+#: ../src/grisbi_prefs.c:403 ../src/prefs/prefs_page_files.c:110
 msgid "Files"
 msgstr "Faili"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:407 ../src/prefs/prefs_page_archives.c:568
+#: ../src/grisbi_prefs.c:408 ../src/prefs/prefs_page_archives.c:568
 msgid "Archives"
 msgstr "Arhīvs"
 
-#: ../src/grisbi_prefs.c:419
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_divers.c:564
 #, fuzzy
 msgid "Various settings"
 msgstr "Importēšanas iestatījumi"
 
-#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:459
+#: ../src/grisbi_prefs.c:425 ../src/grisbi_win.c:459
 msgid "Main page"
 msgstr "Galvenā lapa"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:428
+#: ../src/grisbi_prefs.c:429
 msgid "Display"
 msgstr "Displejs"
 
-#: ../src/grisbi_prefs.c:432
+#: ../src/grisbi_prefs.c:433
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Fonti un logo"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:437 ../src/prefs/prefs_page_msg_warning.c:225
+#: ../src/grisbi_prefs.c:438 ../src/prefs/prefs_page_msg_warning.c:276
 msgid "Messages & warnings"
 msgstr "Ziņojumi un brīdinājumi"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:442 ../src/prefs/prefs_page_display_adr.c:195
+#: ../src/grisbi_prefs.c:443 ../src/prefs/prefs_page_display_adr.c:195
 msgid "Addresses & titles"
 msgstr "Adreses un nosaukumi"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_metatree.c:311
+#: ../src/grisbi_prefs.c:448 ../src/prefs/prefs_page_metatree.c:311
 msgid "Payees, categories and budgetaries"
 msgstr "Partneri, kategorijas un budžeti"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:453 ../src/prefs/prefs_page_display_gui.c:220
+#: ../src/grisbi_prefs.c:454 ../src/prefs/prefs_page_display_gui.c:220
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:461
+#: ../src/grisbi_prefs.c:462
 msgid "List behavior"
 msgstr "Darba režīma saraksts"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:467 ../src/prefs/prefs_page_display_ope.c:692
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Darījumu saraksta darbība"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_msg_delete.c:215
+#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_msg_delete.c:274
 msgid "Messages before deleting"
 msgstr "Brīdinājumi pirms dzēšanas"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:478 ../src/gsb_assistant_first.c:337
+#: ../src/grisbi_prefs.c:479 ../src/gsb_assistant_first.c:337
 #: ../src/prefs/prefs_page_reconcile.c:574
 msgid "Reconciliation"
 msgstr "Saskaņošana"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:485 ../src/prefs/prefs_page_reconcile_sort.c:744
+#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_reconcile_sort.c:744
 msgid "Sort for reconciliation"
 msgstr "Šķirot pēc saskaņošanas"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:490 ../src/prefs/prefs_page_display_form.c:911
+#: ../src/grisbi_prefs.c:491 ../src/prefs/prefs_page_display_form.c:911
 msgid "Transaction form"
 msgstr "Darījumu veidlapa"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:494 ../src/prefs/prefs_page_form_options.c:95
+#: ../src/grisbi_prefs.c:495 ../src/prefs/prefs_page_form_options.c:95
 msgid "Form behavior"
 msgstr "Veidlapas darbība"
 
-#: ../src/grisbi_prefs.c:499
+#: ../src/grisbi_prefs.c:500
 msgid "Content"
 msgstr "Saturs"
 
-#: ../src/grisbi_prefs.c:505
+#: ../src/grisbi_prefs.c:506
 msgid "Completion"
 msgstr "Pabeigšana"
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:509
+#: ../src/grisbi_prefs.c:510
 msgid "Resources"
 msgstr "Resursi"
 
-#: ../src/grisbi_prefs.c:518
+#: ../src/grisbi_prefs.c:519
 msgid "Currencies links"
 msgstr "Valūtas saites"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:525 ../src/prefs/prefs_page_bank.c:389
+#: ../src/grisbi_prefs.c:526 ../src/prefs/prefs_page_bank.c:389
 msgid "Banks"
 msgstr "Bankas"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:530 ../src/prefs/prefs_page_fyear.c:686
+#: ../src/grisbi_prefs.c:531 ../src/prefs/prefs_page_fyear.c:686
 msgid "Financial years"
 msgstr "Finanšu gads"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:539
+#: ../src/grisbi_prefs.c:540
 msgid "Balance estimate"
 msgstr "Bilances aprēķins"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:550 ../src/prefs/prefs_page_bet_account.c:658
+#: ../src/grisbi_prefs.c:551 ../src/prefs/prefs_page_bet_account.c:658
 msgid "Accounts data"
 msgstr "Kontu dati"
 
-#: ../src/grisbi_prefs.c:790
+#: ../src/grisbi_prefs.c:791
 #, fuzzy
 msgid "Preferences stop"
 msgstr "_Iestatījumi"
@@ -6470,11 +6495,6 @@ msgstr "Vēsturiskie dati"
 #: ../src/grisbi_win.c:487
 msgid "Amortization array"
 msgstr "Amortizācijas tabula"
-
-#: ../src/grisbi_win.c:501 ../src/navigation.c:2086
-#: ../src/prefs/prefs_page_divers.c:551 ../src/prefs/prefs_page_divers.c:566
-msgid "Scheduler"
-msgstr "Plānotājs"
 
 #: ../src/grisbi_win.c:715
 msgid "New"
@@ -7243,6 +7263,13 @@ msgstr "Grisbi vispārīgie iestatījumi"
 #: ../src/gsb_assistant_first.c:218
 msgid "Web"
 msgstr "Tīmeklis"
+
+#: ../src/gsb_assistant_first.c:232
+#, fuzzy, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgstr ""
+"Jūs varat izmantot % s, lai izvērstu URL. Piemēram:  'Firefox - tālvadības "
+"%s'"
 
 #: ../src/gsb_assistant_first.c:302
 msgid "Select/Create backup directory"
@@ -12357,35 +12384,30 @@ msgstr "Col 5"
 msgid "Col 6"
 msgstr "Col 6"
 
-#: ../src/prefs/prefs_page_divers.c:429
+#: ../src/prefs/prefs_page_divers.c:453
 msgid "You will have to restart Grisbi for the new language to take effect."
 msgstr ""
 
-#: ../src/prefs/prefs_page_divers.c:430
+#: ../src/prefs/prefs_page_divers.c:454
 #, fuzzy, c-format
 msgid "Changes the language of Grisbi for \"%s\"!"
 msgstr "Izvēlēties kontu"
 
-#: ../src/prefs/prefs_page_divers.c:486
+#: ../src/prefs/prefs_page_divers.c:510
 #, fuzzy
 msgid "System Language"
 msgstr "Izvēlēties kontu"
 
-#. On récupère le nom de la page
-#: ../src/prefs/prefs_page_divers.c:540
-msgid "Divers"
-msgstr ""
-
-#: ../src/prefs/prefs_page_divers.c:557 ../src/prefs/prefs_page_divers.c:567
-msgid "Localization"
-msgstr "Lokalizācija"
+#: ../src/prefs/prefs_page_divers.c:574
+msgid "Config file"
+msgstr "Iestatījumu fails"
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:574
+#: ../src/prefs/prefs_page_divers.c:586
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "Brīdināt/Izpildīt, kad plānotajam darījumam pienāk beigu datums"
 
-#: ../src/prefs/prefs_page_divers.c:575
+#: ../src/prefs/prefs_page_divers.c:587
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Brīdināt/Izpildīt plānotos darījumus par mēnesi"
@@ -12550,14 +12572,14 @@ msgstr "Rediģēt rindu"
 msgid "Manage the line"
 msgstr "Pārvaldīt rindu"
 
-#: ../src/prefs/prefs_page_msg_delete.c:128
-#: ../src/prefs/prefs_page_msg_warning.c:136
+#: ../src/prefs/prefs_page_msg_delete.c:178
+#: ../src/prefs/prefs_page_msg_warning.c:179
 #, fuzzy
 msgid "No file loading"
 msgstr "Konta failu apstrāde"
 
-#: ../src/prefs/prefs_page_msg_delete.c:182
-#: ../src/prefs/prefs_page_msg_warning.c:191
+#: ../src/prefs/prefs_page_msg_delete.c:234
+#: ../src/prefs/prefs_page_msg_warning.c:235
 msgid "Message"
 msgstr "Ziņojums"
 
@@ -13567,6 +13589,9 @@ msgstr "Daļēja bilance"
 msgid "One of the two fields is recommended"
 msgstr ""
 
+#~ msgid "Programs"
+#~ msgstr "Programmas"
+
 #~ msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 #~ msgstr "%s, %2f: %s - %s:%d:%s - %d\n"
 
@@ -13646,10 +13671,6 @@ msgstr ""
 
 #~ msgid "Manage import associations"
 #~ msgstr "Pārvaldīt importējamo datu saites"
-
-#, fuzzy
-#~ msgid "Preferences start"
-#~ msgstr "_Iestatījumi"
 
 #~ msgid "Known payment methods"
 #~ msgstr "Zināmās apmaksas metodes"
@@ -13988,9 +14009,6 @@ msgstr ""
 
 #~ msgid "Show _lines archives"
 #~ msgstr "Rādīt _arhīva ierakstus"
-
-#~ msgid "Config file"
-#~ msgstr "Iestatījumu fails"
 
 #~ msgid "Use the config file of version stable as model"
 #~ msgstr "Kā paraugu izmantojiet stabilās versijas iestatījumu failu"

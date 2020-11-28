@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 10:06+0100\n"
+"POT-Creation-Date: 2020-11-29 11:27+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -118,7 +118,7 @@ msgid "Display the grids above the plot"
 msgstr "Mostrar el consejo del día"
 
 #. On récupère le nom de la page
-#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:545
+#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:546
 #: ../src/prefs/prefs_page_bet_general.c:216
 msgid "General Options"
 msgstr "Opciones Generales"
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Line number: "
 msgstr "Número IBAN: "
 
-#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:9
+#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:12
 #: ../src/widgets/widget_currency_link.ui.h:2
 #, fuzzy
 msgid "1"
@@ -192,7 +192,7 @@ msgstr "Configuración general"
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
-#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
+#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:24
 #: ../src/ui/prefs_page_files.ui.h:22
 #: ../src/ui/prefs_page_form_completion.ui.h:14
 #: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
@@ -216,7 +216,7 @@ msgid "Title"
 msgstr "Títulos"
 
 #: ../src/ui/csv_template_rule.ui.h:16
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
+#: ../src/ui/prefs_page_display_fonts.ui.h:7 ../src/ui/prefs_page_divers.ui.h:6
 msgid "label"
 msgstr ""
 
@@ -1405,74 +1405,105 @@ msgid "Transactions list contents"
 msgstr "Contenido de las transacciones"
 
 #: ../src/ui/prefs_page_divers.ui.h:1
-msgid "Programs"
-msgstr "Programas"
+#, fuzzy
+msgid "Web browser"
+msgstr "Comando para el navegador web: "
 
 #: ../src/ui/prefs_page_divers.ui.h:2 ../src/gsb_assistant_first.c:225
 msgid "Web browser command: "
 msgstr "Comando para el navegador web: "
 
-#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:232
+#: ../src/ui/prefs_page_divers.ui.h:4
 #, fuzzy, no-c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgid "(You may use %s to expand the URL - I.e: 'firefox %s')"
 msgstr "Podrá usar %s para cargar la URL. EJ: 'firefox -remote %s' "
 
 #: ../src/ui/prefs_page_divers.ui.h:5
 #, fuzzy
-msgid "Number of days before the warning or the execution: "
-msgstr "Número de días antes del mensaje de aviso o de la ejecución: "
+msgid "Preferences settings"
+msgstr "_Preferencias"
 
-#: ../src/ui/prefs_page_divers.ui.h:6 ../src/ui/prefs_page_files.ui.h:14
-#: ../src/ui/prefs_page_payment_method.ui.h:6
-#: ../src/ui/prefs_widget_loan.ui.h:8
-msgid "0"
+#: ../src/ui/prefs_page_divers.ui.h:7
+#, fuzzy
+msgid "Reset window of preferences"
+msgstr "Preferencias de grisbi"
+
+#: ../src/ui/prefs_page_divers.ui.h:8
+msgid "(Reset window dimensions of preferences)"
 msgstr ""
 
+#. append group page "Generalities"
+#: ../src/ui/prefs_page_divers.ui.h:9 ../src/widgets/widget_bank_details.ui.h:1
+#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:399
+msgid "Generalities"
+msgstr "Generalidades"
+
 #. set options
-#: ../src/ui/prefs_page_divers.ui.h:7 ../src/bet_graph.c:1358
+#: ../src/ui/prefs_page_divers.ui.h:10 ../src/bet_graph.c:1358
 #: ../src/tiers_onglet.c:1262
 msgid "Options"
 msgstr "Opciones"
 
-#: ../src/ui/prefs_page_divers.ui.h:8
+#: ../src/ui/prefs_page_divers.ui.h:11
 #, fuzzy
 msgid "Launch day for scheduled operations performed monthly: "
 msgstr "Número de días antes del mensaje de aviso o de la ejecución: "
 
-#: ../src/ui/prefs_page_divers.ui.h:10
+#: ../src/ui/prefs_page_divers.ui.h:13
 #, fuzzy
 msgid ""
 "Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
 msgstr "Aviso/Ejecutar las transacciones programadas del mes"
 
-#: ../src/ui/prefs_page_divers.ui.h:11
+#: ../src/ui/prefs_page_divers.ui.h:14
 msgid "Use a default account for sheduler form: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:12
+#: ../src/ui/prefs_page_divers.ui.h:15 ../src/grisbi_win.c:501
+#: ../src/navigation.c:2086
+msgid "Scheduler"
+msgstr "Planificador"
+
+#: ../src/ui/prefs_page_divers.ui.h:16
 #, fuzzy
 msgid "Choose the language"
 msgstr "Elegir la cuenta"
 
-#: ../src/ui/prefs_page_divers.ui.h:13 ../src/parametres.c:144
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:144
 #: ../src/parametres.c:152
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Elegir la cuenta"
 
-#: ../src/ui/prefs_page_divers.ui.h:14
+#: ../src/ui/prefs_page_divers.ui.h:18
 #, fuzzy
 msgid "Choose decimal and thousands separator"
 msgstr "Elija un separador CSV: "
 
-#: ../src/ui/prefs_page_divers.ui.h:15 ../src/parametres.c:237
+#: ../src/ui/prefs_page_divers.ui.h:19 ../src/parametres.c:237
 msgid "Decimal point: "
 msgstr "Separación de datos: "
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:250
+#: ../src/ui/prefs_page_divers.ui.h:20 ../src/parametres.c:250
 #, fuzzy
 msgid "Thousands separator: "
 msgstr "Elija un separador CSV: "
+
+#: ../src/ui/prefs_page_divers.ui.h:21
+#, fuzzy
+msgid "Localization"
+msgstr "Reconciliación"
+
+#: ../src/ui/prefs_page_divers.ui.h:22
+#, fuzzy
+msgid "Number of days before the warning or the execution: "
+msgstr "Número de días antes del mensaje de aviso o de la ejecución: "
+
+#: ../src/ui/prefs_page_divers.ui.h:23 ../src/ui/prefs_page_files.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:6
+#: ../src/ui/prefs_widget_loan.ui.h:8
+msgid "0"
+msgstr ""
 
 #: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:241
 msgid "Account files handling"
@@ -2014,12 +2045,6 @@ msgstr ""
 #: ../src/ui/prefs_widget_loan.ui.h:20
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr ""
-
-#. append group page "Generalities"
-#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:730
-#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:398
-msgid "Generalities"
-msgstr "Generalidades"
 
 #: ../src/widgets/widget_bank_details.ui.h:3
 msgid "Sort code: "
@@ -4051,7 +4076,7 @@ msgstr "Crear una nueva subcategoría"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:414 ../src/grisbi_win.c:739 ../src/import.c:1828
+#: ../src/grisbi_prefs.c:415 ../src/grisbi_win.c:739 ../src/import.c:1828
 #: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:759
 msgid "Import"
@@ -4793,7 +4818,7 @@ msgstr "Año financiero"
 
 #. On récupère le nom de la page
 #: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:535
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:536
 #: ../src/prefs/prefs_page_payment_method.c:1285
 msgid "Payment methods"
 msgstr "Formas de pago"
@@ -5168,8 +5193,8 @@ msgstr "Archivo CSV"
 msgid "Exporting report..."
 msgstr "Exportando el informe ..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:793
-#: ../src/grisbi_prefs.c:817 ../src/gsb_debug.c:848 ../src/gsb_file.c:518
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:794
+#: ../src/grisbi_prefs.c:818 ../src/gsb_debug.c:848 ../src/gsb_file.c:518
 #: ../src/gsb_file.c:667 ../src/gsb_file.c:992
 msgid "Done"
 msgstr "Hecho"
@@ -5358,14 +5383,14 @@ msgid "Titles"
 msgstr "Títulos"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:457
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:458
 #: ../src/grisbi_win.c:473
 msgid "Transactions"
 msgstr "Transacciones"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:513 ../src/gsb_currency.c:952
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:514 ../src/gsb_currency.c:952
 #: ../src/prefs/prefs_page_currency.c:715
 msgid "Currencies"
 msgstr "Monedas"
@@ -6405,129 +6430,130 @@ msgid "Cannot save configuration file '%s': %s"
 msgstr "No se puede guardar el fichero de configuración '%s': %s"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:402 ../src/prefs/prefs_page_files.c:110
+#: ../src/grisbi_prefs.c:403 ../src/prefs/prefs_page_files.c:110
 msgid "Files"
 msgstr "Archivos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:407 ../src/prefs/prefs_page_archives.c:568
+#: ../src/grisbi_prefs.c:408 ../src/prefs/prefs_page_archives.c:568
 msgid "Archives"
 msgstr "Archivos"
 
-#: ../src/grisbi_prefs.c:419
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_divers.c:564
 #, fuzzy
 msgid "Various settings"
 msgstr "Importar configuración"
 
-#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:459
+#: ../src/grisbi_prefs.c:425 ../src/grisbi_win.c:459
 msgid "Main page"
 msgstr "Página principal"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:428
+#: ../src/grisbi_prefs.c:429
 msgid "Display"
 msgstr "Mostrar"
 
-#: ../src/grisbi_prefs.c:432
+#: ../src/grisbi_prefs.c:433
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Fuentes y logotipo"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:437 ../src/prefs/prefs_page_msg_warning.c:225
+#: ../src/grisbi_prefs.c:438 ../src/prefs/prefs_page_msg_warning.c:276
 msgid "Messages & warnings"
 msgstr "Mensajes y Avisos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:442 ../src/prefs/prefs_page_display_adr.c:195
+#: ../src/grisbi_prefs.c:443 ../src/prefs/prefs_page_display_adr.c:195
 msgid "Addresses & titles"
 msgstr "Direcciones y títulos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_metatree.c:311
+#: ../src/grisbi_prefs.c:448 ../src/prefs/prefs_page_metatree.c:311
 msgid "Payees, categories and budgetaries"
 msgstr "Terceros, categorías y presupuestos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:453 ../src/prefs/prefs_page_display_gui.c:220
+#: ../src/grisbi_prefs.c:454 ../src/prefs/prefs_page_display_gui.c:220
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:461
+#: ../src/grisbi_prefs.c:462
 msgid "List behavior"
 msgstr "Comportamiento de la lista"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:467 ../src/prefs/prefs_page_display_ope.c:692
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Comportamiento de la lista de transacciones"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_msg_delete.c:215
+#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_msg_delete.c:274
 msgid "Messages before deleting"
 msgstr "Mensajes antes del borrado"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:478 ../src/gsb_assistant_first.c:337
+#: ../src/grisbi_prefs.c:479 ../src/gsb_assistant_first.c:337
 #: ../src/prefs/prefs_page_reconcile.c:574
 msgid "Reconciliation"
 msgstr "Reconciliación"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:485 ../src/prefs/prefs_page_reconcile_sort.c:744
+#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_reconcile_sort.c:744
 msgid "Sort for reconciliation"
 msgstr "Orden para la reconciliación"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:490 ../src/prefs/prefs_page_display_form.c:911
+#: ../src/grisbi_prefs.c:491 ../src/prefs/prefs_page_display_form.c:911
 msgid "Transaction form"
 msgstr "Formulario de transacción"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:494 ../src/prefs/prefs_page_form_options.c:95
+#: ../src/grisbi_prefs.c:495 ../src/prefs/prefs_page_form_options.c:95
 msgid "Form behavior"
 msgstr "Comportamiento del formulario"
 
-#: ../src/grisbi_prefs.c:499
+#: ../src/grisbi_prefs.c:500
 msgid "Content"
 msgstr "Contenido"
 
-#: ../src/grisbi_prefs.c:505
+#: ../src/grisbi_prefs.c:506
 msgid "Completion"
 msgstr "Autocompletado"
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:509
+#: ../src/grisbi_prefs.c:510
 msgid "Resources"
 msgstr "Recursos"
 
-#: ../src/grisbi_prefs.c:518
+#: ../src/grisbi_prefs.c:519
 msgid "Currencies links"
 msgstr "Tasas de cambio entre monedas"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:525 ../src/prefs/prefs_page_bank.c:389
+#: ../src/grisbi_prefs.c:526 ../src/prefs/prefs_page_bank.c:389
 msgid "Banks"
 msgstr "Bancos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:530 ../src/prefs/prefs_page_fyear.c:686
+#: ../src/grisbi_prefs.c:531 ../src/prefs/prefs_page_fyear.c:686
 msgid "Financial years"
 msgstr "Años financieros"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:539
+#: ../src/grisbi_prefs.c:540
 msgid "Balance estimate"
 msgstr "Balance estimado"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:550 ../src/prefs/prefs_page_bet_account.c:658
+#: ../src/grisbi_prefs.c:551 ../src/prefs/prefs_page_bet_account.c:658
 msgid "Accounts data"
 msgstr "Datos de la cuenta"
 
-#: ../src/grisbi_prefs.c:790
+#: ../src/grisbi_prefs.c:791
 #, fuzzy
 msgid "Preferences stop"
 msgstr "_Preferencias"
@@ -6544,11 +6570,6 @@ msgstr "Histórico de datos"
 #, fuzzy
 msgid "Amortization array"
 msgstr "Estimar tabla"
-
-#: ../src/grisbi_win.c:501 ../src/navigation.c:2086
-#: ../src/prefs/prefs_page_divers.c:551 ../src/prefs/prefs_page_divers.c:566
-msgid "Scheduler"
-msgstr "Planificador"
 
 #: ../src/grisbi_win.c:715
 msgid "New"
@@ -7339,6 +7360,11 @@ msgstr "Configuración general de Grisbi"
 #: ../src/gsb_assistant_first.c:218
 msgid "Web"
 msgstr "Web"
+
+#: ../src/gsb_assistant_first.c:232
+#, fuzzy, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgstr "Podrá usar %s para cargar la URL. EJ: 'firefox -remote %s' "
 
 #: ../src/gsb_assistant_first.c:302
 msgid "Select/Create backup directory"
@@ -12565,38 +12591,33 @@ msgstr "Col 5"
 msgid "Col 6"
 msgstr "Col 6"
 
-#: ../src/prefs/prefs_page_divers.c:429
+#: ../src/prefs/prefs_page_divers.c:453
 msgid "You will have to restart Grisbi for the new language to take effect."
 msgstr ""
 
-#: ../src/prefs/prefs_page_divers.c:430
+#: ../src/prefs/prefs_page_divers.c:454
 #, fuzzy, c-format
 msgid "Changes the language of Grisbi for \"%s\"!"
 msgstr "Elegir la cuenta"
 
-#: ../src/prefs/prefs_page_divers.c:486
+#: ../src/prefs/prefs_page_divers.c:510
 #, fuzzy
 msgid "System Language"
 msgstr "Elegir la cuenta"
 
-#. On récupère le nom de la page
-#: ../src/prefs/prefs_page_divers.c:540
-msgid "Divers"
-msgstr ""
-
-#: ../src/prefs/prefs_page_divers.c:557 ../src/prefs/prefs_page_divers.c:567
+#: ../src/prefs/prefs_page_divers.c:574
 #, fuzzy
-msgid "Localization"
-msgstr "Reconciliación"
+msgid "Config file"
+msgstr "Guardando archivo"
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:574
+#: ../src/prefs/prefs_page_divers.c:586
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Aviso/Ejecutar la transacción programada actual si está en la fecha de "
 "vencimiento"
 
-#: ../src/prefs/prefs_page_divers.c:575
+#: ../src/prefs/prefs_page_divers.c:587
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Aviso/Ejecutar las transacciones programadas del mes"
@@ -12767,14 +12788,14 @@ msgstr "Añadiendo al balance"
 msgid "Manage the line"
 msgstr "Cambiar selección"
 
-#: ../src/prefs/prefs_page_msg_delete.c:128
-#: ../src/prefs/prefs_page_msg_warning.c:136
+#: ../src/prefs/prefs_page_msg_delete.c:178
+#: ../src/prefs/prefs_page_msg_warning.c:179
 #, fuzzy
 msgid "No file loading"
 msgstr "Manejo de los archivos de cuentas"
 
-#: ../src/prefs/prefs_page_msg_delete.c:182
-#: ../src/prefs/prefs_page_msg_warning.c:191
+#: ../src/prefs/prefs_page_msg_delete.c:234
+#: ../src/prefs/prefs_page_msg_warning.c:235
 msgid "Message"
 msgstr "Mensaje"
 
@@ -13799,6 +13820,9 @@ msgstr "Balance parcial"
 msgid "One of the two fields is recommended"
 msgstr ""
 
+#~ msgid "Programs"
+#~ msgstr "Programas"
+
 #, fuzzy
 #~ msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 #~ msgstr "%s : %s - %s:%d:%s - %d\n"
@@ -13882,10 +13906,6 @@ msgstr ""
 
 #~ msgid "Manage import associations"
 #~ msgstr "Administrar la importación de asociaciones"
-
-#, fuzzy
-#~ msgid "Preferences start"
-#~ msgstr "_Preferencias"
 
 #~ msgid "Known payment methods"
 #~ msgstr "Formas de pago conocidas"
@@ -14241,10 +14261,6 @@ msgstr ""
 
 #~ msgid "Show _lines archives"
 #~ msgstr "Mostrar archivos _lines"
-
-#, fuzzy
-#~ msgid "Config file"
-#~ msgstr "Guardando archivo"
 
 #, fuzzy
 #~ msgid "Use the config file of version stable as model"

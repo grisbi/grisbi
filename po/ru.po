@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 10:06+0100\n"
+"POT-Creation-Date: 2020-11-29 11:27+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -117,7 +117,7 @@ msgid "Display the grids above the plot"
 msgstr "Показывать совет дня"
 
 #. On récupère le nom de la page
-#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:545
+#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:546
 #: ../src/prefs/prefs_page_bet_general.c:216
 #, fuzzy
 msgid "General Options"
@@ -166,7 +166,7 @@ msgstr ""
 msgid "Line number: "
 msgstr "Номер IBAN:"
 
-#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:9
+#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:12
 #: ../src/widgets/widget_currency_link.ui.h:2
 msgid "1"
 msgstr ""
@@ -192,7 +192,7 @@ msgstr "Общие параметры"
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
-#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
+#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:24
 #: ../src/ui/prefs_page_files.ui.h:22
 #: ../src/ui/prefs_page_form_completion.ui.h:14
 #: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
@@ -216,7 +216,7 @@ msgid "Title"
 msgstr "Названия"
 
 #: ../src/ui/csv_template_rule.ui.h:16
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
+#: ../src/ui/prefs_page_display_fonts.ui.h:7 ../src/ui/prefs_page_divers.ui.h:6
 msgid "label"
 msgstr ""
 
@@ -1426,77 +1426,108 @@ msgid "Transactions list contents"
 msgstr "Ячейки списка транзакций"
 
 #: ../src/ui/prefs_page_divers.ui.h:1
-msgid "Programs"
-msgstr "Программы"
+#, fuzzy
+msgid "Web browser"
+msgstr "Команда вызова браузера:"
 
 #: ../src/ui/prefs_page_divers.ui.h:2 ../src/gsb_assistant_first.c:225
 #, fuzzy
 msgid "Web browser command: "
 msgstr "Команда вызова браузера:"
 
-#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:232
+#: ../src/ui/prefs_page_divers.ui.h:4
 #, fuzzy, no-c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgid "(You may use %s to expand the URL - I.e: 'firefox %s')"
 msgstr ""
 "Вы можете использовать %s для расширения URL, например: 'firefox -remote %s'"
 
 #: ../src/ui/prefs_page_divers.ui.h:5
 #, fuzzy
-msgid "Number of days before the warning or the execution: "
-msgstr "Количество дней перед предупреждением или выполнением:"
+msgid "Preferences settings"
+msgstr "_Параметры"
 
-#: ../src/ui/prefs_page_divers.ui.h:6 ../src/ui/prefs_page_files.ui.h:14
-#: ../src/ui/prefs_page_payment_method.ui.h:6
-#: ../src/ui/prefs_widget_loan.ui.h:8
-msgid "0"
+#: ../src/ui/prefs_page_divers.ui.h:7
+#, fuzzy
+msgid "Reset window of preferences"
+msgstr "Параметры Grisbi"
+
+#: ../src/ui/prefs_page_divers.ui.h:8
+msgid "(Reset window dimensions of preferences)"
 msgstr ""
 
+#. append group page "Generalities"
+#: ../src/ui/prefs_page_divers.ui.h:9 ../src/widgets/widget_bank_details.ui.h:1
+#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:399
+msgid "Generalities"
+msgstr "Обобщения"
+
 #. set options
-#: ../src/ui/prefs_page_divers.ui.h:7 ../src/bet_graph.c:1358
+#: ../src/ui/prefs_page_divers.ui.h:10 ../src/bet_graph.c:1358
 #: ../src/tiers_onglet.c:1262
 msgid "Options"
 msgstr "Параметры"
 
-#: ../src/ui/prefs_page_divers.ui.h:8
+#: ../src/ui/prefs_page_divers.ui.h:11
 #, fuzzy
 msgid "Launch day for scheduled operations performed monthly: "
 msgstr "Количество дней перед предупреждением или выполнением:"
 
-#: ../src/ui/prefs_page_divers.ui.h:10
+#: ../src/ui/prefs_page_divers.ui.h:13
 #, fuzzy
 msgid ""
 "Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
 msgstr "Предупреждать о/Исполнять запланированные на месяц проводки"
 
-#: ../src/ui/prefs_page_divers.ui.h:11
+#: ../src/ui/prefs_page_divers.ui.h:14
 msgid "Use a default account for sheduler form: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:12
+#: ../src/ui/prefs_page_divers.ui.h:15 ../src/grisbi_win.c:501
+#: ../src/navigation.c:2086
+msgid "Scheduler"
+msgstr "Расписание"
+
+#: ../src/ui/prefs_page_divers.ui.h:16
 #, fuzzy
 msgid "Choose the language"
 msgstr "Выберите финансовый год"
 
-#: ../src/ui/prefs_page_divers.ui.h:13 ../src/parametres.c:144
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:144
 #: ../src/parametres.c:152
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Выбрать шаблон для нового отчёта"
 
-#: ../src/ui/prefs_page_divers.ui.h:14
+#: ../src/ui/prefs_page_divers.ui.h:18
 #, fuzzy
 msgid "Choose decimal and thousands separator"
 msgstr "Выберите разделитель CSV:"
 
-#: ../src/ui/prefs_page_divers.ui.h:15 ../src/parametres.c:237
+#: ../src/ui/prefs_page_divers.ui.h:19 ../src/parametres.c:237
 #, fuzzy
 msgid "Decimal point: "
 msgstr "Разделение данных:"
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:250
+#: ../src/ui/prefs_page_divers.ui.h:20 ../src/parametres.c:250
 #, fuzzy
 msgid "Thousands separator: "
 msgstr "Выберите разделитель CSV:"
+
+#: ../src/ui/prefs_page_divers.ui.h:21
+#, fuzzy
+msgid "Localization"
+msgstr "Выверка счетов"
+
+#: ../src/ui/prefs_page_divers.ui.h:22
+#, fuzzy
+msgid "Number of days before the warning or the execution: "
+msgstr "Количество дней перед предупреждением или выполнением:"
+
+#: ../src/ui/prefs_page_divers.ui.h:23 ../src/ui/prefs_page_files.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:6
+#: ../src/ui/prefs_widget_loan.ui.h:8
+msgid "0"
+msgstr ""
 
 #: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:241
 msgid "Account files handling"
@@ -2041,12 +2072,6 @@ msgstr ""
 #: ../src/ui/prefs_widget_loan.ui.h:20
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr ""
-
-#. append group page "Generalities"
-#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:730
-#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:398
-msgid "Generalities"
-msgstr "Обобщения"
 
 #: ../src/widgets/widget_bank_details.ui.h:3
 #, fuzzy
@@ -4069,7 +4094,7 @@ msgstr "Создать новую подкатегорию"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:414 ../src/grisbi_win.c:739 ../src/import.c:1828
+#: ../src/grisbi_prefs.c:415 ../src/grisbi_win.c:739 ../src/import.c:1828
 #: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:759
 msgid "Import"
@@ -4778,7 +4803,7 @@ msgstr "Финансовый год"
 
 #. On récupère le nom de la page
 #: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:535
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:536
 #: ../src/prefs/prefs_page_payment_method.c:1285
 msgid "Payment methods"
 msgstr "Способы платежа"
@@ -5133,8 +5158,8 @@ msgstr "Файл CSV"
 msgid "Exporting report..."
 msgstr "Экспортируется отчёт..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:793
-#: ../src/grisbi_prefs.c:817 ../src/gsb_debug.c:848 ../src/gsb_file.c:518
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:794
+#: ../src/grisbi_prefs.c:818 ../src/gsb_debug.c:848 ../src/gsb_file.c:518
 #: ../src/gsb_file.c:667 ../src/gsb_file.c:992
 msgid "Done"
 msgstr "Готово"
@@ -5322,14 +5347,14 @@ msgid "Titles"
 msgstr "Названия"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:457
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:458
 #: ../src/grisbi_win.c:473
 msgid "Transactions"
 msgstr "Проводки"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:513 ../src/gsb_currency.c:952
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:514 ../src/gsb_currency.c:952
 #: ../src/prefs/prefs_page_currency.c:715
 msgid "Currencies"
 msgstr "Валюты"
@@ -6318,129 +6343,130 @@ msgid "Cannot save configuration file '%s': %s"
 msgstr "Не удалось открыть файл «%s»: %s"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:402 ../src/prefs/prefs_page_files.c:110
+#: ../src/grisbi_prefs.c:403 ../src/prefs/prefs_page_files.c:110
 msgid "Files"
 msgstr "Файлы"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:407 ../src/prefs/prefs_page_archives.c:568
+#: ../src/grisbi_prefs.c:408 ../src/prefs/prefs_page_archives.c:568
 msgid "Archives"
 msgstr "Архивы"
 
-#: ../src/grisbi_prefs.c:419
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_divers.c:564
 #, fuzzy
 msgid "Various settings"
 msgstr "Параметры импорта"
 
-#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:459
+#: ../src/grisbi_prefs.c:425 ../src/grisbi_win.c:459
 msgid "Main page"
 msgstr "Резюме"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:428
+#: ../src/grisbi_prefs.c:429
 msgid "Display"
 msgstr "Вид"
 
-#: ../src/grisbi_prefs.c:432
+#: ../src/grisbi_prefs.c:433
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Шрифты и логотип"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:437 ../src/prefs/prefs_page_msg_warning.c:225
+#: ../src/grisbi_prefs.c:438 ../src/prefs/prefs_page_msg_warning.c:276
 msgid "Messages & warnings"
 msgstr "Сообщения и предупреждения"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:442 ../src/prefs/prefs_page_display_adr.c:195
+#: ../src/grisbi_prefs.c:443 ../src/prefs/prefs_page_display_adr.c:195
 msgid "Addresses & titles"
 msgstr "Адреса и названия"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_metatree.c:311
+#: ../src/grisbi_prefs.c:448 ../src/prefs/prefs_page_metatree.c:311
 msgid "Payees, categories and budgetaries"
 msgstr "Получатели, категории и бюджеты"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:453 ../src/prefs/prefs_page_display_gui.c:220
+#: ../src/grisbi_prefs.c:454 ../src/prefs/prefs_page_display_gui.c:220
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:461
+#: ../src/grisbi_prefs.c:462
 msgid "List behavior"
 msgstr "Поведение списка"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:467 ../src/prefs/prefs_page_display_ope.c:692
 msgid "Transactions list cells"
 msgstr "Ячейки списка транзакций"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_msg_delete.c:215
+#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_msg_delete.c:274
 msgid "Messages before deleting"
 msgstr "Сообщения перед удалением"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:478 ../src/gsb_assistant_first.c:337
+#: ../src/grisbi_prefs.c:479 ../src/gsb_assistant_first.c:337
 #: ../src/prefs/prefs_page_reconcile.c:574
 msgid "Reconciliation"
 msgstr "Выверка счетов"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:485 ../src/prefs/prefs_page_reconcile_sort.c:744
+#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_reconcile_sort.c:744
 msgid "Sort for reconciliation"
 msgstr "Сортировка для выверки"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:490 ../src/prefs/prefs_page_display_form.c:911
+#: ../src/grisbi_prefs.c:491 ../src/prefs/prefs_page_display_form.c:911
 msgid "Transaction form"
 msgstr "Формуляр транзакции"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:494 ../src/prefs/prefs_page_form_options.c:95
+#: ../src/grisbi_prefs.c:495 ../src/prefs/prefs_page_form_options.c:95
 msgid "Form behavior"
 msgstr "Поведение формуляра"
 
-#: ../src/grisbi_prefs.c:499
+#: ../src/grisbi_prefs.c:500
 msgid "Content"
 msgstr "Содержимое"
 
-#: ../src/grisbi_prefs.c:505
+#: ../src/grisbi_prefs.c:506
 msgid "Completion"
 msgstr "Заполнение"
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:509
+#: ../src/grisbi_prefs.c:510
 msgid "Resources"
 msgstr "Ресурсы"
 
-#: ../src/grisbi_prefs.c:518
+#: ../src/grisbi_prefs.c:519
 msgid "Currencies links"
 msgstr "Курсы обмена валют"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:525 ../src/prefs/prefs_page_bank.c:389
+#: ../src/grisbi_prefs.c:526 ../src/prefs/prefs_page_bank.c:389
 msgid "Banks"
 msgstr "Банки"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:530 ../src/prefs/prefs_page_fyear.c:686
+#: ../src/grisbi_prefs.c:531 ../src/prefs/prefs_page_fyear.c:686
 msgid "Financial years"
 msgstr "Финансовые года"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:539
+#: ../src/grisbi_prefs.c:540
 msgid "Balance estimate"
 msgstr "Оценка баланса"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:550 ../src/prefs/prefs_page_bet_account.c:658
+#: ../src/grisbi_prefs.c:551 ../src/prefs/prefs_page_bet_account.c:658
 #, fuzzy
 msgid "Accounts data"
 msgstr "Подробнее о счёте"
 
-#: ../src/grisbi_prefs.c:790
+#: ../src/grisbi_prefs.c:791
 #, fuzzy
 msgid "Preferences stop"
 msgstr "_Параметры"
@@ -6457,11 +6483,6 @@ msgstr "Дата начала"
 #: ../src/grisbi_win.c:487
 msgid "Amortization array"
 msgstr ""
-
-#: ../src/grisbi_win.c:501 ../src/navigation.c:2086
-#: ../src/prefs/prefs_page_divers.c:551 ../src/prefs/prefs_page_divers.c:566
-msgid "Scheduler"
-msgstr "Расписание"
 
 #: ../src/grisbi_win.c:715
 msgid "New"
@@ -7203,6 +7224,12 @@ msgstr "Общая настройка Grisbi"
 #: ../src/gsb_assistant_first.c:218
 msgid "Web"
 msgstr "Интернет"
+
+#: ../src/gsb_assistant_first.c:232
+#, fuzzy, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgstr ""
+"Вы можете использовать %s для расширения URL, например: 'firefox -remote %s'"
 
 #: ../src/gsb_assistant_first.c:302
 msgid "Select/Create backup directory"
@@ -12073,38 +12100,33 @@ msgstr "Столбец 5"
 msgid "Col 6"
 msgstr "Столбец 6"
 
-#: ../src/prefs/prefs_page_divers.c:429
+#: ../src/prefs/prefs_page_divers.c:453
 msgid "You will have to restart Grisbi for the new language to take effect."
 msgstr ""
 
-#: ../src/prefs/prefs_page_divers.c:430
+#: ../src/prefs/prefs_page_divers.c:454
 #, fuzzy, c-format
 msgid "Changes the language of Grisbi for \"%s\"!"
 msgstr "Выберите финансовый год"
 
-#: ../src/prefs/prefs_page_divers.c:486
+#: ../src/prefs/prefs_page_divers.c:510
 #, fuzzy
 msgid "System Language"
 msgstr "Выберите финансовый год"
 
-#. On récupère le nom de la page
-#: ../src/prefs/prefs_page_divers.c:540
-msgid "Divers"
-msgstr ""
-
-#: ../src/prefs/prefs_page_divers.c:557 ../src/prefs/prefs_page_divers.c:567
+#: ../src/prefs/prefs_page_divers.c:574
 #, fuzzy
-msgid "Localization"
-msgstr "Выверка счетов"
+msgid "Config file"
+msgstr "Файл CSV"
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:574
+#: ../src/prefs/prefs_page_divers.c:586
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Предупреждать о/Исполнять запланированные проводки с надвигающимся сроком "
 "истечения"
 
-#: ../src/prefs/prefs_page_divers.c:575
+#: ../src/prefs/prefs_page_divers.c:587
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Предупреждать о/Исполнять запланированные на месяц проводки"
@@ -12269,14 +12291,14 @@ msgstr "Дополнительный баланс"
 msgid "Manage the line"
 msgstr "Выбор дат"
 
-#: ../src/prefs/prefs_page_msg_delete.c:128
-#: ../src/prefs/prefs_page_msg_warning.c:136
+#: ../src/prefs/prefs_page_msg_delete.c:178
+#: ../src/prefs/prefs_page_msg_warning.c:179
 #, fuzzy
 msgid "No file loading"
 msgstr "Обращение с файлами счетов"
 
-#: ../src/prefs/prefs_page_msg_delete.c:182
-#: ../src/prefs/prefs_page_msg_warning.c:191
+#: ../src/prefs/prefs_page_msg_delete.c:234
+#: ../src/prefs/prefs_page_msg_warning.c:235
 msgid "Message"
 msgstr "Сообщение"
 
@@ -13186,6 +13208,9 @@ msgstr "Частичный баланс"
 msgid "One of the two fields is recommended"
 msgstr ""
 
+#~ msgid "Programs"
+#~ msgstr "Программы"
+
 #~ msgid "No font defined"
 #~ msgstr "Шрифт не определён"
 
@@ -13250,10 +13275,6 @@ msgstr ""
 
 #~ msgid "Manage import associations"
 #~ msgstr "Управлением связыванием при импорте"
-
-#, fuzzy
-#~ msgid "Preferences start"
-#~ msgstr "_Параметры"
 
 #~ msgid "Known payment methods"
 #~ msgstr "Известные способы платежа"
@@ -13495,10 +13516,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Show _lines archives"
 #~ msgstr "Известные архивы"
-
-#, fuzzy
-#~ msgid "Config file"
-#~ msgstr "Файл CSV"
 
 #, fuzzy
 #~ msgid "Usage: grisbi [--version | -v] | [--help | -?]\n"

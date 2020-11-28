@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 10:06+0100\n"
+"POT-Creation-Date: 2020-11-29 11:27+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -121,7 +121,7 @@ msgstr "Toon de naam van de (sub)categorie"
 
 # tablad header raport bewerken>toon data>algemeen
 #. On récupère le nom de la page
-#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:545
+#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:546
 #: ../src/prefs/prefs_page_bet_general.c:216
 #, fuzzy
 msgid "General Options"
@@ -172,7 +172,7 @@ msgstr ""
 msgid "Line number: "
 msgstr "Nummer:"
 
-#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:9
+#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:12
 #: ../src/widgets/widget_currency_link.ui.h:2
 msgid "1"
 msgstr ""
@@ -199,7 +199,7 @@ msgstr "Algemeen"
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
-#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:17
+#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:24
 #: ../src/ui/prefs_page_files.ui.h:22
 #: ../src/ui/prefs_page_form_completion.ui.h:14
 #: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
@@ -223,7 +223,7 @@ msgid "Title"
 msgstr "Titels"
 
 #: ../src/ui/csv_template_rule.ui.h:16
-#: ../src/ui/prefs_page_display_fonts.ui.h:7
+#: ../src/ui/prefs_page_display_fonts.ui.h:7 ../src/ui/prefs_page_divers.ui.h:6
 msgid "label"
 msgstr ""
 
@@ -1483,78 +1483,109 @@ msgid "Transactions list contents"
 msgstr "Cellen transactielijst"
 
 #: ../src/ui/prefs_page_divers.ui.h:1
-msgid "Programs"
-msgstr "Programma's"
+msgid "Web browser"
+msgstr "Web browser"
 
 #: ../src/ui/prefs_page_divers.ui.h:2 ../src/gsb_assistant_first.c:225
 #, fuzzy
 msgid "Web browser command: "
 msgstr "Web browser:"
 
-#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:232
+#: ../src/ui/prefs_page_divers.ui.h:4
 #, no-c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgid "(You may use %s to expand the URL - I.e: 'firefox %s')"
 msgstr ""
 
 #: ../src/ui/prefs_page_divers.ui.h:5
 #, fuzzy
-msgid "Number of days before the warning or the execution: "
-msgstr ""
-"Het aantal dagen dat een waarschuwingsbericht van te \n"
-"voren gegeven moet worden bij een geplande transactie:"
+msgid "Preferences settings"
+msgstr "Voorkeuren"
 
-#: ../src/ui/prefs_page_divers.ui.h:6 ../src/ui/prefs_page_files.ui.h:14
-#: ../src/ui/prefs_page_payment_method.ui.h:6
-#: ../src/ui/prefs_widget_loan.ui.h:8
-msgid "0"
+#: ../src/ui/prefs_page_divers.ui.h:7
+#, fuzzy
+msgid "Reset window of preferences"
+msgstr "Voorkeuren"
+
+#: ../src/ui/prefs_page_divers.ui.h:8
+msgid "(Reset window dimensions of preferences)"
 msgstr ""
+
+# tablad header raport bewerken>toon data>algemeen
+#. append group page "Generalities"
+#: ../src/ui/prefs_page_divers.ui.h:9 ../src/widgets/widget_bank_details.ui.h:1
+#: ../src/etats_prefs.c:730 ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:399
+msgid "Generalities"
+msgstr "Algemeen"
 
 #. set options
-#: ../src/ui/prefs_page_divers.ui.h:7 ../src/bet_graph.c:1358
+#: ../src/ui/prefs_page_divers.ui.h:10 ../src/bet_graph.c:1358
 #: ../src/tiers_onglet.c:1262
 #, fuzzy
 msgid "Options"
 msgstr "Uitgaven"
 
-#: ../src/ui/prefs_page_divers.ui.h:8
+#: ../src/ui/prefs_page_divers.ui.h:11
 #, fuzzy
 msgid "Launch day for scheduled operations performed monthly: "
 msgstr ""
 "Het aantal dagen dat een waarschuwingsbericht van te \n"
 "voren gegeven moet worden bij een geplande transactie:"
 
-#: ../src/ui/prefs_page_divers.ui.h:10
+#: ../src/ui/prefs_page_divers.ui.h:13
 #, fuzzy
 msgid ""
 "Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
 msgstr "Geplande transacties die over of bijna aan de vervaldatum zijn :"
 
-#: ../src/ui/prefs_page_divers.ui.h:11
+#: ../src/ui/prefs_page_divers.ui.h:14
 msgid "Use a default account for sheduler form: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:12
+#: ../src/ui/prefs_page_divers.ui.h:15 ../src/grisbi_win.c:501
+#: ../src/navigation.c:2086
+msgid "Scheduler"
+msgstr "Planner"
+
+#: ../src/ui/prefs_page_divers.ui.h:16
 #, fuzzy
 msgid "Choose the language"
 msgstr "Kies een rekening"
 
-#: ../src/ui/prefs_page_divers.ui.h:13 ../src/parametres.c:144
+#: ../src/ui/prefs_page_divers.ui.h:17 ../src/parametres.c:144
 #: ../src/parametres.c:152
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Kies een rekening"
 
-#: ../src/ui/prefs_page_divers.ui.h:14
+#: ../src/ui/prefs_page_divers.ui.h:18
 msgid "Choose decimal and thousands separator"
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:15 ../src/parametres.c:237
+#: ../src/ui/prefs_page_divers.ui.h:19 ../src/parametres.c:237
 #, fuzzy
 msgid "Decimal point: "
 msgstr "Selecteer data:"
 
-#: ../src/ui/prefs_page_divers.ui.h:16 ../src/parametres.c:250
+#: ../src/ui/prefs_page_divers.ui.h:20 ../src/parametres.c:250
 msgid "Thousands separator: "
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:21
+#, fuzzy
+msgid "Localization"
+msgstr "Controleer"
+
+#: ../src/ui/prefs_page_divers.ui.h:22
+#, fuzzy
+msgid "Number of days before the warning or the execution: "
+msgstr ""
+"Het aantal dagen dat een waarschuwingsbericht van te \n"
+"voren gegeven moet worden bij een geplande transactie:"
+
+#: ../src/ui/prefs_page_divers.ui.h:23 ../src/ui/prefs_page_files.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:6
+#: ../src/ui/prefs_widget_loan.ui.h:8
+msgid "0"
 msgstr ""
 
 # Kop tekst in voorkeurenscherm
@@ -2128,13 +2159,6 @@ msgstr ""
 #: ../src/ui/prefs_widget_loan.ui.h:20
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr ""
-
-# tablad header raport bewerken>toon data>algemeen
-#. append group page "Generalities"
-#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:730
-#: ../src/etats_prefs.c:2879 ../src/grisbi_prefs.c:398
-msgid "Generalities"
-msgstr "Algemeen"
 
 #: ../src/widgets/widget_bank_details.ui.h:3
 #, fuzzy
@@ -4196,7 +4220,7 @@ msgstr "Vul een naam in voor de sub-categorie"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:581 ../src/etats_onglet.c:555
-#: ../src/grisbi_prefs.c:414 ../src/grisbi_win.c:739 ../src/import.c:1828
+#: ../src/grisbi_prefs.c:415 ../src/grisbi_win.c:739 ../src/import.c:1828
 #: ../src/imputation_budgetaire.c:627 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:759
 msgid "Import"
@@ -4948,7 +4972,7 @@ msgstr "Financieel jaar"
 
 #. On récupère le nom de la page
 #: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:704
-#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:535
+#: ../src/etats_prefs.c:2298 ../src/grisbi_prefs.c:536
 #: ../src/prefs/prefs_page_payment_method.c:1285
 msgid "Payment methods"
 msgstr "Betaalmethodes"
@@ -5324,8 +5348,8 @@ msgstr "Bestand opslaan"
 msgid "Exporting report..."
 msgstr "Exporteer naar CSV ..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:793
-#: ../src/grisbi_prefs.c:817 ../src/gsb_debug.c:848 ../src/gsb_file.c:518
+#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:794
+#: ../src/grisbi_prefs.c:818 ../src/gsb_debug.c:848 ../src/gsb_file.c:518
 #: ../src/gsb_file.c:667 ../src/gsb_file.c:992
 #, fuzzy
 msgid "Done"
@@ -5528,14 +5552,14 @@ msgid "Titles"
 msgstr "Titels"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:457
+#: ../src/etats_prefs.c:740 ../src/export_csv.c:359 ../src/grisbi_prefs.c:458
 #: ../src/grisbi_win.c:473
 msgid "Transactions"
 msgstr "Boekingen"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:513 ../src/gsb_currency.c:952
+#: ../src/etats_prefs.c:745 ../src/grisbi_prefs.c:514 ../src/gsb_currency.c:952
 #: ../src/prefs/prefs_page_currency.c:715
 msgid "Currencies"
 msgstr "Valuta's"
@@ -6568,136 +6592,137 @@ msgid "Cannot save configuration file '%s': %s"
 msgstr "Kan het bestand '%s': %s niet opslaan."
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:402 ../src/prefs/prefs_page_files.c:110
+#: ../src/grisbi_prefs.c:403 ../src/prefs/prefs_page_files.c:110
 msgid "Files"
 msgstr "Bestanden"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:407 ../src/prefs/prefs_page_archives.c:568
+#: ../src/grisbi_prefs.c:408 ../src/prefs/prefs_page_archives.c:568
 #, fuzzy
 msgid "Archives"
 msgstr "Activeer"
 
-#: ../src/grisbi_prefs.c:419
+#. On récupère le nom de la page
+#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_divers.c:564
 #, fuzzy
 msgid "Various settings"
 msgstr "Exporteer categorieën"
 
-#: ../src/grisbi_prefs.c:424 ../src/grisbi_win.c:459
+#: ../src/grisbi_prefs.c:425 ../src/grisbi_win.c:459
 msgid "Main page"
 msgstr "Hoofdpagina"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:428
+#: ../src/grisbi_prefs.c:429
 msgid "Display"
 msgstr "Toon"
 
-#: ../src/grisbi_prefs.c:432
+#: ../src/grisbi_prefs.c:433
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Lettertypen & logo"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:437 ../src/prefs/prefs_page_msg_warning.c:225
+#: ../src/grisbi_prefs.c:438 ../src/prefs/prefs_page_msg_warning.c:276
 msgid "Messages & warnings"
 msgstr "Berichten & Waarschuwingen"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:442 ../src/prefs/prefs_page_display_adr.c:195
+#: ../src/grisbi_prefs.c:443 ../src/prefs/prefs_page_display_adr.c:195
 msgid "Addresses & titles"
 msgstr "Adressen & titels"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_metatree.c:311
+#: ../src/grisbi_prefs.c:448 ../src/prefs/prefs_page_metatree.c:311
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "Vul aub een budgetregel in!"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:453 ../src/prefs/prefs_page_display_gui.c:220
+#: ../src/grisbi_prefs.c:454 ../src/prefs/prefs_page_display_gui.c:220
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:461
+#: ../src/grisbi_prefs.c:462
 msgid "List behavior"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:467 ../src/prefs/prefs_page_display_ope.c:692
 msgid "Transactions list cells"
 msgstr "Cellen transactielijst"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_msg_delete.c:215
+#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_msg_delete.c:274
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "Berichten & Waarschuwingen"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:478 ../src/gsb_assistant_first.c:337
+#: ../src/grisbi_prefs.c:479 ../src/gsb_assistant_first.c:337
 #: ../src/prefs/prefs_page_reconcile.c:574
 msgid "Reconciliation"
 msgstr "Controleer"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:485 ../src/prefs/prefs_page_reconcile_sort.c:744
+#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_reconcile_sort.c:744
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "Controleer"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:490 ../src/prefs/prefs_page_display_form.c:911
+#: ../src/grisbi_prefs.c:491 ../src/prefs/prefs_page_display_form.c:911
 msgid "Transaction form"
 msgstr "Transactie formulier"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:494 ../src/prefs/prefs_page_form_options.c:95
+#: ../src/grisbi_prefs.c:495 ../src/prefs/prefs_page_form_options.c:95
 msgid "Form behavior"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:499
+#: ../src/grisbi_prefs.c:500
 #, fuzzy
 msgid "Content"
 msgstr "Contact"
 
-#: ../src/grisbi_prefs.c:505
+#: ../src/grisbi_prefs.c:506
 msgid "Completion"
 msgstr ""
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:509
+#: ../src/grisbi_prefs.c:510
 msgid "Resources"
 msgstr "Bron"
 
-#: ../src/grisbi_prefs.c:518
+#: ../src/grisbi_prefs.c:519
 #, fuzzy
 msgid "Currencies links"
 msgstr "Valuta's"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:525 ../src/prefs/prefs_page_bank.c:389
+#: ../src/grisbi_prefs.c:526 ../src/prefs/prefs_page_bank.c:389
 msgid "Banks"
 msgstr "Banken"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:530 ../src/prefs/prefs_page_fyear.c:686
+#: ../src/grisbi_prefs.c:531 ../src/prefs/prefs_page_fyear.c:686
 msgid "Financial years"
 msgstr "Financiële jaren"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:539
+#: ../src/grisbi_prefs.c:540
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Saldo's"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:550 ../src/prefs/prefs_page_bet_account.c:658
+#: ../src/grisbi_prefs.c:551 ../src/prefs/prefs_page_bet_account.c:658
 #, fuzzy
 msgid "Accounts data"
 msgstr "Rekening details"
 
-#: ../src/grisbi_prefs.c:790
+#: ../src/grisbi_prefs.c:791
 #, fuzzy
 msgid "Preferences stop"
 msgstr "Voorkeuren"
@@ -6715,11 +6740,6 @@ msgstr "Start datum"
 #: ../src/grisbi_win.c:487
 msgid "Amortization array"
 msgstr ""
-
-#: ../src/grisbi_win.c:501 ../src/navigation.c:2086
-#: ../src/prefs/prefs_page_divers.c:551 ../src/prefs/prefs_page_divers.c:566
-msgid "Scheduler"
-msgstr "Planner"
 
 #: ../src/grisbi_win.c:715
 msgid "New"
@@ -7424,6 +7444,11 @@ msgstr ""
 #, fuzzy
 msgid "Web"
 msgstr "Website"
+
+#: ../src/gsb_assistant_first.c:232
+#, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgstr ""
 
 #: ../src/gsb_assistant_first.c:302
 msgid "Select/Create backup directory"
@@ -12568,37 +12593,32 @@ msgstr "Kol5"
 msgid "Col 6"
 msgstr "Kol6"
 
-#: ../src/prefs/prefs_page_divers.c:429
+#: ../src/prefs/prefs_page_divers.c:453
 msgid "You will have to restart Grisbi for the new language to take effect."
 msgstr ""
 
-#: ../src/prefs/prefs_page_divers.c:430
+#: ../src/prefs/prefs_page_divers.c:454
 #, fuzzy, c-format
 msgid "Changes the language of Grisbi for \"%s\"!"
 msgstr "Kies een rekening"
 
-#: ../src/prefs/prefs_page_divers.c:486
+#: ../src/prefs/prefs_page_divers.c:510
 #, fuzzy
 msgid "System Language"
 msgstr "Kies een rekening"
 
-#. On récupère le nom de la page
-#: ../src/prefs/prefs_page_divers.c:540
-msgid "Divers"
-msgstr ""
-
-#: ../src/prefs/prefs_page_divers.c:557 ../src/prefs/prefs_page_divers.c:567
+#: ../src/prefs/prefs_page_divers.c:574
 #, fuzzy
-msgid "Localization"
-msgstr "Controleer"
+msgid "Config file"
+msgstr "Bestand opslaan"
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:574
+#: ../src/prefs/prefs_page_divers.c:586
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "Geplande transacties die over of bijna aan de vervaldatum zijn :"
 
-#: ../src/prefs/prefs_page_divers.c:575
+#: ../src/prefs/prefs_page_divers.c:587
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Geplande transacties die over of bijna aan de vervaldatum zijn :"
@@ -12782,14 +12802,14 @@ msgid "Manage the line"
 msgstr "Selecteer data"
 
 # Kop tekst in voorkeurenscherm
-#: ../src/prefs/prefs_page_msg_delete.c:128
-#: ../src/prefs/prefs_page_msg_warning.c:136
+#: ../src/prefs/prefs_page_msg_delete.c:178
+#: ../src/prefs/prefs_page_msg_warning.c:179
 #, fuzzy
 msgid "No file loading"
 msgstr "Rekening bestanden"
 
-#: ../src/prefs/prefs_page_msg_delete.c:182
-#: ../src/prefs/prefs_page_msg_warning.c:191
+#: ../src/prefs/prefs_page_msg_delete.c:234
+#: ../src/prefs/prefs_page_msg_warning.c:235
 #, fuzzy
 msgid "Message"
 msgstr "Log berichten"
@@ -13730,6 +13750,9 @@ msgstr "Begin saldo"
 msgid "One of the two fields is recommended"
 msgstr ""
 
+#~ msgid "Programs"
+#~ msgstr "Programma's"
+
 #, fuzzy
 #~ msgid "No font defined"
 #~ msgstr "Geen budgetregel"
@@ -13789,10 +13812,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Manage import associations"
 #~ msgstr "Gebruik categorieën."
-
-#, fuzzy
-#~ msgid "Preferences start"
-#~ msgstr "Voorkeuren"
 
 #~ msgid "Known payment methods"
 #~ msgstr "Bekende methodes van betaling"
@@ -14075,10 +14094,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Show _lines archives"
 #~ msgstr "Bekende valuta"
-
-#, fuzzy
-#~ msgid "Config file"
-#~ msgstr "Bestand opslaan"
 
 #, fuzzy
 #~ msgid "Select the chart type"
@@ -14565,9 +14580,6 @@ msgstr ""
 #~ "Assets account\n"
 #~ "xxx"
 #~ msgstr "Tegoed rekening"
-
-#~ msgid "Web browser"
-#~ msgstr "Web browser"
 
 #~ msgid "A"
 #~ msgstr "A"
