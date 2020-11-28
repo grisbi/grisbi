@@ -110,6 +110,40 @@ GtkWidget *gsb_automem_entry_new ( gchar **value,
     return entry;
 }
 
+/*
+ * Init a GtkEntry with a pointer to a string that will be
+ * modified according to the entry's value.
+ *
+ * \param an entry
+ * \param value A pointer to a string
+ * \param hook An optional function to execute as a handler if the
+ * 	entry's contents are modified. (hook must be func ( GtkWidget *entry, gpointer data ) )
+ * \param data An optional pointer to pass to hooks.
+ */
+void gsb_automem_entry_new_from_ui (GtkWidget *entry,
+									gchar **value,
+									GCallback hook,
+									gpointer data)
+{
+    if (value && *value)
+	gtk_entry_set_text (GTK_ENTRY(entry), *value);
+
+    g_object_set_data (G_OBJECT (entry), "pointer", value);
+    g_object_set_data (G_OBJECT (entry),
+					   "changed",
+					   GUINT_TO_POINTER (g_signal_connect (G_OBJECT (entry),
+														   "changed",
+														   G_CALLBACK (gsb_automem_entry_changed),
+														   NULL)));
+    if (hook)
+		g_object_set_data (G_OBJECT (entry),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT (entry),
+																	 "changed",
+																	 ((GCallback) hook),
+																	 data)));
+}
+
 /**
  * called by a "changed" signal in a gsb_automem_entry
  * Set a string to the value of an GtkEntry.
