@@ -202,7 +202,7 @@ static void prefs_page_divers_choose_decimal_point_changed (GtkComboBoxText *wid
     gsb_gui_navigation_update_localisation (1);
 }
 
-static void prefs_page_divers_choose__number_format_init (PrefsPageDivers *page)
+static void prefs_page_divers_choose_number_format_init (PrefsPageDivers *page)
 {
     gchar *mon_decimal_point;
     gchar *mon_thousands_sep;
@@ -682,7 +682,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 
 	/* set the others parameters */
 	prefs_page_divers_choose_date_format_init (page);
-	prefs_page_divers_choose__number_format_init (page);
+	prefs_page_divers_choose_number_format_init (page);
 
 	if (is_loading == FALSE)
 	{

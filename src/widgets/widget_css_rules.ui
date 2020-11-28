@@ -223,6 +223,8 @@
               <object class="GtkGrid" id="grid_transactions_rules">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="row_spacing">5</property>
+                <property name="column_spacing">5</property>
                 <child>
                   <object class="GtkComboBox" id="combo_transactions_rules">
                     <property name="name">combo_text_colors</property>

@@ -134,24 +134,24 @@ static gboolean prefs_page_display_gui_change_toolbar_display_mode (GtkRadioButt
  * \return FALSE
  **/
 static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *toggle_button,
-																  GrisbiWinRun *w_run)
+																  GrisbiPrefs *prefs)
 
 {
 	GtkTreeModel *model;
 	gint etat;
 	GrisbiAppConf *a_conf;
+	GrisbiWinRun *w_run;
 
 	devel_debug (NULL);
 	etat = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	w_run->resolution_screen_toggled = etat;
 
 	if (etat)
 	{
-		GtkWidget *prefs;
 		GtkWidget *hpaned;
 
-		prefs = g_object_get_data (G_OBJECT (toggle_button), "paned_prefs");
 		hpaned = grisbi_prefs_get_prefs_hpaned (prefs);
 
 		/*reset all geometry keys */
@@ -202,19 +202,17 @@ static gboolean prefs_page_display_gui_switch_headings_bar (GtkWidget *toggle_bu
  * \return
  **/
 static void prefs_page_display_gui_setup_page (PrefsPageDisplayGui *page,
-											   GrisbiPrefs *win)
+											   GrisbiPrefs *prefs)
 {
 	GtkWidget *head_page;
 	PangoTabArray *tabs;
 	GrisbiAppConf *a_conf;
-	GrisbiWinRun *w_run;
 	PrefsPageDisplayGuiPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_display_gui_get_instance_private (page);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Elements of interface"), "gsb-display-gui-32.png");
@@ -225,8 +223,8 @@ static void prefs_page_display_gui_setup_page (PrefsPageDisplayGui *page,
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_low_resolution_screen),
 								  a_conf->low_resolution_screen);
 
-	/* on attache win pour recuperer paned_prefs */
-	g_object_set_data (G_OBJECT (priv->checkbutton_low_resolution_screen), "paned_prefs", win);
+	/* on attache prefs pour recuperer paned_prefs */
+	g_object_set_data (G_OBJECT (priv->checkbutton_low_resolution_screen), "paned_prefs", prefs);
 
     /* Connect signal */
     g_signal_connect (priv->checkbutton_low_resolution_screen,
@@ -237,7 +235,7 @@ static void prefs_page_display_gui_setup_page (PrefsPageDisplayGui *page,
 	g_signal_connect_after (priv->checkbutton_low_resolution_screen,
 							"toggled",
 							G_CALLBACK (prefs_page_display_gui_resolution_screen_toggled),
-							w_run);
+							prefs);
 
 	/* set the variables for show_headings_bar */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_headings_bar),
@@ -372,12 +370,12 @@ static void prefs_page_display_gui_class_init (PrefsPageDisplayGuiClass *klass)
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
-PrefsPageDisplayGui *prefs_page_display_gui_new (GrisbiPrefs *win)
+PrefsPageDisplayGui *prefs_page_display_gui_new (GrisbiPrefs *prefs)
 {
 	PrefsPageDisplayGui *page;
 
 	page = g_object_new (PREFS_PAGE_DISPLAY_GUI_TYPE, NULL);
-	prefs_page_display_gui_setup_page (page, win);
+	prefs_page_display_gui_setup_page (page, prefs);
 
 	return page;
 }
