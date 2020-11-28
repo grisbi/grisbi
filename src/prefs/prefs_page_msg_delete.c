@@ -67,28 +67,78 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageMsgDelete, prefs_page_msg_delete, GTK_TYPE_
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-static gboolean prefs_page_msg_delete_msg_toggled (GtkCellRendererToggle *cell,
-												   gchar *path_str,
-												   GtkTreeModel *model)
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_msg_delete_msg_select (GtkTreeSelection *selection,
+											  GtkWidget *tree_view)
 {
-    GtkTreePath *path;
+	GtkTreeModel *model;
     GtkTreeIter iter;
+	gint position;
+	ConditionalMsg *warning;
+
+	if (!gtk_tree_selection_get_selected (GTK_TREE_SELECTION (selection), &model, &iter))
+		return;
+
+	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
+
+	/* Get toggled iter */
+	gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 2, &position, -1);
+    (warning+position)->hidden = !(warning+position)->hidden;
+
+	/* Set new value */
+    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, (warning+position)->hidden, -1);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_msg_delete_msg_toggled (GtkCellRendererToggle *cell,
+											   gchar *path_str,
+											   GtkWidget *tree_view)
+{
+	GtkTreeModel *model;
+    GtkTreeIter iter;
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
 	gint position;
 	ConditionalMsg *warning;
 
 	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
 	path = gtk_tree_path_new_from_string (path_str);
 
-	/* Get toggled iter */
-    gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
-    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 2, &position, -1);
+	/* get selection to block signal before change cell */
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	g_signal_handlers_block_by_func (selection, prefs_page_msg_delete_msg_select, tree_view);
 
+	/* Get toggled iter */
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
+
+	/* select iter */
+	gtk_tree_selection_select_iter (selection, &iter);
+
+	/* get position */
+    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 2, &position, -1);
     (warning+position)->hidden = !(warning+position)->hidden;
 
     /* Set new value */
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, !(warning+position)->hidden, -1);
 
-    return TRUE;
+	/* unblock signal */
+	g_signal_handlers_unblock_by_func (selection, prefs_page_msg_delete_msg_select, tree_view);
 }
 
 /**
@@ -136,7 +186,7 @@ static void prefs_page_msg_delete_fill_model (GtkTreeModel *model)
 		gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
 		gtk_tree_store_set (GTK_TREE_STORE (model),
 							&iter,
-							0, !(warning+i)->hidden,
+							0, (warning+i)->hidden,
 							1, tmp_str,
 							2, i,
 							-1);
@@ -156,6 +206,7 @@ static GtkWidget *prefs_page_msg_delete_create_tree_view (PrefsPageMsgDelete *pr
 {
 	GtkWidget *treeview;
 	GtkTreeModel *model;
+	GtkTreeSelection *selection;
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
 
@@ -167,7 +218,8 @@ static GtkWidget *prefs_page_msg_delete_create_tree_view (PrefsPageMsgDelete *pr
 	gtk_widget_set_name (treeview, "gsettings_tree_view");
 	gtk_widget_set_hexpand (treeview, TRUE);
 	gtk_widget_set_vexpand (treeview, TRUE);
-    gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (model));
+
+	gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (model));
     g_object_unref (G_OBJECT(model));
 
     cell = gtk_cell_renderer_toggle_new ();
@@ -176,7 +228,7 @@ static GtkWidget *prefs_page_msg_delete_create_tree_view (PrefsPageMsgDelete *pr
     g_signal_connect (cell,
 					  "toggled",
 					  G_CALLBACK (prefs_page_msg_delete_msg_toggled),
-					  model);
+					  treeview);
 
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (_("Message"),
@@ -188,6 +240,13 @@ static GtkWidget *prefs_page_msg_delete_create_tree_view (PrefsPageMsgDelete *pr
 
 	/* set and fill the model */
 	prefs_page_msg_delete_fill_model (model);
+
+	/* set signal selection */
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    g_signal_connect (selection,
+					  "changed",
+					  G_CALLBACK (prefs_page_msg_delete_msg_select),
+					  treeview);
 
 	/* set column color */
 	utils_set_tree_store_background_color (treeview, 3);

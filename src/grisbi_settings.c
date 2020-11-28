@@ -343,7 +343,7 @@ static void grisbi_settings_init_settings_messages_delete (GSettings *settings,
 	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
     for (i = 0; (warning+i)->name; i ++)
     {
-        (warning+i)->hidden = !g_settings_get_boolean (G_SETTINGS (settings), (warning+i)->name);
+        (warning+i)->hidden = g_settings_get_boolean (G_SETTINGS (settings), (warning+i)->name);
         if ((warning+i)->hidden == 1)
             (warning+i)->default_answer = 1;
     }
@@ -379,7 +379,7 @@ static void grisbi_settings_init_settings_messages_warnings (GSettings *settings
 	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
 	for (i = 0; (warning+i)->name; i ++)
     {
-        (warning+i)->hidden = !g_settings_get_boolean (G_SETTINGS (settings), (warning+i)->name);
+        (warning+i)->hidden = g_settings_get_boolean (G_SETTINGS (settings), (warning+i)->name);
         if ((warning+i)->hidden == 1)
             (warning+i)->default_answer = 1;
     }
@@ -850,9 +850,9 @@ static void grisbi_settings_save_settings_messages_delete (GSettings *settings,
     for (i = 0; (warning+i)->name; i ++)
     {
 		if ((warning+i)->hidden)
-			g_settings_set_boolean (G_SETTINGS (settings), (warning+i)->name, FALSE);
-		else
 			g_settings_reset (G_SETTINGS (settings), (warning+i)->name);
+		else
+			g_settings_set_boolean (G_SETTINGS (settings), (warning+i)->name, FALSE);
     }
 }
 
@@ -900,9 +900,9 @@ static void grisbi_settings_save_settings_messages_warnings (GSettings *settings
     for (i = 0; (warning+i)->name; i ++)
     {
 		if ((warning+i)->hidden)
-			g_settings_set_boolean (G_SETTINGS (settings), (warning+i)->name, FALSE);
-		else
 			g_settings_reset (G_SETTINGS (settings), (warning+i)->name);
+		else
+			g_settings_set_boolean (G_SETTINGS (settings), (warning+i)->name, FALSE);
 	}
 }
 
