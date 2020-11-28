@@ -393,6 +393,7 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	is_loading = grisbi_win_file_is_loading ();
 
 	tree_model = GTK_TREE_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_left)));
+	gtk_tree_store_clear (GTK_TREE_STORE (tree_model));
 
 	/* append group page "Generalities" */
 	utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Generalities"), -1);
@@ -897,6 +898,25 @@ void grisbi_prefs_set_page_by_name (gchar *page_name)
 	}
 	result = gtk_dialog_run (GTK_DIALOG (prefs));
 	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_prefs_update_prefs_hpaned (GrisbiPrefs *prefs)
+{
+	GrisbiPrefsPrivate *priv;
+
+	priv = grisbi_prefs_get_instance_private (GRISBI_PREFS (prefs));
+
+	devel_debug (NULL);
+	grisbi_prefs_left_panel_populate_tree_model (GRISBI_PREFS (prefs));
+
+	gtk_tree_view_expand_all (GTK_TREE_VIEW (priv->treeview_left));
 }
 
 /**

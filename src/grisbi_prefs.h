@@ -27,8 +27,8 @@ void 			grisbi_prefs_dialog_response  						(GtkDialog *prefs,
 																	 gint result_id);
 GtkWidget *		grisbi_prefs_get_child_by_page_name					(const gchar *page_name);
 GtkWidget *		grisbi_prefs_get_prefs_hpaned						(GrisbiPrefs *prefs);
-GtkWidget *		grisbi_prefs_get_left_treeview						(void);
 void			grisbi_prefs_set_page_by_name 						(gchar *page_name);
+void			grisbi_prefs_update_prefs_hpaned					(GrisbiPrefs *prefs);
 /* END_DECLARATION */
 
 G_END_DECLS

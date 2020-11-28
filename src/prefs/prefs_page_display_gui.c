@@ -163,6 +163,8 @@ static gboolean prefs_page_display_gui_resolution_screen_toggled (GtkWidget *tog
 		gtk_paned_set_position (GTK_PANED (hpaned), a_conf->panel_width);
 	}
 
+	grisbi_prefs_update_prefs_hpaned (prefs);
+
 	/* init status bar */
 	grisbi_win_init_statusbar (NULL);
 

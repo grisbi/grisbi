@@ -65,17 +65,11 @@ struct _PrefsPageDiversPrivate
 {
 	GtkWidget *			vbox_divers;
 
-	/* programs */
-    GtkWidget *			grid_divers_programs;
-
-	/* notebbok low resolution */
-	GtkWidget *			notebook_others_options;
-
-	/* pages pour notebook */
-	GtkWidget *			divers_localization_paddingbox;
-	GtkWidget *			divers_scheduler_paddingbox;
-	GtkWidget *			title_divers_localization;
-	GtkWidget *			title_divers_scheduler;
+	/* generalities */
+    GtkWidget *			grid_generalities;
+	GtkWidget *			button_reset_prefs_window;
+	GtkWidget *			entry_web_browser;
+	GtkWidget *			label_prefs_settings;
 
 	/* scheduler */
 	GtkWidget *         vbox_divers_scheduler;
@@ -107,6 +101,36 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDivers, prefs_page_divers, GTK_TYPE_BOX)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_divers_button_reset_prefs_window_clicked (GtkButton *button,
+																 GrisbiPrefs *prefs)
+{
+	GtkWidget *paned_prefs;
+ 	GrisbiAppConf *a_conf;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	paned_prefs = grisbi_prefs_get_prefs_hpaned (GRISBI_PREFS (prefs));
+	a_conf->prefs_height = PREFS_WIN_MIN_HEIGHT;
+	a_conf->prefs_width = PREFS_WIN_MIN_WIDTH;
+	a_conf->prefs_panel_width = PREFS_PANED_MIN_WIDTH;
+
+	gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH, PREFS_WIN_MIN_HEIGHT);
+	gtk_paned_set_position (GTK_PANED (paned_prefs), PREFS_PANED_MIN_WIDTH);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void prefs_page_divers_choose_thousands_sep_changed (GtkComboBoxText *widget,
 															gpointer null)
 {
@@ -519,10 +543,10 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo,
  *
  * \return
  */
-static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
+static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
+												 GrisbiPrefs *win)
 {
 	GtkWidget *head_page;
-	GtkWidget *entry_divers_programs;
     GtkWidget *vbox_button;
     GtkWidget *combo;
 	gint combo_index;
@@ -537,38 +561,26 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
-	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Divers"), "gsb-generalities-32.png");
+	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Various settings"), "gsb-generalities-32.png");
 	gtk_box_pack_start (GTK_BOX (priv->vbox_divers), head_page, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_divers), head_page, 0);
 
+	/* page generalities */
     /* set the variables for programs */
-	entry_divers_programs = gsb_automem_entry_new (&a_conf->browser_command, NULL, NULL);
-	gtk_grid_attach (GTK_GRID (priv->grid_divers_programs), entry_divers_programs, 1, 0, 1, 1);
-	if (a_conf->low_resolution_screen)
-	{
-		GtkWidget *label;
+	gsb_automem_entry_new_from_ui (priv->entry_web_browser, &a_conf->browser_command, NULL, NULL);
 
-		label = gtk_label_new ((gpointer) _("Scheduler"));
-		priv->notebook_others_options = gtk_notebook_new ();
-		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_others_options),
-								  priv->divers_scheduler_paddingbox,
-								  label);
+	/* set preferences settings : gsettings or config file */
+#ifdef USE_CONFIG_FILE
+	gtk_label_set_text	(GTK_LABEL (priv->label_prefs_settings), _("Config file"));
+#else
+	gtk_label_set_text	(GTK_LABEL (priv->label_prefs_settings), "Gsettings");
+#endif
 
-		label = gtk_label_new ((gpointer) _("Localization"));
-		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_others_options),
-								  priv->divers_localization_paddingbox,
-								  label);
-		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->notebook_others_options, FALSE, FALSE, 0);
-		gtk_widget_show_all (priv->notebook_others_options);
-	}
-	else
-	{
-		gtk_label_set_text (GTK_LABEL (priv->title_divers_scheduler), (gpointer) _("Scheduler"));
-		gtk_label_set_text (GTK_LABEL (priv->title_divers_localization), (gpointer) _("Localization"));
-
-		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->divers_scheduler_paddingbox, FALSE, FALSE, 0);
-		gtk_box_pack_start (GTK_BOX (priv->vbox_divers), priv->divers_localization_paddingbox, FALSE, FALSE, 0);
-	}
+	/* set signal button_reset_prefs_window */
+	g_signal_connect (priv->button_reset_prefs_window,
+					  "clicked",
+					  G_CALLBACK (prefs_page_divers_button_reset_prefs_window_clicked),
+					  win);
 
 	/* set the scheduled variables */
 	vbox_button = gsb_automem_radiobutton_gsettings_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
@@ -658,11 +670,11 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 					  G_CALLBACK (utils_prefs_spinbutton_changed),
 					  &a_conf->scheduler_fixed_day);
 
-    /* callback for checkbutton_scheduler_set_fixed_date */
-		g_signal_connect (priv->checkbutton_scheduler_set_fixed_date,
-						  "toggled",
-						  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-						  &etat.scheduler_set_fixed_date);
+	/* callback for checkbutton_scheduler_set_fixed_date */
+	g_signal_connect (priv->checkbutton_scheduler_set_fixed_date,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &etat.scheduler_set_fixed_date);
 
     /* callback for checkbutton_scheduler_set_default_account */
     g_signal_connect (priv->checkbutton_scheduler_set_default_account,
@@ -699,8 +711,6 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page)
 static void prefs_page_divers_init (PrefsPageDivers *page)
 {
 	gtk_widget_init_template (GTK_WIDGET (page));
-
-	prefs_page_divers_setup_divers_page (page);
 }
 
 static void prefs_page_divers_dispose (GObject *object)
@@ -716,12 +726,12 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 												 "/org/gtk/grisbi/ui/prefs_page_divers.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, vbox_divers);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, grid_divers_programs);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, grid_generalities);
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, divers_localization_paddingbox);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, divers_scheduler_paddingbox);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, title_divers_localization);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, title_divers_scheduler);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, button_reset_prefs_window);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, entry_web_browser);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, label_prefs_settings);
+
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, vbox_divers_scheduler);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_divers_scheduler_set_default_account);
@@ -750,7 +760,12 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 /******************************************************************************/
 PrefsPageDivers *prefs_page_divers_new (GrisbiPrefs *win)
 {
-  return g_object_new (PREFS_PAGE_DIVERS_TYPE, NULL);
+	PrefsPageDivers *page;
+
+	page = g_object_new (PREFS_PAGE_DIVERS_TYPE, NULL);
+	prefs_page_divers_setup_divers_page (page, win);
+
+	return page;
 }
 
 /**
