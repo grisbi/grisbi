@@ -74,12 +74,9 @@ libgrisbi_la_SOURCES = \
 	export_csv.c		\
 	file_obfuscate.c	\
 	file_obfuscate_qif.c	\
-	go-charmap-sel.c	\
-	go-optionmenu.c		\
 	grisbi_app.c		\
 	grisbi_osx.c \
 	grisbi_prefs.c \
-	grisbi_settings.c		\
 	grisbi_win.c		\
 	gsb_account.c		\
 	gsb_account_property.c	\
@@ -210,12 +207,9 @@ libgrisbi_la_SOURCES = \
 	export_csv.h            \
 	file_obfuscate.h	\
 	file_obfuscate_qif.h	\
-	go-charmap-sel.h        \
-	go-optionmenu.h         \
 	grisbi_app.h		\
 	grisbi_osx.h \
 	grisbi_prefs.h \
-	grisbi_settings.h		\
 	grisbi_win.h		\
 	gsb_account.h		\
 	gsb_account_property.h	\
@@ -326,8 +320,19 @@ if USE_CONFIG_FILE
 libgrisbi_la_SOURCES += \
 	grisbi_conf.c \
 	grisbi_conf.h
+else
+libgrisbi_la_SOURCES += \
+	grisbi_settings.c \
+	grisbi_settings.h
 endif
 
+if !HAVE_GOFFICE
+libgrisbi_la_SOURCES += \
+	go-charmap-sel.c \
+	go-optionmenu.c \
+	go-charmap-sel.h \
+	go-optionmenu.h
+endif
 
 grisbi_SOURCES = 		\
 	main.c				\
