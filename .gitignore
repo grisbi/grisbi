@@ -20,6 +20,9 @@ TODO*
 Xcode/DerivedData/
 Xcode/grisbi.xcodeproj/project.xcworkspace/xcuserdata
 Xcode/grisbi.xcodeproj/xcuserdata
+MacOS/Grisbi Launcher/Grisbi Launcher.xcodeproj/xcuserdata
+MacOS/Grisbi Launcher/DerivedData
+MacOS/Grisbi Launcher/Grisbi Launcher.xcodeproj/project.xcworkspace/xcuserdata
 aclocal.m4
 ar-lib
 autom4te.cache
