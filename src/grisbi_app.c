@@ -65,6 +65,7 @@
 /*START_STATIC*/
 static GtkCssProvider *	css_provider = NULL;    /* css provider */
 static gchar *			css_data = NULL;		/* fichier css sous forme de string */
+static gboolean			darkmode = FALSE;		/* use to set darkmode from command_line */
 
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
                                             GdkScreen *screen);
@@ -721,6 +722,13 @@ static const GOptionEntry options[] =
 		N_("DEBUG")
     },
 
+	/* darkmode */
+	{
+		"darkmode", 'm', 0, G_OPTION_ARG_NONE, NULL,
+		N_("If set, force grisbi to use a CSS file for a dark theme"),
+		NULL
+	},
+
 	/* New instance */
 /*	{
 		"standalone", 's', 0, G_OPTION_ARG_NONE, NULL,
@@ -901,6 +909,12 @@ static gint grisbi_app_handle_local_options (GApplication *app,
         return 0;
     }
 
+	if (g_variant_dict_contains (options, "darkmode"))
+	{
+		darkmode = TRUE;
+		g_print ("darkmode is set\n");
+	}
+
     return -1;
 }
 
@@ -1025,6 +1039,12 @@ static void grisbi_app_startup (GApplication *application)
 #else
 	grisbi_settings_load_app_config ();
 #endif
+
+	/* force dark type */
+	if (darkmode)
+	{
+		(priv->a_conf)->force_type_theme = 2;
+	}
 
 	settings = gtk_settings_get_default ();
     if (settings)
@@ -1240,6 +1260,9 @@ static void grisbi_app_dispose (GObject *object)
  **/
 static void grisbi_app_shutdown (GApplication *application)
 {
+    GrisbiAppPrivate *priv;
+
+    priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 	devel_debug (NULL);
 
 	/* on sauvegarde éventuellement le fichier CSS local */
@@ -1253,6 +1276,10 @@ static void grisbi_app_shutdown (GApplication *application)
 
 	/* libération de mémoire utilisée par locale*/
     gsb_locale_shutdown ();
+
+	/* on remet la détection du theme en auto si darkmode = TRUE */
+	if (darkmode)
+		(priv->a_conf)->force_type_theme = 0;
 
     /* Sauvegarde de la configuration générale */
 #ifdef USE_CONFIG_FILE
