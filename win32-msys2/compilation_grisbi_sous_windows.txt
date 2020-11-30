@@ -47,10 +47,10 @@
 	- si tout va bien lancer ./configure
 		./configure
 	- si OK -> Build win32: = msys2 ou mingw32
-		make -j xx	(xx représente le nombre de processus lancés en parallèle : je mets 15)
+		make -j xx	(xx représente le nombre de processus lancés en parallèle = nbre de coeur du processeur x 2 je mets 10 pour un 6 coeurs)
 
 	- compilation globale
-		./autogen.sh && ./configure --enable-werror && make -j 15 && make install
+		./autogen.sh && ./configure --enable-werror && make -j 10 && make install
 
 	Nouvelle compilation
 	- sequence de réinitialisation
@@ -58,11 +58,11 @@
 	- compilation classique
 		./autogen.sh
 		./configure --enable-werror
-		make -j 15
+		make -j 10
 		make install
 
 	Nettoyage et compilation globale
-		make clean && make distclean && ./autogen.sh && ./configure --enable-werror && make -j 15 && make install
+		make clean && make distclean && ./autogen.sh && ./configure --enable-werror && make -j 10 && make install
 
 6) Utilitaires optionnels
 	- devhelp
@@ -70,4 +70,11 @@
 
 	- glib2 doc
 		pacman -S msys/glib2-docs
+		
+7) Compilation de libofx et goffice
+
+	packages 64 bits en sus :
+		pacman -S mingw64/mingw-w64-x86_64-lasem
+		pacman -S mingw64/mingw-w64-x86_64-dlfcn
+
 
