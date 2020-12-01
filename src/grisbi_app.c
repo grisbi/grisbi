@@ -725,7 +725,7 @@ static const GOptionEntry options[] =
 	/* darkmode */
 	{
 		"darkmode", 'm', 0, G_OPTION_ARG_NONE, NULL,
-		N_("If set, force grisbi to use a CSS file for a dark theme"),
+		N_("If present, force the use of a dark theme"),
 		NULL
 	},
 
