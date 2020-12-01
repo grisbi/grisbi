@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-29 11:27+0100\n"
+"POT-Creation-Date: 2020-12-01 07:28+0100\n"
 "PO-Revision-Date: 2020-07-12 11:21+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -823,11 +823,11 @@ msgstr "Beenden"
 msgid "_File"
 msgstr "Datei"
 
-#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
 msgid "New account file"
 msgstr "Neu"
 
-#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
 #: ../src/grisbi_win.c:727 ../src/grisbi_win.c:1799
 msgid "Open"
 msgstr "Öffnen"
@@ -836,7 +836,7 @@ msgstr "Öffnen"
 msgid "Recently opened files"
 msgstr "Zuletzt geöffnete Dateien"
 
-#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
+#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:114 ../src/grisbi_app.c:131
 msgid "Save"
 msgstr "Speichern"
 
@@ -848,8 +848,8 @@ msgstr "Speichern unter ..."
 msgid "_Import file"
 msgstr "Daten importieren"
 
-#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:115
-#: ../src/grisbi_app.c:132
+#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:116
+#: ../src/grisbi_app.c:133
 msgid "Export as QIF/CSV file"
 msgstr "Daten exportieren"
 
@@ -878,8 +878,8 @@ msgstr "QIF Datei anonymisieren"
 msgid "Debug mode"
 msgstr "Debug starten"
 
-#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:116
-#: ../src/grisbi_app.c:133
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:117
+#: ../src/grisbi_app.c:134
 msgid "Close"
 msgstr "Schließen"
 
@@ -894,8 +894,8 @@ msgid "Edit transaction"
 msgstr "Buchung bearbeiten"
 
 #. new transaction button
-#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:117
-#: ../src/grisbi_app.c:134 ../src/gsb_scheduler_list.c:354
+#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:118
+#: ../src/grisbi_app.c:135 ../src/gsb_scheduler_list.c:354
 #: ../src/gsb_transactions_list.c:475 ../src/gsb_transactions_list.c:2450
 msgid "New transaction"
 msgstr "Buchung erstellen"
@@ -918,8 +918,8 @@ msgstr "Buchung du­pli­zie­ren"
 msgid "Convert to scheduled transaction"
 msgstr "Buchung regelmäßig ausführen"
 
-#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135 ../src/navigation.c:2252
+#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:119
+#: ../src/grisbi_app.c:136 ../src/navigation.c:2252
 msgid "New account"
 msgstr "Konto erstellen"
 
@@ -941,13 +941,13 @@ msgstr "Ansicht"
 msgid "Show transaction form"
 msgstr "Buchungsformular anzeigen"
 
-#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:119
-#: ../src/grisbi_app.c:136
+#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:120
+#: ../src/grisbi_app.c:137
 msgid "Show reconciled"
 msgstr "Abgestimmte Buchungen anzeigen"
 
-#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/gsb_transactions_list.c:2403
+#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:121
+#: ../src/grisbi_app.c:138 ../src/gsb_transactions_list.c:2403
 msgid "Show lines archives"
 msgstr "Erstellte Archive anzeigen"
 
@@ -979,8 +979,8 @@ msgstr "Spaltenbreite zurücksetzen"
 msgid "_Help"
 msgstr "Hilfe"
 
-#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:121
-#: ../src/grisbi_app.c:138
+#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:122
+#: ../src/grisbi_app.c:139
 msgid "User's Manual"
 msgstr "Handbuch"
 
@@ -1000,8 +1000,8 @@ msgstr "Einen Fehler melden"
 msgid "Tip of the day"
 msgstr "Tipp des Tages"
 
-#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:114
-#: ../src/grisbi_app.c:131
+#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:115
+#: ../src/grisbi_app.c:132
 msgid "Import file"
 msgstr "Daten importieren"
 
@@ -1982,8 +1982,8 @@ msgstr "Buchungsübersicht Zellen"
 msgid "Forecast"
 msgstr "Prognose"
 
-#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:109
-#: ../src/grisbi_app.c:126
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:110
+#: ../src/grisbi_app.c:127
 msgid "Preferences"
 msgstr "Einstellungen"
 
@@ -6124,66 +6124,71 @@ msgstr "Menü"
 msgid "The menu of options"
 msgstr "Menü Einstellungen"
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 msgid "New_window"
 msgstr "Neues Fenster"
 
-#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
 msgid "Quit"
 msgstr "Beenden"
 
-#: ../src/grisbi_app.c:122 ../src/grisbi_app.c:139
+#: ../src/grisbi_app.c:123 ../src/grisbi_app.c:140
 msgid "Full screen"
 msgstr "Vollbildmodus"
 
-#: ../src/grisbi_app.c:707
+#: ../src/grisbi_app.c:708
 msgid "Show the application's version"
 msgstr "Die Versionsnummer anzeigen"
 
-#: ../src/grisbi_app.c:713
+#: ../src/grisbi_app.c:714
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr "Ein neues Fenster in einem bestehend Fenster erstellen"
 
-#: ../src/grisbi_app.c:720
+#: ../src/grisbi_app.c:721
 msgid "Debug mode: level 0-5"
 msgstr "Debug-Modus: Level 1-5"
 
-#: ../src/grisbi_app.c:721
+#: ../src/grisbi_app.c:722
 msgid "DEBUG"
 msgstr "DEBUG"
 
-#: ../src/grisbi_app.c:742
+#: ../src/grisbi_app.c:728
+#, fuzzy
+msgid "If present, force the use of a dark theme"
+msgstr "Dunkles Design erzwingen"
+
+#: ../src/grisbi_app.c:750
 msgid "[FILE...]"
 msgstr "[Datei...]"
 
-#: ../src/grisbi_app.c:925
+#: ../src/grisbi_app.c:939
 #, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
 
-#: ../src/grisbi_app.c:928
+#: ../src/grisbi_app.c:942
 #, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Fehler bei der Sigaktion. SIGTERM wird nicht eingeschlossen\n"
 
-#: ../src/grisbi_app.c:931
+#: ../src/grisbi_app.c:945
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
 
-#: ../src/grisbi_app.c:1143 ../src/menu.c:631
+#: ../src/grisbi_app.c:1163 ../src/menu.c:631
 msgid "Start an action!"
 msgstr "Aktion auswählen"
 
-#: ../src/grisbi_app.c:1425
+#: ../src/grisbi_app.c:1452
 msgid "<b>Actions in transaction list :</b>"
 msgstr "<b>Aktionen für Buchungsliste :</b>"
 
-#: ../src/grisbi_app.c:1427
+#: ../src/grisbi_app.c:1454
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Buchung verrechnen\t-> Strg + P, F12\n"
 
-#: ../src/grisbi_app.c:1428
+#: ../src/grisbi_app.c:1455
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Buchung abstimmen\t-> Strg + R\n"
 
@@ -13499,6 +13504,10 @@ msgstr "Teilsaldo"
 msgid "One of the two fields is recommended"
 msgstr "Die Eingabe in zumindest ein Feld wird empfohlen"
 
+#, fuzzy
+#~ msgid "If set, force grisbi to use a CSS file for a dark theme"
+#~ msgstr "Dunkles Design erzwingen"
+
 #~ msgid "Programs"
 #~ msgstr "Programme"
 
@@ -13698,9 +13707,6 @@ msgstr "Die Eingabe in zumindest ein Feld wird empfohlen"
 #~ "Damit die Änderung vom Design wirksam wird muss Grisbi neu gestartet "
 #~ "werden.\n"
 #~ "Nicht gespeicherte Änderungen werden beim Neustart gespeichert."
-
-#~ msgid "Force Grisbi to use a dark theme!"
-#~ msgstr "Dunkles Design erzwingen"
 
 #~ msgid ""
 #~ "You must restart to return to the default operation.\n"

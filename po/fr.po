@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-29 11:27+0100\n"
+"POT-Creation-Date: 2020-12-01 07:28+0100\n"
 "PO-Revision-Date: 2020-06-14 18:21+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -829,11 +829,11 @@ msgstr "_Quitter"
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
 msgid "New account file"
 msgstr "Nouveau fichier de comptes"
 
-#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
 #: ../src/grisbi_win.c:727 ../src/grisbi_win.c:1799
 msgid "Open"
 msgstr "Ouvrir"
@@ -842,7 +842,7 @@ msgstr "Ouvrir"
 msgid "Recently opened files"
 msgstr "Derniers fichiers"
 
-#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
+#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:114 ../src/grisbi_app.c:131
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -854,8 +854,8 @@ msgstr "Enregistrer _sous"
 msgid "_Import file"
 msgstr "_Importer un fichier"
 
-#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:115
-#: ../src/grisbi_app.c:132
+#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:116
+#: ../src/grisbi_app.c:133
 msgid "Export as QIF/CSV file"
 msgstr "Exporter vers un fichier QIF/CSV"
 
@@ -884,8 +884,8 @@ msgstr "Rendre anonyme le fichier QIF"
 msgid "Debug mode"
 msgstr "Mode de débogage"
 
-#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:116
-#: ../src/grisbi_app.c:133
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:117
+#: ../src/grisbi_app.c:134
 msgid "Close"
 msgstr "Fermer"
 
@@ -900,8 +900,8 @@ msgid "Edit transaction"
 msgstr "Éditer l'opération"
 
 #. new transaction button
-#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:117
-#: ../src/grisbi_app.c:134 ../src/gsb_scheduler_list.c:354
+#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:118
+#: ../src/grisbi_app.c:135 ../src/gsb_scheduler_list.c:354
 #: ../src/gsb_transactions_list.c:475 ../src/gsb_transactions_list.c:2450
 msgid "New transaction"
 msgstr "Nouvelle opération"
@@ -924,8 +924,8 @@ msgstr "Cloner l'opération"
 msgid "Convert to scheduled transaction"
 msgstr "Convertir en opération planifiée"
 
-#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135 ../src/navigation.c:2252
+#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:119
+#: ../src/grisbi_app.c:136 ../src/navigation.c:2252
 msgid "New account"
 msgstr "Nouveau compte"
 
@@ -947,13 +947,13 @@ msgstr "Affichage"
 msgid "Show transaction form"
 msgstr "Montrer le formulaire de saisie des opérations"
 
-#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:119
-#: ../src/grisbi_app.c:136
+#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:120
+#: ../src/grisbi_app.c:137
 msgid "Show reconciled"
 msgstr "Montrer les opérations rapprochées"
 
-#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/gsb_transactions_list.c:2403
+#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:121
+#: ../src/grisbi_app.c:138 ../src/gsb_transactions_list.c:2403
 msgid "Show lines archives"
 msgstr "Montrer les lignes d'archives"
 
@@ -985,8 +985,8 @@ msgstr "Réinitialiser la largeur des colonnes"
 msgid "_Help"
 msgstr "Aid_e"
 
-#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:121
-#: ../src/grisbi_app.c:138
+#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:122
+#: ../src/grisbi_app.c:139
 msgid "User's Manual"
 msgstr "Manuel"
 
@@ -1006,8 +1006,8 @@ msgstr "Signaler une anomalie"
 msgid "Tip of the day"
 msgstr "Astuce du jour"
 
-#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:114
-#: ../src/grisbi_app.c:131
+#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:115
+#: ../src/grisbi_app.c:132
 msgid "Import file"
 msgstr "Importer un fichier"
 
@@ -1991,8 +1991,8 @@ msgstr "Liste des opérations"
 msgid "Forecast"
 msgstr "Prévisions"
 
-#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:109
-#: ../src/grisbi_app.c:126
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:110
+#: ../src/grisbi_app.c:127
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -6149,66 +6149,70 @@ msgstr "Menu"
 msgid "The menu of options"
 msgstr "Menu des options"
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 msgid "New_window"
 msgstr "Nouvelle fenêtre"
 
-#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
 msgid "Quit"
 msgstr "Quitter"
 
-#: ../src/grisbi_app.c:122 ../src/grisbi_app.c:139
+#: ../src/grisbi_app.c:123 ../src/grisbi_app.c:140
 msgid "Full screen"
 msgstr "Plein écran"
 
-#: ../src/grisbi_app.c:707
+#: ../src/grisbi_app.c:708
 msgid "Show the application's version"
 msgstr "Montrer la version de Grisbi"
 
-#: ../src/grisbi_app.c:713
+#: ../src/grisbi_app.c:714
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr "Créer une nouvelle fenêtre de Grisbi dans l'instance en cours"
 
-#: ../src/grisbi_app.c:720
+#: ../src/grisbi_app.c:721
 msgid "Debug mode: level 0-5"
 msgstr "Mode de débogage : niveau de 0 à 5"
 
-#: ../src/grisbi_app.c:721
+#: ../src/grisbi_app.c:722
 msgid "DEBUG"
 msgstr "DEBUG"
 
-#: ../src/grisbi_app.c:742
+#: ../src/grisbi_app.c:728
+msgid "If present, force the use of a dark theme"
+msgstr "Si présent, force l'utilisation d'un thème sombre"
+
+#: ../src/grisbi_app.c:750
 msgid "[FILE...]"
 msgstr "[FILE...]"
 
-#: ../src/grisbi_app.c:925
+#: ../src/grisbi_app.c:939
 #, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGINT ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:928
+#: ../src/grisbi_app.c:942
 #, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGTERM ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:931
+#: ../src/grisbi_app.c:945
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:1143 ../src/menu.c:631
+#: ../src/grisbi_app.c:1163 ../src/menu.c:631
 msgid "Start an action!"
 msgstr "Choisissez une action !"
 
-#: ../src/grisbi_app.c:1425
+#: ../src/grisbi_app.c:1452
 msgid "<b>Actions in transaction list :</b>"
 msgstr "<b>Actions de la liste des opérations :</b>"
 
-#: ../src/grisbi_app.c:1427
+#: ../src/grisbi_app.c:1454
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "(Dé)Pointe une opération\t-> <Primary>p, <Primary>F12\n"
 
-#: ../src/grisbi_app.c:1428
+#: ../src/grisbi_app.c:1455
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "(Dé)Rapproche une opération\t-> <Primary>r\n"
 
@@ -13501,3 +13505,6 @@ msgstr "Solde partiel"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr "Il est recommandé d'utiliser un des deux champs"
+
+#~ msgid "If set, force grisbi to use a CSS file for a dark theme"
+#~ msgstr "Si présent, force l'utilisation d'un thème sombre"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-29 11:27+0100\n"
+"POT-Creation-Date: 2020-12-01 07:28+0100\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -895,12 +895,12 @@ msgstr ""
 msgid "_File"
 msgstr "Arquivo"
 
-#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
 #, fuzzy
 msgid "New account file"
 msgstr "Novo arquivo de conta"
 
-#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
 #: ../src/grisbi_win.c:727 ../src/grisbi_win.c:1799
 #, fuzzy
 msgid "Open"
@@ -911,7 +911,7 @@ msgstr "_Abrir"
 msgid "Recently opened files"
 msgstr "Arquivos abertos recentemente"
 
-#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
+#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:114 ../src/grisbi_app.c:131
 #, fuzzy
 msgid "Save"
 msgstr "Salvar"
@@ -926,8 +926,8 @@ msgstr "Salvar como"
 msgid "_Import file"
 msgstr "Exportar para arquivos QIF"
 
-#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:115
-#: ../src/grisbi_app.c:132
+#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:116
+#: ../src/grisbi_app.c:133
 #, fuzzy
 msgid "Export as QIF/CSV file"
 msgstr "Contas para arquivo QIF..."
@@ -963,8 +963,8 @@ msgstr "Novo arquivo de conta"
 msgid "Debug mode"
 msgstr "Depurar arquivo"
 
-#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:116
-#: ../src/grisbi_app.c:133
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:117
+#: ../src/grisbi_app.c:134
 #, fuzzy
 msgid "Close"
 msgstr "Fechar"
@@ -980,8 +980,8 @@ msgid "Edit transaction"
 msgstr "Editar lançamento"
 
 #. new transaction button
-#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:117
-#: ../src/grisbi_app.c:134 ../src/gsb_scheduler_list.c:354
+#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:118
+#: ../src/grisbi_app.c:135 ../src/gsb_scheduler_list.c:354
 #: ../src/gsb_transactions_list.c:475 ../src/gsb_transactions_list.c:2450
 msgid "New transaction"
 msgstr "Novo lançamento"
@@ -1006,8 +1006,8 @@ msgstr "Clonar lançamento"
 msgid "Convert to scheduled transaction"
 msgstr "Informe um lançamento agendado"
 
-#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135 ../src/navigation.c:2252
+#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:119
+#: ../src/grisbi_app.c:136 ../src/navigation.c:2252
 #, fuzzy
 msgid "New account"
 msgstr "Nova conta"
@@ -1032,14 +1032,14 @@ msgstr "Visualizar"
 msgid "Show transaction form"
 msgstr "Formulário de lançamentos"
 
-#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:119
-#: ../src/grisbi_app.c:136
+#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:120
+#: ../src/grisbi_app.c:137
 #, fuzzy
 msgid "Show reconciled"
 msgstr "Lançamentos não reconciliadas"
 
-#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/gsb_transactions_list.c:2403
+#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:121
+#: ../src/grisbi_app.c:138 ../src/gsb_transactions_list.c:2403
 #, fuzzy
 msgid "Show lines archives"
 msgstr "Moedas atuais"
@@ -1079,8 +1079,8 @@ msgstr "Alterar a conta"
 msgid "_Help"
 msgstr "Ajuda"
 
-#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:121
-#: ../src/grisbi_app.c:138
+#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:122
+#: ../src/grisbi_app.c:139
 #, fuzzy
 msgid "User's Manual"
 msgstr "Manual"
@@ -1104,8 +1104,8 @@ msgstr "informar um bug"
 msgid "Tip of the day"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:114
-#: ../src/grisbi_app.c:131
+#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:115
+#: ../src/grisbi_app.c:132
 #, fuzzy
 msgid "Import file"
 msgstr "Exportar para arquivos QIF"
@@ -2200,8 +2200,8 @@ msgstr "Prévia da lista de lançamentos"
 msgid "Forecast"
 msgstr ""
 
-#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:109
-#: ../src/grisbi_app.c:126
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:110
+#: ../src/grisbi_app.c:127
 #, fuzzy
 msgid "Preferences"
 msgstr "Preferências"
@@ -6469,71 +6469,76 @@ msgstr "Manual"
 msgid "The menu of options"
 msgstr ""
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 msgid "New_window"
 msgstr ""
 
-#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
 msgid "Quit"
 msgstr ""
 
-#: ../src/grisbi_app.c:122 ../src/grisbi_app.c:139
+#: ../src/grisbi_app.c:123 ../src/grisbi_app.c:140
 msgid "Full screen"
 msgstr ""
 
-#: ../src/grisbi_app.c:707
+#: ../src/grisbi_app.c:708
 #, fuzzy
 msgid "Show the application's version"
 msgstr "Três linhas por lançamento"
 
-#: ../src/grisbi_app.c:713
+#: ../src/grisbi_app.c:714
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:720
+#: ../src/grisbi_app.c:721
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "Depurar arquivo"
 
-#: ../src/grisbi_app.c:721
+#: ../src/grisbi_app.c:722
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:742
+#: ../src/grisbi_app.c:728
+#, fuzzy
+msgid "If present, force the use of a dark theme"
+msgstr "Organizar por data"
+
+#: ../src/grisbi_app.c:750
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:925
+#: ../src/grisbi_app.c:939
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
-#: ../src/grisbi_app.c:928
+#: ../src/grisbi_app.c:942
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
-#: ../src/grisbi_app.c:931
+#: ../src/grisbi_app.c:945
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
-#: ../src/grisbi_app.c:1143 ../src/menu.c:631
+#: ../src/grisbi_app.c:1163 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "Organizar os lançamentos por"
 
-#: ../src/grisbi_app.c:1425
+#: ../src/grisbi_app.c:1452
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "Apagar lançamento"
 
-#: ../src/grisbi_app.c:1427
+#: ../src/grisbi_app.c:1454
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Lançamentos reconciliados"
 
-#: ../src/grisbi_app.c:1428
+#: ../src/grisbi_app.c:1455
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Lançamentos reconciliados"

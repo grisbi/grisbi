@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-29 11:27+0100\n"
+"POT-Creation-Date: 2020-12-01 07:28+0100\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -865,12 +865,12 @@ msgstr "خروج"
 msgid "_File"
 msgstr "فایل"
 
-#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
 #, fuzzy
 msgid "New account file"
 msgstr "حساب بسته شده"
 
-#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
 #: ../src/grisbi_win.c:727 ../src/grisbi_win.c:1799
 msgid "Open"
 msgstr ""
@@ -879,7 +879,7 @@ msgstr ""
 msgid "Recently opened files"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
+#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:114 ../src/grisbi_app.c:131
 #, fuzzy
 msgid "Save"
 msgstr "ذخیره"
@@ -893,8 +893,8 @@ msgstr "ذخیره"
 msgid "_Import file"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:115
-#: ../src/grisbi_app.c:132
+#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:116
+#: ../src/grisbi_app.c:133
 msgid "Export as QIF/CSV file"
 msgstr ""
 
@@ -925,8 +925,8 @@ msgstr ""
 msgid "Debug mode"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:116
-#: ../src/grisbi_app.c:133
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:117
+#: ../src/grisbi_app.c:134
 #, fuzzy
 msgid "Close"
 msgstr "بستن"
@@ -942,8 +942,8 @@ msgid "Edit transaction"
 msgstr ""
 
 #. new transaction button
-#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:117
-#: ../src/grisbi_app.c:134 ../src/gsb_scheduler_list.c:354
+#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:118
+#: ../src/grisbi_app.c:135 ../src/gsb_scheduler_list.c:354
 #: ../src/gsb_transactions_list.c:475 ../src/gsb_transactions_list.c:2450
 msgid "New transaction"
 msgstr ""
@@ -969,8 +969,8 @@ msgstr ""
 msgid "Convert to scheduled transaction"
 msgstr "جستجوی تراکنش"
 
-#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135 ../src/navigation.c:2252
+#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:119
+#: ../src/grisbi_app.c:136 ../src/navigation.c:2252
 #, fuzzy
 msgid "New account"
 msgstr "حساب بسته شده"
@@ -995,14 +995,14 @@ msgstr ""
 msgid "Show transaction form"
 msgstr "تراکنش:"
 
-#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:119
-#: ../src/grisbi_app.c:136
+#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:120
+#: ../src/grisbi_app.c:137
 #, fuzzy
 msgid "Show reconciled"
 msgstr "جستجوی تراکنش"
 
-#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/gsb_transactions_list.c:2403
+#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:121
+#: ../src/grisbi_app.c:138 ../src/gsb_transactions_list.c:2403
 #, fuzzy
 msgid "Show lines archives"
 msgstr "نمایش نام حساب"
@@ -1040,8 +1040,8 @@ msgstr ""
 msgid "_Help"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:121
-#: ../src/grisbi_app.c:138
+#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:122
+#: ../src/grisbi_app.c:139
 #, fuzzy
 msgid "User's Manual"
 msgstr "دستی"
@@ -1063,8 +1063,8 @@ msgstr "گزارش"
 msgid "Tip of the day"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:114
-#: ../src/grisbi_app.c:131
+#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:115
+#: ../src/grisbi_app.c:132
 msgid "Import file"
 msgstr ""
 
@@ -2109,8 +2109,8 @@ msgstr "تراکنش"
 msgid "Forecast"
 msgstr ""
 
-#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:109
-#: ../src/grisbi_app.c:126
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:110
+#: ../src/grisbi_app.c:127
 msgid "Preferences"
 msgstr ""
 
@@ -6186,70 +6186,75 @@ msgstr "دستی"
 msgid "The menu of options"
 msgstr ""
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 msgid "New_window"
 msgstr ""
 
-#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
 #, fuzzy
 msgid "Quit"
 msgstr "خروج"
 
-#: ../src/grisbi_app.c:122 ../src/grisbi_app.c:139
+#: ../src/grisbi_app.c:123 ../src/grisbi_app.c:140
 msgid "Full screen"
 msgstr ""
 
-#: ../src/grisbi_app.c:707
+#: ../src/grisbi_app.c:708
 msgid "Show the application's version"
 msgstr ""
 
-#: ../src/grisbi_app.c:713
+#: ../src/grisbi_app.c:714
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:720
+#: ../src/grisbi_app.c:721
 msgid "Debug mode: level 0-5"
 msgstr ""
 
-#: ../src/grisbi_app.c:721
+#: ../src/grisbi_app.c:722
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:742
+#: ../src/grisbi_app.c:728
+#, fuzzy
+msgid "If present, force the use of a dark theme"
+msgstr "مرتب سازی بر اساس تاریخ"
+
+#: ../src/grisbi_app.c:750
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:925
+#: ../src/grisbi_app.c:939
 #, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr ""
 
-#: ../src/grisbi_app.c:928
+#: ../src/grisbi_app.c:942
 #, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr ""
 
-#: ../src/grisbi_app.c:931
+#: ../src/grisbi_app.c:945
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: ../src/grisbi_app.c:1143 ../src/menu.c:631
+#: ../src/grisbi_app.c:1163 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "جستجوی تراکنش"
 
-#: ../src/grisbi_app.c:1425
+#: ../src/grisbi_app.c:1452
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "جستجوی تراکنش"
 
-#: ../src/grisbi_app.c:1427
+#: ../src/grisbi_app.c:1454
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "جستجوی تراکنش"
 
-#: ../src/grisbi_app.c:1428
+#: ../src/grisbi_app.c:1455
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "جستجوی تراکنش"

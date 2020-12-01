@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-29 11:27+0100\n"
+"POT-Creation-Date: 2020-12-01 07:28+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -856,12 +856,12 @@ msgstr "_Salir"
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
+#: ../src/ui/grisbi_menu.ui.h:6 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
 #, fuzzy
 msgid "New account file"
 msgstr "_Nuevo archivo de cuentas..."
 
-#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
+#: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
 #: ../src/grisbi_win.c:727 ../src/grisbi_win.c:1799
 #, fuzzy
 msgid "Open"
@@ -872,7 +872,7 @@ msgstr "_Abrir..."
 msgid "Recently opened files"
 msgstr "_Archivos abiertos recientemente"
 
-#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:113 ../src/grisbi_app.c:130
+#: ../src/ui/grisbi_menu.ui.h:9 ../src/grisbi_app.c:114 ../src/grisbi_app.c:131
 #, fuzzy
 msgid "Save"
 msgstr "_Guardar"
@@ -887,8 +887,8 @@ msgstr "_Guardar como..."
 msgid "_Import file"
 msgstr "_Importar archivo"
 
-#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:115
-#: ../src/grisbi_app.c:132
+#: ../src/ui/grisbi_menu.ui.h:12 ../src/grisbi_app.c:116
+#: ../src/grisbi_app.c:133
 #, fuzzy
 msgid "Export as QIF/CSV file"
 msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
@@ -922,8 +922,8 @@ msgstr "_Truncar fichero QIF..."
 msgid "Debug mode"
 msgstr "Mode de depuración"
 
-#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:116
-#: ../src/grisbi_app.c:133
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:117
+#: ../src/grisbi_app.c:134
 #, fuzzy
 msgid "Close"
 msgstr "_Cerrar"
@@ -939,8 +939,8 @@ msgid "Edit transaction"
 msgstr "Editar la transacción"
 
 #. new transaction button
-#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:117
-#: ../src/grisbi_app.c:134 ../src/gsb_scheduler_list.c:354
+#: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:118
+#: ../src/grisbi_app.c:135 ../src/gsb_scheduler_list.c:354
 #: ../src/gsb_transactions_list.c:475 ../src/gsb_transactions_list.c:2450
 msgid "New transaction"
 msgstr "Nueva transacción"
@@ -965,8 +965,8 @@ msgstr "Clonar la transacción"
 msgid "Convert to scheduled transaction"
 msgstr "_Introduzca una transacción programada"
 
-#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135 ../src/navigation.c:2252
+#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:119
+#: ../src/grisbi_app.c:136 ../src/navigation.c:2252
 #, fuzzy
 msgid "New account"
 msgstr "_Nueva cuenta"
@@ -991,14 +991,14 @@ msgstr "Vista"
 msgid "Show transaction form"
 msgstr "Muestra el _formulario de transacción"
 
-#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:119
-#: ../src/grisbi_app.c:136
+#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:120
+#: ../src/grisbi_app.c:137
 #, fuzzy
 msgid "Show reconciled"
 msgstr "Mostrar _reconciliados"
 
-#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/gsb_transactions_list.c:2403
+#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:121
+#: ../src/grisbi_app.c:138 ../src/gsb_transactions_list.c:2403
 msgid "Show lines archives"
 msgstr "Mostrar archivos de líneas"
 
@@ -1036,8 +1036,8 @@ msgstr "Elegir la cuenta"
 msgid "_Help"
 msgstr "_Ayuda"
 
-#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:121
-#: ../src/grisbi_app.c:138
+#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:122
+#: ../src/grisbi_app.c:139
 #, fuzzy
 msgid "User's Manual"
 msgstr "Manual"
@@ -1061,8 +1061,8 @@ msgstr "_Informar de un fallo"
 msgid "Tip of the day"
 msgstr "Consejo del día"
 
-#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:114
-#: ../src/grisbi_app.c:131
+#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:115
+#: ../src/grisbi_app.c:132
 #, fuzzy
 msgid "Import file"
 msgstr "_Importar archivo"
@@ -2104,8 +2104,8 @@ msgstr "Comportamiento de la lista de transacciones"
 msgid "Forecast"
 msgstr "Predicción"
 
-#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:109
-#: ../src/grisbi_app.c:126
+#: ../src/widgets/widget_css_rules.ui.h:6 ../src/grisbi_app.c:110
+#: ../src/grisbi_app.c:127
 #, fuzzy
 msgid "Preferences"
 msgstr "_Preferencias"
@@ -6354,72 +6354,77 @@ msgstr "Menú"
 msgid "The menu of options"
 msgstr "El menú de opciones"
 
-#: ../src/grisbi_app.c:108 ../src/grisbi_app.c:125
+#: ../src/grisbi_app.c:109 ../src/grisbi_app.c:126
 msgid "New_window"
 msgstr ""
 
-#: ../src/grisbi_app.c:110 ../src/grisbi_app.c:127
+#: ../src/grisbi_app.c:111 ../src/grisbi_app.c:128
 #, fuzzy
 msgid "Quit"
 msgstr "_Salir"
 
-#: ../src/grisbi_app.c:122 ../src/grisbi_app.c:139
+#: ../src/grisbi_app.c:123 ../src/grisbi_app.c:140
 msgid "Full screen"
 msgstr ""
 
-#: ../src/grisbi_app.c:707
+#: ../src/grisbi_app.c:708
 #, fuzzy
 msgid "Show the application's version"
 msgstr "Muestra _tres líneas por transacción"
 
-#: ../src/grisbi_app.c:713
+#: ../src/grisbi_app.c:714
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:720
+#: ../src/grisbi_app.c:721
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "Mode de depuración"
 
-#: ../src/grisbi_app.c:721
+#: ../src/grisbi_app.c:722
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:742
+#: ../src/grisbi_app.c:728
+#, fuzzy
+msgid "If present, force the use of a dark theme"
+msgstr "Archivar por fecha"
+
+#: ../src/grisbi_app.c:750
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:925
+#: ../src/grisbi_app.c:939
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/grisbi_app.c:928
+#: ../src/grisbi_app.c:942
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/grisbi_app.c:931
+#: ../src/grisbi_app.c:945
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/grisbi_app.c:1143 ../src/menu.c:631
+#: ../src/grisbi_app.c:1163 ../src/menu.c:631
 #, fuzzy
 msgid "Start an action!"
 msgstr "Ordenar las transacciones por"
 
-#: ../src/grisbi_app.c:1425
+#: ../src/grisbi_app.c:1452
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "Seleccionar todas las transacciones"
 
-#: ../src/grisbi_app.c:1427
+#: ../src/grisbi_app.c:1454
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Transacciones reconciliadas"
 
-#: ../src/grisbi_app.c:1428
+#: ../src/grisbi_app.c:1455
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Transacciones reconciliadas"
