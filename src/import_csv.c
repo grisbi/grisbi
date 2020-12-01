@@ -1249,6 +1249,7 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
 
         if (!list)
         {
+			csv_import_update_validity_check (assistant);
             return FALSE;
         }
 
