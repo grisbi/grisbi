@@ -607,6 +607,8 @@ static gint *csv_import_guess_fields_config (GArray *lines_tab,
 	gint i;
     GSList *list;
 	gboolean date_validated = 0;
+	gboolean is_credit = FALSE;
+	gboolean is_debit = FALSE;
 
     default_config = (gint *) g_malloc0 ((size + 1) * sizeof (int));
 
@@ -681,6 +683,12 @@ static gint *csv_import_guess_fields_config (GArray *lines_tab,
 	{
 		string = list->data;
 
+		/* sert a tester unicité du debit et du credit */
+		if (default_config [i] == 12)
+			is_credit = TRUE;
+		else if (default_config [i] == 13)
+			is_debit = TRUE;
+
 		if (strlen (string))
 		{
 			if (csv_import_validate_date (string) && !date_validated && !default_config [i])
@@ -694,9 +702,9 @@ static gint *csv_import_guess_fields_config (GArray *lines_tab,
 			{
 				if (g_strrstr (string, "-")) /* This is negative */
 				{
-					if (!default_config [i])
+					if (!default_config [i] && !is_credit && !is_debit)
 					{
-						default_config [i] = 11; /* Negative debit */
+						default_config [i] = 11; /* Neutral amount */
 					}
 					else if (default_config [i] == 12)
 					{
@@ -705,9 +713,9 @@ static gint *csv_import_guess_fields_config (GArray *lines_tab,
 				}
 				else
 				{
-					if (!default_config [i])
+					if (!default_config [i] && !is_credit && !is_debit)
 					{
-						default_config [i] = 12; /* Negative debit */
+						default_config [i] = 11; /* Neutral amount */
 					}
 					else if (default_config [i] == 14)
 					{
