@@ -1182,7 +1182,7 @@ static gint csv_import_try_separator (gchar *contents,
  **/
 static gchar *csv_import_guess_separator (gchar *contents)
 {
-    const gchar *separators[5] = { ",", ";", "	", " ", NULL }, *cmax = NULL;
+    const gchar *separators[5] = { ";", ",", "	", " ", NULL }, *cmax = NULL;
     gint i, max = 0;
 
     for (i = 0 ; separators[i] ; i++)
