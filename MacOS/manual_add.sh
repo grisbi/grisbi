@@ -181,3 +181,7 @@ done
 
 #
 ( cd $DEST/share/pixmaps/grisbi ; ln -sf gtk-execute-24.png gtk-execute.png )
+
+# patch Grisbi CSS for the dark mode
+DARK='@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");'
+echo $DARK >> $DEST/share/grisbi/ui/grisbi-dark.css
