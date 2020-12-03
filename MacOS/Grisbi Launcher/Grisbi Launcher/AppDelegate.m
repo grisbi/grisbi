@@ -27,6 +27,11 @@
     ssize_t s;
     int r, fd;
     char buf[3];
+    NSString *argument_mode = nil;
+
+    NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+    if ([osxMode isEqualToString:@"Dark"])
+        argument_mode = @"--darkmode";
 
     // Get the Grisbi.app inside the launcher
     NSURL *url = [NSURL URLWithString:@"Grisbi.app" relativeToURL:baseURL];
@@ -48,7 +53,7 @@
         goto end;
     }
 
-    arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"--launcher=%s", temp_filename], nil];
+    arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"--launcher=%s", temp_filename], argument_mode, nil];
     [task setArguments:arguments];
     success = [task launchAndReturnError: &error];
     if (!success)
