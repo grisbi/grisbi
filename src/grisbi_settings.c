@@ -318,7 +318,7 @@ static void grisbi_settings_init_settings_general (GSettings *settings,
 static void grisbi_settings_init_settings_geometry (GSettings *settings,
 													GrisbiAppConf *a_conf)
 {
-    a_conf->low_resolution_screen = g_settings_get_boolean (settings, "low-resolution-screen");
+    a_conf->low_definition_screen = g_settings_get_boolean (settings, "low-definition-screen");
     a_conf->x_position = g_settings_get_int (settings, "x-position");
     a_conf->y_position = g_settings_get_int (settings, "y-position");
     a_conf->main_height = g_settings_get_int (settings, "main-height");
@@ -801,10 +801,10 @@ static void grisbi_settings_save_settings_geometry (GSettings *settings,
 	else
 		g_settings_reset (G_SETTINGS (settings), "fullscreen");
 
-	if (a_conf->low_resolution_screen)
-		g_settings_set_boolean (G_SETTINGS (settings), "low-resolution-screen", TRUE);
+	if (a_conf->low_definition_screen)
+		g_settings_set_boolean (G_SETTINGS (settings), "low-definition-screen", TRUE);
 	else
-		g_settings_reset (G_SETTINGS (settings), "low-resolution-screen");
+		g_settings_reset (G_SETTINGS (settings), "low-definition-screen");
 
 	if (a_conf->main_height == WIN_MIN_HEIGHT)
 		g_settings_reset (G_SETTINGS (settings), "main-height");

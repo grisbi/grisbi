@@ -799,14 +799,14 @@ void grisbi_prefs_dialog_response  (GtkDialog *prefs,
 		priv = grisbi_prefs_get_instance_private (GRISBI_PREFS (prefs));
 		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-		if (w_run->resolution_screen_toggled == FALSE)
+		if (w_run->definition_screen_toggled == FALSE)
 		{
 			gtk_window_get_size (GTK_WINDOW (prefs), &a_conf->prefs_width, &a_conf->prefs_height);
 			a_conf->panel_width = gtk_paned_get_position (GTK_PANED (priv->paned_prefs));
 		}
 		else
 		{
-			w_run->resolution_screen_toggled = FALSE;
+			w_run->definition_screen_toggled = FALSE;
 
 			a_conf->prefs_height = PREFS_WIN_MIN_HEIGHT;
 			a_conf->prefs_panel_width = PREFS_PANED_MIN_WIDTH;

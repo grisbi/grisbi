@@ -1020,7 +1020,7 @@ static void grisbi_win_init (GrisbiWin *win)
 	}
 
 	/* initialisation de la barre d'état */
-	if (!a_conf->low_resolution_screen)
+	if (!a_conf->low_definition_screen)
 		grisbi_win_init_statusbar (GRISBI_WIN (win));
 
 	/* initialisation du format de la date */
@@ -2270,7 +2270,7 @@ void grisbi_win_init_statusbar (GrisbiWin *win)
     priv->message_id = G_MAXUINT;
 
 	/* set visible statusbar if necessary */
-	if (a_conf->low_resolution_screen)
+	if (a_conf->low_definition_screen)
 		gtk_widget_hide (priv->statusbar);
 	else
 		gtk_widget_show (priv->statusbar);
@@ -2291,7 +2291,7 @@ void grisbi_win_status_bar_clear (void)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
 	a_conf = grisbi_app_get_a_conf ();
-    if (a_conf->low_resolution_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+    if (a_conf->low_definition_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
         return;
 
     if (priv->message_id < G_MAXUINT)
@@ -2318,7 +2318,7 @@ void grisbi_win_status_bar_message (gchar *message)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
 	a_conf = grisbi_app_get_a_conf ();
-    if (a_conf->low_resolution_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+    if (a_conf->low_definition_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
         return;
 
     if (priv->message_id < G_MAXUINT)
@@ -2352,7 +2352,7 @@ void grisbi_win_status_bar_wait (gboolean force_update)
 	GrisbiWinPrivate *priv;
 
 	a_conf = grisbi_app_get_a_conf ();
-	if (a_conf->low_resolution_screen)
+	if (a_conf->low_definition_screen)
 		return;
 
     win = grisbi_app_get_active_window (NULL);
@@ -2410,7 +2410,7 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
 	GrisbiAppConf *a_conf;
 
 	a_conf = grisbi_app_get_a_conf ();
-	if (a_conf->low_resolution_screen)
+	if (a_conf->low_definition_screen)
 		return;
 
     win = grisbi_app_get_active_window (NULL);
@@ -2445,7 +2445,7 @@ void grisbi_win_status_bar_set_font_size (gint font_size)
 
     devel_debug (NULL);
 	a_conf = grisbi_app_get_a_conf ();
-	if (a_conf->low_resolution_screen)
+	if (a_conf->low_definition_screen)
 		return;
 
 	font_size_str = utils_str_itoa (font_size);

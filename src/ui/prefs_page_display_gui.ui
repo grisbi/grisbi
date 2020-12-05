@@ -61,7 +61,7 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkCheckButton" id="checkbutton_low_resolution_screen">
+                          <object class="GtkCheckButton" id="checkbutton_low_definition_screen">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>

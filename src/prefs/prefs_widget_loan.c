@@ -1650,9 +1650,9 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
 
 	/* set widgets */
 
-	/* fix geometry with low_resolution_screen variable*/
+	/* fix geometry with low_definition_screen variable*/
 	separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	if (grisbi_app_get_low_resolution_screen ())
+	if (grisbi_app_get_low_definition_screen ())
 	{
 		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_init_sch_with_loan, 0, 8, 3, 1);
 		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_init_scheduled, 3, 8, 3, 1);

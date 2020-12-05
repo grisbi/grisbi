@@ -353,7 +353,7 @@
 			Whether the main window should start in fullscreen.
 			</description>
 		</key>
-		<key name="low-resolution-screen" type="b">
+		<key name="low-definition-screen" type="b">
 			<default>false</default>
 			<summary>Use low resolution screen</summary>
 			<description>

@@ -1528,7 +1528,7 @@ GMenu *grisbi_app_get_menu_edit (void)
  *
  * \return
  **/
-gboolean grisbi_app_get_low_resolution_screen (void)
+gboolean grisbi_app_get_low_definition_screen (void)
 {
 	GApplication *app;
 	GrisbiAppPrivate *priv;
@@ -1536,7 +1536,7 @@ gboolean grisbi_app_get_low_resolution_screen (void)
 	app = g_application_get_default ();
 	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
-	return (priv->a_conf)->low_resolution_screen;
+	return (priv->a_conf)->low_definition_screen;
 }
 
 /**

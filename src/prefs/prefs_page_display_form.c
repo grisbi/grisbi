@@ -408,7 +408,7 @@ static void prefs_page_display_form_create_buttons_table (PrefsPageDisplayForm *
 	priv = prefs_page_display_form_get_instance_private (page);
 
 	/* calcul du nombre de colonnes et de lignes */
-	if (grisbi_app_get_low_resolution_screen ())
+	if (grisbi_app_get_low_definition_screen ())
 	{
 		max_column = 5;
 		max_row = 6;

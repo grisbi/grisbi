@@ -1310,7 +1310,7 @@ gchar *utils_str_break_form_name_field (const gchar *text,
 	if (!text)
 		return NULL;
 
-	if (!grisbi_app_get_low_resolution_screen ())
+	if (!grisbi_app_get_low_definition_screen ())
 	{
 		tmp_str = g_strdup (text);
 		return (tmp_str);

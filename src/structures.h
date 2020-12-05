@@ -37,6 +37,7 @@
 #define PRIMARY_SORT            0
 #define SECONDARY_SORT          1
 
+/* definitions pour le basculement en basse résolution */
 /* Dimensions min et position de la fenetre de l'application */
 #define WIN_MIN_HEIGHT			700
 #define WIN_MIN_WIDTH			1020
@@ -286,7 +287,7 @@ struct _GrisbiAppConf
     gint        y_position;                                 /* main_window y position */
     gint        main_width;                                 /* main_window width */
     gint        main_height;                                /* main_window height */
-	gboolean	low_resolution_screen;						/* TRUE use a low resolution screen */
+	gboolean	low_definition_screen;						/* TRUE use a low resolution screen */
     gboolean    full_screen;                                /* TRUE to full screen, 0 else */
     gboolean    maximize_screen;                            /* TRUE to maximize screen, 0 else */
 
@@ -327,7 +328,7 @@ struct _GrisbiWinRun
 {
 	/* width of transaction list */
 	gint		transaction_list_width;
-	gboolean	resolution_screen_toggled;					/* force l'utilisation des dimensions par defaut */
+	gboolean	definition_screen_toggled;					/* force l'utilisation des dimensions par defaut */
 
 	/* old version of file */
     gboolean	old_version;								/* TRUE if file version < 0.6 */
