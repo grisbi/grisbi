@@ -27,7 +27,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
+#include <gdk/gdkx.h>
 #include "include.h"
 #include <stdlib.h>
 #include <glib/gprintf.h>
@@ -640,6 +640,12 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 											GdkScreen *screen)
 {
+#if GTK_CHECK_VERSION (3,22,0)
+	GdkWindow *window;
+	GdkDisplay *display;
+	GdkMonitor *monitor;
+	GdkRectangle rectangle;
+#endif
     GrisbiWin *win;
     GrisbiAppPrivate *priv;
 
@@ -697,6 +703,28 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 	if (screen != NULL)
         gtk_window_set_screen (GTK_WINDOW (win), screen);
 
+	/* on teste s'il faut changer de résolution */
+#if GTK_CHECK_VERSION (3,22,0)
+	if (!(priv->a_conf)->low_definition_screen)
+	{
+		window = gtk_widget_get_window (GTK_WIDGET (win));
+		display = gdk_window_get_display (GDK_WINDOW (window));
+		monitor = gdk_display_get_monitor_at_point (display, 0, 0);
+		gdk_monitor_get_geometry (monitor, &rectangle);
+
+		if (rectangle.height < 1600 || rectangle.width < 900)
+		{
+			(priv->a_conf)->low_definition_screen = TRUE;
+			(priv->a_conf)->main_height = WIN_MIN_HEIGHT;
+			(priv->a_conf)->main_width = WIN_MIN_WIDTH;
+			(priv->a_conf)->panel_width = PANEL_MIN_WIDTH;
+
+			gtk_window_resize (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+							   (priv->a_conf)->main_width,
+							   (priv->a_conf)->main_height);
+		}
+	}
+#endif
     return win;
 }
 
