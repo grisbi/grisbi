@@ -478,6 +478,7 @@ void fill_transaction_row ( GtkTreeModel *model,
     gchar * amount = NULL;
     gchar * label = NULL;
     gchar * notes = NULL;
+	gchar *str_to_free;
     const gchar *string;
     GtkTreePath * path;
     enum MetaTreeRowType type;
@@ -532,15 +533,17 @@ void fill_transaction_row ( GtkTreeModel *model,
 
     if ( notes )
     {
+		str_to_free = label;
         label = g_strconcat ( label, " : ", notes, NULL );
         g_free (notes);
+		g_free (str_to_free);
     }
 
     if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
     {
-        gchar* tmpstr = label;
-	label = g_strconcat ( tmpstr, " (", _("split"), ")", NULL );
-	g_free ( tmpstr );
+        str_to_free = label;
+		label = g_strconcat ( label, " (", _("split"), ")", NULL );
+		g_free (str_to_free);
     }
 
     amount = utils_real_get_string_with_currency ( gsb_data_transaction_get_amount (transaction_number),
