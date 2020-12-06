@@ -52,7 +52,6 @@
 
 
 /*START_EXTERN*/
-extern gchar *charmap_imported;
 /*END_EXTERN*/
 
 
