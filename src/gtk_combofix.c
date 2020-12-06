@@ -119,7 +119,7 @@ enum CombofixKeyDirection
  *
  * \return FALSE
  **/
-static gboolean gtk_combofix_completion_match_selected (GtkEntryCompletion *widget,
+static gboolean gtk_combofix_completion_match_selected (GtkEntryCompletion *entry,
 														GtkTreeModel *model,
 														GtkTreeIter *iter,
 														GtkComboFix *combofix)
@@ -2550,8 +2550,6 @@ void gtk_combofix_remove_report (GtkComboFix *combofix,
 
     while (valid)
     {
-        gchar *tmp_str;
-
         gtk_tree_model_get (completion_model, &iter, 0, &tmp_str, -1);
 
         if (etat.combofix_case_sensitive && !strcmp (tmp_str2, tmp_str))
