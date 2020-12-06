@@ -27,7 +27,6 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-#include <gdk/gdkx.h>
 #include "include.h"
 #include <stdlib.h>
 #include <glib/gprintf.h>
