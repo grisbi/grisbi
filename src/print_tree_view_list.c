@@ -46,7 +46,7 @@
 static gboolean print_tree_view_list_begin ( GtkPrintOperation *operation,
                         GtkPrintContext *context,
                         gpointer data );
-static void print_tree_view_list_calculate_columns_width ( GtkTreeView *tree_view, gdouble page_width );
+static void print_tree_view_list_calculate_columns_width ( GtkTreeView *tree_view, gdouble width_page);
 static void print_tree_view_list_draw_background ( GtkPrintContext *context,
                         GtkTreeView *tree_view,
                         gint line_position );
@@ -726,7 +726,7 @@ static gint print_tree_view_list_draw_title ( GtkPrintContext *context,
  *
  *
  * */
-void print_tree_view_list_calculate_columns_width ( GtkTreeView *tree_view, gdouble page_width )
+void print_tree_view_list_calculate_columns_width ( GtkTreeView *tree_view, gdouble width_page)
 {
     gint total_text_width = 0;
     gint column;
@@ -748,7 +748,7 @@ void print_tree_view_list_calculate_columns_width ( GtkTreeView *tree_view, gdou
     }
 
     /* last column is the rest of the line */
-    columns_width[nbre_cols - 1] = ( page_width -3 * gsb_data_print_config_get_draw_column () * (nbre_cols) ) *
+    columns_width[nbre_cols - 1] = (width_page -3 * gsb_data_print_config_get_draw_column () * (nbre_cols) ) *
                                     PANGO_SCALE - total_text_width;
 }
 
