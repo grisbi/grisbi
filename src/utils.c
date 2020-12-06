@@ -677,16 +677,16 @@ gboolean utils_set_image_with_state (GtkWidget *widget,
     hbox = g_object_get_data (G_OBJECT (widget), "icon");
 
     initial = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (hbox), "initial"));
-    if (initial == etat)
+    if (initial == state)
         return FALSE;
 
     /* on met la nouvelle valeur pour initial */
-    g_object_set_data (G_OBJECT (hbox), "initial", GINT_TO_POINTER (etat));
+    g_object_set_data (G_OBJECT (hbox), "initial", GINT_TO_POINTER (state));
 
     icon_0 = g_object_get_data (G_OBJECT (hbox), "icon_0");
     icon_1 = g_object_get_data (G_OBJECT (hbox), "icon_1");
 
-    if (etat)
+    if (state)
     {
         gtk_widget_hide (icon_0);
         gtk_widget_show (icon_1);
