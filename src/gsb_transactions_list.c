@@ -4138,8 +4138,6 @@ gboolean gsb_transactions_list_restore_archive (gint archive_number,
         tmp_list = gsb_data_transaction_get_complete_transactions_list ();
         while (tmp_list)
         {
-            gint account_number;
-
             transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
             account_number = gsb_data_transaction_get_account_number (transaction_number);
             if (gsb_data_transaction_get_archive_number (transaction_number) == archive_number
