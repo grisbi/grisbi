@@ -613,10 +613,10 @@ gboolean utils_set_tree_store_background_color (GtkWidget *tree_view,
  *
  * \return      widget initialisé
  * */
-GtkWidget *utils_get_image_with_etat (GtkMessageType msg,
-									  gint initial,
-									  const gchar *tooltip_0,
-									  const gchar *tooltip_1)
+GtkWidget *utils_get_image_with_state (GtkMessageType msg,
+									   gint initial,
+									   const gchar *tooltip_0,
+									   const gchar *tooltip_1)
 {
     GtkWidget *hbox;
     GtkWidget *icon_0;
@@ -666,8 +666,8 @@ GtkWidget *utils_get_image_with_etat (GtkMessageType msg,
  *
  * \return      TRUE if OK FALSE si rien à faire
  * */
-gboolean utils_set_image_with_etat (GtkWidget *widget,
-									gint etat)
+gboolean utils_set_image_with_state (GtkWidget *widget,
+									 gint state)
 {
     GtkWidget *icon_0;
     GtkWidget *icon_1;

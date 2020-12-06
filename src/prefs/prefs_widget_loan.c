@@ -312,11 +312,11 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
 			if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
 				string = gsb_form_widget_get_name (TRANSACTION_FORM_PARTY);
-				utils_set_image_with_etat (GTK_WIDGET (combo), FALSE);
+				utils_set_image_with_state (GTK_WIDGET (combo), FALSE);
 			}
 			else
 			{
-				utils_set_image_with_etat (GTK_WIDGET (combo), TRUE);
+				utils_set_image_with_state (GTK_WIDGET (combo), TRUE);
 			}
 			break;
 
@@ -326,12 +326,12 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
 				string = gsb_form_widget_get_name (TRANSACTION_FORM_CATEGORY);
 				if (gsb_form_widget_check_empty (GTK_WIDGET (combo)))
 				{
-					utils_set_image_with_etat (GTK_WIDGET (combo), FALSE);
+					utils_set_image_with_state (GTK_WIDGET (combo), FALSE);
 				}
 			}
 			else
 			{
-				utils_set_image_with_etat (GTK_WIDGET (combo), TRUE);
+				utils_set_image_with_state (GTK_WIDGET (combo), TRUE);
 			}
 			break;
 
@@ -341,13 +341,13 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
 				string = gsb_form_widget_get_name (TRANSACTION_FORM_BUDGET);
 				if (gsb_form_widget_check_empty (GTK_WIDGET (combo)))
 				{
-					utils_set_image_with_etat (GTK_WIDGET (combo), FALSE);
+					utils_set_image_with_state (GTK_WIDGET (combo), FALSE);
 				}
 
 			}
 			else
 			{
-				utils_set_image_with_etat (GTK_WIDGET (combo), TRUE);
+				utils_set_image_with_state (GTK_WIDGET (combo), TRUE);
 			}
 			break;
 
@@ -924,7 +924,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, TRUE, 0);
 
-    icon = utils_get_image_with_etat (GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL);
+    icon = utils_get_image_with_state (GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL);
     gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
 
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
@@ -943,7 +943,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 		tmp_number = gsb_data_scheduled_get_party_number (scheduled_number);
 		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->APayeeCombo),
 											  gsb_data_payee_get_name (tmp_number, FALSE));
-		utils_set_image_with_etat (GTK_WIDGET (s_sch_dialog->APayeeCombo), TRUE);
+		utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->APayeeCombo), TRUE);
 	}
 	else
 	{
@@ -955,7 +955,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (paddingbox), hbox, TRUE, TRUE, 0);
 
-    icon = utils_get_image_with_etat (GTK_MESSAGE_ERROR, TRUE, _("One of the two fields is required"), NULL);
+    icon = utils_get_image_with_state (GTK_MESSAGE_ERROR, TRUE, _("One of the two fields is required"), NULL);
     gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
 
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
@@ -1014,7 +1014,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0);
 
-    icon = utils_get_image_with_etat (GTK_MESSAGE_ERROR, TRUE, _("One of the two fields is required"), NULL);
+    icon = utils_get_image_with_state (GTK_MESSAGE_ERROR, TRUE, _("One of the two fields is required"), NULL);
     gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
 
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
@@ -1072,7 +1072,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 			tmp_number2 = gsb_data_scheduled_get_sub_budgetary_number (scheduled_number+1);
 			tmp_str = gsb_data_budget_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo), tmp_str);
-			utils_set_image_with_etat (GTK_WIDGET (s_sch_dialog->FBudgetCombo), TRUE);
+			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->FBudgetCombo), TRUE);
 		}
 		else
 		{
@@ -1103,7 +1103,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, TRUE, 0);
 
-    icon = utils_get_image_with_etat (GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL);
+    icon = utils_get_image_with_state (GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL);
     gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
 
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
@@ -1127,7 +1127,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 			tmp_number2 = gsb_data_scheduled_get_sub_category_number (scheduled_number+2);
 			tmp_str = gsb_data_category_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SCategCombo), tmp_str);
-			utils_set_image_with_etat (GTK_WIDGET (s_sch_dialog->SCategCombo), TRUE);
+			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->SCategCombo), TRUE);
 		}
 		else
 		{
@@ -1163,7 +1163,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 			tmp_number2 = gsb_data_scheduled_get_sub_budgetary_number (scheduled_number+2);
 			tmp_str = gsb_data_budget_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo), tmp_str);
-			utils_set_image_with_etat (GTK_WIDGET (s_sch_dialog->SBudgetCombo), TRUE);
+			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->SBudgetCombo), TRUE);
 		}
 		else
 		{
@@ -1194,7 +1194,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, TRUE, 0);
 
-    icon = utils_get_image_with_etat (GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL);
+    icon = utils_get_image_with_state (GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL);
     gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
 
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
@@ -1217,7 +1217,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 			tmp_number2 = gsb_data_scheduled_get_sub_category_number (scheduled_number+3);
 			tmp_str = gsb_data_category_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TCategCombo), tmp_str);
-			utils_set_image_with_etat (GTK_WIDGET (s_sch_dialog->TCategCombo), TRUE);
+			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->TCategCombo), TRUE);
 		}
 		else
 		{
@@ -1253,7 +1253,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 			tmp_number2 = gsb_data_scheduled_get_sub_budgetary_number (scheduled_number+3);
 			tmp_str = gsb_data_budget_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo), tmp_str);
-			utils_set_image_with_etat (GTK_WIDGET (s_sch_dialog->TBudgetCombo), TRUE);
+			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->TBudgetCombo), TRUE);
 		}
 		else
 		{

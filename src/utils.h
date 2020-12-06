@@ -35,7 +35,7 @@ void            update_gui                                              (void);
 GtkWidget *		utils_menu_item_new_from_image_label 					(const gchar *image_name,
 																		 const gchar *label_name);
 void            utils_container_remove_children                         (GtkWidget *widget);
-GtkWidget *     utils_get_image_with_etat                               (GtkMessageType msg,
+GtkWidget *     utils_get_image_with_state                              (GtkMessageType msg,
                                                                          gint initial,
                                                                          const gchar *tooltip_0,
                                                                          const gchar *tooltip_1);
@@ -45,8 +45,8 @@ GtkListStore *  utils_list_store_create_from_string_array               (const g
 void            utils_labels_set_alignment                             	(GtkLabel *label,
                                                                          gfloat xalign,
                                                                          gfloat yalign);
-gboolean        utils_set_image_with_etat                               (GtkWidget *widget,
-                                                                         gint etat);
+gboolean        utils_set_image_with_state                              (GtkWidget *widget,
+                                                                         gint state);
 gboolean		utils_set_list_store_background_color 					(GtkWidget *tree_view,
 																		 gint color_column);
 gboolean        utils_set_tree_store_background_color                    (GtkWidget *tree_view,

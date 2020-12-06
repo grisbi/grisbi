@@ -622,7 +622,7 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 		case BET_TRANSFER_PAYEE:
 			if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
-				utils_set_image_with_etat (widget,TRUE);
+				utils_set_image_with_state (widget,TRUE);
 				gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 			}
 			else
@@ -630,7 +630,7 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 				string = gsb_form_widget_get_name (TRANSACTION_FORM_PARTY);
 				gtk_combofix_set_text (GTK_COMBOFIX (widget), _(string));
 				gsb_form_widget_set_empty (entry, TRUE);
-				utils_set_image_with_etat (widget, FALSE);
+				utils_set_image_with_state (widget, FALSE);
 				gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 			}
 			break;
@@ -638,7 +638,7 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 		case BET_TRANSFER_CARD_CATEGORY:
 			if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
-				utils_set_image_with_etat (widget,TRUE);
+				utils_set_image_with_state (widget,TRUE);
 				gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 			}
 			else
@@ -648,12 +648,12 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 				gsb_form_widget_set_empty (entry, TRUE);
 				if (gsb_form_widget_check_empty (priv->combo_card_budget))
 				{
-					utils_set_image_with_etat (widget, FALSE);
+					utils_set_image_with_state (widget, FALSE);
 					gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 				}
 				else
 				{
-					utils_set_image_with_etat (widget, TRUE);
+					utils_set_image_with_state (widget, TRUE);
 					gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 				}
 			}
@@ -662,7 +662,7 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 		case BET_TRANSFER_MAIN_CATEGORY:
 			if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
-				utils_set_image_with_etat (widget,TRUE);
+				utils_set_image_with_state (widget,TRUE);
 				gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 			}
 			else
@@ -672,12 +672,12 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 				gsb_form_widget_set_empty (entry, TRUE);
 				if (gsb_form_widget_check_empty (priv->combo_main_budget))
 				{
-					utils_set_image_with_etat (widget, FALSE);
+					utils_set_image_with_state (widget, FALSE);
 					gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 				}
 				else
 				{
-					utils_set_image_with_etat (widget, TRUE);
+					utils_set_image_with_state (widget, TRUE);
 					gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 				}
 			}
@@ -686,7 +686,7 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 		case BET_TRANSFER_CARD_BUDGET:
 			if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
-				utils_set_image_with_etat (widget,TRUE);
+				utils_set_image_with_state (widget,TRUE);
 				gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 			}
 			else
@@ -696,12 +696,12 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 				gsb_form_widget_set_empty (entry, TRUE);
 				if (gsb_form_widget_check_empty (priv->combo_card_category))
 				{
-					utils_set_image_with_etat (widget, FALSE);
+					utils_set_image_with_state (widget, FALSE);
 					gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 				}
 				else
 				{
-					utils_set_image_with_etat (widget, TRUE);
+					utils_set_image_with_state (widget, TRUE);
 					gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 				}
 			}
@@ -710,7 +710,7 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 		case BET_TRANSFER_MAIN_BUDGET:
 			if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
-				utils_set_image_with_etat (widget,TRUE);
+				utils_set_image_with_state (widget,TRUE);
 				gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 			}
 			else
@@ -720,12 +720,12 @@ static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
 				gsb_form_widget_set_empty (entry, TRUE);
 				if (gsb_form_widget_check_empty (priv->combo_main_category))
 				{
-					utils_set_image_with_etat (widget, FALSE);
+					utils_set_image_with_state (widget, FALSE);
 					gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 				}
 				else
 				{
-					utils_set_image_with_etat (widget, TRUE);
+					utils_set_image_with_state (widget, TRUE);
 					gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 				}
 			}
@@ -902,7 +902,7 @@ static void widget_transfer_setup_card_part (WidgetTransfer *dialog,
 	}
 
 	/* set card payee */
-	icon = utils_get_image_with_etat (GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL);
+	icon = utils_get_image_with_state (GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL);
 	gtk_grid_attach (GTK_GRID (priv->grid_card_div), icon, 0, 0, 1, 1);
 
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
@@ -933,7 +933,7 @@ static void widget_transfer_setup_card_part (WidgetTransfer *dialog,
 						dialog);
 
 	/* saisie des (sous)catégories et (sous)IB */
-	icon = utils_get_image_with_etat (GTK_MESSAGE_WARNING,
+	icon = utils_get_image_with_state (GTK_MESSAGE_WARNING,
 									  FALSE,
 									  _("One of the two fields is recommended"),
 									  NULL);
@@ -1024,7 +1024,7 @@ static void widget_transfer_setup_main_part (WidgetTransfer *dialog,
 					  dialog);
 
 	/* création de la boite de sélection du tiers */
-	icon = utils_get_image_with_etat (GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL);
+	icon = utils_get_image_with_state (GTK_MESSAGE_ERROR, FALSE, _("This field is required"), NULL);
 	gtk_grid_attach (GTK_GRID (priv->grid_main_div), icon, 0, 2, 1, 1);
 
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
@@ -1064,7 +1064,7 @@ static void widget_transfer_setup_main_part (WidgetTransfer *dialog,
 	gtk_widget_set_tooltip_text (GTK_WIDGET (priv->combo_main_payment), _("Choose the method of payment"));
 
 	/* saisie des (sous)catégories et (sous)IB */
-	icon = utils_get_image_with_etat (GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL);
+	icon = utils_get_image_with_state (GTK_MESSAGE_ERROR, FALSE, _("One of the two fields is required"), NULL);
 	gtk_grid_attach (GTK_GRID (priv->grid_main_div), icon, 0, 3, 1, 1);
 
 	/* set categories */
@@ -1454,7 +1454,7 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 												 (GTK_COMBOFIX (priv->combo_card_payee))), 0);
 
 		/* on actualise l'état de l'icone associée */
-		utils_set_image_with_etat (priv->combo_card_payee, TRUE);
+		utils_set_image_with_state (priv->combo_card_payee, TRUE);
 	}
 	else
 	{
@@ -1462,7 +1462,7 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 		gsb_form_widget_set_empty (priv->combo_card_payee, TRUE);
 
 		/* on actualise l'état de l'icone associée */
-		utils_set_image_with_etat (priv->combo_card_payee, FALSE);
+		utils_set_image_with_state (priv->combo_card_payee, FALSE);
 	}
 
 	/* set card_payment_method if type = account */
@@ -1518,9 +1518,9 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 	}
 
 	if (transfert->card_category_number > 0 || transfert->card_budgetary_number > 0)
-		utils_set_image_with_etat (priv->combo_card_budget, TRUE);
+		utils_set_image_with_state (priv->combo_card_budget, TRUE);
 	else
-		utils_set_image_with_etat (priv->combo_card_budget, FALSE);
+		utils_set_image_with_state (priv->combo_card_budget, FALSE);
 
 	/* main account part */
 
@@ -1547,7 +1547,7 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 												 (GTK_COMBOFIX (priv->combo_main_payee))), 0);
 
 		 /* on actualise l'état de l'icone associée */
-		utils_set_image_with_etat (priv->combo_main_payee, TRUE);
+		utils_set_image_with_state (priv->combo_main_payee, TRUE);
    }
 	else
 	{
@@ -1580,7 +1580,7 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 		gsb_form_widget_set_empty (priv->combo_main_category, TRUE);
 
 		/* on actualise l'état de l'icone associée */
-		utils_set_image_with_etat (priv->combo_main_category, FALSE);
+		utils_set_image_with_state (priv->combo_main_category, FALSE);
 	}
 
 	/* main budget */
@@ -1599,9 +1599,9 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 	}
 
 	if (transfert->main_category_number > 0 || transfert->main_budgetary_number > 0)
-		utils_set_image_with_etat (priv->combo_main_budget, TRUE);
+		utils_set_image_with_state (priv->combo_main_budget, TRUE);
 	else
-		utils_set_image_with_etat (priv->combo_main_budget, FALSE);
+		utils_set_image_with_state (priv->combo_main_budget, FALSE);
 
 	/* set checkbutton_direct_debit */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_direct_debit), transfert->direct_debit);
