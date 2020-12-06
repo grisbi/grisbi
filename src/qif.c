@@ -199,13 +199,13 @@ static gchar **gsb_qif_get_date_content (gchar *date_string)
     array = g_strsplit (date_string, "/", 3);
     if (mismatch_dates && strlen (array[0]) == 2 && strlen (array[1]) == 2 && strlen (array[2]) == 2)
     {
-        gchar *tmp_str;
+        gchar *msg;
 
-        tmp_str = g_strdup (_("Warning the date has three fields of two numbers. "
+        msg = g_strdup (_("Warning the date has three fields of two numbers. "
 							  "In these circumstances the date might be wrong."));
 
-        dialogue_warning (tmp_str);
-        g_free (tmp_str);
+        dialogue_warning (msg);
+        g_free (msg);
         mismatch_dates = FALSE;
     }
 
@@ -1804,7 +1804,6 @@ gboolean qif_export (const gchar *filename,
     {
 		/* there is no transaction in the account, so do the opening of the account, bug no date */
 		/* met le solde initial */
-		gchar *tmp_str;
 
 		if (etat.export_force_US_numbers)
 		{
