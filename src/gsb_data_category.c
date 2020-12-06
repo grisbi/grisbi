@@ -91,7 +91,7 @@ struct _SubCategoryStruct
 /*START_STATIC*/
 static void _gsb_data_category_free ( CategoryStruct *category );
 static void _gsb_data_sub_category_free ( SubCategoryStruct *sub_category );
-static GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
+static GSList *gsb_data_category_append_sub_category_to_list ( GSList *list_category,
 							GSList *sub_category_list );
 static gint gsb_data_category_get_pointer_from_name_in_glist ( CategoryStruct *category,
 							const gchar *name );
@@ -1145,13 +1145,13 @@ void gsb_data_categorie_free_name_list ( GSList *liste )
  *
  * \return the new category_list (normally shouldn't changed
  * */
-GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
+GSList *gsb_data_category_append_sub_category_to_list ( GSList *list_category,
 							GSList *sub_category_list )
 {
     GSList *tmp_list;
 
     if (!sub_category_list)
-	return category_list;
+		return list_category;
 
     tmp_list = sub_category_list;
 
@@ -1161,13 +1161,13 @@ GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
 
 	sub_category = tmp_list -> data;
 
-	category_list = g_slist_append ( category_list,
+	list_category = g_slist_append (list_category,
 					 g_strconcat ( "\t",
 						       sub_category -> sub_category_name,
 						       NULL ));
 	tmp_list = tmp_list -> next;
     }
-    return category_list;
+    return list_category;
 }
 
 
