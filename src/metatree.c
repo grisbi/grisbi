@@ -1169,7 +1169,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	/* We do not jump to a transaction if a division is specified */
 	if ( transaction_number && !no_division && !no_sub_division )
 	{
-        GtkTreePath *path;
+        GtkTreePath *tmp_path;
         gint account_number;
         gint archive_number;
 
@@ -1212,9 +1212,9 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 					       0);
 
         /* move selected iter */
-        path = gtk_tree_model_get_path ( model, &iter );
-        gtk_tree_view_scroll_to_cell ( treeview, path, NULL, FALSE, 0.0, 0.0 );
-        gtk_tree_path_free ( path );
+        tmp_path = gtk_tree_model_get_path ( model, &iter );
+        gtk_tree_view_scroll_to_cell ( treeview, tmp_path, NULL, FALSE, 0.0, 0.0 );
+        gtk_tree_path_free (tmp_path);
 
 	    transaction_list_select ( transaction_number );
 	}
