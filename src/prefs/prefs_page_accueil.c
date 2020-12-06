@@ -254,7 +254,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		GtkTreeSelection *selection;
 		GtkTreeDragDestIface * dst_iface;
 		GtkTreeDragSourceIface * src_iface;
-		static GtkTargetEntry row_targets[] = {{"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0}};
+		static GtkTargetEntry row_targets[] = {{(gchar*)"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0}};
 
 		/* create the model */
 		list_store = gsb_partial_balance_create_model ();

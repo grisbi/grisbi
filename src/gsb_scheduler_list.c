@@ -109,13 +109,13 @@ static GtkWidget *scheduler_button_delete = NULL;
 static GtkWidget *scheduler_button_edit = NULL;
 
 /* popup view menu */
-static gchar *periodicity_names[] = { N_("Unique view"), N_("Week view"), N_("Month view"),
+static const gchar *periodicity_names[] = { N_("Unique view"), N_("Week view"), N_("Month view"),
             N_("Two months view"), N_("Quarter view"),
             N_("Year view"), N_("Custom view"), NULL, };
 
 static gboolean view_menu_block_cb = FALSE;
 
-static gchar *j_m_a_names[] = { N_("days"), N_("weeks"), N_("months"), N_("years"), NULL };
+static const gchar *j_m_a_names[] = { N_("days"), N_("weeks"), N_("months"), N_("years"), NULL };
 /*END_STATIC*/
 
 /******************************************************************************/
@@ -856,7 +856,8 @@ static gint gsb_scheduler_list_sort_function_by_payee (GtkTreeModel *model,
 static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
 {
     gint i;
-    gchar *scheduler_titles[] = {("Date"), _("Account"), _("Payee"), _("Frequency"), _("Mode"), _("Notes"), _("Amount")};
+    const gchar *scheduler_titles[] = {N_("Date"), N_("Account"), N_("Payee"),
+									   N_("Frequency"), N_("Mode"), N_("Notes"), N_("Amount")};
     gfloat col_justs[] =
 	{
 		COLUMN_CENTER, COLUMN_LEFT, COLUMN_LEFT, COLUMN_CENTER,
@@ -873,7 +874,7 @@ static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
         switch (i)
         {
             case 0:
-                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (scheduler_titles[i],
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (gettext (scheduler_titles[i]),
 																					 cell_renderer,
                                             										 "text", i,
                                             										 "cell-background-rgba",
@@ -897,7 +898,7 @@ static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
 								  GINT_TO_POINTER (i));
                 break;
             case 1:
-                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (scheduler_titles[i],
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (gettext (scheduler_titles[i]),
                                             										 cell_renderer,
                                             										 "text", i,
                                             										 "cell-background-rgba",
@@ -921,7 +922,7 @@ static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
 								  GINT_TO_POINTER (i));
                 break;
             case 2:
-                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (scheduler_titles[i],
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (gettext (scheduler_titles[i]),
                                             										 cell_renderer,
                                             										 "text", i,
                                             										 "cell-background-rgba",
@@ -945,7 +946,7 @@ static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
 								  GINT_TO_POINTER (i));
                 break;
             case 3:
-                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (scheduler_titles[i],
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (gettext (scheduler_titles[i]),
                                             										 cell_renderer,
                                             										 "text", i,
                                             										 "cell-background-rgba",
@@ -957,7 +958,7 @@ static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
                                             										 NULL);
                 break;
             case 4:
-                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (scheduler_titles[i],
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (gettext (scheduler_titles[i]),
                                             										 cell_renderer,
                                             										 "text", i,
                                             										 "cell-background-rgba",
@@ -969,7 +970,7 @@ static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
                                             										 NULL);
                 break;
             case 5:
-                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (scheduler_titles[i],
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (gettext (scheduler_titles[i]),
                                             										 cell_renderer,
                                             										 "text", i,
                                             										 "cell-background-rgba",
@@ -981,7 +982,7 @@ static void gsb_scheduler_list_create_list_columns (GtkWidget *tree_view)
                                             										 NULL);
                 break;
             case 6:
-                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (scheduler_titles[i],
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes (gettext (scheduler_titles[i]),
                                             										 cell_renderer,
                                             										 "text", i,
                                             										 "cell-background-rgba",
@@ -1406,7 +1407,7 @@ static gboolean gsb_scheduler_list_fill_transaction_row (GtkTreeStore *store,
     gint i;
 
     if (line[COL_NB_AMOUNT] && g_utf8_strchr (line[COL_NB_AMOUNT], -1, '-'))
-        color_str = "red";
+        color_str = (gchar*)"red";
 
     for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
     {
@@ -1751,7 +1752,7 @@ static gboolean gsb_scheduler_list_set_color_of_mother (gint mother_scheduled_nu
         return FALSE;
 
     if (is_red)
-        color_str = "red";
+        color_str = (gchar*)"red";
 
     for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS -1 ; i++)
     {
@@ -1857,7 +1858,7 @@ static gboolean gsb_scheduler_list_update_white_child (gint white_line_number,
     }
     else
     {
-        tmp_str = "";
+        tmp_str = (gchar*)"";
         gsb_scheduler_list_set_color_of_mother (mother_scheduled_number, FALSE);
     }
 
@@ -2456,7 +2457,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list (gint scheduled_number)
 																	   (scheduled_number_tmp),
 																	   TRUE);
 						if (line[COL_NB_AMOUNT] && g_utf8_strchr (line[COL_NB_AMOUNT], -1, '-'))
-							color_str = "red";
+							color_str = (gchar*)"red";
 						else
 						{
 							g_free (color_str);

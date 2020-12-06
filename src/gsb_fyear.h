@@ -32,6 +32,6 @@ gboolean 	gsb_fyear_set_combobox_history		(GtkWidget *combo_box,
 gboolean	gsb_fyear_update_fyear_list			(void);
 gboolean	gsb_fyear_update_fyear_list_new		(GtkTreeModel *model,
                         						 GtkTreeModel *model_filter,
-                        						 gchar *title);
+                        						 const gchar *title);
 /* END_DECLARATION */
 #endif

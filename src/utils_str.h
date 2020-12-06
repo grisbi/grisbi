@@ -14,9 +14,9 @@
 gchar *		gsb_string_extract_int 									(const gchar *chaine);
 GSList *	gsb_string_get_categ_budget_struct_list_from_string 	(const gchar *string);
 GSList *	gsb_string_get_int_list_from_string 					(const gchar *string,
-						                                             gchar *delimiter);
+						                                             const gchar *delimiter);
 GSList *	gsb_string_get_string_list_from_string 					(const gchar *string,
-						                                             gchar *delimiter);
+						                                             const gchar *delimiter);
 gboolean 	gsb_string_is_trouve 									(const gchar *payee_name,
 									                                 const gchar *needle,
 																	 gint ignore_case,

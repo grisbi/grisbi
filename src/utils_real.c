@@ -77,8 +77,8 @@ gchar *utils_real_get_string ( GsbReal number )
 gchar *utils_real_get_string_intl ( GsbReal number )
 {
 	struct lconv locale = *gsb_locale_get_locale ();
-	locale.mon_decimal_point = ".";
-	locale.mon_thousands_sep = ",";
+	locale.mon_decimal_point = (gchar*)".";
+	locale.mon_thousands_sep = (gchar*)",";
 
 	gchar *a = gsb_real_raw_format_string ( number, &locale, NULL );
 	return a;

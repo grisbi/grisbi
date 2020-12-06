@@ -61,7 +61,7 @@ static gboolean gsb_file_others_load ( gchar *filename,
 static gulong gsb_file_others_save_general_part ( gulong iterator,
 					   gulong *length_calculated,
 					   gchar **file_content,
-					   gchar *version );
+					   const gchar *version );
 static void gsb_file_others_start_budget_from_category ( GMarkupParseContext *context,
 				     const gchar *element_name,
 				     const gchar **attribute_names,
@@ -372,7 +372,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
 gulong gsb_file_others_save_general_part ( gulong iterator,
 					   gulong *length_calculated,
 					   gchar **file_content,
-					   gchar *version )
+					   const gchar *version )
 {
 	gulong result;
     gchar *new_string;

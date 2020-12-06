@@ -244,8 +244,8 @@ gboolean gsb_fyear_update_fyear_list ( void )
  * \return FALSE
  */
 gboolean gsb_fyear_update_fyear_list_new ( GtkTreeModel *model,
-                        GtkTreeModel *model_filter,
-                        gchar *title )
+										  GtkTreeModel *model_filter,
+										  const gchar *title )
 {
 	GSList *copy_list = NULL;
 	GSList *tmp_list;

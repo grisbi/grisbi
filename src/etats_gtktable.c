@@ -103,7 +103,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 
     if (!text)
     {
-	text = "";
+	text = (gchar*)"";
     }
 
     label = gtk_label_new ( text );

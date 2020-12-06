@@ -601,7 +601,7 @@ gchar *limit_string (const gchar *string,
  * \return a g_slist or NULL
  **/
 GSList *gsb_string_get_int_list_from_string (const gchar *string,
-											 gchar *delimiter)
+											 const gchar *delimiter)
 {
     GSList *list_tmp;
     gchar **tab;
@@ -636,7 +636,7 @@ GSList *gsb_string_get_int_list_from_string (const gchar *string,
  * \return a g_slist or NULL
  **/
 GSList *gsb_string_get_string_list_from_string (const gchar *string,
-												gchar *delimiter)
+												const gchar *delimiter)
 {
     GSList *list_tmp;
     gchar **tab;

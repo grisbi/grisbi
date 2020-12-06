@@ -119,9 +119,7 @@ GtkWidget *categories_create_list ( void )
     GtkCellRenderer *cell;
     GtkTreeDragDestIface * dst_iface;
     GtkTreeDragSourceIface * src_iface;
-    static GtkTargetEntry row_targets[] = {
-	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
-    };
+    static GtkTargetEntry row_targets[] = {{(gchar*)"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }};
     MetatreeInterface *category_interface;
 
 	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));

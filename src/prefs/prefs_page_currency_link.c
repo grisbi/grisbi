@@ -89,7 +89,7 @@ static void prefs_page_currency_link_append_line (GtkTreeModel *model,
 										   		  gint link_number,
 												  GtkTreeIter *iter_to_fill)
 {
-    gchar *invalid;
+    const gchar *invalid;
     GtkTreeIter local_iter;
     GtkTreeIter *iter_ptr;
 	gchar *tmp_str;

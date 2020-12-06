@@ -150,9 +150,8 @@ static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistan
     GtkWidget *vbox_page, *scrolled_window;
     GtkWidget *paddingbox;
     GtkListStore *archive_model;
-    gchar *titles[] = {
-	"", _("Name"), _("Initial date"), _("Final date"), _("Financial year"), _("Report name")
-    };
+    const gchar *titles[] = {" ", N_("Name"), N_("Initial date"), N_("Final date"),
+							 N_("Financial year"), N_("Report name")};
     gfloat alignment[] = {
 	COLUMN_CENTER, COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER , COLUMN_CENTER, COLUMN_CENTER
     };
@@ -202,7 +201,7 @@ static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistan
 					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
 	gtk_tree_view_column_set_alignment ( column,
 					     alignment[i] );
-	gtk_tree_view_column_set_title ( column, titles[i] );
+	gtk_tree_view_column_set_title (column, gettext (titles[i]));
 	gtk_tree_view_column_set_expand ( column, TRUE );
 	gtk_tree_view_column_set_resizable ( column,
 					     TRUE );

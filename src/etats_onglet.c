@@ -303,15 +303,15 @@ static gboolean etats_onglet_report_export_change_format (GtkWidget *combo,
     switch (gtk_combo_box_get_active (GTK_COMBO_BOX(combo)))
     {
 	    case REPORT_EGSB:		/* EGSB */
-		extension = "egsb";
+		extension = (gchar*)"egsb";
 		break;
 
 	    case REPORT_HTML:		/* HTML */
-		extension = "html";
+		extension = (gchar*)"html";
 		break;
 
 	    case REPORT_CSV:		/* CSV */
-		extension = "csv";
+		extension = (gchar*)"csv";
 		break;
 
 	    default :

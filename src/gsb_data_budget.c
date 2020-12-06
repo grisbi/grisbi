@@ -1422,7 +1422,7 @@ gchar * gsb_debug_duplicate_budget_check (void)
 {
     GSList * tmp;
     gint num_duplicate = 0;
-    gchar * output = "";
+    gchar * output = (gchar*)"";
 
     tmp = budget_list;
     while ( tmp )

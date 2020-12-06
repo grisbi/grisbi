@@ -1335,7 +1335,7 @@ static gboolean csv_import_change_separator (GtkEntry *entry,
     {
 		if (etat.csv_separator)
 			g_free (etat.csv_separator);
-        etat.csv_separator = "";
+        etat.csv_separator = (gchar*)"";
         g_object_set_data (G_OBJECT(assistant), "separator", NULL);
     }
 

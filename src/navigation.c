@@ -180,10 +180,7 @@ const gchar *default_navigation_order_list = "0-2-3-4-5-6-7";
 static gboolean account_expander = TRUE;
 static gboolean report_expander = FALSE;
 
-static GtkTargetEntry row_targets[] =
-{
-	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
-};
+static GtkTargetEntry row_targets[] = {{(gchar*)"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0}};
 
 /******************************************************************************/
 /* Private functions                                                            */
@@ -598,7 +595,7 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
     GSList *tmp_list;
     GtkTreeIter parent, child;
     GtkTreePath *path;
-	gchar *str_color = "black";
+	gchar *str_color = (gchar*)"black";
 
     path = gsb_gui_navigation_get_page_path ( model, GSB_REPORTS_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( model ), &parent, path );
@@ -792,7 +789,7 @@ void gsb_gui_navigation_update_report_iter ( GtkTreeModel *model,
                         GtkTreeIter * report_iter,
                         gint report_number )
 {
-	gchar *str_color = "black";
+	gchar *str_color = (gchar*)"black";
 
 	str_color = gsb_rgba_get_couleur_with_indice_to_str ("color_text", 0);
 	gtk_tree_store_set(GTK_TREE_STORE(model), report_iter,
@@ -908,12 +905,12 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
 {
     GdkPixbuf * pixbuf = NULL;
 	gboolean closed_account;
-	gchar *str_color = "black";
+	gchar *str_color = (gchar*)"black";
 	gchar *tmp_name;
 
 	closed_account = gsb_data_account_get_closed_account (account_number);
 	if (closed_account)
-		str_color = "grey";
+		str_color = (gchar*)"grey";
 	else
 		str_color = gsb_rgba_get_couleur_with_indice_to_str ("color_text", 0);
 
@@ -2071,7 +2068,7 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
 {
     GdkPixbuf *pixbuf;
     GtkTreeIter iter;
-	gchar *str_color = "black";
+	gchar *str_color = (gchar*)"black";
     gchar *title = NULL;
     gchar *tmp_str = NULL;
 

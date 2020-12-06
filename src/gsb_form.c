@@ -156,7 +156,7 @@ static gboolean gsb_form_button_press (GtkWidget *vbox,
     g_signal_connect_swapped (G_OBJECT(menu_item),
 							  "activate",
 							  G_CALLBACK (grisbi_prefs_set_page_by_name),
-							  "form_num_page");
+							  (gchar*)"form_num_page");
 
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 

@@ -104,7 +104,7 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
 
 
     if ( !text )
-	text = "";
+	text = (gchar*)"";
 
     if ( y >= html_lastline )
     {

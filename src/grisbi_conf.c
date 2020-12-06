@@ -702,7 +702,7 @@ gboolean grisbi_conf_save_app_config (void)
 	const gchar *filename;
 	gchar *file_content;
 	gchar **recent_array;
-	gchar *tmp_str;
+	const gchar *tmp_str;
 	gsize length;
 	FILE *conf_file;
 	gint i;
@@ -771,7 +771,7 @@ gboolean grisbi_conf_save_app_config (void)
             tmp_str = "Icons";
             break;
         default:
-            tmp_str = "Text + Icons";
+            tmp_str = (gchar*)"Text + Icons";
     }
     g_key_file_set_string (config,
 						   "Display",

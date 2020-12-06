@@ -92,7 +92,7 @@ void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint 
     gint pad;
 
     if ( !text )
-	text = "";
+	text = (gchar*)"";
 
     if ( y >= csv_lastline )
     {

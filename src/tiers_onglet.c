@@ -653,9 +653,7 @@ GtkWidget *payees_create_list (void)
     GtkCellRenderer *cell;
     GtkTreeDragDestIface * dst_iface;
     GtkTreeDragSourceIface * src_iface;
-    static GtkTargetEntry row_targets[] = {
-    { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
-    };
+    static GtkTargetEntry row_targets[] = {{(gchar*)"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0}};
 
 	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
 
@@ -1766,7 +1764,7 @@ static gboolean gsb_assistant_payees_enter_page_finish (GtkWidget *assistant)
     combo = g_object_get_data (G_OBJECT (assistant), "payee");
     str_cherche = gtk_combofix_get_text (GTK_COMBOFIX (combo));
     combo = g_object_get_data (G_OBJECT (assistant), "new_payee");
-    str_replace_wildcard = gsb_string_remplace_joker (str_cherche, "...");
+    str_replace_wildcard = gsb_string_remplace_joker (str_cherche, (gchar*)"...");
 
     if (g_slist_length (sup_payees) == 1)
     {

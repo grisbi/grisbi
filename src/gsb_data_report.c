@@ -346,7 +346,7 @@ gint gsb_data_report_max_number ( void )
  *
  * \return the number of the new report
  * */
-gint gsb_data_report_new ( gchar *name )
+gint gsb_data_report_new (const gchar *name)
 {
     gint report_number;
 

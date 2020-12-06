@@ -127,7 +127,7 @@ gboolean 	gsb_data_report_init_variables 								(void);
 gint 		gsb_data_report_max_number 									(void);
 gboolean 	gsb_data_report_move_report 								(gint report_number,
 																		 gint dest_report_number);
-gint 		gsb_data_report_new 										(gchar *name);
+gint 		gsb_data_report_new 										(const gchar *name);
 gint 		gsb_data_report_new_with_number 							(gint number);
 void 		gsb_data_report_renum_account_number_0 						(gint new_account_number);
 gboolean 	gsb_data_report_remove 										(gint no_report);

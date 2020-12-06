@@ -198,7 +198,7 @@ void etats_prefs_buttons_radio_set_active_index ( const gchar *button_name,
  *
  * \return
  */
-static void etats_prefs_toggle_button_init_button_expand ( gchar *name,
+static void etats_prefs_toggle_button_init_button_expand (const gchar *name,
                         GtkWidget *tree_view )
 {
     GtkWidget *button;
@@ -1083,7 +1083,7 @@ void etats_prefs_onglet_comptes_select_unselect ( GtkToggleButton *togglebutton,
  *
  * \return
  */
-static void etats_prefs_onglet_comptes_init_buttons_selection ( gchar *name,
+static void etats_prefs_onglet_comptes_init_buttons_selection ( const gchar *name,
                         GtkWidget *tree_view )
 {
     GtkWidget *button;
@@ -1960,7 +1960,7 @@ static GtkWidget *etats_prefs_onglet_categ_budget_tree_view_create ( gboolean is
  *
  * \return
  * */
-static void etats_prefs_onglet_categ_budget_init_buttons_select_unselect ( gchar *name,
+static void etats_prefs_onglet_categ_budget_init_buttons_select_unselect (const gchar *name,
                         GtkWidget *tree_view,
                         gboolean is_categ )
 {
@@ -2617,10 +2617,7 @@ static gboolean etats_prefs_onglet_data_grouping_init_tree_view ( void )
     GtkCellRenderer *cell;
     GtkTreeDragDestIface *dst_iface;
     GtkTreeDragSourceIface *src_iface;
-    static GtkTargetEntry row_targets[] =
-    {
-        { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
-    };
+    static GtkTargetEntry row_targets[] = {{(gchar*)"GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0}};
 
 	window = GTK_WIDGET (grisbi_app_get_active_window (NULL));
 

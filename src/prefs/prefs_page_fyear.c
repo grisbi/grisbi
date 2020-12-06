@@ -193,7 +193,7 @@ static void prefs_page_fyear_append_line (GtkTreeModel *model,
 										  gint fyear_number,
 										  GtkTreeIter *iter_to_fill)
 {
-    gchar *invalid;
+    const gchar *invalid;
     GtkTreeIter local_iter;
     GtkTreeIter *iter_ptr;
 	gchar *begin_date;
@@ -448,7 +448,7 @@ static void prefs_page_fyear_update_invalid (GtkWidget *tree_view)
     do
     {
 		gint fyear_number;
-		gchar *invalid;
+		const gchar *invalid;
 
 		gtk_tree_model_get (model, &iter, FYEAR_NUMBER_COLUMN, &fyear_number, -1);
 		if (gsb_data_fyear_get_invalid (fyear_number))

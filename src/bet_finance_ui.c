@@ -1813,7 +1813,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 													   "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
 													   NULL);
 	g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_NUMBER_COLUMN));
-	g_object_set_data (G_OBJECT (column), "name", "NumEch");
+	g_object_set_data (G_OBJECT (column), "name", (gchar*)"NumEch");
     g_free (title);
 
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
@@ -1834,7 +1834,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 														   "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
 														   NULL);
 		g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_DATE_COLUMN));
-		g_object_set_data (G_OBJECT (column), "name", "Date");
+		g_object_set_data (G_OBJECT (column), "name", (gchar*)"Date");
 		g_free (title);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 		gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
@@ -1856,7 +1856,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 														   "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
 														   NULL);
 		g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_ECHEANCE_COLUMN));
-		g_object_set_data (G_OBJECT (column), "name", "Echeance");
+		g_object_set_data (G_OBJECT (column), "name", (gchar*)"Echeance");
 		g_free (title);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 		gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
@@ -1876,7 +1876,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 															   "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
 															   NULL);
 		g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_CAPITAL_DU_COLUMN));
-		g_object_set_data (G_OBJECT (column), "name", "CapitalDu");
+		g_object_set_data (G_OBJECT (column), "name", (gchar*)"CapitalDu");
 		g_free (title);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 		gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
@@ -1895,7 +1895,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 													   "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
 													   NULL);
     g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_PRINCIPAL_COLUMN));
-	g_object_set_data (G_OBJECT (column), "name", "Principal");
+	g_object_set_data (G_OBJECT (column), "name", (gchar*)"Principal");
     g_free (title);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
     gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
@@ -1913,7 +1913,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 													   "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
 													   NULL);
     g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_INTERETS_COLUMN));
-	g_object_set_data (G_OBJECT (column), "name", "Interests");
+	g_object_set_data (G_OBJECT (column), "name", (gchar*)"Interests");
     g_free (title);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
     gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
@@ -1932,7 +1932,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 													   NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
     g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_FRAIS_COLUMN));
-	g_object_set_data (G_OBJECT (column), "name", "Fees");
+	g_object_set_data (G_OBJECT (column), "name", (gchar*)"Fees");
     g_free (title);
 	gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
     gtk_tree_view_column_set_resizable (column, TRUE);
@@ -1951,7 +1951,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 															   "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
 															   NULL);
 		g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_CAPITAL_DU_COLUMN));
-		g_object_set_data (G_OBJECT (column), "name", "CapitalDu");
+		g_object_set_data (G_OBJECT (column), "name", (gchar*)"CapitalDu");
 		g_free (title);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 		gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
@@ -1971,7 +1971,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 														   "cell-background-rgba", BET_AMORTIZATION_BACKGROUND_COLOR,
 														   NULL);
 		g_object_set_data (G_OBJECT (column), "num_col_model", GINT_TO_POINTER (BET_AMORTIZATION_ECHEANCE_COLUMN));
-		g_object_set_data (G_OBJECT (column), "name", "Echeance");
+		g_object_set_data (G_OBJECT (column), "name", (gchar*)"Echeance");
 		g_free (title);
 		gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 		gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
