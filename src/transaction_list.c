@@ -1226,16 +1226,16 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     {
         /* we need now to recalculate the amount of split and update the white line */
         CustomRecord *mother_record;
-        CustomRecord *white_record;
+        CustomRecord *white_record2;
 
         /* get the mother if child */
         if (record -> mother_row)
             mother_record = record -> mother_row;
         else
             mother_record = record;
-        white_record = mother_record -> children_rows[mother_record -> number_of_children -1];
+        white_record2 = mother_record -> children_rows[mother_record -> number_of_children -1];
 
-        transaction_list_update_white_child (white_record);
+        transaction_list_update_white_child (white_record2);
     }
 
     /* set the checkbox is the transaction is marked */
