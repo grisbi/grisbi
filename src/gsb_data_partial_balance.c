@@ -399,17 +399,17 @@ dialog_return:
 
     if ( result == 1)
     {
-        const gchar *name, *liste_cptes;
+        const gchar *name, *new_liste_cptes;
         gint position;
 
         name = gtk_entry_get_text ( GTK_ENTRY ( entry_name ) );
-        liste_cptes = gtk_entry_get_text ( GTK_ENTRY ( entry_list ) );
+        new_liste_cptes = gtk_entry_get_text ( GTK_ENTRY ( entry_list ) );
 
-        if ( strlen ( name ) && strlen ( liste_cptes ) &&
-         g_utf8_strchr  ( liste_cptes, -1, ';' ) )
+        if ( strlen ( name ) && strlen (new_liste_cptes) &&
+         g_utf8_strchr  (new_liste_cptes, -1, ';' ) )
         {
             gsb_data_partial_balance_set_name ( partial_balance_number, name );
-            gsb_data_partial_balance_set_liste_cptes ( partial_balance_number, liste_cptes );
+            gsb_data_partial_balance_set_liste_cptes ( partial_balance_number, new_liste_cptes);
             gsb_data_partial_balance_init_from_liste_cptes ( partial_balance_number,
                         dialog );
             gsb_data_partial_balance_set_colorise ( partial_balance_number,
@@ -426,7 +426,7 @@ dialog_return:
             /* MAJ HOME_PAGE */
             gsb_gui_navigation_update_home_page ( );
         }
-        else if (  g_utf8_strchr ( liste_cptes, -1, ';' ) == NULL )
+        else if (  g_utf8_strchr (new_liste_cptes, -1, ';' ) == NULL )
         {
             dialogue_warning_hint ( _("You must select at least two accounts."),
                         _("Only one account is selected.") );
