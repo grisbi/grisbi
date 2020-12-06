@@ -1129,13 +1129,13 @@ gboolean grisbi_conf_save_app_config (void)
 
     if (!conf_file || !fwrite (file_content, sizeof (gchar), length, conf_file))
     {
-		gchar* tmp_str;
+		gchar* msg;
 
-        tmp_str = g_strdup_printf (_("Cannot save configuration file '%s': %s"),
+        msg = g_strdup_printf (_("Cannot save configuration file '%s': %s"),
 								  filename,
 								  g_strerror (errno));
         dialogue_error (tmp_str);
-        g_free (tmp_str);
+        g_free (msg);
         g_free (file_content);
         g_key_file_free (config);
 		if (conf_file)
