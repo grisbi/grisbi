@@ -1685,14 +1685,14 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 			if ( nb_ope_partie_etat <= 1 )
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = "Charge totale (%d opération) : ";
+					fmtstr = _("Total charge (%d transaction) : ");
 				else
 					fmtstr = _("Total expense (%d transaction): ");
 			}
 			else
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = "Total charges (%d opérations) : ";
+					fmtstr = _("Total charges (%d transactions) : ");
 				else
 					fmtstr = _("Total expenses (%d transactions): ");
 			}
@@ -1715,14 +1715,14 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 			if ( nb_ope_partie_etat <= 1 )
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = "Total Produit (%d opération) : ";
+					fmtstr = _("Total produit (%d transaction) : ");
 				else
 					fmtstr = _("Total income (%d transaction): ");
 			}
 			else
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = "Total Produits (%d opérations) : ";
+					fmtstr = _("Total produits (%d transactions) : ");
 				else
 					fmtstr = _("Total income (%d transactions): ");
 			}
@@ -2325,9 +2325,9 @@ gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
     ligne++;
 
 	if (w_etat->metatree_assoc_mode)
-		etat_affiche_attach_label ("Produits", TEXT_LARGE, 0, nb_colonnes, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0);
+		etat_affiche_attach_label (_("Products"), TEXT_LARGE, 0, nb_colonnes, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0);
 	else
-		etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes,
+		etat_affiche_attach_label (_("Incomes"), TEXT_LARGE, 0, nb_colonnes,
 					ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
 
     ligne++;
@@ -2352,7 +2352,7 @@ gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
     ligne++;
 
 	if (w_etat->metatree_assoc_mode)
-		etat_affiche_attach_label ("Charges", TEXT_LARGE, 0, nb_colonnes, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0);
+		etat_affiche_attach_label (_("Charges"), TEXT_LARGE, 0, nb_colonnes, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0);
 	else
 		etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes,
 								   ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );

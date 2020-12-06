@@ -1905,10 +1905,10 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
     g_queue_pop_nth ( pages_list, i );
 
     dst_list = g_queue_peek_nth_link ( pages_list, dst_ordre );
-    if ( dst_list )
-        g_queue_insert_before ( pages_list, dst_list, page );
-    else
-        g_queue_push_tail ( tmp_queue, page );
+	if ( dst_list )
+		g_queue_insert_before ( pages_list, dst_list, page );
+	else
+		g_queue_push_tail ( tmp_queue, page );
 
     /* on reconstruit le modèle */
 	if (!navigation_model || !GTK_IS_TREE_STORE (navigation_model))

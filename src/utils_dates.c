@@ -184,18 +184,18 @@ static GDate *gsb_parse_date_string_from_tokens_and_date (gchar **date_tokens,
 
     /* need here to check if the date is valid, else an error occurs when
      * write for example only 31, and the current month has only 30 days... */
-    if (! g_date_valid (date))
-        goto invalid;
+	if (! g_date_valid (date))
+		goto invalid;
 
 	/* if page != GSB_SCHEDULER_PAGE && date > today, then we go back one year before
      * usefull when entering operations just after the new year */
 	page = gsb_gui_navigation_get_current_page ();
-    if (page != GSB_SCHEDULER_PAGE && year_auto)
-    {
-        GDate *today = gdate_today ( );
-        if ( g_date_compare ( today, date ) < 0 )
-            g_date_set_year ( date, g_date_get_year ( today ) - 1 );
-        g_date_free ( today );
+	if (page != GSB_SCHEDULER_PAGE && year_auto)
+	{
+		GDate *today = gdate_today ( );
+		if ( g_date_compare ( today, date ) < 0 )
+			g_date_set_year ( date, g_date_get_year ( today ) - 1 );
+		g_date_free ( today );
     }
 
     return date;

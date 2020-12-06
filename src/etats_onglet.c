@@ -176,9 +176,9 @@ static void etats_onglet_change_choix_nouvel_etat (GtkWidget *combobox,
 		case 5:
 			/* Monthly outgoings by payee */
 			if (w_etat->metatree_assoc_mode)
-				description = "Cet état affiche les dépenses du mois classées par tiers. "
-				"Vous aurez juste à choisir le ou les comptes et de valider. Par défaut, "
-				"tous les comptes sont utilisés).";
+				description = _("This report shows the month's expenses sorted by payees."
+								"You will just have to choose the account(s) and validate. "
+								"By default, all accounts are in use.");
 			else
 				description = _("This report displays current month's outgoings sorted by payees. "
 								"You just need to select the account(s). By default all accounts are selected.");
@@ -931,7 +931,7 @@ gboolean etats_onglet_ajoute_etat (void)
 
 			/*  Last month incomes and outgoings  */
 			if (w_etat->metatree_assoc_mode)
-				report_number = gsb_data_report_new ("Produits et Charges du dernier mois");
+				report_number = gsb_data_report_new (_("Last month products and expenses"));
 			else
 				report_number = gsb_data_report_new (_("Last month incomes and outgoings"));
 

@@ -1047,8 +1047,8 @@ static gboolean bet_form_create_scheduler_part (GtkWidget *dialog,
     gint column;
 
     devel_debug (NULL);
-    if (!table)
-        return FALSE;
+	if (!table)
+		return FALSE;
 
     /* ok, now fill the form
      * we play with height and width, but for now it's fix : 6 columns and 1 line */

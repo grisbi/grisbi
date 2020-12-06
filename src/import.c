@@ -1570,7 +1570,7 @@ static void gsb_import_select_file (GSList *filenames,
  		/* Test Convert to UTF8 */
 		if (g_utf8_validate (tmp_contents, -1, NULL))
 		{
-			charmap = "UTF-8";
+			charmap = (gchar*)"UTF-8";
 		}
 		else
 		{
@@ -2270,10 +2270,10 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 	}
 
     /* if no fyear found, get from the date */
-    if (fyear <= 0)
-        fyear = gsb_data_fyear_get_from_date (imported_transaction->date);
-    if (fyear > 0)
-        gsb_data_transaction_set_financial_year_number (transaction_number, fyear);
+	if (fyear <= 0)
+		fyear = gsb_data_fyear_get_from_date (imported_transaction->date);
+	if (fyear > 0)
+		gsb_data_transaction_set_financial_year_number (transaction_number, fyear);
 
     /* Recovery of payee.
      * we routinely backup imported payee. May be replaced later if
