@@ -129,8 +129,6 @@ static void gsb_debug_add_report_page (GtkWidget *assistant,
     if (test->instructions)
     {
 		GtkWidget *expander;
-		GtkWidget *label;
-		gchar *tmp_str;
 
 		tmp_str = g_strconcat ("<b>",_("Details"), "</b>", NULL);
 		expander = gtk_expander_new (tmp_str);
@@ -341,8 +339,6 @@ static gchar *gsb_debug_transfer_test (void)
 					   on affiche son nom */
 					if (!corrupted_account)
 					{
-						gchar *tmp_str;
-
 						tmp_str = g_strdup_printf ("\n<span weight=\"bold\">%s</span>\n",
 												   gsb_data_account_get_name (account_nb));
 						old_str = pText;
@@ -367,8 +363,6 @@ static gchar *gsb_debug_transfer_test (void)
 						   on affiche son nom */
 						if (!corrupted_account)
 						{
-							gchar *tmp_str;
-
 							old_str = pText;
 							tmp_str = g_strdup_printf ("\n<span weight=\"bold\">%s</span>\n",
 													   gsb_data_account_get_name (account_nb));
