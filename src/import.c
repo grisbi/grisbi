@@ -2544,7 +2544,6 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
         {
             /* it's a cheque, try to find a method of payment with automatic increment, if don't find
              * set in default method of payment */
-            gint payment_number;
             gint sign;
 
             if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
@@ -2846,16 +2845,16 @@ static gint gsb_import_correct_opes_find_multiples_ope_msg (GtkWidget *parent,
     {
 		GtkWidget *button;
     	gchar *tmp_str;
-		const gchar *tiers;
+		const gchar *payee;
 		gint transaction_number;
 
 		transaction_number = GPOINTER_TO_INT (tmp_list->data);
-		tiers = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
+		payee = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
 										 FALSE);
 		tmp_str = g_strdup_printf (_("Transaction N° %d found: %s ; %s ; %s"),
 		                           transaction_number,
 		                           gsb_format_gdate (gsb_data_transaction_get_date (transaction_number)),
-		                           tiers,
+		                           payee,
 		                           tmp_str2);
 		button = gtk_button_new_with_label (tmp_str);
 		g_object_set_data (G_OBJECT (button), "dialog", dialog);
@@ -3330,7 +3329,6 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			{
 				if (!g_slist_find (list_ope_doublons, GINT_TO_POINTER (ope_import->ope_correspondante)))
 				{
-					gchar *tmp_str2;
 					gchar *tmp_str3;
 
 					list_ope_doublons = g_slist_append (list_ope_doublons,
@@ -3345,6 +3343,8 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 					tmp_str = dialogue_make_pango_attribut ("weight=\"bold\"", tmp_str3);
 					gtk_label_set_markup_with_mnemonic (GTK_LABEL (label_alert), tmp_str);
 					g_free (tmp_str);
+					g_free (tmp_str2);
+					g_free (tmp_str3);
 					gtk_widget_show (frame_alert);
 				}
 			}
@@ -4354,9 +4354,8 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
     {
         GSList *liste_ope_importees_tmp;
         GSList *ope_trouvees;
-        GSList *tmp_list_transactions;
+        GSList *tmp_ope_list;
         struct ImportTransaction *ope_import;
-        gint transaction_number;
         gint i;
 
         ope_import = tmp_list->data;
@@ -4365,8 +4364,8 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
         /* set now the account number of the transaction */
         ope_import->no_compte = account_number;
 
-        tmp_list_transactions = ope_list;
-        while (tmp_list_transactions)
+        tmp_ope_list = ope_list;
+        while (tmp_ope_list)
         {
             gint transaction_number;
             const gchar *tmp_str;
@@ -4376,7 +4375,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
             GDateMonth month;
             GDateYear year;
 
-            transaction_number = GPOINTER_TO_INT (tmp_list_transactions->data);
+            transaction_number = GPOINTER_TO_INT (tmp_ope_list->data);
 
             /* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
              * une id comparable */
@@ -4385,7 +4384,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
                 tmp_str = gsb_data_transaction_get_id (transaction_number);
                 if (tmp_str && strcmp (ope_import->id_operation, tmp_str) == 0)
                 {
-                    ope_trouvees = g_slist_append (ope_trouvees, tmp_list_transactions->data);
+                    ope_trouvees = g_slist_append (ope_trouvees, tmp_ope_list->data);
 
                     break;
                 }
@@ -4418,11 +4417,11 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
             {
                 /* on a retouvé une opé de même date et même montant, on l'ajoute à la liste
                  * des opés trouvées */
-                ope_trouvees = g_slist_append (ope_trouvees, tmp_list_transactions->data);
+                ope_trouvees = g_slist_append (ope_trouvees, tmp_ope_list->data);
 
                 break;
             }
-            tmp_list_transactions = tmp_list_transactions->next;
+            tmp_ope_list = tmp_ope_list->next;
         }
 
         /* à ce stade, ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
@@ -4431,6 +4430,8 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
         /* du nb de celles importées */
 		if (ope_trouvees)
 		{
+			gint transaction_number;
+
 			switch (g_slist_length (ope_trouvees))
 			{
 				case 0:
@@ -4475,19 +4476,19 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					 * le même pointage que la mère */
 					if (gsb_data_transaction_get_split_of_transaction (transaction_number))
 					{
-						tmp_list_transactions = ope_list;
+						tmp_ope_list = ope_list;
 
-						while (tmp_list_transactions)
+						while (tmp_ope_list)
 						{
 							gint transaction_number_tmp;
 
-							transaction_number_tmp = GPOINTER_TO_INT (tmp_list_transactions->data);
+							transaction_number_tmp = GPOINTER_TO_INT (tmp_ope_list->data);
 
 							if (gsb_data_transaction_get_mother_transaction_number (
 							 transaction_number_tmp) == transaction_number)
 								gsb_data_transaction_set_marked_transaction (transaction_number_tmp, 2);
 
-							tmp_list_transactions = tmp_list_transactions->next;
+							tmp_ope_list = tmp_ope_list->next;
 						}
 					}
 				}
@@ -4569,44 +4570,43 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 
 					while (tmp_list_2)
 					{
-					gint transaction_number;
+						gint transaction_number2;
 
-					transaction_number = GPOINTER_TO_INT (tmp_list_2->data);
+						transaction_number2 = GPOINTER_TO_INT (tmp_list_2->data);
 
-					if (strlen (gsb_data_transaction_get_transaction_id (transaction_number)) == 0
-						 &&
-						 ope_import->id_operation)
-						gsb_data_transaction_set_transaction_id (transaction_number,
-											ope_import->id_operation);
+						if (strlen (gsb_data_transaction_get_transaction_id (transaction_number2)) == 0
+							 &&
+							 ope_import->id_operation)
+							gsb_data_transaction_set_transaction_id (transaction_number2,
+												ope_import->id_operation);
 
-					if (!gsb_data_transaction_get_marked_transaction (transaction_number))
-					{
-						gsb_data_transaction_set_marked_transaction (transaction_number, 2);
-
-						/* si c'est une opé ventilée, on recherche les opé filles pour leur mettre
-						 * le même pointage que la mère */
-						if (gsb_data_transaction_get_split_of_transaction (transaction_number))
+						if (!gsb_data_transaction_get_marked_transaction (transaction_number2))
 						{
-						GSList *tmp_list_transactions;
+							gsb_data_transaction_set_marked_transaction (transaction_number2, 2);
 
-						tmp_list_transactions = gsb_data_transaction_get_transactions_list ();
-
-						while (tmp_list_transactions)
-						{
-							gint transaction_number_tmp;
-							transaction_number_tmp = gsb_data_transaction_get_transaction_number (tmp_list_transactions->data);
-
-							if (gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
+							/* si c'est une opé ventilée, on recherche les opé filles pour leur mettre
+							 * le même pointage que la mère */
+							if (gsb_data_transaction_get_split_of_transaction (transaction_number2))
 							{
-							if (gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
-								gsb_data_transaction_set_marked_transaction (transaction_number_tmp,
-													  2);
-							}
+								GSList *tmp_list_transactions;
+
+								tmp_list_transactions = gsb_data_transaction_get_transactions_list ();
+
+								while (tmp_list_transactions)
+								{
+									gint transaction_number_tmp;
+									transaction_number_tmp = gsb_data_transaction_get_transaction_number (tmp_list_transactions->data);
+
+									if (gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
+									{
+							if (gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number2)
+										gsb_data_transaction_set_marked_transaction (transaction_number_tmp, 2);
+									}
 							tmp_list_transactions = tmp_list_transactions->next;
+								}
+							}
 						}
-						}
-					}
-					tmp_list_2 = tmp_list_2->next;
+						tmp_list_2 = tmp_list_2->next;
 					}
 				}
 				else
