@@ -1685,14 +1685,14 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 			if ( nb_ope_partie_etat <= 1 )
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = _("Total charge (%d transaction) : ");
+					fmtstr = _("Total charge (%d transaction): ");
 				else
 					fmtstr = _("Total expense (%d transaction): ");
 			}
 			else
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = _("Total charges (%d transactions) : ");
+					fmtstr = _("Total charges (%d transactions): ");
 				else
 					fmtstr = _("Total expenses (%d transactions): ");
 			}
@@ -1701,7 +1701,7 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 		else
 		{
 			if (w_etat->metatree_assoc_mode)
-				text = g_strdup ("Total charges : ");
+				text = g_strdup ("Total charges: ");
 			else
 				text = g_strdup ( _("Total expenses: ") );
 		}
@@ -1715,14 +1715,14 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 			if ( nb_ope_partie_etat <= 1 )
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = _("Total produit (%d transaction) : ");
+					fmtstr = _("Total product (%d transaction): ");
 				else
 					fmtstr = _("Total income (%d transaction): ");
 			}
 			else
 			{
 				if (w_etat->metatree_assoc_mode)
-					fmtstr = _("Total produits (%d transactions) : ");
+					fmtstr = _("Total products (%d transactions): ");
 				else
 					fmtstr = _("Total income (%d transactions): ");
 			}
@@ -1731,7 +1731,7 @@ gint etat_affiche_affiche_total_partiel ( GsbReal total_partie,
 		else
 		{
 			if (w_etat->metatree_assoc_mode)
-				text = g_strdup ("Total Produits : ");
+				text = g_strdup (_("Total Products: "));
 			else
 				text = g_strdup ( _("Total income: ") );
 		}
