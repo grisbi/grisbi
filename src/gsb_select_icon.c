@@ -75,7 +75,7 @@ enum {
  * \return
  *
  **/
-static void gsb_select_icon_selection_changed (GtkIconView *icon_view,
+static void gsb_select_icon_selection_changed (GtkIconView *view,
 											   gpointer user_data)
 {
     GList *liste;
@@ -84,7 +84,7 @@ static void gsb_select_icon_selection_changed (GtkIconView *icon_view,
     GtkTreeIter iter;
     gchar *name_icon = NULL;
 
-	liste = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (icon_view));
+	liste = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (view));
 
     /* Could happen if selection is unset, exiting then. */
     if (! liste)
@@ -92,7 +92,7 @@ static void gsb_select_icon_selection_changed (GtkIconView *icon_view,
 
     path = liste->data;
 
-    model = gtk_icon_view_get_model (GTK_ICON_VIEW (icon_view));
+    model = gtk_icon_view_get_model (GTK_ICON_VIEW (view));
     if (gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path))
         gtk_tree_model_get (model, &iter, FILENAME_COLUMN, &name_icon, -1);
     devel_debug (name_icon);
@@ -178,7 +178,7 @@ static GtkTreePath *gsb_select_icon_fill_icon_view (gchar *name_icon)
     dir = g_dir_open (path_icon, 0, &error);
     if (dir)
     {
-        GtkListStore *store;
+        GtkListStore *list_store;
         GtkTreeIter iter;
         GdkPixbuf *pixbuf;
         GSList *liste = NULL;
@@ -192,7 +192,7 @@ static GtkTreePath *gsb_select_icon_fill_icon_view (gchar *name_icon)
 		printf ("nbre elements = %u\n", g_slist_length (liste));
         liste = g_slist_sort (liste, (GCompareFunc) my_strcasecmp);
 
-        store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
+        list_store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
         while (liste)
         {
 			gchar *tmp_filename;
@@ -212,10 +212,10 @@ static GtkTreePath *gsb_select_icon_fill_icon_view (gchar *name_icon)
             {
                 gchar *tmp_str;
 
-                gtk_list_store_append (store, &iter);
+                gtk_list_store_append (list_store, &iter);
                 tmp_str = gsb_select_icon_troncate_name_icon (liste->data, 10);
-                gtk_list_store_set (store, &iter, PIXBUF_COLUMN, pixbuf, TEXT_COLUMN, tmp_str, -1);
-                gtk_list_store_set (store, &iter,
+                gtk_list_store_set (list_store, &iter, PIXBUF_COLUMN, pixbuf, TEXT_COLUMN, tmp_str, -1);
+                gtk_list_store_set (list_store, &iter,
 									PIXBUF_COLUMN, pixbuf,
 									TEXT_COLUMN, tmp_str,
 									FILENAME_COLUMN, tmp_filename,
@@ -229,8 +229,8 @@ static GtkTreePath *gsb_select_icon_fill_icon_view (gchar *name_icon)
 				i++;
 			g_free (tmp_filename);
         }
-        gtk_icon_view_set_model (GTK_ICON_VIEW (icon_view), GTK_TREE_MODEL (store));
-        g_object_unref (G_OBJECT (store));
+        gtk_icon_view_set_model (GTK_ICON_VIEW (icon_view), GTK_TREE_MODEL (list_store));
+        g_object_unref (G_OBJECT (list_store));
         g_dir_close (dir);
     }
     else
@@ -459,7 +459,7 @@ gchar *gsb_select_icon_create_window (gchar *name_icon)
     GtkWidget *hbox;
     GtkWidget *chooser_button;
     GtkWidget *scroll;
-    GtkWidget *icon_view;
+    GtkWidget *view;
 	gint result;
 
     devel_debug (name_icon);
@@ -507,15 +507,15 @@ gchar *gsb_select_icon_create_window (gchar *name_icon)
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
                              GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start (GTK_BOX (content_area), scroll, TRUE, TRUE, 0);
-    icon_view = gsb_select_icon_create_icon_view (name_icon);
+    view = gsb_select_icon_create_icon_view (name_icon);
     gtk_container_set_border_width (GTK_CONTAINER(scroll), 6);
-    gtk_container_add (GTK_CONTAINER (scroll), icon_view);
+    gtk_container_add (GTK_CONTAINER (scroll), view);
 
     /* limitation de la fenêtre */
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 480, 550);
 
     /* gestion des signaux */
-    g_signal_connect (G_OBJECT (icon_view),
+    g_signal_connect (G_OBJECT (view),
                         "selection-changed",
                         G_CALLBACK(gsb_select_icon_selection_changed),
                         NULL);
