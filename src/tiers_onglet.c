@@ -1702,22 +1702,22 @@ static gboolean gsb_assistant_payees_enter_page_3 (GtkWidget *assistant)
 
     while (payee_list_tmp)
     {
-        gint payee_number;
+        gint tmp_payee_number;
         const gchar *tmpstr;
 
-        payee_number = gsb_data_payee_get_no_payee (payee_list_tmp->data);
-        tmpstr = gsb_data_payee_get_name (payee_number, FALSE);
+        tmp_payee_number = gsb_data_payee_get_no_payee (payee_list_tmp->data);
+        tmpstr = gsb_data_payee_get_name (tmp_payee_number, FALSE);
         if (gsb_string_is_trouve (tmpstr, str_cherche, ignore_case, use_regex))
         {
-            if (!g_slist_find (sup_payees, GINT_TO_POINTER (payee_number)))
+            if (!g_slist_find (sup_payees, GINT_TO_POINTER (tmp_payee_number)))
             {
                 sup_payees = g_slist_append (sup_payees,
-                        GINT_TO_POINTER (payee_number));
+                        GINT_TO_POINTER (tmp_payee_number));
             }
             gtk_list_store_append (GTK_LIST_STORE (list_store), &iter);
             gtk_list_store_set (GTK_LIST_STORE (list_store), &iter,
                         COLUMN_BOOLEAN,  TRUE,
-                        COLUMN_INT, payee_number,
+                        COLUMN_INT, tmp_payee_number,
                         COLUMN_STRING, tmpstr,
                         -1);
             i++;
