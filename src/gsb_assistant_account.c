@@ -79,8 +79,6 @@ enum FirstAccountAssistantPage
 static GtkWidget *account_combobox_currency = NULL;
 static GtkWidget *account_combobox_bank = NULL;
 static GtkWidget *account_entry_initial_amount = NULL;
-static GtkWidget *account_entry_name = NULL;
-
 
 /**
  * this function is called to launch the account assistant
@@ -126,13 +124,16 @@ GtkResponseType gsb_assistant_account_run ( void )
 
     if (return_value == GTK_RESPONSE_APPLY)
     {
-	/* Ok, we create the new account */
-	gsb_account_new ( GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind")),
-			  gsb_currency_get_currency_from_combobox (account_combobox_currency),
-			  gsb_bank_combo_list_get_bank_number (account_combobox_bank),
-			  utils_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (account_entry_initial_amount))),
-			  gtk_entry_get_text (GTK_ENTRY (account_entry_name)),
-              new_icon );
+		GtkWidget *account_entry_name;
+
+		/* Ok, we create the new account */
+		account_entry_name = g_object_get_data (G_OBJECT (assistant), "account_entry_name");
+		gsb_account_new ( GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind")),
+				  gsb_currency_get_currency_from_combobox (account_combobox_currency),
+				  gsb_bank_combo_list_get_bank_number (account_combobox_bank),
+				  utils_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (account_entry_initial_amount))),
+				  gtk_entry_get_text (GTK_ENTRY (account_entry_name)),
+				  new_icon );
         result = TRUE; /* assistant was not cancelled */
     }
 
@@ -327,6 +328,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
     GtkWidget *vbox;
     GtkWidget *label;
     GtkWidget *hbox;
+	GtkWidget *account_entry_name;
 
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
