@@ -823,7 +823,7 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 									GApplicationCommandLine *cmdline)
 {
 	GrisbiAppPrivate *priv;
-	GVariantDict *options;
+	GVariantDict *v_options;
 	gchar *tmp_str = NULL;
 	const gchar **remaining_args;
 #ifdef __APPLE__
@@ -836,17 +836,17 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 	priv->debug_level = -1;
 
 	/* traitement des autres options */
-	options = g_application_command_line_get_options_dict (cmdline);
+	v_options = g_application_command_line_get_options_dict (cmdline);
 
-	g_variant_dict_lookup (options, "new-window", "b", &priv->new_window);
-	g_variant_dict_lookup (options, "debug", "s", &tmp_str);
-	g_variant_dict_lookup (options, "d", "s", &tmp_str);
+	g_variant_dict_lookup (v_options, "new-window", "b", &priv->new_window);
+	g_variant_dict_lookup (v_options, "debug", "s", &tmp_str);
+	g_variant_dict_lookup (v_options, "d", "s", &tmp_str);
 #ifdef __APPLE__
-    g_variant_dict_lookup (options, "launcher", "s", &launcher_str);
+    g_variant_dict_lookup (v_options, "launcher", "s", &launcher_str);
 #endif
 
     /* Parse filenames */
-	if (g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &remaining_args))
+	if (g_variant_dict_lookup (v_options, G_OPTION_REMAINING, "^a&ay", &remaining_args))
 	{
 		gint i;
 
@@ -926,9 +926,9 @@ static gboolean grisbi_app_cmdline (GApplication *application,
  * \return
  **/
 static gint grisbi_app_handle_local_options (GApplication *app,
-											 GVariantDict *options)
+											 GVariantDict *v_options)
 {
-    if (g_variant_dict_contains (options, "version"))
+    if (g_variant_dict_contains (v_options, "version"))
     {
         g_print ("%s - Version %s\n", g_get_application_name (), VERSION);
         g_print("\n\n");
@@ -936,7 +936,7 @@ static gint grisbi_app_handle_local_options (GApplication *app,
         return 0;
     }
 
-	if (g_variant_dict_contains (options, "darkmode"))
+	if (g_variant_dict_contains (v_options, "darkmode"))
 	{
 		darkmode = TRUE;
 		g_print ("darkmode is set\n");
