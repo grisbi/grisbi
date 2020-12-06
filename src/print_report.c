@@ -83,7 +83,7 @@ static GtkPrintSettings *print_settings = NULL;
  * \return
  **/
 static void  print_report_init_columns_width (gint table_size,
-                                               gint page_width)
+                                               gint width_page)
 {
 	gint row;
 	gint i;
@@ -108,7 +108,7 @@ static void  print_report_init_columns_width (gint table_size,
 					if (x_dim == 1)
 					{
 						gtk_widget_get_allocation (child, &allocation);
-						new_size = (page_width * allocation.width) / table_size;
+						new_size = (width_page * allocation.width) / table_size;
 						if (new_size > columns_width[i])
 						{
 							columns_width[i] = new_size;
