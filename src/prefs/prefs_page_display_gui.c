@@ -138,17 +138,17 @@ static gboolean prefs_page_display_gui_definition_screen_toggled (GtkWidget *tog
 
 {
 	GtkTreeModel *model;
-	gint etat;
+	gint value;
 	GrisbiAppConf *a_conf;
 	GrisbiWinRun *w_run;
 
 	devel_debug (NULL);
-	etat = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
+	value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-	w_run->definition_screen_toggled = etat;
+	w_run->definition_screen_toggled = value;
 
-	if (etat)
+	if (value)
 	{
 		GtkWidget *hpaned;
 
