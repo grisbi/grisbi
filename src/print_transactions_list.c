@@ -684,7 +684,7 @@ gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
  *
  * \return
  * */
-static void print_transactions_list_calculate_columns ( gdouble page_width )
+static void print_transactions_list_calculate_columns ( gdouble width_page)
 {
     gint total_text_width = 0;
     gint column;
@@ -696,10 +696,10 @@ static void print_transactions_list_calculate_columns ( gdouble page_width )
     columns_position[0] = 0.0;
     for ( column=1 ; column<CUSTOM_MODEL_VISIBLE_COLUMNS ; column++)
 	{
-		columns_position[column] = (gdouble) (*(width_pointer+(column-1))*page_width/100) + columns_position[column - 1];
+		columns_position[column] = (gdouble) (*(width_pointer+(column-1))*width_page/100) + columns_position[column - 1];
 	}
 
-    /* set the page_width of the columns */
+    /* set the width_page of the columns */
     for (column = 0 ; column < (CUSTOM_MODEL_VISIBLE_COLUMNS  - 1); column++ )
     {
 		columns_width[column] = (columns_position[column + 1] - columns_position[column]
@@ -707,7 +707,7 @@ static void print_transactions_list_calculate_columns ( gdouble page_width )
 		total_text_width = total_text_width + columns_width[column];
     }
     /* last column is the rest of the line */
-    columns_width[CUSTOM_MODEL_VISIBLE_COLUMNS - 1] = (page_width -3*gsb_data_print_config_get_draw_column ()
+    columns_width[CUSTOM_MODEL_VISIBLE_COLUMNS - 1] = (width_page -3*gsb_data_print_config_get_draw_column ()
 													   *(CUSTOM_MODEL_VISIBLE_COLUMNS)) * PANGO_SCALE - total_text_width;
 }
 
