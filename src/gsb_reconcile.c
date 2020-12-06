@@ -478,7 +478,6 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
         if (date)
         {
             GDate *today;
-            gchar *string ;
 
 			string = gsb_format_gdate ( date );
             gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ), string);
@@ -522,8 +521,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     }
 
     string = gsb_format_gdate (date);
-    gtk_entry_set_text ( GTK_ENTRY ( reconcile_new_date_entry ),
-			 string );
+    gtk_entry_set_text ( GTK_ENTRY ( reconcile_new_date_entry ), string );
     g_free (string);
     g_date_free (date);
 
