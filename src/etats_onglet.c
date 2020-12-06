@@ -925,10 +925,6 @@ gboolean etats_onglet_ajoute_etat (void)
     {
 		case 0:
 		{
-			GrisbiWinEtat *w_etat;
-
-			w_etat = grisbi_win_get_w_etat ();
-
 			/*  Last month incomes and outgoings  */
 			if (w_etat->metatree_assoc_mode)
 				report_number = gsb_data_report_new (_("Last month products and expenses"));
@@ -958,10 +954,6 @@ gboolean etats_onglet_ajoute_etat (void)
 
 		case 1:
 		{
-			GrisbiWinEtat *w_etat;
-
-			w_etat = grisbi_win_get_w_etat ();
-
 			/*  Current month incomes and outgoings */
 			if (w_etat->metatree_assoc_mode)
 				report_number = gsb_data_report_new ("Produits et Charges du mois en cours");
@@ -1084,10 +1076,6 @@ gboolean etats_onglet_ajoute_etat (void)
 
 		case 5:
 		{
-			GrisbiWinEtat *w_etat;
-
-			w_etat = grisbi_win_get_w_etat ();
-
 			/* Monthly outgoings by payee */
 			if (w_etat->metatree_assoc_mode)
 				report_number = gsb_data_report_new ("Charges mensuelles par Tiers");
