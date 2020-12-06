@@ -55,7 +55,7 @@
 /*END_EXTERN*/
 
 
-struct struc_check_encoding
+struct CheckEncoding
 {
     const gchar *charset;
     gchar *result;
@@ -238,7 +238,7 @@ static GSList *utils_files_check_UTF8_validity (const gchar *contents,
 												const gchar *coding_system)
 {
     GSList *list = NULL;
-    struct struc_check_encoding *result;
+    struct CheckEncoding *result;
     gchar *string = NULL;
     gsize long_str = 0;
     gsize size = 0;
@@ -266,7 +266,7 @@ static GSList *utils_files_check_UTF8_validity (const gchar *contents,
                 gchar *tmp_str;
 
                 long_str = strlen (string);
-                result = g_malloc0 (sizeof (struct struc_check_encoding));
+                result = g_malloc0 (sizeof (struct CheckEncoding));
                 result->charset = "";
                 result->result = string;
                 list = g_slist_append (list, result);
@@ -276,7 +276,7 @@ static GSList *utils_files_check_UTF8_validity (const gchar *contents,
                                 &size, &bytes_written, NULL);
                     if (tmp_str)
                     {
-                        result = g_malloc0 (sizeof (struct struc_check_encoding));
+                        result = g_malloc0 (sizeof (struct CheckEncoding));
                         result->charset = g_strdup (charset_array[i]);
                         result->result = tmp_str;
                         list = g_slist_append (list, result);
@@ -803,7 +803,7 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
     if (list)
     {
         GSList *tmp_list;
-        struct struc_check_encoding *result;
+        struct CheckEncoding *result;
 
         tmp_list = list;
         result = tmp_list->data;
@@ -812,7 +812,7 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
         tmp_list = tmp_list->next;
         while (tmp_list)
         {
-            struct struc_check_encoding *result;
+            struct CheckEncoding *result;
 
             result = tmp_list->data;
 
