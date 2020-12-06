@@ -2882,11 +2882,10 @@ gboolean gsb_file_save_css_local_file (const gchar *css_data)
 			tmp_str = g_strdup ("grisbi.css");
 
 		css_filename = g_build_filename (gsb_dirs_get_user_config_dir (), tmp_str, NULL);
+		g_free (tmp_str);
 
 		if (!g_file_set_contents (css_filename, css_data, -1, &error))
 		{
-		 	gchar *tmp_str;
-
 			tmp_str = g_strdup_printf (_("Cannot save CSS file '%s': %s"), css_filename, error->message);
             dialogue_error (tmp_str);
 			g_free (tmp_str);
