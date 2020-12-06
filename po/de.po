@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-01 07:28+0100\n"
-"PO-Revision-Date: 2020-07-12 11:21+0200\n"
+"PO-Revision-Date: 2020-12-06 14:18+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.04.3\n"
+"X-Generator: Lokalize 20.08.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/ui/bet_graph.ui.h:1
@@ -1323,32 +1323,29 @@ msgid "Transactions list contents"
 msgstr "Buchungsübersicht Inhalt"
 
 #: ../src/ui/prefs_page_divers.ui.h:1
-#, fuzzy
 msgid "Web browser"
-msgstr "Browser: "
+msgstr "Browser"
 
 #: ../src/ui/prefs_page_divers.ui.h:2 ../src/gsb_assistant_first.c:225
 msgid "Web browser command: "
 msgstr "Browser: "
 
 #: ../src/ui/prefs_page_divers.ui.h:4
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "(You may use %s to expand the URL - I.e: 'firefox %s')"
-msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s'"
+msgstr "Mit %s die URL übergeben - z.B.: 'firefox %s'"
 
 #: ../src/ui/prefs_page_divers.ui.h:5
-#, fuzzy
 msgid "Preferences settings"
-msgstr "Einstellungen Anfang"
+msgstr "Einstellungen"
 
 #: ../src/ui/prefs_page_divers.ui.h:7
-#, fuzzy
 msgid "Reset window of preferences"
-msgstr "Die Breite vom Bereich Einstellungen."
+msgstr "Fenstergröße vom Dialog Einstellungen zurücksetzen"
 
 #: ../src/ui/prefs_page_divers.ui.h:8
 msgid "(Reset window dimensions of preferences)"
-msgstr ""
+msgstr "(setzt die Größe vom Dialog Einstellungen zurück)"
 
 #. append group page "Generalities"
 #: ../src/ui/prefs_page_divers.ui.h:9 ../src/widgets/widget_bank_details.ui.h:1
@@ -1586,9 +1583,8 @@ msgstr "Beträge automatisch um Kommastellen ergänzen"
 
 #: ../src/ui/prefs_page_form_options.ui.h:8
 #: ../src/org.gtk.grisbi.gschema.xml.h:61
-#, fuzzy
 msgid "Selected transaction after validate split transaction"
-msgstr "Abstimmung für die Zuordnung der Buchung auswählen: "
+msgstr "Ausgewählte Buchung nach Prüfung von Splittbuchung"
 
 #: ../src/ui/prefs_page_fyear.ui.h:1
 msgid "Known financial years"
@@ -1989,11 +1985,11 @@ msgstr "Einstellungen"
 
 #: ../src/widgets/widget_css_rules.ui.h:7
 msgid "Overall height of characters: "
-msgstr ""
+msgstr "Allgemeine Zeichengröße:"
 
 #: ../src/widgets/widget_css_rules.ui.h:8
 msgid "Global font size"
-msgstr ""
+msgstr "Allgemeine Schriftgröße"
 
 #: ../src/widgets/widget_css_rules.ui.h:9
 msgid "back to default"
@@ -2243,9 +2239,9 @@ msgid "Show buttons on toolbars as"
 msgstr "Buttons in Werkzeugleisten anzeigen als"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:10
-#, fuzzy
 msgid "Select the labels of buttons: 0 = Text, 1 = Icon, 2 = Text+Icon."
-msgstr "Bezeichnungen für Buttons: Text, Symbole, Text und Symbole."
+msgstr ""
+"Bezeichnungen für Buttons: 1 = Text, 2 = Symbole, 3 = Text und Symbole."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:11
 msgid "Select the name of the main window of Grisbi"
@@ -2471,6 +2467,8 @@ msgid ""
 "Selected transaction after validate split transaction: FALSE select a new "
 "transaction, TRUE select the mother transaction."
 msgstr ""
+"Selektierte Buchung nach Prüfung von Splittbuchung: keine Auswahl - Selektion"
+" von neuer Buchung, Auswahl - Selektion von übergeordneter Buchung"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:63
 msgid "Sort order for the fyear combobox"
@@ -2559,11 +2557,12 @@ msgid "Right-click action on a sub-category"
 msgstr "Aktion für Unterkategorien bei Rechtsklick mit Maus."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:82
-#, fuzzy
 msgid ""
 "Right-click action on a sub-category: 0 = gtk default, 1 = Edit Category, 2 "
 "= manage division if possible."
-msgstr "Aktion für Unterkategorien bei Rechtsklick mit Maus."
+msgstr ""
+"Aktion für Unterkategorien bei Rechtsklick mit Maus: 0 = Standard, 1 ="
+" Kategorie bearbeiten, 2 = Unterkategorie verwalten"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:83
 msgid "Fixe orthographe pluriel"
@@ -2576,39 +2575,36 @@ msgid ""
 msgstr "Plural Form."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:85
-#, fuzzy
 msgid "Colorize the day transaction"
-msgstr "Buchung löschen"
+msgstr "Tag von Buchung farblich hervorheben"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:86
-#, fuzzy
 msgid "Colorize the day transaction in list"
-msgstr "Buchungen drucken"
+msgstr "Tag von Buchung in Liste farblich hervorheben"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:87
-#, fuzzy
 msgid "Show transaction in the form when select one"
-msgstr "Geplante Buchungen anzeigen von: "
+msgstr "Ausgewählte Buchung in Buchungsformular anzeigen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:89
-#, fuzzy
 msgid ""
 "0 = sort by value date, if fail, try with the date, 1 = sort by value date "
 "and then by date, 2 = forced sort by transaction date."
 msgstr ""
-"nach Valutadatum - falls nicht möglich dann nach Datum,ansonsten zuerst nach "
-"Valutadatum und dann nach Datum."
+"0 = nach Valutadatum - falls nicht möglich nach Datum, 1 = zuerst nach"
+" Valutadatum und dann nach Datum, 2 = erzwungene Sortierung nach Datum"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:91
-#, fuzzy
 msgid ""
 "0 = sort by transaction number, 1 = sort by type of amount : credit, debit, "
 "2 = sort by payee name, if fail, by transaction number, 3 = sort by date and "
 "then by transaction number."
 msgstr ""
-"Sortierung nach Buchungsnummer, Sortierung nach Buchungsart: Ausgabe, "
-"Eingabe. Sortierung nach Empfänger Name, wenn nicht möglich nach "
-"Buchungsnummer, Sortierung nach Buchungsdatum und danach nach Buchungsnummer."
+"0 = Sortierung nach Buchungsnummer, 1 = Sortierung nach Buchungsart: Ausgabe,"
+" Eingabe, "
+"2 = Sortierung nach Empfänger Name, wenn nicht möglich nach Buchungsnummer, 3"
+" = Sortierung nach Buchungsdatum "
+"und danach nach Buchungsnummer."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:92
 msgid "Main window fullscreen state"
@@ -6153,9 +6149,8 @@ msgid "DEBUG"
 msgstr "DEBUG"
 
 #: ../src/grisbi_app.c:728
-#, fuzzy
 msgid "If present, force the use of a dark theme"
-msgstr "Dunkles Design erzwingen"
+msgstr "Wenn vorhanden dunkles Design erzwingen"
 
 #: ../src/grisbi_app.c:750
 msgid "[FILE...]"
@@ -12282,9 +12277,8 @@ msgid "System Language"
 msgstr "System Sprache"
 
 #: ../src/prefs/prefs_page_divers.c:574
-#, fuzzy
 msgid "Config file"
-msgstr "Datei speichern"
+msgstr "Konfiguration Datei"
 
 #. set the scheduled variables
 #: ../src/prefs/prefs_page_divers.c:586
@@ -12333,14 +12327,12 @@ msgstr "nach Name absteigend sortieren"
 
 #. set Selected transaction after validate split transaction
 #: ../src/prefs/prefs_page_form_options.c:135
-#, fuzzy
 msgid "selects new transaction"
-msgstr "Buchung löschen"
+msgstr "selektiert eine neue Buchung"
 
 #: ../src/prefs/prefs_page_form_options.c:136
-#, fuzzy
 msgid "selects mother transaction"
-msgstr "Buchung löschen"
+msgstr "selektiert übergeordnete Buchung"
 
 #: ../src/prefs/prefs_page_fyear.c:256
 msgid "New financial year"
@@ -13502,7 +13494,7 @@ msgstr "Teilsaldo"
 
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
-msgstr "Die Eingabe in zumindest ein Feld wird empfohlen"
+msgstr "Die Eingabe in zumindest ein oder zwei Feldern wird empfohlen"
 
 #, fuzzy
 #~ msgid "If set, force grisbi to use a CSS file for a dark theme"
