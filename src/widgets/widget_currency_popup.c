@@ -115,11 +115,11 @@ static gboolean widget_currency_popup_search_function  (GtkTreeModel *model,
 static void widget_currency_popup_set_search_menu_activate (GtkWidget *item,
 															GtkEntry  *tree_view)
 {
-	gint etat;
+	gint value;
 
 	devel_debug (NULL);
-	etat = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item));
-	if (etat)
+	value = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item));
+	if (value)
 	{
 		GtkWidget *entry;
 		const gchar *menu_label;
@@ -236,11 +236,10 @@ static void widget_currency_popup_entry_menu (GtkEntry *entry,
 static void widget_currency_popup_checkbutton_toggled (GtkToggleButton *button,
 													   GtkWidget *tree_view)
 {
-	;
-	gint etat;
+	gint value;
 
-	etat = gtk_toggle_button_get_active (button);
-	prefs_page_currency_popup_fill_list (GTK_TREE_VIEW (tree_view), etat);
+	value = gtk_toggle_button_get_active (button);
+	prefs_page_currency_popup_fill_list (GTK_TREE_VIEW (tree_view), value);
 
     /* Select default currency. */
     gtk_tree_model_foreach (GTK_TREE_MODEL (gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view))),
