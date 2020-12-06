@@ -90,7 +90,7 @@ struct _SubBudgetStruct
 /*START_STATIC*/
 static void _gsb_data_budget_free ( BudgetStruct* budget );
 static void _gsb_data_sub_budget_free ( SubBudgetStruct* sub_budget );
-static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
+static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *list_budget,
                         GSList *sub_budget_list );
 static gint gsb_data_budget_get_pointer_from_name_in_glist ( BudgetStruct *budget,
                         const gchar *name );
@@ -982,13 +982,13 @@ GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
  *
  * \return the new budget_list (normally shouldn't changed
  * */
-GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
+GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *list_budget,
                         GSList *sub_budget_list )
 {
     GSList *tmp_list;
 
     if (!sub_budget_list)
-	return budget_list;
+	return list_budget;
 
     tmp_list = sub_budget_list;
 
@@ -998,13 +998,13 @@ GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
 
 	sub_budget = tmp_list -> data;
 
-	budget_list = g_slist_append ( budget_list,
+	list_budget = g_slist_append ( budget_list,
 				       g_strconcat ( "\t",
 						     sub_budget -> sub_budget_name,
 						     NULL ));
 	tmp_list = tmp_list -> next;
     }
-    return budget_list;
+    return list_budget;
 }
 
 
