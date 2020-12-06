@@ -106,11 +106,11 @@ static void prefs_page_fyear_button_fyear_show_toggled (GtkWidget *toggle_button
 	GtkTreeModel *model;
     GtkTreeIter iter;
 	GtkTreeSelection *selection;
-	gint etat = 0;
+	gint value = 0;
     gint fyear_number = 0;
 
-	etat = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
-	devel_debug_int (etat);
+	value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button));
+	devel_debug_int (value);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
 	if (!gtk_tree_selection_get_selected (GTK_TREE_SELECTION (selection), &model, &iter))
 		return;
@@ -118,7 +118,7 @@ static void prefs_page_fyear_button_fyear_show_toggled (GtkWidget *toggle_button
     gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, FYEAR_NUMBER_COLUMN, &fyear_number, -1);
 
 	if (fyear_number)
-		gsb_data_fyear_set_form_show (fyear_number, etat);
+		gsb_data_fyear_set_form_show (fyear_number, value);
 }
 
 /**
