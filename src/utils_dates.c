@@ -866,6 +866,7 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 				tmp_str = g_slist_nth_data (list, num_col_date);
 
 			array = gsb_date_get_date_content (tmp_str);
+			g_free (tmp_str);
 			if (array)
 			{
 				/* get the day, month and year according to the order */
@@ -932,26 +933,28 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 					else
 					{
 						/* the order was already changed for all the formats, we show the problem and leave */
-						gint i;
+						gint j;
 						gchar *string;
 
 						string = g_strdup (_("The order cannot be determined,\n"));
 
-						for (i = 0; i < ORDER_MAX; i++)
+						for (j = 0; j < ORDER_MAX; j++)
 						{
-							gchar *tmp_str;
-							tmp_str = g_strconcat (string,
+							gchar *tmp_str2;
+
+							tmp_str2 = g_strconcat (string,
 												   _("Date wrong for the order "),
-												   order_names[i], " : ",
-												   date_wrong[i], "\n", NULL);
+												   order_names[j], " : ",
+												   date_wrong[j], "\n", NULL);
 							g_free (string);
-							string = tmp_str;
+							string = tmp_str2;
 						}
 
 						dialogue_error (string);
 						g_free (string);
 						g_strfreev (array);
 						import_format = NULL;
+
 						return;
 					}
 				}
