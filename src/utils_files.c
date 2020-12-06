@@ -803,23 +803,21 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
     if (list)
     {
         GSList *tmp_list;
-        struct CheckEncoding *result;
+
+		struct CheckEncoding *check_encoding;
 
         tmp_list = list;
-        result = tmp_list->data;
-        g_object_set_data_full (G_OBJECT (dialog), "charset_str",
-                        g_strdup (result->result), g_free);
+        check_encoding = tmp_list->data;
+        g_object_set_data_full (G_OBJECT (dialog), "charset_str", g_strdup (check_encoding->result), g_free);
         tmp_list = tmp_list->next;
         while (tmp_list)
         {
-            struct CheckEncoding *result;
-
-            result = tmp_list->data;
+            check_encoding = tmp_list->data;
 
             gtk_list_store_append (GTK_LIST_STORE (model), &iter);
             gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-                        IMPORT_CHARMAP_ENCODING, result->charset,
-                        IMPORT_CHARMAP_RESULT, result->result,
+                        IMPORT_CHARMAP_ENCODING, check_encoding->charset,
+                        IMPORT_CHARMAP_RESULT, check_encoding->result,
                         -1);
             tmp_list = tmp_list->next;
         }
