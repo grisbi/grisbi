@@ -549,6 +549,9 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 	GtkWidget *head_page;
     GtkWidget *vbox_button;
     GtkWidget *combo;
+#ifdef USE_CONFIG_FILE
+	gchar *config_file;
+#endif
 	gint combo_index;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
@@ -571,11 +574,12 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 
 	/* set preferences settings : gsettings or config file */
 #ifdef USE_CONFIG_FILE
-	gtk_label_set_text	(GTK_LABEL (priv->label_prefs_settings), _("Config file"));
+		config_file = g_strconcat (_("File: "), gsb_dirs_get_grisbirc_filename (), NULL);
+		gtk_label_set_text	(GTK_LABEL (priv->label_prefs_settings), config_file);
+		g_free (config_file);
 #else
-	gtk_label_set_text	(GTK_LABEL (priv->label_prefs_settings), "Gsettings");
+		gtk_label_set_text	(GTK_LABEL (priv->label_prefs_settings), "Gsettings");
 #endif
-
 	/* set signal button_reset_prefs_window */
 	g_signal_connect (priv->button_reset_prefs_window,
 					  "clicked",
