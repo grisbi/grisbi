@@ -577,7 +577,7 @@ static void grisbi_settings_save_settings_file (GSettings *settings,
 
 	if (a_conf->archives_check_auto)
 	{
-		g_settings_set_boolean (settings, "archives-check-auto", TRUE);
+		g_settings_reset (G_SETTINGS (settings), "archives-check-auto");
 		if (a_conf->max_non_archived_transactions_for_check == 3000)
 			g_settings_reset (G_SETTINGS (settings), "max-transactions-before-warn-archival");
 		else
@@ -587,7 +587,7 @@ static void grisbi_settings_save_settings_file (GSettings *settings,
 	}
 	else
 	{
-		g_settings_reset (G_SETTINGS (settings), "archives-check-auto");
+		g_settings_set_boolean (settings, "archives-check-auto", FALSE);
 		g_settings_reset (G_SETTINGS (settings), "max-transactions-before-warn-archival");
 	}
 
