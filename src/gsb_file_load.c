@@ -4245,11 +4245,17 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 	/* check now if a lot of transactions,
      * if yes, we propose to file the transactions
      * by default take the 3000 transactions as limit */
-    if ( a_conf->archives_check_auto
-     &&
-     (gint) g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
-     a_conf->max_non_archived_transactions_for_check )
-        gsb_assistant_archive_run ( TRUE );
+	if ( a_conf->archives_check_auto
+		&& (gint) g_slist_length ( gsb_data_transaction_get_transactions_list () ) >
+		a_conf->max_non_archived_transactions_for_check )
+		gsb_assistant_archive_run ( TRUE );
+
+	/* check and remove duplicate currencies */
+	if (gsb_data_currency_check_and_remove_duplicate ())
+	{
+		/* force update file */
+		gsb_file_set_modified (TRUE);
+	}
 
     /* if we opened an archive, we say it here */
     if ( w_etat->is_archive )

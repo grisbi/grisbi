@@ -36,8 +36,11 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_currency.h"
+#include "dialog.h"
+#include "gsb_file.h"
 #include "structures.h"
 #include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /**
@@ -906,6 +909,60 @@ gint gsb_data_currency_new_with_data (const gchar *currency_name,
     gsb_data_currency_set_floating_point (currency_number, floating_point);
 
 	return currency_number;
+}
+
+/**
+ * set the name of the currency
+ * the value is dupplicate in memory
+ *
+ * \param currency_number the number of the currency
+ * \param name the name of the currency
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_currency_check_and_remove_duplicate (void)
+{
+	GSList *tmp_list;
+	GSList *used = NULL;
+
+	devel_debug (NULL);
+
+	if (g_slist_length (currency_list) == 1)
+	{
+		return FALSE;
+	}
+	else
+	{
+		tmp_list = currency_list;
+		while (tmp_list)
+		{
+			CurrencyStruct *tmp_currency;
+
+			tmp_currency = tmp_list->data;
+
+			if (g_slist_find_custom (used, tmp_currency->currency_name, (GCompareFunc)my_strcasecmp))
+			{
+				gchar *msg;
+
+				currency_list = g_slist_remove (currency_list, tmp_currency);
+				msg = g_strdup_printf ( _("The currency '%s' was duplicated. It has been deleted."),
+									   tmp_currency->currency_name);
+				dialogue_warning_hint (msg, _("Duplicate currency"));
+				g_slist_free_full (used, (GDestroyNotify) g_free);
+    			_gsb_data_currency_free (tmp_currency);
+
+				return TRUE;
+			}
+			else
+			{
+				used = g_slist_append (used, g_strdup (tmp_currency->currency_name));
+			}
+
+			tmp_list = tmp_list->next;
+		}
+	}
+
+	return FALSE;
 }
 
 /**
