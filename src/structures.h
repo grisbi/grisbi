@@ -38,6 +38,9 @@
 #define SECONDARY_SORT          1
 
 /* definitions pour le basculement en basse résolution */
+#define LOW_DEF_HEIGHT_HIGH		900
+#define LOW_DEF_WIDTH_HIGH		1600
+
 /* Dimensions min et position de la fenetre de l'application */
 #define WIN_MIN_HEIGHT			700
 #define WIN_MIN_WIDTH			1020

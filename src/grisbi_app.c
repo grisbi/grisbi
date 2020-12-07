@@ -711,7 +711,7 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 		monitor = gdk_display_get_monitor_at_point (display, 0, 0);
 		gdk_monitor_get_geometry (monitor, &rectangle);
 
-		if (rectangle.width < 1600 || rectangle.height < 900)
+		if (rectangle.width < LOW_DEF_WIDTH_HIGH || rectangle.height < LOW_DEF_HEIGHT_HIGH)
 		{
 			(priv->a_conf)->low_definition_screen = TRUE;
 			(priv->a_conf)->main_height = WIN_MIN_HEIGHT;
