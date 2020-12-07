@@ -893,7 +893,6 @@ gboolean gsb_file_open_file (const gchar *filename)
 
     if (gsb_file_load_open_file (filename))
     {
-
         /* the file has been opened succesfully */
         /* on met à jour le nom du fichier */
         grisbi_win_set_filename (NULL, filename);
@@ -905,7 +904,6 @@ gboolean gsb_file_open_file (const gchar *filename)
         if (a_conf->sauvegarde_demarrage)
         {
 			gsb_file_save_backup (a_conf->make_bakup_single_file, a_conf->compress_backup);
-			gsb_file_set_modified (FALSE);
         }
     }
     else
