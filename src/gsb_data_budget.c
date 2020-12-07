@@ -998,12 +998,11 @@ GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *list_budget,
 
 	sub_budget = tmp_list -> data;
 
-	list_budget = g_slist_append ( budget_list,
-				       g_strconcat ( "\t",
-						     sub_budget -> sub_budget_name,
-						     NULL ));
+	list_budget = g_slist_append (list_budget,
+								  g_strconcat ("\t", sub_budget->sub_budget_name, NULL));
 	tmp_list = tmp_list -> next;
     }
+
     return list_budget;
 }
 
