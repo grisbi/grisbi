@@ -866,7 +866,6 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 				tmp_str = g_slist_nth_data (list, num_col_date);
 
 			array = gsb_date_get_date_content (tmp_str);
-			g_free (tmp_str);
 			if (array)
 			{
 				/* get the day, month and year according to the order */
