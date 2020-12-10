@@ -594,7 +594,7 @@ gboolean grisbi_conf_load_app_config (void)
 	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
     for (i = 0; (warning+i)->name; i ++)
     {
-        (warning+i)->hidden = g_key_file_get_boolean (config,
+        (warning+i)->hidden = !g_key_file_get_boolean (config,
 													  "Delete_msg",
 													  (warning+i)->name,
 													  NULL);
@@ -616,7 +616,7 @@ gboolean grisbi_conf_load_app_config (void)
 	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
     for (i = 0; (warning+i)->name; i ++)
     {
-        (warning+i)->hidden = g_key_file_get_boolean (config,
+        (warning+i)->hidden = !g_key_file_get_boolean (config,
 													  "Warnings_msg",
 													  (warning+i)->name,
 													  NULL);
@@ -1035,7 +1035,7 @@ gboolean grisbi_conf_save_app_config (void)
         g_key_file_set_boolean (config,
 								"Delete_msg",
                         		(warning+i)->name,
-                        		(warning+i)->hidden);
+                        		!(warning+i)->hidden);
     }
 
     /* settings_messages_tips */
@@ -1055,7 +1055,7 @@ gboolean grisbi_conf_save_app_config (void)
         g_key_file_set_boolean (config,
 								"Warnings_msg",
                         		(warning+i)->name,
-                        		(warning+i)->hidden);
+                        		!(warning+i)->hidden);
     }
 
     /* settings_panel */

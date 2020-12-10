@@ -17,15 +17,6 @@ struct _ConditionalMsg
     gboolean default_answer;	/** Useful for yes/no questions. */
 };
 
-struct ConditionalMessage
-{
-    const gchar * name;
-    const gchar * hint;
-    const gchar * message;
-    gboolean hidden;
-    gboolean default_answer;	/** Useful for yes/no questions. */
-};
-
 /* START_DECLARATION */
 void 		dialogue 									(const gchar *texte_dialogue);
 void 		dialogue_conditional_hint 					(const gchar *text,

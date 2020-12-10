@@ -2898,7 +2898,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 
 				vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-				checkbox = gtk_check_button_new_with_label (_("Keep this choice permanently?"));
+				checkbox = gtk_check_button_new_with_label (_("Keep this choice and no longer see this message?"));
 				g_signal_connect (G_OBJECT (checkbox),
 								  "toggled",
 								  G_CALLBACK (dialogue_update_struct_message),

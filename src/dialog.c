@@ -271,7 +271,7 @@ static GtkDialog *dialogue_conditional_new (const gchar *text,
 			break;
 		case GTK_BUTTONS_YES_NO:
 		case GTK_BUTTONS_OK_CANCEL:
-			label = _("Keep this choice permanently?");
+			label = _("Keep this choice and no longer see this message?");
 			break;
 	}
     checkbox = gtk_check_button_new_with_label (label);
@@ -602,34 +602,33 @@ gboolean dialogue_conditional_yes_no_with_items (const gchar *tab_name,
     GtkWidget *checkbox;
     GtkWidget *dialog;
     GtkWidget *vbox;
-	gint i;
+	gint msg_no = 0;
     gchar *text;
     gint response;
-	ConditionalMsg msg = {NULL, NULL, NULL, FALSE, FALSE};
 
 	if (g_strcmp0 (tab_name, "tab_delete_msg") == 0)
 	{
-		for  (i = 0; tab_delete_msg[i].name; i++)
+		for  (msg_no = 0; tab_delete_msg[msg_no].name; msg_no++)
 		{
-			msg = tab_delete_msg[i];
-			if (strcmp (msg.name, struct_name) == 0)
+			if (strcmp (tab_delete_msg[msg_no].name, struct_name) == 0)
+			{
 				break;
+			}
 		}
 	}
 	else
 	{
-		for  (i = 0; tab_warning_msg[i].name; i++)
+		for  (msg_no = 0; tab_warning_msg[msg_no].name; msg_no++)
 		{
-			msg = tab_warning_msg[i];
-			if (strcmp (msg.name, struct_name) == 0)
+			if (strcmp (tab_warning_msg[msg_no].name, struct_name) == 0)
 				break;
 		}
 	}
 
-    if (msg.hidden)
-        return msg.default_answer;
+    if (tab_delete_msg[msg_no].hidden)
+        return tab_delete_msg[msg_no].default_answer;
 
-    text = dialogue_make_hint (gettext (msg.hint), tmp_msg);
+    text = dialogue_make_hint (gettext (tab_delete_msg[msg_no].hint), tmp_msg);
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
@@ -641,24 +640,24 @@ gboolean dialogue_conditional_yes_no_with_items (const gchar *tab_name,
 
     vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-    checkbox = gtk_check_button_new_with_label (_("Keep this choice permanently?"));
+    checkbox = gtk_check_button_new_with_label (_("Keep this choice and no longer see this message?"));
     g_signal_connect (G_OBJECT (checkbox),
 					  "toggled",
                       G_CALLBACK (dialogue_update_struct_message),
-                      &msg);
+                      &tab_delete_msg[msg_no]);
     gtk_box_pack_start (GTK_BOX (vbox), checkbox, TRUE, TRUE, MARGIN_BOX);
     gtk_widget_show_all (checkbox);
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
 
     if (response == GTK_RESPONSE_YES)
-        msg.default_answer = TRUE;
-    else
-        msg.default_answer = FALSE;
+        tab_delete_msg[msg_no].default_answer = TRUE;
+	else
+		tab_delete_msg[msg_no].default_answer = FALSE;
 
     gtk_widget_destroy (GTK_WIDGET (dialog));
 
-	return msg.default_answer;
+	return tab_delete_msg[msg_no].default_answer;
 }
 
 /**
@@ -693,7 +692,7 @@ gboolean dialogue_conditional_yes_no_with_struct (ConditionalMsg *msg)
 
     vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-    checkbox = gtk_check_button_new_with_label (_("Keep this choice permanently?"));
+    checkbox = gtk_check_button_new_with_label (_("Keep this choice and no longer see this message?"));
     g_signal_connect (G_OBJECT (checkbox),
 					  "toggled",
                       G_CALLBACK (dialogue_update_struct_message),
