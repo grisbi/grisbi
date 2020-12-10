@@ -41,6 +41,7 @@
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_file.h"
+#include "mouse.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_prefs.h"
@@ -69,77 +70,44 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageMsgWarning, prefs_page_msg_warning, GTK_TYP
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ * called when we press a button on the list
  *
+ * \param tree_view
+ * \param ev
  *
- * \param
- * \param
- *
- * \return
+ * \return FALSE
  **/
-static void prefs_page_msg_warning_msg_select (GtkTreeSelection *selection,
-											   GtkWidget *tree_view)
+static gboolean prefs_page_msg_warning_list_button_press (GtkWidget *tree_view,
+														  GdkEventButton *ev)
 {
-	GtkTreeModel *model;
-    GtkTreeIter iter;
-	gint position;
-	ConditionalMsg *warning;
+	if (ev->button == LEFT_BUTTON)
+    {
+		GtkTreePath *path = NULL;
 
-	if (!gtk_tree_selection_get_selected (GTK_TREE_SELECTION (selection), &model, &iter))
-		return;
+		g_signal_handlers_block_by_func (tree_view, prefs_page_msg_warning_list_button_press, NULL);
+		if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view), ev->x, ev->y, &path, NULL, NULL, NULL))
+        {
+			GtkTreeModel *model;
+			GtkTreeIter iter;
+			gint position;
+			ConditionalMsg *warning;
 
-	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
+			warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
 
-	/* Get toggled iter */
-    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 2, &position, -1);
-    (warning+position)->hidden = !(warning+position)->hidden;
+			/* Get toggled iter */
+			model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+			gtk_tree_model_get_iter (model, &iter, path);
 
-    /* Set new value */
-    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, (warning+position)->hidden, -1);
-}
+			gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 2, &position, -1);
+			(warning+position)->hidden = !(warning+position)->hidden;
 
-/**
- *
- *
- * \param
- * \param
- * \param
- *
- * \return
- **/
-static void prefs_page_msg_warning_msg_toggled (GtkCellRendererToggle *cell,
-												gchar *path_str,
-												GtkWidget *tree_view)
-{
-	GtkTreeModel *model;
-    GtkTreeIter iter;
-	GtkTreeSelection *selection;
-	GtkTreePath *path;
-	gint position;
-	ConditionalMsg *warning;
-
-	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
-	path = gtk_tree_path_new_from_string (path_str);
-
-	/* get selection to block signal before change cell */
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-	g_signal_handlers_block_by_func (selection, prefs_page_msg_warning_msg_select, tree_view);
-
-	/* Get toggled iter */
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-    gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
-
-	/* select iter */
-	gtk_tree_selection_select_iter (selection, &iter);
-
-	/* get position */
-	gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 2, &position, -1);
-	(warning+position)->hidden = !(warning+position)->hidden;
-
-    /* Set new value */
-    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, (warning+position)->hidden, -1);
-
-	/* unblock signal */
-	g_signal_handlers_unblock_by_func (selection, prefs_page_msg_warning_msg_select, tree_view);
+			/* Set new value */
+			gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, !(warning+position)->hidden, -1);
+		}
+		gtk_tree_path_free (path);
+		g_signal_handlers_unblock_by_func (tree_view, prefs_page_msg_warning_list_button_press, NULL);
+	}
+    return FALSE;
 }
 
 /**
@@ -187,7 +155,7 @@ static void prefs_page_msg_warning_fill_model (GtkTreeModel *model)
 		gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
 		gtk_tree_store_set (GTK_TREE_STORE (model),
 							&iter,
-							0, (warning+i)->hidden,
+							0, !(warning+i)->hidden,
 							1, tmp_str,
 							2, i,
 							-1);
@@ -208,7 +176,6 @@ static GtkWidget *prefs_page_msg_warning_create_tree_view (PrefsPageMsgWarning *
 	GtkWidget *treeview;
 	GtkTreeModel *model;
     GtkCellRenderer *cell;
-	GtkTreeSelection *selection;
     GtkTreeViewColumn *column;
 
     /* create the model */
@@ -223,14 +190,12 @@ static GtkWidget *prefs_page_msg_warning_create_tree_view (PrefsPageMsgWarning *
     gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (model));
     g_object_unref (G_OBJECT(model));
 
+	/* toggled column*/
     cell = gtk_cell_renderer_toggle_new ();
     column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, "cell-background-rgba", 3, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), GTK_TREE_VIEW_COLUMN (column));
-    g_signal_connect (cell,
-					  "toggled",
-					  G_CALLBACK (prefs_page_msg_warning_msg_toggled),
-					  treeview);
 
+	/* name column */
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (_("Message"),
 													   cell,
@@ -242,12 +207,11 @@ static GtkWidget *prefs_page_msg_warning_create_tree_view (PrefsPageMsgWarning *
 	/* set and fill the model */
 	prefs_page_msg_warning_fill_model (model);
 
-	/* set signal selection */
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
-    g_signal_connect (selection,
-					  "changed",
-					  G_CALLBACK (prefs_page_msg_warning_msg_select),
-					  treeview);
+    /* signal of tree_view */
+    g_signal_connect (G_OBJECT (treeview),
+					  "button-press-event",
+					  G_CALLBACK (prefs_page_msg_warning_list_button_press),
+					  NULL);
 
 	/* set column color */
 	utils_set_tree_store_background_color (treeview, 3);
