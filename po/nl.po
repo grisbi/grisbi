@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-06 22:39+0100\n"
+"POT-Creation-Date: 2020-12-10 13:01+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -4564,28 +4564,28 @@ msgstr ""
 msgid "Do not show this message again"
 msgstr "Laat dit bericht niet meer zien"
 
-#: ../src/dialog.c:274 ../src/dialog.c:644 ../src/dialog.c:696
+#: ../src/dialog.c:274 ../src/dialog.c:643 ../src/dialog.c:695
 #: ../src/gsb_scheduler_list.c:2901
-msgid "Keep this choice permanently?"
+msgid "Keep this choice and no longer see this message?"
 msgstr ""
 
-#: ../src/dialog.c:804
+#: ../src/dialog.c:803
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
 msgstr ""
 
-#: ../src/dialog.c:806
+#: ../src/dialog.c:805
 msgid "Serious brain damage expected."
 msgstr "Serieus hersenletsel verwacht."
 
-#: ../src/dialog.c:820
+#: ../src/dialog.c:819
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
 msgstr ""
 
-#: ../src/dialog.c:822
+#: ../src/dialog.c:821
 #, fuzzy
 msgid "Cannot allocate memory"
 msgstr ""
@@ -5399,7 +5399,7 @@ msgstr "Exporteer naar CSV ..."
 
 #: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:794
 #: ../src/grisbi_prefs.c:818 ../src/gsb_debug.c:842 ../src/gsb_file.c:518
-#: ../src/gsb_file.c:667 ../src/gsb_file.c:992
+#: ../src/gsb_file.c:667 ../src/gsb_file.c:990
 #, fuzzy
 msgid "Done"
 msgstr "Geen"
@@ -6682,7 +6682,7 @@ msgid "Fonts & Logo"
 msgstr "Lettertypen & logo"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:438 ../src/prefs/prefs_page_msg_warning.c:276
+#: ../src/grisbi_prefs.c:438 ../src/prefs/prefs_page_msg_warning.c:240
 msgid "Messages & warnings"
 msgstr "Berichten & Waarschuwingen"
 
@@ -6712,7 +6712,7 @@ msgid "Transactions list cells"
 msgstr "Cellen transactielijst"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_msg_delete.c:274
+#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_msg_delete.c:238
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "Berichten & Waarschuwingen"
@@ -7833,7 +7833,7 @@ msgstr "Selecteer data"
 msgid "The exchange rate or the transaction amount in %s must be filled."
 msgstr ""
 
-#: ../src/gsb_currency_popup.c:188 ../src/gsb_data_currency.c:213
+#: ../src/gsb_currency_popup.c:188 ../src/gsb_data_currency.c:216
 #: ../src/prefs/prefs_page_currency.c:135
 msgid "United States"
 msgstr "Verenigde Staten van Amerika"
@@ -7888,1378 +7888,1388 @@ msgstr "Importeer rekening"
 msgid "No budget line"
 msgstr "Geen budgetregel"
 
-#: ../src/gsb_data_budget.c:1444 ../src/gsb_data_category.c:1616
+#: ../src/gsb_data_budget.c:1443 ../src/gsb_data_category.c:1616
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "In <i>%s</i>, <i>%s</i> is een dubbele van <i>%s</i>.\n"
 
 #. continent,   currency_name,        country_name,code_iso,nickname .......
-#: ../src/gsb_data_currency.c:63 ../src/gsb_data_currency.c:64
-#: ../src/gsb_data_currency.c:65 ../src/gsb_data_currency.c:66
-#: ../src/gsb_data_currency.c:67 ../src/gsb_data_currency.c:68
-#: ../src/gsb_data_currency.c:69 ../src/gsb_data_currency.c:70
-#: ../src/gsb_data_currency.c:71 ../src/gsb_data_currency.c:72
-#: ../src/gsb_data_currency.c:73 ../src/gsb_data_currency.c:74
-#: ../src/gsb_data_currency.c:75 ../src/gsb_data_currency.c:76
-#: ../src/gsb_data_currency.c:77 ../src/gsb_data_currency.c:78
-#: ../src/gsb_data_currency.c:79 ../src/gsb_data_currency.c:80
-#: ../src/gsb_data_currency.c:81 ../src/gsb_data_currency.c:82
-#: ../src/gsb_data_currency.c:83 ../src/gsb_data_currency.c:84
-#: ../src/gsb_data_currency.c:85 ../src/gsb_data_currency.c:86
-#: ../src/gsb_data_currency.c:87 ../src/gsb_data_currency.c:88
-#: ../src/gsb_data_currency.c:89 ../src/gsb_data_currency.c:90
-#: ../src/gsb_data_currency.c:91 ../src/gsb_data_currency.c:92
-#: ../src/gsb_data_currency.c:93 ../src/gsb_data_currency.c:94
-#: ../src/gsb_data_currency.c:95 ../src/gsb_data_currency.c:96
-#: ../src/gsb_data_currency.c:97 ../src/gsb_data_currency.c:98
-#: ../src/gsb_data_currency.c:99
+#: ../src/gsb_data_currency.c:66 ../src/gsb_data_currency.c:67
+#: ../src/gsb_data_currency.c:68 ../src/gsb_data_currency.c:69
+#: ../src/gsb_data_currency.c:70 ../src/gsb_data_currency.c:71
+#: ../src/gsb_data_currency.c:72 ../src/gsb_data_currency.c:73
+#: ../src/gsb_data_currency.c:74 ../src/gsb_data_currency.c:75
+#: ../src/gsb_data_currency.c:76 ../src/gsb_data_currency.c:77
+#: ../src/gsb_data_currency.c:78 ../src/gsb_data_currency.c:79
+#: ../src/gsb_data_currency.c:80 ../src/gsb_data_currency.c:81
+#: ../src/gsb_data_currency.c:82 ../src/gsb_data_currency.c:83
+#: ../src/gsb_data_currency.c:84 ../src/gsb_data_currency.c:85
+#: ../src/gsb_data_currency.c:86 ../src/gsb_data_currency.c:87
+#: ../src/gsb_data_currency.c:88 ../src/gsb_data_currency.c:89
+#: ../src/gsb_data_currency.c:90 ../src/gsb_data_currency.c:91
+#: ../src/gsb_data_currency.c:92 ../src/gsb_data_currency.c:93
+#: ../src/gsb_data_currency.c:94 ../src/gsb_data_currency.c:95
+#: ../src/gsb_data_currency.c:96 ../src/gsb_data_currency.c:97
+#: ../src/gsb_data_currency.c:98 ../src/gsb_data_currency.c:99
+#: ../src/gsb_data_currency.c:100 ../src/gsb_data_currency.c:101
+#: ../src/gsb_data_currency.c:102
 msgid "Africa"
 msgstr "Afrika"
 
-#: ../src/gsb_data_currency.c:63
+#: ../src/gsb_data_currency.c:66
 msgid "Algerian Dinar"
 msgstr "Algerijnse dinar"
 
-#: ../src/gsb_data_currency.c:63
+#: ../src/gsb_data_currency.c:66
 msgid "Algeria"
 msgstr "Algerije"
 
-#: ../src/gsb_data_currency.c:64
+#: ../src/gsb_data_currency.c:67
 msgid "Botswana Pula"
 msgstr "Botswana Pula"
 
-#: ../src/gsb_data_currency.c:64
+#: ../src/gsb_data_currency.c:67
 msgid "Botswana"
 msgstr "Botswana"
 
-#: ../src/gsb_data_currency.c:65
+#: ../src/gsb_data_currency.c:68
 msgid "Burundi Franc"
 msgstr "Burundese Frank"
 
-#: ../src/gsb_data_currency.c:65
+#: ../src/gsb_data_currency.c:68
 msgid "Burundi"
 msgstr "Burundi"
 
-#: ../src/gsb_data_currency.c:66 ../src/gsb_data_currency.c:67
-#: ../src/gsb_data_currency.c:68
+#: ../src/gsb_data_currency.c:69 ../src/gsb_data_currency.c:70
+#: ../src/gsb_data_currency.c:71
 msgid "CFA Franc BCEAO"
 msgstr "CFA-frank BCEAO"
 
-#: ../src/gsb_data_currency.c:66
+#: ../src/gsb_data_currency.c:69
 msgid "Niger"
 msgstr "Niger"
 
-#: ../src/gsb_data_currency.c:67
+#: ../src/gsb_data_currency.c:70
 msgid "Senegal"
 msgstr "Senegal"
 
-#: ../src/gsb_data_currency.c:68
+#: ../src/gsb_data_currency.c:71
 msgid "Togo"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:69 ../src/gsb_data_currency.c:70
-#: ../src/gsb_data_currency.c:71
+#: ../src/gsb_data_currency.c:72 ../src/gsb_data_currency.c:73
+#: ../src/gsb_data_currency.c:74
 msgid "CFA Franc BEAC"
 msgstr "CFA Franc BEAC"
 
-#: ../src/gsb_data_currency.c:69
+#: ../src/gsb_data_currency.c:72
 msgid "Cameroon"
 msgstr "Kameroen"
 
-#: ../src/gsb_data_currency.c:70
+#: ../src/gsb_data_currency.c:73
 msgid "Chad"
 msgstr "Tsjaad"
 
-#: ../src/gsb_data_currency.c:71
+#: ../src/gsb_data_currency.c:74
 msgid "Congo"
 msgstr "Congo"
 
-#: ../src/gsb_data_currency.c:72
+#: ../src/gsb_data_currency.c:75
 msgid "Comoro Franc"
 msgstr "Comorese frank"
 
-#: ../src/gsb_data_currency.c:72
+#: ../src/gsb_data_currency.c:75
 msgid "Comoros"
 msgstr "Comoren"
 
-#: ../src/gsb_data_currency.c:73
+#: ../src/gsb_data_currency.c:76
 msgid "Egyptian Pound"
 msgstr "Egyptisch Pond"
 
-#: ../src/gsb_data_currency.c:73
+#: ../src/gsb_data_currency.c:76
 msgid "Egypt"
 msgstr "Egypte"
 
-#: ../src/gsb_data_currency.c:74
+#: ../src/gsb_data_currency.c:77
 msgid "Ethiopian Birr"
 msgstr "Ethiopische Birr"
 
-#: ../src/gsb_data_currency.c:74
+#: ../src/gsb_data_currency.c:77
 msgid "Ethiopia"
 msgstr "Ethiopië"
 
-#: ../src/gsb_data_currency.c:75
+#: ../src/gsb_data_currency.c:78
 msgid "Gambian Dalasi"
 msgstr "Gambiaanse Dalasi"
 
-#: ../src/gsb_data_currency.c:75
+#: ../src/gsb_data_currency.c:78
 msgid "Gambia"
 msgstr "Gambia"
 
-#: ../src/gsb_data_currency.c:76
+#: ../src/gsb_data_currency.c:79
 msgid "Ghana Cedi"
 msgstr "Ghanese Cedi"
 
-#: ../src/gsb_data_currency.c:76
+#: ../src/gsb_data_currency.c:79
 msgid "Ghana"
 msgstr "Ghana"
 
-#: ../src/gsb_data_currency.c:77
+#: ../src/gsb_data_currency.c:80
 msgid "Guinea-Bissau Peso"
 msgstr "Guinea-Bissause Peso"
 
-#: ../src/gsb_data_currency.c:77
+#: ../src/gsb_data_currency.c:80
 msgid "Guinea-Bissau"
 msgstr "Guinee-Bissau"
 
-#: ../src/gsb_data_currency.c:78
+#: ../src/gsb_data_currency.c:81
 msgid "Kenyan Shilling"
 msgstr "Keniaanse shilling"
 
-#: ../src/gsb_data_currency.c:78
+#: ../src/gsb_data_currency.c:81
 msgid "Kenya"
 msgstr "Kenia"
 
-#: ../src/gsb_data_currency.c:79
+#: ../src/gsb_data_currency.c:82
 msgid "Liberian Dollar"
 msgstr "Liberiaanse dollar"
 
-#: ../src/gsb_data_currency.c:79
+#: ../src/gsb_data_currency.c:82
 msgid "Liberia"
 msgstr "Liberia"
 
-#: ../src/gsb_data_currency.c:80
+#: ../src/gsb_data_currency.c:83
 msgid "Libyan Dinar"
 msgstr "Libische Dinar"
 
-#: ../src/gsb_data_currency.c:80
+#: ../src/gsb_data_currency.c:83
 msgid "Libyan Arab Jamahiriya"
 msgstr "Libië"
 
-#: ../src/gsb_data_currency.c:81
+#: ../src/gsb_data_currency.c:84
 msgid "Malagasy Franc"
 msgstr "Malagese frank"
 
-#: ../src/gsb_data_currency.c:81
+#: ../src/gsb_data_currency.c:84
 msgid "Madagascar"
 msgstr "Madagaskar"
 
-#: ../src/gsb_data_currency.c:82
+#: ../src/gsb_data_currency.c:85
 msgid "Malawi Kwacha"
 msgstr "Malawische Kwacha"
 
-#: ../src/gsb_data_currency.c:82
+#: ../src/gsb_data_currency.c:85
 msgid "Malawi"
 msgstr "Malawi"
 
-#: ../src/gsb_data_currency.c:83
+#: ../src/gsb_data_currency.c:86
 msgid "Mauritania Ouguiya"
 msgstr "Mauritanische Ouguiya"
 
-#: ../src/gsb_data_currency.c:83
+#: ../src/gsb_data_currency.c:86
 msgid "Mauritania"
 msgstr "Mauritanië"
 
-#: ../src/gsb_data_currency.c:84
+#: ../src/gsb_data_currency.c:87
 msgid "Moazambique Metical"
 msgstr "Mozambicaanse Metical"
 
-#: ../src/gsb_data_currency.c:84
+#: ../src/gsb_data_currency.c:87
 msgid "Mozambique"
 msgstr "Mozambique"
 
-#: ../src/gsb_data_currency.c:85
+#: ../src/gsb_data_currency.c:88
 msgid "Moroccan Dirham"
 msgstr "Marokkaanse Dirham"
 
-#: ../src/gsb_data_currency.c:85
+#: ../src/gsb_data_currency.c:88
 msgid "Morocco"
 msgstr "Marokko"
 
-#: ../src/gsb_data_currency.c:86
+#: ../src/gsb_data_currency.c:89
 msgid "Nigerian Naira"
 msgstr "Nigeriaanse Naira"
 
-#: ../src/gsb_data_currency.c:86
+#: ../src/gsb_data_currency.c:89
 msgid "Nigeria"
 msgstr "Nigeria"
 
-#: ../src/gsb_data_currency.c:87
+#: ../src/gsb_data_currency.c:90
 msgid "Rwanda Franc"
 msgstr "Ruandese frank"
 
-#: ../src/gsb_data_currency.c:87
+#: ../src/gsb_data_currency.c:90
 msgid "Rwanda"
 msgstr "Rwanda"
 
-#: ../src/gsb_data_currency.c:88
+#: ../src/gsb_data_currency.c:91
 msgid "Sao Tome and Principe Dobra"
 msgstr "Sao Tome en Principe Dobra"
 
-#: ../src/gsb_data_currency.c:88
+#: ../src/gsb_data_currency.c:91
 msgid "Sao Tome and Principe"
 msgstr "Sao Tome en Principe"
 
-#: ../src/gsb_data_currency.c:89
+#: ../src/gsb_data_currency.c:92
 msgid "Seychelles Rupee"
 msgstr "Seychellen Roepia"
 
-#: ../src/gsb_data_currency.c:89
+#: ../src/gsb_data_currency.c:92
 msgid "Seychelles"
 msgstr "Seychellen"
 
-#: ../src/gsb_data_currency.c:90
+#: ../src/gsb_data_currency.c:93
 msgid "Sierra Leonean Leone"
 msgstr "Sierra Leone Leone"
 
-#: ../src/gsb_data_currency.c:90
+#: ../src/gsb_data_currency.c:93
 msgid "Sierra Leone"
 msgstr "Sierra Leone"
 
-#: ../src/gsb_data_currency.c:91
+#: ../src/gsb_data_currency.c:94
 msgid "Somali Shilling"
 msgstr "Somali Shilling"
 
-#: ../src/gsb_data_currency.c:91
+#: ../src/gsb_data_currency.c:94
 msgid "Somalia"
 msgstr "Somalië"
 
-#: ../src/gsb_data_currency.c:92 ../src/gsb_data_currency.c:93
-#: ../src/gsb_data_currency.c:94
+#: ../src/gsb_data_currency.c:95 ../src/gsb_data_currency.c:96
+#: ../src/gsb_data_currency.c:97
 msgid "South African Rand"
 msgstr "Zuid-Afrikaanse Rand"
 
-#: ../src/gsb_data_currency.c:92
+#: ../src/gsb_data_currency.c:95
 msgid "Lesotho"
 msgstr "Lesotho"
 
-#: ../src/gsb_data_currency.c:93
+#: ../src/gsb_data_currency.c:96
 msgid "Namibia"
 msgstr "Namibië"
 
-#: ../src/gsb_data_currency.c:94
+#: ../src/gsb_data_currency.c:97
 msgid "South Africa"
 msgstr "Zuid-Afrika"
 
-#: ../src/gsb_data_currency.c:95
+#: ../src/gsb_data_currency.c:98
 msgid "Swaziland Lilangeni"
 msgstr "Swaziland Lilangeni"
 
-#: ../src/gsb_data_currency.c:95
+#: ../src/gsb_data_currency.c:98
 msgid "Swaziland"
 msgstr "Swaziland"
 
-#: ../src/gsb_data_currency.c:96
+#: ../src/gsb_data_currency.c:99
 msgid "Tanzanian Shilling"
 msgstr "Tanzaniaanse Shilling"
 
-#: ../src/gsb_data_currency.c:96
+#: ../src/gsb_data_currency.c:99
 msgid "United Republic of Tanzania"
 msgstr "Tanzania"
 
-#: ../src/gsb_data_currency.c:97
+#: ../src/gsb_data_currency.c:100
 msgid "Tunisian Dinar"
 msgstr "Tunesische Dinar"
 
-#: ../src/gsb_data_currency.c:97
+#: ../src/gsb_data_currency.c:100
 msgid "Tunisia"
 msgstr "Tunesië"
 
-#: ../src/gsb_data_currency.c:98
+#: ../src/gsb_data_currency.c:101
 msgid "Zambian Kwacha"
 msgstr "Zambiaanse Kwacha"
 
-#: ../src/gsb_data_currency.c:98
+#: ../src/gsb_data_currency.c:101
 msgid "Zambia"
 msgstr "Zambia"
 
-#: ../src/gsb_data_currency.c:99
+#: ../src/gsb_data_currency.c:102
 msgid "Zimbabwe Dollar"
 msgstr "Zimbabwaanse Dollar"
 
-#: ../src/gsb_data_currency.c:99
+#: ../src/gsb_data_currency.c:102
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: ../src/gsb_data_currency.c:100 ../src/gsb_data_currency.c:101
-#: ../src/gsb_data_currency.c:102 ../src/gsb_data_currency.c:103
-#: ../src/gsb_data_currency.c:104 ../src/gsb_data_currency.c:105
-#: ../src/gsb_data_currency.c:106 ../src/gsb_data_currency.c:107
-#: ../src/gsb_data_currency.c:108 ../src/gsb_data_currency.c:109
-#: ../src/gsb_data_currency.c:110 ../src/gsb_data_currency.c:111
-#: ../src/gsb_data_currency.c:112 ../src/gsb_data_currency.c:113
-#: ../src/gsb_data_currency.c:114 ../src/gsb_data_currency.c:115
-#: ../src/gsb_data_currency.c:116 ../src/gsb_data_currency.c:117
-#: ../src/gsb_data_currency.c:118 ../src/gsb_data_currency.c:119
-#: ../src/gsb_data_currency.c:120 ../src/gsb_data_currency.c:121
-#: ../src/gsb_data_currency.c:122 ../src/gsb_data_currency.c:123
-#: ../src/gsb_data_currency.c:124 ../src/gsb_data_currency.c:125
-#: ../src/gsb_data_currency.c:126 ../src/gsb_data_currency.c:127
-#: ../src/gsb_data_currency.c:128 ../src/gsb_data_currency.c:129
-#: ../src/gsb_data_currency.c:130 ../src/gsb_data_currency.c:131
-#: ../src/gsb_data_currency.c:132 ../src/gsb_data_currency.c:133
-#: ../src/gsb_data_currency.c:134 ../src/gsb_data_currency.c:135
-#: ../src/gsb_data_currency.c:136 ../src/gsb_data_currency.c:137
-#: ../src/gsb_data_currency.c:138 ../src/gsb_data_currency.c:139
-#: ../src/gsb_data_currency.c:140
+#: ../src/gsb_data_currency.c:103 ../src/gsb_data_currency.c:104
+#: ../src/gsb_data_currency.c:105 ../src/gsb_data_currency.c:106
+#: ../src/gsb_data_currency.c:107 ../src/gsb_data_currency.c:108
+#: ../src/gsb_data_currency.c:109 ../src/gsb_data_currency.c:110
+#: ../src/gsb_data_currency.c:111 ../src/gsb_data_currency.c:112
+#: ../src/gsb_data_currency.c:113 ../src/gsb_data_currency.c:114
+#: ../src/gsb_data_currency.c:115 ../src/gsb_data_currency.c:116
+#: ../src/gsb_data_currency.c:117 ../src/gsb_data_currency.c:118
+#: ../src/gsb_data_currency.c:119 ../src/gsb_data_currency.c:120
+#: ../src/gsb_data_currency.c:121 ../src/gsb_data_currency.c:122
+#: ../src/gsb_data_currency.c:123 ../src/gsb_data_currency.c:124
+#: ../src/gsb_data_currency.c:125 ../src/gsb_data_currency.c:126
+#: ../src/gsb_data_currency.c:127 ../src/gsb_data_currency.c:128
+#: ../src/gsb_data_currency.c:129 ../src/gsb_data_currency.c:130
+#: ../src/gsb_data_currency.c:131 ../src/gsb_data_currency.c:132
+#: ../src/gsb_data_currency.c:133 ../src/gsb_data_currency.c:134
+#: ../src/gsb_data_currency.c:135 ../src/gsb_data_currency.c:136
+#: ../src/gsb_data_currency.c:137 ../src/gsb_data_currency.c:138
+#: ../src/gsb_data_currency.c:139 ../src/gsb_data_currency.c:140
+#: ../src/gsb_data_currency.c:141 ../src/gsb_data_currency.c:142
+#: ../src/gsb_data_currency.c:143
 msgid "Asia"
 msgstr "Azië"
 
-#: ../src/gsb_data_currency.c:100
+#: ../src/gsb_data_currency.c:103
 msgid "Afghani"
 msgstr "Afghani"
 
-#: ../src/gsb_data_currency.c:100
+#: ../src/gsb_data_currency.c:103
 msgid "Afghanistan"
 msgstr "Afghanistan"
 
-#: ../src/gsb_data_currency.c:101
+#: ../src/gsb_data_currency.c:104
 msgid "Bahraini Dinar"
 msgstr "Bahreinse Dinar"
 
-#: ../src/gsb_data_currency.c:101
+#: ../src/gsb_data_currency.c:104
 msgid "Bahrain"
 msgstr "Bahrein"
 
-#: ../src/gsb_data_currency.c:102
+#: ../src/gsb_data_currency.c:105
 msgid "Bangladesh Taka"
 msgstr "Bangladesh Taka"
 
-#: ../src/gsb_data_currency.c:102
+#: ../src/gsb_data_currency.c:105
 msgid "Bangladesh"
 msgstr "Bangladesh"
 
-#: ../src/gsb_data_currency.c:103
+#: ../src/gsb_data_currency.c:106
 msgid "Brunei Dollar"
 msgstr "Bruneise Dollar"
 
-#: ../src/gsb_data_currency.c:103
+#: ../src/gsb_data_currency.c:106
 msgid "Brunei Darussalam"
 msgstr "Bruneise Dollar"
 
-#: ../src/gsb_data_currency.c:104
+#: ../src/gsb_data_currency.c:107
 msgid "Cambodian Riel"
 msgstr "Cambodjaanse Riel"
 
-#: ../src/gsb_data_currency.c:104
+#: ../src/gsb_data_currency.c:107
 msgid "Cambodia"
 msgstr "Cambodja"
 
-#: ../src/gsb_data_currency.c:105
+#: ../src/gsb_data_currency.c:108
 msgid "Cyprus Pound"
 msgstr "Cyprisch pond"
 
-#: ../src/gsb_data_currency.c:105 ../src/gsb_data_currency.c:150
+#: ../src/gsb_data_currency.c:108 ../src/gsb_data_currency.c:153
 msgid "Cyprus"
 msgstr "Cyprus"
 
-#: ../src/gsb_data_currency.c:106
+#: ../src/gsb_data_currency.c:109
 msgid "Hong Kong Dollar"
 msgstr "Hong Kong Dollar"
 
-#: ../src/gsb_data_currency.c:106
+#: ../src/gsb_data_currency.c:109
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
-#: ../src/gsb_data_currency.c:107 ../src/gsb_data_currency.c:108
+#: ../src/gsb_data_currency.c:110 ../src/gsb_data_currency.c:111
 msgid "Indian Rupee"
 msgstr "Indiase Roepia"
 
-#: ../src/gsb_data_currency.c:107
+#: ../src/gsb_data_currency.c:110
 msgid "Bhutan"
 msgstr "Bhutan"
 
-#: ../src/gsb_data_currency.c:108
+#: ../src/gsb_data_currency.c:111
 msgid "India"
 msgstr "India"
 
-#: ../src/gsb_data_currency.c:109
+#: ../src/gsb_data_currency.c:112
 msgid "Indonesian Rupiah"
 msgstr "Indonesische Roepia"
 
-#: ../src/gsb_data_currency.c:109
+#: ../src/gsb_data_currency.c:112
 msgid "Indonesia"
 msgstr "Indonesië"
 
-#: ../src/gsb_data_currency.c:110
+#: ../src/gsb_data_currency.c:113
 msgid "Iranian Rial"
 msgstr "Iraanse Rial"
 
-#: ../src/gsb_data_currency.c:110
+#: ../src/gsb_data_currency.c:113
 msgid "Iran"
 msgstr "Iran"
 
-#: ../src/gsb_data_currency.c:111
+#: ../src/gsb_data_currency.c:114
 msgid "Iraqi Dinar"
 msgstr "Irakese Dinar"
 
-#: ../src/gsb_data_currency.c:111
+#: ../src/gsb_data_currency.c:114
 msgid "Iraq"
 msgstr "Irak"
 
-#: ../src/gsb_data_currency.c:112
+#: ../src/gsb_data_currency.c:115
 msgid "Japanese Yen"
 msgstr "Japanse Yen"
 
-#: ../src/gsb_data_currency.c:112
+#: ../src/gsb_data_currency.c:115
 msgid "Japan"
 msgstr "Japan"
 
-#: ../src/gsb_data_currency.c:113
+#: ../src/gsb_data_currency.c:116
 msgid "Jordanian Dinar"
 msgstr "Jordaanse Dinar"
 
-#: ../src/gsb_data_currency.c:113
+#: ../src/gsb_data_currency.c:116
 msgid "Jordan"
 msgstr "Jordanië"
 
-#: ../src/gsb_data_currency.c:114
+#: ../src/gsb_data_currency.c:117
 #, fuzzy
 msgid "Kazakhstan Tenge"
 msgstr "Pakistaanse Roepia"
 
-#: ../src/gsb_data_currency.c:114
+#: ../src/gsb_data_currency.c:117
 #, fuzzy
 msgid "Kazakhstan"
 msgstr "Pakistan"
 
-#: ../src/gsb_data_currency.c:115
+#: ../src/gsb_data_currency.c:118
 msgid "Kuwaiti Dinar"
 msgstr "Koeweitse Dinar"
 
-#: ../src/gsb_data_currency.c:115
+#: ../src/gsb_data_currency.c:118
 msgid "Kuwait"
 msgstr "Koeweit"
 
-#: ../src/gsb_data_currency.c:116
+#: ../src/gsb_data_currency.c:119
 msgid "Lao Kip"
 msgstr "Lao Kip"
 
-#: ../src/gsb_data_currency.c:116
+#: ../src/gsb_data_currency.c:119
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:117
+#: ../src/gsb_data_currency.c:120
 msgid "Lebanese Pound"
 msgstr "Libanese Pond"
 
-#: ../src/gsb_data_currency.c:117
+#: ../src/gsb_data_currency.c:120
 msgid "Lebanon"
 msgstr "Libanon"
 
-#: ../src/gsb_data_currency.c:118
+#: ../src/gsb_data_currency.c:121
 msgid "Macau Pataca"
 msgstr "Macause Pataca"
 
-#: ../src/gsb_data_currency.c:118
+#: ../src/gsb_data_currency.c:121
 msgid "Macao"
 msgstr "Macao"
 
-#: ../src/gsb_data_currency.c:119
+#: ../src/gsb_data_currency.c:122
 msgid "Malaysian Ringgit"
 msgstr "Maleisische Ringgit"
 
-#: ../src/gsb_data_currency.c:119
+#: ../src/gsb_data_currency.c:122
 msgid "Malaysia"
 msgstr "Maleisië"
 
-#: ../src/gsb_data_currency.c:120
+#: ../src/gsb_data_currency.c:123
 msgid "Mongolian Tugrik"
 msgstr "Mongolische Tugrik"
 
-#: ../src/gsb_data_currency.c:120
+#: ../src/gsb_data_currency.c:123
 msgid "Mongolia"
 msgstr "Mongolië"
 
-#: ../src/gsb_data_currency.c:121
+#: ../src/gsb_data_currency.c:124
 msgid "Nepalese Rupee"
 msgstr "Nepalese Roepia"
 
-#: ../src/gsb_data_currency.c:121
+#: ../src/gsb_data_currency.c:124
 msgid "Nepal"
 msgstr "Nepal"
 
-#: ../src/gsb_data_currency.c:122
+#: ../src/gsb_data_currency.c:125
 msgid "New Israeli Shekel"
 msgstr "Nieuwe Israëlische Shekel"
 
-#: ../src/gsb_data_currency.c:122
+#: ../src/gsb_data_currency.c:125
 msgid "Israel"
 msgstr "Israël"
 
-#: ../src/gsb_data_currency.c:123
+#: ../src/gsb_data_currency.c:126
 msgid "New Taiwan Dollar"
 msgstr "Nieuwe Taiwan Dollar"
 
-#: ../src/gsb_data_currency.c:123
+#: ../src/gsb_data_currency.c:126
 msgid "Taiwan, Province of China"
 msgstr "Taiwan"
 
-#: ../src/gsb_data_currency.c:124
+#: ../src/gsb_data_currency.c:127
 msgid "North Korean Won"
 msgstr "Noord-Koreaanse Won"
 
-#: ../src/gsb_data_currency.c:124
+#: ../src/gsb_data_currency.c:127
 msgid "Democratic People's Republic of Korea"
 msgstr "Noord-Korea"
 
-#: ../src/gsb_data_currency.c:125
+#: ../src/gsb_data_currency.c:128
 msgid "Pakistan Rupee"
 msgstr "Pakistaanse Roepia"
 
-#: ../src/gsb_data_currency.c:125
+#: ../src/gsb_data_currency.c:128
 msgid "Pakistan"
 msgstr "Pakistan"
 
-#: ../src/gsb_data_currency.c:126
+#: ../src/gsb_data_currency.c:129
 msgid "Philippine peso"
 msgstr "Filippijnse peso"
 
-#: ../src/gsb_data_currency.c:126
+#: ../src/gsb_data_currency.c:129
 msgid "Philippines"
 msgstr "Filippijnen"
 
-#: ../src/gsb_data_currency.c:127
+#: ../src/gsb_data_currency.c:130
 msgid "Qatari Rial"
 msgstr "Qatari Rial"
 
-#: ../src/gsb_data_currency.c:127
+#: ../src/gsb_data_currency.c:130
 msgid "Qatar"
 msgstr "Qatar"
 
-#: ../src/gsb_data_currency.c:128
+#: ../src/gsb_data_currency.c:131
 msgid "Rial Omani"
 msgstr "Omani Rial"
 
-#: ../src/gsb_data_currency.c:128
+#: ../src/gsb_data_currency.c:131
 msgid "Oman"
 msgstr "Oman"
 
-#: ../src/gsb_data_currency.c:129
+#: ../src/gsb_data_currency.c:132
 msgid "Russian Ruble"
 msgstr "Russische Roebel"
 
-#: ../src/gsb_data_currency.c:129
+#: ../src/gsb_data_currency.c:132
 msgid "Russia"
 msgstr "Rusland"
 
-#: ../src/gsb_data_currency.c:130
+#: ../src/gsb_data_currency.c:133
 msgid "Saudi Riyal"
 msgstr "Saudi Riya"
 
-#: ../src/gsb_data_currency.c:130
+#: ../src/gsb_data_currency.c:133
 msgid "Saudi Arabia"
 msgstr "Saoedi-Arabië"
 
-#: ../src/gsb_data_currency.c:131
+#: ../src/gsb_data_currency.c:134
 msgid "Singapore Dollar"
 msgstr "Singaporeaanse Dollar"
 
-#: ../src/gsb_data_currency.c:131
+#: ../src/gsb_data_currency.c:134
 msgid "Singapore"
 msgstr "Singapore"
 
-#: ../src/gsb_data_currency.c:132
+#: ../src/gsb_data_currency.c:135
 msgid "South Korean Won"
 msgstr "Zuid-Koreaanse Won"
 
-#: ../src/gsb_data_currency.c:132
+#: ../src/gsb_data_currency.c:135
 msgid "Republic of Korea"
 msgstr "Zuid-Korea"
 
-#: ../src/gsb_data_currency.c:133
+#: ../src/gsb_data_currency.c:136
 msgid "Sri Lanka Rupee"
 msgstr "Sri Lankese Roepia"
 
-#: ../src/gsb_data_currency.c:133
+#: ../src/gsb_data_currency.c:136
 msgid "Sri Lanka"
 msgstr "Sri Lanka"
 
-#: ../src/gsb_data_currency.c:134
+#: ../src/gsb_data_currency.c:137
 msgid "Syrian Pound"
 msgstr "Syrische Pond"
 
-#: ../src/gsb_data_currency.c:134
+#: ../src/gsb_data_currency.c:137
 msgid "Syrian Arab Republic"
 msgstr "Syrië"
 
-#: ../src/gsb_data_currency.c:135
+#: ../src/gsb_data_currency.c:138
 msgid "Thai Baht"
 msgstr "Thaise Baht"
 
-#: ../src/gsb_data_currency.c:135
+#: ../src/gsb_data_currency.c:138
 msgid "Thailand"
 msgstr "Thailand"
 
-#: ../src/gsb_data_currency.c:136
+#: ../src/gsb_data_currency.c:139
 msgid "Turkish Lira"
 msgstr "Turkse Lira"
 
-#: ../src/gsb_data_currency.c:136
+#: ../src/gsb_data_currency.c:139
 msgid "Turkey"
 msgstr "Turkije"
 
-#: ../src/gsb_data_currency.c:137
+#: ../src/gsb_data_currency.c:140
 msgid "United Arab Emirates Dirham"
 msgstr "Verenigde Arabische Emiraten Dirham"
 
-#: ../src/gsb_data_currency.c:137
+#: ../src/gsb_data_currency.c:140
 msgid "United Arab Emirates"
 msgstr "Verenigde Arabische Emiraten"
 
-#: ../src/gsb_data_currency.c:138
+#: ../src/gsb_data_currency.c:141
 msgid "Viet Nam Dong"
 msgstr "Vietnamese Dong"
 
-#: ../src/gsb_data_currency.c:138
+#: ../src/gsb_data_currency.c:141
 msgid "Viet Nam"
 msgstr "Vietnam"
 
-#: ../src/gsb_data_currency.c:139
+#: ../src/gsb_data_currency.c:142
 msgid "Yemeni Rial"
 msgstr "Jemenitische Rial"
 
-#: ../src/gsb_data_currency.c:139
+#: ../src/gsb_data_currency.c:142
 msgid "Yemen"
 msgstr "Jemen"
 
-#: ../src/gsb_data_currency.c:140
+#: ../src/gsb_data_currency.c:143
 msgid "Yuan Renminbi"
 msgstr "Chinese Yuan Renminbi"
 
-#: ../src/gsb_data_currency.c:140
+#: ../src/gsb_data_currency.c:143
 msgid "China"
 msgstr "China"
 
-#: ../src/gsb_data_currency.c:141 ../src/gsb_data_currency.c:142
-#: ../src/gsb_data_currency.c:143 ../src/gsb_data_currency.c:144
-#: ../src/gsb_data_currency.c:145 ../src/gsb_data_currency.c:146
+#: ../src/gsb_data_currency.c:144 ../src/gsb_data_currency.c:145
+#: ../src/gsb_data_currency.c:146 ../src/gsb_data_currency.c:147
+#: ../src/gsb_data_currency.c:148 ../src/gsb_data_currency.c:149
 msgid "Central America"
 msgstr "Midden Amerika"
 
-#: ../src/gsb_data_currency.c:141
+#: ../src/gsb_data_currency.c:144
 msgid "Belize Dollar"
 msgstr "Belize Dollar"
 
-#: ../src/gsb_data_currency.c:141
+#: ../src/gsb_data_currency.c:144
 msgid "Belize"
 msgstr "Belize"
 
-#: ../src/gsb_data_currency.c:142
+#: ../src/gsb_data_currency.c:145
 msgid "Costa Rican Colon"
 msgstr "Costa Ricaanse Colón"
 
-#: ../src/gsb_data_currency.c:142
+#: ../src/gsb_data_currency.c:145
 msgid "Costa Rica"
 msgstr "Costa Rica"
 
-#: ../src/gsb_data_currency.c:143
+#: ../src/gsb_data_currency.c:146
 msgid "Guatemalan Quetzal"
 msgstr "Guatemalaanse Quetzal"
 
-#: ../src/gsb_data_currency.c:143
+#: ../src/gsb_data_currency.c:146
 msgid "Guatemala"
 msgstr "Guatemala"
 
-#: ../src/gsb_data_currency.c:144
+#: ../src/gsb_data_currency.c:147
 msgid "Honduran Lempira"
 msgstr "Hondurese Lempira"
 
-#: ../src/gsb_data_currency.c:144
+#: ../src/gsb_data_currency.c:147
 msgid "Honduras"
 msgstr "Honduras"
 
-#: ../src/gsb_data_currency.c:145
+#: ../src/gsb_data_currency.c:148
 msgid "Mexican Peso"
 msgstr "Mexicaanse Peso"
 
-#: ../src/gsb_data_currency.c:145
+#: ../src/gsb_data_currency.c:148
 msgid "Mexico"
 msgstr "Mexico"
 
-#: ../src/gsb_data_currency.c:146
+#: ../src/gsb_data_currency.c:149
 msgid "Panama Balboa"
 msgstr "Panamese Balboa"
 
-#: ../src/gsb_data_currency.c:146 ../src/gsb_data_currency.c:229
+#: ../src/gsb_data_currency.c:149 ../src/gsb_data_currency.c:232
 msgid "Panama"
 msgstr "Panama"
 
-#: ../src/gsb_data_currency.c:147 ../src/gsb_data_currency.c:148
-#: ../src/gsb_data_currency.c:149 ../src/gsb_data_currency.c:150
-#: ../src/gsb_data_currency.c:151 ../src/gsb_data_currency.c:152
-#: ../src/gsb_data_currency.c:153 ../src/gsb_data_currency.c:154
-#: ../src/gsb_data_currency.c:155 ../src/gsb_data_currency.c:156
-#: ../src/gsb_data_currency.c:157 ../src/gsb_data_currency.c:158
-#: ../src/gsb_data_currency.c:159 ../src/gsb_data_currency.c:160
-#: ../src/gsb_data_currency.c:161 ../src/gsb_data_currency.c:162
-#: ../src/gsb_data_currency.c:163 ../src/gsb_data_currency.c:164
-#: ../src/gsb_data_currency.c:165 ../src/gsb_data_currency.c:166
-#: ../src/gsb_data_currency.c:167 ../src/gsb_data_currency.c:168
-#: ../src/gsb_data_currency.c:169 ../src/gsb_data_currency.c:170
-#: ../src/gsb_data_currency.c:171 ../src/gsb_data_currency.c:172
-#: ../src/gsb_data_currency.c:173 ../src/gsb_data_currency.c:174
-#: ../src/gsb_data_currency.c:175 ../src/gsb_data_currency.c:176
-#: ../src/gsb_data_currency.c:177 ../src/gsb_data_currency.c:178
-#: ../src/gsb_data_currency.c:179 ../src/gsb_data_currency.c:180
-#: ../src/gsb_data_currency.c:181 ../src/gsb_data_currency.c:182
-#: ../src/gsb_data_currency.c:183 ../src/gsb_data_currency.c:184
-#: ../src/gsb_data_currency.c:185 ../src/gsb_data_currency.c:186
-#: ../src/gsb_data_currency.c:187 ../src/gsb_data_currency.c:188
-#: ../src/gsb_data_currency.c:189 ../src/gsb_data_currency.c:190
-#: ../src/gsb_data_currency.c:191 ../src/gsb_data_currency.c:192
-#: ../src/gsb_data_currency.c:193 ../src/gsb_data_currency.c:194
-#: ../src/gsb_data_currency.c:195 ../src/gsb_data_currency.c:196
-#: ../src/gsb_data_currency.c:197 ../src/gsb_data_currency.c:198
+#: ../src/gsb_data_currency.c:150 ../src/gsb_data_currency.c:151
+#: ../src/gsb_data_currency.c:152 ../src/gsb_data_currency.c:153
+#: ../src/gsb_data_currency.c:154 ../src/gsb_data_currency.c:155
+#: ../src/gsb_data_currency.c:156 ../src/gsb_data_currency.c:157
+#: ../src/gsb_data_currency.c:158 ../src/gsb_data_currency.c:159
+#: ../src/gsb_data_currency.c:160 ../src/gsb_data_currency.c:161
+#: ../src/gsb_data_currency.c:162 ../src/gsb_data_currency.c:163
+#: ../src/gsb_data_currency.c:164 ../src/gsb_data_currency.c:165
+#: ../src/gsb_data_currency.c:166 ../src/gsb_data_currency.c:167
+#: ../src/gsb_data_currency.c:168 ../src/gsb_data_currency.c:169
+#: ../src/gsb_data_currency.c:170 ../src/gsb_data_currency.c:171
+#: ../src/gsb_data_currency.c:172 ../src/gsb_data_currency.c:173
+#: ../src/gsb_data_currency.c:174 ../src/gsb_data_currency.c:175
+#: ../src/gsb_data_currency.c:176 ../src/gsb_data_currency.c:177
+#: ../src/gsb_data_currency.c:178 ../src/gsb_data_currency.c:179
+#: ../src/gsb_data_currency.c:180 ../src/gsb_data_currency.c:181
+#: ../src/gsb_data_currency.c:182 ../src/gsb_data_currency.c:183
+#: ../src/gsb_data_currency.c:184 ../src/gsb_data_currency.c:185
+#: ../src/gsb_data_currency.c:186 ../src/gsb_data_currency.c:187
+#: ../src/gsb_data_currency.c:188 ../src/gsb_data_currency.c:189
+#: ../src/gsb_data_currency.c:190 ../src/gsb_data_currency.c:191
+#: ../src/gsb_data_currency.c:192 ../src/gsb_data_currency.c:193
+#: ../src/gsb_data_currency.c:194 ../src/gsb_data_currency.c:195
+#: ../src/gsb_data_currency.c:196 ../src/gsb_data_currency.c:197
+#: ../src/gsb_data_currency.c:198 ../src/gsb_data_currency.c:199
+#: ../src/gsb_data_currency.c:200 ../src/gsb_data_currency.c:201
 msgid "Europe"
 msgstr "Europa"
 
-#: ../src/gsb_data_currency.c:147 ../src/gsb_data_currency.c:148
-#: ../src/gsb_data_currency.c:149 ../src/gsb_data_currency.c:150
-#: ../src/gsb_data_currency.c:151 ../src/gsb_data_currency.c:152
-#: ../src/gsb_data_currency.c:153 ../src/gsb_data_currency.c:154
-#: ../src/gsb_data_currency.c:155 ../src/gsb_data_currency.c:156
-#: ../src/gsb_data_currency.c:157 ../src/gsb_data_currency.c:158
-#: ../src/gsb_data_currency.c:159 ../src/gsb_data_currency.c:160
-#: ../src/gsb_data_currency.c:170
+#: ../src/gsb_data_currency.c:150 ../src/gsb_data_currency.c:151
+#: ../src/gsb_data_currency.c:152 ../src/gsb_data_currency.c:153
+#: ../src/gsb_data_currency.c:154 ../src/gsb_data_currency.c:155
+#: ../src/gsb_data_currency.c:156 ../src/gsb_data_currency.c:157
+#: ../src/gsb_data_currency.c:158 ../src/gsb_data_currency.c:159
+#: ../src/gsb_data_currency.c:160 ../src/gsb_data_currency.c:161
+#: ../src/gsb_data_currency.c:162 ../src/gsb_data_currency.c:163
+#: ../src/gsb_data_currency.c:173
 msgid "Euro"
 msgstr "Euro"
 
-#: ../src/gsb_data_currency.c:147 ../src/gsb_data_currency.c:168
+#: ../src/gsb_data_currency.c:150 ../src/gsb_data_currency.c:171
 msgid "Germany"
 msgstr "Duitsland"
 
-#: ../src/gsb_data_currency.c:148 ../src/gsb_data_currency.c:162
+#: ../src/gsb_data_currency.c:151 ../src/gsb_data_currency.c:165
 msgid "Austria"
 msgstr "Oostenrijk"
 
-#: ../src/gsb_data_currency.c:149 ../src/gsb_data_currency.c:163
+#: ../src/gsb_data_currency.c:152 ../src/gsb_data_currency.c:166
 msgid "Belgium"
 msgstr "België"
 
-#: ../src/gsb_data_currency.c:151 ../src/gsb_data_currency.c:194
+#: ../src/gsb_data_currency.c:154 ../src/gsb_data_currency.c:197
 msgid "Spain"
 msgstr "Spanje"
 
-#: ../src/gsb_data_currency.c:152 ../src/gsb_data_currency.c:171
+#: ../src/gsb_data_currency.c:155 ../src/gsb_data_currency.c:174
 msgid "Finland"
 msgstr "Finland"
 
-#: ../src/gsb_data_currency.c:153 ../src/gsb_data_currency.c:172
+#: ../src/gsb_data_currency.c:156 ../src/gsb_data_currency.c:175
 msgid "France"
 msgstr "Frankrijk"
 
-#: ../src/gsb_data_currency.c:154 ../src/gsb_data_currency.c:174
+#: ../src/gsb_data_currency.c:157 ../src/gsb_data_currency.c:177
 msgid "Greece"
 msgstr "Griekenland"
 
-#: ../src/gsb_data_currency.c:155 ../src/gsb_data_currency.c:177
+#: ../src/gsb_data_currency.c:158 ../src/gsb_data_currency.c:180
 msgid "Ireland"
 msgstr "Ierland"
 
-#: ../src/gsb_data_currency.c:156 ../src/gsb_data_currency.c:179
+#: ../src/gsb_data_currency.c:159 ../src/gsb_data_currency.c:182
 msgid "Italy"
 msgstr "Italië"
 
-#: ../src/gsb_data_currency.c:157 ../src/gsb_data_currency.c:183
+#: ../src/gsb_data_currency.c:160 ../src/gsb_data_currency.c:186
 msgid "Luxembourg"
 msgstr "Groothertogdom Luxemburg"
 
-#: ../src/gsb_data_currency.c:158 ../src/gsb_data_currency.c:185
+#: ../src/gsb_data_currency.c:161 ../src/gsb_data_currency.c:188
 msgid "Netherlands"
 msgstr "Nederland"
 
-#: ../src/gsb_data_currency.c:159 ../src/gsb_data_currency.c:189
+#: ../src/gsb_data_currency.c:162 ../src/gsb_data_currency.c:192
 msgid "Portugal"
 msgstr "Portugal"
 
-#: ../src/gsb_data_currency.c:160 ../src/gsb_data_currency.c:193
+#: ../src/gsb_data_currency.c:163 ../src/gsb_data_currency.c:196
 msgid "Slovenia"
 msgstr "Slovenië"
 
-#: ../src/gsb_data_currency.c:161
+#: ../src/gsb_data_currency.c:164
 msgid "Albanian Lek"
 msgstr "Albanese Lek"
 
-#: ../src/gsb_data_currency.c:161
+#: ../src/gsb_data_currency.c:164
 msgid "Albania"
 msgstr "Albanië"
 
-#: ../src/gsb_data_currency.c:162
+#: ../src/gsb_data_currency.c:165
 msgid "Austrian Schilling"
 msgstr "Oostenrijkse Euro (Schilling)"
 
-#: ../src/gsb_data_currency.c:163
+#: ../src/gsb_data_currency.c:166
 msgid "Belgian Franc"
 msgstr "Belgische Euro (Frank)"
 
-#: ../src/gsb_data_currency.c:164
+#: ../src/gsb_data_currency.c:167
 msgid "Bulgarian Lev"
 msgstr "Bulgaarse Lev (voor 1999-07-05)"
 
-#: ../src/gsb_data_currency.c:164
+#: ../src/gsb_data_currency.c:167
 msgid "Bulgaria"
 msgstr "Bulgarije"
 
-#: ../src/gsb_data_currency.c:165
+#: ../src/gsb_data_currency.c:168
 msgid "Croatian kuna"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:165
+#: ../src/gsb_data_currency.c:168
 msgid "Croatia"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:166
+#: ../src/gsb_data_currency.c:169
 msgid "Czech Koruna"
 msgstr "Tsjechische Kroon"
 
-#: ../src/gsb_data_currency.c:166
+#: ../src/gsb_data_currency.c:169
 msgid "Czech Republic"
 msgstr "Tsjechië"
 
-#: ../src/gsb_data_currency.c:167
+#: ../src/gsb_data_currency.c:170
 msgid "Danish Krone"
 msgstr "Deense Kroon"
 
-#: ../src/gsb_data_currency.c:167
+#: ../src/gsb_data_currency.c:170
 msgid "Denmark"
 msgstr "Denemarken"
 
-#: ../src/gsb_data_currency.c:168
+#: ../src/gsb_data_currency.c:171
 msgid "Deutsche Mark"
 msgstr "Duitse Euro (Mark)"
 
-#: ../src/gsb_data_currency.c:169
+#: ../src/gsb_data_currency.c:172
 msgid "Estonian Kroon"
 msgstr "Estlandse kroon"
 
-#: ../src/gsb_data_currency.c:169
+#: ../src/gsb_data_currency.c:172
 msgid "Estonia"
 msgstr "Estland"
 
-#: ../src/gsb_data_currency.c:170
+#: ../src/gsb_data_currency.c:173
 #, fuzzy
 msgid "UE (Europe)"
 msgstr "Europa"
 
-#: ../src/gsb_data_currency.c:171
+#: ../src/gsb_data_currency.c:174
 msgid "Finnish Markka"
 msgstr "Finse Euro (Markka)"
 
-#: ../src/gsb_data_currency.c:172
+#: ../src/gsb_data_currency.c:175
 msgid "French Franc"
 msgstr "Franse Euro (Franc)"
 
-#: ../src/gsb_data_currency.c:173
+#: ../src/gsb_data_currency.c:176
 msgid "Gibraltar Pound"
 msgstr "Gibraltarese Pond"
 
-#: ../src/gsb_data_currency.c:173
+#: ../src/gsb_data_currency.c:176
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: ../src/gsb_data_currency.c:174
+#: ../src/gsb_data_currency.c:177
 msgid "Greek Drachma"
 msgstr "Griekse Drachme"
 
-#: ../src/gsb_data_currency.c:175
+#: ../src/gsb_data_currency.c:178
 msgid "Hungarian Forint"
 msgstr "Hongaarse Forint"
 
-#: ../src/gsb_data_currency.c:175
+#: ../src/gsb_data_currency.c:178
 msgid "Hungary"
 msgstr "Hongarije"
 
-#: ../src/gsb_data_currency.c:176
+#: ../src/gsb_data_currency.c:179
 msgid "Iceland Krona"
 msgstr "IJslandse Kroon"
 
-#: ../src/gsb_data_currency.c:176
+#: ../src/gsb_data_currency.c:179
 msgid "Iceland"
 msgstr "IJsland"
 
-#: ../src/gsb_data_currency.c:177
+#: ../src/gsb_data_currency.c:180
 msgid "Irish Pound"
 msgstr "Ierse Euro (Pond)"
 
-#: ../src/gsb_data_currency.c:178 ../src/gsb_data_currency.c:179
-#: ../src/gsb_data_currency.c:180
+#: ../src/gsb_data_currency.c:181 ../src/gsb_data_currency.c:182
+#: ../src/gsb_data_currency.c:183
 msgid "Italian Lira"
 msgstr "Italiaanse Euro (Lira)"
 
-#: ../src/gsb_data_currency.c:178
+#: ../src/gsb_data_currency.c:181
 msgid "Holy See"
 msgstr "Heilige Stoel (Vaticaanstad)"
 
-#: ../src/gsb_data_currency.c:180
+#: ../src/gsb_data_currency.c:183
 msgid "San Marino"
 msgstr "San Marino"
 
-#: ../src/gsb_data_currency.c:181
+#: ../src/gsb_data_currency.c:184
 #, fuzzy
 msgid "Latvian Lats"
 msgstr "Letse lats"
 
-#: ../src/gsb_data_currency.c:181
+#: ../src/gsb_data_currency.c:184
 msgid "Latvia"
 msgstr "Letland"
 
-#: ../src/gsb_data_currency.c:182
+#: ../src/gsb_data_currency.c:185
 msgid "Lithuanian Litas"
 msgstr "Litouwse Litus"
 
-#: ../src/gsb_data_currency.c:182
+#: ../src/gsb_data_currency.c:185
 msgid "Lietuva"
 msgstr "Litouwen"
 
-#: ../src/gsb_data_currency.c:183
+#: ../src/gsb_data_currency.c:186
 msgid "Luxembourg Franc"
 msgstr "Luxemburgse Euro (Franc)"
 
-#: ../src/gsb_data_currency.c:184
+#: ../src/gsb_data_currency.c:187
 msgid "Moldovenesc Leu"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:184
+#: ../src/gsb_data_currency.c:187
 msgid "Moldova"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:185
+#: ../src/gsb_data_currency.c:188
 msgid "Netherlands Guilder"
 msgstr "Nederlandse Euro (Gulden)"
 
-#: ../src/gsb_data_currency.c:186
+#: ../src/gsb_data_currency.c:189
 msgid "New Yugoslavian Dinar"
 msgstr "Nieuwe Joegoslavische Dinar"
 
-#: ../src/gsb_data_currency.c:186
+#: ../src/gsb_data_currency.c:189
 msgid "Serbia and Montenegro"
 msgstr "Servië en Montenegro"
 
-#: ../src/gsb_data_currency.c:187
+#: ../src/gsb_data_currency.c:190
 msgid "Norwegian Krone"
 msgstr "Noorse Kroon"
 
-#: ../src/gsb_data_currency.c:187
+#: ../src/gsb_data_currency.c:190
 msgid "Norway"
 msgstr "Noorwegen"
 
-#: ../src/gsb_data_currency.c:188
+#: ../src/gsb_data_currency.c:191
 msgid "Polish Zloty"
 msgstr "Poolse Zloty"
 
-#: ../src/gsb_data_currency.c:188
+#: ../src/gsb_data_currency.c:191
 msgid "Poland"
 msgstr "Polen"
 
-#: ../src/gsb_data_currency.c:189
+#: ../src/gsb_data_currency.c:192
 msgid "Portuguese Escudo"
 msgstr "Portugese Euro (Escudo)"
 
-#: ../src/gsb_data_currency.c:190
+#: ../src/gsb_data_currency.c:193
 msgid "Pound Sterling"
 msgstr "Britse Pound Sterling"
 
-#: ../src/gsb_data_currency.c:190
+#: ../src/gsb_data_currency.c:193
 msgid "United Kingdom"
 msgstr "Groot-Brittannië"
 
-#: ../src/gsb_data_currency.c:191
+#: ../src/gsb_data_currency.c:194
 msgid "Romanian Leu"
 msgstr "Roemeense Leu"
 
-#: ../src/gsb_data_currency.c:191
+#: ../src/gsb_data_currency.c:194
 msgid "Romania"
 msgstr "Roemenië"
 
-#: ../src/gsb_data_currency.c:192
+#: ../src/gsb_data_currency.c:195
 msgid "Slovak Koruna"
 msgstr "Slovaakse Koruna"
 
-#: ../src/gsb_data_currency.c:192
+#: ../src/gsb_data_currency.c:195
 msgid "Slovakia"
 msgstr "Slowakije"
 
-#: ../src/gsb_data_currency.c:193
+#: ../src/gsb_data_currency.c:196
 msgid "Slovene Tolar"
 msgstr "Sloveense Tolar"
 
-#: ../src/gsb_data_currency.c:194
+#: ../src/gsb_data_currency.c:197
 msgid "Spanish Peseta"
 msgstr "Spaanse Euro (Peseta)"
 
-#: ../src/gsb_data_currency.c:195
+#: ../src/gsb_data_currency.c:198
 msgid "Swedish Krona"
 msgstr "Zweedse Krona"
 
-#: ../src/gsb_data_currency.c:195
+#: ../src/gsb_data_currency.c:198
 msgid "Sweden"
 msgstr "Zweden"
 
-#: ../src/gsb_data_currency.c:196 ../src/gsb_data_currency.c:197
+#: ../src/gsb_data_currency.c:199 ../src/gsb_data_currency.c:200
 msgid "Swiss Franc"
 msgstr "Zwitserse franc"
 
-#: ../src/gsb_data_currency.c:196
+#: ../src/gsb_data_currency.c:199
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: ../src/gsb_data_currency.c:197
+#: ../src/gsb_data_currency.c:200
 msgid "Switzerland"
 msgstr "Zwitserland"
 
-#: ../src/gsb_data_currency.c:198
+#: ../src/gsb_data_currency.c:201
 msgid "Hryvnia"
 msgstr "Hryvnia"
 
-#: ../src/gsb_data_currency.c:198
+#: ../src/gsb_data_currency.c:201
 msgid "Ukraine"
 msgstr "De Oekraïne"
 
-#: ../src/gsb_data_currency.c:199 ../src/gsb_data_currency.c:200
-#: ../src/gsb_data_currency.c:201 ../src/gsb_data_currency.c:202
-#: ../src/gsb_data_currency.c:203 ../src/gsb_data_currency.c:204
-#: ../src/gsb_data_currency.c:205 ../src/gsb_data_currency.c:206
-#: ../src/gsb_data_currency.c:207 ../src/gsb_data_currency.c:208
-#: ../src/gsb_data_currency.c:209 ../src/gsb_data_currency.c:210
-#: ../src/gsb_data_currency.c:211 ../src/gsb_data_currency.c:212
-#: ../src/gsb_data_currency.c:213
+#: ../src/gsb_data_currency.c:202 ../src/gsb_data_currency.c:203
+#: ../src/gsb_data_currency.c:204 ../src/gsb_data_currency.c:205
+#: ../src/gsb_data_currency.c:206 ../src/gsb_data_currency.c:207
+#: ../src/gsb_data_currency.c:208 ../src/gsb_data_currency.c:209
+#: ../src/gsb_data_currency.c:210 ../src/gsb_data_currency.c:211
+#: ../src/gsb_data_currency.c:212 ../src/gsb_data_currency.c:213
+#: ../src/gsb_data_currency.c:214 ../src/gsb_data_currency.c:215
+#: ../src/gsb_data_currency.c:216
 msgid "Northern America"
 msgstr "Noord Amerika"
 
-#: ../src/gsb_data_currency.c:199
+#: ../src/gsb_data_currency.c:202
 msgid "Bahamian Dollar"
 msgstr "Bahamiaanse Dollar"
 
-#: ../src/gsb_data_currency.c:199
+#: ../src/gsb_data_currency.c:202
 msgid "Bahamas"
 msgstr "Bahama's"
 
-#: ../src/gsb_data_currency.c:200
+#: ../src/gsb_data_currency.c:203
 msgid "Barbados Dollar"
 msgstr "Barbadaanse Dollar"
 
-#: ../src/gsb_data_currency.c:200
+#: ../src/gsb_data_currency.c:203
 msgid "Barbados"
 msgstr "Barbados"
 
-#: ../src/gsb_data_currency.c:201
+#: ../src/gsb_data_currency.c:204
 msgid "Bermuda Dollar"
 msgstr "Bermudaanse Dollar"
 
-#: ../src/gsb_data_currency.c:201
+#: ../src/gsb_data_currency.c:204
 msgid "Bermuda"
 msgstr "Bermuda"
 
-#: ../src/gsb_data_currency.c:202
+#: ../src/gsb_data_currency.c:205
 msgid "Canadian Dollar"
 msgstr "Canadese Dollar"
 
-#: ../src/gsb_data_currency.c:202
+#: ../src/gsb_data_currency.c:205
 msgid "Canada"
 msgstr "Canada"
 
-#: ../src/gsb_data_currency.c:203
+#: ../src/gsb_data_currency.c:206
 msgid "Cayman Islands Dollar"
 msgstr "Cayman Dollar"
 
-#: ../src/gsb_data_currency.c:203
+#: ../src/gsb_data_currency.c:206
 msgid "Cayman Islands"
 msgstr "Caymaneilanden"
 
-#: ../src/gsb_data_currency.c:204
+#: ../src/gsb_data_currency.c:207
 #, fuzzy
 msgid "Cuban Convertible Peso"
 msgstr "Cubaanse Peso"
 
-#: ../src/gsb_data_currency.c:204 ../src/gsb_data_currency.c:205
+#: ../src/gsb_data_currency.c:207 ../src/gsb_data_currency.c:208
 msgid "Cuba"
 msgstr "Cuba"
 
-#: ../src/gsb_data_currency.c:205
+#: ../src/gsb_data_currency.c:208
 msgid "Cuban Peso"
 msgstr "Cubaanse Peso"
 
-#: ../src/gsb_data_currency.c:206
+#: ../src/gsb_data_currency.c:209
 msgid "Dominican Peso"
 msgstr "Dominicaanse Peso"
 
-#: ../src/gsb_data_currency.c:206
+#: ../src/gsb_data_currency.c:209
 msgid "Dominican Republic"
 msgstr "Dominicaanse Republiek"
 
-#: ../src/gsb_data_currency.c:207 ../src/gsb_data_currency.c:208
+#: ../src/gsb_data_currency.c:210 ../src/gsb_data_currency.c:211
 msgid "East Caribbean Dollar"
 msgstr "Oost Caribische dollar"
 
-#: ../src/gsb_data_currency.c:207
+#: ../src/gsb_data_currency.c:210
 msgid "Grenada"
 msgstr "Dominicaanse Republiek"
 
-#: ../src/gsb_data_currency.c:208
+#: ../src/gsb_data_currency.c:211
 msgid "Saint Lucia"
 msgstr "Saint Lucia"
 
-#: ../src/gsb_data_currency.c:209
+#: ../src/gsb_data_currency.c:212
 msgid "Haitian Gourde"
 msgstr "Haïtiaanse Gourde"
 
-#: ../src/gsb_data_currency.c:209
+#: ../src/gsb_data_currency.c:212
 msgid "Haiti"
 msgstr "Haiti"
 
-#: ../src/gsb_data_currency.c:210
+#: ../src/gsb_data_currency.c:213
 msgid "Jamaican Dollar"
 msgstr "Jamaïcaanse Dollar"
 
-#: ../src/gsb_data_currency.c:210
+#: ../src/gsb_data_currency.c:213
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: ../src/gsb_data_currency.c:211
+#: ../src/gsb_data_currency.c:214
 msgid "Netherlands Antillian Guilder"
 msgstr "Antilliaanse Gulden"
 
-#: ../src/gsb_data_currency.c:211
+#: ../src/gsb_data_currency.c:214
 msgid "Netherlands Antilles"
 msgstr "Nederlandse Antillen"
 
-#: ../src/gsb_data_currency.c:212
+#: ../src/gsb_data_currency.c:215
 msgid "Trinidad and Tobago Dollar"
 msgstr "Trinidad en Tobago Dollar"
 
-#: ../src/gsb_data_currency.c:212
+#: ../src/gsb_data_currency.c:215
 msgid "Trinidad and Tobago"
 msgstr "Trinidad en Tobago"
 
-#: ../src/gsb_data_currency.c:213 ../src/gsb_data_currency.c:229
+#: ../src/gsb_data_currency.c:216 ../src/gsb_data_currency.c:232
 msgid "United States Dollar"
 msgstr "USA Dollar"
 
-#: ../src/gsb_data_currency.c:214 ../src/gsb_data_currency.c:215
-#: ../src/gsb_data_currency.c:216 ../src/gsb_data_currency.c:217
-#: ../src/gsb_data_currency.c:218 ../src/gsb_data_currency.c:219
-#: ../src/gsb_data_currency.c:220 ../src/gsb_data_currency.c:221
-#: ../src/gsb_data_currency.c:222 ../src/gsb_data_currency.c:223
-#: ../src/gsb_data_currency.c:224 ../src/gsb_data_currency.c:225
-#: ../src/gsb_data_currency.c:226 ../src/gsb_data_currency.c:227
-#: ../src/gsb_data_currency.c:228 ../src/gsb_data_currency.c:229
-#: ../src/gsb_data_currency.c:230
+#: ../src/gsb_data_currency.c:217 ../src/gsb_data_currency.c:218
+#: ../src/gsb_data_currency.c:219 ../src/gsb_data_currency.c:220
+#: ../src/gsb_data_currency.c:221 ../src/gsb_data_currency.c:222
+#: ../src/gsb_data_currency.c:223 ../src/gsb_data_currency.c:224
+#: ../src/gsb_data_currency.c:225 ../src/gsb_data_currency.c:226
+#: ../src/gsb_data_currency.c:227 ../src/gsb_data_currency.c:228
+#: ../src/gsb_data_currency.c:229 ../src/gsb_data_currency.c:230
+#: ../src/gsb_data_currency.c:231 ../src/gsb_data_currency.c:232
+#: ../src/gsb_data_currency.c:233
 msgid "Pacific Ocean"
 msgstr "Grote Oceaan"
 
-#: ../src/gsb_data_currency.c:214 ../src/gsb_data_currency.c:215
-#: ../src/gsb_data_currency.c:216 ../src/gsb_data_currency.c:217
+#: ../src/gsb_data_currency.c:217 ../src/gsb_data_currency.c:218
+#: ../src/gsb_data_currency.c:219 ../src/gsb_data_currency.c:220
 msgid "Australian Dollar"
 msgstr "Australische Dollar"
 
-#: ../src/gsb_data_currency.c:214
+#: ../src/gsb_data_currency.c:217
 msgid "Australia"
 msgstr "Australië"
 
-#: ../src/gsb_data_currency.c:215
+#: ../src/gsb_data_currency.c:218
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: ../src/gsb_data_currency.c:216
+#: ../src/gsb_data_currency.c:219
 msgid "Nauru"
 msgstr "Nauru"
 
-#: ../src/gsb_data_currency.c:217
+#: ../src/gsb_data_currency.c:220
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-#: ../src/gsb_data_currency.c:218 ../src/gsb_data_currency.c:219
-#: ../src/gsb_data_currency.c:220
+#: ../src/gsb_data_currency.c:221 ../src/gsb_data_currency.c:222
+#: ../src/gsb_data_currency.c:223
 msgid "CFP Franc"
 msgstr "CFP Franc"
 
-#: ../src/gsb_data_currency.c:218
+#: ../src/gsb_data_currency.c:221
 msgid "French Polynesia"
 msgstr "Franse Polynesia"
 
-#: ../src/gsb_data_currency.c:219
+#: ../src/gsb_data_currency.c:222
 msgid "New Caledonia"
 msgstr "Nieuw-Caledonië"
 
-#: ../src/gsb_data_currency.c:220
+#: ../src/gsb_data_currency.c:223
 msgid "Wallis and Futuna"
 msgstr "Wallis en Futuna"
 
-#: ../src/gsb_data_currency.c:221
+#: ../src/gsb_data_currency.c:224
 msgid "Fiji Dollar"
 msgstr "Fiji Dollar"
 
-#: ../src/gsb_data_currency.c:221
+#: ../src/gsb_data_currency.c:224
 msgid "Fiji"
 msgstr "Fiji"
 
-#: ../src/gsb_data_currency.c:222 ../src/gsb_data_currency.c:223
+#: ../src/gsb_data_currency.c:225 ../src/gsb_data_currency.c:226
 msgid "New Zealand Dollar"
 msgstr "Nieuw-Zeelandse dollar"
 
-#: ../src/gsb_data_currency.c:222
+#: ../src/gsb_data_currency.c:225
 msgid "Cook Islands"
 msgstr "Cookeilanden (Nieuw-Zeeland)"
 
-#: ../src/gsb_data_currency.c:223
+#: ../src/gsb_data_currency.c:226
 msgid "New Zealand"
 msgstr "Nieuw-Zeeland"
 
-#: ../src/gsb_data_currency.c:224
+#: ../src/gsb_data_currency.c:227
 msgid "Papua New Guinea Kina"
 msgstr "Papua Nieuw Guinea : Kina"
 
-#: ../src/gsb_data_currency.c:224
+#: ../src/gsb_data_currency.c:227
 msgid "Papua New Guinea"
 msgstr "Papua Nieuw Guinea"
 
-#: ../src/gsb_data_currency.c:225
+#: ../src/gsb_data_currency.c:228
 msgid "Samoa Tala"
 msgstr "Samoa Tala"
 
-#: ../src/gsb_data_currency.c:225
+#: ../src/gsb_data_currency.c:228
 msgid "Samoa"
 msgstr "Samoa"
 
-#: ../src/gsb_data_currency.c:226
+#: ../src/gsb_data_currency.c:229
 msgid "Solomon Islands Dollar"
 msgstr "Solomon Islands Dollar"
 
-#: ../src/gsb_data_currency.c:226
+#: ../src/gsb_data_currency.c:229
 msgid "Solomon Islands"
 msgstr "Salomonseilanden"
 
-#: ../src/gsb_data_currency.c:227
+#: ../src/gsb_data_currency.c:230
 msgid "Timor Escudo"
 msgstr "Timorese Escudo"
 
-#: ../src/gsb_data_currency.c:227
+#: ../src/gsb_data_currency.c:230
 msgid "Timor"
 msgstr "Timor"
 
-#: ../src/gsb_data_currency.c:228
+#: ../src/gsb_data_currency.c:231
 msgid "Tongan Pa'anga"
 msgstr "Tonganese Pa'anga"
 
-#: ../src/gsb_data_currency.c:228
+#: ../src/gsb_data_currency.c:231
 msgid "Tonga"
 msgstr "Tonga"
 
-#: ../src/gsb_data_currency.c:230
+#: ../src/gsb_data_currency.c:233
 msgid "Vanuatu Vatu"
 msgstr "Vanuatu Vatu"
 
-#: ../src/gsb_data_currency.c:230
+#: ../src/gsb_data_currency.c:233
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: ../src/gsb_data_currency.c:231 ../src/gsb_data_currency.c:232
-#: ../src/gsb_data_currency.c:233 ../src/gsb_data_currency.c:234
-#: ../src/gsb_data_currency.c:235 ../src/gsb_data_currency.c:236
-#: ../src/gsb_data_currency.c:237 ../src/gsb_data_currency.c:238
-#: ../src/gsb_data_currency.c:239 ../src/gsb_data_currency.c:240
-#: ../src/gsb_data_currency.c:241 ../src/gsb_data_currency.c:242
+#: ../src/gsb_data_currency.c:234 ../src/gsb_data_currency.c:235
+#: ../src/gsb_data_currency.c:236 ../src/gsb_data_currency.c:237
+#: ../src/gsb_data_currency.c:238 ../src/gsb_data_currency.c:239
+#: ../src/gsb_data_currency.c:240 ../src/gsb_data_currency.c:241
+#: ../src/gsb_data_currency.c:242 ../src/gsb_data_currency.c:243
+#: ../src/gsb_data_currency.c:244 ../src/gsb_data_currency.c:245
 msgid "Southern America"
 msgstr "Zuid Amerika"
 
-#: ../src/gsb_data_currency.c:231 ../src/gsb_data_currency.c:233
-#: ../src/gsb_data_currency.c:234 ../src/gsb_data_currency.c:241
+#: ../src/gsb_data_currency.c:234 ../src/gsb_data_currency.c:236
+#: ../src/gsb_data_currency.c:237 ../src/gsb_data_currency.c:244
 msgid "Peso"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:231
+#: ../src/gsb_data_currency.c:234
 #, fuzzy
 msgid "Argentina"
 msgstr "Algerije"
 
-#: ../src/gsb_data_currency.c:232
+#: ../src/gsb_data_currency.c:235
 msgid "Boliviano"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:232
+#: ../src/gsb_data_currency.c:235
 msgid "Bolivia"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:233
+#: ../src/gsb_data_currency.c:236
 msgid "Chile"
 msgstr "Chili"
 
-#: ../src/gsb_data_currency.c:234
+#: ../src/gsb_data_currency.c:237
 msgid "Colombia"
 msgstr "Colombia"
 
-#: ../src/gsb_data_currency.c:235
+#: ../src/gsb_data_currency.c:238
 msgid "Ecuador Sucre"
 msgstr "Ecuador USD"
 
-#: ../src/gsb_data_currency.c:235
+#: ../src/gsb_data_currency.c:238
 msgid "Ecuador"
 msgstr "Ecuador"
 
-#: ../src/gsb_data_currency.c:236
+#: ../src/gsb_data_currency.c:239
 msgid "Guyana Dollar"
 msgstr "Guyaanse Dollar"
 
-#: ../src/gsb_data_currency.c:236
+#: ../src/gsb_data_currency.c:239
 msgid "Guyana"
 msgstr "Guyana"
 
-#: ../src/gsb_data_currency.c:237
+#: ../src/gsb_data_currency.c:240
 msgid "Paraguay Guarani"
 msgstr "Paraguayaanse Guarani"
 
-#: ../src/gsb_data_currency.c:237
+#: ../src/gsb_data_currency.c:240
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: ../src/gsb_data_currency.c:238
+#: ../src/gsb_data_currency.c:241
 msgid "Nuevos Soles"
 msgstr ""
 
-#: ../src/gsb_data_currency.c:238
+#: ../src/gsb_data_currency.c:241
 #, fuzzy
 msgid "Peru"
 msgstr "Opmaak"
 
-#: ../src/gsb_data_currency.c:239
+#: ../src/gsb_data_currency.c:242
 msgid "Real"
 msgstr "Real"
 
-#: ../src/gsb_data_currency.c:239
+#: ../src/gsb_data_currency.c:242
 msgid "Brazil"
 msgstr "Brazilië"
 
-#: ../src/gsb_data_currency.c:240
+#: ../src/gsb_data_currency.c:243
 msgid "Suriname Guilder"
 msgstr "Surinaamse Dollar"
 
-#: ../src/gsb_data_currency.c:240
+#: ../src/gsb_data_currency.c:243
 msgid "Suriname"
 msgstr "Suriname"
 
-#: ../src/gsb_data_currency.c:241
+#: ../src/gsb_data_currency.c:244
 #, fuzzy
 msgid "Uruguay"
 msgstr "Paraguay"
 
-#: ../src/gsb_data_currency.c:242
+#: ../src/gsb_data_currency.c:245
 msgid "Venezuelan Bolivar"
 msgstr "Venezolaanse Bolivar"
 
-#: ../src/gsb_data_currency.c:242
+#: ../src/gsb_data_currency.c:245
 msgid "Venezuela"
 msgstr "Venezuela"
+
+#: ../src/gsb_data_currency.c:948
+#, c-format
+msgid "The currency '%s' was duplicated. It has been deleted."
+msgstr ""
+
+#: ../src/gsb_data_currency.c:950
+#, fuzzy
+msgid "Duplicate currency"
+msgstr "Kies een valuta"
 
 #: ../src/gsb_data_currency_link.c:489
 msgid "Warning : the two currencies of the link are identicals."
@@ -9690,7 +9700,7 @@ msgstr "Kan het bestand '%s' niet openen %s"
 msgid "File does not exist"
 msgstr "Bestand bestaat reeds"
 
-#: ../src/gsb_file.c:271 ../src/gsb_file.c:285 ../src/gsb_file.c:934
+#: ../src/gsb_file.c:271 ../src/gsb_file.c:285 ../src/gsb_file.c:932
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "Er is een fout opgetreden bij het openen van het bestand '%s'."
@@ -9788,22 +9798,22 @@ msgid "Loading accounts"
 msgstr "Bestand aan het laden"
 
 #. Loading failed.
-#: ../src/gsb_file.c:920
+#: ../src/gsb_file.c:918
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "Selecteer bankrekeningen"
 
-#: ../src/gsb_file.c:926
+#: ../src/gsb_file.c:924
 msgid ""
 "The version of your file is less than 0.6. This file can not be imported by "
 "Grisbi."
 msgstr ""
 
-#: ../src/gsb_file.c:928
+#: ../src/gsb_file.c:926
 msgid "Version of Grisbi file too old :"
 msgstr ""
 
-#: ../src/gsb_file.c:938
+#: ../src/gsb_file.c:936
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -9813,7 +9823,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:949
+#: ../src/gsb_file.c:947
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -9824,7 +9834,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:956
+#: ../src/gsb_file.c:954
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -9833,17 +9843,17 @@ msgid ""
 msgstr ""
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:972
+#: ../src/gsb_file.c:970
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:982
+#: ../src/gsb_file.c:980
 #, fuzzy
 msgid "Checking amounts"
 msgstr "Controleren"
 
-#: ../src/gsb_file.c:1267
+#: ../src/gsb_file.c:1265
 #, c-format
 msgid ""
 "The original file was saved saved as:\n"
@@ -9899,7 +9909,7 @@ msgstr "Bestand opslaan als"
 msgid "You will go back to the choice of the file.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4256
+#: ../src/gsb_file_load.c:4262
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9907,11 +9917,11 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4260
+#: ../src/gsb_file_load.c:4266
 msgid "Grisbi archive opened"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4270
+#: ../src/gsb_file_load.c:4276
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -9920,12 +9930,12 @@ msgid ""
 "You will have to re-customize the icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4276
+#: ../src/gsb_file_load.c:4282
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4717
+#: ../src/gsb_file_load.c:4723
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -12861,14 +12871,14 @@ msgid "Manage the line"
 msgstr "Selecteer data"
 
 # Kop tekst in voorkeurenscherm
-#: ../src/prefs/prefs_page_msg_delete.c:178
-#: ../src/prefs/prefs_page_msg_warning.c:179
+#: ../src/prefs/prefs_page_msg_delete.c:146
+#: ../src/prefs/prefs_page_msg_warning.c:147
 #, fuzzy
 msgid "No file loading"
 msgstr "Rekening bestanden"
 
-#: ../src/prefs/prefs_page_msg_delete.c:234
-#: ../src/prefs/prefs_page_msg_warning.c:235
+#: ../src/prefs/prefs_page_msg_delete.c:199
+#: ../src/prefs/prefs_page_msg_warning.c:200
 #, fuzzy
 msgid "Message"
 msgstr "Log berichten"
@@ -13126,7 +13136,7 @@ msgstr "Lettertypen & logo"
 msgid "Invalid QIF file"
 msgstr "Ongeldig rapport bestand"
 
-#: ../src/qif.c:204 ../src/utils_dates.c:1108
+#: ../src/qif.c:204 ../src/utils_dates.c:1107
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -13140,12 +13150,12 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: ../src/qif.c:335 ../src/utils_dates.c:939
+#: ../src/qif.c:335 ../src/utils_dates.c:938
 #, fuzzy
 msgid "The order cannot be determined,\n"
 msgstr "OFX support is niet geinstalleerd !"
 
-#: ../src/qif.c:340 ../src/utils_dates.c:946
+#: ../src/qif.c:340 ../src/utils_dates.c:945
 #, fuzzy
 msgid "Date wrong for the order "
 msgstr "aan de bovenkant van het rapport"
