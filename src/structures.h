@@ -43,7 +43,7 @@
 
 /* Dimensions min et position de la fenetre de l'application */
 #define WIN_MIN_HEIGHT			700
-#define WIN_MIN_WIDTH			1020
+#define WIN_MIN_WIDTH			1030
 #define WIN_POS_X				10
 #define WIN_POS_Y				10
 

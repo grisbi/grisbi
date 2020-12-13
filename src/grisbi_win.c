@@ -565,6 +565,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 
 	/* append the notebook */
     priv->notebook_general = gtk_notebook_new ();
+	gtk_widget_set_margin_end (priv->notebook_general, MARGIN_END);
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook_general), FALSE);
     gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_general), FALSE);
   	gtk_grid_attach (GTK_GRID (grid), priv->notebook_general, 0,0,1,1);
@@ -572,6 +573,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 
     /* append the form */
     priv->form_general = grisbi_win_form_new (win);
+	gtk_widget_set_margin_end (priv->form_general, MARGIN_END);
 	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
     gtk_widget_hide (priv->form_general);
     g_signal_connect (G_OBJECT (priv->form_expander),
@@ -660,7 +662,9 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
 					 grisbi_win_create_general_notebook (win),
 					 TRUE,
 					 FALSE);
-    gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned_general), MARGIN_BOX);
+	gtk_widget_set_margin_bottom (priv->hpaned_general, MARGIN_BOTTOM);
+	gtk_widget_set_margin_start (priv->hpaned_general, MARGIN_START);
+	gtk_widget_set_margin_top (priv->hpaned_general, MARGIN_TOP);
 
     if (a_conf->panel_width > PANEL_MIN_WIDTH)
         gtk_paned_set_position (GTK_PANED (priv->hpaned_general), a_conf->panel_width);

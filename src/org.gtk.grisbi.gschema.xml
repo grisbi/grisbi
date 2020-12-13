@@ -361,7 +361,7 @@
 			</description>
 		</key>
 		<key name="main-width" type="i">
-			<default>1020</default>
+			<default>1030</default>
 			<summary>Width of the main window</summary>
 			<description>The width of the main window.</description>
 		</key>
