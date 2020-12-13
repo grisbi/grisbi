@@ -1071,6 +1071,13 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 	while (tmp_list)
 	{
         gchar *date;
+		gchar *string_to_free1;
+		gchar *string_to_free2;
+		gchar *string_to_free3;
+		gchar *string_to_free4;
+		gchar *string_to_free5;
+		gchar *string_to_free6;
+		gchar *string_to_free7;
 		gint flotting_point;
 		LoanStruct *s_loan;
 
@@ -1078,6 +1085,14 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
 		date = gsb_format_gdate_safe (s_loan->first_date);
 		flotting_point = gsb_data_account_get_currency_floating_point (s_loan->account_number);
+
+		string_to_free1 = utils_str_dtostr (s_loan->capital, flotting_point, TRUE);
+		string_to_free2 = utils_str_dtostr (s_loan->fees, flotting_point, TRUE);
+		string_to_free3 = utils_str_dtostr (s_loan->annual_rate, flotting_point, TRUE);
+		string_to_free4 = utils_str_dtostr (s_loan->first_capital, flotting_point, TRUE);
+		string_to_free5 = utils_str_dtostr (s_loan->first_interests, flotting_point, TRUE);
+		string_to_free6 = utils_str_dtostr (s_loan->other_echeance_amount, flotting_point, TRUE);
+		string_to_free7 = utils_str_dtostr (s_loan->capital_du, flotting_point, TRUE);
 
 		tmp_str = g_markup_printf_escaped ("\t<Bet_loan\n"
 										   "\t\tNb=\"%d\" Ac=\"%d\" Ver=\"%d\" InCol=\"%d\"\n"
@@ -1088,24 +1103,31 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 										   s_loan->account_number,
 										   s_loan->version_number,
 										   s_loan->invers_cols_cap_ech,
-										   my_safe_null_str (utils_str_dtostr (s_loan->capital, flotting_point, TRUE)),
+										   my_safe_null_str (string_to_free1),
 										   s_loan->duree,
 										   date,
-										   my_safe_null_str (utils_str_dtostr (s_loan->fees, flotting_point, TRUE)),
-										   my_safe_null_str (utils_str_dtostr (s_loan->annual_rate, flotting_point, TRUE)),
+										   my_safe_null_str (string_to_free2),
+										   my_safe_null_str (string_to_free3),
 										   s_loan->type_taux,
 										   s_loan->first_is_different,
-										   my_safe_null_str (utils_str_dtostr (s_loan->first_capital, flotting_point, TRUE)),
-										   my_safe_null_str (utils_str_dtostr (s_loan->first_interests, flotting_point, TRUE)),
-										   my_safe_null_str (utils_str_dtostr (s_loan->other_echeance_amount, flotting_point, TRUE)),
+										   my_safe_null_str (string_to_free4),
+										   my_safe_null_str (string_to_free5),
+										   my_safe_null_str (string_to_free6),
 										   s_loan->init_sch_with_loan,
 										   s_loan->associated_account,
 										   s_loan->associated_scheduled,
 										   s_loan->associated_frequency,
-										   my_safe_null_str (utils_str_dtostr (s_loan->capital_du, flotting_point, TRUE))
+										   my_safe_null_str (string_to_free7)
 										   );
 		g_ptr_array_add (tab, tmp_str);
 		g_free (date);
+		g_free (string_to_free1);
+		g_free (string_to_free2);
+		g_free (string_to_free3);
+		g_free (string_to_free4);
+		g_free (string_to_free5);
+		g_free (string_to_free6);
+		g_free (string_to_free7);
 
 		tmp_list = tmp_list->next;
 	}
