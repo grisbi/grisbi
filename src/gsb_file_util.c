@@ -276,15 +276,10 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
     file_part = g_path_get_basename(filename);
 
     /* Create the name of the lock file */
-    lock_filename = g_strconcat (dir_part,
-            G_DIR_SEPARATOR_S,
-            ".",
-            file_part,
-            ".lock",
-            NULL);
+    lock_filename = g_strconcat (dir_part, G_DIR_SEPARATOR_S, ".", file_part, ".lock", NULL);
 
-    g_free(dir_part);
-    g_free(file_part);
+    g_free (dir_part);
+    g_free (file_part);
 
     if (create_lock)
     {
