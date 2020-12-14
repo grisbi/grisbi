@@ -211,6 +211,8 @@ static void grisbi_app_struct_conf_free (GrisbiApp *app)
         (priv->a_conf)->last_open_file = NULL;
     }
 
+	g_free (priv->a_conf);
+
 	gsb_file_free_last_path ();
 	gsb_file_free_backup_path ();
 }
