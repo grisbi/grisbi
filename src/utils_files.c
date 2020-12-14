@@ -592,11 +592,19 @@ FILE* utils_files_utf8_fopen (const gchar *utf8filename,
  **/
 gint utils_files_utf8_remove (const gchar *utf8filename)
 {
+	gchar *tmp_filename;
+	gint retour = 0;
+
 #ifdef G_OS_WIN32
-    return remove (g_locale_from_utf8 (utf8filename, -1, NULL, NULL, NULL));
+	tmp_filename = g_locale_from_utf8 (utf8filename, -1, NULL, NULL, NULL);
 #else
-    return remove (g_filename_from_utf8 (utf8filename,-1,NULL,NULL,NULL));
+	tmp_filename = g_filename_from_utf8 (utf8filename,-1,NULL,NULL,NULL);
 #endif
+    retour = remove (tmp_filename);
+
+	g_free (tmp_filename);
+
+	return retour;
 }
 
 /**
