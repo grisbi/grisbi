@@ -299,7 +299,10 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 
             /* the lock is already created, return TRUE */
             etat.fichier_deja_ouvert = 1;
-            return TRUE;
+
+			g_free (lock_filename);
+
+			return TRUE;
         }
 
         etat.fichier_deja_ouvert = 0;
@@ -309,17 +312,22 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
         if (!fichier)
         {
             gchar *tmp_str;
-            tmp_str = g_strdup_printf (_("Cannot write lock file: '%s': %s"),
+
+			tmp_str = g_strdup_printf (_("Cannot write lock file: '%s': %s"),
 									   filename,
 									   g_strerror (errno));
             dialogue_error (tmp_str);
-            g_free (tmp_str);
+
+			g_free (tmp_str);
+			g_free (lock_filename);
 
             return FALSE;
         }
 
         fclose (fichier);
-        return TRUE;
+		g_free (lock_filename);
+
+		return TRUE;
     }
     else
 	{
@@ -330,7 +338,11 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 
 			/* check if it exits, if not, just go away */
 			if (!g_file_test (lock_filename, G_FILE_TEST_EXISTS))
+			{
+				g_free (lock_filename);
+
 				return TRUE;
+			}
 
 			result = utils_files_utf8_remove (lock_filename);
 
@@ -342,17 +354,26 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 										   filename,
 										   g_strerror (errno));
 				dialogue_error (tmp_str);
+
+				g_free (lock_filename);
 				g_free (tmp_str);
 
 				return FALSE;
 			}
+
+			g_free (lock_filename);
+
 			return TRUE;
 		}
 		else
 		{
+			g_free (lock_filename);
+
 			return TRUE;
 		}
 	}
+
+	g_free (lock_filename);
 }
 
 /**
