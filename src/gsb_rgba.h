@@ -28,6 +28,8 @@ gchar *		gsb_rgba_get_couleur_with_indice_to_str	(const gchar *couleur,
 gchar *     gsb_rgba_get_string_to_save             (void);
 gint		gsb_rgba_get_type_theme					(const gchar *theme_name);
 void        gsb_rgba_initialise_couleurs			(const gchar *css_data);
+void		gsb_rgba_set_alt_colors					(const gchar *alt_color,
+													 const gchar *value);
 gboolean    gsb_rgba_set_couleur                    (const gchar *couleur,
                                                      const gchar *value);
 gboolean    gsb_rgba_set_couleur_with_indice        (const gchar *couleur,

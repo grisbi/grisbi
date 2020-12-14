@@ -139,19 +139,21 @@ static ComboColor config_indiponible [] = {
 
 /* Couleurs alternatives. Sert à mémoriser les anciennes couleurs de grisbi pour compatibilité descendante */
 /* Couleurs des tree_view */
-static GdkRGBA alt_background_archive;
-static GdkRGBA alt_background_scheduled;
-static GdkRGBA alt_background_split;
-static GdkRGBA alt_couleur_fond[2];
-static GdkRGBA alt_background_jour;
-static GdkRGBA alt_couleur_selection;
-static GdkRGBA alt_text_color[2];
+static gchar *alt_background_archive;
+static gchar *alt_background_scheduled;
+static gchar *alt_background_split;
+static gchar *alt_couleur_fond_0;
+static gchar *alt_couleur_fond_1;
+static gchar *alt_background_jour;
+static gchar *alt_couleur_selection;
+static gchar *alt_text_color_0;
+static gchar *alt_text_color_1;
 
 /* colors for the balance estimate module */
-static GdkRGBA alt_couleur_bet_division;
-static GdkRGBA alt_couleur_bet_future;
-static GdkRGBA alt_couleur_bet_solde;
-static GdkRGBA alt_couleur_bet_transfert;
+static gchar *alt_couleur_bet_division;
+static gchar *alt_couleur_bet_future;
+static gchar *alt_couleur_bet_solde;
+static gchar *alt_couleur_bet_transfert;
 /*END_STATIC*/
 
 /******************************************************************************/
@@ -306,25 +308,6 @@ GdkRGBA *gsb_rgba_get_couleur (const gchar *couleur)
 	else if (strcmp (couleur, "text_gsetting_option_hover") == 0)
 		return &text_gsetting_option_hover;
 
-	/* anciennes couleurs juste pour compatibilité descendante */
-    else if (strcmp (couleur, "alt_background_archive") == 0)
-        return &alt_background_archive;
-    else if (strcmp (couleur, "alt_background_scheduled") == 0)
-        return &alt_background_scheduled;
-    else if (strcmp (couleur, "alt_background_split") == 0)
-        return &alt_background_split;
-    else if (strcmp (couleur, "alt_background_jour") == 0)
-        return &alt_background_jour;
-    else if (strcmp (couleur, "alt_couleur_selection") == 0)
-        return &alt_couleur_selection;
-    else if (strcmp (couleur, "alt_couleur_bet_division") == 0)
-        return &alt_couleur_bet_division;
-    else if (strcmp (couleur, "alt_couleur_bet_future") == 0)
-        return &alt_couleur_bet_future;
-    else if (strcmp (couleur, "alt_couleur_bet_solde") == 0)
-        return &alt_couleur_bet_solde;
-    else if (strcmp (couleur, "alt_couleur_bet_transfert") == 0)
-        return &alt_couleur_bet_transfert;
     return NULL;
 }
 
@@ -398,12 +381,6 @@ GdkRGBA *gsb_rgba_get_couleur_with_indice (const gchar *couleur,
 		else
 			return &text_color_2;
 	}
-
-	/* anciennes couleurs juste pour compatibilité descendante */
-    if (strcmp (couleur, "alt_couleur_fond") == 0)
-        return &alt_couleur_fond[indice];
-    else if (strcmp (couleur, "alt_text_color") == 0)
-        return &alt_text_color[indice];
 
     return NULL;
 }
@@ -542,21 +519,35 @@ gchar *gsb_rgba_get_string_to_save (void)
 				                          "\t\tCouleur_bet_future=\"%s\"\n"
 				                          "\t\tCouleur_bet_solde=\"%s\"\n"
 				                          "\t\tCouleur_bet_transfert=\"%s\" />\n",
-										  gdk_rgba_to_string (&alt_couleur_fond[0]),
-										  gdk_rgba_to_string (&alt_couleur_fond[1]),
-										  gdk_rgba_to_string (&alt_background_jour),
-										  gdk_rgba_to_string (&alt_background_scheduled),
-										  gdk_rgba_to_string (&alt_background_archive),
-										  gdk_rgba_to_string (&alt_couleur_selection),
-										  gdk_rgba_to_string (&alt_background_split),
-										  gdk_rgba_to_string (&alt_text_color[0]),
-										  gdk_rgba_to_string (&alt_text_color[1]),
-										  gdk_rgba_to_string (&alt_couleur_bet_division),
-										  gdk_rgba_to_string (&alt_couleur_bet_future),
-										  gdk_rgba_to_string (&alt_couleur_bet_solde),
-										  gdk_rgba_to_string (&alt_couleur_bet_transfert));
+										  alt_couleur_fond_0,
+										  alt_couleur_fond_1,
+										  alt_background_jour,
+										  alt_background_scheduled,
+										  alt_background_archive,
+										  alt_couleur_selection,
+										  alt_background_split,
+										  alt_text_color_0,
+										  alt_text_color_1,
+										  alt_couleur_bet_division,
+										  alt_couleur_bet_future,
+										  alt_couleur_bet_solde,
+										  alt_couleur_bet_transfert);
 
-    return new_string;
+	//~ g_free (alt_couleur_fond_0);
+	//~ g_free (alt_couleur_fond_1);
+	//~ g_free (alt_background_jour);
+	//~ g_free (alt_background_scheduled);
+	//~ g_free (alt_background_archive);
+	//~ g_free (alt_couleur_selection);
+	//~ g_free (alt_background_split);
+	//~ g_free (alt_text_color_0);
+	//~ g_free (alt_text_color_1);
+	//~ g_free (alt_couleur_bet_division);
+	//~ g_free (alt_couleur_bet_future);
+	//~ g_free (alt_couleur_bet_solde);
+	//~ g_free (alt_couleur_bet_transfert);
+
+	return new_string;
 }
 
 /**
@@ -576,6 +567,44 @@ gchar *gsb_rgba_get_couleur_to_hexa_string  (const gchar *couleur)
                               (int)(0.5 + CLAMP (rgba->red, 0., 1.) * 255.),
                               (int)(0.5 + CLAMP (rgba->green, 0., 1.) * 255.),
                               (int)(0.5 + CLAMP (rgba->blue, 0., 1.) * 255.));
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_rgba_set_alt_colors (const gchar *alt_color,
+							  const gchar *value)
+{
+    if (strcmp (alt_color, "alt_background_archive") == 0)
+        alt_background_archive = g_strdup (value);
+    else if (strcmp (alt_color, "alt_background_scheduled") == 0)
+        alt_background_scheduled = g_strdup (value);
+    else if (strcmp (alt_color, "alt_background_split") == 0)
+        alt_background_split = g_strdup (value);
+    else if (strcmp (alt_color, "alt_background_jour") == 0)
+        alt_background_jour = g_strdup (value);
+	else if (strcmp (alt_color, "alt_couleur_fond_0") == 0)
+		alt_couleur_fond_0 = g_strdup (value);
+	else if (strcmp (alt_color, "alt_couleur_fond_1") == 0)
+		alt_couleur_fond_1 = g_strdup (value);
+    else if (strcmp (alt_color, "alt_couleur_selection") == 0)
+        alt_couleur_selection = g_strdup (value);
+    else if (strcmp (alt_color, "alt_couleur_bet_division") == 0)
+        alt_couleur_bet_division = g_strdup (value);
+    else if (strcmp (alt_color, "alt_couleur_bet_future") == 0)
+        alt_couleur_bet_future = g_strdup (value);
+    else if (strcmp (alt_color, "alt_couleur_bet_solde") == 0)
+        alt_couleur_bet_solde = g_strdup (value);
+    else if (strcmp (alt_color, "alt_couleur_bet_transfert") == 0)
+        alt_couleur_bet_transfert = g_strdup (value);
+	else if (strcmp (alt_color, "alt_text_color_0") == 0)
+		alt_text_color_0 = g_strdup (value);
+	else if (strcmp (alt_color, "alt_text_color_1") == 0)
+		alt_text_color_1 = g_strdup (value);
 }
 
 /**
