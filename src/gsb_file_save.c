@@ -521,6 +521,9 @@ static gulong gsb_file_save_bet_part (gulong iterator,
 											   new_string);
 	}
 
+	/* free the tab */
+	g_ptr_array_free (tab, TRUE);
+
 	/* and return the new iterator */
 	return iterator;
 }
@@ -1319,8 +1322,16 @@ static gulong gsb_file_save_print_part (gulong iterator,
 										gint archive_number)
 {
 	gchar *new_string;
+	gchar *string_to_free1;
+	gchar *string_to_free2;
+	gchar *string_to_free3;
+	gchar *string_to_free4;
 
 	/* save the print config information */
+	string_to_free1 = pango_font_description_to_string (gsb_data_print_config_get_font_transactions ());
+	string_to_free2 = pango_font_description_to_string (gsb_data_print_config_get_font_title ());
+	string_to_free3 = pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ());
+	string_to_free4 = pango_font_description_to_string (gsb_data_print_config_get_report_font_title ());
 	new_string = g_markup_printf_escaped ("\t<Print\n"
 										  "\t\tDraw_lines=\"%d\"\n"
 										  "\t\tDraw_column=\"%d\"\n"
@@ -1342,14 +1353,15 @@ static gulong gsb_file_save_print_part (gulong iterator,
 										  gsb_data_print_config_get_draw_title (),
 										  gsb_data_print_config_get_draw_interval_dates (),
 										  gsb_data_print_config_get_draw_dates_are_value_dates (),
-										  my_safe_null_str(pango_font_description_to_string
-														   (gsb_data_print_config_get_font_transactions ())),
-										  my_safe_null_str(pango_font_description_to_string
-														   (gsb_data_print_config_get_font_title ())),
-										  my_safe_null_str(pango_font_description_to_string
-														   (gsb_data_print_config_get_report_font_transactions ())),
-										  my_safe_null_str(pango_font_description_to_string
-														   (gsb_data_print_config_get_report_font_title ())));
+										  my_safe_null_str(string_to_free1),
+										  my_safe_null_str(string_to_free2),
+										  my_safe_null_str(string_to_free3),
+										  my_safe_null_str(string_to_free4));
+
+		g_free (string_to_free1);
+		g_free (string_to_free2);
+		g_free (string_to_free3);
+		g_free (string_to_free4);
 
 	/* append the new string to the file content and return the new iterator */
 	return gsb_file_save_append_part (iterator,
