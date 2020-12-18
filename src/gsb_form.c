@@ -442,9 +442,9 @@ static gboolean gsb_form_initialise_transaction_form (void)
  *
  * \return FALSE
  **/
-static gboolean gsb_form_size_allocate (GtkWidget *widget,
-										GtkAllocation *allocation,
-										gpointer null)
+static void gsb_form_size_allocate (GtkWidget *widget,
+									GtkAllocation *allocation,
+									gpointer null)
 {
     if (grisbi_win_form_expander_is_expanded () && !block_size_allocate)
     {
@@ -453,7 +453,6 @@ static gboolean gsb_form_size_allocate (GtkWidget *widget,
     }
     else
 		block_size_allocate = FALSE;
-    return FALSE;
 }
 
 /**

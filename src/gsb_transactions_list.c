@@ -1759,9 +1759,9 @@ static gboolean gsb_transactions_list_title_column_button_press (GtkWidget *butt
  *
  * \return FALSE
  **/
-static gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
-													 GtkAllocation *allocation,
-													 GrisbiWinRun *w_run)
+static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
+												 GtkAllocation *allocation,
+												 GrisbiWinRun *w_run)
 {
     gint i;
 
@@ -1774,13 +1774,13 @@ static gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
 
         /* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
         if (gtk_tree_view_column_get_width (transactions_tree_view_columns[0]) == 1)
-            return FALSE;
+            return;
 
         for (i = 0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
             transaction_col_width[i] = (gtk_tree_view_column_get_width (
                         transactions_tree_view_columns[i]) * 100) / allocation->width + 1;
 
-        return FALSE;
+        return;
     }
 
     /* the size of the tree view changed, we keep the ration between the columns,
@@ -1796,7 +1796,6 @@ static gboolean gsb_transactions_list_size_allocate (GtkWidget *tree_view,
         if (width > 0)
             gtk_tree_view_column_set_fixed_width (transactions_tree_view_columns[i], width);
     }
-    return FALSE;
 }
 
 /**
@@ -1945,7 +1944,7 @@ static GtkWidget *gsb_transactions_list_create_tree_view (GtkTreeModel *model)
 		              NULL);
 
     g_signal_connect (G_OBJECT (tree_view),
-		              "size_allocate",
+		              "size-allocate",
 		              G_CALLBACK (gsb_transactions_list_size_allocate),
 		              w_run);
 

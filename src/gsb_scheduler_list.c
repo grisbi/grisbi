@@ -1307,9 +1307,9 @@ static gboolean gsb_scheduler_list_key_press (GtkWidget *tree_view,
  *
  * \return FALSE
  **/
-static gboolean gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
-												  GtkAllocation *allocation,
-												  gpointer null)
+static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
+											  GtkAllocation *allocation,
+											  gpointer null)
 {
     gint i;
 
@@ -1322,7 +1322,7 @@ static gboolean gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
         /* sometimes, when the list is not visible, he will set all the columns to 1%...
          * we block that here */
         if (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
-            return FALSE;
+            return;
 
         for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
         {
@@ -1331,7 +1331,7 @@ static gboolean gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
 										  (scheduler_list_column[i]) * 100) / allocation->width + 1;
         }
 
-        return FALSE;
+        return;
     }
 
     /* the size of the tree view changed, we keep the ration between the columns,
@@ -1347,7 +1347,6 @@ static gboolean gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
         if (width > 0)
             gtk_tree_view_column_set_fixed_width (scheduler_list_column[i], width);
     }
-    return FALSE;
 }
 
 /**
@@ -1369,7 +1368,7 @@ static GtkWidget *gsb_scheduler_list_create_tree_view (void)
 								 GTK_SELECTION_SINGLE);
 
     g_signal_connect (G_OBJECT (tree_view),
-					  "size_allocate",
+					  "size-allocate",
                        G_CALLBACK (gsb_scheduler_list_size_allocate),
                        NULL);
     g_signal_connect (G_OBJECT (tree_view),

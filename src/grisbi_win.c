@@ -306,16 +306,14 @@ static void grisbi_win_create_headings_eb (GrisbiWin *win)
  *
  * \return FALSE
  */
-static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
-												 GtkAllocation *allocation,
-												 GrisbiAppConf *a_conf)
+static void grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
+											 GtkAllocation *allocation,
+											 GrisbiAppConf *a_conf)
 {
 	gint position;
 
     position = gtk_paned_get_position (GTK_PANED (hpaned_general));
 	a_conf->panel_width = position;
-
-	return FALSE;
 }
 
 /* FORM_GENERAL */
@@ -329,9 +327,9 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
  *
  * \return FALSE
  **/
-static gboolean grisbi_win_form_size_allocate (GtkWidget *form_expander,
-                                               GtkAllocation *allocation,
-                                               GrisbiWin *win)
+static void grisbi_win_form_size_allocate (GtkWidget *form_expander,
+										   GtkAllocation *allocation,
+										   GrisbiWin *win)
 {
 	if (gsb_gui_navigation_get_current_page () == GSB_ACCOUNT_PAGE)
 	{
@@ -345,8 +343,6 @@ static gboolean grisbi_win_form_size_allocate (GtkWidget *form_expander,
 		expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
 		gtk_widget_set_size_request (expander_label, new_width, -1);
 	}
-
-    return FALSE;
 }
 
 /**
@@ -577,7 +573,7 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
     gtk_widget_hide (priv->form_general);
     g_signal_connect (G_OBJECT (priv->form_expander),
-                      "size_allocate",
+                      "size-allocate",
                       G_CALLBACK (grisbi_win_form_size_allocate),
                       win);
 
@@ -643,7 +639,7 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
     /* Then create the main hpaned. */
     priv->hpaned_general = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
     g_signal_connect (G_OBJECT (priv->hpaned_general),
-                      "size_allocate",
+                      "size-allocate",
                       G_CALLBACK (grisbi_win_hpaned_size_allocate),
                       a_conf);
     gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);

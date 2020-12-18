@@ -1497,9 +1497,9 @@ static gboolean bet_array_list_button_press (GtkWidget *tree_view,
  *
  * \return FALSE
  **/
-static gboolean bet_array_list_size_allocate (GtkWidget *tree_view,
-                        					  GtkAllocation *allocation,
-                        					  gpointer null)
+static void bet_array_list_size_allocate (GtkWidget *tree_view,
+                        				  GtkAllocation *allocation,
+                        				  gpointer null)
 {
     gint i;
 
@@ -1511,7 +1511,7 @@ static gboolean bet_array_list_size_allocate (GtkWidget *tree_view,
 
         /* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
         if (gtk_tree_view_column_get_width (bet_array_tree_view_columns[0]) == 1)
-            return FALSE;
+            return;
 
         for (i = 0 ; i < BET_ARRAY_COLUMNS; i++)
         {
@@ -1519,7 +1519,7 @@ static gboolean bet_array_list_size_allocate (GtkWidget *tree_view,
 									  (bet_array_tree_view_columns[i]) * 100) / allocation->width + 1;
         }
 
-        return FALSE;
+        return;
     }
 
     /* the size of the tree view changed, we keep the ratio between the columns,
@@ -1535,8 +1535,6 @@ static gboolean bet_array_list_size_allocate (GtkWidget *tree_view,
         if (width > 0)
             gtk_tree_view_column_set_fixed_width (bet_array_tree_view_columns[i], width);
     }
-
-    return FALSE;
 }
 
 /**
@@ -2057,7 +2055,7 @@ static GtkWidget *bet_array_create_tree_view (GtkWidget *container)
 		                NULL);
 
     g_signal_connect (G_OBJECT (tree_view),
-		                "size_allocate",
+		                "size-allocate",
 		                G_CALLBACK (bet_array_list_size_allocate),
 		                NULL);
 
