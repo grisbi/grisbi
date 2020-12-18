@@ -446,7 +446,7 @@ static gboolean gsb_form_size_allocate (GtkWidget *widget,
 										GtkAllocation *allocation,
 										gpointer null)
 {
-    if (grisbi_win_form_expander_is_visible () && !block_size_allocate)
+    if (grisbi_win_form_expander_is_expanded () && !block_size_allocate)
     {
 		block_size_allocate = TRUE;
 		gsb_transactions_list_set_row_align (-1.0);
@@ -1859,7 +1859,7 @@ gboolean gsb_form_show (gboolean show)
     gtk_widget_show (form_transaction_part);
 	grisbi_win_form_expander_show_frame ();
 
-	if (!grisbi_win_form_expander_is_visible () && show)
+	if (!grisbi_win_form_expander_is_expanded () && show)
 		gtk_expander_set_expanded (GTK_EXPANDER (form_expander), TRUE);
 
     return FALSE;

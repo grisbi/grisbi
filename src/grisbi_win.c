@@ -95,7 +95,7 @@ struct _GrisbiWinPrivate
 	GtkWidget *         stack_box;
 
     /* page d'accueil affichée si pas de fichier chargé */
-	GtkWidget *			no_file_page;
+	GtkWidget *			no_file_frame;
 	GtkWidget *			no_file_sw;
 	GtkWidget *			no_file_grid;
 	GtkWidget *			bouton_nouveau;
@@ -103,19 +103,20 @@ struct _GrisbiWinPrivate
 	GtkWidget *			bouton_importer;
 
     /* widgets si un fichier est chargé */
-	GtkWidget *			form_general;
     GtkWidget *         hpaned_general;
-	GtkWidget *			navigation_sw;
     GtkWidget *         notebook_general;
 	GtkWidget *			account_page;					/* account_page est un notebook qui contient les onglets du compte */
 	GtkWidget *			scheduler_calendar;
+	GtkWidget *			sw_general;
     GtkWidget *         vbox_general;
 
+	GtkWidget *			form_general;
 	GtkWidget *			form_frame;						/* frame of form */
 	GtkWidget *			form_expander;					/* expander of form */
 	GtkWidget *			form_hbox_label;				/* hbox pour le label de l'expander */
-	GtkWidget *			form_label_last_statement;			/* label de la partie variable de l'expander */
+	GtkWidget *			form_label_last_statement;		/* label de la partie variable de l'expander */
 
+	/* widgets de la fenêtre des operations */
 	GtkWidget *			vbox_transactions_list;			/* vbox contenant le tree_view des opérations */
 
 	/* allocations widgets */
@@ -309,7 +310,6 @@ static gboolean grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 												 GtkAllocation *allocation,
 												 GrisbiAppConf *a_conf)
 {
-	;
 	gint position;
 
     position = gtk_paned_get_position (GTK_PANED (hpaned_general));
@@ -618,7 +618,6 @@ static void grisbi_win_init_general_widgets (GrisbiWin *win)
  **/
 static void grisbi_win_create_general_widgets (GrisbiWin *win)
 {
-	GtkWidget *navigation_pane;
 	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
@@ -649,13 +648,9 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
                       a_conf);
     gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);
 
-	/* recuperation des enfants pour gestion dimmension */
-	navigation_pane = gsb_gui_navigation_create_navigation_pane ();
-	priv->navigation_sw = gtk_grid_get_child_at (GTK_GRID (navigation_pane), 0, 0);
-
     /* fill the main hpaned. */
 	gtk_paned_pack1 (GTK_PANED (priv->hpaned_general),
-					 navigation_pane,
+					 gsb_gui_navigation_create_navigation_pane (),
 					 TRUE,
 					 FALSE);
     gtk_paned_pack2 (GTK_PANED (priv->hpaned_general),
@@ -702,7 +697,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	a_conf = grisbi_app_get_a_conf ();
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-	gtk_container_set_border_width (GTK_CONTAINER (priv->no_file_page), MARGIN_BOX);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->no_file_frame), MARGIN_BOX);
 
 	/* set grid properties */
 	gtk_grid_set_column_spacing (GTK_GRID (priv->no_file_grid), MARGIN_PADDING_BOX);
@@ -797,7 +792,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	}
 
 	/* finalisation de no_file_page */
-	gtk_widget_show (priv->no_file_page);
+	gtk_widget_show (priv->no_file_frame);
 }
 
 /* WIN CALLBACK */
@@ -1019,7 +1014,7 @@ static void grisbi_win_init (GrisbiWin *win)
 	}
 	else
 	{
-		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, "accueil_page");
+		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_frame, "accueil_page");
 		(priv->w_run)->file_is_loading = FALSE;
 	}
 
@@ -1063,7 +1058,7 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, main_box);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, stack_box);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_page);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_frame);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_sw);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_grid);
 
@@ -1603,7 +1598,7 @@ void grisbi_win_stack_box_show (GrisbiWin *win,
 		gtk_stack_set_visible_child_name (GTK_STACK (priv->stack_box), page_name);
 	else
 	{
-		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_page, page_name);
+		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->no_file_frame, page_name);
 		gtk_stack_set_visible_child_name (GTK_STACK (priv->stack_box), page_name);
 	}
 	if (strcmp (page_name, "accueil_page") == 0)
@@ -2041,7 +2036,7 @@ void grisbi_win_form_expander_hide_frame (void)
  *
  * \return TRUE if transactions forms is expanded, FALSE otherwise.
  */
-gboolean grisbi_win_form_expander_is_visible (void)
+gboolean grisbi_win_form_expander_is_expanded (void)
 {
 	GrisbiWin *win;
     GrisbiWinPrivate *priv;

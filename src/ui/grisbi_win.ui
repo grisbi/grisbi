@@ -49,6 +49,28 @@
       </object>
     </child>
   </template>
+  <object class="GtkFrame" id="no_file_frame">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label_xalign">0</property>
+    <property name="shadow_type">etched-out</property>
+    <child>
+      <object class="GtkScrolledWindow" id="no_file_sw">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+    <child type="label">
+      <object class="GtkLabel" id="label1">
+        <property name="can_focus">False</property>
+        <property name="track_visited_links">False</property>
+        <property name="lines">0</property>
+      </object>
+    </child>
+  </object>
   <object class="GtkGrid" id="no_file_grid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -78,28 +100,6 @@
     </child>
     <child>
       <placeholder/>
-    </child>
-  </object>
-  <object class="GtkFrame" id="no_file_page">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label_xalign">0</property>
-    <property name="shadow_type">etched-out</property>
-    <child>
-      <object class="GtkScrolledWindow" id="no_file_sw">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-    </child>
-    <child type="label">
-      <object class="GtkLabel" id="label1">
-        <property name="can_focus">False</property>
-        <property name="track_visited_links">False</property>
-        <property name="lines">0</property>
-      </object>
     </child>
   </object>
 </interface>

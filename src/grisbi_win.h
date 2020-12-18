@@ -20,7 +20,7 @@ GType 			grisbi_win_get_type (void) G_GNUC_CONST;
 void			grisbi_win_close_window					(GtkWindow *win);
 
 void 			grisbi_win_form_expander_hide_frame			(void);
-gboolean 		grisbi_win_form_expander_is_visible 		(void);
+gboolean 		grisbi_win_form_expander_is_expanded 		(void);
 void 			grisbi_win_form_expander_show_frame			(void);
 
 void 			grisbi_win_general_notebook_set_page 		(gint page);

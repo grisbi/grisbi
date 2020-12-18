@@ -2700,8 +2700,7 @@ GtkWidget *gsb_transactions_list_creation_fenetre_operations (void)
     GtkWidget *frame;
 	GtkWidget *vbox_transactions_list = NULL; /* adr de la vbox qui contient les opés de chaque compte */
 
-    /* la fenetre des opé est une vbox : la liste en haut, le solde et
-     * des boutons de conf au milieu, le transaction_form en bas */
+    /* la fenetre des opé est une vbox : la barre d'outils en haut et la liste en bas */
     win_operations = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 
     /* frame pour la barre d'outils */
@@ -3333,7 +3332,7 @@ void gsb_transactions_list_selection_changed (gint new_selected_transaction)
 
     /* show the content of the transaction in the form,
      * only if the form is shown */
-    if (grisbi_win_form_expander_is_visible ())
+    if (grisbi_win_form_expander_is_expanded ())
     {
 		GrisbiAppConf *a_conf;
 
