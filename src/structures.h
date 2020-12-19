@@ -327,8 +327,6 @@ struct _GrisbiAppConf
  */
 struct _GrisbiWinRun
 {
-	/* width of transaction list */
-	gint		transaction_list_width;
 	gboolean	definition_screen_toggled;					/* force l'utilisation des dimensions par defaut */
 
 	/* old version of file */

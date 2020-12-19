@@ -1765,7 +1765,11 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
 {
     gint i;
 
-	w_run->transaction_list_width = allocation->width;
+	if (gsb_gui_navigation_get_current_page () != GSB_ACCOUNT_PAGE)
+	{
+		return;
+	}
+
     if (allocation->width == current_tree_view_width)
     {
         /* size of the tree view didn't change, but we received an allocated signal
@@ -1796,6 +1800,8 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
         if (width > 0)
             gtk_tree_view_column_set_fixed_width (transactions_tree_view_columns[i], width);
     }
+
+	grisbi_win_form_label_align_right (allocation);
 }
 
 /**

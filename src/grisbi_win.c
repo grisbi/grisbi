@@ -119,9 +119,6 @@ struct _GrisbiWinPrivate
 	/* widgets de la fenêtre des operations */
 	GtkWidget *			vbox_transactions_list;			/* vbox contenant le tree_view des opérations */
 
-	/* allocations widgets */
-	gint 				form_expander_label_width;
-
     /* nom du fichier associé à la fenêtre */
     gchar *             filename;
 
@@ -318,34 +315,6 @@ static void grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 
 /* FORM_GENERAL */
 /**
- * Positionne le label des rapprochements à la fin du label de l'expander
- * utile juste pour les comptes.
- *
- * \param GtkWidget			form
- * \param GtkAllocation 	allocation
- * \param gpointer			NULL
- *
- * \return FALSE
- **/
-static void grisbi_win_form_size_allocate (GtkWidget *form_expander,
-										   GtkAllocation *allocation,
-										   GrisbiWin *win)
-{
-	if (gsb_gui_navigation_get_current_page () == GSB_ACCOUNT_PAGE)
-	{
-		GtkWidget *expander_label;
-		gint new_width;
-		GrisbiWinPrivate *priv;
-
-		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-		new_width = 0.95*(priv->w_run->transaction_list_width);
-
-		expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(form_expander));
-		gtk_widget_set_size_request (expander_label, new_width, -1);
-	}
-}
-
-/**
  * Called when the state of the expander changes
  *
  * \param expander	Expanded that triggered signal.
@@ -408,7 +377,6 @@ static GtkWidget *grisbi_win_form_new (GrisbiWin *win)
 	/* create the label of expander */
 	/* Expander has a composite label */
     priv->form_hbox_label = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_widget_set_margin_end (priv->form_hbox_label, MARGIN_END);
     gtk_expander_set_label_widget (GTK_EXPANDER(priv->form_expander), priv->form_hbox_label);
     gtk_expander_set_label_fill (GTK_EXPANDER(priv->form_expander), FALSE);
 	gtk_expander_set_resize_toplevel (GTK_EXPANDER(priv->form_expander), FALSE);
@@ -572,10 +540,6 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 	gtk_widget_set_margin_end (priv->form_general, MARGIN_END);
 	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
     gtk_widget_hide (priv->form_general);
-    g_signal_connect (G_OBJECT (priv->form_expander),
-                      "size-allocate",
-                      G_CALLBACK (grisbi_win_form_size_allocate),
-                      win);
 
 	/* show widgets */
 	gtk_widget_show (sw_general);
@@ -649,8 +613,10 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
 					 gsb_gui_navigation_create_navigation_pane (),
 					 TRUE,
 					 FALSE);
+
+	priv->sw_general = grisbi_win_create_general_notebook (win);
     gtk_paned_pack2 (GTK_PANED (priv->hpaned_general),
-					 grisbi_win_create_general_notebook (win),
+					 priv->sw_general,
 					 TRUE,
 					 FALSE);
 	gtk_widget_set_margin_bottom (priv->hpaned_general, MARGIN_BOTTOM);
@@ -1959,9 +1925,9 @@ gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
  **/
 void grisbi_win_new_file_gui (void)
 {
-    GrisbiWin *win;
-    GtkWidget *tree_view_widget;
+	GtkWidget *sw_transaction_list;
 	GtkWidget *vbox_transactions_list;
+    GrisbiWin *win;
 	GrisbiWinPrivate *priv;
 
     win = grisbi_app_get_active_window (NULL);
@@ -1992,10 +1958,10 @@ void grisbi_win_new_file_gui (void)
     }
 
     /* Create transaction list. */
-    tree_view_widget = gsb_transactions_list_make_gui_list ();
+    sw_transaction_list = gsb_transactions_list_make_gui_list ();
 	vbox_transactions_list = grisbi_win_get_vbox_transactions_list (win);
-    gtk_box_pack_start (GTK_BOX (vbox_transactions_list), tree_view_widget, TRUE, TRUE, 0);
-    gtk_widget_show (tree_view_widget);
+    gtk_box_pack_start (GTK_BOX (vbox_transactions_list), sw_transaction_list, TRUE, TRUE, 0);
+    gtk_widget_show (sw_transaction_list);
 
 	/* Display accounts in menus */
 	grisbi_win_menu_move_to_acc_delete ();
@@ -2058,6 +2024,36 @@ void grisbi_win_form_expander_show_frame (void)
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	gtk_widget_show (priv->form_frame);
+}
+
+/**
+ * Positionne le label des rapprochements à la fin du label de l'expander
+ * utile juste pour les comptes.
+ *
+ * \param GtkAllocation 	allocation
+ *
+ * \return
+ **/
+void grisbi_win_form_label_align_right (GtkAllocation *allocation)
+{
+	GtkWidget *expander_label;
+	gint new_width;
+	gint sw_general_width;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
+
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	new_width = allocation->width -30;
+
+	/* addition of a feedback loop EXPERIMENTAL */
+	sw_general_width = gtk_widget_get_allocated_width (priv->sw_general);
+	if (new_width + 40 > sw_general_width)
+		new_width = sw_general_width - 40;
+
+	expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(priv->form_expander));
+	gtk_widget_set_size_request (expander_label, new_width, -1);
 }
 
 /**

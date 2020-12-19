@@ -1313,6 +1313,9 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
 {
     gint i;
 
+	if (gsb_gui_navigation_get_current_page () != GSB_SCHEDULER_PAGE)
+		return;
+
     if (allocation->width == scheduler_current_tree_view_width)
     {
         /* size of the tree view didn't change, but we received an allocated signal
