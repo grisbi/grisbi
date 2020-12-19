@@ -1324,7 +1324,7 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
         if (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
             return;
 
-        for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
+        for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS; i++)
         {
             if (gtk_tree_view_column_get_width (scheduler_list_column[i]))
                 scheduler_col_width[i] = (gtk_tree_view_column_get_width
@@ -1339,7 +1339,7 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
      * it will take the end of the width alone */
     scheduler_current_tree_view_width = allocation->width;
 
-    for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS - 1 ; i++)
+    for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS -1 ; i++)
     {
         gint width;
 

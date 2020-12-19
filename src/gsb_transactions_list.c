@@ -1776,7 +1776,7 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
         if (gtk_tree_view_column_get_width (transactions_tree_view_columns[0]) == 1)
             return;
 
-        for (i = 0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+        for (i = 0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS; i++)
             transaction_col_width[i] = (gtk_tree_view_column_get_width (
                         transactions_tree_view_columns[i]) * 100) / allocation->width + 1;
 
@@ -1788,7 +1788,7 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
      * it will take the end of the width alone */
     current_tree_view_width = allocation->width;
 
-    for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS - 1 ; i++)
+	for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS -1 ; i++)
     {
         gint width;
 

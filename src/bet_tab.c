@@ -1527,7 +1527,7 @@ static void bet_array_list_size_allocate (GtkWidget *tree_view,
      * it will take the end of the width alone */
 	bet_array_current_tree_view_width = allocation->width;
 
-    for (i = 0; i < BET_ARRAY_COLUMNS - 1; i++)
+    for (i = 0; i < BET_ARRAY_COLUMNS -1; i++)
     {
         gint width;
 
