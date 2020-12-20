@@ -3348,18 +3348,27 @@ gboolean gsb_form_finish_edition (void)
     /* on sort de la saisie des opérations filles si variance == 0 */
     if ((mother_number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction)))
     {
-        if (is_transaction
-			&& transaction_list_get_variance (gsb_data_account_get_current_transaction_number (account_number)))
-        {
-			GrisbiAppConf *a_conf;
+        if (is_transaction)
+		{
+			gint archive_number = 0;
 
-			a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-            gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
-			if (a_conf->form_validate_split)
-				transaction_list_select (mother_number);
-			else
-            	transaction_list_select (-1);
-        }
+			/* on verifie ici si l'operation mere est archivée dans ce cas on archive aussi les opérations filles */
+			archive_number = gsb_data_transaction_get_archive_number (mother_number);
+			if (archive_number)
+				gsb_data_transaction_set_archive_number (transaction_number, archive_number);
+
+			if (transaction_list_get_variance (gsb_data_account_get_current_transaction_number (account_number)))
+			{
+				GrisbiAppConf *a_conf;
+
+				a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+				gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
+				if (a_conf->form_validate_split)
+					transaction_list_select (mother_number);
+				else
+					transaction_list_select (-1);
+			}
+		}
         else if (!is_transaction && !execute_scheduled && gsb_data_scheduled_get_variance (mother_number))
         {
             gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()));
