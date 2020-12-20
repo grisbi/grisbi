@@ -950,8 +950,6 @@ gboolean gsb_data_currency_check_and_remove_duplicate (void)
 				dialogue_warning_hint (msg, _("Duplicate currency"));
 				g_slist_free_full (used, (GDestroyNotify) g_free);
     			_gsb_data_currency_free (tmp_currency);
-
-				return TRUE;
 			}
 			else
 			{
