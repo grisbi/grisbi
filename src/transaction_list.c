@@ -63,10 +63,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void transaction_list_append_child ( gint transaction_number );
-static CustomRecord *transaction_list_create_record ( gint transaction_number,
-                        gint line_in_transaction );
-static gboolean transaction_list_update_white_child ( CustomRecord *white_record );
+/* this is a buffer which contains the last mother appended, to increase
+ * the speed when filling the list and adding children */
+static CustomRecord *last_mother_appended = NULL;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -74,13 +73,289 @@ extern GSList *orphan_child_transactions;
 /*END_EXTERN*/
 
 
-/* this is a buffer which contains the last mother appended, to increase
- * the speed when filling the list and adding children */
-static CustomRecord *last_mother_appended = NULL;
 
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * create a new record structure according to the line in transaction and return it
+ *
+ * \param transaction_number     the transaction of the record
+ * \param line_in_transaction    the line in the transaction of the record
+ *
+ * \return NULL if problem, or the newly allocated record
+ * */
+static CustomRecord *transaction_list_create_record (gint transaction_number,
+                    								 gint line_in_transaction)
+{
+    CustomRecord *newrecord;
+	GrisbiAppConf *a_conf;
+    gint column;
+
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+    /* create the new record */
+    newrecord = g_malloc0 (sizeof (CustomRecord));
+
+    /* fill the row with the visibles columns */
+    for (column = 0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++)
+	{
+		gint element_number;
+
+		element_number = gsb_transactions_list_get_element_tab_affichage_ope (line_in_transaction, column);
+		newrecord->visible_col[column] = gsb_transactions_list_grep_cell_content (transaction_number,
+																					element_number);
+	}
+
+    if (a_conf->custom_fonte_listes)
+	    newrecord->font = a_conf->font_string;
+    newrecord->transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (transaction_number);
+    newrecord->what_is_line = IS_TRANSACTION;
+    newrecord->line_in_transaction = line_in_transaction;
+    newrecord->checkbox_visible_reconcile = line_in_transaction == 0 ? 1 : 0;
+    newrecord->checkbox_active = gsb_data_transaction_get_marked_transaction (transaction_number) != 0;
+    newrecord->text_color = gsb_rgba_get_couleur_with_indice ("text_color", 0);
+
+    return newrecord;
+}
+
+/**
+ * get a white line record of split
+ * and update it to set the total of split children and the variance
+ * we just modify the content of the record, no inform the tree view here
+ *
+ * \param white_record    the record of white line we want update
+ *
+ * \return FALSE : nothing done, TRUE : ok
+ * */
+static gboolean transaction_list_update_white_child (CustomRecord *white_record)
+{
+    GdkRGBA *mother_text_color;
+    CustomRecord *mother_record;
+    GsbReal total_split = null_real;
+    GsbReal variance;
+    gchar *amount_string;
+    gchar *variance_string;
+    gint transaction_number;
+    gint i;
+
+    if (!white_record)
+	    return FALSE;
+
+    mother_record = white_record->mother_row;
+
+    for (i=0 ; i < mother_record->number_of_children -1 ; i++)
+    {
+		CustomRecord *child_record;
+		gint child_number;
+
+		child_record = mother_record->children_rows[i];
+		child_number = gsb_data_transaction_get_transaction_number (child_record->transaction_pointer);
+		total_split = gsb_real_add (total_split,
+									gsb_data_transaction_get_amount (child_number));
+    }
+
+    transaction_number = gsb_data_transaction_get_transaction_number (mother_record->transaction_pointer);
+    variance = gsb_real_sub (gsb_data_transaction_get_amount (transaction_number), total_split);
+
+	/* update the white line */
+    amount_string = utils_real_get_string_with_currency (total_split,
+														 gsb_data_transaction_get_currency_number (transaction_number),
+														 TRUE);
+    variance_string = utils_real_get_string_with_currency (variance,
+														   gsb_data_transaction_get_currency_number (transaction_number),
+														   TRUE);
+
+    /* show the variance and sub-total only if different of the transaction */
+	if (white_record->visible_col[2])
+		g_free (white_record->visible_col[2]);
+
+	if (variance.mantissa)
+    {
+		white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
+														amount_string,
+														variance_string);
+		mother_text_color = gsb_rgba_get_couleur ("text_unfinished_split");
+    }
+    else
+    {
+		white_record->visible_col[2] = NULL;
+		mother_text_color = gsb_rgba_get_couleur_with_indice ("text_color", 0);
+    }
+
+    /* set the color of the mother */
+    for (i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
+		mother_record->transaction_records[i]->text_color = mother_text_color;
+
+    g_free (amount_string);
+    g_free (variance_string);
+
+    return TRUE;
+}
+
+/**
+ * append a child to the mother in the custom list
+ * this function is called internally by transaction_list_append_transaction
+ *
+ * \param transaction_number     the child to append
+ *
+ * \return
+ * */
+static void transaction_list_append_child (gint transaction_number)
+{
+    GtkTreeIter mother_iter;
+    CustomList *custom_list;
+    CustomRecord *newrecord;
+    CustomRecord *mother_record;
+    CustomRecord **new_children_rows;
+    CustomRecord *white_record;
+    gulong newsize;
+    guint pos;
+    gint new_number_of_children;
+    gint i;
+
+    custom_list = transaction_model_get_model ();
+
+    /* the children are stored into a table of pointer into each mother
+     * the filter will determine later what mother row will have the
+     * expander according to the number of row showed */
+
+    /* create the row */
+    newrecord = transaction_list_create_record (transaction_number, 0);
+
+    /* find 1 of the mother row (the others are into the structure of the mother)
+     * usually, it's the last record appended */
+    mother_record = last_mother_appended;
+
+    if (!mother_record
+	 ||
+	 (gsb_data_transaction_get_transaction_number (mother_record->transaction_pointer)
+	  !=
+	  gsb_data_transaction_get_mother_transaction_number (transaction_number)))
+    {
+        /* the last record appended was not the mother, need to search into the entire list */
+        if (transaction_model_get_transaction_iter (&mother_iter,
+													gsb_data_transaction_get_mother_transaction_number
+													(transaction_number),
+													0))
+            mother_record = (CustomRecord *) mother_iter.user_data;
+        else
+        {
+            /* we didn't find the mother of the child, we append the child number to
+             * orphan_child_transactions and the function which called here has to play
+             * with it
+             * (it happens in the versions before 0.6 when the children could have a number
+             * before the mother */
+            orphan_child_transactions = g_slist_append (orphan_child_transactions,
+														GINT_TO_POINTER (transaction_number));
+            return;
+        }
+    }
+
+    /* ok, at this level, mother_record is ok and is one of the row of the mother transaction
+     * we go on the first mother */
+    mother_record = mother_record->transaction_records[0];
+
+    /* set by default the mother row of the child. avoids a crash when creating
+     * an archive directly on the home page */
+    newrecord->mother_row = mother_record;
+
+    /* get the new number of the row into the mother */
+    pos = mother_record->number_of_children;
+
+    /* it must have a child, because while creating the mother, it makes it
+     * so if no child, better to stop here */
+    if (!pos)
+    {
+		gchar *tmp_str;
+
+		tmp_str = g_strdup_printf (_("Trying to append the child number %d to the mother %d "
+									"in the model, but no white line was created before... "
+									"Better to stop here, please contact the Grisbi team to "
+									"fix that issue."),
+									transaction_number,
+								  gsb_data_transaction_get_mother_transaction_number (transaction_number));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+		g_free (newrecord);
+
+		return;
+	}
+
+	/* increase the children rows */
+	new_number_of_children = mother_record->number_of_children + 1;
+	newsize = new_number_of_children * sizeof (CustomRecord*);
+	new_children_rows = g_realloc (mother_record->children_rows, newsize);
+
+	/* save the new record before the white line */
+	white_record = new_children_rows[pos -1];
+
+	new_children_rows[pos - 1] = newrecord;
+	newrecord->pos = pos - 1;
+	newrecord->filtered_pos = pos -1;
+
+	new_children_rows[pos] = white_record;
+	white_record->pos = pos;
+	white_record->filtered_pos = pos;
+
+	/* set the color */
+	newrecord->row_bg = gsb_rgba_get_couleur ("background_split");
+
+	/* we can now save the new number of children and the new children rows into their mothers */
+	for (i=0 ; i < TRANSACTION_LIST_ROWS_NB ; i++)
+	{
+		mother_record->transaction_records[i]->children_rows = new_children_rows;
+		mother_record->transaction_records[i]->number_of_children = new_number_of_children;
+
+		/* set the good mother row of the child */
+		if (mother_record->transaction_records[i]->has_expander)
+		{
+			newrecord->mother_row = mother_record->transaction_records[i];
+			white_record->mother_row = mother_record->transaction_records[i];
+		}
+	}
+
+	/* we need now to recalculate the amount of split and update the white line */
+	transaction_list_update_white_child (white_record);
+
+	if (mother_record->filtered_pos != -1)
+	{
+		/* the mother is visible, inform the tree view we append a child */
+		GtkTreePath *path;
+		GtkTreeIter iter;
+		gint last_line;
+
+		/* we go on the last mother record, which contains the expander */
+		last_line = transaction_list_get_last_line (custom_list->nb_rows_by_transaction);
+		mother_record = mother_record->transaction_records[last_line];
+		newrecord->mother_row = mother_record;
+
+		/* this is very important to keep to compatibility with the normal transactions */
+		newrecord->transaction_records[0] = newrecord;
+
+		/* update the new line, which replace the white line */
+		path = gtk_tree_path_new();
+		gtk_tree_path_append_index(path, mother_record->filtered_pos);
+		gtk_tree_path_append_index(path, newrecord->filtered_pos);
+
+		iter.stamp = custom_list->stamp;
+		iter.user_data = newrecord;
+
+		gtk_tree_model_row_changed (GTK_TREE_MODEL(custom_list), path, &iter);
+		gtk_tree_path_free(path);
+
+		/* update white line, which moved to the end */
+		path = gtk_tree_path_new();
+		gtk_tree_path_append_index(path, mother_record->filtered_pos);
+		gtk_tree_path_append_index(path, white_record->filtered_pos);
+
+		iter.stamp = custom_list->stamp;
+		iter.user_data = white_record;
+
+		gtk_tree_model_row_inserted (GTK_TREE_MODEL(custom_list), path, &iter);
+		gtk_tree_path_free(path);
+    }
+}
 /**
  * Cherche le premier élément disponible pour nommer une archive
  * parmi un des éléments obligatoires
@@ -146,7 +421,7 @@ gboolean transaction_list_create (void)
 
     custom_list = custom_list_new ();
     transaction_model_set_model (custom_list);
-    g_object_unref ( custom_list );
+    g_object_unref (custom_list);
 
     return (custom_list != NULL);
 }
@@ -160,7 +435,7 @@ gboolean transaction_list_create (void)
  *
  * \return
  * */
-void transaction_list_append_transaction ( gint transaction_number )
+void transaction_list_append_transaction (gint transaction_number)
 {
     gulong newsize;
     guint pos;
@@ -176,7 +451,7 @@ void transaction_list_append_transaction ( gint transaction_number )
 
     custom_list = transaction_model_get_model ();
 
-    g_return_if_fail ( custom_list != NULL );
+    g_return_if_fail (custom_list != NULL);
 
     /* if this is a child, go to append_child_record */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
@@ -186,33 +461,33 @@ void transaction_list_append_transaction ( gint transaction_number )
     }
 
     /* the transaction is a mother */
-    account_number = gsb_gui_navigation_get_current_account ( );
+    account_number = gsb_gui_navigation_get_current_account ();
 
     /* if the transaction is a split, create a white line, we will append it later */
-    if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number))
     {
 	/* append a white line */
 	gint white_line_number;
 	gchar *amount_string;
 	gchar *variance_string;
 
-	white_line_number = gsb_data_transaction_new_white_line ( transaction_number );
+	white_line_number = gsb_data_transaction_new_white_line (transaction_number);
 	children_rows = g_malloc0 (sizeof (CustomRecord*));
 
 	/* create and fill the white line record */
 	white_record = g_malloc0 (sizeof (CustomRecord));
-	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
-	white_record -> what_is_line = IS_TRANSACTION;
-	white_record -> row_bg = gsb_rgba_get_couleur ( "background_split" );
+	white_record->transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
+	white_record->what_is_line = IS_TRANSACTION;
+	white_record->row_bg = gsb_rgba_get_couleur ("background_split");
 
 	/* as we append just now the white line, there are no child split, so the total is 0 */
 	amount_string = utils_real_get_string_with_currency (null_real,
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	white_record -> visible_col[2] = g_strdup_printf ( _("Total: %s (variance : %s)"),
+	white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
 							   amount_string,
-							   variance_string );
+							   variance_string);
 	g_free (amount_string);
 	g_free (variance_string);
 
@@ -230,7 +505,7 @@ void transaction_list_append_transaction ( gint transaction_number )
     /* increase the table of pointer of struct CustomRecord */
     /* we add the 4 rows of the transaction in one time,
      * so increase 4*sizeof (CustomRecord *) */
-    custom_list->num_rows = custom_list -> num_rows + TRANSACTION_LIST_ROWS_NB;
+    custom_list->num_rows = custom_list->num_rows + TRANSACTION_LIST_ROWS_NB;
     newsize = custom_list->num_rows * sizeof(CustomRecord*);
     custom_list->rows = g_realloc(custom_list->rows, newsize);
 
@@ -247,8 +522,8 @@ void transaction_list_append_transaction ( gint transaction_number )
 	/* set the white line if necessary */
 	if (children_rows)
 	{
-	    newrecord[i] -> number_of_children = 1;
-	    newrecord[i] -> children_rows = children_rows;
+	    newrecord[i]->number_of_children = 1;
+	    newrecord[i]->children_rows = children_rows;
 	}
 
 	/* save the newrecord pointer */
@@ -258,72 +533,72 @@ void transaction_list_append_transaction ( gint transaction_number )
 
 	/* set the checkbox is the transaction is marked */
 	if (line_p == i)
-	    newrecord[i] -> checkbox_active = marked_transaction;
+	    newrecord[i]->checkbox_active = marked_transaction;
 
 	/* we check if the row is visible or not only if we are on an account,
 	 * in other case, the model will be filtered when change account so no need
 	 * to do that here */
-	if ( account_number != -1
+	if (account_number != -1
 	    &&
-	    gsb_transactions_list_transaction_visible ( newrecord[i] -> transaction_pointer,
+	    gsb_transactions_list_transaction_visible (newrecord[i]->transaction_pointer,
 							account_number,
 							i,
-							newrecord[i] -> what_is_line ))
+							newrecord[i]->what_is_line))
 	{
 	    /* the row need to be shown */
 	    GtkTreePath *path;
 	    GtkTreeIter iter;
         gint last_line_visible;
 
-	    newrecord[i] -> line_visible = TRUE;
+	    newrecord[i]->line_visible = TRUE;
 
         last_line_visible = transaction_list_get_last_line (
-			            custom_list -> nb_rows_by_transaction );
+			            custom_list->nb_rows_by_transaction);
 
-	    newrecord[i] -> filtered_pos = custom_list -> num_visibles_rows;
-	    custom_list -> visibles_rows[newrecord[i] -> filtered_pos] = newrecord[i];
-	    custom_list -> num_visibles_rows++;
+	    newrecord[i]->filtered_pos = custom_list->num_visibles_rows;
+	    custom_list->visibles_rows[newrecord[i]->filtered_pos] = newrecord[i];
+	    custom_list->num_visibles_rows++;
 
         /* if we are the last line visible and are mother, we set the expander */
-	    if ( children_rows && i == last_line_visible )
+	    if (children_rows && i == last_line_visible)
 	    {
-            newrecord[i] -> has_expander = TRUE;
-            white_record -> mother_row = newrecord[i];
+            newrecord[i]->has_expander = TRUE;
+            white_record->mother_row = newrecord[i];
             /* set the color of the mother */
             mother_text_color = gsb_rgba_get_couleur ("text_unfinished_split");
-            newrecord[i] -> text_color = mother_text_color;
+            newrecord[i]->text_color = mother_text_color;
 	    }
 
 	    /* inform the tree view */
 	    path = gtk_tree_path_new();
 	    gtk_tree_path_append_index(path, newrecord[i]->filtered_pos);
 
-	    iter.stamp = custom_list -> stamp;
+	    iter.stamp = custom_list->stamp;
 	    iter.user_data = newrecord[i];
 
 	    gtk_tree_model_row_inserted (GTK_TREE_MODEL(custom_list), path, &iter);
 	    /* if there is a child (white line), set the expander */
-	    if ( newrecord[i] -> has_expander )
-		    gtk_tree_model_row_has_child_toggled ( GTK_TREE_MODEL ( custom_list ),
-						      path, &iter );
-	    gtk_tree_path_free ( path );
+	    if (newrecord[i]->has_expander)
+		    gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
+						      path, &iter);
+	    gtk_tree_path_free (path);
 	}
 	else
-	    newrecord[i] -> filtered_pos = -1;
+	    newrecord[i]->filtered_pos = -1;
 	pos++;
     }
 
     /* in case of the transaction is not visible, we save in the white number
      * the record of the mother to avoid crash later */
-    if (white_record && !white_record -> mother_row)
-	white_record -> mother_row = newrecord[0];
+    if (white_record && !white_record->mother_row)
+	white_record->mother_row = newrecord[0];
 
     /* save the records in all the records of the transaction
      * this will increase the speed for associate the children to
      * the transaction mother (ie the 4 rows) */
     for (i=0 ; i < TRANSACTION_LIST_ROWS_NB ; i++)
 	for (j=0 ; j < TRANSACTION_LIST_ROWS_NB ; j++)
-	    newrecord[i] -> transaction_records[j] = newrecord[j];
+	    newrecord[i]->transaction_records[j] = newrecord[j];
 
     /* we save the adress of the last row in the buffer to increase speed if there is any child */
     last_mother_appended = newrecord[TRANSACTION_LIST_ROWS_NB - 1];
@@ -338,7 +613,7 @@ void transaction_list_append_transaction ( gint transaction_number )
  *
  * \return
  * */
-void transaction_list_append_archive ( gint archive_store_number )
+void transaction_list_append_archive (gint archive_store_number)
 {
     gint archive_number;
     gulong newsize;
@@ -351,14 +626,14 @@ void transaction_list_append_archive ( gint archive_store_number )
 
     custom_list = transaction_model_get_model ();
 
-    if ( custom_list == NULL )
+    if (custom_list == NULL)
         return;
 
     /* get the new number of the first row in the complete list of row */
     pos = custom_list->num_rows;
     /* increase the table of pointer of struct CustomRecord,
      * 1 for the archive */
-    custom_list->num_rows = custom_list -> num_rows + 1;
+    custom_list->num_rows = custom_list->num_rows + 1;
     newsize = custom_list->num_rows * sizeof(CustomRecord*);
     custom_list->rows = g_realloc(custom_list->rows, newsize);
 
@@ -369,9 +644,9 @@ void transaction_list_append_archive ( gint archive_store_number )
     /* create and fill the record */
     newrecord = g_malloc0 (sizeof (CustomRecord));
 
-    archive_number = gsb_data_archive_store_get_archive_number ( archive_store_number );
+    archive_number = gsb_data_archive_store_get_archive_number (archive_store_number);
 
-    if ( gsb_transactions_list_find_element_col ( ELEMENT_DATE ) == 0 )
+    if (gsb_transactions_list_find_element_col (ELEMENT_DATE) == 0)
     {
         element_date = transaction_list_find_element_col_for_archive ();
         if (element_date < 0)
@@ -381,31 +656,31 @@ void transaction_list_append_archive ( gint archive_store_number )
 		}
     }
 
-    newrecord -> visible_col[element_date] = gsb_format_gdate (
-                        gsb_data_archive_get_beginning_date ( archive_number ) );
+    newrecord->visible_col[element_date] = gsb_format_gdate (
+                        gsb_data_archive_get_beginning_date (archive_number));
 
-    if ( ( col_archive = transaction_list_find_element_col_for_archive () ) >= 0 )
-        newrecord -> visible_col[col_archive] = g_strdup_printf (
+    if ((col_archive = transaction_list_find_element_col_for_archive ()) >= 0)
+        newrecord->visible_col[col_archive] = g_strdup_printf (
                         _("%s (%d transactions)"),
                         gsb_data_archive_get_name (archive_number),
                         gsb_data_archive_store_get_transactions_number (
-                        archive_store_number ) );
+                        archive_store_number));
 
     if ((gsb_data_archive_store_get_balance (archive_store_number)).mantissa < 0)
         amount_col = gsb_transactions_list_find_element_col (ELEMENT_DEBIT);
     else
         amount_col = gsb_transactions_list_find_element_col (ELEMENT_CREDIT);
 
-    if ( amount_col > 0 )
-        newrecord -> visible_col[amount_col] = utils_real_get_string_with_currency (
+    if (amount_col > 0)
+        newrecord->visible_col[amount_col] = utils_real_get_string_with_currency (
                         gsb_data_archive_store_get_balance (archive_store_number),
                         gsb_data_account_get_currency (
-                        gsb_data_archive_store_get_account_number ( archive_store_number ) ),
+                        gsb_data_archive_store_get_account_number (archive_store_number)),
                         TRUE);
-    newrecord -> transaction_pointer = gsb_data_archive_store_get_structure (
+    newrecord->transaction_pointer = gsb_data_archive_store_get_structure (
                         archive_store_number);
-    newrecord -> what_is_line = IS_ARCHIVE;
-    newrecord -> row_bg = gsb_rgba_get_couleur ("background_archive");
+    newrecord->what_is_line = IS_ARCHIVE;
+    newrecord->row_bg = gsb_rgba_get_couleur ("background_archive");
 
     /* save the newrecord pointer */
     custom_list->rows[pos] = newrecord;
@@ -428,7 +703,7 @@ void transaction_list_append_archive ( gint archive_store_number )
  *
  * \return TRUE : transaction removed, FALSE : problem, nothing done
  * */
-gboolean transaction_list_remove_transaction ( gint transaction_number )
+gboolean transaction_list_remove_transaction (gint transaction_number)
 {
     CustomRecord *record;
     gint i;
@@ -439,7 +714,7 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
 
     custom_list = transaction_model_get_model ();
 
-    if ( custom_list == NULL )
+    if (custom_list == NULL)
         return FALSE;
 
     /* get the record */
@@ -451,21 +726,21 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
         return FALSE;
 
     /* if selected transaction, remove it */
-    if (record == custom_list -> selected_row)
-	custom_list -> selected_row = NULL;
+    if (record == custom_list->selected_row)
+	custom_list->selected_row = NULL;
 
     /* if there are some children, remove them first */
-    while (record -> number_of_children)
+    while (record->number_of_children)
         transaction_list_remove_transaction (
                         gsb_data_transaction_get_transaction_number (
-                        record -> children_rows[0] -> transaction_pointer ) );
+                        record->children_rows[0]->transaction_pointer));
 
     /* now we can delete the rows */
     for (i=0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
-	if (record -> visible_col[i])
-	    g_free (record -> visible_col[i]);
+	if (record->visible_col[i])
+	    g_free (record->visible_col[i]);
 
-    if (record -> mother_row)
+    if (record->mother_row)
     {
 	/* we are deleting a child, update the mother
 	 * the child can never be the last one of the mother because there is
@@ -473,14 +748,14 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
 	gint new_number_of_children;
 	CustomRecord **new_children_rows;
 
-	new_number_of_children = record -> mother_row -> number_of_children - 1;
-	new_children_rows = record -> mother_row -> children_rows;
+	new_number_of_children = record->mother_row->number_of_children - 1;
+	new_children_rows = record->mother_row->children_rows;
 
-	for (i = record -> pos ; i < new_number_of_children ; i++)
+	for (i = record->pos ; i < new_number_of_children ; i++)
 	{
-	    new_children_rows[i] = record -> mother_row -> children_rows[i+1];
-	    new_children_rows[i] -> pos = i;
-	    new_children_rows[i] -> filtered_pos = i;
+	    new_children_rows[i] = record->mother_row->children_rows[i+1];
+	    new_children_rows[i]->pos = i;
+	    new_children_rows[i]->filtered_pos = i;
 	}
 
 	/* free the end of array of pointers of children */
@@ -491,21 +766,21 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
 	/* update all the rows of the mother */
 	for (i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
 	{
-	    record -> mother_row -> transaction_records[i] -> number_of_children = new_number_of_children;
-	    record -> mother_row -> transaction_records[i] -> children_rows = new_children_rows;
+	    record->mother_row->transaction_records[i]->number_of_children = new_number_of_children;
+	    record->mother_row->transaction_records[i]->children_rows = new_children_rows;
 	}
 
 	/* update the white line */
-	if ( transaction_number > 0 )
+	if (transaction_number > 0)
 	    transaction_list_update_white_child (
-                        record -> mother_row -> children_rows[new_number_of_children -1]);
+                        record->mother_row->children_rows[new_number_of_children -1]);
 
 	/* delete the row of the tree view */
-	if (record -> mother_row -> filtered_pos != -1)
+	if (record->mother_row->filtered_pos != -1)
 	{
 	    path = gtk_tree_path_new ();
-	    gtk_tree_path_append_index(path, record -> mother_row -> filtered_pos);
-	    gtk_tree_path_append_index(path, record -> pos );
+	    gtk_tree_path_append_index(path, record->mother_row->filtered_pos);
+	    gtk_tree_path_append_index(path, record->pos);
 	    gtk_tree_model_row_deleted (GTK_TREE_MODEL(custom_list), path);
 	    gtk_tree_path_free(path);
 	}
@@ -517,23 +792,23 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
     }
 
     /* we are on a mother transaction, remove the row */
-    custom_list -> num_rows = custom_list -> num_rows - TRANSACTION_LIST_ROWS_NB;
+    custom_list->num_rows = custom_list->num_rows - TRANSACTION_LIST_ROWS_NB;
 
-    for (i=record -> pos ; i < custom_list -> num_rows ; i++)
+    for (i=record->pos ; i < custom_list->num_rows ; i++)
     {
-	custom_list -> rows[i] = custom_list -> rows[i+TRANSACTION_LIST_ROWS_NB];
-	custom_list -> rows[i] -> pos = i;
+	custom_list->rows[i] = custom_list->rows[i+TRANSACTION_LIST_ROWS_NB];
+	custom_list->rows[i]->pos = i;
     }
 
     /* if the transaction was showed, modify the visible transactions */
-    if (record -> filtered_pos != -1)
+    if (record->filtered_pos != -1)
     {
-	custom_list -> num_visibles_rows = custom_list -> num_visibles_rows - custom_list -> nb_rows_by_transaction;
+	custom_list->num_visibles_rows = custom_list->num_visibles_rows - custom_list->nb_rows_by_transaction;
 
-	for (i=record -> filtered_pos ; i < custom_list -> num_visibles_rows ; i++)
+	for (i=record->filtered_pos ; i < custom_list->num_visibles_rows ; i++)
 	{
-	    custom_list -> visibles_rows[i] = custom_list -> visibles_rows[i + custom_list -> nb_rows_by_transaction];
-	    custom_list -> visibles_rows[i] -> filtered_pos = i;
+	    custom_list->visibles_rows[i] = custom_list->visibles_rows[i + custom_list->nb_rows_by_transaction];
+	    custom_list->visibles_rows[i]->filtered_pos = i;
 	}
     }
 
@@ -545,14 +820,14 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
     /* free the records */
     for (i=TRANSACTION_LIST_ROWS_NB ; i ; i--)
     {
-	if (record -> transaction_records[i-1] -> filtered_pos != -1)
+	if (record->transaction_records[i-1]->filtered_pos != -1)
 	{
 	    path = gtk_tree_path_new ();
-	    gtk_tree_path_append_index(path, record -> transaction_records[i-1] -> filtered_pos);
+	    gtk_tree_path_append_index(path, record->transaction_records[i-1]->filtered_pos);
 	    gtk_tree_model_row_deleted (GTK_TREE_MODEL(custom_list), path);
 	    gtk_tree_path_free(path);
 	}
-	g_free (record -> transaction_records[i-1]);
+	g_free (record->transaction_records[i-1]);
     }
 
     return TRUE;
@@ -568,7 +843,7 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
  *
  * \return TRUE : archive removed, FALSE : problem, nothing done
  * */
-gboolean transaction_list_remove_archive ( gint archive_number )
+gboolean transaction_list_remove_archive (gint archive_number)
 {
     gint i;
     CustomList *custom_list;
@@ -576,22 +851,22 @@ gboolean transaction_list_remove_archive ( gint archive_number )
 
     custom_list = transaction_model_get_model ();
 
-    if ( custom_list == NULL )
+    if (custom_list == NULL)
         return FALSE;
 
     /* there is several archive store records which correspond to the archive */
-    for (i=0 ; i < custom_list -> num_rows ; i++)
+    for (i=0 ; i < custom_list->num_rows ; i++)
     {
         CustomRecord *record;
         gulong newsize;
         GtkTreePath *path;
         gint j;
 
-        record = custom_list -> rows[i];
-        if ( record -> what_is_line != IS_ARCHIVE
+        record = custom_list->rows[i];
+        if (record->what_is_line != IS_ARCHIVE
              ||
              gsb_data_archive_store_get_archive_number (gsb_data_archive_store_get_number (
-                        record -> transaction_pointer )) != archive_number )
+                        record->transaction_pointer)) != archive_number)
         {
             continue;
         }
@@ -599,34 +874,34 @@ gboolean transaction_list_remove_archive ( gint archive_number )
         /* we are on a good archive store, delete it */
 
         /* delete the rows */
-        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-            if (record -> visible_col[j])
-                g_free (record -> visible_col[j]);
+        for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+            if (record->visible_col[j])
+                g_free (record->visible_col[j]);
 
         /* remove the row. I decrement "i" because the next line of model is shifted
          * and has  "i" for index. Otherwise we do not test. */
-        custom_list -> num_rows--;
+        custom_list->num_rows--;
         i--;
 
-        for (j=record -> pos ; j < custom_list -> num_rows ; j++)
+        for (j=record->pos ; j < custom_list->num_rows ; j++)
         {
-            custom_list -> rows[j] = custom_list -> rows[j+1];
-            custom_list -> rows[j] -> pos = j;
+            custom_list->rows[j] = custom_list->rows[j+1];
+            custom_list->rows[j]->pos = j;
         }
 
         /* if the archive was showed, modify the visible transactions */
-        if ( record -> filtered_pos != -1  && custom_list -> num_visibles_rows > 0 )
+        if (record->filtered_pos != -1  && custom_list->num_visibles_rows > 0)
         {
-            custom_list -> num_visibles_rows--;
+            custom_list->num_visibles_rows--;
 
-            for (j=record -> filtered_pos ; j < custom_list -> num_visibles_rows ; j++)
+            for (j=record->filtered_pos ; j < custom_list->num_visibles_rows ; j++)
             {
-            custom_list -> visibles_rows[j] = custom_list -> visibles_rows[j + 1];
-            custom_list -> visibles_rows[j] -> filtered_pos = j;
+            custom_list->visibles_rows[j] = custom_list->visibles_rows[j + 1];
+            custom_list->visibles_rows[j]->filtered_pos = j;
             }
 
             path = gtk_tree_path_new ();
-            gtk_tree_path_append_index(path, record -> filtered_pos);
+            gtk_tree_path_append_index(path, record->filtered_pos);
             gtk_tree_model_row_deleted (GTK_TREE_MODEL(custom_list), path);
             gtk_tree_path_free(path);
         }
@@ -658,7 +933,7 @@ gboolean transaction_list_remove_archive ( gint archive_number )
  *
  * \return
  * */
-void transaction_list_filter ( gint account_number )
+void transaction_list_filter (gint account_number)
 {
     gint current_pos_general_list;
     gint current_pos_filtered_list = 0;
@@ -675,31 +950,31 @@ void transaction_list_filter ( gint account_number )
 
     devel_debug (NULL);
 
-    g_return_if_fail ( custom_list != NULL );
-    g_return_if_fail ( custom_list->num_rows != 0 );
+    g_return_if_fail (custom_list != NULL);
+    g_return_if_fail (custom_list->num_rows != 0);
 
     /* there is a bug, i think in gtk, which when we re-filter the list with opened split, and when
      * there is less lines in the list that the window, gtk close the split opened without
      * informing the tree view so tree view errors laters... i didn't find anything here
      * which close the split, so i assume is gtk. the solution is to close all the split.
-     * this is very important to keep gtk_tree_view_collapse_all to avoid very nuts bugs !!!  */
+     * this is very important to keep gtk_tree_view_collapse_all to avoid very nuts bugs !! */
     gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
 
     /* we erase the selection */
-    if (custom_list -> selected_row)
+    if (custom_list->selected_row)
 	transaction_list_select_unselect ();
 
-    custom_list -> nb_rows_by_transaction = gsb_data_account_get_nb_rows (account_number);
+    custom_list->nb_rows_by_transaction = gsb_data_account_get_nb_rows (account_number);
 
     /* begin to fill the iter for later */
     iter.stamp = custom_list->stamp;
 
     /* save the lenght of the current list */
-    previous_visible_rows = custom_list -> num_visibles_rows;
+    previous_visible_rows = custom_list->num_visibles_rows;
 
     path = gtk_tree_path_new_first ();
 
-    for (current_pos_general_list=0 ; current_pos_general_list<custom_list -> num_rows ; current_pos_general_list++)
+    for (current_pos_general_list=0 ; current_pos_general_list<custom_list->num_rows ; current_pos_general_list++)
     {
         CustomRecord *record;
         gboolean shown;
@@ -707,17 +982,17 @@ void transaction_list_filter ( gint account_number )
         gint last_pos_filtered_list;
 
         /* get the current record to check */
-        record = custom_list -> rows[current_pos_general_list];
+        record = custom_list->rows[current_pos_general_list];
 
         /* was the line visible before ? */
-        previous_shown = record -> line_visible;
+        previous_shown = record->line_visible;
 
         /* check if line is shown */
-        shown = gsb_transactions_list_transaction_visible ( record -> transaction_pointer,
+        shown = gsb_transactions_list_transaction_visible (record->transaction_pointer,
                                     account_number,
-                                    record -> line_in_transaction,
-                                    record -> what_is_line );
-        record -> line_visible = shown;
+                                    record->line_in_transaction,
+                                    record->what_is_line);
+        record->line_visible = shown;
 
         /* if the line is shown, append it to the filtered parameters of the model */
         if (!shown)
@@ -725,7 +1000,7 @@ void transaction_list_filter ( gint account_number )
             /* the row will be hidden, set it and continue to the next row */
             /* the content of that row and children if exist will be changed with the
              * next visible row */
-            record -> filtered_pos = -1;
+            record->filtered_pos = -1;
 
             /* if the row had some visible children, we hide the expander,
              * either the transaction is visible but that row is not visible
@@ -733,32 +1008,32 @@ void transaction_list_filter ( gint account_number )
              * the children have already moved to previous row in that transaction,
              * either the transaction is not visible anymore, and when we will show
              * it again, has_expander will be set again at the good position */
-            record -> has_expander = FALSE;
+            record->has_expander = FALSE;
             continue;
         }
 
         /* the row will be showed */
 
         /* save the last position */
-        last_pos_filtered_list = record -> filtered_pos;
+        last_pos_filtered_list = record->filtered_pos;
 
         /* update the custom list with that row */
-        record -> filtered_pos = current_pos_filtered_list;
-        custom_list -> visibles_rows[current_pos_filtered_list] = record;
+        record->filtered_pos = current_pos_filtered_list;
+        custom_list->visibles_rows[current_pos_filtered_list] = record;
         current_pos_filtered_list++;
-        custom_list -> num_visibles_rows = current_pos_filtered_list;
+        custom_list->num_visibles_rows = current_pos_filtered_list;
 
         /* set the iter */
         iter.user_data = record;
 
-        switch (record -> what_is_line)
+        switch (record->what_is_line)
         {
             case IS_ARCHIVE:
             /* we are on an  archive line, the only thing to know is
              * if it is at the same place as before or not,
              * if yes, just continue, if not, we will see later if
              * we need to add or change the row */
-            if (previous_shown && (record -> filtered_pos == last_pos_filtered_list))
+            if (previous_shown && (record->filtered_pos == last_pos_filtered_list))
             {
                 gtk_tree_path_next (path);
                 continue;
@@ -768,24 +1043,24 @@ void transaction_list_filter ( gint account_number )
             case IS_TRANSACTION:
             /* the row is shown, if it's the last row chowed of the transaction
              * we have to move the children to that row if they exist */
-            if ( record -> number_of_children &&
-                 record -> line_in_transaction == ( transaction_list_get_last_line (
-                                                gsb_data_account_get_nb_rows (account_number) ) ) )
+            if (record->number_of_children &&
+                 record->line_in_transaction == (transaction_list_get_last_line (
+                                                gsb_data_account_get_nb_rows (account_number))))
             {
                 /* ok, we are on the last visible line, there is some children and if before
                  * the children were not associated to that row, we have to move them */
-                if (record -> has_expander == FALSE)
+                if (record->has_expander == FALSE)
                 {
-                    for (i=0 ; i < record -> number_of_children ; i++)
-                        ((CustomRecord *) record -> children_rows[i]) -> mother_row = record;
-                    record -> has_expander = TRUE;
+                    for (i=0 ; i < record->number_of_children ; i++)
+                        ((CustomRecord *) record->children_rows[i])->mother_row = record;
+                    record->has_expander = TRUE;
                 }
             }
             else
-                record -> has_expander = FALSE;
+                record->has_expander = FALSE;
             /* the value of the row is set in memory, we update the tree view if necessary */
             /* if the record was already shown and the position hasn't change, nothing to do */
-            if (previous_shown && (record -> filtered_pos == last_pos_filtered_list))
+            if (previous_shown && (record->filtered_pos == last_pos_filtered_list))
             {
                 /* the row itself didn't change but perhaps it got or losed some children
                  * in that case, the children were moved before, so we just have to
@@ -804,18 +1079,18 @@ void transaction_list_filter ( gint account_number )
         if (current_pos_filtered_list > previous_visible_rows)
         {
             /* we reached the end of list, need to add a row */
-            gtk_tree_model_row_inserted ( GTK_TREE_MODEL (custom_list), path, &iter);
+            gtk_tree_model_row_inserted (GTK_TREE_MODEL (custom_list), path, &iter);
         }
         else
         {
             /* ok, the end of list is not reached, we can just change the row */
-            gtk_tree_model_row_changed ( GTK_TREE_MODEL (custom_list), path, &iter );
+            gtk_tree_model_row_changed (GTK_TREE_MODEL (custom_list), path, &iter);
         }
 
         /* the new row can have some children, or the last row (if we just changed the row)
          * could have some children we don't want now. that function is magic because
          * automatically update if there are children or not */
-        if (record -> what_is_line == IS_TRANSACTION)
+        if (record->what_is_line == IS_TRANSACTION)
         {
             gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list), path, &iter);
         }
@@ -829,7 +1104,7 @@ void transaction_list_filter ( gint account_number )
 		gtk_tree_path_prev (path);
         for (i=0 ; i < (previous_visible_rows - current_pos_filtered_list) ; i++)
 		{
-            gtk_tree_model_row_deleted ( GTK_TREE_MODEL (custom_list), path );
+            gtk_tree_model_row_deleted (GTK_TREE_MODEL (custom_list), path);
 		}
 	}
 
@@ -883,33 +1158,33 @@ void transaction_list_colorize (void)
     devel_debug (NULL);
 
     custom_list = transaction_model_get_model ();
-    g_return_if_fail ( custom_list != NULL );
+    g_return_if_fail (custom_list != NULL);
 
     /* we erase the selection */
-    if (custom_list -> selected_row)
+    if (custom_list->selected_row)
 	transaction_list_select_unselect ();
 
-    for (i=0 ; i < custom_list -> num_visibles_rows ; i++)
+    for (i=0 ; i < custom_list->num_visibles_rows ; i++)
     {
 	CustomRecord *record;
 
-	record = custom_list -> visibles_rows[i];
+	record = custom_list->visibles_rows[i];
 
-	if (record -> what_is_line == IS_TRANSACTION)
+	if (record->what_is_line == IS_TRANSACTION)
 	{
         gint transaction_number;
 
         /* update the color of the mother if necessary */
         transaction_number = gsb_data_transaction_get_transaction_number (
-                        record -> transaction_pointer);
+                        record->transaction_pointer);
         if (gsb_data_transaction_get_split_of_transaction (transaction_number))
         {
             CustomRecord *white_record = NULL;
 
-            if ( record -> number_of_children )
+            if (record->number_of_children)
             {
-                white_record = record -> children_rows[record -> number_of_children -1];
-                transaction_list_update_white_child ( white_record );
+                white_record = record->children_rows[record->number_of_children -1];
+                transaction_list_update_white_child (white_record);
             }
             else
             {
@@ -920,14 +1195,14 @@ void transaction_list_colorize (void)
 
         }
 	    /* if we changed of transaction, change the color */
-	    if (record -> transaction_pointer != current_transaction_pointer)
+	    if (record->transaction_pointer != current_transaction_pointer)
 	    {
 		current_color = !current_color;
-		current_transaction_pointer = record -> transaction_pointer;
+		current_transaction_pointer = record->transaction_pointer;
 	    }
 
 	    /* set the color of the row */
-	    record -> row_bg = gsb_rgba_get_couleur_with_indice ( "couleur_fond", current_color );
+	    record->row_bg = gsb_rgba_get_couleur_with_indice ("couleur_fond", current_color);
 	}
     }
 }
@@ -941,7 +1216,7 @@ void transaction_list_colorize (void)
  *
  * \return
  * */
-void transaction_list_set_balances ( void )
+void transaction_list_set_balances (void)
 {
     gint account_number;
     GsbReal current_total;
@@ -960,7 +1235,7 @@ void transaction_list_set_balances ( void )
 
     devel_debug (NULL);
 
-    g_return_if_fail ( custom_list != NULL );
+    g_return_if_fail (custom_list != NULL);
 
     /* column and line of balance are user defined */
     column_balance = gsb_transactions_list_find_element_col (ELEMENT_BALANCE);
@@ -972,62 +1247,62 @@ void transaction_list_set_balances ( void )
     account_number = gsb_gui_navigation_get_current_account ();
     nb_rows = gsb_data_account_get_nb_rows (account_number);
 
-    if ( account_number == -1
+    if (account_number == -1
 	 ||
 	 line_balance == -1
 	 ||
-	 !transaction_list_check_line_is_visible ( line_balance, nb_rows ) )
+	 !transaction_list_check_line_is_visible (line_balance, nb_rows))
 	return;
 
     /* begin to fill the iter for later */
     iter.stamp = custom_list->stamp;
 
-    currency_number = gsb_data_account_get_currency ( account_number );
-    floating_point = gsb_data_currency_get_floating_point ( currency_number );
+    currency_number = gsb_data_account_get_currency (account_number);
+    floating_point = gsb_data_currency_get_floating_point (currency_number);
 
     /* get the beginning balance */
-    current_total = gsb_transactions_list_get_solde_debut_affichage ( account_number, floating_point);
+    current_total = gsb_transactions_list_get_solde_debut_affichage (account_number, floating_point);
 
-    for (i=0 ; i < custom_list -> num_visibles_rows ; i++)
+    for (i=0 ; i < custom_list->num_visibles_rows ; i++)
     {
         CustomRecord *record;
         GsbReal amount = null_real;
 
-        record = custom_list -> visibles_rows[i];
+        record = custom_list->visibles_rows[i];
 
         /* a transaction is several rows, and an archive only one row
          * we come only one time for each transaction/archive */
-        if (record -> transaction_pointer == last_transaction_pointer
+        if (record->transaction_pointer == last_transaction_pointer
             ||
-            gsb_data_transaction_get_transaction_number (record -> transaction_pointer) < 0 )
+            gsb_data_transaction_get_transaction_number (record->transaction_pointer) < 0)
             continue;
-        last_transaction_pointer = record -> transaction_pointer;
+        last_transaction_pointer = record->transaction_pointer;
 
-        switch (record -> what_is_line)
+        switch (record->what_is_line)
         {
             case IS_ARCHIVE:
             amount = gsb_data_archive_store_get_balance (
-                            gsb_data_archive_store_get_number (record -> transaction_pointer));
+                            gsb_data_archive_store_get_number (record->transaction_pointer));
             break;
 
             case IS_TRANSACTION:
             amount = gsb_data_transaction_get_adjusted_amount (
                             gsb_data_transaction_get_transaction_number (
-                            record -> transaction_pointer),
+                            record->transaction_pointer),
                             floating_point);
             /* go on the good row to set the amount */
-            record = record -> transaction_records[line_balance];
+            record = record->transaction_records[line_balance];
             break;
         }
 
         /* calculate the new balance */
-        current_total = gsb_real_add ( current_total, amount );
-        record -> visible_col[column_balance] = utils_real_get_string_with_currency ( current_total,
+        current_total = gsb_real_add (current_total, amount);
+        record->visible_col[column_balance] = utils_real_get_string_with_currency (current_total,
                                                  currency_number , TRUE);
         if (current_total.mantissa >= 0)
-            record -> amount_color = gsb_rgba_get_couleur_with_indice_to_str ("text_color", 0);
+            record->amount_color = gsb_rgba_get_couleur_with_indice_to_str ("text_color", 0);
         else
-            record -> amount_color = gsb_rgba_get_couleur_with_indice_to_str ("text_color", 1);
+            record->amount_color = gsb_rgba_get_couleur_with_indice_to_str ("text_color", 1);
 
         /* inform the tree view the row has changed */
         /* set the iter */
@@ -1039,7 +1314,7 @@ void transaction_list_set_balances ( void )
     }
 
     /* update the headings balance */
-    gsb_data_account_colorize_current_balance ( account_number );
+    gsb_data_account_colorize_current_balance (account_number);
 }
 
 
@@ -1058,7 +1333,7 @@ void transaction_list_set_balances ( void )
  *
  * \return TRUE : transaction updated, FALSE : problem, nothing done
  * */
-gboolean transaction_list_update_transaction ( gint transaction_number )
+gboolean transaction_list_update_transaction (gint transaction_number)
 {
     CustomRecord *record;
     gint i, j;
@@ -1073,12 +1348,12 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
     devel_debug_int (transaction_number);
 
-    if ( transaction_number == 0 )
+    if (transaction_number == 0)
         return FALSE;
 
     custom_list = transaction_model_get_model ();
 
-    g_return_val_if_fail ( custom_list != NULL, FALSE);
+    g_return_val_if_fail (custom_list != NULL, FALSE);
 
     /* we can update a transaction which is not visible, so need to find the iter into
      * all the transactions */
@@ -1089,16 +1364,16 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     if (!record)
         return FALSE;
 
-    /* printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction = %d\n",
+    /* printf ("transaction_number = %d record->filtered_pos = %d record->line_in_transaction = %d\n",
         transaction_number,
-        record -> filtered_pos,
-        record -> line_in_transaction); */
+        record->filtered_pos,
+        record->line_in_transaction); */
 
     /* if the transaction is a split, we need to check if there are already children,
      * else we add the white line */
     if (gsb_data_transaction_get_split_of_transaction (transaction_number)
 	&&
-	!record -> number_of_children )
+	!record->number_of_children)
     {
         /* there is no children, we add a white line */
         gint white_line_number;
@@ -1110,19 +1385,19 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
         /* create and fill the white line record */
         white_record = g_malloc0 (sizeof (CustomRecord));
-        white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (
+        white_record->transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (
                             white_line_number);
-        white_record -> what_is_line = IS_TRANSACTION;
-        white_record -> row_bg = gsb_rgba_get_couleur ( "background_split" );
+        white_record->what_is_line = IS_TRANSACTION;
+        white_record->row_bg = gsb_rgba_get_couleur ("background_split");
 
         /* as we append just now the white line, there are no child split, so the total is 0 */
         amount_string = utils_real_get_string_with_currency (null_real,
                                    gsb_data_transaction_get_currency_number (transaction_number), TRUE);
         variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
                                      gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-        white_record -> visible_col[2] = g_strdup_printf ( _("Total: %s (variance : %s)"),
+        white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
                                    amount_string,
-                                   variance_string );
+                                   variance_string);
         g_free (amount_string);
         g_free (variance_string);
 
@@ -1134,14 +1409,14 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     line_p = gsb_transactions_list_find_element_line (ELEMENT_MARK);
 
     /* if we update a child, only 1 line */
-    if ( record -> mother_row )
+    if (record->mother_row)
     {
         nb_rows = 1;
         /* positione une variable qui indique que l'opération fille qui est l'objet d'une mise à jour
          * est une contre opération d'un transfert et donc que sa mère n'est pas visible.
          * Ça empêche la mise à jour du tree_view.
          */
-        if ( record -> mother_row -> filtered_pos == -1 )
+        if (record->mother_row->filtered_pos == -1)
             mother_is_visible = FALSE;
     }
     else
@@ -1153,10 +1428,10 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
         CustomRecord *tmp_record;
 
         /* get the good line in the record */
-        if (!record -> mother_row)
-            record = record -> transaction_records[i];
+        if (!record->mother_row)
+            record = record->transaction_records[i];
 
-        if ( !record )
+        if (!record)
 		{
 			g_free (children_rows);
 
@@ -1168,9 +1443,9 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
         for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
         {
-            if (record -> visible_col[j])
-                g_free (record -> visible_col[j]);
-            record -> visible_col[j] = tmp_record -> visible_col[j];
+            if (record->visible_col[j])
+                g_free (record->visible_col[j]);
+            record->visible_col[j] = tmp_record->visible_col[j];
         }
 
         g_free (tmp_record);
@@ -1178,32 +1453,32 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
         /* set the white line if necessary */
         if (children_rows)
         {
-            record -> number_of_children = 1;
-            record -> children_rows = children_rows;
+            record->number_of_children = 1;
+            record->children_rows = children_rows;
         }
 
         /* set the checkbox is the transaction is marked */
         if (line_p == i)
-            record -> checkbox_active = marked_transaction;
+            record->checkbox_active = marked_transaction;
 
         /* inform the tree view we changed the row, only if visible */
-        if ( record -> filtered_pos != -1 && mother_is_visible )
+        if (record->filtered_pos != -1 && mother_is_visible)
         {
             GtkTreePath *path = gtk_tree_path_new ();
 
             /* if there is some children and we are the last row, set the expander */
-            if ( white_record
+            if (white_record
             &&
-            i == ( transaction_list_get_last_line ( custom_list -> nb_rows_by_transaction ) ) )
+            i == (transaction_list_get_last_line (custom_list->nb_rows_by_transaction)))
             {
-                record -> has_expander = TRUE;
-                white_record -> mother_row = record;
+                record->has_expander = TRUE;
+                white_record->mother_row = record;
             }
 
             /* set the path */
-            if (record -> mother_row)
+            if (record->mother_row)
                 /* it's a child, need to get the path of the mother if visible */
-                gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
+                gtk_tree_path_append_index (path, record->mother_row->filtered_pos);
 
             gtk_tree_path_append_index (path, record->filtered_pos);
 
@@ -1214,7 +1489,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
             gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
 
             /* if there is a child (white line), set the expander */
-            if (record -> has_expander)
+            if (record->has_expander)
             gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
                                   path, &iter);
             gtk_tree_path_free(path);
@@ -1222,44 +1497,44 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     }
 
     /* if the modification is on a child or a mother, update the white line */
-    if ( ( record -> mother_row && mother_is_visible ) || record -> number_of_children)
+    if ((record->mother_row && mother_is_visible) || record->number_of_children)
     {
         /* we need now to recalculate the amount of split and update the white line */
         CustomRecord *mother_record;
         CustomRecord *white_record2;
 
         /* get the mother if child */
-        if (record -> mother_row)
-            mother_record = record -> mother_row;
+        if (record->mother_row)
+            mother_record = record->mother_row;
         else
             mother_record = record;
-        white_record2 = mother_record -> children_rows[mother_record -> number_of_children -1];
+        white_record2 = mother_record->children_rows[mother_record->number_of_children -1];
 
         transaction_list_update_white_child (white_record2);
     }
 
     /* set the checkbox is the transaction is marked */
     if (line_p == i)
-        record -> checkbox_active = marked_transaction;
+        record->checkbox_active = marked_transaction;
 
     /* inform the tree view we changed the row, only if visible */
-    if ( record -> filtered_pos != -1 && mother_is_visible )
+    if (record->filtered_pos != -1 && mother_is_visible)
     {
         GtkTreePath *path = gtk_tree_path_new();
 
         /* if there is some children and we are the last row, set the expander */
-        if ( white_record
+        if (white_record
          &&
-         i == ( transaction_list_get_last_line ( custom_list -> nb_rows_by_transaction ) ) )
+         i == (transaction_list_get_last_line (custom_list->nb_rows_by_transaction)))
         {
-            record -> has_expander = TRUE;
-            white_record -> mother_row = record;
+            record->has_expander = TRUE;
+            white_record->mother_row = record;
         }
 
         /* set the path */
-        if (record -> mother_row)
+        if (record->mother_row)
             /* it's a child, need to get the path of the mother */
-            gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
+            gtk_tree_path_append_index (path, record->mother_row->filtered_pos);
         gtk_tree_path_append_index(path, record->filtered_pos);
 
         /* set the iter */
@@ -1269,7 +1544,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
         gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
 
         /* if there is a child (white line), set the expander */
-        if (record -> has_expander)
+        if (record->has_expander)
             gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list), path, &iter);
 
         gtk_tree_path_free(path);
@@ -1292,7 +1567,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
  *
  * \return FALSE : problem, nothing done ; TRUE : ok
  * */
-gboolean transaction_list_update_element ( gint element_number )
+gboolean transaction_list_update_element (gint element_number)
 {
     gint column_element;
     gint line_element;
@@ -1303,12 +1578,12 @@ gboolean transaction_list_update_element ( gint element_number )
     column_element = gsb_transactions_list_find_element_col (element_number);	/*  0 to CUSTOM_MODEL_VISIBLE_COLUMNS */
     line_element = gsb_transactions_list_find_element_line (element_number);	/*  0 to TRANSACTION_LIST_ROWS_NB */
 
-    if ( column_element == -1
+    if (column_element == -1
 	 ||
-	 line_element == -1 )
+	 line_element == -1)
 	return FALSE;
 
-    return transaction_list_update_cell ( column_element, line_element );
+    return transaction_list_update_cell (column_element, line_element);
 }
 
 
@@ -1324,8 +1599,8 @@ gboolean transaction_list_update_element ( gint element_number )
  *
  * \return FALSE : problem, nothing done ; TRUE : ok
  * */
-gboolean transaction_list_update_column ( gint column,
-                        GValue *value )
+gboolean transaction_list_update_column (gint column,
+                        GValue *value)
 {
     gint i;
     GtkTreeIter iter;
@@ -1377,28 +1652,28 @@ gboolean transaction_list_update_column ( gint column,
     }
 
     /* value is correct, update the model */
-    iter.stamp = custom_list -> stamp;
+    iter.stamp = custom_list->stamp;
 
-    for (i=0 ; i < custom_list -> num_rows ; i++)
+    for (i=0 ; i < custom_list->num_rows ; i++)
     {
 	CustomRecord  *record;
 
-	record = custom_list -> rows[i];
+	record = custom_list->rows[i];
 	iter.user_data = record;
 	custom_list_set_value (GTK_TREE_MODEL (custom_list),
 			       &iter, column,
-			       value );
+			       value);
 
-	if (record -> number_of_children)
+	if (record->number_of_children)
 	{
 	    gint j;
-	    for (j=0 ; j < record -> number_of_children ; j++)
+	    for (j=0 ; j < record->number_of_children ; j++)
 	    {
-		record = record -> children_rows[j];
+		record = record->children_rows[j];
 		iter.user_data = record;
 		custom_list_set_value (GTK_TREE_MODEL (custom_list),
 				       &iter, column,
-				       value );
+				       value);
 	    }
 	}
     }
@@ -1413,15 +1688,15 @@ gboolean transaction_list_update_column ( gint column,
  * (ie the notes element has moved the cell location, we need to erase the last cells,
  *     so we call this with the last cell_col and cell_line
  *     In that case, be sure to set before tab_affichage_ope[cell_col][cell_line] to 0, else the last cells
- *     will be re-written without change )
+ *     will be re-written without change)
  *
  * \param cell_col    the column of the element we want to update
  * \param cell_line    the line of the element we want to update
  *
  * \return FALSE : problem, nothing done ; TRUE : ok
  * */
-gboolean transaction_list_update_cell ( gint cell_col,
-                        gint cell_line )
+gboolean transaction_list_update_cell (gint cell_col,
+                        gint cell_line)
 {
     gint element_number;
     gint column_element_split;
@@ -1439,32 +1714,32 @@ gboolean transaction_list_update_cell ( gint cell_col,
     /* begin to fill the iter for later */
     iter.stamp = custom_list->stamp;
 
-    for (i=0 ; i<custom_list -> num_rows ; i++)
+    for (i=0 ; i<custom_list->num_rows ; i++)
     {
 	CustomRecord *record;
 	gint transaction_number;
 	GtkTreePath *path;
 
-	record = custom_list -> rows[i];
-	if (record -> what_is_line == IS_ARCHIVE
+	record = custom_list->rows[i];
+	if (record->what_is_line == IS_ARCHIVE
 	    ||
-	    record -> line_in_transaction != cell_line )
+	    record->line_in_transaction != cell_line)
 	    continue;
 
-	transaction_number = gsb_data_transaction_get_transaction_number (record -> transaction_pointer);
+	transaction_number = gsb_data_transaction_get_transaction_number (record->transaction_pointer);
 	if (transaction_number == -1)
 	    continue;
 
 	/* now, we are on the good row of the transaction, update the element */
-	if (record -> visible_col[cell_col])
-	    g_free (record -> visible_col[cell_col]);
+	if (record->visible_col[cell_col])
+	    g_free (record->visible_col[cell_col]);
 	if (element_number)
-	    record -> visible_col[cell_col] = gsb_transactions_list_grep_cell_content (transaction_number, element_number);
+	    record->visible_col[cell_col] = gsb_transactions_list_grep_cell_content (transaction_number, element_number);
 	else
-	    record -> visible_col[cell_col] = NULL;
+	    record->visible_col[cell_col] = NULL;
 
 	/* inform the tree view we changed the row, only if visible */
-	if (record -> filtered_pos != -1)
+	if (record->filtered_pos != -1)
 	{
 	    path = gtk_tree_path_new();
 	    gtk_tree_path_append_index(path, record->filtered_pos);
@@ -1476,32 +1751,32 @@ gboolean transaction_list_update_cell ( gint cell_col,
 	/* if the transaction has children and they contain too the element, update them */
 	if (column_element_split != -1
 	    &&
-	    record -> number_of_children )
+	    record->number_of_children)
 	{
 	    gint j;
 
-	    for (j=0 ; j<record -> number_of_children ; j++)
+	    for (j=0 ; j<record->number_of_children ; j++)
 	    {
 		CustomRecord *child_record;
 
-		child_record = record -> children_rows[j];
-		transaction_number = gsb_data_transaction_get_transaction_number (child_record -> transaction_pointer);
+		child_record = record->children_rows[j];
+		transaction_number = gsb_data_transaction_get_transaction_number (child_record->transaction_pointer);
 		if (transaction_number < 0)
 		    continue;
 
 		/* update the element */
-		if (child_record -> visible_col[column_element_split])
-		    g_free (child_record -> visible_col[column_element_split]);
-		child_record -> visible_col[column_element_split] = gsb_transactions_list_grep_cell_content (transaction_number, element_number);
+		if (child_record->visible_col[column_element_split])
+		    g_free (child_record->visible_col[column_element_split]);
+		child_record->visible_col[column_element_split] = gsb_transactions_list_grep_cell_content (transaction_number, element_number);
 
 		/* inform the tree view we changed the row, only if visible
 		 * we check the mother because the children are alway visible */
-		if (record -> filtered_pos != -1)
+		if (record->filtered_pos != -1)
 		{
 		    path = gtk_tree_path_new();
 
 		    /* it's a child, need to get the path of the mother */
-		    gtk_tree_path_append_index (path, record -> filtered_pos);
+		    gtk_tree_path_append_index (path, record->filtered_pos);
 		    gtk_tree_path_append_index(path, child_record->pos);
 		    iter.user_data = child_record;
 
@@ -1522,21 +1797,21 @@ gboolean transaction_list_update_cell ( gint cell_col,
  *
  * \return TRUE : ok, FALSE : pb, nothing done
  * */
-gboolean transaction_list_show_toggle_mark ( gboolean show )
+gboolean transaction_list_show_toggle_mark (gboolean show)
 {
     gint line_p, col_p;
     GtkTreeIter iter;
     gint i;
     CustomList *custom_list;
 
-    if ( show )
+    if (show)
         /* remet le gtk_tree_view en mode normal */
-        gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW (
-                        gsb_transactions_list_get_tree_view ( ) ), FALSE );
+        gtk_tree_view_set_fixed_height_mode (GTK_TREE_VIEW (
+                        gsb_transactions_list_get_tree_view ()), FALSE);
     else
         /* remet le gtk_tree_view en mode ligne fixe */
-        gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW (
-                        gsb_transactions_list_get_tree_view ( ) ), TRUE );
+        gtk_tree_view_set_fixed_height_mode (GTK_TREE_VIEW (
+                        gsb_transactions_list_get_tree_view ()), TRUE);
 
     custom_list = transaction_model_get_model ();
 
@@ -1548,23 +1823,23 @@ gboolean transaction_list_show_toggle_mark ( gboolean show )
     /* begin to fill the iter for later */
     iter.stamp = custom_list->stamp;
 
-    for (i=0 ; i<custom_list -> num_rows ; i++)
+    for (i=0 ; i<custom_list->num_rows ; i++)
     {
 	CustomRecord *record;
 	GtkTreePath *path;
 
-	record = custom_list -> rows[i];
-	if (record -> what_is_line == IS_ARCHIVE
+	record = custom_list->rows[i];
+	if (record->what_is_line == IS_ARCHIVE
 	    ||
-	    record -> line_in_transaction != line_p
+	    record->line_in_transaction != line_p
 	    ||
-	    gsb_data_transaction_get_transaction_number (record -> transaction_pointer) == -1)
+	    gsb_data_transaction_get_transaction_number (record->transaction_pointer) == -1)
 	    continue;
 
-	record -> checkbox_visible = show;
+	record->checkbox_visible = show;
 
 	/* inform the tree view we changed the row, only if visible */
-	if (record -> filtered_pos != -1)
+	if (record->filtered_pos != -1)
 	{
 	    path = gtk_tree_path_new();
 	    gtk_tree_path_append_index(path, record->filtered_pos);
@@ -1592,7 +1867,7 @@ gboolean transaction_list_show_toggle_mark ( gboolean show )
  *
  * \return
  * */
-void transaction_list_set ( GtkTreeIter *iter, ... )
+void transaction_list_set (GtkTreeIter *iter, ...)
 {
     va_list var_args;
     gint column;
@@ -1602,18 +1877,18 @@ void transaction_list_set ( GtkTreeIter *iter, ... )
 
     custom_list = transaction_model_get_model ();
 
-    g_return_if_fail ( custom_list != NULL );
-    g_return_if_fail ( custom_list->num_rows != 0 );
+    g_return_if_fail (custom_list != NULL);
+    g_return_if_fail (custom_list->num_rows != 0);
 
     /* get the CustomRecord structure */
     record = (CustomRecord*) iter->user_data;
 
-    g_return_if_fail ( record != NULL );
+    g_return_if_fail (record != NULL);
 
     /* record can be a mother or a child */
-    if((!record -> mother_row && record->pos >= custom_list->num_rows) /* mother test */
+    if((!record->mother_row && record->pos >= custom_list->num_rows) /* mother test */
        ||
-       (record -> mother_row && record -> pos >= record -> mother_row -> number_of_children )) /* child test */
+       (record->mother_row && record->pos >= record->mother_row->number_of_children)) /* child test */
 	g_return_if_reached();
 
     /* set all the args */
@@ -1639,43 +1914,43 @@ void transaction_list_set ( GtkTreeIter *iter, ... )
 	    case CUSTOM_MODEL_COL_4:
 	    case CUSTOM_MODEL_COL_5:
 	    case CUSTOM_MODEL_COL_6:
-		record -> visible_col[column] = va_arg (var_args, gchar *);
+		record->visible_col[column] = va_arg (var_args, gchar *);
 		break;
 	    case CUSTOM_MODEL_BACKGROUND:
-		record -> row_bg = va_arg (var_args, GdkRGBA *);
+		record->row_bg = va_arg (var_args, GdkRGBA *);
 		break;
 	    case CUSTOM_MODEL_AMOUNT_COLOR:
-		record -> amount_color = va_arg (var_args, gchar *);
+		record->amount_color = va_arg (var_args, gchar *);
 		break;
 	    case CUSTOM_MODEL_TRANSACTION_ADDRESS:
-		record -> transaction_pointer = va_arg (var_args, gpointer);
+		record->transaction_pointer = va_arg (var_args, gpointer);
 		break;
 	    case CUSTOM_MODEL_WHAT_IS_LINE:
-		record -> what_is_line = va_arg (var_args, gint);
+		record->what_is_line = va_arg (var_args, gint);
 		break;
 	    case CUSTOM_MODEL_SAVE_BACKGROUND:
-		record -> row_bg_save = va_arg (var_args, GdkRGBA *);
+		record->row_bg_save = va_arg (var_args, GdkRGBA *);
 		break;
 	    case CUSTOM_MODEL_FONT:
-		record -> font = va_arg (var_args, gchar *);
+		record->font = va_arg (var_args, gchar *);
 		break;
 	    case CUSTOM_MODEL_TRANSACTION_LINE:
-		record -> line_in_transaction = va_arg (var_args, gint);
+		record->line_in_transaction = va_arg (var_args, gint);
 		break;
 	    case CUSTOM_MODEL_VISIBLE:
 		/* this value should not be changed here, check later if i'm right,
 		 * for now just show a message */
-		devel_debug (_("Try to change a visible line by transaction_list_set. It shouldn't append! Check that."));
-		/*         record -> line_visible = va_arg (var_args, gboolean); */
+		devel_debug (_("Try to change a visible line by transaction_list_set. It shouldn't appendCheck that."));
+		/*         record->line_visible = va_arg (var_args, gboolean); */
 		break;
 	    case CUSTOM_MODEL_CHECKBOX_VISIBLE:
-		record -> checkbox_visible = va_arg (var_args, gboolean);
+		record->checkbox_visible = va_arg (var_args, gboolean);
 		break;
 	    case CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE:
-		record -> checkbox_visible_reconcile = va_arg (var_args, gboolean);
+		record->checkbox_visible_reconcile = va_arg (var_args, gboolean);
 		break;
 	    case CUSTOM_MODEL_CHECKBOX_ACTIVE:
-		record -> checkbox_active = va_arg (var_args, gboolean);
+		record->checkbox_active = va_arg (var_args, gboolean);
 		break;
 	}
 	column = va_arg (var_args, gint);
@@ -1701,7 +1976,7 @@ void transaction_list_set ( GtkTreeIter *iter, ... )
  *
  * \return the number of children or 0 if not a split
  * */
-gint transaction_list_get_n_children ( gint transaction_number )
+gint transaction_list_get_n_children (gint transaction_number)
 {
     CustomRecord *record;
     CustomList *custom_list;
@@ -1709,7 +1984,7 @@ gint transaction_list_get_n_children ( gint transaction_number )
 
     custom_list = transaction_model_get_model ();
 
-    g_return_val_if_fail ( custom_list != NULL, 0);
+    g_return_val_if_fail (custom_list != NULL, 0);
 
     if (!gsb_data_transaction_get_split_of_transaction (transaction_number))
 	return 0;
@@ -1721,7 +1996,7 @@ gint transaction_list_get_n_children ( gint transaction_number )
     if (!record)
 	return 0;
 
-    return record -> number_of_children;
+    return record->number_of_children;
 }
 
 
@@ -1733,7 +2008,7 @@ gint transaction_list_get_n_children ( gint transaction_number )
  *
  * \return
  * */
-gboolean transaction_list_redraw ( void )
+gboolean transaction_list_redraw (void)
 {
     CustomList *custom_list;
     gint i;
@@ -1741,16 +2016,16 @@ gboolean transaction_list_redraw ( void )
 
     custom_list = transaction_model_get_model ();
 
-    g_return_val_if_fail ( custom_list != NULL, 0);
+    g_return_val_if_fail (custom_list != NULL, 0);
 
-    iter.stamp = custom_list -> stamp;
+    iter.stamp = custom_list->stamp;
 
-    for ( i=0 ; i < custom_list -> num_visibles_rows ; i++)
+    for (i=0 ; i < custom_list->num_visibles_rows ; i++)
     {
 	CustomRecord *record;
 	GtkTreePath *path;
 
-	record = custom_list -> visibles_rows[i];
+	record = custom_list->visibles_rows[i];
 
 	path = gtk_tree_path_new();
 	gtk_tree_path_append_index(path, record->filtered_pos);
@@ -1758,20 +2033,20 @@ gboolean transaction_list_redraw ( void )
 	gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
 	gtk_tree_path_free(path);
 
-	if (record -> number_of_children)
+	if (record->number_of_children)
 	{
 	    gint j;
 
-	    for (j=0 ; j<record -> number_of_children ; j++)
+	    for (j=0 ; j<record->number_of_children ; j++)
 	    {
 		CustomRecord *child_record;
 
-		child_record = record -> children_rows[j];
+		child_record = record->children_rows[j];
 
 		path = gtk_tree_path_new();
 
 		/* it's a child, need to get the path of the mother */
-		gtk_tree_path_append_index (path, record -> filtered_pos);
+		gtk_tree_path_append_index (path, record->filtered_pos);
 		gtk_tree_path_append_index(path, child_record->pos);
 		iter.user_data = child_record;
 
@@ -1783,287 +2058,6 @@ gboolean transaction_list_redraw ( void )
     return FALSE;
 }
 
-
-/**
- * append a child to the mother in the custom list
- * this function is called internally by transaction_list_append_transaction
- *
- * \param transaction_number     the child to append
- *
- * \return
- * */
-static void transaction_list_append_child ( gint transaction_number )
-{
-    gulong newsize;
-    guint pos;
-    gint i;
-    CustomRecord *newrecord;
-    CustomRecord *mother_record;
-    GtkTreeIter mother_iter;
-    CustomRecord **new_children_rows;
-    gint new_number_of_children;
-    CustomList *custom_list;
-    CustomRecord *white_record;
-
-    custom_list = transaction_model_get_model ();
-
-    /* the children are stored into a table of pointer into each mother
-     * the filter will determine later what mother row will have the
-     * expander according to the number of row showed */
-
-    /* create the row */
-    newrecord = transaction_list_create_record (transaction_number, 0);
-
-    /* find 1 of the mother row (the others are into the structure of the mother)
-     * usually, it's the last record appended */
-    mother_record = last_mother_appended;
-
-    if ( !mother_record
-	 ||
-	 (gsb_data_transaction_get_transaction_number (mother_record -> transaction_pointer)
-	  !=
-	  gsb_data_transaction_get_mother_transaction_number (transaction_number)))
-    {
-        /* the last record appended was not the mother, need to search into the entire list */
-        if ( transaction_model_get_transaction_iter ( &mother_iter,
-                        gsb_data_transaction_get_mother_transaction_number (
-                        transaction_number),
-                        0 ) )
-            mother_record = (CustomRecord *) mother_iter.user_data;
-        else
-        {
-            /* we didn't find the mother of the child, we append the child number to
-             * orphan_child_transactions and the function which called here has to play
-             * with it
-             * (it happens in the versions before 0.6 when the children could have a number
-             * before the mother */
-            orphan_child_transactions = g_slist_append ( orphan_child_transactions,
-                                 GINT_TO_POINTER (transaction_number));
-            return;
-        }
-    }
-
-    /* ok, at this level, mother_record is ok and is one of the row of the mother transaction
-     * we go on the first mother */
-    mother_record = mother_record -> transaction_records[0];
-
-    /* set by default the mother row of the child. avoids a crash when creating
-     * an archive directly on the home page */
-    newrecord -> mother_row = mother_record;
-
-    /* get the new number of the row into the mother */
-    pos = mother_record -> number_of_children;
-
-    /* it must have a child, because while creating the mother, it makes it
-     * so if no child, better to stop here */
-    if (!pos)
-    {
-	gchar *tmpstr;
-	tmpstr = g_strdup_printf (
-                        _("Trying to append the child number %d to the mother %d "
-                        "in the model, but no white line was created before... "
-                        "Better to stop here, please contact the Grisbi team to "
-                        "fix that issue."),
-                        transaction_number, gsb_data_transaction_get_mother_transaction_number (transaction_number));
-	dialogue_error (tmpstr);
-	g_free (tmpstr);
-	g_free (newrecord);
-	return;
-    }
-
-    /* increase the children rows */
-    new_number_of_children = mother_record -> number_of_children + 1;
-    newsize = new_number_of_children * sizeof (CustomRecord*);
-    new_children_rows = g_realloc (mother_record -> children_rows,
-				   newsize);
-
-    /* save the new record before the white line */
-    white_record = new_children_rows[pos -1];
-
-    new_children_rows[pos - 1] = newrecord;
-    newrecord -> pos = pos - 1;
-    newrecord -> filtered_pos = pos -1;
-
-    new_children_rows[pos] = white_record;
-    white_record -> pos = pos;
-    white_record -> filtered_pos = pos;
-
-    /* set the color */
-    newrecord -> row_bg = gsb_rgba_get_couleur ( "background_split" );
-
-    /* we can now save the new number of children and the new children rows into their mothers */
-    for (i=0 ; i < TRANSACTION_LIST_ROWS_NB ; i++)
-    {
-	mother_record -> transaction_records[i] -> children_rows = new_children_rows;
-	mother_record -> transaction_records[i] -> number_of_children = new_number_of_children;
-
-	/* set the good mother row of the child */
-	if (mother_record -> transaction_records[i] -> has_expander)
-	{
-	    newrecord -> mother_row = mother_record -> transaction_records[i];
-	    white_record -> mother_row = mother_record -> transaction_records[i];
-	}
-    }
-
-    /* we need now to recalculate the amount of split and update the white line */
-    transaction_list_update_white_child (white_record);
-
-    if (mother_record -> filtered_pos != -1)
-    {
-	/* the mother is visible, inform the tree view we append a child */
-	GtkTreePath *path;
-	GtkTreeIter iter;
-    gint last_line;
-
-	/* we go on the last mother record, which contains the expander */
-    last_line = transaction_list_get_last_line ( custom_list -> nb_rows_by_transaction );
-	mother_record = mother_record -> transaction_records[last_line];
-
-	newrecord -> mother_row = mother_record;
-	/* this is very important to keep to compatibility with the normal transactions */
-	newrecord -> transaction_records[0] = newrecord;
-
-	/* update the new line, which replace the white line */
-	path = gtk_tree_path_new();
-	gtk_tree_path_append_index(path, mother_record->filtered_pos);
-	gtk_tree_path_append_index(path, newrecord->filtered_pos);
-
-	iter.stamp = custom_list -> stamp;
-	iter.user_data = newrecord;
-
-	gtk_tree_model_row_changed (GTK_TREE_MODEL(custom_list), path, &iter);
-	gtk_tree_path_free(path);
-
-	/* update white line, which moved to the end */
-	path = gtk_tree_path_new();
-	gtk_tree_path_append_index(path, mother_record->filtered_pos);
-	gtk_tree_path_append_index(path, white_record->filtered_pos);
-
-	iter.stamp = custom_list -> stamp;
-	iter.user_data = white_record;
-
-	gtk_tree_model_row_inserted (GTK_TREE_MODEL(custom_list), path, &iter);
-	gtk_tree_path_free(path);
-    }
-}
-
-
-
-/**
- * create a new record structure according to the line in transaction and return it
- *
- * \param transaction_number     the transaction of the record
- * \param line_in_transaction    the line in the transaction of the record
- *
- * \return NULL if problem, or the newly allocated record
- * */
-static CustomRecord *transaction_list_create_record ( gint transaction_number,
-                        gint line_in_transaction )
-{
-    gint column;
-    CustomRecord *newrecord;
-	GrisbiAppConf *a_conf;
-
-	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-
-    /* create the new record */
-    newrecord = g_malloc0 (sizeof (CustomRecord));
-
-    /* fill the row with the visibles columns */
-    for ( column = 0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++ )
-	{
-		gint element_number;
-
-		element_number = gsb_transactions_list_get_element_tab_affichage_ope (line_in_transaction, column);
-		newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content (transaction_number,
-																					element_number);
-	}
-
-    if ( a_conf->custom_fonte_listes )
-	    newrecord -> font = a_conf->font_string;
-    newrecord -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (transaction_number);
-    newrecord -> what_is_line = IS_TRANSACTION;
-    newrecord -> line_in_transaction = line_in_transaction;
-    newrecord -> checkbox_visible_reconcile = line_in_transaction == 0 ? 1 : 0;
-    newrecord -> checkbox_active = gsb_data_transaction_get_marked_transaction (transaction_number) != 0;
-    newrecord -> text_color = gsb_rgba_get_couleur_with_indice ( "text_color", 0 );
-
-    return newrecord;
-}
-
-/**
- * get a white line record of split
- * and update it to set the total of split children and the variance
- * we just modify the content of the record, no inform the tree view here
- *
- * \param white_record    the record of white line we want update
- *
- * \return FALSE : nothing done, TRUE : ok
- * */
-static gboolean transaction_list_update_white_child ( CustomRecord *white_record )
-{
-    GsbReal total_split = null_real;
-    GsbReal variance;
-    gchar *amount_string;
-    gchar *variance_string;
-    CustomRecord *mother_record;
-    gint i;
-    gint transaction_number;
-    GdkRGBA *mother_text_color;
-
-    if (!white_record)
-	    return FALSE;
-
-    mother_record = white_record -> mother_row;
-
-    for (i=0 ; i < mother_record -> number_of_children -1 ; i++)
-    {
-	CustomRecord *child_record;
-	gint child_number;
-
-	child_record = mother_record -> children_rows[i];
-	child_number = gsb_data_transaction_get_transaction_number (child_record -> transaction_pointer);
-	total_split = gsb_real_add ( total_split,
-				     gsb_data_transaction_get_amount (child_number));
-    }
-
-    transaction_number = gsb_data_transaction_get_transaction_number (mother_record -> transaction_pointer);
-    variance = gsb_real_sub ( gsb_data_transaction_get_amount (transaction_number),
-			      total_split);
-    /* update the white line */
-    amount_string = utils_real_get_string_with_currency (total_split,
-						       gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-    variance_string = utils_real_get_string_with_currency (variance,
-							 gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-
-    /* show the variance and sub-total only if different of the transaction */
-	if (white_record->visible_col[2])
-		g_free (white_record->visible_col[2]);
-
-	if (variance.mantissa)
-    {
-	white_record -> visible_col[2] = g_strdup_printf ( _("Total: %s (variance : %s)"),
-							   amount_string,
-							   variance_string );
-	mother_text_color = gsb_rgba_get_couleur ("text_unfinished_split");
-    }
-    else
-    {
-	white_record -> visible_col[2] = NULL;
-	mother_text_color = gsb_rgba_get_couleur_with_indice ( "text_color", 0 );
-    }
-
-    /* set the color of the mother */
-    for (i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
-	mother_record -> transaction_records[i] -> text_color = mother_text_color;
-
-    g_free (amount_string);
-    g_free (variance_string);
-
-    return TRUE;
-}
-
-
 /**
  * return the last visible line
  *
@@ -2071,7 +2065,7 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
  *
  * \return numero of the last line
  * */
-gint transaction_list_get_last_line ( gint nb_rows )
+gint transaction_list_get_last_line (gint nb_rows)
 {
 	GrisbiWinRun *w_run;
 
@@ -2131,7 +2125,7 @@ gint transaction_list_get_last_line ( gint nb_rows )
  *
  * \return
  * */
-gint transaction_list_set_color_jour ( gint account_number )
+gint transaction_list_set_color_jour (gint account_number)
 {
     GDate *date_jour;
     gint i, j;
@@ -2141,41 +2135,41 @@ gint transaction_list_set_color_jour ( gint account_number )
     CustomList *custom_list;
 
     custom_list = transaction_model_get_model ();
-    g_return_val_if_fail ( custom_list != NULL, 0);
+    g_return_val_if_fail (custom_list != NULL, 0);
 
-    date_jour = gdate_today ( );
-    element_sort = gsb_data_account_get_element_sort ( account_number,
-							     custom_list -> sort_col);
+    date_jour = gdate_today ();
+    element_sort = gsb_data_account_get_element_sort (account_number,
+							     custom_list->sort_col);
 
-    for ( i = custom_list -> num_visibles_rows -1; i >= 0  ; i-- )
+    for (i = custom_list->num_visibles_rows -1; i >= 0  ; i--)
     {
         CustomRecord *record;
 
-        record = custom_list -> visibles_rows[i];
+        record = custom_list->visibles_rows[i];
 
-        if (record -> what_is_line == IS_TRANSACTION)
+        if (record->what_is_line == IS_TRANSACTION)
         {
             transaction_number = gsb_data_transaction_get_transaction_number (
-                        record -> transaction_pointer);
-            if ( transaction_number > 0 )
+                        record->transaction_pointer);
+            if (transaction_number > 0)
             {
-                if ( element_sort == 2 )
-                    res = g_date_compare ( date_jour,
+                if (element_sort == 2)
+                    res = g_date_compare (date_jour,
                         gsb_data_transaction_get_value_date_or_date (
-                         transaction_number ) );
+                         transaction_number));
                 else
-                    res = g_date_compare ( date_jour,
-                        gsb_data_transaction_get_date ( transaction_number ) );
+                    res = g_date_compare (date_jour,
+                        gsb_data_transaction_get_date (transaction_number));
 
-                if ( res >= 0 )
+                if (res >= 0)
                 {
                     /* colorize the record */
-                    for (j=0 ; j < custom_list -> nb_rows_by_transaction ; j++)
+                    for (j=0 ; j < custom_list->nb_rows_by_transaction ; j++)
                     {
-                        record -> row_bg = gsb_rgba_get_couleur ( "background_jour" );
+                        record->row_bg = gsb_rgba_get_couleur ("background_jour");
                         i--;
-                        if ( i >= 0 )
-                            record = custom_list -> visibles_rows[i];
+                        if (i >= 0)
+                            record = custom_list->visibles_rows[i];
                     }
 					g_date_free (date_jour);
 
@@ -2184,7 +2178,7 @@ gint transaction_list_set_color_jour ( gint account_number )
             }
         }
     }
-    g_date_free ( date_jour );
+    g_date_free (date_jour);
 
 	return 0;
 }
@@ -2196,7 +2190,7 @@ gint transaction_list_set_color_jour ( gint account_number )
  *
  *
  * */
-gboolean transaction_list_get_variance ( gint transaction_number )
+gboolean transaction_list_get_variance (gint transaction_number)
 {
     CustomRecord *white_record = NULL;
     CustomList *custom_list;
@@ -2207,44 +2201,44 @@ gboolean transaction_list_get_variance ( gint transaction_number )
 
     custom_list = transaction_model_get_model ();
 
-    g_return_val_if_fail ( custom_list != NULL, FALSE );
+    g_return_val_if_fail (custom_list != NULL, FALSE);
 
     /* if the selection didn't change, do nothing */
-    if ( gsb_data_transaction_get_transaction_number (custom_list -> selected_row) ==
-        transaction_number )
-        white_record = custom_list -> selected_row;
+    if (gsb_data_transaction_get_transaction_number (custom_list->selected_row) ==
+        transaction_number)
+        white_record = custom_list->selected_row;
 
-    if ( !white_record )
+    if (!white_record)
     {
         GtkTreeIter iter;
 
-        if ( !transaction_model_get_transaction_iter ( &iter, transaction_number, 0 ) )
+        if (!transaction_model_get_transaction_iter (&iter, transaction_number, 0))
 	        return FALSE;
 	    white_record = iter.user_data;
     }
 
-    mother_record = white_record -> mother_row;
-    if ( !mother_record )
+    mother_record = white_record->mother_row;
+    if (!mother_record)
         return FALSE;
 
-    for (i=0 ; i < mother_record -> number_of_children -1 ; i++)
+    for (i=0 ; i < mother_record->number_of_children -1 ; i++)
     {
         CustomRecord *child_record;
         gint child_number;
 
-        child_record = mother_record -> children_rows[i];
+        child_record = mother_record->children_rows[i];
         child_number = gsb_data_transaction_get_transaction_number (
-                        child_record -> transaction_pointer );
-        total_split = gsb_real_add ( total_split,
-                        gsb_data_transaction_get_amount ( child_number ) );
+                        child_record->transaction_pointer);
+        total_split = gsb_real_add (total_split,
+                        gsb_data_transaction_get_amount (child_number));
     }
 
     transaction_number = gsb_data_transaction_get_transaction_number (
-                        mother_record -> transaction_pointer);
-    variance = gsb_real_sub ( gsb_data_transaction_get_amount ( transaction_number ),
+                        mother_record->transaction_pointer);
+    variance = gsb_real_sub (gsb_data_transaction_get_amount (transaction_number),
 			            total_split);
 
-    if ( variance.mantissa == 0 )
+    if (variance.mantissa == 0)
         return TRUE;
     else
         return FALSE;
@@ -2260,8 +2254,8 @@ gboolean transaction_list_get_variance ( gint transaction_number )
  *
  * \return TRUE : archive removed, FALSE : problem, nothing done
  * */
-gboolean transaction_list_remove_archive_line ( gint archive_number,
-                        gint account_number )
+gboolean transaction_list_remove_archive_line (gint archive_number,
+                        gint account_number)
 {
     gint i;
     CustomList *custom_list;
@@ -2269,23 +2263,23 @@ gboolean transaction_list_remove_archive_line ( gint archive_number,
 
     custom_list = transaction_model_get_model ();
 
-    if ( custom_list == NULL )
+    if (custom_list == NULL)
         return FALSE;
 
-    for ( i = 0 ; i < custom_list -> num_rows ; i++ )
+    for (i = 0 ; i < custom_list->num_rows ; i++)
     {
         CustomRecord *record;
         gulong newsize;
         gint j;
         gint archive_store_number;
 
-        record = custom_list -> rows[i];
-        archive_store_number = gsb_data_archive_store_get_number ( record -> transaction_pointer );
-        if ( record -> what_is_line != IS_ARCHIVE
+        record = custom_list->rows[i];
+        archive_store_number = gsb_data_archive_store_get_number (record->transaction_pointer);
+        if (record->what_is_line != IS_ARCHIVE
          ||
-         gsb_data_archive_store_get_archive_number ( archive_store_number ) != archive_number
+         gsb_data_archive_store_get_archive_number (archive_store_number) != archive_number
          ||
-         gsb_data_archive_store_get_account_number ( archive_store_number ) != account_number )
+         gsb_data_archive_store_get_account_number (archive_store_number) != account_number)
         {
             continue;
         }
@@ -2293,19 +2287,19 @@ gboolean transaction_list_remove_archive_line ( gint archive_number,
         /* we are on a good archive store, delete it */
 
         /* delete the row */
-        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-            if (record -> visible_col[j])
-                g_free (record -> visible_col[j]);
+        for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+            if (record->visible_col[j])
+                g_free (record->visible_col[j]);
 
         /* remove the row. I decrement "i" because the next line of model is shifted
          * and has  "i" for index. Otherwise we do not test. */
-        custom_list -> num_rows--;
+        custom_list->num_rows--;
         i--;
 
-        for (j=record -> pos ; j < custom_list -> num_rows ; j++)
+        for (j=record->pos ; j < custom_list->num_rows ; j++)
         {
-            custom_list -> rows[j] = custom_list -> rows[j+1];
-            custom_list -> rows[j] -> pos = j;
+            custom_list->rows[j] = custom_list->rows[j+1];
+            custom_list->rows[j]->pos = j;
         }
 
         /* resize the array */
