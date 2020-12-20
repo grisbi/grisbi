@@ -1851,6 +1851,8 @@ static void bet_array_list_execute_balance_deferred_debit_account (GtkWidget *me
 		if (transfert->date_bascule)
 			g_date_free (transfert->date_bascule);
 		transfert->date_bascule = gdate_today ();
+
+		bet_data_transfert_update_date_if_necessary (transfert, transfert->date_bascule, TRUE);
 	}
     account_page = grisbi_win_get_account_page ();
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (account_page), BET_ONGLETS_SANS);
@@ -2619,7 +2621,7 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
 		else
 			date_bascule = gsb_date_copy (transfert->date_bascule);
 
-		bet_data_transfert_update_date_if_necessary (transfert, date_bascule);
+		bet_data_transfert_update_date_if_necessary (transfert, date_bascule, FALSE);
 		g_date_free (date_bascule);
 
 		/* set date debit */

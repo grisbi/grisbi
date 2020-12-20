@@ -2041,17 +2041,19 @@ static void bet_data_transfert_create_reset_credit_card ( TransfertData *transfe
  * \return
  * */
 void bet_data_transfert_update_date_if_necessary (TransfertData *transfert,
-												  GDate *date_bascule)
+												  GDate *date_bascule,
+												  gboolean force)
 {
     GDate *date_jour;
     GDate *tmp_date;
 
+	printf ("account_transfert = %d\n", transfert->replace_account);
     if ( transfert->date_bascule == NULL )
         return;
 
     date_jour = gdate_today ( );
 
-    if ( g_date_compare ( date_jour, date_bascule ) > 0 )
+    if ( g_date_compare ( date_jour, date_bascule ) > 0 || force)
     {
         gchar *msg;
         const gchar *tmp_str;

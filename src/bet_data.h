@@ -227,7 +227,8 @@ gboolean 					bet_data_transfert_remove_line 				(gint account_number,
 																		 gint number);
 gboolean 					bet_data_transfert_set_line_from_file 		(TransfertData *transfert);
 void 						bet_data_transfert_update_date_if_necessary	(TransfertData *transfert,
-												  						 GDate *date_bascule);
+												  						 GDate *date_bascule,
+																		 gboolean force);
 void 						bet_data_update_bet_module 					(gint account_number,
 																		 gint page);
 void 						struct_free_bet_historical 					(BetHist *sh);
