@@ -11,31 +11,28 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define ETATS_TYPE_PREFS              (etats_prefs_get_type())
-#define ETATS_PREFS(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), ETATS_TYPE_PREFS, EtatsPrefs))
-#define ETATS_IS_PREFS(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), ETATS_TYPE_PREFS))
+#define ETATS_PREFS_TYPE              (etats_prefs_get_type())
+#define ETATS_PREFS(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), ETATS_PREFS_TYPE, EtatsPrefs))
+#define ETATS_IS_PREFS(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), ETATS_PREFS_TYPE))
 
 /* Main object structure */
 typedef struct _EtatsPrefs EtatsPrefs;
+typedef struct _EtatsPrefsClass EtatsPrefsClass;
 
 struct _EtatsPrefs
 {
     GtkDialog dialog;
 };
 
-
-/* Class definition */
-typedef struct _EtatsPrefsClass EtatsPrefsClass;
-
 struct _EtatsPrefsClass
 {
     GtkDialogClass parent_class;
 };
 
+/* START_DECLARATION */
+GType		etats_prefs_get_type										(void) G_GNUC_CONST;
 
-/* construction */
-GType 		etats_prefs_get_type (void) G_GNUC_CONST;
-GtkWidget *	etats_prefs_new 											(GtkWidget *parent);
+GtkWidget *	etats_prefs_new 											(GtkWidget *win);
 gboolean 	etats_prefs_button_toggle_get_actif 						(const gchar *button_name);
 gboolean 	etats_prefs_button_toggle_set_actif 						(const gchar *button_name,
 																		 gboolean actif);
@@ -64,6 +61,8 @@ GtkWidget *	etats_prefs_widget_get_widget_by_name 						(const gchar *parent_nam
 																		 const gchar *child_name);
 gboolean 	etats_prefs_widget_set_sensitive 							(const gchar *widget_name,
 																		 gboolean sensitive);
+/* END_DECLARATION */
+
 G_END_DECLS
 
 #endif  /* _ETATS_PREFS_H_ */

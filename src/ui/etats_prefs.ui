@@ -3163,6 +3163,8 @@ to add at the selection</property>
                         <property name="can_focus">True</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
+                        <property name="headers_visible">False</property>
+                        <property name="headers_clickable">False</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection"/>
                         </child>
