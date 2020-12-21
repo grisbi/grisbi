@@ -1,13 +1,15 @@
 1. Set up the environement
 
-Full documentation is available here:
-https://wiki.gnome.org/Projects/GTK+/OSX/Building
+You need to install `jhbuild' environment. Full documentation is available here:
+https://developer.gnome.org/Jhbuild/
+
 
 Note that jhbuild environment is not compatible with homebrew nor macport.
 
 
 First step is to download the lastest install script:
-https://git.gnome.org/browse/gtk-osx/plain/gtk-osx-build-setup.sh
+% git clone git@gitlab.gnome.org:GNOME/gtk-osx.git
+% cd gtk-osx
 
 
 Then use the following command lines:
@@ -17,6 +19,8 @@ Then use the following command lines:
 
 % # Build prerequiste tools
 % jhbuild bootstrap-gtk-osx
+
+% jhbuild meson
 
 % # install GTK3 env
 % jhbuild build meta-gtk-osx-gtk3

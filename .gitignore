@@ -47,3 +47,4 @@ mkinstalldirs
 stamp-h1
 tags
 test-driver
+.DS_Store
