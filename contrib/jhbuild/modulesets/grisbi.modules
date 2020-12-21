@@ -23,9 +23,11 @@
 		href="ftp://ftp.gnome.org/pub/gnome/sources/"/>
 	<repository type="git" name="github"
 	      href="git://github.com/"/>
+	<repository type="git" name="gnomegit"
+		href="https://gitlab.gnome.org/GNOME/" />
 	
 	<autotools id="gmp">
-		<branch repo="ftp.gmplib.org" module="gmp/gmp-6.2.0.tar.bz2" version="6.2.0"/>
+		<branch repo="ftp.gmplib.org" module="gmp-6.2.1/gmp-6.2.1.tar.bz2" version="6.2.1"/>
 	</autotools>
 
 	<autotools id='readline' >
@@ -54,14 +56,14 @@
 	</autotools>
 	
 	<autotools id="goffice" autogen-sh="autogen.sh">
-		<branch repo="ftp.gnome.org" module="goffice/0.10/goffice-0.10.48.tar.xz" version='0.10.48'/>
+		<branch repo="gnomegit" module="goffice" />
 		<dependencies>
 			<dep package='libgsf'/>
 		</dependencies>
 	</autotools>
 
-	<autotools id="libgsf" autogen-sh="configure">
-		<branch repo="ftp.gnome.org" module="libgsf/1.14/libgsf-1.14.47.tar.xz" version='1.14.47'/>
+	<autotools id="libgsf" autogen-sh="autogen.sh">
+		<branch repo="gnomegit" module="libgsf" />
 	</autotools>
 
 	<autotools id="guile" autogen-sh="configure">
@@ -72,6 +74,10 @@
 			<dep package="libunistring"/>
 			<dep package="bdw-gc"/>
 		</dependencies>
+	</autotools>
+
+	<autotools id="gtk-mac-bundler">
+		<branch repo="gnomegit" module="gtk-mac-bundler" />
 	</autotools>
 
 	<autotools id="grisbi" autogen-sh="configure">
