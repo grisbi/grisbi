@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Visual Studio 2017
+image: Visual Studio 2019
 clone_folder: c:\projects\grisbi-src
 # Do not build on tags
 skip_tags: true
