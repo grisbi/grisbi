@@ -361,7 +361,7 @@ GtkTreeModel *etats_config_onglet_periode_get_model_exercices ( void )
 
     list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ),
-                        0, GTK_SORT_ASCENDING );
+                        0, GTK_SORT_DESCENDING );
 
     /* on remplit la liste des exercices */
     list_tmp = gsb_data_fyear_get_fyears_list ();
