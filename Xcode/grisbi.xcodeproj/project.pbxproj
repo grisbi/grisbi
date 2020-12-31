@@ -259,6 +259,7 @@
 		00285A6824198012004828B4 /* prefs_page_msg_warning.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = prefs_page_msg_warning.ui; path = src/ui/prefs_page_msg_warning.ui; sourceTree = "<group>"; };
 		002D171F21CEE83900B461E8 /* prefs_page_form_completion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_form_completion.h; path = prefs/prefs_page_form_completion.h; sourceTree = "<group>"; };
 		002D172021CEE83900B461E8 /* prefs_page_form_completion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_form_completion.c; path = prefs/prefs_page_form_completion.c; sourceTree = "<group>"; };
+		003553ED259E4F8800619AB8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MacOS/Info.plist; sourceTree = "<group>"; };
 		0038541A20767D5300A0E867 /* prefs_page_accueil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_accueil.c; path = prefs/prefs_page_accueil.c; sourceTree = "<group>"; };
 		0038541B20767D5300A0E867 /* prefs_page_accueil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_accueil.h; path = prefs/prefs_page_accueil.h; sourceTree = "<group>"; };
 		003AC2131F49DDE9007DA275 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2l/lib/libcrypto.a; sourceTree = "<group>"; };
@@ -860,6 +861,7 @@
 		00B77C3A1DB2A0EC00A5D233 /* grisbi */ = {
 			isa = PBXGroup;
 			children = (
+				003553ED259E4F8800619AB8 /* Info.plist */,
 				00EA60711F91016000569C19 /* po */,
 				00BCBD2E1E07016F00579172 /* ui */,
 				006E67001DB3E26B0038B1F0 /* config.h */,
