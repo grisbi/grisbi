@@ -298,6 +298,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="halign">start</property>
                             <property name="draw_indicator">True</property>
                           </object>
                           <packing>
