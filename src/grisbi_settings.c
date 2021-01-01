@@ -508,14 +508,14 @@ static void grisbi_settings_save_settings_backup (GSettings *settings,
 	}
 
 	if (a_conf->sauvegarde_demarrage)
-		g_settings_set_boolean (G_SETTINGS (settings), "sauvegarde-ouverture", TRUE);
-	else
 		g_settings_reset (G_SETTINGS (settings), "sauvegarde-ouverture");
+	else
+		g_settings_set_boolean (G_SETTINGS (settings), "sauvegarde-ouverture", FALSE);
 
 	if (a_conf->sauvegarde_fermeture)
-		g_settings_set_boolean (G_SETTINGS (settings), "sauvegarde-fermeture", TRUE);
-	else
 		g_settings_reset (G_SETTINGS (settings), "sauvegarde-fermeture");
+	else
+		g_settings_set_boolean (G_SETTINGS (settings), "sauvegarde-fermeture", FALSE);
 }
 
 /**
