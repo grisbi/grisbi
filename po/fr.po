@@ -709,7 +709,7 @@ msgstr "<Ctrl> + click gauche de la souris pour ajouter à la sélection"
 #: ../src/ui/etats_prefs.ui.h:108 ../src/etats_onglet.c:889
 #: ../src/etats_onglet.c:1119
 msgid "Search"
-msgstr "Recherche"
+msgstr "Rechercher"
 
 #: ../src/ui/etats_prefs.ui.h:109
 msgid "Navigation"
