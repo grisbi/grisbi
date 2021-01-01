@@ -64,3 +64,5 @@
 #define LOCALEDIR "/usr/local/share/locale"
 #define PIXMAPS_DIR "/usr/local/share/pixmaps/grisbi"
 #define UI_DIR ""
+
+#define USE_CONFIG_FILE
