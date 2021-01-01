@@ -6,6 +6,7 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
+typedef struct _TransactionStruct		TransactionStruct;
 
 /** Etat de rapprochement d'une opération */
 enum OperationEtatRapprochement
