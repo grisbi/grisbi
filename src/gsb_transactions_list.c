@@ -63,6 +63,7 @@
 #include "mouse.h"
 #include "navigation.h"
 #include "print_transactions_list.h"
+#include "search_transaction.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -412,6 +413,31 @@ static gboolean gsb_transactions_list_move_transaction_to_account_from_sub_menu 
 }
 
 /**
+ *
+ *
+ * \param menu_item
+ * \param null
+ *
+ * \return FALSE
+ **/
+static gboolean gsb_transactions_list_search (GtkWidget *menu_item,
+											  gint *transaction_number)
+{
+	SearchTransaction *search;
+	GrisbiWin *win;
+	gint result;
+
+	win = grisbi_app_get_active_window (NULL);
+	search = search_transaction_new (win, transaction_number);
+	gtk_window_present (GTK_WINDOW (search));
+	gtk_widget_show_all (GTK_WIDGET (search));
+	result = gtk_dialog_run (GTK_DIALOG (search));
+	search_transaction_dialog_response (GTK_DIALOG (search), result);
+
+	return FALSE;
+}
+
+/**
  * Pop up a menu with several actions to apply to current transaction.
  *
  * \param
@@ -540,6 +566,18 @@ static void gsb_transactions_list_popup_context_menu (gboolean full,
 
 
     /* Separator */
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
+
+	/* Searching */
+	menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-search-16.png", _("Search")));
+    g_signal_connect (G_OBJECT(menu_item),
+					  "activate",
+					  G_CALLBACK(gsb_transactions_list_search),
+					  GINT_TO_POINTER (transaction_number));
+    gtk_widget_set_sensitive (menu_item, full);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+
+	/* Separator */
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
     /* Change cell content. */
@@ -1846,6 +1884,15 @@ static gboolean gsb_transactions_list_key_press (GtkWidget *widget,
 			gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number
 													  (account_number),
 							TRUE);
+			break;
+
+		case GDK_KEY_F:         /* touche F*/
+		case GDK_KEY_f:         /* touche f */
+			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
+			{
+				transaction_number = gsb_data_account_get_current_transaction_number (account_number);
+				gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
+			}
 			break;
 
 		case GDK_KEY_P:         /* touche P */

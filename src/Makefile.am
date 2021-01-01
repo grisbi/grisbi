@@ -160,6 +160,7 @@ libgrisbi_la_SOURCES = \
 	print_transactions_list.c		\
 	print_tree_view_list.c	\
 	qif.c			\
+	search_transaction.c \
 	tiers_onglet.c		\
 	tip.c			\
 	traitement_variables.c	\
@@ -295,6 +296,7 @@ libgrisbi_la_SOURCES = \
 	print_transactions_list.h	\
 	print_tree_view_list.h	\
 	qif.h			\
+	search_transaction.h \
 	tip.h			\
 	structures.h		\
 	tiers_onglet.h		\
