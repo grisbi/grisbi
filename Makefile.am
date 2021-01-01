@@ -21,3 +21,4 @@ bundle:
 	$(srcdir)/MacOS/create-launcher.sh
 	$(srcdir)/MacOS/create-dmg.sh --volname Grisbi --volicon $(srcdir)/MacOS/Grisbi.icns --window-size 640 400 --background $(srcdir)/MacOS/background.png --icon-size 96 --app-drop-link 500 250 --icon "Grisbi.app" 150 250  $(srcdir)/MacOS/Grisbi-$(GRISBI_MAJOR_VERSION).$(GRISBI_MINOR_VERSION).$(GRISBI_MICRO_VERSION).dmg $(srcdir)/MacOS/dist.new
 	mv MacOS/Info.plist.old MacOS/Info.plist
+	mv MacOS/Grisbi\ Launcher/Grisbi\ Launcher/Info.plist.old MacOS/Grisbi\ Launcher/Grisbi\ Launcher/Info.plist
