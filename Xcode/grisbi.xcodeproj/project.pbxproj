@@ -196,6 +196,7 @@
 		00C17BA1246DD16C00D9E257 /* prefs_page_payment_method.c in Sources */ = {isa = PBXBuildFile; fileRef = 00C17B9F246DD16C00D9E257 /* prefs_page_payment_method.c */; };
 		00C17BA8246DD19600D9E257 /* widget_import_asso.c in Sources */ = {isa = PBXBuildFile; fileRef = 00C17BA3246DD19600D9E257 /* widget_import_asso.c */; };
 		00C17BA9246DD19600D9E257 /* widget_import_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 00C17BA4246DD19600D9E257 /* widget_import_files.c */; };
+		00D3D90B25A0B9AA007E3DFB /* search_transaction.c in Sources */ = {isa = PBXBuildFile; fileRef = 00D3D90925A0B9AA007E3DFB /* search_transaction.c */; };
 		00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib */; };
 		00EA61021F915CBA00569C19 /* grisbi_resources.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EA61011F915CBA00569C19 /* grisbi_resources.c */; };
 		00EE9D061E01EAFB005BB1B0 /* openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EE9D041E01EAFB005BB1B0 /* openssl.c */; };
@@ -626,6 +627,8 @@
 		00C17BA5246DD19600D9E257 /* widget_import_files.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_import_files.h; sourceTree = "<group>"; };
 		00C17BA6246DD19600D9E257 /* widget_import_files.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_import_files.ui; sourceTree = "<group>"; };
 		00C17BA7246DD19600D9E257 /* widget_import_asso.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_import_asso.ui; sourceTree = "<group>"; };
+		00D3D90925A0B9AA007E3DFB /* search_transaction.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = search_transaction.c; sourceTree = "<group>"; };
+		00D3D90A25A0B9AA007E3DFB /* search_transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = search_transaction.h; sourceTree = "<group>"; };
 		00EA60731F91018300569C19 /* he.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = he.po; path = po/he.po; sourceTree = "<group>"; };
 		00EA60751F91018300569C19 /* cs.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = cs.po; path = po/cs.po; sourceTree = "<group>"; };
 		00EA60761F91018300569C19 /* fr.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = fr.po; path = po/fr.po; sourceTree = "<group>"; };
@@ -1121,6 +1124,8 @@
 				006E68051DB3E7AC0038B1F0 /* print_tree_view_list.h */,
 				006E68061DB3E7AC0038B1F0 /* qif.c */,
 				006E68071DB3E7AC0038B1F0 /* qif.h */,
+				00D3D90925A0B9AA007E3DFB /* search_transaction.c */,
+				00D3D90A25A0B9AA007E3DFB /* search_transaction.h */,
 				006E68081DB3E7AC0038B1F0 /* structures.h */,
 				006E68091DB3E7AC0038B1F0 /* tiers_onglet.c */,
 				006E680A1DB3E7AC0038B1F0 /* tiers_onglet.h */,
@@ -1329,6 +1334,7 @@
 				006E685B1DB3E7AD0038B1F0 /* gsb_assistant.c in Sources */,
 				006E68E21DB4276C0038B1F0 /* ofx.c in Sources */,
 				006E684C1DB3E7AD0038B1F0 /* go-charmap-sel.c in Sources */,
+				00D3D90B25A0B9AA007E3DFB /* search_transaction.c in Sources */,
 				006E689A1DB3E7AD0038B1F0 /* gsb_transactions_list.c in Sources */,
 				006E68361DB3E7AD0038B1F0 /* bet_hist.c in Sources */,
 				006E68901DB3E7AD0038B1F0 /* gsb_reconcile_list.c in Sources */,
