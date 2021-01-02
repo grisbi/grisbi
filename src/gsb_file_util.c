@@ -258,6 +258,7 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
     gchar *lock_filename;
     gchar *dir_part;
     gchar *file_part;
+	gboolean ret_code = TRUE; /* success by default */
 
     devel_debug_int (create_lock);
 	if (!filename)
@@ -295,9 +296,7 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
             /* the lock is already created, return TRUE */
             etat.fichier_deja_ouvert = 1;
 
-			g_free (lock_filename);
-
-			return TRUE;
+			goto out;
         }
 
         etat.fichier_deja_ouvert = 0;
@@ -314,15 +313,12 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
             dialogue_error (tmp_str);
 
 			g_free (tmp_str);
-			g_free (lock_filename);
 
-            return FALSE;
+			ret_code = FALSE;
+			goto out;
         }
 
         fclose (fichier);
-		g_free (lock_filename);
-
-		return TRUE;
     }
     else
 	{
@@ -334,9 +330,7 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 			/* check if it exits, if not, just go away */
 			if (!g_file_test (lock_filename, G_FILE_TEST_EXISTS))
 			{
-				g_free (lock_filename);
-
-				return TRUE;
+				goto out;
 			}
 
 			result = utils_files_utf8_remove (lock_filename);
@@ -350,25 +344,17 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 										   g_strerror (errno));
 				dialogue_error (tmp_str);
 
-				g_free (lock_filename);
 				g_free (tmp_str);
 
-				return FALSE;
+				ret_code = FALSE;
+				goto out;
 			}
-
-			g_free (lock_filename);
-
-			return TRUE;
-		}
-		else
-		{
-			g_free (lock_filename);
-
-			return TRUE;
 		}
 	}
 
+out:
 	g_free (lock_filename);
+	return ret_code;
 }
 
 /**
