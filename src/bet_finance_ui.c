@@ -1991,7 +1991,7 @@ GtkWidget *bet_finance_ui_create_amortization_tree_view (GtkWidget *container,
 									GTK_POLICY_AUTOMATIC);
     gtk_widget_set_size_request (scrolled_window, -1, 250);
     gtk_container_add (GTK_CONTAINER (scrolled_window), tree_view);
-    gtk_box_pack_start (GTK_BOX (container), scrolled_window, FALSE, FALSE, MARGIN_PADDING_BOX);
+    gtk_box_pack_start (GTK_BOX (container), scrolled_window, TRUE, TRUE, MARGIN_PADDING_BOX);
 
     gtk_widget_show_all (scrolled_window);
 
