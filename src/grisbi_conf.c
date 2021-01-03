@@ -243,11 +243,11 @@ gboolean grisbi_conf_load_app_config (void)
 													  "Backup",
 													  "compress-backup",
 													  NULL);
-    a_conf->make_backup_every_minutes = g_key_file_get_integer (config,
+    a_conf->make_backup_every_minutes = g_key_file_get_boolean (config,
 																"Backup",
 																"make-backup-every-minutes",
 																NULL);
-    a_conf->make_backup_nb_minutes = g_key_file_get_boolean (config,
+    a_conf->make_backup_nb_minutes = g_key_file_get_integer (config,
 															 "Backup",
 															 "make-backup-nb-minutes",
 															 NULL);
