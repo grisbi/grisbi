@@ -2,13 +2,6 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkAdjustment" id="adjustment_devise">
-    <property name="lower">1</property>
-    <property name="upper">100000</property>
-    <property name="value">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
   <template class="SearchTransaction" parent="GtkDialog">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Search</property>
@@ -27,7 +20,7 @@
         <property name="margin_top">10</property>
         <property name="margin_bottom">10</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox">
             <property name="can_focus">False</property>
@@ -59,9 +52,28 @@
           <object class="GtkGrid" id="grid_search">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">start</property>
-            <property name="row_spacing">5</property>
-            <property name="column_spacing">5</property>
+            <child>
+              <object class="GtkEntry" id="entry_search_str">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_space1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label">    </property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
             <child>
               <object class="GtkLabel" id="label_str">
                 <property name="visible">True</property>
@@ -73,16 +85,6 @@
                 <property name="left_attach">0</property>
                 <property name="top_attach">0</property>
                 <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_search_str">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
               </packing>
             </child>
             <child>
@@ -102,21 +104,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">start</property>
-                <property name="label">    </property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkBox" id="box_search_str">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkCheckButton" id="checkbutton_payee">
@@ -130,7 +121,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">True</property>
+                    <property name="fill">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -145,7 +136,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">True</property>
+                    <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -153,7 +144,6 @@
               <packing>
                 <property name="left_attach">1</property>
                 <property name="top_attach">2</property>
-                <property name="width">2</property>
               </packing>
             </child>
             <child>
@@ -169,19 +159,7 @@
               <packing>
                 <property name="left_attach">0</property>
                 <property name="top_attach">3</property>
-                <property name="width">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">start</property>
-                <property name="label">    </property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
+                <property name="width">2</property>
               </packing>
             </child>
             <child>
@@ -211,9 +189,10 @@
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
-                    <property name="text" translatable="yes">0</property>
+                    <property name="text" translatable="yes">10</property>
                     <property name="adjustment">adjustment_devise</property>
                     <property name="numeric">True</property>
+                    <property name="value">10</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -237,18 +216,20 @@
               <packing>
                 <property name="left_attach">1</property>
                 <property name="top_attach">4</property>
-                <property name="width">3</property>
+                <property name="width">2</property>
               </packing>
             </child>
             <child>
-              <object class="GtkSeparator">
+              <object class="GtkSeparator" id="separator1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
                 <property name="top_attach">5</property>
-                <property name="width">4</property>
+                <property name="width">3</property>
               </packing>
             </child>
             <child>
@@ -267,16 +248,18 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSeparator" id="separator1">
+              <object class="GtkCheckButton" id="checkbutton_search_archive">
+                <property name="label" translatable="yes">Search in the archived transactions</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="halign">start</property>
+                <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">9</property>
-                <property name="width">4</property>
+                <property name="top_attach">7</property>
+                <property name="width">3</property>
               </packing>
             </child>
             <child>
@@ -291,22 +274,32 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">7</property>
+                <property name="top_attach">8</property>
                 <property name="width">3</property>
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="checkbutton_search_archive">
-                <property name="label" translatable="yes">Search in the archived transactions</property>
+              <object class="GtkLabel" id="label_space2">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
+                <property name="can_focus">False</property>
                 <property name="halign">start</property>
-                <property name="draw_indicator">True</property>
+                <property name="label">    </property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">8</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator" id="separator2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">9</property>
                 <property name="width">3</property>
               </packing>
             </child>
@@ -319,23 +312,60 @@
               <packing>
                 <property name="left_attach">0</property>
                 <property name="top_attach">10</property>
-                <property name="width">4</property>
+                <property name="width">3</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkBox" id="box_other_account">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkLabel" id="label_other_account">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Continue with another account: </property>
+                    <property name="single_line_mode">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combo_other_account">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">11</property>
+                <property name="width">3</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
+              <object class="GtkSeparator" id="separator3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">12</property>
+                <property name="width">3</property>
+              </packing>
             </child>
             <child>
               <placeholder/>
@@ -356,5 +386,11 @@
       <action-widget response="1">button_search</action-widget>
     </action-widgets>
   </template>
-  <object class="GtkSizeGroup" id="sizegroup_search"/>
+  <object class="GtkAdjustment" id="adjustment_devise">
+    <property name="lower">1</property>
+    <property name="upper">100000</property>
+    <property name="value">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
 </interface>

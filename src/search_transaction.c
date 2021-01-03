@@ -40,12 +40,15 @@
 #include "search_transaction.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "gsb_account.h"
+#include "gsb_account_property.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"
+#include "navigation.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
 #include "structures.h"
@@ -70,6 +73,7 @@ struct _SearchTransactionPrivate
 	GtkWidget *			vbox_search_transaction;
     GtkWidget *         button_search;
 
+	GtkWidget *			box_other_account;
 	GtkWidget *			box_search_amount;
 	GtkWidget *			box_search_str;
 	GtkWidget *			checkbutton_backwards_search;
@@ -78,6 +82,7 @@ struct _SearchTransactionPrivate
     GtkWidget *			checkbutton_note;
 	GtkWidget *			checkbutton_payee;
 	GtkWidget *			checkbutton_search_archive;
+	GtkWidget *			combo_other_account;
 	GtkWidget *			entry_search_str;
 	GtkWidget *			label_devise;
 	GtkWidget *			label_search_info;
@@ -501,10 +506,14 @@ static void search_transaction_button_search_clicked (GtkButton *button,
 			else
 				transaction_list_select (transaction_number);
 			search_active--;
+
+			/* on desensibilise le combo other_account */
+			gtk_widget_set_sensitive (priv->box_other_account, FALSE);
 		}
 		else
 		{
 			tmp_str = g_strdup ("No transaction was found");
+			gtk_widget_set_sensitive (priv->box_other_account, TRUE);
 			search_active = -1;
 		}
 
@@ -815,6 +824,151 @@ static gboolean search_transaction_entry_lose_focus (GtkWidget *entry,
 	return FALSE;
 }
 
+static void search_transaction_combo_other_account_changed (GtkComboBox *combo,
+															SearchTransaction *dialog)
+{
+	GtkTreeIter iter;
+	devel_debug (NULL);
+
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo), &iter))
+	{
+		GtkTreeModel *store;
+		gint account_number;
+		SearchTransactionPrivate *priv;
+
+		store = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
+        gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, 1, &account_number, -1);
+		printf ("account_number = %d\n", account_number);
+
+		priv = search_transaction_get_instance_private (dialog);
+
+		if (account_number == 0)
+			return;
+
+		/* on retablit les paramètres de lancien compte */
+		gsb_transactions_list_change_aspect_liste (priv->display_nb_rows);
+		if (gsb_data_account_get_r (priv->account_number) != priv->display_r)
+		{
+			gsb_data_account_set_r (priv->account_number, FALSE);
+			gsb_menu_update_view_menu (priv->account_number);
+			gsb_transactions_list_mise_a_jour_affichage_r (FALSE);
+		}
+
+		/* on change pour le nouveau compte */
+	    gsb_gui_navigation_change_account (account_number);
+	    gsb_account_property_fill_page ();
+	    gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, account_number, 0);
+
+		/* on réinitialise la recherche */
+		priv->account_number = account_number;
+		search_active = -1;
+		search_transaction_button_search_clicked (NULL, dialog);
+	}
+}
+
+/**
+ * check if the given row is or not a separator,
+ * used in interne in gtk
+ *
+ * \param model
+ * \param iter
+ * \param combofix
+ *
+ * \return TRUE if it's a separator, FALSE else
+ **/
+static gboolean search_transaction_combo_separator_func (GtkTreeModel *model,
+														 GtkTreeIter *iter,
+														 GtkComboBox *combo)
+{
+    gboolean value;
+
+    gtk_tree_model_get (GTK_TREE_MODEL (model), iter, 2, &value, -1);
+
+    if (value)
+	    return TRUE;
+    return FALSE;
+}
+
+/**
+ * init a combobox from ui containing the list of others accounts
+ *
+ * \param priv
+ *
+ * \return
+ * */
+static void search_transaction_init_combo_other_account (SearchTransactionPrivate *priv)
+{
+    GSList *list_tmp;
+    GtkListStore *store;
+	GtkCellRenderer *renderer;
+	GtkTreeIter iter;
+	gchar *msg;
+
+    store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN);
+
+	/* set separator before current account : col 2 of model */
+	gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (priv->combo_other_account),
+										  (GtkTreeViewRowSeparatorFunc) search_transaction_combo_separator_func,
+										  priv->combo_other_account,
+										  NULL);
+	list_tmp = gsb_data_account_get_list_accounts ();
+
+	/* on demande de choisir un nouveau compte */
+	msg = g_strdup (_("Choose another account"));
+
+	gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+	gtk_list_store_set (store,
+						&iter,
+						0, msg,
+						1, 0,
+						2, FALSE,
+						-1);
+	list_tmp = list_tmp->next;
+	while (list_tmp)
+	{
+		gint account_number;
+
+		account_number = gsb_data_account_get_no_account (list_tmp->data);
+
+		if (account_number == priv->account_number)
+		{
+			list_tmp = list_tmp->next;
+			continue;
+		}
+		if (account_number >= 0 && (gsb_data_account_get_kind (account_number) != GSB_TYPE_LIABILITIES))
+		{
+			gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+				gtk_list_store_set (store,
+						 &iter,
+						 0, gsb_data_account_get_name (account_number),
+						 1, account_number,
+						 2, FALSE,
+						 -1);
+		}
+		list_tmp = list_tmp->next;
+	}
+
+	/* on ajoute à la fin le compte initial */
+	gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+	gtk_list_store_set (store, &iter, 2, TRUE, -1); /* set separator before current account*/
+	gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+	gtk_list_store_set (store,
+						&iter,
+						0, gsb_data_account_get_name (priv->account_number),
+						1, priv->account_number,
+						2, FALSE,
+						-1);
+
+    gtk_combo_box_set_model (GTK_COMBO_BOX (priv->combo_other_account), GTK_TREE_MODEL (store));
+
+    /* by default, this is blank, so set the first */
+    gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_other_account), 0);
+
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (priv->combo_other_account), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (priv->combo_other_account), renderer, "text", 0, NULL);
+}
+
 /**
  * Creation de la boite de recherche
  *
@@ -873,6 +1027,9 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 	priv->display_nb_rows = gsb_data_account_get_nb_rows (priv->account_number);
 	priv->display_r = gsb_data_account_get_r (priv->account_number);
 
+	/* set account combo */
+	search_transaction_init_combo_other_account (priv);
+
 	/* set signals */
 	g_signal_connect (G_OBJECT (priv->button_search),
 					  "clicked",
@@ -907,6 +1064,11 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 	g_signal_connect (G_OBJECT (priv->checkbutton_search_archive),
 					  "toggled",
 					  G_CALLBACK (search_transaction_checkbutton_search_archive_toggled),
+					  dialog);
+
+	g_signal_connect (G_OBJECT (priv->combo_other_account),
+					  "changed",
+					  G_CALLBACK (search_transaction_combo_other_account_changed),
 					  dialog);
 
 	g_signal_connect (G_OBJECT (priv->entry_search_str),
@@ -962,6 +1124,7 @@ static void search_transaction_class_init (SearchTransactionClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, vbox_search_transaction);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, button_search);
 
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, box_other_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, box_search_str);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, box_search_amount);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, checkbutton_backwards_search);
@@ -970,6 +1133,7 @@ static void search_transaction_class_init (SearchTransactionClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, checkbutton_note);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, checkbutton_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, checkbutton_search_archive);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, combo_other_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, entry_search_str);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, label_devise);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), SearchTransaction, label_search_info);
