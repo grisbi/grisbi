@@ -1272,7 +1272,7 @@ static gboolean gtk_combofix_move_selection (GtkComboFix *combofix,
 }
 
 /**
- * called for a key_press_event on the entry of the combofix
+ * called for a key-press-event on the entry of the combofix
  *
  * \param entry
  * \param ev

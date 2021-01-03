@@ -1992,7 +1992,7 @@ static GtkWidget *gsb_transactions_list_create_tree_view (GtkTreeModel *model)
 
     /* check the keys on the list */
     g_signal_connect (G_OBJECT (tree_view),
-		              "key_press_event",
+		              "key-press-event",
 		              G_CALLBACK (gsb_transactions_list_key_press),
 		              NULL);
 
