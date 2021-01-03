@@ -266,6 +266,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	else
 	{
 		gtk_widget_set_sensitive (priv->checkbutton_combofix_mixed_sort, FALSE);
+		gtk_widget_set_sensitive (priv->checkbutton_combofix_case_sensitive, FALSE);
 		gtk_widget_set_sensitive (priv->checkbutton_combofix_force_payee, FALSE);
 		gtk_widget_set_sensitive (priv->checkbutton_combofix_force_category, FALSE);
 	}
