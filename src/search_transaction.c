@@ -809,6 +809,41 @@ static gboolean search_transaction_entry_key_press_event  (GtkWidget *entry,
  *
  * \return
  **/
+static gboolean search_transaction_spinbutton_delta_amount_key_press_event  (GtkWidget *entry,
+																			 GdkEventKey *ev,
+																			 SearchTransaction *dialog)
+{
+	SearchTransactionPrivate *priv;
+
+	priv = search_transaction_get_instance_private (dialog);
+	switch (ev->keyval)
+    {
+		case GDK_KEY_KP_Enter :
+		case GDK_KEY_Return :
+			/* on réinitialise la recherche */
+			search_active = -1;
+			search_transaction_button_search_clicked (NULL, dialog);
+			break;
+
+		case GDK_KEY_v:         /* touche v */
+			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
+			{
+				gtk_widget_set_sensitive (priv->button_search, TRUE);
+			}
+			break;
+	}
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static gboolean search_transaction_entry_lose_focus (GtkWidget *entry,
 												     GdkEvent  *event,
 												     SearchTransactionPrivate *priv)
@@ -1105,6 +1140,11 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 					  "button-press-event",
 					  G_CALLBACK (search_transaction_radiobutton_press_event),
 					  priv);
+
+	g_signal_connect (G_OBJECT (priv->spinbutton_delta_amount),
+					  "key-press-event",
+					  G_CALLBACK (search_transaction_spinbutton_delta_amount_key_press_event),
+					  dialog);
 }
 
 /******************************************************************************/
