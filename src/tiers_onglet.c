@@ -1775,11 +1775,11 @@ static gboolean gsb_assistant_payees_enter_page_finish (GtkWidget *assistant)
     }
     else
     {
-    tmpstr = g_markup_printf_escaped (_("You are about to replace %d payees whose names contain %s by %s\n\n"
-										"Are you sure?"),
-									  g_slist_length (sup_payees),
-									  str_replace_wildcard,
-									  gtk_combofix_get_text (GTK_COMBOFIX (combo)));
+		tmpstr = g_markup_printf_escaped (_("You are about to replace %d payees whose names contain %s by %s\n\n"
+											"Are you sure?"),
+										  g_slist_length (sup_payees),
+										  str_replace_wildcard,
+										  gtk_combofix_get_text (GTK_COMBOFIX (combo)));
     }
     label = g_object_get_data (G_OBJECT (assistant), "finish_label");
     gtk_label_set_markup (label, tmpstr);
@@ -1921,6 +1921,7 @@ void payees_manage_payees_with_rule (const gchar *rule)
         gchar *tmpstr;
         gint new_payee_number = 0;
         gint nb_removed;
+		gint nb_selected;			/* nbre de tiers concernés par la fusion */
 		gint ignore_case;
 		gint use_regex;
         gboolean save_notes = FALSE;
@@ -1931,7 +1932,8 @@ void payees_manage_payees_with_rule (const gchar *rule)
         grisbi_win_status_bar_wait (TRUE);
 
         sup_payees = g_object_get_data (G_OBJECT (assistant), "sup_payees");
-        if ((nb_removed = g_slist_length (sup_payees)) == 1)
+		nb_selected = g_slist_length (sup_payees);
+        if (nb_selected == 1)
 		{
             new_payee_number = GPOINTER_TO_INT (sup_payees->data);
 		}
@@ -1971,7 +1973,7 @@ void payees_manage_payees_with_rule (const gchar *rule)
         /* on ajoute la nouvelle association à la liste des assoc */
 		gsb_import_associations_add_assoc (new_payee_number, str_cherche, ignore_case, use_regex);
 
-		if (nb_removed > 1)
+		if (nb_selected > 1)
         {
 			if (save_notes)
 			{
@@ -2022,6 +2024,13 @@ void payees_manage_payees_with_rule (const gchar *rule)
             {
                 tmpstr = g_strdup_printf (_("One payee was replaced with a new one."));
             }
+            else if (nb_removed != nb_selected)
+            {
+                tmpstr = g_strdup_printf (_("%d payees were replaced with a new one.\n\n"
+											"%d unaffected payees were removed in addition"),
+										  nb_selected,
+										  nb_removed - nb_selected);
+            }
             else
             {
                 tmpstr = g_strdup_printf (_("%d payees were replaced with a new one."),
@@ -2056,8 +2065,7 @@ void payees_manage_payees_with_rule (const gchar *rule)
 			/* et on centre l'affichage dessus */
 			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payee_tree));
 			gtk_tree_selection_select_iter (selection, iter);
-			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (payee_tree), path,
-							NULL, TRUE, 0.5, 0.5);
+			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (payee_tree), path, NULL, TRUE, 0.5, 0.5);
 			gtk_tree_path_free (path);
 			grisbi_win_status_bar_stop_wait (TRUE);
 		}
