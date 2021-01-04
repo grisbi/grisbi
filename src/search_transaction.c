@@ -759,7 +759,7 @@ static gboolean search_transaction_entry_key_press_event  (GtkWidget *entry,
 		case GDK_KEY_Return :
 			if (gtk_entry_buffer_get_length (gtk_entry_get_buffer (GTK_ENTRY (entry))))
 			{
-				/* on réinitialise la recherche si le text à été modifié*/
+				/* on réinitialise la recherche */
 				search_active = -1;
 				search_transaction_button_search_clicked (NULL, dialog);
 			}
@@ -1080,7 +1080,6 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 		priv->file_is_modified = TRUE;
 	else
 		priv->file_modified = run.file_modification;
-	printf ("priv->file_is_modified = %d priv->file_modified = %ld\n", priv->file_is_modified, priv->file_modified);
 
 	/* set signals */
 	g_signal_connect (G_OBJECT (priv->button_search),
@@ -1222,10 +1221,12 @@ SearchTransaction *search_transaction_new (GrisbiWin *win,
 {
 	gint height;
 	gint width;
+	gint root_x;
+	gint root_y;
 	GrisbiAppConf *a_conf;
 	SearchTransaction *dialog;
 
-	dialog = g_object_new (SEARCH_TRANSACTION_TYPE, "transient-for", win, NULL);
+	dialog = g_object_new (SEARCH_TRANSACTION_TYPE, NULL);
 
 	/* set position of dialog */
 	a_conf = grisbi_app_get_a_conf ();
@@ -1233,7 +1234,8 @@ SearchTransaction *search_transaction_new (GrisbiWin *win,
 	{
 		gtk_window_set_gravity (GTK_WINDOW (dialog), GDK_GRAVITY_SOUTH_EAST);
 		gtk_window_get_size (GTK_WINDOW (win), &width, &height);
-		gtk_window_move (GTK_WINDOW (dialog), width, height/3);
+		gtk_window_get_position (GTK_WINDOW (win),&root_x, &root_y);
+		gtk_window_move (GTK_WINDOW (dialog), width + (root_x/3), height/3);
 	}
 
 	search_transaction_setup_dialog (dialog, GPOINTER_TO_INT (transaction_number));
