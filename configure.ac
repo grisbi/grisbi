@@ -34,7 +34,7 @@ LIBSSL_REQUIRED=1.0.0
 LIBXML_REQUIRED=2.5.0
 
 # last commit for package
-grisbi_git_hash=b95420236
+grisbi_git_hash=GRISBI_GIT_HASH
 
 dnl ================================================================
 dnl Standard checks.
