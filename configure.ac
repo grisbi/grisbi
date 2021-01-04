@@ -122,7 +122,8 @@ dnl Defined if Grisbi use a configuration file instead of gsettings
 dnl ================================================================
 
 AC_ARG_ENABLE(config-file,
-	AS_HELP_STRING([--enable-config-file],[enable config file instead of gsettings ]),
+	AS_HELP_STRING([--disable-config-file],[enable config file instead of gsettings (default: enabled]),
+	[enable_config_file=enableval],
 	[enable_config_file=yes])
 
 if test "x$enable_config_file" = xyes; then
