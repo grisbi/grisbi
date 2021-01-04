@@ -8,7 +8,7 @@ Note that jhbuild environment is not compatible with homebrew nor macport.
 
 
 First step is to download the lastest install script:
-% git clone git@gitlab.gnome.org:GNOME/gtk-osx.git
+% git clone https://gitlab.gnome.org/GNOME/gtk-osx.git
 % cd gtk-osx
 
 
