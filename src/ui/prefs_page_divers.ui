@@ -367,15 +367,68 @@
                                   <placeholder/>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="hbox_divers_scheduler_set_fixed_day">
+                                  <object class="GtkBox" id="vbox_divers_scheduler_set_fixed_day">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="spacing">1</property>
+                                    <property name="orientation">vertical</property>
                                     <child>
-                                      <object class="GtkLabel" id="label21">
+                                      <object class="GtkBox" id="hbox_divers_scheduler_set_fixed_day">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label">    </property>
+                                        <property name="spacing">1</property>
+                                        <child>
+                                          <object class="GtkLabel" id="label21">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label">    </property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="checkbutton_scheduler_set_fixed_day">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="draw_indicator">True</property>
+                                            <child>
+                                              <object class="GtkLabel" id="label22">
+                                                <property name="name">label_gsetting_option</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="halign">start</property>
+                                                <property name="label" translatable="yes">Launch day for scheduled operations performed monthly: </property>
+                                                <property name="wrap">True</property>
+                                                <property name="selectable">True</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkSpinButton" id="spinbutton_scheduler_fixed_day">
+                                            <property name="name">label_gsetting_option</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="text" translatable="yes">1</property>
+                                            <property name="adjustment">adjustment2</property>
+                                            <property name="numeric">True</property>
+                                            <property name="value">1</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">3</property>
+                                          </packing>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -384,46 +437,18 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkCheckButton" id="checkbutton_scheduler_set_fixed_day">
+                                      <object class="GtkLabel" id="label_divers_scheduler_set_fixed_day">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
+                                        <property name="can_focus">False</property>
                                         <property name="halign">start</property>
-                                        <property name="draw_indicator">True</property>
-                                        <child>
-                                          <object class="GtkLabel" id="label22">
-                                            <property name="name">label_gsetting_option</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="halign">start</property>
-                                            <property name="label" translatable="yes">Launch day for scheduled operations performed monthly: </property>
-                                            <property name="wrap">True</property>
-                                            <property name="selectable">True</property>
-                                          </object>
-                                        </child>
+                                        <property name="label" translatable="yes">(This option allows you to anticipate the launch of planned transactions for the following month.
+They will start on the chosen day)</property>
+                                        <property name="wrap">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
                                         <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <object class="GtkSpinButton" id="spinbutton_scheduler_fixed_day">
-                                        <property name="name">label_gsetting_option</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="text" translatable="yes">1</property>
-                                        <property name="adjustment">adjustment2</property>
-                                        <property name="value">1</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -1089,5 +1114,4 @@
       </packing>
     </child>
   </object>
-  <object class="GtkSizeGroup" id="size_group_numbers"/>
 </interface>
