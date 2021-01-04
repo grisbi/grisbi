@@ -1,12 +1,13 @@
 New in version 2.0.0
-- Ajout de la possibilité de supprimer automatiquement les anciennes sauvegardes
-- Intégration automatique des thèmes sombres
-- Nouvelle gestion des couleurs de grisbi
-- Ajout de la possibilité de changer la taille des polices de caractères de manière globale
-- Amélioration de l'utilisation de grisbi avec des écrans de faible définition
-- Refonte du module de gestion des crédits
-- Ajout de règles d'importation pour les fichiers CSV
-- Correction de bugs
+- Automatic integration of dark themes
+- New color management of grisbi
+- Added the ability to change the font size globally
+- Improved use of grisbi with low definition screens
+- Redesign of the credit management module
+- Added import rules for CSV files
+- Added of a search module in the list of operations
+- Added the ability to automatically delete old backups
+- Bugs fix
 
 New in version 1.2.2
 - Bug fixes
