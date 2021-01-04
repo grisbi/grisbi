@@ -46,6 +46,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"
 #include "navigation.h"
@@ -101,6 +102,10 @@ struct _SearchTransactionPrivate
 	gint				search_str_type;		/* 1 = payee, 2 = note, 3 = all */
 
 	GSList *			list;					/* liste des resultats de la recherche */
+
+	gboolean			file_is_modified;
+	glong				file_modified;
+
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (SearchTransaction, search_transaction, GTK_TYPE_DIALOG)
@@ -488,7 +493,11 @@ static void search_transaction_button_search_clicked (GtkButton *button,
 
 			/* on change eventuellement l'affichage pour une ligne */
 			if (search_active > 0)
+			{
 				gsb_transactions_list_change_aspect_liste (1);
+				if (!priv->file_is_modified)
+					priv->file_modified = run.file_modification;
+			}
 
 			/* on affiche le résultat */
 			str_number = utils_str_itoa (search_active);
@@ -838,7 +847,6 @@ static void search_transaction_combo_other_account_changed (GtkComboBox *combo,
 
 		store = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
         gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, 1, &account_number, -1);
-		printf ("account_number = %d\n", account_number);
 
 		priv = search_transaction_get_instance_private (dialog);
 
@@ -847,6 +855,8 @@ static void search_transaction_combo_other_account_changed (GtkComboBox *combo,
 
 		/* on retablit les paramètres de lancien compte */
 		gsb_transactions_list_change_aspect_liste (priv->display_nb_rows);
+		if (!priv->file_is_modified)
+			priv->file_modified = run.file_modification;
 		if (gsb_data_account_get_r (priv->account_number) != priv->display_r)
 		{
 			gsb_data_account_set_r (priv->account_number, FALSE);
@@ -1030,6 +1040,13 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 	/* set account combo */
 	search_transaction_init_combo_other_account (priv);
 
+	/* memorise le statut de modification */
+	if (run.file_modification)
+		priv->file_is_modified = TRUE;
+	else
+		priv->file_modified = run.file_modification;
+	printf ("priv->file_is_modified = %d priv->file_modified = %ld\n", priv->file_is_modified, priv->file_modified);
+
 	/* set signals */
 	g_signal_connect (G_OBJECT (priv->button_search),
 					  "clicked",
@@ -1104,6 +1121,13 @@ static void search_transaction_dispose (GObject *object)
 
 	priv = search_transaction_get_instance_private (SEARCH_TRANSACTION (object));
 	gsb_transactions_list_change_aspect_liste (priv->display_nb_rows);
+
+	/* on supprime éventuellement la demande de sauvegarde */
+	if (!priv->file_is_modified && priv->file_modified >= run.file_modification)
+	{
+		gsb_file_set_modified (FALSE);
+
+	}
 	if (gsb_data_account_get_r (priv->account_number) != priv->display_r)
 	{
 		gsb_data_account_set_r (priv->account_number, FALSE);

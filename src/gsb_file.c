@@ -1169,10 +1169,8 @@ void gsb_file_set_modified (gboolean modified)
 
 	if (modified)
     {
-        if (!run.file_modification)
-        {
-            run.file_modification = time (NULL);
-        }
+		/* modification pour gerer la non modification par la recherche dans la liste des operations */
+		run.file_modification = time (NULL);
         gsb_menu_gui_sensitive_win_menu_item ("save", TRUE);
     }
     else
