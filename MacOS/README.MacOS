@@ -15,7 +15,7 @@ First step is to download the lastest install script:
 Then use the following command lines:
 
 % # init the installation
-% ./gtk-osx-build-setup.sh
+% ./gtk-osx-setup.sh
 
 % # Build prerequiste tools
 % jhbuild bootstrap-gtk-osx
