@@ -746,9 +746,9 @@ static gboolean search_transaction_radiobutton_press_event (GtkWidget *button,
  *
  * \return
  **/
-static gboolean search_transaction_key_press_event  (GtkWidget *entry,
-													 GdkEventKey *ev,
-													 SearchTransaction *dialog)
+static gboolean search_transaction_entry_key_press_event  (GtkWidget *entry,
+														   GdkEventKey *ev,
+														   SearchTransaction *dialog)
 {
 	SearchTransactionPrivate *priv;
 
@@ -1094,7 +1094,7 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 					  priv);
 	g_signal_connect (G_OBJECT (priv->entry_search_str),
 					  "key-press-event",
-					  G_CALLBACK (search_transaction_key_press_event),
+					  G_CALLBACK (search_transaction_entry_key_press_event),
 					  dialog);
 
 	g_signal_connect (G_OBJECT (priv->radiobutton_search_amount),
