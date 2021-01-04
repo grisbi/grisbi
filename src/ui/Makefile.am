@@ -34,6 +34,7 @@ ui_DATA = grisbi.css \
 		prefs_page_payment_method.ui \
 		prefs_page_reconcile.ui \
 		prefs_page_reconcile_sort.ui \
-		prefs_widget_loan.ui
+		prefs_widget_loan.ui \
+		search_transaction.ui
 
 EXTRA_DIST = $(ui_DATA)
