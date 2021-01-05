@@ -10,6 +10,7 @@
 /* START_DECLARATION */
 gboolean 	etats_onglet_ajoute_etat 						(void);
 GtkWidget *	etats_onglet_create_reports_tab 				(void);
+void		etats_onglet_create_search_report				(void);
 void 		etats_onglet_efface_etat 						(void);
 GtkWidget *	etats_onglet_get_notebook_etats 				(void);
 void 		etats_onglet_reports_toolbar_set_style 			(gint toolbar_style);

@@ -60,6 +60,7 @@ struct _ReportStruct {
 	gint compl_name_function;						/* Date ou Date + heure système */
 	gint compl_name_position;						/* Devant, derrière ou dessous le nom du rapport */
 	gchar *export_pdf_name;							/* Nom du fichier pour l'export pdf */
+	gboolean search_report;							/* type recherche à ne pas sauvegarder */
 
     /** @name what we show of the transactions */
     gint show_m;                                    /**< 0=all the reports, 1=report not marked R, 2=report marked P,R or T */
@@ -4999,6 +5000,44 @@ void gsb_data_report_renum_account_number_0 (gint new_account_number)
 
 		tmp_list = tmp_list->next;
 	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_report_get_search_report (gint report_number)
+{
+    ReportStruct *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return FALSE;
+	else
+    	return report->search_report;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_report_set_search_report (gint report_number)
+{
+    ReportStruct *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if (!report)
+        return;
+
+    report->search_report = TRUE;
 }
 
 /**

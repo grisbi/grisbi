@@ -93,6 +93,7 @@ gint 		gsb_data_report_get_report_can_click 						(gint report_number);
 GSList *	gsb_data_report_get_report_list 							(void);
 gchar *		gsb_data_report_get_report_name 							(gint report_number);
 gint 		gsb_data_report_get_report_number 							(gpointer report_pointer);
+gboolean	gsb_data_report_get_search_report							(gint report_number);
 gint 		gsb_data_report_get_show_m 									(gint report_number);
 gint 		gsb_data_report_get_show_p 									(gint report_number);
 gint 		gsb_data_report_get_show_r 									(gint report_number);
@@ -245,6 +246,7 @@ gboolean 	gsb_data_report_set_report_can_click 						(gint report_number,
                         												 gint report_can_click);
 gboolean 	gsb_data_report_set_report_name 							(gint report_number,
                         												 const gchar *report_name);
+void		gsb_data_report_set_search_report							(gint report_number);
 gboolean 	gsb_data_report_set_show_m 									(gint report_number,
                         												 gint show_m);
 gboolean 	gsb_data_report_set_show_p 									(gint report_number,

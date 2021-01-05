@@ -2284,6 +2284,13 @@ gulong gsb_file_save_report_part (gulong iterator,
 			continue;
 		}
 
+		/* if report is a search report pas de sauvegarde */
+		if (gsb_data_report_get_search_report (report_number))
+		{
+			list_tmp = list_tmp->next;
+			continue;
+		}
+
 		/* if current_report is set, this mean we export the report,
 		 * we cannot save the number should be automaticly given while
 		 * importing, so set the report number to -1 */

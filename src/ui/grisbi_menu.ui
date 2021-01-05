@@ -158,6 +158,13 @@
       </section>
       <section>
         <item>
+          <attribute name="label" translatable="yes">Search</attribute>
+          <attribute name="action">win.search-acc</attribute>
+          <attribute name="icon">gtk-search-16</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
           <attribute name="label" translatable="yes">New account</attribute>
           <attribute name="action">win.new-acc</attribute>
           <attribute name="icon">gsb-new-file-16</attribute>
@@ -388,6 +395,13 @@
           <attribute name="label" translatable="yes">Convert to scheduled transaction</attribute>
           <attribute name="action">win.convert-ope</attribute>
           <attribute name="icon">gsb-convert-16</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Search</attribute>
+          <attribute name="action">win.search-acc</attribute>
+          <attribute name="icon">gtk-search-16</attribute>
         </item>
       </section>
       <section>

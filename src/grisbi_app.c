@@ -447,6 +447,7 @@ static const GActionEntry win_context_enabled_entries[] =
     { "move-to-acc", grisbi_cmd_move_to_account_menu, NULL, NULL, NULL },
 	{ "new-acc", grisbi_cmd_new_acc, NULL, NULL, NULL },
 	{ "remove-acc", grisbi_cmd_remove_acc, NULL, NULL, NULL },
+	{ "search-acc", grisbi_cmd_search_acc, NULL, NULL, NULL },
 	{ "show-form", grisbi_cmd_show_form_toggle, NULL, "false", NULL },
 	{ "show-reconciled", grisbi_cmd_show_reconciled_toggle, NULL, "false", NULL },
 	{ "show-archived", grisbi_cmd_show_archived_toggle, NULL, "false", NULL },

@@ -52,6 +52,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_files.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -65,6 +66,9 @@ static GtkWidget *	bouton_exporter_etat = NULL;
 static GtkWidget *	bouton_dupliquer_etat = NULL;
 static GtkWidget *	notebook_etats = NULL;
 static GtkWidget *	reports_toolbar = NULL;
+
+/* sert à nommer la recherche */
+static gint			search_number = 1;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -1331,6 +1335,68 @@ void etats_onglet_update_gui_to_report (gint report_number)
     }
     else
         gtk_widget_show (gtk_bin_get_child (GTK_BIN (scrolled_window_etat)));
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void etats_onglet_create_search_report (void)
+{
+	gchar *report_name;
+	gchar *tmp_str;
+    gint report_number;
+	GrisbiWinRun *w_run;
+
+	w_run = grisbi_win_get_w_run ();
+
+	/* Search */
+	report_number = gsb_data_report_new (_("Search"));
+	gsb_data_report_set_search_report (report_number);
+
+	/* set empty report */
+	w_run->empty_report = TRUE;
+
+	/* le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+	etats_onglet_set_classement_base (report_number);
+
+	/* les devises sont à 1 (euro) */
+	etats_onglet_set_devises (report_number);
+
+	/* Others parameters */
+	gsb_data_report_set_show_report_transactions (report_number, 1);
+	gsb_data_report_set_show_report_date (report_number, 1);
+	gsb_data_report_set_show_report_value_date (report_number, 1);
+	gsb_data_report_set_show_report_payee (report_number, 1);
+	gsb_data_report_set_show_report_category (report_number, 1);
+	gsb_data_report_set_show_report_sub_category (report_number, 1);
+	gsb_data_report_set_show_report_note (report_number, 1);
+	gsb_data_report_set_show_report_financial_year (report_number, 1);
+	gsb_data_report_set_report_can_click (report_number, 1);
+	gsb_data_report_set_date_type (report_number, 4);
+	gsb_data_report_set_column_title_show (report_number, 1);
+	gsb_data_report_set_report_can_click (report_number, 1);
+
+	/* name report */
+	tmp_str = utils_str_itoa (search_number);
+	report_name = g_strconcat (_("Searching"), " ", tmp_str, NULL);
+	gsb_data_report_set_report_name ( report_number, report_name);
+	g_free (report_name);
+	g_free (tmp_str);
+	search_number++;
+
+	/* Add an entry in navigation pane. */
+    gsb_gui_navigation_add_report (report_number);
+    etats_onglet_update_gui_to_report (report_number);
+
+	if (w_run->no_show_prefs == FALSE)
+		etats_config_personnalisation_etat ();
+
+	etats_onglet_force_fill_reports_list (GTK_NOTEBOOK (notebook_etats));
+	w_run->empty_report = FALSE;
 }
 
 /**

@@ -118,6 +118,9 @@ void        grisbi_cmd_new_acc                  (GSimpleAction *action,
 void        grisbi_cmd_remove_acc               (GSimpleAction *action,
                                                  GVariant *parameter,
                                                  gpointer app);
+void		grisbi_cmd_search_acc				(GSimpleAction *action,
+												 GVariant *parameter,
+												 gpointer app);
 /* VIEW MENU */
 void        grisbi_cmd_show_form_toggle         (GSimpleAction *action,
                                                  GVariant *parameter,

@@ -33,6 +33,7 @@
 #include "menu.h"
 #include "bet_tab.h"
 #include "custom_list.h"
+#include "etats_onglet.h"
 #include "export.h"
 #include "file_obfuscate_qif.h"
 #include "file_obfuscate.h"
@@ -789,6 +790,25 @@ void grisbi_cmd_remove_acc (GSimpleAction *action,
 							gpointer app)
 {
 	gsb_account_delete ();
+}
+
+/**
+ *
+ *
+ * \param GSimpleAction 	action
+ * \param GVariant 			parameter
+ * \param gpointer 			app
+ *
+ * \return
+ * */
+void grisbi_cmd_search_acc (GSimpleAction *action,
+							GVariant *parameter,
+							gpointer app)
+{
+	devel_debug (NULL);
+
+	gsb_gui_navigation_select_reports_page ();
+	etats_onglet_create_search_report ();
 }
 
 /* VIEW MENU */
