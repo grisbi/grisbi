@@ -26,7 +26,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label">Known payment methods</property>
+                    <property name="label" translatable="yes">Known payment methods</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -105,7 +105,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label">Payment method details</property>
+                            <property name="label" translatable="yes">Payment method details</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -497,7 +497,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="label">Payment method is used by transactions</property>
+                                <property name="label" translatable="yes">Payment method is used by transactions</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
