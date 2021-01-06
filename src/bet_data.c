@@ -2047,7 +2047,6 @@ void bet_data_transfert_update_date_if_necessary (TransfertData *transfert,
     GDate *date_jour;
     GDate *tmp_date;
 
-	printf ("account_transfert = %d\n", transfert->replace_account);
     if ( transfert->date_bascule == NULL )
         return;
 
