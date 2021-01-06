@@ -20,7 +20,7 @@ Then use the following command lines:
 % # Build prerequiste tools
 % jhbuild bootstrap-gtk-osx
 
-% jhbuild meson
+% jhbuild build meson
 
 % # install GTK3 env
 % jhbuild build meta-gtk-osx-gtk3
