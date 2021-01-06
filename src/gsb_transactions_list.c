@@ -1840,6 +1840,7 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
     }
 
 	grisbi_win_form_label_align_right (allocation);
+	gsb_transactions_list_update_tree_view (gsb_form_get_account_number (), FALSE);
 }
 
 /**

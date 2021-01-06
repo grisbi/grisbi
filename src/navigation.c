@@ -1272,10 +1272,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 			/* what to be done if switch to that page */
 			/* update the list (can do that because short list, so very fast) */
-			gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
-			gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
-
-			gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
+			gsb_scheduler_list_update_tree_view (gsb_scheduler_list_get_tree_view ());
 
 			/* set the form */
 			grisbi_win_set_form_expander_visible (TRUE, FALSE );

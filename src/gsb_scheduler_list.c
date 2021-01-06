@@ -1350,6 +1350,9 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
         if (width > 0)
             gtk_tree_view_column_set_fixed_width (scheduler_list_column[i], width);
     }
+
+	/* update tree_view */
+	gsb_scheduler_list_update_tree_view (tree_view);
 }
 
 /**
@@ -3112,6 +3115,21 @@ gchar *gsb_scheduler_list_get_largeur_col_treeview_to_string (void)
     }
 
 	return tmp_str;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
+{
+	gsb_scheduler_list_fill_list (tree_view);
+	gsb_scheduler_list_set_background_color (tree_view);
+
+	gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
 }
 
 /**
