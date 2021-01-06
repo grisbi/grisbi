@@ -42,6 +42,7 @@
 #include "gsb_file.h"
 #include "structures.h"
 #include "utils_buttons.h"
+#include "utils_files.h"
 #include "utils_str.h"
 #include "erreur.h"
 
@@ -1179,6 +1180,473 @@ void grisbi_settings_save_app_config (void)
 	grisbi_settings_save_settings_panel (priv->settings_panel, a_conf);
 	grisbi_settings_save_settings_prefs (priv->settings_prefs, a_conf);
 	grisbi_settings_save_settings_scheduled (priv->settings_scheduled, a_conf);
+}
+
+
+/**
+ * save the config in file PROVISOIRE
+ * it uses the glib config utils after 0.6.0
+ * if cannot load, try the xml file before that version
+ *
+ * \param
+ *
+ * \return TRUE if ok
+ **/
+void grisbi_settings_save_in_config_file (void)
+{
+	GKeyFile *config;
+	const gchar* backup_path = NULL;
+	const gchar *filename;
+	gchar *file_content;
+	gchar **recent_array;
+	const gchar *tmp_str;
+	gsize length;
+	FILE *conf_file;
+	gint i;
+	ConditionalMsg *warning;
+	GrisbiAppConf *a_conf;
+
+    devel_debug (NULL);
+	a_conf = grisbi_app_get_a_conf ();
+
+	filename = gsb_dirs_get_grisbirc_filename ();
+	config = g_key_file_new ();
+
+	/* settings_root */
+	g_key_file_set_boolean (config,
+							"Root",
+							"first-use",
+							a_conf->first_use);
+	/* settings_backup */
+	backup_path = gsb_file_get_backup_path ();
+	if (backup_path && strlen (backup_path) > 0)
+        g_key_file_set_string (config,
+							   "Backup",
+                        	   "backup-path",
+                        	   backup_path);
+
+	g_key_file_set_boolean (config,
+							"Backup",
+							"compress-backup",
+							a_conf->compress_backup);
+
+	g_key_file_set_boolean (config,
+							"Backup",
+							"make-backup-every-minutes",
+							a_conf->make_backup_every_minutes);
+	g_key_file_set_integer (config,
+							"Backup",
+							"make-backup-nb-minutes",
+							a_conf->make_backup_nb_minutes);
+	g_key_file_set_boolean (config,
+							"Backup",
+							"make-backup-single-file",
+							a_conf->make_bakup_single_file);
+	g_key_file_set_boolean (config,
+						    "Backup",
+						    "remove-backup-files",
+						    a_conf->remove_backup_files);
+    g_key_file_set_integer (config,
+							"Backup",
+							"remove-backup-months",
+							a_conf->remove_backup_months);
+	g_key_file_set_boolean (config,
+							"Backup",
+							"sauvegarde-fermeture",
+							a_conf->sauvegarde_fermeture);
+	g_key_file_set_boolean (config,
+							"Backup",
+							"sauvegarde-ouverture",
+							a_conf->sauvegarde_demarrage);
+
+    /* settings_display */
+    switch (a_conf->display_toolbar)
+    {
+        case GSB_BUTTON_TEXT:
+            tmp_str = "Text";
+            break;
+        case GSB_BUTTON_ICON:
+            tmp_str = "Icons";
+            break;
+        default:
+            tmp_str = (gchar*)"Text + Icons";
+    }
+    g_key_file_set_string (config,
+						   "Display",
+						   "display-toolbar",
+						   tmp_str);
+    switch (a_conf->display_window_title)
+    {
+        case 1:
+            tmp_str = "Holder name";
+            break;
+        case 2:
+            tmp_str = "Filename";
+            break;
+        default:
+            tmp_str = "Entity name";
+    }
+    g_key_file_set_string (config,
+						   "Display",
+						   "display-window-title",
+						   tmp_str);
+	g_key_file_set_boolean (config,
+						   "Display",
+						   "formulaire-toujours-affiche",
+						   a_conf->formulaire_toujours_affiche);
+	g_key_file_set_boolean (config,
+						    "Display",
+							"group-partial-balance-under-accounts",
+							a_conf->group_partial_balance_under_accounts);
+	g_key_file_set_boolean (config,
+						   "Display",
+						   "show-closed-accounts",
+						   a_conf->show_closed_accounts);
+	g_key_file_set_boolean (config,
+						   "Display",
+							"show-headings-bar",
+							a_conf->show_headings_bar);
+
+    /* settings_file */
+	g_key_file_set_boolean (config,
+							"File",
+							"archives-check-auto",
+							a_conf->archives_check_auto);
+	g_key_file_set_boolean (config,
+							"File",
+							"compress-file",
+							a_conf->compress_file);
+	g_key_file_set_boolean (config,
+						   "File",
+						   "dernier-fichier-auto",
+						   a_conf->dernier_fichier_auto);
+	g_key_file_set_boolean (config,
+						   "File",
+						   "force-enregistrement",
+						   a_conf->force_enregistrement);
+    g_key_file_set_boolean (config,
+						   "File",
+						   "force-import-directory",
+						   a_conf->force_import_directory);
+	if (a_conf->force_import_directory)
+	{
+	    g_key_file_set_string (config,
+							   "File",
+							   "import-directory",
+								a_conf->import_directory);
+	}
+	g_key_file_set_boolean (config,
+							"File",
+							"import-remove-file",
+							a_conf->import_remove_file);
+	g_key_file_set_integer (config,
+							"File",
+							"max-transactions-before-warn-archival",
+							a_conf->max_non_archived_transactions_for_check);
+	recent_array = grisbi_app_get_recent_files_array ();
+	if (recent_array && g_strv_length (recent_array))
+	{
+		 g_key_file_set_string_list (config,
+									 "File",
+									 "names-last-files",
+									 (const gchar **) recent_array,
+                        			 a_conf->nb_derniers_fichiers_ouverts);
+	}
+	g_key_file_set_integer (config,
+							"File",
+							"nb-max-derniers-fichiers-ouverts",
+							a_conf->nb_max_derniers_fichiers_ouverts);
+	g_key_file_set_boolean (config,
+						   "File",
+						   "sauvegarde-auto",
+                           a_conf->sauvegarde_auto);
+
+    /* settings_form */
+    g_key_file_set_boolean (config,
+							"Form",
+                        	"affichage-exercice-automatique",
+                        	a_conf->affichage_exercice_automatique);
+    g_key_file_set_boolean (config,
+							"Form",
+							"automatic-completion-payee",
+							a_conf->automatic_completion_payee);
+	g_key_file_set_boolean (config,
+							"Form",
+							"automatic-erase-credit-debit",
+							a_conf->automatic_erase_credit_debit);
+	g_key_file_set_boolean (config,
+							"Form",
+							"automatic-recover-splits",
+							a_conf->automatic_recover_splits);
+
+    g_key_file_set_integer (config,
+							"Form",
+							"completion-minimum-key-length",
+							a_conf->completion_minimum_key_length);
+	g_key_file_set_boolean (config,
+							"Form",
+							"form-enter-key", a_conf->form_enter_key);
+	g_key_file_set_boolean (config,
+							"Form",
+							"form-validate-split",
+							a_conf->form_validate_split);
+    g_key_file_set_integer (config,
+							"Form",
+							"fyear-combobox-sort-order",
+							a_conf->fyear_combobox_sort_order);
+	g_key_file_set_boolean (config,
+							"Form",
+							"limit-completion-current-account",
+    						a_conf->limit_completion_to_current_account);
+
+    /* settings_general */
+    if (a_conf->browser_command)
+        g_key_file_set_string (config,
+							   "General",
+							   "browser-command",
+							   a_conf->browser_command);
+    g_key_file_set_string (config,
+						   "General",
+						   "current-theme",
+						   a_conf->current_theme);
+
+    g_key_file_set_boolean (config,
+							"General",
+                        	"custom-fonte-listes",
+                        	a_conf->custom_fonte_listes );
+    if (a_conf->font_string)
+        g_key_file_set_string (config,
+							   "General",
+                        	   "font-string",
+                        	   a_conf->font_string);
+    g_key_file_set_integer (config,
+						   	"General",
+							"force-type-theme",
+							a_conf->force_type_theme);
+	if (a_conf->language_chosen)
+		g_key_file_set_string (config,
+							   "General",
+							   "language-chosen",
+							   a_conf->language_chosen);
+	g_key_file_set_string (config,
+						   "General",
+						   "last-path",
+						   gsb_file_get_last_path());
+
+	switch (a_conf->metatree_action_2button_press)
+    {
+        case 1:
+            tmp_str = "Edit Category";
+            break;
+        case 2:
+            tmp_str = "Manage division";
+            break;
+        default:
+            tmp_str = "gtk default";
+    }
+	g_key_file_set_string (config,
+						   "General",
+                           "metatree-action-button-press",
+                           tmp_str);
+    g_key_file_set_boolean (config,
+						   	"General",
+							"pluriel-final",
+							a_conf->pluriel_final);
+    g_key_file_set_boolean (config,
+						    "General",
+                            "show-transaction-gives-balance",
+                            a_conf->show_transaction_gives_balance);
+	g_key_file_set_boolean (config,
+							 "General",
+							 "show-transaction-selected-in-form",
+							 a_conf->show_transaction_selected_in_form);
+
+	switch (a_conf->transactions_list_primary_sorting)
+    {
+        case 0:
+            tmp_str = "Sort by value date";
+            break;
+        case 2:
+            tmp_str = "Forced sort by date";
+            break;
+        default:
+            tmp_str = "default";
+	}
+    g_key_file_set_string (config,
+						   "General",
+						   "transactions-list-primary-sorting",
+						   tmp_str);
+
+	switch (a_conf->transactions_list_secondary_sorting)
+    {
+        case 0:
+            tmp_str = "Sort by transaction number";
+            break;
+        case 1:
+            tmp_str = "Sort by type of amount";
+            break;
+        case 2:
+            tmp_str = "Sort by payee name";
+            break;
+        default:
+            tmp_str = "default";
+	}
+    g_key_file_set_string (config,
+						   "General",
+						   "transactions-list-secondary-sorting",
+						   tmp_str);
+
+    /* settings_geometry */
+    g_key_file_set_boolean (config,
+							"Geometry",
+							"low-definition-screen",
+							a_conf->low_definition_screen);
+	g_key_file_set_boolean (config,
+							"Geometry",
+							"fullscreen",
+                        	a_conf->full_screen);
+    g_key_file_set_integer (config,
+							"Geometry",
+                        	"main-height",
+                        	a_conf->main_height);
+    g_key_file_set_integer (config,
+							"Geometry",
+                        	"main-width",
+                        	a_conf->main_width);
+    g_key_file_set_boolean (config,
+							"Geometry",
+                        	"maximized",
+                        	a_conf->maximize_screen);
+    g_key_file_set_integer (config,
+							"Geometry",
+                        	"x-position",
+                        	a_conf->x_position);
+    g_key_file_set_integer (config,
+							"Geometry",
+                        	"y-position",
+                        	a_conf->y_position);
+
+    /* settings_messages_delete */
+	warning = (ConditionalMsg*) dialogue_get_tab_delete_msg ();
+    for (i = 0; (warning+i)->name; i ++)
+    {
+        g_key_file_set_boolean (config,
+								"Delete_msg",
+                        		(warning+i)->name,
+                        		!(warning+i)->hidden);
+    }
+
+    /* settings_messages_tips */
+    g_key_file_set_integer (config,
+							"Tips",
+                        	"last-tip",
+                        	a_conf->last_tip);
+    g_key_file_set_boolean (config,
+							"Tips",
+                        	"show-tip",
+                        	a_conf->show_tip);
+
+    /* settings_messages_warnings */
+	warning = (ConditionalMsg*) dialogue_get_tab_warning_msg ();
+    for (i = 0; (warning+i)->name; i ++)
+    {
+        g_key_file_set_boolean (config,
+								"Warnings_msg",
+                        		(warning+i)->name,
+                        		!(warning+i)->hidden);
+    }
+
+    /* settings_panel */
+    g_key_file_set_boolean (config,
+							"Panel",
+							"active-scrolling-left-pane",
+							a_conf->active_scrolling_left_pane);
+    g_key_file_set_integer (config,
+							"Panel",
+                        	"panel-width",
+                        	a_conf->panel_width);
+
+	/* settings_prefs */
+    g_key_file_set_boolean (config,
+							"Prefs",
+							"prefs-archives-sort-order",
+							a_conf->prefs_archives_sort_order);
+   g_key_file_set_boolean (config,
+						   "Prefs",
+						   "prefs-fyear-sort-order",
+						   a_conf->prefs_fyear_sort_order);
+    g_key_file_set_integer (config,
+							"Prefs",
+                        	"prefs-height",
+                        	a_conf->prefs_height);
+
+    g_key_file_set_integer (config,
+							"Prefs",
+                        	"prefs-panel-width",
+                        	a_conf->prefs_panel_width);
+
+    g_key_file_set_integer (config,
+							"Prefs",
+                        	"prefs-width",
+                        	a_conf->prefs_width);
+
+	/* settings_scheduled */
+    g_key_file_set_boolean (config,
+							"Scheduled",
+							"balances-with-scheduled",
+							a_conf->balances_with_scheduled);
+    g_key_file_set_boolean (config,
+							"Scheduled",
+                        	"execute-scheduled-of-month",
+                        	a_conf->execute_scheduled_of_month);
+    g_key_file_set_integer  (config,
+							"Scheduled",
+                        	"nb-days-before-scheduled",
+                        	a_conf->nb_days_before_scheduled);
+    g_key_file_set_integer (config,
+							"Scheduled",
+							"scheduler-fixed-day",
+							a_conf->scheduler_fixed_day);
+    g_key_file_set_boolean (config,
+							"Scheduled",
+							"scheduler-set-fixed-day",
+							a_conf->scheduler_set_fixed_day);
+
+    /* save into a file */
+    file_content = g_key_file_to_data (config, &length, NULL);
+
+    conf_file = fopen (filename, "w");
+
+    #ifndef _WIN32
+    if (!conf_file)
+    {
+        utils_files_create_XDG_dir ();
+        conf_file = fopen (filename, "w");
+    }
+    #endif
+
+    if (!conf_file || !fwrite (file_content, sizeof (gchar), length, conf_file))
+    {
+		gchar* msg;
+
+        msg = g_strdup_printf (_("Cannot save configuration file '%s': %s"),
+								  filename,
+								  g_strerror (errno));
+        dialogue_error (tmp_str);
+        g_free (msg);
+        g_free (file_content);
+        g_key_file_free (config);
+		if (conf_file)
+			fclose (conf_file);
+
+		return;
+    }
+
+    fclose (conf_file);
+    g_free (file_content);
+    g_key_file_free (config);
+
+    return;
 }
 
 #endif /* NOT USE_CONFIG_FILE */

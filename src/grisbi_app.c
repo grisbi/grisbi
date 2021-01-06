@@ -1316,6 +1316,7 @@ static void grisbi_app_shutdown (GApplication *application)
 	grisbi_conf_save_app_config ();
 #else
 	grisbi_settings_save_app_config ();
+	grisbi_settings_save_in_config_file ();
 #endif
 
 	/* libération de mémoire utilisée par gsb_dirs*/
