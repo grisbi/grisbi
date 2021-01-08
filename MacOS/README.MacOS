@@ -20,7 +20,11 @@ Then use the following command lines:
 % # Build prerequiste tools
 % jhbuild bootstrap-gtk-osx
 
-% jhbuild build meson
+% # install meson tool
+% pip3 install meson --user
+
+% # install ninja tool
+% https://ninja-build.org/
 
 % # install GTK3 env
 % jhbuild build meta-gtk-osx-gtk3
@@ -50,6 +54,7 @@ modulesets_dir = "PATH_TO_grisbi/contrib/jhbuild/modulesets/"
 % # install OpenSSL
 % jhbuild build openssl
 
+% # install gtk-mac-bundler
 Download gtk-mac-bundler from https://wiki.gnome.org/Projects/GTK+/OSX/Bundling
 Use the git version. Version 0.7.4 failed for me.
 
