@@ -14,15 +14,16 @@ OPTIONS=""
 OPTIONS+=" --with-openssl"
 OPTIONS+=" --with-ofx"
 OPTIONS+=" --with-libxml2"
+OPTIONS+=" --with-goffice"
 
 # plateform specific options
 case $(uname) in
 	Darwin)
-		OPTIONS+=" --without-goffice"
+		# OPTIONS+=" --without-goffice"
 		;;
 
 	Linux)
-		OPTIONS+=" --with-goffice"
+		# OPTIONS+=" --with-goffice"
 		;;
 esac
 
