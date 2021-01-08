@@ -182,7 +182,7 @@ int main (int argc, char **argv)
 #endif
 */
 
-#if __APPLE__
+#ifdef __APPLE__
     char const *program_dir = get_program_dir();
     printf("program_dir = %s\n", program_dir);
     if (g_str_has_suffix(program_dir, "Contents/MacOS")) {
