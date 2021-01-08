@@ -7,7 +7,7 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkBox" id="hbox_divers_scheduler_nb_days_before_scheduled">
+  <object class="GtkBox" id="hbox_launch_scheduler_nb_days_before_scheduled">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="valign">start</property>
@@ -315,7 +315,7 @@
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkBox" id="divers_scheduler_paddingbox">
+                  <object class="GtkBox" id="launch_scheduler_paddingbox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_bottom">5</property>
@@ -326,11 +326,12 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkLabel" id="title_divers_scheduler">
+                          <object class="GtkLabel" id="title_launch_scheduler">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Options</property>
+                            <property name="label" translatable="yes">Options for launching scheduled operations
+</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -358,7 +359,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="vbox_divers_scheduler">
+                              <object class="GtkBox" id="vbox_launch_scheduler">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="orientation">vertical</property>
@@ -367,12 +368,12 @@
                                   <placeholder/>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="vbox_divers_scheduler_set_fixed_day">
+                                  <object class="GtkBox" id="vbox_launch_scheduler_set_fixed_day">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="orientation">vertical</property>
                                     <child>
-                                      <object class="GtkBox" id="hbox_divers_scheduler_set_fixed_day">
+                                      <object class="GtkBox" id="hbox_launch_scheduler_set_fixed_day">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">1</property>
@@ -437,7 +438,8 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLabel" id="label_divers_scheduler_set_fixed_day">
+                                      <object class="GtkLabel" id="label_launch_scheduler_set_fixed_day">
+                                        <property name="name">label_gsetting_option</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="halign">start</property>
@@ -459,7 +461,7 @@ They will start on the chosen day)</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="hbox_divers_scheduler_set_fixed_date">
+                                  <object class="GtkBox" id="hbox_launch_scheduler_set_fixed_date">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
@@ -492,34 +494,12 @@ They will start on the chosen day)</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="hbox_divers_scheduler_set_default_account">
+                                  <object class="GtkLabel" id="label24">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <child>
-                                      <object class="GtkCheckButton" id="checkbutton_scheduler_set_default_account">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="halign">start</property>
-                                        <property name="draw_indicator">True</property>
-                                        <child>
-                                          <object class="GtkLabel" id="label24">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Use a default account for sheduler form: </property>
-                                            <property name="wrap">True</property>
-                                          </object>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">(This option sets the day of launching the operation if it exists. For example every 29th of the month except leap years)</property>
+                                    <property name="wrap">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -557,10 +537,120 @@ They will start on the chosen day)</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="others_scheduler_paddingbox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkBox" id="vbox_paddingbox80">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkLabel" id="title_others_scheduler">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Others options</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="box81">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkLabel" id="label81">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label">    </property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="box82">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">5</property>
+                                <child>
+                                  <object class="GtkBox" id="hbox_launch_scheduler_set_default_account">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkCheckButton" id="checkbutton_scheduler_set_default_account">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="draw_indicator">True</property>
+                                        <child>
+                                          <object class="GtkLabel" id="label82">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">Use a default account for sheduler form: </property>
+                                            <property name="wrap">True</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="padding">5</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
