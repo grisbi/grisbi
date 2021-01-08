@@ -359,7 +359,16 @@ gchar *gsb_real_raw_format_string (GsbReal number,
     cs_end_space = (currency_symbol && !locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
     cs_end = (currency_symbol && !locale->p_cs_precedes) ? currency_symbol : "";
 
-	denominateur = gsb_real_get_power_10 (number.exponent);
+	/* on retourne 0.00 avec mon_decimal_point */
+	if (number.mantissa == 0)
+	{
+		if (mon_decimal_point && strlen (mon_decimal_point) == 0)
+        	return g_strdup ("0.00");
+		else
+			return g_strconcat ("0",mon_decimal_point, "00", NULL);
+	}
+
+denominateur = gsb_real_get_power_10 (number.exponent);
 	units = lldiv (llabs (number.mantissa), denominateur);
 
     nbre_char = g_sprintf (buffer, "%.0f", (gdouble) units.quot);
