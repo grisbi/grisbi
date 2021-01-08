@@ -17,8 +17,9 @@ bundle:
 	rm -f $(srcdir)/MacOS/Grisbi-$(GRISBI_MAJOR_VERSION).$(GRISBI_MINOR_VERSION).$(GRISBI_MICRO_VERSION).dmg
 	sed -i.old -e "s/VERSION/$(GRISBI_MAJOR_VERSION).$(GRISBI_MINOR_VERSION).$(GRISBI_MICRO_VERSION)/" MacOS/Info.plist
 	sed -i.old -e "s/VERSION/$(GRISBI_MAJOR_VERSION).$(GRISBI_MINOR_VERSION).$(GRISBI_MICRO_VERSION)/" MacOS/Grisbi\ Launcher/Grisbi\ Launcher/Info.plist
-	env GRIBSI_BUNDLE_PATH=$(srcdir) gtk-mac-bundler $(srcdir)/MacOS/Grisbi.bundle
+	rm -rf MacOS/dist
 	$(srcdir)/MacOS/manual_add.sh
+	env GRIBSI_BUNDLE_PATH=$(srcdir) gtk-mac-bundler $(srcdir)/MacOS/Grisbi.bundle
 	$(srcdir)/MacOS/create-launcher.sh
 	$(srcdir)/MacOS/create-dmg.sh --volname Grisbi --volicon $(srcdir)/MacOS/Grisbi.icns --window-size 640 400 --background $(srcdir)/MacOS/background.png --icon-size 96 --app-drop-link 500 250 --icon "Grisbi.app" 150 250  $(srcdir)/MacOS/Grisbi-$(GRISBI_MAJOR_VERSION).$(GRISBI_MINOR_VERSION).$(GRISBI_MICRO_VERSION).dmg $(srcdir)/MacOS/dist.new
 	mv MacOS/Info.plist.old MacOS/Info.plist
