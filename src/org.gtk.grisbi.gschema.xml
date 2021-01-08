@@ -539,6 +539,13 @@
 				La date effective dépend du nombre de jours avant lancement.
 			</description>
 		</key>
+		<key name="last-selected-scheduler" type="b">
+			<default>true</default>
+			<summary>if TRUE select the last scheduler transaction</summary>
+			<description>
+				TRUE = select the last scheduler transaction, FALSE = select the first scheduler transaction.
+			</description>
+		</key>
 		<key name="nb-days-before-scheduled" type="i">
 			<default>0</default>
 			<summary>Number of days before scheduled operations start</summary>

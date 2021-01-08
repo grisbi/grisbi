@@ -429,6 +429,7 @@ static void grisbi_settings_init_settings_scheduled (GSettings *settings,
 {
     a_conf->balances_with_scheduled = g_settings_get_boolean (settings, "balances-with-scheduled");
     a_conf->execute_scheduled_of_month = g_settings_get_boolean (settings, "execute-scheduled-of-month");
+	a_conf->last_selected_scheduler = g_settings_get_boolean (settings, "last-selected-scheduler");
     a_conf->nb_days_before_scheduled = g_settings_get_int (settings, "nb-days-before-scheduled");
     a_conf->scheduler_set_fixed_day = g_settings_get_boolean (settings, "scheduler-set-fixed-day");
     a_conf->scheduler_fixed_day = g_settings_get_int (settings, "scheduler-fixed-day");
@@ -983,6 +984,11 @@ static void grisbi_settings_save_settings_scheduled (GSettings *settings,
 		g_settings_set_boolean (settings, "execute-scheduled-of-month", TRUE);
 	else
 		g_settings_reset (G_SETTINGS (settings), "execute-scheduled-of-month");
+
+	if (a_conf->last_selected_scheduler)
+		g_settings_reset (G_SETTINGS (settings), "last-selected-scheduler");
+	else
+		g_settings_set_boolean (settings, "last-selected-scheduler", FALSE);
 
 	if (a_conf->nb_days_before_scheduled)
 		g_settings_set_int (settings, "nb-days-before-scheduled", TRUE);
@@ -1599,6 +1605,10 @@ void grisbi_settings_save_in_config_file (void)
 							"Scheduled",
                         	"execute-scheduled-of-month",
                         	a_conf->execute_scheduled_of_month);
+    g_key_file_set_boolean (config,
+							"Scheduled",
+							"last-selected-scheduler",
+							a_conf->last_selected_scheduler);
     g_key_file_set_integer  (config,
 							"Scheduled",
                         	"nb-days-before-scheduled",

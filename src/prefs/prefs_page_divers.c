@@ -80,6 +80,8 @@ struct _PrefsPageDiversPrivate
 	GtkWidget *			hbox_launch_scheduler_nb_days_before_scheduled;
 	GtkWidget *         hbox_launch_scheduler_set_fixed_date;
 	GtkWidget *         hbox_launch_scheduler_set_fixed_day;
+	GtkWidget *			radiobutton_first_selected_scheduler;
+	GtkWidget *			radiobutton_last_selected_scheduler;
     GtkWidget *         spinbutton_nb_days_before_scheduled;
 	GtkWidget *         spinbutton_scheduler_fixed_day;
 
@@ -749,6 +751,8 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_scheduler_fixed_day);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_launch_scheduler_nb_days_before_scheduled);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_nb_days_before_scheduled);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_first_selected_scheduler);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_last_selected_scheduler);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_choose_date_format);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, combo_choose_language);

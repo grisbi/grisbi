@@ -3126,10 +3126,14 @@ gchar *gsb_scheduler_list_get_largeur_col_treeview_to_string (void)
  **/
 void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
 {
+	GrisbiAppConf *a_conf;
+
+	a_conf = grisbi_app_get_a_conf ();
 	gsb_scheduler_list_fill_list (tree_view);
 	gsb_scheduler_list_set_background_color (tree_view);
 
-	gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
+	if (a_conf->last_selected_scheduler)
+		gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
 }
 
 /**
