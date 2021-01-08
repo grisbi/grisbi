@@ -180,8 +180,10 @@ done
 ( cd $DEST/share/icons/Adwaita/scalable/places ; ln -sf ../ui/* . )
 
 #
+mkdir -p $DEST/share/pixmaps/grisbi
 ( cd $DEST/share/pixmaps/grisbi ; ln -sf gtk-execute-24.png gtk-execute.png )
 
 # patch Grisbi CSS for the dark mode
 DARK='@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");'
+mkdir -p $DEST/share/grisbi/ui
 echo $DARK >> $DEST/share/grisbi/ui/grisbi-dark.css
