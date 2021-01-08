@@ -31,9 +31,9 @@
          application sets up everything needed itself, like
          environment variable, linker paths, etc, a launcher script is
          not needed. If the source path is left out, the default
+       
          script will be used.
     -->
-    <launcher-script>${project}/Grisbi.sh</launcher-script >
 
     <!-- Not implemented: Optional runtime, could be python or mono
          for example.
