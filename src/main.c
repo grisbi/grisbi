@@ -26,6 +26,7 @@
 
 
 #ifdef HAVE_CONFIG_H
+
 #include "config.h"
 #endif
 
@@ -35,6 +36,7 @@
 
 #ifdef HAVE_GOFFICE
 #include <goffice/goffice.h>
+#include <libgen.h>
 #endif /* HAVE_GOFFICE */
 
 #ifdef G_OS_WIN32
@@ -90,7 +92,12 @@ int main (int argc, char **argv)
     /* initialisation libgoffice */
     libgoffice_init ();
     /* Initialize plugins manager */
-    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+
+    char *local_plugins_dir = dirname(argv[0]);
+    strcat(local_plugins_dir, "/../Resources/lib/goffice/0.10.49/plugins/");
+    GSList *plugins_dirs = g_slist_prepend(NULL, strdup(local_plugins_dir));
+    go_plugins_init (NULL, NULL, NULL, plugins_dirs, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+    //g_slist_free(plugins_dirs);
 #endif /* HAVE_GOFFICE */
 
     app = g_object_new (GRISBI_APP_TYPE,
