@@ -69,6 +69,35 @@
     ${prefix}/lib/gdk-pixbuf-2.0/${pkg:gdk-pixbuf-2.0:gdk_pixbuf_binary_version}/loaders/*.so
   </binary>
 
+  <!-- goffice display plugins -->
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/plot_barcol/barcol.so
+  </binary>
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/plot_distrib/distrib.so
+  </binary>
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/plot_pie/pie.so
+  </binary>
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/plot_radar/radar.so
+  </binary>
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/plot_surface/surface.so
+  </binary>
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/plot_xy/xy.so
+  </binary>
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/reg_linear/linreg.so
+  </binary>
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/reg_logfit/logfit.so
+  </binary>
+  <binary>
+    ${prefix}/lib/goffice/0.10.49/plugins/smoothing/smoothing.so
+  </binary>
+
   <translations name="gtk30">
     ${prefix}/share/locale
   </translations>
