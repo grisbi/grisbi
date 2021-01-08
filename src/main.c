@@ -100,7 +100,6 @@ int main (int argc, char **argv)
     strcat(local_plugins_dir, "/../Resources/lib/goffice/0.10.49/plugins/");
     GSList *plugins_dirs = g_slist_prepend(NULL, strdup(local_plugins_dir));
     go_plugins_init (NULL, NULL, NULL, plugins_dirs, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-   //g_slist_free(plugins_dirs);
 #else
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif
@@ -121,6 +120,9 @@ int main (int argc, char **argv)
 #ifdef HAVE_GOFFICE
     /* liberation libgoffice */
     libgoffice_shutdown ();
+#ifdef OS_OSX
+    g_slist_free(plugins_dirs);
+#endif
 #endif /* HAVE_GOFFICE */
 
     return status;
