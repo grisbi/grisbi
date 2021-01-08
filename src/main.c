@@ -96,7 +96,7 @@ int main (int argc, char **argv)
 
 #ifdef OS_OSX
     char *local_plugins_dir = dirname(argv[0]);
-    strcat(local_plugins_dir, "/../Resources/lib/goffice/0.10.49/plugins/");
+    strcat(local_plugins_dir, "/../Resources/lib/goffice/" GOFFICE_VERSION "/plugins/");
     GSList *plugins_dirs = g_slist_prepend(NULL, strdup(local_plugins_dir));
     go_plugins_init (NULL, NULL, NULL, plugins_dirs, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #else
