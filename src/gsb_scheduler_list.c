@@ -1316,7 +1316,7 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
 	if (gsb_gui_navigation_get_current_page () != GSB_SCHEDULER_PAGE)
 		return;
 
-    if (allocation->width == scheduler_current_tree_view_width)
+	if (allocation->width == scheduler_current_tree_view_width)
     {
         /* size of the tree view didn't change, but we received an allocated signal
          * it happens several times, and especially when we change the columns,
@@ -1330,8 +1330,11 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
         for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS; i++)
         {
             if (gtk_tree_view_column_get_width (scheduler_list_column[i]))
-                scheduler_col_width[i] = (gtk_tree_view_column_get_width
-										  (scheduler_list_column[i]) * 100) / allocation->width + 1;
+			{
+				if (gtk_tree_view_column_get_visible (scheduler_list_column[i]))
+					scheduler_col_width[i] = (gtk_tree_view_column_get_width
+											  (scheduler_list_column[i]) * 100) / allocation->width + 1;
+			}
         }
 
         return;
