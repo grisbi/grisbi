@@ -35,10 +35,11 @@
 
 #ifdef HAVE_GOFFICE
 #include <goffice/goffice.h>
+#endif /* HAVE_GOFFICE */
+
 #ifdef __APPLE__
 #   include <mach-o/dyld.h> // for _NSGetExecutablePath
 #endif
-#endif /* HAVE_GOFFICE */
 
 #ifdef G_OS_WIN32
 #include <stdio.h>
@@ -81,7 +82,6 @@ static char const *get_program_dir()
 }
 
 
-
 static gchar *get_bundle_prefix(void) {
     char const *program_dir = get_program_dir();
 
@@ -94,7 +94,7 @@ static gchar *get_bundle_prefix(void) {
 }
 
 static void my_setenv(gchar *key, gchar *value) {
-    printf("SET %s = %s\n", key, value);
+    //printf("SET %s = %s\n", key, value);
     g_setenv(key, value, TRUE);
 }
 
@@ -106,11 +106,10 @@ static void set_macos_app_bundle_env(gchar const *program_dir)
 
     gchar *bundle_resources_dir       = get_bundle_prefix();
     gchar *bundle_resources_etc_dir   = g_build_filename(bundle_resources_dir, "etc", NULL);
-    //gchar *bundle_resources_bin_dir   = g_build_filename(bundle_resources_dir, "bin", NULL);
+    gchar *bundle_resources_bin_dir   = g_build_filename(bundle_resources_dir, "bin", NULL);
     gchar *bundle_resources_lib_dir   = g_build_filename(bundle_resources_dir, "lib", NULL);
     gchar *bundle_resources_share_dir = g_build_filename(bundle_resources_dir, "share", NULL);
 
-    printf("PREFIX=%s\n", bundle_resources_dir);
     // failsafe: Check if the expected content is really there, using GIO modules
     // as an indicator.
     // This is also helpful to developers as it enables the possibility to
@@ -149,13 +148,12 @@ static void set_macos_app_bundle_env(gchar const *program_dir)
     my_setenv("GI_TYPELIB_PATH", g_build_filename(bundle_resources_lib_dir, "girepository-1.0", NULL));
 
     // PATH
-    //g_setenv("PATH", bundle_resources_bin_dir + ":" + Glib::getenv("PATH"));
+    my_setenv("PATH", g_build_path(":", bundle_resources_bin_dir, g_getenv("PATH"), NULL));
 
     // DYLD_LIBRARY_PATH
     // This is required to make Python GTK bindings work as they use dlopen()
     // to load libraries.
-    //g_setenv("DYLD_LIBRARY_PATH", bundle_resources_lib_dir + ":"
-    //        + bundle_resources_lib_dir + "/gdk-pixbuf-2.0/2.10.0/loaders");
+    my_setenv("DYLD_LIBRARY_PATH", g_build_path(":", bundle_resources_lib_dir, NULL));
 }
 #endif
 
