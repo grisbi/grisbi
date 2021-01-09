@@ -62,10 +62,11 @@
 
 #ifdef __APPLE__
 static char const *get_program_name(void) {
-    gchar *program_name;
+    gchar *program_name="undefined";
 
     char pathbuf[PATH_MAX + 1];
     uint32_t bufsize = sizeof(pathbuf);
+
     if (_NSGetExecutablePath(pathbuf, &bufsize) == 0) {
         program_name = realpath(pathbuf, NULL);
     } else {
@@ -106,7 +107,7 @@ static void set_macos_app_bundle_env(gchar const *program_dir)
 
     gchar *bundle_resources_dir       = get_bundle_prefix();
     gchar *bundle_resources_etc_dir   = g_build_filename(bundle_resources_dir, "etc", NULL);
-    gchar *bundle_resources_bin_dir   = g_build_filename(bundle_resources_dir, "bin", NULL);
+    //gchar *bundle_resources_bin_dir   = g_build_filename(bundle_resources_dir, "bin", NULL);
     gchar *bundle_resources_lib_dir   = g_build_filename(bundle_resources_dir, "lib", NULL);
     gchar *bundle_resources_share_dir = g_build_filename(bundle_resources_dir, "share", NULL);
 
