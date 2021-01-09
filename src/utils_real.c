@@ -110,12 +110,23 @@ gchar *utils_real_get_string_with_currency ( GsbReal number,
     /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
     if (number.mantissa == 0)
     {
+		gchar *zero_str;
+		gchar *str_to_free;
+		gchar *tmp_str;
+
+		str_to_free = gsb_locale_get_mon_decimal_point ();
+		zero_str = g_strconcat ("0", str_to_free, "00", NULL);
+		g_free (str_to_free);
+
         if (currency_symbol && locale -> p_cs_precedes)
-            return g_strdup_printf ( "%s %s", currency_symbol, "0" );
+            tmp_str = g_strdup_printf ( "%s %s", currency_symbol, zero_str);
         else if (currency_symbol && ! locale -> p_cs_precedes)
-            return g_strdup_printf ( "%s %s", "0", currency_symbol );
+            tmp_str = g_strdup_printf ( "%s %s", zero_str, currency_symbol );
         else
-            return g_strdup ("0");
+            tmp_str = g_strdup (zero_str);
+		g_free (zero_str);
+
+		return tmp_str;
     }
     else if ( (number.exponent < 0)
     || (number.exponent > EXPONENT_MAX )
