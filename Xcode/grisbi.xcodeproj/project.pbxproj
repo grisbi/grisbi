@@ -70,7 +70,6 @@
 		006E684C1DB3E7AD0038B1F0 /* go-charmap-sel.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67411DB3E7AC0038B1F0 /* go-charmap-sel.c */; };
 		006E684D1DB3E7AD0038B1F0 /* go-optionmenu.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67431DB3E7AC0038B1F0 /* go-optionmenu.c */; };
 		006E684E1DB3E7AD0038B1F0 /* grisbi_app.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67451DB3E7AC0038B1F0 /* grisbi_app.c */; };
-		006E684F1DB3E7AD0038B1F0 /* grisbi_osx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67481DB3E7AC0038B1F0 /* grisbi_osx.c */; };
 		006E68501DB3E7AD0038B1F0 /* grisbi_settings.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E674A1DB3E7AC0038B1F0 /* grisbi_settings.c */; };
 		006E68511DB3E7AD0038B1F0 /* grisbi_win.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E674C1DB3E7AC0038B1F0 /* grisbi_win.c */; };
 		006E68521DB3E7AD0038B1F0 /* gsb_account_property.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67511DB3E7AC0038B1F0 /* gsb_account_property.c */; };
@@ -358,8 +357,6 @@
 		006E67441DB3E7AC0038B1F0 /* go-optionmenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "go-optionmenu.h"; sourceTree = "<group>"; };
 		006E67451DB3E7AC0038B1F0 /* grisbi_app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_app.c; sourceTree = "<group>"; };
 		006E67471DB3E7AC0038B1F0 /* grisbi_app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_app.h; sourceTree = "<group>"; };
-		006E67481DB3E7AC0038B1F0 /* grisbi_osx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_osx.c; sourceTree = "<group>"; };
-		006E67491DB3E7AC0038B1F0 /* grisbi_osx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_osx.h; sourceTree = "<group>"; };
 		006E674A1DB3E7AC0038B1F0 /* grisbi_settings.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_settings.c; sourceTree = "<group>"; };
 		006E674B1DB3E7AC0038B1F0 /* grisbi_settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_settings.h; sourceTree = "<group>"; };
 		006E674C1DB3E7AC0038B1F0 /* grisbi_win.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_win.c; sourceTree = "<group>"; };
@@ -942,8 +939,6 @@
 				006E67471DB3E7AC0038B1F0 /* grisbi_app.h */,
 				004BCAB0243DC5F8002999B6 /* grisbi_conf.c */,
 				004BCAAF243DC5F8002999B6 /* grisbi_conf.h */,
-				006E67481DB3E7AC0038B1F0 /* grisbi_osx.c */,
-				006E67491DB3E7AC0038B1F0 /* grisbi_osx.h */,
 				003AC2241F49DFE1007DA275 /* grisbi_prefs.c */,
 				003AC2261F49E00B007DA275 /* grisbi_prefs.h */,
 				00EA61011F915CBA00569C19 /* grisbi_resources.c */,
@@ -1397,7 +1392,6 @@
 				00B77C441DB2A17600A5D233 /* main.c in Sources */,
 				00C17BA1246DD16C00D9E257 /* prefs_page_payment_method.c in Sources */,
 				006E68781DB3E7AD0038B1F0 /* gsb_data_report_amout_comparison.c in Sources */,
-				006E684F1DB3E7AD0038B1F0 /* grisbi_osx.c in Sources */,
 				006E683A1DB3E7AD0038B1F0 /* csv_parse.c in Sources */,
 				006E68631DB3E7AD0038B1F0 /* gsb_combo_box.c in Sources */,
 				006E68321DB3E7AD0038B1F0 /* bet_data.c in Sources */,

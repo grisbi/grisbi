@@ -44,10 +44,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-#ifdef GTKOSXAPPLICATION
-#include "grisbi_osx.h"
-#endif  /* GTKOSXAPPLICATION */
-
 /*START_STATIC*/
 /*END_STATIC*/
 

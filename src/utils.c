@@ -42,10 +42,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-#ifdef GTKOSXAPPLICATION
-#include "grisbi_osx.h"
-#endif  /* GTKOSXAPPLICATION */
-
 #ifdef G_OS_WIN32
 #include <windows.h>
 #endif  /* G_OS_WIN32 */
