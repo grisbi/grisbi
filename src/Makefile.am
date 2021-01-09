@@ -75,7 +75,6 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate.c	\
 	file_obfuscate_qif.c	\
 	grisbi_app.c		\
-	grisbi_osx.c \
 	grisbi_prefs.c \
 	grisbi_win.c		\
 	gsb_account.c		\
@@ -209,7 +208,6 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate.h	\
 	file_obfuscate_qif.h	\
 	grisbi_app.h		\
-	grisbi_osx.h \
 	grisbi_prefs.h \
 	grisbi_win.h		\
 	gsb_account.h		\
