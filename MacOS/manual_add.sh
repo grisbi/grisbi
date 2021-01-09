@@ -7,7 +7,6 @@ set -e
 DEST=MacOS/dist/Grisbi.app/Contents/Resources
 
 EXTRA_FILES="
-lib/goffice/
 share/libofx/dtd/
 share/icons/Adwaita/16x16/actions/go-down-symbolic.symbolic.png
 share/icons/Adwaita/16x16/actions/go-up-symbolic.symbolic.png
