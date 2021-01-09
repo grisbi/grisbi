@@ -368,7 +368,7 @@ gchar *gsb_real_raw_format_string (GsbReal number,
 			return g_strconcat ("0",mon_decimal_point, "00", NULL);
 	}
 
-denominateur = gsb_real_get_power_10 (number.exponent);
+	denominateur = gsb_real_get_power_10 (number.exponent);
 	units = lldiv (llabs (number.mantissa), denominateur);
 
     nbre_char = g_sprintf (buffer, "%.0f", (gdouble) units.quot);
