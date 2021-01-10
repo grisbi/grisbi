@@ -508,6 +508,16 @@ void debug_message_ptr ( const gchar *prefixe,
 }
 
 /**
+* Enable logs and send them to a file
+* Can be used when grisbi is NOT started from a terminal
+* */
+void debug_start_log_file(void)
+{
+    debug_file = utils_files_utf8_fopen ( "/tmp/grisbi_log.txt", "w" );
+	debug_mode = TRUE;
+}
+
+/**
  * called by menu : begin the debug mode
  * show a message to say where the log will be saved
  *

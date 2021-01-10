@@ -65,5 +65,6 @@ void 		debug_initialize_debugging 		(gint level);
 void 		debug_set_cmd_line_debug_level 	(gint debug_level);
 void 		debug_set_cmd_line_mode 		(gint level);
 void 		debug_traitement_sigsegv 		(gint signal_nb) __attribute__ ((noreturn));
+void		debug_start_log_file(void);
 /* END_DECLARATION */
 #endif
