@@ -373,6 +373,7 @@ struct _GrisbiWinRun
 
 	/* prefs */
 	guint		prefs_css_rules_tab;						/* mémorise l'onglet css rules sélectionné */
+	guint		prefs_divers_tab;							/* memorise l'onglet du notebook divers options */
 	gboolean	prefs_expand_tree;							/* memorise le choix du bouton expand collapse du treeview des preferences */
 	guint		prefs_import_tab;							/* mémorise l'onglet import sélectionné */
 	gchar *		prefs_selected_row;							/* memorise l'onglet selectionné du treeview des preferences */

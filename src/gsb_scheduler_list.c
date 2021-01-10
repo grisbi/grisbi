@@ -67,8 +67,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-//~ static void popup_scheduled_context_menu (void);
-
 /*START_GLOBAL*/
 /* lists of number of scheduled transactions taken or to be taken */
 GSList *scheduled_transactions_to_take;
@@ -3136,7 +3134,18 @@ void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
 	gsb_scheduler_list_set_background_color (tree_view);
 
 	if (a_conf->last_selected_scheduler)
+	{
 		gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
+	}
+	else
+	{
+		GtkTreeSelection *selection;
+		GtkTreePath *path;
+
+		path = gtk_tree_path_new_first ();
+		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+		gtk_tree_selection_select_path (selection, path);
+	}
 }
 
 /**

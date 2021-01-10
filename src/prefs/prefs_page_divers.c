@@ -70,6 +70,7 @@ struct _PrefsPageDiversPrivate
 	GtkWidget *			button_reset_prefs_window;
 	GtkWidget *			entry_web_browser;
 	GtkWidget *			label_prefs_settings;
+	GtkWidget *			notebook_divers;
 
 	/* scheduler */
 	GtkWidget *         vbox_launch_scheduler;
@@ -539,6 +540,30 @@ static gint prefs_page_divers_choose_language_list_new (GtkWidget *combo,
 }
 
 /**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean prefs_page_divers_radiobutton_first_last_press_event (GtkWidget *button,
+																	  GdkEvent  *event,
+																	  GrisbiAppConf *a_conf)
+{
+	devel_debug (NULL);
+	gint button_number;
+
+	button_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "pointer"));
+	if (button_number == 1)
+		a_conf->last_selected_scheduler = FALSE;
+	else
+		a_conf->last_selected_scheduler = TRUE;
+
+	return FALSE;
+}
+/**
  * Création de la page de gestion des divers
  *
  * \param prefs
@@ -654,6 +679,9 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 	/* select first or last scheduler transaction */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_last_selected_scheduler),
 													 a_conf->last_selected_scheduler);
+	g_object_set_data (G_OBJECT (priv->radiobutton_first_selected_scheduler), "pointer", GINT_TO_POINTER (1));
+	g_object_set_data (G_OBJECT (priv->radiobutton_last_selected_scheduler), "pointer", GINT_TO_POINTER (2));
+
 
 	/* Connect signal */
     /* callback for spinbutton_nb_days_before_scheduled */
@@ -701,6 +729,17 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 					  G_CALLBACK (prefs_page_divers_choose_language_changed),
 					  NULL);
 
+	/* set callback to select first or last scheduler transaction */
+	g_signal_connect (G_OBJECT (priv->radiobutton_first_selected_scheduler),
+					  "button-press-event",
+					  G_CALLBACK (prefs_page_divers_radiobutton_first_last_press_event),
+					  a_conf);
+	g_signal_connect (G_OBJECT (priv->radiobutton_last_selected_scheduler),
+					  "button-press-event",
+					  G_CALLBACK (prefs_page_divers_radiobutton_first_last_press_event),
+					  a_conf);
+
+
 	/* set the others parameters */
 	prefs_page_divers_choose_date_format_init (page);
 	prefs_page_divers_choose_number_format_init (page);
@@ -711,6 +750,20 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->box_choose_date_format), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->box_choose_numbers_format), FALSE);
+	}
+	else
+	{
+		GrisbiWinRun *w_run = NULL;
+
+		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+		if (w_run->prefs_divers_tab)
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_divers),  w_run->prefs_divers_tab);
+
+		/* set signal notebook_css_rules */
+		g_signal_connect (G_OBJECT (priv->notebook_divers),
+						  "switch-page",
+						  (GCallback) utils_prefs_page_notebook_switch_page,
+						  &w_run->prefs_divers_tab);
 	}
 }
 
@@ -736,6 +789,7 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, vbox_divers);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, grid_generalities);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, notebook_divers);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, button_reset_prefs_window);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, entry_web_browser);

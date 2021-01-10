@@ -698,6 +698,20 @@ They will start on the chosen day)</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <object class="GtkLabel" id="label85">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">(This change will take effect on the next restart)</property>
+                                    <property name="wrap">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
