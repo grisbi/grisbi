@@ -8,7 +8,7 @@ then
 	exit
 fi
 
-share/create_git_distrib.sh --prefix=$PREFIX --enable-config-file
+share/create_git_distrib.sh --prefix=$PREFIX --enable-config-file "$@"
 
 make
 make install
