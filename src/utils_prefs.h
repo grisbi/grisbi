@@ -37,6 +37,10 @@ void 			utils_prefs_page_checkbutton_changed 					(GtkToggleButton *checkbutton,
 																		 gboolean *value);
 void 			utils_prefs_page_dir_chosen 							(GtkWidget *button,
 																		 gchar *dirname);
+void			utils_prefs_page_notebook_switch_page					(GtkNotebook *notebook,
+																		 GtkWidget *page,
+																		 guint page_num,
+																		 guint *value);
 void 			utils_prefs_spinbutton_changed 							(GtkSpinButton *spinbutton,
 																		 gboolean *value);
 

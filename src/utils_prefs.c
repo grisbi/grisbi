@@ -783,6 +783,24 @@ gboolean utils_prefs_encryption_toggled (GtkWidget *checkbox,
  *
  * \return
  **/
+void utils_prefs_page_notebook_switch_page (GtkNotebook *notebook,
+											GtkWidget *page,
+											guint page_num,
+											guint *value)
+{
+	if (value)
+    {
+		*value = page_num;
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
