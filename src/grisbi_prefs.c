@@ -208,26 +208,6 @@ static void grisbi_prefs_left_tree_view_select_path (GtkWidget *tree_view,
 }
 
 /* RIGHT PANED */
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static void grisbi_prefs_notebook_import_switch_page_cliked (GtkNotebook *notebook,
-                                                             GtkWidget *page,
-                                                             guint page_num,
-                                                             gpointer null)
-{
-	GrisbiWinRun *w_run;
-
-	devel_debug_int (page_num);
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-
-	w_run->prefs_import_tab = page_num;
-}
-
 /* LEFT PANED */
 /**
  * set bouton in mode collapse when select an element
@@ -633,7 +613,6 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs,
 static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 									 GrisbiWin *win)
 {
-	GtkWidget *notebook;
 	GrisbiAppConf *a_conf;
 	GrisbiWinRun *w_run;
 	GrisbiPrefsPrivate *priv;
@@ -664,11 +643,6 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 	{
 		gtk_paned_set_position (GTK_PANED (priv->paned_prefs), PREFS_PANED_MIN_WIDTH);
 	}
-
-	/* positionne l'onglet import selectionné en fonction de run->prefs_import_tab */
-	notebook = prefs_page_import_get_notebook (priv->notebook_import);
-	if (w_run->prefs_import_tab)
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook),  w_run->prefs_import_tab);
 
 	/* select the first item */
 	grisbi_prefs_left_tree_view_select_path (priv->treeview_left, w_run);
@@ -705,12 +679,6 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 	                  "size-allocate",
 	                  (GCallback) grisbi_prefs_paned_size_allocate,
 	                  a_conf);
-
-	/* set signal notebook_impert */
-	g_signal_connect (G_OBJECT (notebook),
-	                  "switch-page",
-	                  (GCallback) grisbi_prefs_notebook_import_switch_page_cliked,
-	                  w_run);
 }
 
 /******************************************************************************/

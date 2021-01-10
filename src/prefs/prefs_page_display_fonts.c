@@ -92,21 +92,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDisplayFonts, prefs_page_display_fonts, GTK
 /* Private functions                                                          */
 /******************************************************************************/
 /**
- *
- *
- * \param
- *
- * \return
- **/
-static void prefs_page_display_fonts_notebook_css_rules_switch_page_cliked (GtkNotebook *notebook,
-                                                            				GtkWidget *page,
-                                                            				guint page_num,
-                                                            				GrisbiWinRun *w_run)
-{
-	w_run->prefs_css_rules_tab = page_num;
-}
-
-/**
  * Modifie manuellement le thème de grisbi quand la détection automatique
  * ne fonctionne pas.
  *
@@ -583,8 +568,8 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 		/* set signal notebook_css_rules */
 		g_signal_connect (G_OBJECT (notebook),
 						  "switch-page",
-						  (GCallback) prefs_page_display_fonts_notebook_css_rules_switch_page_cliked,
-						  w_run);
+						  (GCallback) utils_prefs_page_notebook_switch_page,
+						  &w_run->prefs_css_rules_tab);
 	}
 }
 

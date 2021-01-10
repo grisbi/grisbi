@@ -77,11 +77,12 @@ static void prefs_page_import_setup_page (PrefsPageImport *page,
 	GtkWidget *vbox_import_files;
 	GtkWidget *vbox_import_asso;
 	GtkWidget *label;
+	GrisbiWinRun *w_run;
 	PrefsPageImportPrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = prefs_page_import_get_instance_private (page);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Import"), "gsb-import-32.png");
@@ -100,6 +101,16 @@ static void prefs_page_import_setup_page (PrefsPageImport *page,
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_import_pages), vbox_import_asso, NULL);
 	label = gtk_label_new (_("Associations for import"));
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (priv->notebook_import_pages), vbox_import_asso, label);
+
+	/* set page of notebook */
+	if (w_run->prefs_import_tab)
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_import_pages), w_run->prefs_import_tab);
+
+	/* set signal notebook_impert */
+	g_signal_connect (G_OBJECT (priv->notebook_import_pages),
+	                  "switch-page",
+	                  (GCallback) utils_prefs_page_notebook_switch_page,
+	                  &w_run->prefs_import_tab);
 }
 
 /******************************************************************************/
