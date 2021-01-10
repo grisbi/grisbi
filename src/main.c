@@ -39,6 +39,7 @@
 
 #ifdef __APPLE__
 #   include <mach-o/dyld.h> // for _NSGetExecutablePath
+#   include <CoreFoundation/CoreFoundation.h> // for CFLocaleCopyCurrent
 #endif
 
 #ifdef G_OS_WIN32
@@ -94,9 +95,23 @@ static gchar *get_bundle_prefix(void) {
     return prefix;
 }
 
-static void my_setenv(gchar *key, gchar *value) {
+static void my_setenv(const gchar *key, const gchar *value) {
     //printf("SET %s = %s\n", key, value);
     g_setenv(key, value, TRUE);
+}
+
+
+
+static void set_macos_lang(void) {
+    CFLocaleRef cflocale = CFLocaleCopyCurrent();
+    CFStringRef value = (CFStringRef)CFLocaleGetValue(cflocale, kCFLocaleIdentifier); 
+    CFIndex length = CFStringGetLength(value);
+    char *lang = malloc(length+1);
+    CFStringGetCString(value, lang, length+1, kCFStringEncodingUTF8 );
+    my_setenv("LANG", lang);
+    CFRelease(cflocale);
+    free(lang);
+
 }
 
 static void set_macos_app_bundle_env(gchar const *program_dir)
@@ -187,7 +202,7 @@ int main (int argc, char **argv)
 
 #ifdef __APPLE__
     char const *program_dir = get_program_dir();
-    printf("program_dir = %s\n", program_dir);
+
     if (g_str_has_suffix(program_dir, "Contents/MacOS")) {
 
         // Step 1
@@ -213,9 +228,9 @@ int main (int argc, char **argv)
         // with Catalina, this approach is no longer feasible due to new security checks
         // that get misdirected by using a launcher. The launcher needs to go and the
         // binary needs to setup the environment itself.
-
         set_macos_app_bundle_env(program_dir);
     }
+    set_macos_lang();
 #endif
 
 	/* On commence par initialiser les répertoires */

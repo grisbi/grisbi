@@ -359,6 +359,10 @@ if WIN32
 grisbi_LDFLAGS = -mwindows
 endif
 
+if PLATFORM_OSX
+grisbi_LDFLAGS = -framework CoreFoundation
+endif
+
 SUBDIRS = prefs ui widgets plugins/gnucash plugins/ofx plugins/openssl images
 
 if HAVE_CUNIT
