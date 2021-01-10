@@ -298,10 +298,12 @@ gboolean gsb_data_mix_set_method_of_payment_content ( gint transaction_number,
 gint gsb_data_mix_get_automatic_transaction ( gint transaction_number,
                         gboolean is_transaction )
 {
-    if ( is_transaction )
-        return ( gsb_data_transaction_get_automatic_transaction ( transaction_number ) );
+    if (is_transaction)
+        return ( gsb_data_transaction_get_automatic_transaction (transaction_number));
+	else
+		return (gsb_data_scheduled_get_automatic_scheduled (transaction_number));
 
-    return 0;
+	return 0;
 }
 
 gint gsb_data_mix_get_financial_year_number ( gint transaction_number,
