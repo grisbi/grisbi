@@ -117,6 +117,11 @@ else
 	fi
 fi
 
+AC_ARG_ENABLE(early-debug,
+	AS_HELP_STRING([--enable-early-debug],[enable early debug code in a file]),
+	[enable_early_debug=$enableval],[enable_early_debug=no])
+AC_DEFINE(EARLY_DEBUG,1,[Defined if Grisbi should log to a file])
+
 dnl ================================================================
 dnl Defined if Grisbi use a configuration file instead of gsettings
 dnl ================================================================
@@ -451,6 +456,7 @@ echo "
                 CUnit/unit tests support:  $build_cunit
                 Install french user doc:   $enable_frenchdoc
                 Enable Debug:              $enable_debug
+                Enable Early Debug:        $enable_early_debug
                 Enable Config file:        $enable_config_file
                 Enable fail on error:      $enable_real_werror
                 Enanle nooptim:            $enable_nooptim

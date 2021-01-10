@@ -53,6 +53,7 @@
 #include "gsb_dirs.h"
 #include "gsb_locale.h"
 #include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -179,6 +180,10 @@ int main (int argc, char **argv)
 	#endif
 #endif
 */
+
+#ifdef EARLY_DEBUG
+	debug_start_log_file ();
+#endif
 
 #ifdef __APPLE__
     char const *program_dir = get_program_dir();
