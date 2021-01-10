@@ -95,9 +95,6 @@
 /*END_EXTERN*/
 
 /*START_GLOBAL*/
-/** when the automatic complete transaction is done
- * for a split of transaction, we propose to recover too
- * the children with that button */
 /*END_GLOBAL*/
 
 /*START_STATIC*/
@@ -112,6 +109,10 @@ static GtkWidget *form_button_part;
 /** need to set the 2 buttons valid/cancel here and cannot */
 /* just show/hide the form_button_part because of the split button */
 static GtkWidget *form_button_cancel;
+/** when the automatic complete transaction is done
+ * for a split of transaction, we propose to recover too
+ * the children with that button */
+
 static GtkWidget *form_button_recover_split;
 static GtkWidget *form_button_valid;
 
@@ -1175,7 +1176,6 @@ void gsb_form_create_widgets (void)
 							NULL);
 
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
-
     form_scheduled_part = gtk_grid_new ();
     gtk_grid_set_column_spacing (GTK_GRID (form_scheduled_part), MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (transaction_form), form_scheduled_part, FALSE, FALSE, 0);
