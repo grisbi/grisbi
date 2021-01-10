@@ -1203,12 +1203,10 @@ void grisbi_settings_save_in_config_file (void)
 	GKeyFile *config;
 	const gchar* backup_path = NULL;
 	const gchar *filename;
-	gchar *file_content;
 	gchar **recent_array;
 	const gchar *tmp_str;
-	gsize length;
-	FILE *conf_file;
 	gint i;
+	GError *error = NULL;
 	ConditionalMsg *warning;
 	GrisbiAppConf *a_conf;
 
@@ -1623,20 +1621,16 @@ void grisbi_settings_save_in_config_file (void)
 							a_conf->scheduler_set_fixed_day);
 
     /* save into a file */
-    file_content = g_key_file_to_data (config, &length, NULL);
+	/* verifier l'utilité de  ce test */
+#ifndef _WIN32
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+	{
+		utils_files_create_XDG_dir ();
+	}
+#endif
 
-    conf_file = fopen (filename, "w");
-
-    #ifndef _WIN32
-    if (!conf_file)
-    {
-        utils_files_create_XDG_dir ();
-        conf_file = fopen (filename, "w");
-    }
-    #endif
-
-    if (!conf_file || !fwrite (file_content, sizeof (gchar), length, conf_file))
-    {
+	if (!g_key_file_save_to_file (config, filename, &error))
+	{
 		gchar* msg;
 
         msg = g_strdup_printf (_("Cannot save configuration file '%s': %s"),
@@ -1644,19 +1638,12 @@ void grisbi_settings_save_in_config_file (void)
 								  g_strerror (errno));
         dialogue_error (tmp_str);
         g_free (msg);
-        g_free (file_content);
         g_key_file_free (config);
-		if (conf_file)
-			fclose (conf_file);
 
 		return;
     }
 
-    fclose (conf_file);
-    g_free (file_content);
     g_key_file_free (config);
-
-    return;
 }
 
 #endif /* NOT USE_CONFIG_FILE */
