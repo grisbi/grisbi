@@ -74,7 +74,6 @@ src/go-charmap-sel.c
 src/go-optionmenu.c
 src/grisbi_app.c
 src/grisbi_conf.c
-src/grisbi_osx.c
 src/grisbi_prefs.c
 src/grisbi_settings.c
 src/grisbi_win.c

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-04 10:11+0100\n"
+"POT-Creation-Date: 2021-01-10 06:43+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -18,103 +18,110 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/ui/bet_graph.ui.h:1
-msgid "Diagram"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:2 ../src/bet_graph.c:1020 ../src/bet_graph.c:1054
-#, fuzzy
-msgid "Show grid"
-msgstr "对账"
-
-#: ../src/ui/bet_graph.ui.h:3
 #, fuzzy
 msgid "<b>Options for the axis</b>"
 msgstr "选择现金账户"
 
-#: ../src/ui/bet_graph.ui.h:4
+#: ../src/ui/bet_graph.ui.h:2
 msgid "<b>Options for the X axis</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:5
+#: ../src/ui/bet_graph.ui.h:3
 msgid "<b>Major ticks</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:6
+#: ../src/ui/bet_graph.ui.h:4
 msgid "Outside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:7
+#: ../src/ui/bet_graph.ui.h:5
 msgid "Inside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:8
+#: ../src/ui/bet_graph.ui.h:6
 msgid "Show Labels"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:9
+#: ../src/ui/bet_graph.ui.h:7
 #, fuzzy
 msgid "<b>Position</b>"
 msgstr "调整"
 
-#: ../src/ui/bet_graph.ui.h:10
+#: ../src/ui/bet_graph.ui.h:8
 msgid "Low"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:11
+#: ../src/ui/bet_graph.ui.h:9
 msgid "High"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:12
+#: ../src/ui/bet_graph.ui.h:10
 msgid "Intersection point of X Y axes"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:13
+#: ../src/ui/bet_graph.ui.h:11
 #, fuzzy
 msgid "<b>Additional line</b>"
 msgstr "初始余额"
 
-#: ../src/ui/bet_graph.ui.h:14
+#: ../src/ui/bet_graph.ui.h:12
 msgid "Crosses the Y axis at 0"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:15
+#: ../src/ui/bet_graph.ui.h:13
 #, fuzzy
 msgid "<b>Options for the Y axis</b>"
 msgstr "选择现金账户"
 
-#: ../src/ui/bet_graph.ui.h:16
+#: ../src/ui/bet_graph.ui.h:14
 #, fuzzy
 msgid "<b>Grid</b>"
 msgstr "调整"
 
-#: ../src/ui/bet_graph.ui.h:17
+#: ../src/ui/bet_graph.ui.h:15
 msgid "Major grid"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:18
+#: ../src/ui/bet_graph.ui.h:16
 msgid "Minor grid"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:19
+#: ../src/ui/bet_graph.ui.h:17
 #, fuzzy
 msgid "<b>Options for the columns</b>"
 msgstr "选择现金账户"
 
-#: ../src/ui/bet_graph.ui.h:20
+#: ../src/ui/bet_graph.ui.h:18
 msgid "Gap:"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:22 ../src/ui/prefs_widget_loan.ui.h:10
+#: ../src/ui/bet_graph.ui.h:20 ../src/ui/prefs_widget_loan.ui.h:10
 #: ../src/bet_finance_ui.c:993 ../src/bet_finance_ui.c:1350
 #: ../src/bet_finance_ui.c:1372 ../src/bet_finance_ui.c:1748
 #, no-c-format
 msgid "%"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:23
+#: ../src/ui/bet_graph.ui.h:21 ../src/ui/prefs_page_divers.ui.h:2
+#: ../src/ui/prefs_page_files.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:8
+#: ../src/ui/prefs_widget_loan.ui.h:8
+msgid "0"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:22
 #, fuzzy
 msgid "Display the grids above the plot"
 msgstr "显示（子）类别的名称"
+
+#: ../src/ui/bet_graph.ui.h:23
+msgid "Diagram"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:24 ../src/bet_graph.c:1006 ../src/bet_graph.c:1039
+#, fuzzy
+msgid "Show grid"
+msgstr "对账"
 
 #. On récupère le nom de la page
 #: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:546
@@ -147,7 +154,7 @@ msgstr "已导入的账户"
 msgid "Row"
 msgstr ""
 
-#: ../src/ui/csv_template_rule.ui.h:7 ../src/bet_graph.c:1943
+#: ../src/ui/csv_template_rule.ui.h:7 ../src/bet_graph.c:1921
 #, fuzzy
 msgid "Column"
 msgstr "备注"
@@ -166,7 +173,7 @@ msgstr ""
 msgid "Line number: "
 msgstr "编号:"
 
-#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:15
+#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:16
 #: ../src/widgets/widget_currency_link.ui.h:2
 msgid "1"
 msgstr ""
@@ -192,7 +199,7 @@ msgstr "普遍性"
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
-#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:27
+#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:36
 #: ../src/ui/prefs_page_files.ui.h:22
 #: ../src/ui/prefs_page_form_completion.ui.h:14
 #: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
@@ -202,7 +209,7 @@ msgstr "普遍性"
 #: ../src/ui/prefs_page_options_ope.ui.h:12
 #: ../src/ui/prefs_page_reconcile.ui.h:15
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:3
-#: ../src/ui/prefs_widget_loan.ui.h:21
+#: ../src/ui/prefs_widget_loan.ui.h:22
 #: ../src/widgets/widget_bank_details.ui.h:12
 #: ../src/widgets/widget_css_rules.ui.h:1
 #: ../src/widgets/widget_currency_details.ui.h:6
@@ -246,7 +253,7 @@ msgstr "预算行货币:"
 msgid "Amount comparison currency: "
 msgstr "货币总额比较:"
 
-#: ../src/ui/etats_prefs.ui.h:6 ../src/etats_onglet.c:716
+#: ../src/ui/etats_prefs.ui.h:6 ../src/etats_onglet.c:720
 #: ../src/gsb_assistant_archive_export.c:154
 #: ../src/prefs/prefs_page_archives.c:483
 msgid "Report name"
@@ -255,7 +262,7 @@ msgstr "报表名"
 #. Partial balance name
 #. Name entry
 #: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:10
-#: ../src/ui/prefs_page_fyear.ui.h:6 ../src/ui/prefs_page_payment_method.ui.h:1
+#: ../src/ui/prefs_page_fyear.ui.h:6 ../src/ui/prefs_page_payment_method.ui.h:3
 #: ../src/widgets/widget_bank_details.ui.h:2
 #: ../src/widgets/widget_currency_details.ui.h:1
 #: ../src/gsb_data_partial_balance.c:1787 ../src/tiers_onglet.c:213
@@ -303,7 +310,7 @@ msgstr ""
 msgid "of title"
 msgstr "名称抬头"
 
-#: ../src/ui/etats_prefs.ui.h:15
+#: ../src/ui/etats_prefs.ui.h:15 ../src/ui/prefs_page_divers.ui.h:21
 #, fuzzy
 msgid "Others options"
 msgstr "支出"
@@ -456,7 +463,7 @@ msgid "Make transactions clickable"
 msgstr "使交易可点击"
 
 #: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:377
-#: ../src/grisbi_win.c:433 ../src/navigation.c:2079
+#: ../src/grisbi_win.c:433 ../src/navigation.c:2076
 msgid "Accounts"
 msgstr "账户"
 
@@ -495,7 +502,7 @@ msgstr "显示每个子第三方的子总额"
 
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2039 ../src/bet_hist.c:2045
 #: ../src/categories_onglet.c:370 ../src/etats_prefs.c:387
-#: ../src/etats_prefs.c:1668 ../src/grisbi_win.c:480 ../src/navigation.c:2095
+#: ../src/etats_prefs.c:1668 ../src/grisbi_win.c:480 ../src/navigation.c:2092
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
 #: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:359
@@ -528,7 +535,7 @@ msgstr "如果没有的话显示 \" 没有子类别\" "
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2043
 #: ../src/etats_prefs.c:392 ../src/etats_prefs.c:1719 ../src/export_csv.c:404
 #: ../src/grisbi_win.c:485 ../src/import_csv.c:79
-#: ../src/imputation_budgetaire.c:377 ../src/navigation.c:2099
+#: ../src/imputation_budgetaire.c:377 ../src/navigation.c:2096
 #: ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
 #: ../src/prefs/prefs_page_bet_account.c:194 ../src/utils_widgets.c:362
@@ -580,13 +587,13 @@ msgid "Outgoing categories"
 msgstr "支出类别"
 
 #: ../src/ui/etats_prefs.ui.h:70 ../src/ui/grisbi_prefs.ui.h:3
-#: ../src/ui/prefs_page_payment_method.ui.h:10
+#: ../src/ui/prefs_page_payment_method.ui.h:12
 #, fuzzy
 msgid "Expand all"
 msgstr "数据选择"
 
 #: ../src/ui/etats_prefs.ui.h:71 ../src/ui/grisbi_prefs.ui.h:4
-#: ../src/ui/prefs_page_payment_method.ui.h:11
+#: ../src/ui/prefs_page_payment_method.ui.h:13
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:2
 msgid "Collapse all"
 msgstr ""
@@ -759,8 +766,9 @@ msgstr ""
 
 #. Search
 #. Searching
-#: ../src/ui/etats_prefs.ui.h:108 ../src/ui/search_transaction.ui.h:1
-#: ../src/etats_onglet.c:889 ../src/etats_onglet.c:1119
+#: ../src/ui/etats_prefs.ui.h:108 ../src/ui/grisbi_menu.ui.h:27
+#: ../src/ui/search_transaction.ui.h:1 ../src/etats_onglet.c:893
+#: ../src/etats_onglet.c:1123 ../src/etats_onglet.c:1357
 #: ../src/gsb_transactions_list.c:572
 msgid "Search"
 msgstr "查找"
@@ -901,7 +909,7 @@ msgid "New account file"
 msgstr "新账户文件"
 
 #: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:112 ../src/grisbi_app.c:129
-#: ../src/grisbi_win.c:688 ../src/grisbi_win.c:1760
+#: ../src/grisbi_win.c:688 ../src/grisbi_win.c:1671
 #, fuzzy
 msgid "Open"
 msgstr "_打开"
@@ -982,7 +990,7 @@ msgstr "更改交易"
 #. new transaction button
 #: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:117
 #: ../src/grisbi_app.c:134 ../src/gsb_scheduler_list.c:354
-#: ../src/gsb_transactions_list.c:501 ../src/gsb_transactions_list.c:2502
+#: ../src/gsb_transactions_list.c:501 ../src/gsb_transactions_list.c:2503
 msgid "New transaction"
 msgstr "新交易"
 
@@ -1006,13 +1014,13 @@ msgstr "复制交易"
 msgid "Convert to scheduled transaction"
 msgstr "录入预定交易"
 
-#: ../src/ui/grisbi_menu.ui.h:27 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135 ../src/navigation.c:2249
+#: ../src/ui/grisbi_menu.ui.h:28 ../src/grisbi_app.c:118
+#: ../src/grisbi_app.c:135 ../src/navigation.c:2246
 #, fuzzy
 msgid "New account"
 msgstr "新账户"
 
-#: ../src/ui/grisbi_menu.ui.h:28
+#: ../src/ui/grisbi_menu.ui.h:29
 #, fuzzy
 msgid "Remove current account"
 msgstr "删除账户"
@@ -1021,96 +1029,96 @@ msgstr "删除账户"
 #. select the number of lines
 #. View button
 #. Change view mode button
-#: ../src/ui/grisbi_menu.ui.h:29 ../src/categories_onglet.c:621
-#: ../src/gsb_scheduler_list.c:1145 ../src/gsb_transactions_list.c:2547
+#: ../src/ui/grisbi_menu.ui.h:30 ../src/categories_onglet.c:621
+#: ../src/gsb_scheduler_list.c:1145 ../src/gsb_transactions_list.c:2548
 #: ../src/imputation_budgetaire.c:670 ../src/tiers_onglet.c:562
 msgid "View"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:30
+#: ../src/ui/grisbi_menu.ui.h:31
 #, fuzzy
 msgid "Show transaction form"
 msgstr "交易表格"
 
-#: ../src/ui/grisbi_menu.ui.h:31 ../src/grisbi_app.c:119
+#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:119
 #: ../src/grisbi_app.c:136
 #, fuzzy
 msgid "Show reconciled"
 msgstr "对账"
 
-#: ../src/ui/grisbi_menu.ui.h:32 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/gsb_transactions_list.c:2455
+#: ../src/ui/grisbi_menu.ui.h:33 ../src/grisbi_app.c:120
+#: ../src/grisbi_app.c:137 ../src/gsb_transactions_list.c:2456
 #, fuzzy
 msgid "Show lines archives"
 msgstr "已知货币"
 
-#: ../src/ui/grisbi_menu.ui.h:33 ../src/org.gtk.grisbi.gschema.xml.h:5
+#: ../src/ui/grisbi_menu.ui.h:34 ../src/org.gtk.grisbi.gschema.xml.h:5
 #, fuzzy
 msgid "Show closed accounts"
 msgstr "结算账户"
 
-#: ../src/ui/grisbi_menu.ui.h:34
+#: ../src/ui/grisbi_menu.ui.h:35
 #, fuzzy
 msgid "Show one line per transaction"
 msgstr "每笔交易显示1行"
 
-#: ../src/ui/grisbi_menu.ui.h:35
+#: ../src/ui/grisbi_menu.ui.h:36
 #, fuzzy
 msgid "Show two lines per transaction"
 msgstr "每笔交易显示2行"
 
-#: ../src/ui/grisbi_menu.ui.h:36
+#: ../src/ui/grisbi_menu.ui.h:37
 #, fuzzy
 msgid "Show three lines per transaction"
 msgstr "每笔交易显示3行"
 
-#: ../src/ui/grisbi_menu.ui.h:37
+#: ../src/ui/grisbi_menu.ui.h:38
 #, fuzzy
 msgid "Show four lines per transaction"
 msgstr "每笔交易显示4行"
 
-#: ../src/ui/grisbi_menu.ui.h:38
+#: ../src/ui/grisbi_menu.ui.h:39
 #, fuzzy
 msgid "Reset the column width"
 msgstr "选择账户"
 
-#: ../src/ui/grisbi_menu.ui.h:39
+#: ../src/ui/grisbi_menu.ui.h:40
 #, fuzzy
 msgid "_Help"
 msgstr "帮助"
 
-#: ../src/ui/grisbi_menu.ui.h:40 ../src/grisbi_app.c:121
+#: ../src/ui/grisbi_menu.ui.h:41 ../src/grisbi_app.c:121
 #: ../src/grisbi_app.c:138
 #, fuzzy
 msgid "User's Manual"
 msgstr "Grisbi手册"
 
-#: ../src/ui/grisbi_menu.ui.h:41
+#: ../src/ui/grisbi_menu.ui.h:42
 #, fuzzy
 msgid "Quick start"
 msgstr "快速入门"
 
-#: ../src/ui/grisbi_menu.ui.h:42
+#: ../src/ui/grisbi_menu.ui.h:43
 #, fuzzy
 msgid "Grisbi website"
 msgstr "Grisbi官方网站"
 
-#: ../src/ui/grisbi_menu.ui.h:43
+#: ../src/ui/grisbi_menu.ui.h:44
 #, fuzzy
 msgid "Report a bug"
 msgstr "报告软件缺陷"
 
-#: ../src/ui/grisbi_menu.ui.h:44 ../src/ui/prefs_page_msg_warning.ui.h:1
+#: ../src/ui/grisbi_menu.ui.h:45 ../src/ui/prefs_page_msg_warning.ui.h:1
 msgid "Tip of the day"
 msgstr ""
 
-#: ../src/ui/grisbi_menu.ui.h:45 ../src/grisbi_app.c:114
+#: ../src/ui/grisbi_menu.ui.h:46 ../src/grisbi_app.c:114
 #: ../src/grisbi_app.c:131
 #, fuzzy
 msgid "Import file"
 msgstr "导出文件"
 
-#: ../src/ui/grisbi_menu.ui.h:46
+#: ../src/ui/grisbi_menu.ui.h:47
 #, fuzzy
 msgid "Export accounts as QIF/CSV file"
 msgstr "导出为QIF文件"
@@ -1119,13 +1127,13 @@ msgstr "导出为QIF文件"
 #. edit button
 #. Properties button
 #. edit button
-#: ../src/ui/grisbi_menu.ui.h:47 ../src/categories_onglet.c:609
-#: ../src/gsb_scheduler_list.c:1113 ../src/gsb_transactions_list.c:2520
+#: ../src/ui/grisbi_menu.ui.h:48 ../src/categories_onglet.c:609
+#: ../src/gsb_scheduler_list.c:1113 ../src/gsb_transactions_list.c:2521
 #: ../src/imputation_budgetaire.c:658 ../src/tiers_onglet.c:550
 msgid "Edit"
 msgstr "编辑"
 
-#: ../src/ui/grisbi_menu.ui.h:48
+#: ../src/ui/grisbi_menu.ui.h:49
 msgid "_View"
 msgstr ""
 
@@ -1475,12 +1483,6 @@ msgstr "交易清单单元格"
 msgid "Number of days before the warning or the execution: "
 msgstr "计划交易的提醒将提前的天数:"
 
-#: ../src/ui/prefs_page_divers.ui.h:2 ../src/ui/prefs_page_files.ui.h:14
-#: ../src/ui/prefs_page_payment_method.ui.h:6
-#: ../src/ui/prefs_widget_loan.ui.h:8
-msgid "0"
-msgstr ""
-
 #: ../src/ui/prefs_page_divers.ui.h:3
 #, fuzzy
 msgid "Web browser"
@@ -1522,68 +1524,101 @@ msgstr ""
 msgid "Generalities"
 msgstr "普遍性"
 
-#. set options
-#: ../src/ui/prefs_page_divers.ui.h:13 ../src/bet_graph.c:1358
-#: ../src/tiers_onglet.c:1260
+#: ../src/ui/prefs_page_divers.ui.h:13
 #, fuzzy
-msgid "Options"
-msgstr "支出"
+msgid "Options for launching scheduled operations\n"
+msgstr "不能进行定期操作"
 
-#: ../src/ui/prefs_page_divers.ui.h:14
+#: ../src/ui/prefs_page_divers.ui.h:15
 #, fuzzy
 msgid "Launch day for scheduled operations performed monthly: "
 msgstr "计划交易的提醒将提前的天数:"
 
-#: ../src/ui/prefs_page_divers.ui.h:16
+#: ../src/ui/prefs_page_divers.ui.h:17
 msgid ""
 "(This option allows you to anticipate the launch of planned transactions for "
 "the following month.\n"
 "They will start on the chosen day)"
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:18
+#: ../src/ui/prefs_page_divers.ui.h:19
 #, fuzzy
 msgid ""
 "Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
 msgstr "录入自动预定的交易"
 
-#: ../src/ui/prefs_page_divers.ui.h:19
+#: ../src/ui/prefs_page_divers.ui.h:20
+msgid ""
+"(This option sets the day of launching the operation if it exists. For "
+"example every 29th of the month except leap years)"
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:22
 msgid "Use a default account for sheduler form: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:20 ../src/grisbi_win.c:465
-#: ../src/navigation.c:2083
+#: ../src/ui/prefs_page_divers.ui.h:23
+#, fuzzy
+msgid "Select by default the"
+msgstr "恢复默认值"
+
+#: ../src/ui/prefs_page_divers.ui.h:24
+msgid "first"
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:25
+msgid "or the"
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:26
+msgid "last"
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:27
+#, fuzzy
+msgid "transaction in the list"
+msgstr "交易清单单元格"
+
+#: ../src/ui/prefs_page_divers.ui.h:28 ../src/grisbi_win.c:465
+#: ../src/navigation.c:2080
 msgid "Scheduler"
 msgstr "日程"
 
-#: ../src/ui/prefs_page_divers.ui.h:21
+#: ../src/ui/prefs_page_divers.ui.h:29
 #, fuzzy
 msgid "Choose the language"
 msgstr "选择账户"
 
-#: ../src/ui/prefs_page_divers.ui.h:22 ../src/parametres.c:144
+#: ../src/ui/prefs_page_divers.ui.h:30 ../src/parametres.c:144
 #: ../src/parametres.c:152
 #, fuzzy
 msgid "Choose the date format"
 msgstr "选择账户"
 
-#: ../src/ui/prefs_page_divers.ui.h:23
+#: ../src/ui/prefs_page_divers.ui.h:31
 msgid "Choose decimal and thousands separator"
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:24 ../src/parametres.c:237
+#: ../src/ui/prefs_page_divers.ui.h:32 ../src/parametres.c:237
 #, fuzzy
 msgid "Decimal point: "
 msgstr "数据选择:"
 
-#: ../src/ui/prefs_page_divers.ui.h:25 ../src/parametres.c:250
+#: ../src/ui/prefs_page_divers.ui.h:33 ../src/parametres.c:250
 msgid "Thousands separator: "
 msgstr ""
 
-#: ../src/ui/prefs_page_divers.ui.h:26
+#: ../src/ui/prefs_page_divers.ui.h:34
 #, fuzzy
 msgid "Localization"
 msgstr "调整"
+
+#. set options
+#: ../src/ui/prefs_page_divers.ui.h:35 ../src/bet_graph.c:1340
+#: ../src/tiers_onglet.c:1260
+#, fuzzy
+msgid "Options"
+msgstr "支出"
 
 #: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:241
 msgid "Account files handling"
@@ -1930,30 +1965,38 @@ msgstr "账户交易"
 msgid "Remember display settings for each account separately"
 msgstr "为每个账户记住显示设定"
 
+#: ../src/ui/prefs_page_payment_method.ui.h:1
+msgid "Known payment methods"
+msgstr "现有支付方式"
+
 #: ../src/ui/prefs_page_payment_method.ui.h:2
+msgid "Payment method details"
+msgstr "支付方式明细"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:4
 #, fuzzy
 msgid "Automatic numbering: "
 msgstr "自动编码:"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:3
+#: ../src/ui/prefs_page_payment_method.ui.h:5
 #, fuzzy
 msgid "Type: "
 msgstr "类型:"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:4
+#: ../src/ui/prefs_page_payment_method.ui.h:6
 #, fuzzy
 msgid "Add a number"
 msgstr "增加子类"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:5
+#: ../src/ui/prefs_page_payment_method.ui.h:7
 msgid "Activate"
 msgstr "活动"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:7
+#: ../src/ui/prefs_page_payment_method.ui.h:9
 msgid "Neutral"
 msgstr "中立"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:8 ../src/bet_future.c:552
+#: ../src/ui/prefs_page_payment_method.ui.h:10 ../src/bet_future.c:552
 #: ../src/bet_tab.c:2003 ../src/categories_onglet.c:782 ../src/export_csv.c:389
 #: ../src/gsb_form.c:2015 ../src/gsb_form_widget.c:554
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:83
@@ -1964,7 +2007,7 @@ msgid "Debit"
 msgstr "借方"
 
 #. 11
-#: ../src/ui/prefs_page_payment_method.ui.h:9 ../src/bet_future.c:557
+#: ../src/ui/prefs_page_payment_method.ui.h:11 ../src/bet_future.c:557
 #: ../src/bet_tab.c:2021 ../src/categories_onglet.c:782 ../src/export_csv.c:386
 #: ../src/gsb_form.c:2021 ../src/gsb_form_widget.c:558
 #: ../src/gsb_transactions_list.c:115 ../src/import_csv.c:82
@@ -1974,11 +2017,16 @@ msgstr "借方"
 msgid "Credit"
 msgstr "贷方"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:12
+#: ../src/ui/prefs_page_payment_method.ui.h:14
 msgid "Delete a payment method"
 msgstr "删除支付方式"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:13
+#: ../src/ui/prefs_page_payment_method.ui.h:15
+#, fuzzy
+msgid "Payment method is used by transactions"
+msgstr "支付方式明细"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:16
 #, fuzzy
 msgid ""
 "Some transactions still use that payment method. As deletion of this method "
@@ -1988,14 +2036,14 @@ msgstr ""
 "有些交易仍在使用该支付方式。由于删除该方式是不能撤消的，这些交易将被关联到另"
 "一种支付方式。"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:17
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
 "have no new one."
 msgstr ""
 
-#: ../src/ui/prefs_page_payment_method.ui.h:15
+#: ../src/ui/prefs_page_payment_method.ui.h:18
 #, fuzzy
 msgid "Associate transactions with: "
 msgstr "用...关联交易:"
@@ -2138,10 +2186,15 @@ msgid "Interests: "
 msgstr "兴趣"
 
 #: ../src/ui/prefs_widget_loan.ui.h:19
+#, fuzzy
+msgid "Amortization table"
+msgstr "打印到文件"
+
+#: ../src/ui/prefs_widget_loan.ui.h:20
 msgid "Use the depreciation schedule for planned operations"
 msgstr ""
 
-#: ../src/ui/prefs_widget_loan.ui.h:20
+#: ../src/ui/prefs_widget_loan.ui.h:21
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr ""
 
@@ -3069,36 +3122,47 @@ msgstr ""
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:128
 #, fuzzy
+msgid "if TRUE select the last scheduler transaction"
+msgstr "删除一条定期交易"
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:129
+msgid ""
+"TRUE = select the last scheduler transaction, FALSE = select the first "
+"scheduler transaction."
+msgstr ""
+
+#: ../src/org.gtk.grisbi.gschema.xml.h:130
+#, fuzzy
 msgid "Number of days before scheduled operations start"
 msgstr "计划交易的提醒将提前的天数:"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:129
+#: ../src/org.gtk.grisbi.gschema.xml.h:131
 msgid ""
 "Nombre de jours avant le lancement des opérations planifiées par rapport à "
 "leur date d'exécution."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:130
+#: ../src/org.gtk.grisbi.gschema.xml.h:132
 #, fuzzy
 msgid "Fixed day to initiate scheduled transactions on a monthly basis"
 msgstr "录入自动预定的交易"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:131
+#: ../src/org.gtk.grisbi.gschema.xml.h:133
 msgid ""
 "Utiliser un jour fixe pour lancer mensuellement les opérations planifiées."
 msgstr ""
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:132
+#: ../src/org.gtk.grisbi.gschema.xml.h:134
 #, fuzzy
 msgid "Fixed day for sheduled transactions"
 msgstr "已结清预定交易"
 
-#: ../src/org.gtk.grisbi.gschema.xml.h:133
+#: ../src/org.gtk.grisbi.gschema.xml.h:135
 msgid "Jour fixe du lancement mensuel des opérations planifiées."
 msgstr ""
 
-#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1588
-#: ../src/grisbi_win.c:1637
+#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1499
+#: ../src/grisbi_win.c:1548
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -3273,7 +3337,7 @@ msgid ""
 "\n"
 msgstr "账户 %s 的余额小于预期和审核的最小值"
 
-#: ../src/bet_data.c:2067
+#: ../src/bet_data.c:2066
 #, c-format
 msgid ""
 "Warning: the start date of the period of deferred debit card account (%s) is "
@@ -3285,7 +3349,7 @@ msgid ""
 "finish with \"No\" and update the account before you start."
 msgstr ""
 
-#: ../src/bet_data.c:2074
+#: ../src/bet_data.c:2073
 #, fuzzy
 msgid "Confirmation of the change of period"
 msgstr "确认删除银行"
@@ -3458,7 +3522,7 @@ msgstr "贷款/抵押 : 资产:"
 
 #. titre de la page
 #: ../src/bet_finance_ui.c:1450 ../src/grisbi_win.c:475
-#: ../src/navigation.c:1309 ../src/navigation.c:2091
+#: ../src/navigation.c:1306 ../src/navigation.c:2088
 #, fuzzy
 msgid "Credits simulator"
 msgstr "信用卡"
@@ -3506,13 +3570,13 @@ msgstr "贷方"
 #. création du bouton print
 #. print button
 #: ../src/bet_finance_ui.c:2092 ../src/bet_hist.c:1897 ../src/bet_tab.c:2092
-#: ../src/etats_onglet.c:574 ../src/gsb_transactions_list.c:2538
+#: ../src/etats_onglet.c:578 ../src/gsb_transactions_list.c:2539
 msgid "Print"
 msgstr "打印"
 
 #. Export button
 #: ../src/bet_finance_ui.c:2101 ../src/bet_hist.c:1906 ../src/bet_tab.c:2101
-#: ../src/categories_onglet.c:588 ../src/etats_onglet.c:564 ../src/export.c:503
+#: ../src/categories_onglet.c:588 ../src/etats_onglet.c:568 ../src/export.c:503
 #: ../src/imputation_budgetaire.c:636
 msgid "Export"
 msgstr "导出"
@@ -3524,7 +3588,7 @@ msgstr "月"
 
 #: ../src/bet_future.c:315 ../src/bet_future.c:1059
 #: ../src/gsb_form_scheduler.c:143 ../src/gsb_form_scheduler.c:874
-#: ../src/gsb_scheduler_list.c:1511
+#: ../src/gsb_scheduler_list.c:1517
 msgid "Once"
 msgstr "单次"
 
@@ -3579,28 +3643,28 @@ msgid "Choose the method of payment"
 msgstr "选择支付方式"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1511
+#: ../src/gsb_scheduler_list.c:1517
 msgid "Weekly"
 msgstr "每周"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1511 ../src/prefs/prefs_widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1517 ../src/prefs/prefs_widget_loan.c:866
 msgid "Monthly"
 msgstr "每月"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1512
+#: ../src/gsb_scheduler_list.c:1518
 #, fuzzy
 msgid "Bimonthly"
 msgstr "每月"
 
 #: ../src/bet_future.c:1060 ../src/gsb_form_scheduler.c:144
-#: ../src/gsb_scheduler_list.c:1512 ../src/prefs/prefs_widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1518 ../src/prefs/prefs_widget_loan.c:866
 msgid "Quarterly"
 msgstr ""
 
 #: ../src/bet_future.c:1060 ../src/gsb_form_scheduler.c:144
-#: ../src/gsb_scheduler_list.c:1512 ../src/prefs/prefs_widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1518 ../src/prefs/prefs_widget_loan.c:866
 msgid "Yearly"
 msgstr "每年"
 
@@ -3707,191 +3771,191 @@ msgstr ""
 msgid "Confirmation of deletion of a deferred debit card"
 msgstr "导入交易确认"
 
-#: ../src/bet_graph.c:153
+#: ../src/bet_graph.c:151
 #, fuzzy
 msgid "Jan"
 msgstr "Japan"
 
-#: ../src/bet_graph.c:153
+#: ../src/bet_graph.c:151
 #, fuzzy
 msgid "Feb"
 msgstr "网站"
 
-#: ../src/bet_graph.c:153
+#: ../src/bet_graph.c:151
 #, fuzzy
 msgid "Mar"
 msgstr "标记"
 
-#: ../src/bet_graph.c:153
+#: ../src/bet_graph.c:151
 msgid "Apr"
 msgstr ""
 
-#: ../src/bet_graph.c:154 ../src/bet_graph.c:161
+#: ../src/bet_graph.c:152 ../src/bet_graph.c:159
 #, fuzzy
 msgid "May"
 msgstr "日"
 
-#: ../src/bet_graph.c:154
+#: ../src/bet_graph.c:152
 msgid "Jun"
 msgstr ""
 
-#: ../src/bet_graph.c:154
+#: ../src/bet_graph.c:152
 msgid "Jul"
 msgstr ""
 
-#: ../src/bet_graph.c:154
+#: ../src/bet_graph.c:152
 msgid "Aug"
 msgstr ""
 
-#: ../src/bet_graph.c:155
+#: ../src/bet_graph.c:153
 msgid "Sep"
 msgstr ""
 
-#: ../src/bet_graph.c:155
+#: ../src/bet_graph.c:153
 msgid "Oct"
 msgstr ""
 
-#: ../src/bet_graph.c:155
+#: ../src/bet_graph.c:153
 msgid "Nov"
 msgstr ""
 
-#: ../src/bet_graph.c:155
+#: ../src/bet_graph.c:153
 msgid "Dec"
 msgstr ""
 
-#: ../src/bet_graph.c:160
+#: ../src/bet_graph.c:158
 #, fuzzy
 msgid "January"
 msgstr "手动"
 
-#: ../src/bet_graph.c:160
+#: ../src/bet_graph.c:158
 msgid "February"
 msgstr ""
 
-#: ../src/bet_graph.c:160
+#: ../src/bet_graph.c:158
 #, fuzzy
 msgid "March"
 msgstr "查找"
 
-#: ../src/bet_graph.c:160
+#: ../src/bet_graph.c:158
 msgid "April"
 msgstr ""
 
-#: ../src/bet_graph.c:161
+#: ../src/bet_graph.c:159
 msgid "June"
 msgstr ""
 
-#: ../src/bet_graph.c:161
+#: ../src/bet_graph.c:159
 msgid "July"
 msgstr ""
 
-#: ../src/bet_graph.c:161
+#: ../src/bet_graph.c:159
 msgid "August"
 msgstr ""
 
-#: ../src/bet_graph.c:162
+#: ../src/bet_graph.c:160
 msgid "September"
 msgstr ""
 
-#: ../src/bet_graph.c:162
+#: ../src/bet_graph.c:160
 msgid "October"
 msgstr ""
 
-#: ../src/bet_graph.c:162
+#: ../src/bet_graph.c:160
 #, fuzzy
 msgid "November"
 msgstr "编号"
 
-#: ../src/bet_graph.c:162
+#: ../src/bet_graph.c:160
 #, fuzzy
 msgid "December"
 msgstr "支票编号"
 
-#: ../src/bet_graph.c:459
+#: ../src/bet_graph.c:453
 #, fuzzy
 msgid "Total amount: "
 msgstr "载入账户文件:"
 
-#: ../src/bet_graph.c:479
+#: ../src/bet_graph.c:473
 #, c-format
 msgid ""
 "<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
 msgstr ""
 
-#: ../src/bet_graph.c:484
+#: ../src/bet_graph.c:478
 #, c-format
 msgid ""
 "<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
 "span>"
 msgstr ""
 
-#: ../src/bet_graph.c:498 ../src/bet_graph.c:736 ../src/bet_graph.c:2364
+#: ../src/bet_graph.c:492 ../src/bet_graph.c:727 ../src/bet_graph.c:2338
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:591
+#: ../src/bet_graph.c:584
 #, fuzzy
 msgid "The selected budget item has no subitems"
 msgstr "删除预算行"
 
-#: ../src/bet_graph.c:593
+#: ../src/bet_graph.c:586
 #, fuzzy
 msgid "The selected category has no subcategory"
 msgstr "类别"
 
-#: ../src/bet_graph.c:649 ../src/bet_graph.c:681
+#: ../src/bet_graph.c:641 ../src/bet_graph.c:673
 #, c-format
 msgid "date %s : value %s"
 msgstr ""
 
 #. la grille est visible
-#: ../src/bet_graph.c:1018 ../src/bet_graph.c:1052
+#: ../src/bet_graph.c:1004 ../src/bet_graph.c:1037
 #, fuzzy
 msgid "Hide grid"
 msgstr "活动"
 
-#: ../src/bet_graph.c:1551
+#: ../src/bet_graph.c:1531
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:1551
+#: ../src/bet_graph.c:1531
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:1929
+#: ../src/bet_graph.c:1907
 #, fuzzy
 msgid "Display the graph of forecast"
 msgstr "导出预算行"
 
-#: ../src/bet_graph.c:1937
+#: ../src/bet_graph.c:1915
 #, fuzzy
 msgid "Display the monthly graph"
 msgstr "显示（子）类别的名称"
 
-#: ../src/bet_graph.c:1970
+#: ../src/bet_graph.c:1948
 #, fuzzy
 msgid "Line"
 msgstr "许可证"
 
-#: ../src/bet_graph.c:2222
+#: ../src/bet_graph.c:2197
 #, fuzzy, c-format
 msgid "Amounts %s - %s for the account: '%s'"
 msgstr ""
 "货币 %s 未找到。\n"
 ":"
 
-#: ../src/bet_graph.c:2235
+#: ../src/bet_graph.c:2210
 #, fuzzy, c-format
 msgid "Monthly amounts since %s for the account: '%s'"
 msgstr ""
 "货币 %s 未找到。\n"
 ":"
 
-#: ../src/bet_graph.c:2380
+#: ../src/bet_graph.c:2354
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:2404 ../src/etats_affiche.c:2330
+#: ../src/bet_graph.c:2378 ../src/etats_affiche.c:2330
 msgid "Incomes"
 msgstr "收入"
 
@@ -4098,7 +4162,7 @@ msgid "Balance at "
 msgstr "余额"
 
 #. on ajoute maintenant la frame pour la description
-#: ../src/bet_tab.c:1986 ../src/etats_onglet.c:857
+#: ../src/bet_tab.c:1986 ../src/etats_onglet.c:861
 msgid "Description"
 msgstr "描述"
 
@@ -4167,7 +4231,7 @@ msgstr "导出类别"
 msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
-#: ../src/categories_onglet.c:475 ../src/etats_onglet.c:462
+#: ../src/categories_onglet.c:475 ../src/etats_onglet.c:466
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:743 ../src/import.c:1271
 #: ../src/imputation_budgetaire.c:519
 #, fuzzy
@@ -4226,7 +4290,7 @@ msgstr "请输入新增子类的名称"
 
 #. Import button
 #. On récupère le nom de la page
-#: ../src/categories_onglet.c:579 ../src/etats_onglet.c:555
+#: ../src/categories_onglet.c:579 ../src/etats_onglet.c:559
 #: ../src/grisbi_prefs.c:415 ../src/grisbi_win.c:700 ../src/import.c:1828
 #: ../src/imputation_budgetaire.c:625 ../src/prefs/prefs_page_import.c:87
 #: ../src/utils_files.c:766
@@ -4247,20 +4311,20 @@ msgstr "导出类别"
 #. delete button
 #. Delete button
 #. delete button
-#: ../src/categories_onglet.c:597 ../src/etats_onglet.c:583
-#: ../src/gsb_scheduler_list.c:1102 ../src/gsb_transactions_list.c:2511
+#: ../src/categories_onglet.c:597 ../src/etats_onglet.c:587
+#: ../src/gsb_scheduler_list.c:1102 ../src/gsb_transactions_list.c:2512
 #: ../src/imputation_budgetaire.c:646 ../src/tiers_onglet.c:538
 #, fuzzy
 msgid "Delete"
 msgstr "选择"
 
-#: ../src/categories_onglet.c:601 ../src/navigation.c:2330
+#: ../src/categories_onglet.c:601 ../src/navigation.c:2327
 #, fuzzy
 msgid "Delete selected category"
 msgstr "请输入一个类别"
 
 #: ../src/categories_onglet.c:613 ../src/categories_onglet.c:1112
-#: ../src/navigation.c:2343
+#: ../src/navigation.c:2340
 #, fuzzy
 msgid "Edit selected category"
 msgstr "类别"
@@ -4281,7 +4345,7 @@ msgstr "类别"
 msgid "Subcategory view"
 msgstr "子类别"
 
-#: ../src/categories_onglet.c:673 ../src/gsb_transactions_list.c:2414
+#: ../src/categories_onglet.c:673 ../src/gsb_transactions_list.c:2415
 #: ../src/imputation_budgetaire.c:722 ../src/tiers_onglet.c:465
 #, fuzzy
 msgid "Complete view"
@@ -4558,7 +4622,7 @@ msgid "Do not show this message again"
 msgstr "不再显示本消息"
 
 #: ../src/dialog.c:274 ../src/dialog.c:643 ../src/dialog.c:695
-#: ../src/gsb_scheduler_list.c:2903
+#: ../src/gsb_scheduler_list.c:2909
 msgid "Keep this choice and no longer see this message?"
 msgstr ""
 
@@ -4877,13 +4941,13 @@ msgid "Result without financial year: "
 msgstr "没有财年的结果:"
 
 #: ../src/etats_affiche.c:1410 ../src/gsb_data_transaction.c:2832
-#: ../src/gsb_scheduler_list.c:1460
+#: ../src/gsb_scheduler_list.c:1466
 #, c-format
 msgid "Transfer to %s"
 msgstr "转帐到 %s"
 
 #: ../src/etats_affiche.c:1412 ../src/gsb_data_transaction.c:2835
-#: ../src/gsb_scheduler_list.c:1465
+#: ../src/gsb_scheduler_list.c:1471
 #, c-format
 msgid "Transfer from %s"
 msgstr "从 %s 转帐"
@@ -5192,7 +5256,7 @@ msgstr ""
 "所有的类别都被选中了，如果没有选中\n"
 " \"使用类别详细\" 选项，Grisib能运行得更快"
 
-#: ../src/etats_config.c:833 ../src/gsb_rgba.c:136 ../src/utils_prefs.c:710
+#: ../src/etats_config.c:833 ../src/gsb_rgba.c:136 ../src/utils_prefs.c:706
 msgid "Not available"
 msgstr ""
 
@@ -5279,7 +5343,7 @@ msgid "Cannot open file '%s' for writing"
 msgstr "不能打开并写入文件 '%s' "
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:137
+#: ../src/etats_onglet.c:141
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -5289,7 +5353,7 @@ msgstr ""
 "选中所有的账户。"
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:146
+#: ../src/etats_onglet.c:150
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -5299,26 +5363,26 @@ msgstr ""
 "选中所有的账户。"
 
 #. Annual budget
-#: ../src/etats_onglet.c:155
+#: ../src/etats_onglet.c:159
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
 msgstr "本报表显示年度预算。您只需要选择账户。默认情况下选中所有的账户。"
 
 #. Blank report
-#: ../src/etats_onglet.c:163
+#: ../src/etats_onglet.c:167
 #, fuzzy
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "本报表是空的。您需要重新定制。"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:170
+#: ../src/etats_onglet.c:174
 msgid ""
 "This report displays the cheques deposit. You just need to select the "
 "account(s). By default all accounts are selected."
 msgstr "本报表显示支票存入。您只需要选择账户。默认情况下选中所有的账户。"
 
-#: ../src/etats_onglet.c:179
+#: ../src/etats_onglet.c:183
 #, fuzzy
 msgid ""
 "This report shows the month's expenses sorted by payees.You will just have "
@@ -5327,7 +5391,7 @@ msgstr ""
 "本报表显示本月按第三方排序的收支。您只需要选择账户。默认情况下选中所有的账"
 "户。"
 
-#: ../src/etats_onglet.c:183
+#: ../src/etats_onglet.c:187
 #, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
@@ -5337,7 +5401,7 @@ msgstr ""
 "户。"
 
 #. Search
-#: ../src/etats_onglet.c:191
+#: ../src/etats_onglet.c:195
 #, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
@@ -5347,118 +5411,118 @@ msgstr ""
 "本报表显示本年度所有账户交易的信息。您只需要增加总额、日期、第三方等条件信"
 "息。默认设定下交易是可易点击的。"
 
-#: ../src/etats_onglet.c:199
+#: ../src/etats_onglet.c:203
 msgid "No description available"
 msgstr ""
 
-#: ../src/etats_onglet.c:352
+#: ../src/etats_onglet.c:356
 msgid "Export report"
 msgstr "导出报表"
 
-#: ../src/etats_onglet.c:368
+#: ../src/etats_onglet.c:372
 #, fuzzy
 msgid "File format: "
 msgstr "信息:"
 
-#: ../src/etats_onglet.c:372
+#: ../src/etats_onglet.c:376
 msgid "Grisbi report file (egsb file)"
 msgstr ""
 
-#: ../src/etats_onglet.c:373
+#: ../src/etats_onglet.c:377
 msgid "HTML file"
 msgstr "HTML文件"
 
-#: ../src/etats_onglet.c:374
+#: ../src/etats_onglet.c:378
 #, fuzzy
 msgid "CSV file"
 msgstr "保存文件"
 
-#: ../src/etats_onglet.c:392
+#: ../src/etats_onglet.c:396
 #, fuzzy
 msgid "Exporting report..."
 msgstr "导出报表为CSV..."
 
-#: ../src/etats_onglet.c:417 ../src/grisbi_prefs.c:794
+#: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:794
 #: ../src/grisbi_prefs.c:818 ../src/gsb_debug.c:842 ../src/gsb_file.c:518
 #: ../src/gsb_file.c:667 ../src/gsb_file.c:990
 #, fuzzy
 msgid "Done"
 msgstr "无"
 
-#: ../src/etats_onglet.c:445
+#: ../src/etats_onglet.c:449
 msgid "Import a report"
 msgstr "导入报表"
 
-#: ../src/etats_onglet.c:456
+#: ../src/etats_onglet.c:460
 msgid "Grisbi report files (*.egsb)"
 msgstr ""
 
-#: ../src/etats_onglet.c:510
+#: ../src/etats_onglet.c:514
 #, fuzzy
 msgid "Create a pdf file of the report"
 msgstr "在报表最前"
 
 #. New report button
-#: ../src/etats_onglet.c:546 ../src/navigation.c:2427
+#: ../src/etats_onglet.c:550 ../src/navigation.c:2424
 msgid "New report"
 msgstr "新建报表"
 
-#: ../src/etats_onglet.c:547
+#: ../src/etats_onglet.c:551
 #, fuzzy
 msgid "Create a new report"
 msgstr "新增账户"
 
-#: ../src/etats_onglet.c:556
+#: ../src/etats_onglet.c:560
 #, fuzzy
 msgid "Import a Grisbi report file (.egsb)"
 msgstr "导入报表文件"
 
-#: ../src/etats_onglet.c:566
+#: ../src/etats_onglet.c:570
 #, fuzzy
 msgid "Export selected report to egsb, HTML, CSV"
 msgstr "报表导入到HTML文件"
 
-#: ../src/etats_onglet.c:575
+#: ../src/etats_onglet.c:579
 #, fuzzy
 msgid "Print selected report"
 msgstr "打印报表"
 
-#: ../src/etats_onglet.c:584
+#: ../src/etats_onglet.c:588
 #, fuzzy
 msgid "Delete selected report"
 msgstr "删除报表"
 
-#: ../src/etats_onglet.c:593 ../src/grisbi_win.c:455
+#: ../src/etats_onglet.c:597 ../src/grisbi_win.c:455
 #, fuzzy
 msgid "Properties"
 msgstr "货币属性"
 
-#: ../src/etats_onglet.c:594
+#: ../src/etats_onglet.c:598
 #, fuzzy
 msgid "Edit selected report"
 msgstr "删除报表"
 
 #. clone button
-#: ../src/etats_onglet.c:602
+#: ../src/etats_onglet.c:606
 #, fuzzy
 msgid "Clone"
 msgstr "关闭"
 
-#: ../src/etats_onglet.c:603
+#: ../src/etats_onglet.c:607
 #, fuzzy
 msgid "Clone selected report"
 msgstr "复制报表"
 
-#: ../src/etats_onglet.c:612
+#: ../src/etats_onglet.c:616
 #, fuzzy
 msgid "Create pdf file"
 msgstr "Postscript 文件"
 
-#: ../src/etats_onglet.c:613
+#: ../src/etats_onglet.c:617
 msgid "Creates a pdf file of the report in user directory"
 msgstr ""
 
-#: ../src/etats_onglet.c:838
+#: ../src/etats_onglet.c:842
 #, fuzzy
 msgid ""
 "You are about to create a new report. For convenience, you can choose "
@@ -5467,71 +5531,76 @@ msgstr ""
 "您想新建一份报表。  为方便起见，您可疑 在以下模板中选择一份。 稍后再进行定"
 "制。"
 
-#: ../src/etats_onglet.c:842
+#: ../src/etats_onglet.c:846
 msgid "Choose template for new report"
 msgstr "选择新报表的模板"
 
 #. on ajoute la frame pour le type de rapport
-#: ../src/etats_onglet.c:845
+#: ../src/etats_onglet.c:849
 msgid "Report type"
 msgstr "报表类型"
 
 #. set option for displays preferences of report
-#: ../src/etats_onglet.c:852
+#: ../src/etats_onglet.c:856
 #, fuzzy
 msgid "Do not show the report preferences"
 msgstr "已存在的对账引用不警告"
 
-#: ../src/etats_onglet.c:877 ../src/etats_onglet.c:932
+#: ../src/etats_onglet.c:881 ../src/etats_onglet.c:936
 msgid "Last month incomes and outgoings"
 msgstr "上月收支"
 
-#: ../src/etats_onglet.c:881 ../src/etats_onglet.c:961
+#: ../src/etats_onglet.c:885 ../src/etats_onglet.c:965
 msgid "Current month incomes and outgoings"
 msgstr "本月收支"
 
 #. Annual budget
-#: ../src/etats_onglet.c:882 ../src/etats_onglet.c:987
+#: ../src/etats_onglet.c:886 ../src/etats_onglet.c:991
 msgid "Annual budget"
 msgstr "年度预算"
 
 #. Blank report
-#: ../src/etats_onglet.c:883 ../src/etats_onglet.c:1011
+#: ../src/etats_onglet.c:887 ../src/etats_onglet.c:1015
 msgid "Blank report"
 msgstr "空报表"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:884 ../src/etats_onglet.c:1042
+#: ../src/etats_onglet.c:888 ../src/etats_onglet.c:1046
 msgid "Cheques deposit"
 msgstr "支票存入"
 
-#: ../src/etats_onglet.c:888 ../src/etats_onglet.c:1083
+#: ../src/etats_onglet.c:892 ../src/etats_onglet.c:1087
 #, fuzzy
 msgid "Monthly outgoings by payee"
 msgstr "第三方月度支出"
 
-#: ../src/etats_onglet.c:930
+#: ../src/etats_onglet.c:934
 #, fuzzy
 msgid "Last month products and expenses"
 msgstr "上月收支"
 
-#: ../src/etats_onglet.c:1148
+#: ../src/etats_onglet.c:1152
 msgid "Unknown report type, creation cancelled"
 msgstr "未知报表类型，取消新建"
 
-#: ../src/etats_onglet.c:1193 ../src/grisbi_win.c:490 ../src/navigation.c:1345
-#: ../src/navigation.c:2103
+#: ../src/etats_onglet.c:1197 ../src/grisbi_win.c:490 ../src/navigation.c:1342
+#: ../src/navigation.c:2100
 msgid "Reports"
 msgstr "报表"
 
-#: ../src/etats_onglet.c:1240
+#: ../src/etats_onglet.c:1244
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "删除报表 \"%s\"？"
 
-#: ../src/etats_onglet.c:1242
+#: ../src/etats_onglet.c:1246
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr "这样将永久删除报表，无法恢复。"
+
+#: ../src/etats_onglet.c:1385
+#, fuzzy
+msgid "Searching"
+msgstr "查找"
 
 #: ../src/etats_prefs.c:49
 msgid ""
@@ -5608,7 +5677,7 @@ msgid "Account selection"
 msgstr "账户交易"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_prefs.c:1433 ../src/navigation.c:2087 ../src/tiers_onglet.c:718
+#: ../src/etats_prefs.c:1433 ../src/navigation.c:2084 ../src/tiers_onglet.c:718
 #: ../src/tiers_onglet.c:957
 #, fuzzy
 msgid "Payees"
@@ -6187,7 +6256,7 @@ msgstr "Viet Nam"
 msgid "Western"
 msgstr "网站"
 
-#: ../src/go-charmap-sel.c:91 ../src/help.c:147 ../src/utils.c:67
+#: ../src/go-charmap-sel.c:91 ../src/help.c:147 ../src/utils.c:63
 msgid "Other"
 msgstr ""
 
@@ -6554,69 +6623,69 @@ msgstr ""
 msgid "Full screen"
 msgstr ""
 
-#: ../src/grisbi_app.c:737
+#: ../src/grisbi_app.c:738
 #, fuzzy
 msgid "Show the application's version"
 msgstr "每笔交易显示3行"
 
-#: ../src/grisbi_app.c:743
+#: ../src/grisbi_app.c:744
 msgid "Create a new top-level window in an existing instance of grisbi"
 msgstr ""
 
-#: ../src/grisbi_app.c:750
+#: ../src/grisbi_app.c:751
 #, fuzzy
 msgid "Debug mode: level 0-5"
 msgstr "除错"
 
-#: ../src/grisbi_app.c:751
+#: ../src/grisbi_app.c:752
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:757
+#: ../src/grisbi_app.c:758
 #, fuzzy
 msgid "If present, force the use of a dark theme"
 msgstr "按日期排序"
 
-#: ../src/grisbi_app.c:779
+#: ../src/grisbi_app.c:780
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:968
+#: ../src/grisbi_app.c:969
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
 
-#: ../src/grisbi_app.c:971
+#: ../src/grisbi_app.c:972
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
 
-#: ../src/grisbi_app.c:974
+#: ../src/grisbi_app.c:975
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
 
-#: ../src/grisbi_app.c:1192 ../src/menu.c:631
+#: ../src/grisbi_app.c:1193 ../src/menu.c:632
 #, fuzzy
 msgid "Start an action!"
 msgstr "查找交易"
 
-#: ../src/grisbi_app.c:1481
+#: ../src/grisbi_app.c:1483
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "删除交易"
 
-#: ../src/grisbi_app.c:1483
+#: ../src/grisbi_app.c:1485
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "调整交易"
 
-#: ../src/grisbi_app.c:1484
+#: ../src/grisbi_app.c:1486
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "调整交易"
 
-#: ../src/grisbi_conf.c:1134
+#: ../src/grisbi_conf.c:1144 ../src/grisbi_settings.c:1642
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "不能保存文件 '%s': %s"
@@ -6633,7 +6702,7 @@ msgid "Archives"
 msgstr "活动"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_divers.c:567
+#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_divers.c:569
 #, fuzzy
 msgid "Various settings"
 msgstr "导入"
@@ -6790,25 +6859,25 @@ msgstr "打开账户文件"
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "导出文件"
 
-#: ../src/grisbi_win.c:1463
+#: ../src/grisbi_win.c:1374
 #, fuzzy
 msgid "Unnamed account"
 msgstr "已导入的账户"
 
-#: ../src/grisbi_win.c:1485 ../src/gsb_transactions_list.c:549
+#: ../src/grisbi_win.c:1396 ../src/gsb_transactions_list.c:549
 msgid "Move transaction to another account"
 msgstr "移动交易到另一个账户"
 
-#: ../src/grisbi_win.c:1644 ../src/gsb_file.c:397 ../src/gsb_file.c:428
+#: ../src/grisbi_win.c:1555 ../src/gsb_file.c:397 ../src/gsb_file.c:428
 msgid "unnamed"
 msgstr "未命名"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1943
+#: ../src/grisbi_win.c:1854
 msgid "Creating main window"
 msgstr ""
 
-#: ../src/grisbi_win.c:1955
+#: ../src/grisbi_win.c:1866
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -9328,7 +9397,7 @@ msgstr "没有定义第三方"
 #. on récupère le nom de l'état
 #: ../src/gsb_data_payee.c:612 ../src/gsb_form.c:1024 ../src/gtk_combofix.c:389
 #: ../src/gtk_combofix.c:590 ../src/gtk_combofix.c:2361
-#: ../src/gtk_combofix.c:2484 ../src/navigation.c:1343
+#: ../src/gtk_combofix.c:2484 ../src/navigation.c:1340
 msgid "Report"
 msgstr "报表"
 
@@ -9769,7 +9838,7 @@ msgstr ""
 msgid "Checking amounts"
 msgstr "支票"
 
-#: ../src/gsb_file.c:1265
+#: ../src/gsb_file.c:1263
 #, c-format
 msgid ""
 "The original file was saved saved as:\n"
@@ -9782,7 +9851,7 @@ msgid "This is not a Grisbi file... Loading aborted."
 msgstr "该文件不是Grisbi报表"
 
 #: ../src/gsb_file_load.c:4132 ../src/gsb_file_save.c:1901
-#: ../src/utils_prefs.c:764
+#: ../src/utils_prefs.c:760
 #, fuzzy, c-format
 msgid ""
 "This build of Grisbi does not support encryption.\n"
@@ -10118,7 +10187,7 @@ msgid "Transfer : Deleted account"
 msgstr "转帐：已删除的账户"
 
 #: ../src/gsb_form.c:1792 ../src/gsb_form_scheduler.c:142
-#: ../src/gsb_scheduler_list.c:1525
+#: ../src/gsb_scheduler_list.c:1531
 msgid "Manual"
 msgstr "手动"
 
@@ -10147,7 +10216,7 @@ msgstr ""
 msgid "No payee selected for this report."
 msgstr "本报表没有选择第三方。"
 
-#: ../src/gsb_form_scheduler.c:142 ../src/gsb_scheduler_list.c:1523
+#: ../src/gsb_form_scheduler.c:142 ../src/gsb_scheduler_list.c:1529
 msgid "Automatic"
 msgstr "自动"
 
@@ -10586,27 +10655,27 @@ msgstr "录入预定交易"
 msgid "Change display mode of scheduled transaction list"
 msgstr "显示定期交易"
 
-#: ../src/gsb_scheduler_list.c:1488
+#: ../src/gsb_scheduler_list.c:1494
 #, c-format
 msgid "%d days"
 msgstr "%d 日"
 
-#: ../src/gsb_scheduler_list.c:1493
+#: ../src/gsb_scheduler_list.c:1499
 #, fuzzy, c-format
 msgid "%d weeks"
 msgstr "周"
 
-#: ../src/gsb_scheduler_list.c:1498
+#: ../src/gsb_scheduler_list.c:1504
 #, c-format
 msgid "%d months"
 msgstr "%d 月"
 
-#: ../src/gsb_scheduler_list.c:1503
+#: ../src/gsb_scheduler_list.c:1509
 #, c-format
 msgid "%d years"
 msgstr "%d 年"
 
-#: ../src/gsb_scheduler_list.c:1665
+#: ../src/gsb_scheduler_list.c:1671
 #, c-format
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
@@ -10618,18 +10687,18 @@ msgid ""
 "Do you want to delete it?"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1671 ../src/gsb_transactions_list.c:2149
+#: ../src/gsb_scheduler_list.c:1677 ../src/gsb_transactions_list.c:2150
 #, fuzzy
 msgid "Remove orphan children"
 msgstr "删除交易"
 
-#: ../src/gsb_scheduler_list.c:1854 ../src/transaction_list.c:175
+#: ../src/gsb_scheduler_list.c:1860 ../src/transaction_list.c:175
 #: ../src/transaction_list.c:488 ../src/transaction_list.c:1398
 #, fuzzy, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "总计 %s: %s (%d 交易)"
 
-#: ../src/gsb_scheduler_list.c:2369
+#: ../src/gsb_scheduler_list.c:2375
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -10639,7 +10708,7 @@ msgid ""
 msgstr ""
 
 #. ask all the time for a child
-#: ../src/gsb_scheduler_list.c:2808
+#: ../src/gsb_scheduler_list.c:2814
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -10648,13 +10717,13 @@ msgstr "您想单删除本次事件还是整个定期交易？"
 
 #. for a normal scheduled, ask only if no frequency, else, it will
 #. * have another dialog to delete the occurence or the transaction
-#: ../src/gsb_scheduler_list.c:2825
+#: ../src/gsb_scheduler_list.c:2831
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "您想单删除本次事件还是整个定期交易？"
 
-#: ../src/gsb_scheduler_list.c:2879
+#: ../src/gsb_scheduler_list.c:2885
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -10663,17 +10732,17 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr "您想单删除本次事件还是整个定期交易？"
 
-#: ../src/gsb_scheduler_list.c:2893
+#: ../src/gsb_scheduler_list.c:2899
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "删除一条定期交易"
 
-#: ../src/gsb_scheduler_list.c:2897
+#: ../src/gsb_scheduler_list.c:2903
 #, fuzzy
 msgid "All the occurrences"
 msgstr "所有的事件"
 
-#: ../src/gsb_scheduler_list.c:2898
+#: ../src/gsb_scheduler_list.c:2904
 msgid "Only this one"
 msgstr "只有这个"
 
@@ -10791,7 +10860,7 @@ msgstr ""
 "您确定要这么做吗？"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:1582 ../src/gsb_transactions_list.c:3070
+#: ../src/gsb_transactions_list.c:1582 ../src/gsb_transactions_list.c:3071
 msgid "R"
 msgstr "R"
 
@@ -10832,12 +10901,12 @@ msgstr ""
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2084
+#: ../src/gsb_transactions_list.c:2085
 #, fuzzy
 msgid "Do you really want to delete this file import rule?"
 msgstr "您想单删除本次事件还是整个定期交易？"
 
-#: ../src/gsb_transactions_list.c:2143
+#: ../src/gsb_transactions_list.c:2144
 #, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -10849,104 +10918,104 @@ msgid ""
 "Do you want to delete it?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2321
+#: ../src/gsb_transactions_list.c:2322
 #, fuzzy
 msgid "Edit the rule"
 msgstr "初始余额"
 
-#: ../src/gsb_transactions_list.c:2329
+#: ../src/gsb_transactions_list.c:2330
 #, fuzzy
 msgid "Remove the rule"
 msgstr "删除报表"
 
-#: ../src/gsb_transactions_list.c:2396
+#: ../src/gsb_transactions_list.c:2397
 msgid "Simple view"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2402
+#: ../src/gsb_transactions_list.c:2403
 #, fuzzy
 msgid "Two lines view"
 msgstr "两行模式"
 
-#: ../src/gsb_transactions_list.c:2408
+#: ../src/gsb_transactions_list.c:2409
 #, fuzzy
 msgid "Three lines view"
 msgstr "三行模式"
 
-#: ../src/gsb_transactions_list.c:2441
+#: ../src/gsb_transactions_list.c:2442
 #, fuzzy
 msgid "Show reconciled transactions"
 msgstr "没有调整的交易"
 
-#: ../src/gsb_transactions_list.c:2503
+#: ../src/gsb_transactions_list.c:2504
 #, fuzzy
 msgid "Blank the form to create a new transaction"
 msgstr "类别总计 (%d 交易)"
 
-#: ../src/gsb_transactions_list.c:2512
+#: ../src/gsb_transactions_list.c:2513
 #, fuzzy
 msgid "Delete selected transaction"
 msgstr "删除一条定期交易"
 
-#: ../src/gsb_transactions_list.c:2521
+#: ../src/gsb_transactions_list.c:2522
 #, fuzzy
 msgid "Edit current transaction"
 msgstr "更改交易"
 
 #. reconcile button
-#: ../src/gsb_transactions_list.c:2529
+#: ../src/gsb_transactions_list.c:2530
 msgid "Reconcile"
 msgstr "对账"
 
-#: ../src/gsb_transactions_list.c:2530
+#: ../src/gsb_transactions_list.c:2531
 #, fuzzy
 msgid "Start account reconciliation"
 msgstr "对账引用不警告"
 
-#: ../src/gsb_transactions_list.c:2539
+#: ../src/gsb_transactions_list.c:2540
 #, fuzzy
 msgid "Print the transactions list"
 msgstr "交易列表排序"
 
-#: ../src/gsb_transactions_list.c:2548
+#: ../src/gsb_transactions_list.c:2549
 msgid "Change display mode of the list"
 msgstr ""
 
 #. select the rule
-#: ../src/gsb_transactions_list.c:2556
+#: ../src/gsb_transactions_list.c:2557
 #, fuzzy
 msgid "Import rules"
 msgstr "导入"
 
-#: ../src/gsb_transactions_list.c:2557
+#: ../src/gsb_transactions_list.c:2558
 msgid "Quick file import by rules"
 msgstr ""
 
 #. archive button
-#: ../src/gsb_transactions_list.c:2572
+#: ../src/gsb_transactions_list.c:2573
 #, fuzzy
 msgid "Recreates archive"
 msgstr "删除第三方"
 
-#: ../src/gsb_transactions_list.c:2574
+#: ../src/gsb_transactions_list.c:2575
 #, fuzzy
 msgid "Recreates the line of the archive and hiding the transactions"
 msgstr "删除一条定期交易"
 
-#: ../src/gsb_transactions_list.c:3062
+#: ../src/gsb_transactions_list.c:3063
 msgid "P"
 msgstr "P"
 
-#: ../src/gsb_transactions_list.c:3066
+#: ../src/gsb_transactions_list.c:3067
 msgid "T"
 msgstr "T"
 
-#: ../src/gsb_transactions_list.c:3488
+#: ../src/gsb_transactions_list.c:3489
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "不能删除一笔对账交易。"
 
-#: ../src/gsb_transactions_list.c:3497
+#: ../src/gsb_transactions_list.c:3498
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -10954,18 +11023,18 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3513
+#: ../src/gsb_transactions_list.c:3514
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3522
+#: ../src/gsb_transactions_list.c:3523
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:4230 ../src/gsb_transactions_list.c:4345
+#: ../src/gsb_transactions_list.c:4231 ../src/gsb_transactions_list.c:4346
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -10973,7 +11042,7 @@ msgid ""
 "The concerned children number are:\n"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:4262 ../src/gsb_transactions_list.c:4371
+#: ../src/gsb_transactions_list.c:4263 ../src/gsb_transactions_list.c:4372
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -11666,13 +11735,13 @@ msgstr "该文件不是Grisbi预算行文件"
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/imputation_budgetaire.c:650 ../src/navigation.c:2382
+#: ../src/imputation_budgetaire.c:650 ../src/navigation.c:2379
 #, fuzzy
 msgid "Delete selected budgetary line"
 msgstr "删除预算行"
 
 #: ../src/imputation_budgetaire.c:662 ../src/imputation_budgetaire.c:1155
-#: ../src/navigation.c:2395
+#: ../src/navigation.c:2392
 #, fuzzy
 msgid "Edit selected budgetary line"
 msgstr "删除预算行"
@@ -11748,7 +11817,7 @@ msgstr "没有子预算行"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "转移这些交易到"
 
-#: ../src/menu.c:97 ../src/menu.c:114
+#: ../src/menu.c:98 ../src/menu.c:115
 #, fuzzy
 msgid "en"
 msgstr "手动"
@@ -11774,7 +11843,7 @@ msgid "No sub-category"
 msgstr "没有子类"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:284 ../src/navigation.c:2323
+#: ../src/meta_categories.c:284 ../src/navigation.c:2320
 msgid "New category"
 msgstr "新增类别"
 
@@ -11800,7 +11869,7 @@ msgstr "没有子类"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:371 ../src/navigation.c:2271 ../src/tiers_onglet.c:529
+#: ../src/meta_payee.c:371 ../src/navigation.c:2268 ../src/tiers_onglet.c:529
 #, fuzzy
 msgid "New payee"
 msgstr "新支付方式"
@@ -11973,15 +12042,15 @@ msgstr "本交易使用自定义的字体"
 msgid "Use note: \"%s\" to find the transactions"
 msgstr "本交易使用自定义的字体"
 
-#: ../src/metatree.c:3880 ../src/search_transaction.c:650
-#: ../src/search_transaction.c:680
+#: ../src/metatree.c:3880 ../src/search_transaction.c:659
+#: ../src/search_transaction.c:689
 #, fuzzy
 msgid "You must select at least one search element"
 msgstr "选择资产账户"
 
-#: ../src/metatree.c:3881 ../src/search_transaction.c:462
-#: ../src/search_transaction.c:651 ../src/search_transaction.c:681
-#: ../src/search_transaction.c:767
+#: ../src/metatree.c:3881 ../src/search_transaction.c:467
+#: ../src/search_transaction.c:660 ../src/search_transaction.c:690
+#: ../src/search_transaction.c:776
 msgid "WARNING"
 msgstr ""
 
@@ -12016,57 +12085,57 @@ msgstr "最后声明：无"
 msgid "closed"
 msgstr "关闭"
 
-#: ../src/navigation.c:2261
+#: ../src/navigation.c:2258
 #, fuzzy
 msgid "Remove this account"
 msgstr "删除账户"
 
-#: ../src/navigation.c:2278 ../src/tiers_onglet.c:542
+#: ../src/navigation.c:2275 ../src/tiers_onglet.c:542
 #, fuzzy
 msgid "Delete selected payee"
 msgstr "删除第三方"
 
-#: ../src/navigation.c:2291 ../src/tiers_onglet.c:554
+#: ../src/navigation.c:2288 ../src/tiers_onglet.c:554
 msgid "Edit selected payee"
 msgstr ""
 
 #. Manage payees button
-#: ../src/navigation.c:2307 ../src/tiers_onglet.c:571
+#: ../src/navigation.c:2304 ../src/tiers_onglet.c:571
 #, fuzzy
 msgid "Manage payees"
 msgstr "首页"
 
 #. Remove unused payees button
-#: ../src/navigation.c:2314 ../src/tiers_onglet.c:580
+#: ../src/navigation.c:2311 ../src/tiers_onglet.c:580
 msgid "Remove unused payees"
 msgstr ""
 
-#: ../src/navigation.c:2359
+#: ../src/navigation.c:2356
 #, fuzzy
 msgid "Import a file of categories (.cgsb)"
 msgstr "导入类别清单"
 
-#: ../src/navigation.c:2366
+#: ../src/navigation.c:2363
 #, fuzzy
 msgid "Export the list of categories (.cgsb)"
 msgstr "导出类别"
 
-#: ../src/navigation.c:2375
+#: ../src/navigation.c:2372
 #, fuzzy
 msgid "New budgetary line"
 msgstr "新的预算行"
 
-#: ../src/navigation.c:2411
+#: ../src/navigation.c:2408
 #, fuzzy
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/navigation.c:2418
+#: ../src/navigation.c:2415
 #, fuzzy
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/navigation.c:2438
+#: ../src/navigation.c:2435
 #, fuzzy
 msgid "Remove this report"
 msgstr "删除报表"
@@ -12537,32 +12606,32 @@ msgstr "列5"
 msgid "Col 6"
 msgstr "列6"
 
-#: ../src/prefs/prefs_page_divers.c:453
+#: ../src/prefs/prefs_page_divers.c:455
 msgid "You will have to restart Grisbi for the new language to take effect."
 msgstr ""
 
-#: ../src/prefs/prefs_page_divers.c:454
+#: ../src/prefs/prefs_page_divers.c:456
 #, fuzzy, c-format
 msgid "Changes the language of Grisbi for \"%s\"!"
 msgstr "选择账户"
 
-#: ../src/prefs/prefs_page_divers.c:510
+#: ../src/prefs/prefs_page_divers.c:512
 #, fuzzy
 msgid "System Language"
 msgstr "选择账户"
 
-#: ../src/prefs/prefs_page_divers.c:577
+#: ../src/prefs/prefs_page_divers.c:579
 #, fuzzy
 msgid "File: "
 msgstr "文件"
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:590
+#: ../src/prefs/prefs_page_divers.c:592
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "手动预定的到期日交易"
 
-#: ../src/prefs/prefs_page_divers.c:591
+#: ../src/prefs/prefs_page_divers.c:593
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "录入自动预定的交易"
@@ -12918,7 +12987,7 @@ msgstr ""
 #: ../src/print_report.c:460 ../src/print_report.c:474
 #: ../src/print_transactions_list.c:282 ../src/print_transactions_list.c:305
 #: ../src/print_tree_view_list.c:1031 ../src/print_tree_view_list.c:1048
-#: ../src/utils_prefs.c:211
+#: ../src/utils_prefs.c:207
 msgid "Choosing font"
 msgstr ""
 
@@ -13100,13 +13169,13 @@ msgstr ""
 msgid "Error opening file '%s'"
 msgstr "打开文件 '%s'.发生错误"
 
-#: ../src/search_transaction.c:461 ../src/search_transaction.c:766
+#: ../src/search_transaction.c:466 ../src/search_transaction.c:775
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "您必须输入日期"
 
 #. on demande de choisir un nouveau compte
-#: ../src/search_transaction.c:917
+#: ../src/search_transaction.c:962
 #, fuzzy
 msgid "Choose another account"
 msgstr "选择账户"
@@ -13489,26 +13558,26 @@ msgid ""
 "Asked to sort by column %d, which is bigger than the visible columns (%d)"
 msgstr ""
 
-#: ../src/utils.c:63
+#: ../src/utils.c:59
 #, fuzzy
 msgid "Comma"
 msgstr "备注"
 
-#: ../src/utils.c:64
+#: ../src/utils.c:60
 msgid "Semi-colon"
 msgstr ""
 
-#: ../src/utils.c:65
+#: ../src/utils.c:61
 #, fuzzy
 msgid "Colon"
 msgstr "列1"
 
-#: ../src/utils.c:66
+#: ../src/utils.c:62
 #, fuzzy
 msgid "Tabulation"
 msgstr "翻译"
 
-#: ../src/utils.c:206
+#: ../src/utils.c:202
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url:\n"
@@ -13519,12 +13588,12 @@ msgstr ""
 "Grisbi 不能打开浏览器访问网址：<tt>%s</tt>。 请检查您的设置以使用正确的浏览"
 "器。"
 
-#: ../src/utils.c:209 ../src/utils.c:247
+#: ../src/utils.c:205 ../src/utils.c:243
 #, fuzzy
 msgid "Cannot execute web browser"
 msgstr "无法运行web浏览器"
 
-#: ../src/utils.c:243
+#: ../src/utils.c:239
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
@@ -13534,7 +13603,7 @@ msgstr ""
 "Grisbi 不能打开浏览器访问网址：<tt>%s</tt>。 请检查您的设置以使用正确的浏览"
 "器。"
 
-#: ../src/utils.c:483
+#: ../src/utils.c:479
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
@@ -13543,7 +13612,7 @@ msgstr ""
 "Grisbi 不能打开浏览器访问网址：<tt>%s</tt>。 请检查您的设置以使用正确的浏览"
 "器。"
 
-#: ../src/utils.c:487
+#: ../src/utils.c:483
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "无法运行web浏览器"
@@ -13603,7 +13672,7 @@ msgstr "%s 的结果"
 msgid "If no proposals above are correct you can choose a different charset."
 msgstr ""
 
-#: ../src/utils_prefs.c:768
+#: ../src/utils_prefs.c:764
 #, fuzzy, c-format
 msgid "Could not encrypt file"
 msgstr "Postscript 文件"
@@ -13760,19 +13829,9 @@ msgstr ""
 #~ msgid "Manage import associations"
 #~ msgstr "类别详情"
 
-#~ msgid "Known payment methods"
-#~ msgstr "现有支付方式"
-
-#~ msgid "Payment method details"
-#~ msgstr "支付方式明细"
-
 #, fuzzy
 #~ msgid "Need entry field"
 #~ msgstr "选择下一栏位"
-
-#, fuzzy
-#~ msgid "Payment method is used by transactions"
-#~ msgstr "支付方式明细"
 
 #~ msgid "Currency details"
 #~ msgstr "货币明细"
@@ -13796,10 +13855,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "invalid_label"
 #~ msgstr "非法日期"
-
-#, fuzzy
-#~ msgid "Amortization table"
-#~ msgstr "打印到文件"
 
 #, fuzzy
 #~ msgid "Duration estimation:"
@@ -15087,9 +15142,6 @@ msgstr ""
 #~ msgstr ""
 #~ "本交易的细目分类本身包含一个转帐。 您需要改变子交易到另一个账户的转帐，或"
 #~ "者改变交易账户本身。"
-
-#~ msgid "Can't issue scheduled operation"
-#~ msgstr "不能进行定期操作"
 
 #~ msgid "Calendar"
 #~ msgstr "日历"
