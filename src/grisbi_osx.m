@@ -37,7 +37,7 @@
 #import <Foundation/NSString.h>
 #include <mach-o/dyld.h> // for _NSGetExecutablePath
 
-#include "grisbi_os.h"
+#include "grisbi_osx.h"
 #include "erreur.h"
 
 
