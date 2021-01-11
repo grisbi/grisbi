@@ -1790,14 +1790,11 @@ void gsb_form_fill_element (gint element_number,
 			{
 				if (gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction))
 				{
-					gtk_widget_show (widget);
 					if (gsb_data_mix_get_automatic_transaction (transaction_number, is_transaction))
 						gtk_label_set_text (GTK_LABEL (widget), _("Auto"));
 					else
 						gtk_label_set_text (GTK_LABEL (widget), _("Manual"));
 				}
-				else
-					gtk_widget_hide (widget);
 			}
 			break;
     }
