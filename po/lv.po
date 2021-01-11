@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-10 06:43+0100\n"
+"POT-Creation-Date: 2021-01-11 08:08+0100\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -129,7 +129,7 @@ msgid "Show grid"
 msgstr "Rādīt _saskaņojumus"
 
 #. On récupère le nom de la page
-#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:546
+#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:526
 #: ../src/prefs/prefs_page_bet_general.c:216
 msgid "General Options"
 msgstr "Vispārīgi iestatījumi"
@@ -203,7 +203,7 @@ msgstr "Vispārīgie iestatījumi"
 #: ../src/ui/prefs_page_display_fonts.ui.h:10
 #: ../src/ui/prefs_page_display_form.ui.h:5
 #: ../src/ui/prefs_page_display_gui.ui.h:15
-#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:36
+#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:37
 #: ../src/ui/prefs_page_files.ui.h:22
 #: ../src/ui/prefs_page_form_completion.ui.h:14
 #: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
@@ -278,9 +278,9 @@ msgstr ""
 #: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
 #: ../src/bet_finance_ui.c:1827 ../src/bet_future.c:531 ../src/bet_tab.c:1969
 #: ../src/etats_affiche.c:2463 ../src/export_csv.c:368
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1986
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1992
 #: ../src/gsb_form_widget.c:550 ../src/gsb_reconcile.c:214
-#: ../src/gsb_scheduler_list.c:859 ../src/gsb_transactions_list.c:110
+#: ../src/gsb_scheduler_list.c:857 ../src/gsb_transactions_list.c:110
 #: ../src/import.c:1876 ../src/import.c:4286 ../src/import_csv.c:72
 msgid "Date"
 msgstr "Datums"
@@ -320,8 +320,8 @@ msgstr "Izvēlēties visus darījumus"
 
 #. 2
 #: ../src/ui/etats_prefs.ui.h:17 ../src/etats_affiche.c:2470
-#: ../src/export_csv.c:371 ../src/gsb_form.c:1992 ../src/gsb_form.c:2806
-#: ../src/gsb_form.c:2833 ../src/gsb_form_widget.c:562
+#: ../src/export_csv.c:371 ../src/gsb_form.c:1998 ../src/gsb_form.c:2812
+#: ../src/gsb_form.c:2839 ../src/gsb_form_widget.c:562
 #: ../src/gsb_transactions_list.c:111 ../src/import_csv.c:73
 msgid "Value date"
 msgstr "Vērtība"
@@ -467,8 +467,8 @@ msgstr "Rādīt starpsummu par katru kontu"
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:547
 #: ../src/etats_affiche.c:2484 ../src/etats_config.c:2914
 #: ../src/etats_prefs.c:382 ../src/export_csv.c:383 ../src/grisbi_win.c:470
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2009
-#: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:859
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2015
+#: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:857
 #: ../src/gsb_transactions_list.c:112 ../src/import.c:4293
 #: ../src/import_csv.c:74 ../src/meta_payee.c:79
 #: ../src/prefs/prefs_widget_loan.c:950 ../src/widgets/widget_transfer.c:918
@@ -945,14 +945,14 @@ msgid "E_dit"
 msgstr ""
 
 #. Edit transaction
-#: ../src/ui/grisbi_menu.ui.h:21 ../src/gsb_scheduler_list.c:328
+#: ../src/ui/grisbi_menu.ui.h:21 ../src/gsb_scheduler_list.c:326
 #: ../src/gsb_transactions_list.c:488
 msgid "Edit transaction"
 msgstr "Rediģēt darījumu"
 
 #. new transaction button
 #: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:117
-#: ../src/grisbi_app.c:134 ../src/gsb_scheduler_list.c:354
+#: ../src/grisbi_app.c:134 ../src/gsb_scheduler_list.c:352
 #: ../src/gsb_transactions_list.c:501 ../src/gsb_transactions_list.c:2503
 msgid "New transaction"
 msgstr "Jauns darījums"
@@ -967,7 +967,7 @@ msgid "Use selected transaction as a template"
 msgstr "Izmantot atlasīto darbību kā veidni"
 
 #. Clone transaction
-#: ../src/ui/grisbi_menu.ui.h:25 ../src/gsb_scheduler_list.c:339
+#: ../src/ui/grisbi_menu.ui.h:25 ../src/gsb_scheduler_list.c:337
 #: ../src/gsb_transactions_list.c:528
 msgid "Clone transaction"
 msgstr "Klonēt darījumu"
@@ -993,7 +993,7 @@ msgstr "_Dzēst pašreizējo kontu"
 #. View button
 #. Change view mode button
 #: ../src/ui/grisbi_menu.ui.h:30 ../src/categories_onglet.c:621
-#: ../src/gsb_scheduler_list.c:1145 ../src/gsb_transactions_list.c:2548
+#: ../src/gsb_scheduler_list.c:1143 ../src/gsb_transactions_list.c:2548
 #: ../src/imputation_budgetaire.c:670 ../src/tiers_onglet.c:562
 msgid "View"
 msgstr "Skats"
@@ -1088,7 +1088,7 @@ msgstr "_Eksportēt kontu kā QIF/CSV failu..."
 #. Properties button
 #. edit button
 #: ../src/ui/grisbi_menu.ui.h:48 ../src/categories_onglet.c:609
-#: ../src/gsb_scheduler_list.c:1113 ../src/gsb_transactions_list.c:2521
+#: ../src/gsb_scheduler_list.c:1111 ../src/gsb_transactions_list.c:2521
 #: ../src/imputation_budgetaire.c:658 ../src/tiers_onglet.c:550
 msgid "Edit"
 msgstr "Rediģēt"
@@ -1452,7 +1452,7 @@ msgstr ""
 #. append group page "Generalities"
 #: ../src/ui/prefs_page_divers.ui.h:12
 #: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:433
-#: ../src/etats_prefs.c:2468 ../src/grisbi_prefs.c:399
+#: ../src/etats_prefs.c:2468 ../src/grisbi_prefs.c:379
 msgid "Generalities"
 msgstr "Vispārīgi"
 
@@ -1511,40 +1511,44 @@ msgstr ""
 msgid "transaction in the list"
 msgstr "Darījumu saraksta darbība"
 
-#: ../src/ui/prefs_page_divers.ui.h:28 ../src/grisbi_win.c:465
+#: ../src/ui/prefs_page_divers.ui.h:28
+msgid "(This change will take effect on the next restart)"
+msgstr ""
+
+#: ../src/ui/prefs_page_divers.ui.h:29 ../src/grisbi_win.c:465
 #: ../src/navigation.c:2080
 msgid "Scheduler"
 msgstr "Plānotājs"
 
-#: ../src/ui/prefs_page_divers.ui.h:29
+#: ../src/ui/prefs_page_divers.ui.h:30
 #, fuzzy
 msgid "Choose the language"
 msgstr "Izvēlēties kontu"
 
-#: ../src/ui/prefs_page_divers.ui.h:30 ../src/parametres.c:144
+#: ../src/ui/prefs_page_divers.ui.h:31 ../src/parametres.c:144
 #: ../src/parametres.c:152
 msgid "Choose the date format"
 msgstr "Izvēlieties datuma formātu"
 
-#: ../src/ui/prefs_page_divers.ui.h:31
+#: ../src/ui/prefs_page_divers.ui.h:32
 #, fuzzy
 msgid "Choose decimal and thousands separator"
 msgstr "Izvēlieties tūkstošu atdalītāju"
 
-#: ../src/ui/prefs_page_divers.ui.h:32 ../src/parametres.c:237
+#: ../src/ui/prefs_page_divers.ui.h:33 ../src/parametres.c:237
 msgid "Decimal point: "
 msgstr "Decimālais atdalītājs:"
 
-#: ../src/ui/prefs_page_divers.ui.h:33 ../src/parametres.c:250
+#: ../src/ui/prefs_page_divers.ui.h:34 ../src/parametres.c:250
 msgid "Thousands separator: "
 msgstr "Tūkstošu atdalītājs:"
 
-#: ../src/ui/prefs_page_divers.ui.h:34
+#: ../src/ui/prefs_page_divers.ui.h:35
 msgid "Localization"
 msgstr "Lokalizācija"
 
 #. set options
-#: ../src/ui/prefs_page_divers.ui.h:35 ../src/bet_graph.c:1340
+#: ../src/ui/prefs_page_divers.ui.h:36 ../src/bet_graph.c:1340
 #: ../src/tiers_onglet.c:1260
 msgid "Options"
 msgstr "Opcijas"
@@ -1613,7 +1617,7 @@ msgid "Remove backup files older than "
 msgstr ""
 
 #: ../src/ui/prefs_page_files.ui.h:17 ../src/ui/prefs_widget_loan.ui.h:2
-#: ../src/bet_finance_ui.c:280 ../src/gsb_scheduler_list.c:118
+#: ../src/bet_finance_ui.c:280 ../src/gsb_scheduler_list.c:116
 msgid "months"
 msgstr "mēnesis"
 
@@ -1903,7 +1907,7 @@ msgstr "Neitrāls"
 
 #: ../src/ui/prefs_page_payment_method.ui.h:10 ../src/bet_future.c:552
 #: ../src/bet_tab.c:2003 ../src/categories_onglet.c:782 ../src/export_csv.c:389
-#: ../src/gsb_form.c:2015 ../src/gsb_form_widget.c:554
+#: ../src/gsb_form.c:2021 ../src/gsb_form_widget.c:554
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:83
 #: ../src/imputation_budgetaire.c:829
 #: ../src/prefs/prefs_page_payment_method.c:507
@@ -1914,7 +1918,7 @@ msgstr "Debets"
 #. 11
 #: ../src/ui/prefs_page_payment_method.ui.h:11 ../src/bet_future.c:557
 #: ../src/bet_tab.c:2021 ../src/categories_onglet.c:782 ../src/export_csv.c:386
-#: ../src/gsb_form.c:2021 ../src/gsb_form_widget.c:558
+#: ../src/gsb_form.c:2027 ../src/gsb_form_widget.c:558
 #: ../src/gsb_transactions_list.c:115 ../src/import_csv.c:82
 #: ../src/imputation_budgetaire.c:829
 #: ../src/prefs/prefs_page_payment_method.c:521
@@ -2178,9 +2182,9 @@ msgstr "Fakss:"
 
 #. 4
 #: ../src/widgets/widget_bank_details.ui.h:11 ../src/bet_future.c:574
-#: ../src/etats_affiche.c:2505 ../src/export_csv.c:401 ../src/gsb_form.c:2042
-#: ../src/gsb_form_widget.c:586 ../src/gsb_scheduler_list.c:273
-#: ../src/gsb_scheduler_list.c:860 ../src/gsb_scheduler_list.c:1124
+#: ../src/etats_affiche.c:2505 ../src/export_csv.c:401 ../src/gsb_form.c:2048
+#: ../src/gsb_form_widget.c:586 ../src/gsb_scheduler_list.c:271
+#: ../src/gsb_scheduler_list.c:858 ../src/gsb_scheduler_list.c:1122
 #: ../src/gsb_transactions_list.c:124 ../src/import_csv.c:75
 msgid "Notes"
 msgstr "Piezīmes"
@@ -3252,7 +3256,7 @@ msgstr "Jums ir jāievada vismaz vienu kapitāla vērtību"
 msgid "year"
 msgstr "gads"
 
-#: ../src/bet_finance_ui.c:593 ../src/gsb_scheduler_list.c:118
+#: ../src/bet_finance_ui.c:593 ../src/gsb_scheduler_list.c:116
 msgid "years"
 msgstr "gads"
 
@@ -3469,7 +3473,7 @@ msgstr "mēnesis"
 
 #: ../src/bet_future.c:315 ../src/bet_future.c:1059
 #: ../src/gsb_form_scheduler.c:143 ../src/gsb_form_scheduler.c:874
-#: ../src/gsb_scheduler_list.c:1517
+#: ../src/gsb_scheduler_list.c:1515
 msgid "Once"
 msgstr "Vienreiz"
 
@@ -3491,7 +3495,7 @@ msgstr "Datuma limits"
 msgid "Own frequency"
 msgstr "Biežums"
 
-#: ../src/bet_future.c:563 ../src/gsb_form.c:2027 ../src/gsb_form_widget.c:574
+#: ../src/bet_future.c:563 ../src/gsb_form.c:2033 ../src/gsb_form_widget.c:574
 #: ../src/prefs/prefs_widget_loan.c:1134 ../src/prefs/prefs_widget_loan.c:1140
 #: ../src/prefs/prefs_widget_loan.c:1224 ../src/prefs/prefs_widget_loan.c:1230
 #: ../src/widgets/widget_transfer.c:953 ../src/widgets/widget_transfer.c:1081
@@ -3500,7 +3504,7 @@ msgid "Categories : Sub-categories"
 msgstr "Kategorijas: apakškategorijas"
 
 #: ../src/bet_future.c:569 ../src/bet_hist.c:1593 ../src/etats_affiche.c:2498
-#: ../src/etats_config.c:2906 ../src/gsb_form.c:2036
+#: ../src/etats_config.c:2906 ../src/gsb_form.c:2042
 #: ../src/gsb_form_widget.c:582 ../src/gsb_transactions_list.c:113
 #: ../src/imputation_budgetaire.c:183 ../src/meta_budgetary.c:88
 #: ../src/prefs/prefs_widget_loan.c:1079 ../src/prefs/prefs_widget_loan.c:1085
@@ -3523,27 +3527,27 @@ msgid "Choose the method of payment"
 msgstr "Izvēlēties maksājuma veidu"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1517
+#: ../src/gsb_scheduler_list.c:1515
 msgid "Weekly"
 msgstr "Katru nedēļu"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1517 ../src/prefs/prefs_widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1515 ../src/prefs/prefs_widget_loan.c:866
 msgid "Monthly"
 msgstr "Ik mēnesi"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1518
+#: ../src/gsb_scheduler_list.c:1516
 msgid "Bimonthly"
 msgstr "Reizi divos mēnešos"
 
 #: ../src/bet_future.c:1060 ../src/gsb_form_scheduler.c:144
-#: ../src/gsb_scheduler_list.c:1518 ../src/prefs/prefs_widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1516 ../src/prefs/prefs_widget_loan.c:866
 msgid "Quarterly"
 msgstr "Reizi kvartālā"
 
 #: ../src/bet_future.c:1060 ../src/gsb_form_scheduler.c:144
-#: ../src/gsb_scheduler_list.c:1518 ../src/prefs/prefs_widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1516 ../src/prefs/prefs_widget_loan.c:866
 msgid "Yearly"
 msgstr "Katru gadu"
 
@@ -3564,7 +3568,7 @@ msgid "Years"
 msgstr "Gadi"
 
 #: ../src/bet_future.c:1076 ../src/gsb_form_scheduler.c:176
-#: ../src/gsb_scheduler_list.c:860
+#: ../src/gsb_scheduler_list.c:858
 msgid "Frequency"
 msgstr "Biežums"
 
@@ -3588,7 +3592,7 @@ msgstr "Pielāgot biežumu"
 #: ../src/etats_affiche.c:1885 ../src/export_csv.c:672 ../src/export_csv.c:803
 #: ../src/export_csv.c:815 ../src/gsb_data_category.c:1085
 #: ../src/gsb_data_payment.c:634 ../src/gsb_data_payment.c:718
-#: ../src/gsb_data_payment.c:757 ../src/gsb_form.c:2964 ../src/import.c:2480
+#: ../src/gsb_data_payment.c:757 ../src/gsb_form.c:2970 ../src/import.c:2480
 #: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:380
 msgid "Transfer"
 msgstr "Pārskaitījums"
@@ -3864,7 +3868,7 @@ msgstr "Kategorija"
 #. 10
 #: ../src/bet_hist.c:534 ../src/categories_onglet.c:201
 #: ../src/etats_affiche.c:2546 ../src/etats_prefs.c:1810
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:860
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:858
 #: ../src/gsb_transactions_list.c:117 ../src/import.c:4300
 #: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:204
 #: ../src/tiers_onglet.c:739
@@ -4039,7 +4043,7 @@ msgstr "Apraksts"
 msgid "Balance"
 msgstr "Bilance"
 
-#: ../src/bet_tab.c:2111 ../src/gsb_scheduler_list.c:1135
+#: ../src/bet_tab.c:2111 ../src/gsb_scheduler_list.c:1133
 msgid "Execute"
 msgstr "Izpildīt"
 
@@ -4063,7 +4067,7 @@ msgstr "Bilance perioda sākumā"
 msgid "Start date: "
 msgstr "Sākuma datums:"
 
-#: ../src/bet_tab.c:2930 ../src/gsb_form.c:1790
+#: ../src/bet_tab.c:2930 ../src/gsb_form.c:1794
 msgid "Auto"
 msgstr "Automātiski"
 
@@ -4072,7 +4076,7 @@ msgid "Check the box to automatically change start date"
 msgstr "Atzīmējiet rūtiņu, lai automātiski mainītu datumu"
 
 #: ../src/categories_onglet.c:190 ../src/etats_config.c:2910
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:859
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:857
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1144
 #: ../src/prefs/prefs_page_payment_method.c:1210
 #: ../src/prefs/prefs_page_reconcile.c:352 ../src/tiers_onglet.c:728
@@ -4157,8 +4161,8 @@ msgstr "Izveidot jaunu apakškategoriju"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:579 ../src/etats_onglet.c:559
-#: ../src/grisbi_prefs.c:415 ../src/grisbi_win.c:700 ../src/import.c:1828
-#: ../src/imputation_budgetaire.c:625 ../src/prefs/prefs_page_import.c:87
+#: ../src/grisbi_prefs.c:395 ../src/grisbi_win.c:700 ../src/import.c:1828
+#: ../src/imputation_budgetaire.c:625 ../src/prefs/prefs_page_import.c:88
 #: ../src/utils_files.c:766
 msgid "Import"
 msgstr "Imports"
@@ -4176,7 +4180,7 @@ msgstr "Grisbi kategoriju failu (.cgsb) eksports"
 #. Delete button
 #. delete button
 #: ../src/categories_onglet.c:597 ../src/etats_onglet.c:587
-#: ../src/gsb_scheduler_list.c:1102 ../src/gsb_transactions_list.c:2512
+#: ../src/gsb_scheduler_list.c:1100 ../src/gsb_transactions_list.c:2512
 #: ../src/imputation_budgetaire.c:646 ../src/tiers_onglet.c:538
 msgid "Delete"
 msgstr "Dzēst"
@@ -4475,7 +4479,7 @@ msgid "Do not show this message again"
 msgstr "Nerādīt šo ziņojumu vairs"
 
 #: ../src/dialog.c:274 ../src/dialog.c:643 ../src/dialog.c:695
-#: ../src/gsb_scheduler_list.c:2909
+#: ../src/gsb_scheduler_list.c:2907
 msgid "Keep this choice and no longer see this message?"
 msgstr ""
 
@@ -4562,7 +4566,7 @@ msgstr ""
 msgid "Debug updated by cmd line, level is '%s'"
 msgstr "Kļūdu labošana ieslēgta, līmenis ir '%s'"
 
-#: ../src/erreur.c:416 ../src/erreur.c:662
+#: ../src/erreur.c:416 ../src/erreur.c:672
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr "%s, %2f: %s - %s:%d:%s - %s\n"
@@ -4572,7 +4576,7 @@ msgstr "%s, %2f: %s - %s:%d:%s - %s\n"
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr "%s, %2f: %s - %s:%d:%s\n"
 
-#: ../src/erreur.c:550
+#: ../src/erreur.c:560
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -4580,7 +4584,7 @@ msgid ""
 msgstr "Lai labotu kļūdu rakstiet uz %s. Lūdzu nosūtiet šo kļūdas ziņojumu."
 
 #. début du mode de débogage
-#: ../src/erreur.c:567
+#: ../src/erreur.c:577
 #, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
@@ -4589,7 +4593,7 @@ msgstr ""
 "%s, %2f: Debug - %s:%d:%s\n"
 "\n"
 
-#: ../src/erreur.c:622
+#: ../src/erreur.c:632
 msgid "Grisbi failed to create the log file..."
 msgstr "Grisbi neizdevās parādīt failu logu..."
 
@@ -4792,13 +4796,13 @@ msgid "Result without financial year: "
 msgstr "Rezultāti bez finanšu gada:"
 
 #: ../src/etats_affiche.c:1410 ../src/gsb_data_transaction.c:2832
-#: ../src/gsb_scheduler_list.c:1466
+#: ../src/gsb_scheduler_list.c:1464
 #, c-format
 msgid "Transfer to %s"
 msgstr "Pārskaitījums uz %s"
 
 #: ../src/etats_affiche.c:1412 ../src/gsb_data_transaction.c:2835
-#: ../src/gsb_scheduler_list.c:1471
+#: ../src/gsb_scheduler_list.c:1469
 #, c-format
 msgid "Transfer from %s"
 msgstr "Pārskaitījums no %s"
@@ -4873,8 +4877,8 @@ msgstr "Pavisam kopā:"
 #. select Split of transaction in list
 #: ../src/etats_affiche.c:1894 ../src/export_csv.c:645
 #: ../src/gsb_data_category.c:1084 ../src/gsb_data_transaction.c:2810
-#: ../src/gsb_form.c:247 ../src/gsb_form.c:911 ../src/gsb_form.c:1595
-#: ../src/gsb_form.c:2489 ../src/gsb_form_scheduler.c:309
+#: ../src/gsb_form.c:248 ../src/gsb_form.c:912 ../src/gsb_form.c:1595
+#: ../src/gsb_form.c:2495 ../src/gsb_form_scheduler.c:309
 #: ../src/prefs/prefs_widget_loan.c:973
 msgid "Split of transaction"
 msgstr "Darījuma sadalīšana"
@@ -4913,7 +4917,7 @@ msgstr "Finanšu gads"
 
 #. On récupère le nom de la page
 #: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:407
-#: ../src/etats_prefs.c:1901 ../src/grisbi_prefs.c:536
+#: ../src/etats_prefs.c:1901 ../src/grisbi_prefs.c:516
 #: ../src/prefs/prefs_page_payment_method.c:1285
 msgid "Payment methods"
 msgstr "Apmaksas metodes"
@@ -4922,12 +4926,12 @@ msgstr "Apmaksas metodes"
 msgid "Cheque"
 msgstr "Čeku"
 
-#: ../src/etats_affiche.c:2526 ../src/export_csv.c:410 ../src/gsb_form.c:2108
+#: ../src/etats_affiche.c:2526 ../src/export_csv.c:410 ../src/gsb_form.c:2114
 #: ../src/gsb_form_widget.c:606 ../src/gsb_transactions_list.c:123
 msgid "Voucher"
 msgstr "Kuponu"
 
-#: ../src/etats_affiche.c:2533 ../src/export_csv.c:416 ../src/gsb_form.c:2102
+#: ../src/etats_affiche.c:2533 ../src/export_csv.c:416 ../src/gsb_form.c:2108
 #: ../src/gsb_form_widget.c:610 ../src/gsb_transactions_list.c:125
 msgid "Bank references"
 msgstr "Bankas atsauces"
@@ -5295,8 +5299,8 @@ msgstr "CSV fails"
 msgid "Exporting report..."
 msgstr "Eksportēt pārskatu..."
 
-#: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:794
-#: ../src/grisbi_prefs.c:818 ../src/gsb_debug.c:842 ../src/gsb_file.c:518
+#: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:762
+#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:842 ../src/gsb_file.c:518
 #: ../src/gsb_file.c:667 ../src/gsb_file.c:990
 msgid "Done"
 msgstr "Izdarīt"
@@ -5494,14 +5498,14 @@ msgid "Titles"
 msgstr "Nosaukumi"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:443 ../src/export_csv.c:359 ../src/grisbi_prefs.c:458
+#: ../src/etats_prefs.c:443 ../src/export_csv.c:359 ../src/grisbi_prefs.c:438
 #: ../src/grisbi_win.c:437
 msgid "Transactions"
 msgstr "Darījumi"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:448 ../src/grisbi_prefs.c:514 ../src/gsb_currency.c:952
+#: ../src/etats_prefs.c:448 ../src/grisbi_prefs.c:494 ../src/gsb_currency.c:952
 #: ../src/prefs/prefs_page_currency.c:715
 msgid "Currencies"
 msgstr "Valūtas"
@@ -5836,7 +5840,7 @@ msgstr "Saskaņošanas numurs"
 msgid "B"
 msgstr "B"
 
-#: ../src/export_csv.c:805 ../src/gsb_form.c:200
+#: ../src/export_csv.c:805 ../src/gsb_form.c:201
 msgid "Deleted account"
 msgstr "Dzēst kontu"
 
@@ -6531,136 +6535,136 @@ msgstr "Saskaņotie darījumi"
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Saskaņotie darījumi"
 
-#: ../src/grisbi_conf.c:1144 ../src/grisbi_settings.c:1642
+#: ../src/grisbi_conf.c:1138 ../src/grisbi_settings.c:1636
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Neizdevās saglabāt iestatījumu failu '%s': %s"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:403 ../src/prefs/prefs_page_files.c:110
+#: ../src/grisbi_prefs.c:383 ../src/prefs/prefs_page_files.c:110
 msgid "Files"
 msgstr "Faili"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:408 ../src/prefs/prefs_page_archives.c:568
+#: ../src/grisbi_prefs.c:388 ../src/prefs/prefs_page_archives.c:568
 msgid "Archives"
 msgstr "Arhīvs"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:420 ../src/prefs/prefs_page_divers.c:569
+#: ../src/grisbi_prefs.c:400 ../src/prefs/prefs_page_divers.c:594
 #, fuzzy
 msgid "Various settings"
 msgstr "Importēšanas iestatījumi"
 
-#: ../src/grisbi_prefs.c:425 ../src/grisbi_win.c:423
+#: ../src/grisbi_prefs.c:405 ../src/grisbi_win.c:423
 msgid "Main page"
 msgstr "Galvenā lapa"
 
 #. append group page "Display"
-#: ../src/grisbi_prefs.c:429
+#: ../src/grisbi_prefs.c:409
 msgid "Display"
 msgstr "Displejs"
 
-#: ../src/grisbi_prefs.c:433
+#: ../src/grisbi_prefs.c:413
 #, fuzzy
 msgid "Fonts & Logo"
 msgstr "Fonti un logo"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:438 ../src/prefs/prefs_page_msg_warning.c:240
+#: ../src/grisbi_prefs.c:418 ../src/prefs/prefs_page_msg_warning.c:240
 msgid "Messages & warnings"
 msgstr "Ziņojumi un brīdinājumi"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:443 ../src/prefs/prefs_page_display_adr.c:195
+#: ../src/grisbi_prefs.c:423 ../src/prefs/prefs_page_display_adr.c:195
 msgid "Addresses & titles"
 msgstr "Adreses un nosaukumi"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:448 ../src/prefs/prefs_page_metatree.c:311
+#: ../src/grisbi_prefs.c:428 ../src/prefs/prefs_page_metatree.c:311
 msgid "Payees, categories and budgetaries"
 msgstr "Partneri, kategorijas un budžeti"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:454 ../src/prefs/prefs_page_display_gui.c:220
+#: ../src/grisbi_prefs.c:434 ../src/prefs/prefs_page_display_gui.c:220
 msgid "Elements of interface"
 msgstr ""
 
-#: ../src/grisbi_prefs.c:462
+#: ../src/grisbi_prefs.c:442
 msgid "List behavior"
 msgstr "Darba režīma saraksts"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:467 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_display_ope.c:692
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Darījumu saraksta darbība"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:472 ../src/prefs/prefs_page_msg_delete.c:238
+#: ../src/grisbi_prefs.c:452 ../src/prefs/prefs_page_msg_delete.c:238
 msgid "Messages before deleting"
 msgstr "Brīdinājumi pirms dzēšanas"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:479 ../src/gsb_assistant_first.c:337
+#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:337
 #: ../src/prefs/prefs_page_reconcile.c:574
 msgid "Reconciliation"
 msgstr "Saskaņošana"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:486 ../src/prefs/prefs_page_reconcile_sort.c:744
+#: ../src/grisbi_prefs.c:466 ../src/prefs/prefs_page_reconcile_sort.c:744
 msgid "Sort for reconciliation"
 msgstr "Šķirot pēc saskaņošanas"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:491 ../src/prefs/prefs_page_display_form.c:911
+#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_form.c:911
 msgid "Transaction form"
 msgstr "Darījumu veidlapa"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:495 ../src/prefs/prefs_page_form_options.c:95
+#: ../src/grisbi_prefs.c:475 ../src/prefs/prefs_page_form_options.c:95
 msgid "Form behavior"
 msgstr "Veidlapas darbība"
 
-#: ../src/grisbi_prefs.c:500
+#: ../src/grisbi_prefs.c:480
 msgid "Content"
 msgstr "Saturs"
 
-#: ../src/grisbi_prefs.c:506
+#: ../src/grisbi_prefs.c:486
 msgid "Completion"
 msgstr "Pabeigšana"
 
 #. append group page "Resources subtree"
-#: ../src/grisbi_prefs.c:510
+#: ../src/grisbi_prefs.c:490
 msgid "Resources"
 msgstr "Resursi"
 
-#: ../src/grisbi_prefs.c:519
+#: ../src/grisbi_prefs.c:499
 msgid "Currencies links"
 msgstr "Valūtas saites"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:526 ../src/prefs/prefs_page_bank.c:389
+#: ../src/grisbi_prefs.c:506 ../src/prefs/prefs_page_bank.c:389
 msgid "Banks"
 msgstr "Bankas"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:531 ../src/prefs/prefs_page_fyear.c:686
+#: ../src/grisbi_prefs.c:511 ../src/prefs/prefs_page_fyear.c:686
 msgid "Financial years"
 msgstr "Finanšu gads"
 
 #. append group page "Balance estimate"
-#: ../src/grisbi_prefs.c:540
+#: ../src/grisbi_prefs.c:520
 msgid "Balance estimate"
 msgstr "Bilances aprēķins"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:551 ../src/prefs/prefs_page_bet_account.c:658
+#: ../src/grisbi_prefs.c:531 ../src/prefs/prefs_page_bet_account.c:658
 msgid "Accounts data"
 msgstr "Kontu dati"
 
-#: ../src/grisbi_prefs.c:791
+#: ../src/grisbi_prefs.c:759
 #, fuzzy
 msgid "Preferences stop"
 msgstr "_Iestatījumi"
@@ -9309,7 +9313,7 @@ msgstr "Nav definēts partneris"
 
 #. sinon on l'ajoute dans la liste des tiers
 #. on récupère le nom de l'état
-#: ../src/gsb_data_payee.c:612 ../src/gsb_form.c:1024 ../src/gtk_combofix.c:389
+#: ../src/gsb_data_payee.c:612 ../src/gsb_form.c:1025 ../src/gtk_combofix.c:389
 #: ../src/gtk_combofix.c:590 ../src/gtk_combofix.c:2361
 #: ../src/gtk_combofix.c:2484 ../src/navigation.c:1340
 msgid "Report"
@@ -9323,14 +9327,14 @@ msgstr "Depozīts"
 
 #. Retrait dans un distributeur de billets replacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:732 ../src/gsb_form.c:2917 ../src/import.c:2466
+#: ../src/gsb_data_payment.c:732 ../src/gsb_form.c:2923 ../src/import.c:2466
 #: ../src/import.c:2473
 msgid "Credit card"
 msgstr "Kredītkarte"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:741 ../src/gsb_form.c:2953 ../src/import.c:2487
+#: ../src/gsb_data_payment.c:741 ../src/gsb_form.c:2959 ../src/import.c:2487
 #: ../src/import.c:2510 ../src/prefs/prefs_widget_loan.c:987
 #: ../src/prefs/prefs_widget_loan.c:990
 msgid "Direct debit"
@@ -10005,17 +10009,17 @@ msgid "Cannot erase lock file: '%s': %s"
 msgstr "Neizdevās izdzēst bloķētu failu:'%s': %s"
 
 #. propose to configure the form
-#: ../src/gsb_form.c:155
+#: ../src/gsb_form.c:156
 msgid "Configure the form"
 msgstr "Iestatīt veidlapas"
 
-#: ../src/gsb_form.c:192 ../src/gsb_form.c:1626 ../src/gsb_form_widget.c:109
+#: ../src/gsb_form.c:193 ../src/gsb_form.c:1626 ../src/gsb_form_widget.c:109
 #: ../src/gtk_combofix.c:137 ../src/prefs/prefs_widget_loan.c:1039
 #: ../src/prefs/prefs_widget_loan.c:1045
 msgid "Transfer : "
 msgstr "Pārskaitījums: "
 
-#: ../src/gsb_form.c:270
+#: ../src/gsb_form.c:271
 #, fuzzy
 msgid ""
 "You are trying to change a split of transaction to another kind of "
@@ -10028,75 +10032,75 @@ msgstr ""
 "Tur ir dažas izmaiņas šim darījumam, ja turpināsiet, izmaiņas tiks dzēstas.\n"
 "Vai turpināt?"
 
-#: ../src/gsb_form.c:274
+#: ../src/gsb_form.c:275
 msgid "Modifying a transaction"
 msgstr "Maina darījumu"
 
-#: ../src/gsb_form.c:711
+#: ../src/gsb_form.c:712
 msgid "You must enter a date."
 msgstr "Ievadiet datumu."
 
-#: ../src/gsb_form.c:718
+#: ../src/gsb_form.c:719
 #, c-format
 msgid "Invalid date %s"
 msgstr "Nepareizs datums %s"
 
-#: ../src/gsb_form.c:741
+#: ../src/gsb_form.c:742
 #, c-format
 msgid "Invalid value date %s"
 msgstr "Nepareiza datuma vērtība %s"
 
-#: ../src/gsb_form.c:766
+#: ../src/gsb_form.c:767
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr "Ņemiet vērā, ka datumam ir jābūt starp %s un %s"
 
-#: ../src/gsb_form.c:769 ../src/gsb_form.c:796
+#: ../src/gsb_form.c:770 ../src/gsb_form.c:797
 msgid "Invalid date"
 msgstr "Nepareizs datums"
 
-#: ../src/gsb_form.c:794
+#: ../src/gsb_form.c:795
 #, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "Datumam ir jābūt mazākam vai vienādam ar %s"
 
-#: ../src/gsb_form.c:826
+#: ../src/gsb_form.c:827
 msgid "You must enter an amount."
 msgstr "Ir jāievada summa."
 
-#: ../src/gsb_form.c:897
+#: ../src/gsb_form.c:898
 msgid ""
 "This account cannot be negative.\n"
 "\n"
 "Please enter another amount or cancel this transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:913
+#: ../src/gsb_form.c:914
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr "Jūs nevarat sadalīt pa kategorijām sadalītu darījumu."
 
-#: ../src/gsb_form.c:942
+#: ../src/gsb_form.c:943
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Neizdevās saistīt pārveidojumu lai dzēstu ieplānoto darījumu kontu."
 
-#: ../src/gsb_form.c:950
+#: ../src/gsb_form.c:951
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "Nav saistīts konts šim darījumam, vai arī saistītais konts nav derīgs."
 
-#: ../src/gsb_form.c:960
+#: ../src/gsb_form.c:961
 msgid "Can't issue a transfer its own account."
 msgstr "Nedrīkst veikt pārskaitījumu uz to pašu kontu."
 
-#: ../src/gsb_form.c:965
+#: ../src/gsb_form.c:966
 msgid "Can't issue a transfer on a closed account."
 msgstr "Nedrīkst veikt pārskaitījumu uz slēgtu kontu."
 
-#: ../src/gsb_form.c:987
+#: ../src/gsb_form.c:988
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -10106,7 +10110,7 @@ msgstr ""
 "bet nesatur numuru\n"
 "Vai turpināt?"
 
-#: ../src/gsb_form.c:1007
+#: ../src/gsb_form.c:1008
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -10114,19 +10118,19 @@ msgstr ""
 "Brīdinājums: šis čeka numurs jau tiek lietots.\n"
 "Vai turpināt?"
 
-#: ../src/gsb_form.c:1031
+#: ../src/gsb_form.c:1032
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "Darījumam ar vairākiem partneriem ir jābūt jaunam."
 
-#: ../src/gsb_form.c:1036
+#: ../src/gsb_form.c:1037
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "Darījumu ar vairākiem partneriem nevar sadalīt sīkāk."
 
-#: ../src/gsb_form.c:1044
+#: ../src/gsb_form.c:1045
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Vārds \"Pārskats\" ir rezervēts. Lūdzu izmantojiet citu."
 
-#: ../src/gsb_form.c:1051
+#: ../src/gsb_form.c:1052
 msgid "Invalid multiple payee."
 msgstr "Nepareizi norādīti vairāki partneri."
 
@@ -10144,36 +10148,36 @@ msgstr "Vērtība"
 msgid "Transfer : Deleted account"
 msgstr "Pārskaitījums: dzēsts konts"
 
-#: ../src/gsb_form.c:1792 ../src/gsb_form_scheduler.c:142
-#: ../src/gsb_scheduler_list.c:1531
+#: ../src/gsb_form.c:1796 ../src/gsb_form_scheduler.c:142
+#: ../src/gsb_scheduler_list.c:1529
 msgid "Manual"
 msgstr "Manuāli"
 
-#: ../src/gsb_form.c:2075 ../src/gsb_form_widget.c:594
+#: ../src/gsb_form.c:2081 ../src/gsb_form_widget.c:594
 msgid "Cheque/Transfer number"
 msgstr "Čeka/pārskaitījuma numurs"
 
-#: ../src/gsb_form.c:2926 ../src/plugins/ofx/ofx.c:392
+#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:392
 msgid "Direct deposit"
 msgstr "Tiešo depozītu"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2935 ../src/import.c:2293 ../src/import.c:2314
+#: ../src/gsb_form.c:2941 ../src/import.c:2293 ../src/import.c:2314
 #: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:348
 #: ../src/plugins/ofx/ofx.c:409
 msgid "Check"
 msgstr "Pārbaude"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2944 ../src/import.c:2494
+#: ../src/gsb_form.c:2950 ../src/import.c:2494
 msgid "Cash withdrawal"
 msgstr "Skaidras naudas izņemšana"
 
-#: ../src/gsb_form.c:3069
+#: ../src/gsb_form.c:3075
 msgid "No payee selected for this report."
 msgstr "Šim pārskatam nav izvēlēts partneris."
 
-#: ../src/gsb_form_scheduler.c:142 ../src/gsb_scheduler_list.c:1529
+#: ../src/gsb_form_scheduler.c:142 ../src/gsb_scheduler_list.c:1527
 msgid "Automatic"
 msgstr "Automātisks"
 
@@ -10478,139 +10482,139 @@ msgid "Color of gsetting text hovered"
 msgstr "Darījuma teksta krāsas"
 
 #. popup view menu
-#: ../src/gsb_scheduler_list.c:112
+#: ../src/gsb_scheduler_list.c:110
 msgid "Unique view"
 msgstr "Unikāls skats"
 
-#: ../src/gsb_scheduler_list.c:112
+#: ../src/gsb_scheduler_list.c:110
 msgid "Week view"
 msgstr "Nedēļas skats"
 
-#: ../src/gsb_scheduler_list.c:112
+#: ../src/gsb_scheduler_list.c:110
 msgid "Month view"
 msgstr "Mēneša skats"
 
-#: ../src/gsb_scheduler_list.c:113
+#: ../src/gsb_scheduler_list.c:111
 msgid "Two months view"
 msgstr "Divu mēnešu skats"
 
-#: ../src/gsb_scheduler_list.c:113
+#: ../src/gsb_scheduler_list.c:111
 msgid "Quarter view"
 msgstr "Kvartāla skats"
 
-#: ../src/gsb_scheduler_list.c:114
+#: ../src/gsb_scheduler_list.c:112
 msgid "Year view"
 msgstr "Gada skats"
 
-#: ../src/gsb_scheduler_list.c:114
+#: ../src/gsb_scheduler_list.c:112
 msgid "Custom view"
 msgstr "Pielāgots skats"
 
-#: ../src/gsb_scheduler_list.c:118
+#: ../src/gsb_scheduler_list.c:116
 msgid "days"
 msgstr "diena"
 
-#: ../src/gsb_scheduler_list.c:118
+#: ../src/gsb_scheduler_list.c:116
 msgid "weeks"
 msgstr "nedēļa"
 
-#: ../src/gsb_scheduler_list.c:142
+#: ../src/gsb_scheduler_list.c:140
 msgid "Show scheduled transactions"
 msgstr "Rādīt plānoto darījumu"
 
-#: ../src/gsb_scheduler_list.c:155
+#: ../src/gsb_scheduler_list.c:153
 msgid "Scheduler frequency"
 msgstr "Plānotais biežums"
 
-#: ../src/gsb_scheduler_list.c:162
+#: ../src/gsb_scheduler_list.c:160
 msgid "Show transactions for the next: "
 msgstr "Rādīt darījumus nākošajām: "
 
-#: ../src/gsb_scheduler_list.c:216 ../src/navigation.c:1271
+#: ../src/gsb_scheduler_list.c:214 ../src/navigation.c:1271
 msgid "Scheduled transactions"
 msgstr "Plānotais darījums"
 
-#: ../src/gsb_scheduler_list.c:271
+#: ../src/gsb_scheduler_list.c:269
 #, fuzzy
 msgid "Frequency/Mode"
 msgstr "Biežums"
 
-#: ../src/gsb_scheduler_list.c:281 ../src/gsb_scheduler_list.c:1126
+#: ../src/gsb_scheduler_list.c:279 ../src/gsb_scheduler_list.c:1124
 #, fuzzy
 msgid "Display the notes of scheduled transactions"
 msgstr "Mainīt lauka režīmu regulāru darījumu sarakstam"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:362 ../src/gsb_transactions_list.c:509
+#: ../src/gsb_scheduler_list.c:360 ../src/gsb_transactions_list.c:509
 msgid "Delete transaction"
 msgstr "Dzēst darījumus"
 
-#: ../src/gsb_scheduler_list.c:378
+#: ../src/gsb_scheduler_list.c:376
 #, fuzzy
 msgid "Displays notes"
 msgstr "Paslēpt piezīmes"
 
-#: ../src/gsb_scheduler_list.c:381
+#: ../src/gsb_scheduler_list.c:379
 #, fuzzy
 msgid "Displays Frequency/Mode"
 msgstr "Biežums"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:393
+#: ../src/gsb_scheduler_list.c:391
 msgid "Execute transaction"
 msgstr "Izpildīt darījumu"
 
-#: ../src/gsb_scheduler_list.c:860
+#: ../src/gsb_scheduler_list.c:858
 msgid "Mode"
 msgstr "Režīms"
 
 #. new scheduled button
-#: ../src/gsb_scheduler_list.c:1091
+#: ../src/gsb_scheduler_list.c:1089
 #, fuzzy
 msgid "New scheduled"
 msgstr "_Jauns plāns"
 
-#: ../src/gsb_scheduler_list.c:1093
+#: ../src/gsb_scheduler_list.c:1091
 msgid "Prepare form to create a new scheduled transaction"
 msgstr "Jaunu plānoto darījumu forma"
 
-#: ../src/gsb_scheduler_list.c:1105
+#: ../src/gsb_scheduler_list.c:1103
 msgid "Delete selected scheduled transaction"
 msgstr "Dzēst izvēlēto plānoto darījumu"
 
-#: ../src/gsb_scheduler_list.c:1115
+#: ../src/gsb_scheduler_list.c:1113
 msgid "Edit selected transaction"
 msgstr "Rediģēt izvēlēto darījumu"
 
-#: ../src/gsb_scheduler_list.c:1137
+#: ../src/gsb_scheduler_list.c:1135
 msgid "Execute current scheduled transaction"
 msgstr "Izpildīt pašreizējos plānotos darījumus"
 
-#: ../src/gsb_scheduler_list.c:1147
+#: ../src/gsb_scheduler_list.c:1145
 msgid "Change display mode of scheduled transaction list"
 msgstr "Mainīt lauka režīmu regulāru darījumu sarakstam"
 
-#: ../src/gsb_scheduler_list.c:1494
+#: ../src/gsb_scheduler_list.c:1492
 #, c-format
 msgid "%d days"
 msgstr "%d dienas"
 
-#: ../src/gsb_scheduler_list.c:1499
+#: ../src/gsb_scheduler_list.c:1497
 #, c-format
 msgid "%d weeks"
 msgstr "%d nedēļas"
 
-#: ../src/gsb_scheduler_list.c:1504
+#: ../src/gsb_scheduler_list.c:1502
 #, c-format
 msgid "%d months"
 msgstr "%d mēneši"
 
-#: ../src/gsb_scheduler_list.c:1509
+#: ../src/gsb_scheduler_list.c:1507
 #, c-format
 msgid "%d years"
 msgstr "%d gadi"
 
-#: ../src/gsb_scheduler_list.c:1671
+#: ../src/gsb_scheduler_list.c:1669
 #, fuzzy, c-format
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
@@ -10626,18 +10630,18 @@ msgstr ""
 "\n"
 "Atiecīgo veidojumu skaits ir :\n"
 
-#: ../src/gsb_scheduler_list.c:1677 ../src/gsb_transactions_list.c:2150
+#: ../src/gsb_scheduler_list.c:1675 ../src/gsb_transactions_list.c:2150
 #, fuzzy
 msgid "Remove orphan children"
 msgstr "Atgūt sākumu"
 
-#: ../src/gsb_scheduler_list.c:1860 ../src/transaction_list.c:175
+#: ../src/gsb_scheduler_list.c:1858 ../src/transaction_list.c:175
 #: ../src/transaction_list.c:488 ../src/transaction_list.c:1398
 #, fuzzy, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "Kopā: %s (neatbilstības : %s)"
 
-#: ../src/gsb_scheduler_list.c:2375
+#: ../src/gsb_scheduler_list.c:2373
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -10651,7 +10655,7 @@ msgstr ""
 "Tas ir normāli, ja pievienojat jaunu plānoto darījumu, bet rezultāti vēl..."
 
 #. ask all the time for a child
-#: ../src/gsb_scheduler_list.c:2814
+#: ../src/gsb_scheduler_list.c:2812
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -10660,13 +10664,13 @@ msgstr "Vai tiešām vēlaties dzēst plānotā darījuma bērnu no nodaļas '%s
 
 #. for a normal scheduled, ask only if no frequency, else, it will
 #. * have another dialog to delete the occurence or the transaction
-#: ../src/gsb_scheduler_list.c:2831
+#: ../src/gsb_scheduler_list.c:2829
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Vai tiešām vēlaties dzēst plānoto darījumu no nodaļas '%s' ?"
 
-#: ../src/gsb_scheduler_list.c:2885
+#: ../src/gsb_scheduler_list.c:2883
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -10678,16 +10682,16 @@ msgstr ""
 "\n"
 "%s:%s [%s %s]"
 
-#: ../src/gsb_scheduler_list.c:2899
+#: ../src/gsb_scheduler_list.c:2897
 msgid "Delete this scheduled transaction?"
 msgstr "Dzēst šo plānoto darījumu?"
 
-#: ../src/gsb_scheduler_list.c:2903
+#: ../src/gsb_scheduler_list.c:2901
 #, fuzzy
 msgid "All the occurrences"
 msgstr "Visus gadījumus"
 
-#: ../src/gsb_scheduler_list.c:2904
+#: ../src/gsb_scheduler_list.c:2902
 msgid "Only this one"
 msgstr "Tikai šis viens"
 
@@ -12496,38 +12500,38 @@ msgid ""
 "The next time you use it, you will need to enter a new exchange rate."
 msgstr ""
 
-#: ../src/prefs/prefs_page_display_fonts.c:316
+#: ../src/prefs/prefs_page_display_fonts.c:301
 msgid "Select a new logo"
 msgstr "Izvēlēties jaunu logo"
 
-#: ../src/prefs/prefs_page_display_fonts.c:376
+#: ../src/prefs/prefs_page_display_fonts.c:361
 #, fuzzy
 msgid "Automatic selection"
 msgstr "Datu atlase"
 
-#: ../src/prefs/prefs_page_display_fonts.c:377
+#: ../src/prefs/prefs_page_display_fonts.c:362
 #, fuzzy
 msgid "Force the use of clear theme"
 msgstr "Arhivēt pēc datuma"
 
-#: ../src/prefs/prefs_page_display_fonts.c:378
+#: ../src/prefs/prefs_page_display_fonts.c:363
 #, fuzzy
 msgid "Force the use of dark theme"
 msgstr "Arhivēt pēc datuma"
 
-#: ../src/prefs/prefs_page_display_fonts.c:379
+#: ../src/prefs/prefs_page_display_fonts.c:364
 #, fuzzy
 msgid "Force the use of light theme"
 msgstr "Arhivēt pēc datuma"
 
 #. set label with the name of selected theme
-#: ../src/prefs/prefs_page_display_fonts.c:391
+#: ../src/prefs/prefs_page_display_fonts.c:376
 #, c-format
 msgid "The automatically selected theme is: '%s'"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/prefs/prefs_page_display_fonts.c:499
+#: ../src/prefs/prefs_page_display_fonts.c:484
 msgid "Fonts & logo"
 msgstr "Fonti un logo"
 
@@ -12578,31 +12582,31 @@ msgstr "Col 5"
 msgid "Col 6"
 msgstr "Col 6"
 
-#: ../src/prefs/prefs_page_divers.c:455
+#: ../src/prefs/prefs_page_divers.c:456
 msgid "You will have to restart Grisbi for the new language to take effect."
 msgstr ""
 
-#: ../src/prefs/prefs_page_divers.c:456
+#: ../src/prefs/prefs_page_divers.c:457
 #, fuzzy, c-format
 msgid "Changes the language of Grisbi for \"%s\"!"
 msgstr "Izvēlēties kontu"
 
-#: ../src/prefs/prefs_page_divers.c:512
+#: ../src/prefs/prefs_page_divers.c:513
 #, fuzzy
 msgid "System Language"
 msgstr "Izvēlēties kontu"
 
-#: ../src/prefs/prefs_page_divers.c:579
+#: ../src/prefs/prefs_page_divers.c:604
 #, fuzzy
 msgid "File: "
 msgstr "Faila nosaukums:"
 
 #. set the scheduled variables
-#: ../src/prefs/prefs_page_divers.c:592
+#: ../src/prefs/prefs_page_divers.c:617
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "Brīdināt/Izpildīt, kad plānotajam darījumam pienāk beigu datums"
 
-#: ../src/prefs/prefs_page_divers.c:593
+#: ../src/prefs/prefs_page_divers.c:618
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Brīdināt/Izpildīt plānotos darījumus par mēnesi"
@@ -12701,12 +12705,12 @@ msgstr "Sākuma datums"
 msgid "End date"
 msgstr "Beigu datums"
 
-#: ../src/prefs/prefs_page_import.c:94
+#: ../src/prefs/prefs_page_import.c:95
 #, fuzzy
 msgid "Files import"
 msgstr "Faila formāts:"
 
-#: ../src/prefs/prefs_page_import.c:101
+#: ../src/prefs/prefs_page_import.c:102
 msgid "Associations for import"
 msgstr ""
 
