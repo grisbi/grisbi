@@ -29,13 +29,14 @@ Grisbi is free software, any contribution is welcome.
 This product includes software developed by the OpenSSL Project for
 use in the OpenSSL Toolkit (http://www.openssl.org/).
 
-Website :     http://www.grisbi.org
-Bug reports : http://www.grisbi.org/bugsreports/
+Website :     https://www.grisbi.org
+Bug reports : https://www.grisbi.org/bugsreports/
               mailto:bugs-report@grisbi.org
 
 
 === Release history ===
 
+  Version 2.0.0 : 11/01/2021
   Version 1.2.2 : 12/04/2019
   Version 1.2.1 : 01/03/2019
   Version 1.2.0 : 26/01/2019
