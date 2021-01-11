@@ -28,13 +28,13 @@
 #include "config.h"
 #endif
 
-#include <gtk/gtk.h>
-#include <libintl.h>
-
 #import <Foundation/NSUserDefaults.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/NSString.h>
 #include <mach-o/dyld.h> // for _NSGetExecutablePath
+
+#include <gtk/gtk.h>
+#include <libintl.h>
 
 #include "grisbi_osx.h"
 #include "erreur.h"
