@@ -41,6 +41,7 @@ dnl Standard checks.
 dnl ================================================================
 
 AC_PROG_CC
+AC_PROG_OBJC
 AC_USE_SYSTEM_EXTENSIONS
 AC_HEADER_STDC
 AM_PROG_AR
