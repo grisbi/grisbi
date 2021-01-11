@@ -75,9 +75,8 @@ int main (int argc, char **argv)
 {
     GrisbiApp *app;
 	gint status;
-#ifdef HAVE_GOFFICE
-    GSList *goffice_plugins_dirs = NULL;
-#endif
+    GSList *goffice_plugins_dirs = NULL; /* used only for OSX */
+
 	/* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
 /*#ifdef GDK_WINDOWING_WAYLAND
 	#ifdef GDK_WINDOWING_X11
@@ -127,7 +126,7 @@ int main (int argc, char **argv)
 #ifdef HAVE_GOFFICE
     /* liberation libgoffice */
     libgoffice_shutdown ();
-    g_slist_free(goffice_plugins_dirs); //, g_free);
+    g_slist_free(goffice_plugins_dirs);
 #endif /* HAVE_GOFFICE */
 
     return status;
