@@ -145,7 +145,7 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
 
 static void set_locale(void) {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString* lang = [defaults stringForKey:@"AppleLocale"];
+	NSString* lang = [NSString stringWithFormat:@"%@.UTF-8", [defaults stringForKey:@"AppleLocale"]];
 
 	const char *lang_str = [lang UTF8String];
     my_setenv("LANG", lang_str);
