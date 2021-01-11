@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -41,6 +41,9 @@
 #include "erreur.h"
 
 
+/** 
+ * 
+ */
 static char const *get_program_name(void) {
     gchar *program_name="undefined";
 
@@ -75,12 +78,12 @@ static gchar *get_bundle_prefix(void) {
 static void my_setenv(const gchar *key, const gchar *value) {
     char set_env[255];
 
-    snprintf(set_env, sizeof(set_env), "SET: %s = %s\n", key, value);
+    snprintf(set_env, sizeof(set_env), "SET: %s = %s", key, value);
     devel_debug(set_env);
     g_setenv(key, value, TRUE);
 }
 
-static void set_macos_app_bundle_env(gchar const *program_dir)
+static gchar *set_macos_app_bundle_env(gchar const *program_dir)
 {
     // use bundle identifier
     // https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/MacOSXDirectories/MacOSXDirectories.html
@@ -101,7 +104,7 @@ static void set_macos_app_bundle_env(gchar const *program_dir)
     // to ease up on testing and get correct application behavior (like dock icon).
     if (! g_file_test(g_build_filename(bundle_resources_lib_dir, "goffice", NULL), G_FILE_TEST_EXISTS)) {
         // doesn't look like a standalone bundle
-        return;
+        return NULL;
     }
 
     // XDG
@@ -136,8 +139,9 @@ static void set_macos_app_bundle_env(gchar const *program_dir)
     // This is required to make Python GTK bindings work as they use dlopen()
     // to load libraries.
     my_setenv("DYLD_LIBRARY_PATH", g_build_path(":", bundle_resources_lib_dir, NULL));
-}
 
+    return bundle_resources_dir;
+}
 
 static void set_locale(void) {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -147,10 +151,12 @@ static void set_locale(void) {
     my_setenv("LANG", lang_str);
 }
 
-
-void grisbi_osx_init(int *argc, char **argv[]) {
+GSList *grisbi_osx_init(int *argc, char **argv[]) {
     char const *program_dir = get_program_dir();
+    GSList *goffice_plugins_dirs = NULL;
+    gchar *bundle_resources_dir = NULL;
 
+    devel_debug("MACOSX: Start initialization");
     if (g_str_has_suffix(program_dir, "Contents/MacOS")) {
 
         // Step 1
@@ -176,10 +182,24 @@ void grisbi_osx_init(int *argc, char **argv[]) {
         // with Catalina, this approach is no longer feasible due to new security checks
         // that get misdirected by using a launcher. The launcher needs to go and the
         // binary needs to setup the environment itself.
-        set_macos_app_bundle_env(program_dir);
+        bundle_resources_dir = set_macos_app_bundle_env(program_dir);
+    } else {
+        devel_debug("Running outside bundle");
     }
     set_locale();
 
-    return;
+
+#ifdef HAVE_GOFFICE
+    if (bundle_resources_dir) {
+        gchar *local_plugins_dir = g_build_filename(bundle_resources_dir,
+                                                    "/lib/goffice/0.10.49/plugins/", NULL);
+        goffice_plugins_dirs = g_slist_prepend(NULL, local_plugins_dir);
+        devel_debug(local_plugins_dir);
+    }
+#endif
+
+    devel_debug("MACOSX: initialization done.");
+
+    return goffice_plugins_dirs;
 }
 
