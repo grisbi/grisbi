@@ -6,20 +6,20 @@
 # Martin Stromberger <ma.stromberger@gmx.at>, 2007, 2008.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2013, 2018.
-# Martin Stromberger <mstromberger@aon.at>, 2018, 2019, 2020.
+# Martin Stromberger <mstromberger@aon.at>, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-11 08:08+0100\n"
-"PO-Revision-Date: 2020-12-06 14:18+0100\n"
+"PO-Revision-Date: 2021-01-11 18:28+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.08.3\n"
+"X-Generator: Lokalize 20.12.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/ui/bet_graph.ui.h:1
@@ -715,7 +715,7 @@ msgstr "<STRG> + Links Klick für Detailauswahl"
 #: ../src/etats_onglet.c:1123 ../src/etats_onglet.c:1357
 #: ../src/gsb_transactions_list.c:572
 msgid "Search"
-msgstr "Alle Einnahmen und Ausgaben"
+msgstr "Buchungen suchen"
 
 #: ../src/ui/etats_prefs.ui.h:109
 msgid "Navigation"
@@ -1355,9 +1355,8 @@ msgid "Preferences settings"
 msgstr "Einstellungen"
 
 #: ../src/ui/prefs_page_divers.ui.h:8
-#, fuzzy
 msgid "Configuration backend: "
-msgstr "Konfiguration abgeschlossen !"
+msgstr "Einstellungen:"
 
 #: ../src/ui/prefs_page_divers.ui.h:10
 msgid "Reset window of preferences"
@@ -1375,9 +1374,8 @@ msgid "Generalities"
 msgstr "Allgemein"
 
 #: ../src/ui/prefs_page_divers.ui.h:13
-#, fuzzy
 msgid "Options for launching scheduled operations\n"
-msgstr "Einstellungen für französische Zuordnungen"
+msgstr "Einstellungen für das Ausführen von geplante Buchungen\n"
 
 #: ../src/ui/prefs_page_divers.ui.h:15
 msgid "Launch day for scheduled operations performed monthly: "
@@ -1389,6 +1387,8 @@ msgid ""
 "the following month.\n"
 "They will start on the chosen day)"
 msgstr ""
+"(Mit dieser Einstellung wird das Ausführungsdatum der geplanten Buchung"
+" festgelegt)"
 
 #: ../src/ui/prefs_page_divers.ui.h:19
 msgid ""
@@ -1401,36 +1401,36 @@ msgid ""
 "(This option sets the day of launching the operation if it exists. For "
 "example every 29th of the month except leap years)"
 msgstr ""
+"(Mit dieser Einstellung werden wird das Ausführungsdatum automatisch"
+" angepasst Als Beispiel 29. Tag im Februar und kein Schaltjahr)"
 
 #: ../src/ui/prefs_page_divers.ui.h:22
 msgid "Use a default account for sheduler form: "
 msgstr "Buchungsformular für geplante Buchungen von diesem Konto verwenden: "
 
 #: ../src/ui/prefs_page_divers.ui.h:23
-#, fuzzy
 msgid "Select by default the"
-msgstr "Voreinstellung ist ein Zeichen"
+msgstr "Standardauswahl von"
 
 #: ../src/ui/prefs_page_divers.ui.h:24
 msgid "first"
-msgstr ""
+msgstr "erster"
 
 #: ../src/ui/prefs_page_divers.ui.h:25
 msgid "or the"
-msgstr ""
+msgstr "oder"
 
 #: ../src/ui/prefs_page_divers.ui.h:26
 msgid "last"
-msgstr ""
+msgstr "letzter"
 
 #: ../src/ui/prefs_page_divers.ui.h:27
-#, fuzzy
 msgid "transaction in the list"
-msgstr "Buchungsübersicht Zellen"
+msgstr "Buchung in Übersicht"
 
 #: ../src/ui/prefs_page_divers.ui.h:28
 msgid "(This change will take effect on the next restart)"
-msgstr ""
+msgstr "(Diese Änderung wird nach dem nächsten Neustart wirksam)"
 
 #: ../src/ui/prefs_page_divers.ui.h:29 ../src/grisbi_win.c:465
 #: ../src/navigation.c:2080
@@ -1993,33 +1993,28 @@ msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr "Spalten Restschuld und Monatliche Tilgung vertauschen"
 
 #: ../src/ui/search_transaction.ui.h:2
-#, fuzzy
 msgid "Searched string :"
-msgstr "Suchkriterium: "
+msgstr "Gesuchte Zeichenkette:"
 
 #: ../src/ui/search_transaction.ui.h:3
-#, fuzzy
 msgid "Search a string"
-msgstr "Suchkriterium"
+msgstr "Suche nach Zeichenkette"
 
 #: ../src/ui/search_transaction.ui.h:4
-#, fuzzy
 msgid "Search in payee name"
-msgstr "Namen von Empfängern"
+msgstr "Suche nach Empfängername"
 
 #: ../src/ui/search_transaction.ui.h:5
-#, fuzzy
 msgid "Search in note"
-msgstr "Suchkriterium: "
+msgstr "Suche nach Notiz"
 
 #: ../src/ui/search_transaction.ui.h:6
-#, fuzzy
 msgid "Search an amount"
-msgstr "Konto auswählen"
+msgstr "Suche nach Betrag"
 
 #: ../src/ui/search_transaction.ui.h:7
 msgid "Search an amount at + or - "
-msgstr ""
+msgstr "Suche nach Betrag mit + oder -"
 
 #. others options for search
 #: ../src/ui/search_transaction.ui.h:9 ../src/widgets/widget_import_asso.ui.h:8
@@ -2028,19 +2023,16 @@ msgid "Ignoring case sensitive"
 msgstr "Groß und Kleinschreibung ignorieren"
 
 #: ../src/ui/search_transaction.ui.h:10
-#, fuzzy
 msgid "Search in the archived transactions"
-msgstr "Archivierte Buchungen nicht berücksichtigen"
+msgstr "Suche in archivierten Buchungen"
 
 #: ../src/ui/search_transaction.ui.h:11
-#, fuzzy
 msgid "Search from newest to oldest"
-msgstr "Archiv von %s bis %s"
+msgstr "Suche von aktueller bis ältester"
 
 #: ../src/ui/search_transaction.ui.h:12
-#, fuzzy
 msgid "Continue with another account: "
-msgstr "Buchung verschieben nach"
+msgstr "Mit einem anderen Konto fortfahren:"
 
 #: ../src/widgets/widget_bank_details.ui.h:3
 msgid "Sort code: "
@@ -2106,7 +2098,7 @@ msgstr "Einstellungen"
 
 #: ../src/widgets/widget_css_rules.ui.h:7
 msgid "Overall height of characters: "
-msgstr "Allgemeine Zeichengröße:"
+msgstr "Allgemeine Schriftgröße:"
 
 #: ../src/widgets/widget_css_rules.ui.h:8
 msgid "Global font size"
@@ -2879,18 +2871,16 @@ msgstr ""
 "von der Anzahl der Tage davor ab."
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:128
-#, fuzzy
 msgid "if TRUE select the last scheduler transaction"
-msgstr "Geplante Buchung löschen"
+msgstr "Letzte geplante Buchung auswählen"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:129
-#, fuzzy
 msgid ""
 "TRUE = select the last scheduler transaction, FALSE = select the first "
 "scheduler transaction."
 msgstr ""
-"Selektierte Buchung nach Prüfung von Splittbuchung: keine Auswahl - "
-"Selektion von neuer Buchung, Auswahl - Selektion von übergeordneter Buchung"
+"Bei einer Selektion wird die letzte geplante Buchung ausgewählt, sonst wird"
+" die erste geplante Buchung ausgewählt"
 
 #: ../src/org.gtk.grisbi.gschema.xml.h:130
 msgid "Number of days before scheduled operations start"
@@ -4321,7 +4311,7 @@ msgstr "Diese Meldung nicht mehr anzeigen"
 #: ../src/dialog.c:274 ../src/dialog.c:643 ../src/dialog.c:695
 #: ../src/gsb_scheduler_list.c:2907
 msgid "Keep this choice and no longer see this message?"
-msgstr ""
+msgstr "Auswahl beibehalten und mit Meldung nicht mehr anzeigen?"
 
 #: ../src/dialog.c:803
 msgid ""
@@ -4649,9 +4639,9 @@ msgid "Transfer from %s"
 msgstr "Umbuchen von %s"
 
 #: ../src/etats_affiche.c:1688
-#, fuzzy, c-format
+#, c-format
 msgid "Total charge (%d transaction): "
-msgstr "Gesamteinnahmen (%d Buchung) "
+msgstr "Gesamtgebühren (%d Buchung) "
 
 #: ../src/etats_affiche.c:1690
 #, c-format
@@ -4659,9 +4649,9 @@ msgid "Total expense (%d transaction): "
 msgstr "Gesamtausgaben (%d Buchung) "
 
 #: ../src/etats_affiche.c:1695
-#, fuzzy, c-format
+#, c-format
 msgid "Total charges (%d transactions): "
-msgstr "Gesamteinnahmen (%d Buchungen) "
+msgstr "Gesamtgebühren (%d Buchungen):"
 
 #: ../src/etats_affiche.c:1697
 #, c-format
@@ -4673,9 +4663,9 @@ msgid "Total expenses: "
 msgstr "Gesamtausgaben "
 
 #: ../src/etats_affiche.c:1718
-#, fuzzy, c-format
+#, c-format
 msgid "Total product (%d transaction): "
-msgstr "Gesamteinnahmen (%d Buchung) "
+msgstr "Gesamteinnahmen (%d Buchung):"
 
 #: ../src/etats_affiche.c:1720
 #, c-format
@@ -4683,9 +4673,9 @@ msgid "Total income (%d transaction): "
 msgstr "Gesamteinnahmen (%d Buchung) "
 
 #: ../src/etats_affiche.c:1725
-#, fuzzy, c-format
+#, c-format
 msgid "Total products (%d transactions): "
-msgstr "%s gesamt (%d Buchungen)"
+msgstr "Gesamteinnahmen (%d Buchungen):"
 
 #: ../src/etats_affiche.c:1727
 #, c-format
@@ -4693,9 +4683,8 @@ msgid "Total income (%d transactions): "
 msgstr "Gesamteinnahmen (%d Buchungen) "
 
 #: ../src/etats_affiche.c:1734
-#, fuzzy
 msgid "Total Products: "
-msgstr "Gesamtbetrag:"
+msgstr "Gesamteinnahmen:"
 
 #: ../src/etats_affiche.c:1736
 msgid "Total income: "
@@ -4740,11 +4729,11 @@ msgstr "Kein Empfänger"
 
 #: ../src/etats_affiche.c:2328
 msgid "Products"
-msgstr ""
+msgstr "Einnahmen"
 
 #: ../src/etats_affiche.c:2355
 msgid "Charges"
-msgstr ""
+msgstr "Gebühren"
 
 #: ../src/etats_affiche.c:2357
 msgid "Outgoings"
@@ -5079,7 +5068,6 @@ msgstr ""
 "werden, in der Vorlage sind alle Konten ausgewählt."
 
 #: ../src/etats_onglet.c:183
-#, fuzzy
 msgid ""
 "This report shows the month's expenses sorted by payees.You will just have "
 "to choose the account(s) and validate. By default, all accounts are in use."
@@ -5254,7 +5242,6 @@ msgid "Monthly outgoings by payee"
 msgstr "Monatliche Ausgaben nach Empfänger"
 
 #: ../src/etats_onglet.c:934
-#, fuzzy
 msgid "Last month products and expenses"
 msgstr "Einnahmen und Ausgaben letzter Monat"
 
@@ -5278,7 +5265,6 @@ msgstr ""
 "Der ausgewählte Bericht wird gelöscht. Es gibt keine Wiederherstellung."
 
 #: ../src/etats_onglet.c:1385
-#, fuzzy
 msgid "Searching"
 msgstr "Suchkriterium"
 
@@ -9054,12 +9040,11 @@ msgstr "Venezuela"
 #: ../src/gsb_data_currency.c:948
 #, c-format
 msgid "The currency '%s' was duplicated. It has been deleted."
-msgstr ""
+msgstr "Die Währung '%s' war doppelt vorhanden und wurde gelöscht."
 
 #: ../src/gsb_data_currency.c:950
-#, fuzzy
 msgid "Duplicate currency"
-msgstr "Erste Währung"
+msgstr "Doppelte Währung"
 
 #: ../src/gsb_data_currency_link.c:489
 msgid "Warning : the two currencies of the link are identicals."
@@ -12471,9 +12456,8 @@ msgid "System Language"
 msgstr "System Sprache"
 
 #: ../src/prefs/prefs_page_divers.c:604
-#, fuzzy
 msgid "File: "
-msgstr "Dateiname: "
+msgstr "Dateiname:"
 
 #. set the scheduled variables
 #: ../src/prefs/prefs_page_divers.c:617
@@ -12992,15 +12976,13 @@ msgid "Error opening file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
 
 #: ../src/search_transaction.c:466 ../src/search_transaction.c:775
-#, fuzzy
 msgid "You must enter a search text"
-msgstr "Sie müssen ein Datum eingeben."
+msgstr "Sie müssen einen Suchbegriff eingeben"
 
 #. on demande de choisir un nouveau compte
 #: ../src/search_transaction.c:962
-#, fuzzy
 msgid "Choose another account"
-msgstr "Konto auswählen - Grisbi"
+msgstr "Ein anderes Konto auswählen"
 
 #. Description entry
 #: ../src/tiers_onglet.c:225
@@ -13207,12 +13189,15 @@ msgid "One payee was replaced with a new one."
 msgstr "Es wurde ein Empfänger durch einen neuen Empfänger ersetzt."
 
 #: ../src/tiers_onglet.c:2029
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d payees were replaced with a new one.\n"
 "\n"
 "%d unaffected payees were removed in addition"
-msgstr "Es wurden %d Empfänger durch einen neuen Empfänger ersetzt."
+msgstr ""
+"Es wurden %d Empfänger durch einen neuen Empfänger ersetzt.\n"
+"\n"
+"Zusätzlich wurden %d nicht betroffene Empfänger entfernt"
 
 #: ../src/tiers_onglet.c:2036
 #, c-format
@@ -13484,7 +13469,6 @@ msgstr ""
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
 #: ../src/transaction_list.c:1943
-#, fuzzy
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't "
 "appendCheck that."
