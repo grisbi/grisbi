@@ -181,6 +181,7 @@
 		006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68DA1DB426EE0038B1F0 /* gnucash.c */; };
 		006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68DD1DB427130038B1F0 /* libxml2.tbd */; };
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
+		00972E5A25AC960E00856C07 /* grisbi_osx.m in Sources */ = {isa = PBXBuildFile; fileRef = 00972E5925AC960E00856C07 /* grisbi_osx.m */; };
 		00A496AB245DC91900CB598C /* prefs_page_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496A9245DC91900CB598C /* prefs_page_currency_link.c */; };
 		00A496AF245DC94400CB598C /* widget_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496AD245DC94300CB598C /* widget_currency_link.c */; };
 		00AAC22C245B743800993764 /* gsb_currency_popup.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC22A245B743800993764 /* gsb_currency_popup.c */; };
@@ -580,6 +581,8 @@
 		006E68E01DB4276C0038B1F0 /* ofx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ofx.c; sourceTree = "<group>"; };
 		006E68E11DB4276C0038B1F0 /* ofx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofx.h; sourceTree = "<group>"; };
 		006E68E31DB427DF0038B1F0 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../usr_local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
+		00972E5825AC960E00856C07 /* grisbi_osx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_osx.h; sourceTree = "<group>"; };
+		00972E5925AC960E00856C07 /* grisbi_osx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = grisbi_osx.m; sourceTree = "<group>"; };
 		00A496A9245DC91900CB598C /* prefs_page_currency_link.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_currency_link.c; path = prefs/prefs_page_currency_link.c; sourceTree = "<group>"; };
 		00A496AA245DC91900CB598C /* prefs_page_currency_link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_currency_link.h; path = prefs/prefs_page_currency_link.h; sourceTree = "<group>"; };
 		00A496AC245DC94300CB598C /* widget_currency_link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_currency_link.h; sourceTree = "<group>"; };
@@ -939,6 +942,8 @@
 				006E67471DB3E7AC0038B1F0 /* grisbi_app.h */,
 				004BCAB0243DC5F8002999B6 /* grisbi_conf.c */,
 				004BCAAF243DC5F8002999B6 /* grisbi_conf.h */,
+				00972E5825AC960E00856C07 /* grisbi_osx.h */,
+				00972E5925AC960E00856C07 /* grisbi_osx.m */,
 				003AC2241F49DFE1007DA275 /* grisbi_prefs.c */,
 				003AC2261F49E00B007DA275 /* grisbi_prefs.h */,
 				00EA61011F915CBA00569C19 /* grisbi_resources.c */,
@@ -1457,6 +1462,7 @@
 				006E68391DB3E7AD0038B1F0 /* classement_echeances.c in Sources */,
 				006E684B1DB3E7AD0038B1F0 /* file_obfuscate.c in Sources */,
 				006E689F1DB3E7AD0038B1F0 /* imputation_budgetaire.c in Sources */,
+				00972E5A25AC960E00856C07 /* grisbi_osx.m in Sources */,
 				00FB5A4F21CA477F00A10B81 /* prefs_page_metatree.c in Sources */,
 				006E68951DB3E7AD0038B1F0 /* gsb_rgba.c in Sources */,
 				006E68AC1DB3E7AD0038B1F0 /* tiers_onglet.c in Sources */,
