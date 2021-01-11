@@ -75,7 +75,9 @@ int main (int argc, char **argv)
 {
     GrisbiApp *app;
 	gint status;
-
+#ifdef HAVE_GOFFICE
+    GSList *goffice_plugins_dirs = NULL;
+#endif
 	/* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
 /*#ifdef GDK_WINDOWING_WAYLAND
 	#ifdef GDK_WINDOWING_X11
@@ -91,7 +93,7 @@ int main (int argc, char **argv)
 #endif
 
 #ifdef __APPLE__
-    grisbi_osx_init(&argc, &argv);
+    goffice_plugins_dirs = grisbi_osx_init(&argc, &argv);
 #endif
 
 	/* On commence par initialiser les répertoires */
@@ -107,13 +109,7 @@ int main (int argc, char **argv)
     /* initialisation libgoffice */
     libgoffice_init ();
     /* Initialize plugins manager */
-#   ifdef __APPLE__
-    gchar *local_plugins_dir = g_build_filename(g_path_get_dirname(argv[0]), "/../Resources/lib/goffice/0.10.49/plugins/", NULL);
-    GSList *plugins_dirs = g_slist_prepend(NULL, local_plugins_dir);
-    go_plugins_init (NULL, NULL, NULL, plugins_dirs, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-#   else
-    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-#   endif /* __APPLE__ */
+    go_plugins_init (NULL, NULL, NULL, goffice_plugins_dirs, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif /* HAVE_GOFFICE */
 
     app = g_object_new (GRISBI_APP_TYPE,
@@ -131,9 +127,7 @@ int main (int argc, char **argv)
 #ifdef HAVE_GOFFICE
     /* liberation libgoffice */
     libgoffice_shutdown ();
-#ifdef __APPLE__
-    g_slist_free(plugins_dirs);
-#endif
+    g_slist_free(goffice_plugins_dirs); //, g_free);
 #endif /* HAVE_GOFFICE */
 
     return status;
