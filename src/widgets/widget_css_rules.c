@@ -89,8 +89,9 @@ struct _WidgetCssRulesPrivate
 };
 
 /* éléments pour la gestion de la dimension de la police de caractères */
-static const gchar *	AbsoluteSize[] = {"xx-small", "x-small", "small", "medium",
-										  "large", "x-large", "xx-large", "xxx-large",
+static const gchar *	AbsoluteSize[] = {"xx-small", "x-small", "small",
+										  "medium",
+										  "large", "x-large", "xx-large",
 										  NULL};
 
 /* mémorise la hauteur initiale de la police de caractère */
