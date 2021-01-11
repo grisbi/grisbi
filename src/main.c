@@ -75,7 +75,7 @@ int main (int argc, char **argv)
 {
     GrisbiApp *app;
 	gint status;
-#ifdef HAVE_GOFFICE
+#if defined(HAVE_GOFFICE) || defined(__APPLE__)
     GSList *goffice_plugins_dirs = NULL;
 #endif
 	/* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
