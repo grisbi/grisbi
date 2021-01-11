@@ -28,7 +28,6 @@
 #include "config.h"
 #endif
 
-#include "include.h"
 #include <gtk/gtk.h>
 #include <libintl.h>
 
