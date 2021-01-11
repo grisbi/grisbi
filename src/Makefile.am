@@ -334,9 +334,19 @@ libgrisbi_la_SOURCES += \
 	go-optionmenu.h
 endif
 
+if PLATFORM_OSX
+libgrisbi_la_SOURCES += \
+	grisbi_osx.m \
+	grisbi_osx.h
+
+grisbi_LDFLAGS = -framework Foundation
+endif
+
 grisbi_SOURCES = 		\
 	main.c				\
 	grisbi_resources.c
+
+
 
 BUILT_SOURCES = grisbi_resources.c
 
@@ -359,9 +369,7 @@ if WIN32
 grisbi_LDFLAGS = -mwindows
 endif
 
-if PLATFORM_OSX
-grisbi_LDFLAGS = -framework CoreFoundation
-endif
+
 
 SUBDIRS = prefs ui widgets plugins/gnucash plugins/ofx plugins/openssl images
 
@@ -385,3 +393,6 @@ checkheaders: $(ALLHEADERS:.h=.ho)
 
 %.ho: %.h
 	$(CC) -include config.h $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS) -c -o $@ -x c $<
+
+%.o: %.m
+	$(OBJC) -c -o $@ $<
