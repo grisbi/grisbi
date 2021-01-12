@@ -110,6 +110,7 @@ int main (int argc, char **argv)
     libgoffice_init ();
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, goffice_plugins_dirs, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+    /* Note: go_plugins_init will g_slist_free(goffice_plugins_dirs) ! */
 #endif /* HAVE_GOFFICE */
 
     app = g_object_new (GRISBI_APP_TYPE,
@@ -127,7 +128,6 @@ int main (int argc, char **argv)
 #ifdef HAVE_GOFFICE
     /* liberation libgoffice */
     libgoffice_shutdown ();
-    g_slist_free(goffice_plugins_dirs); /* for unknown reason g_slist_free_full(..., g_free) leads to segv */
 #endif /* HAVE_GOFFICE */
 
 
