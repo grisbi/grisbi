@@ -80,7 +80,7 @@ static gchar *get_bundle_prefix(void) {
     g_free(program_dir);
     g_free(prefix);
 
-    return prefix;
+    return get_bundle_prefix;
 }
 
 static void my_setenv(const gchar *key, const gchar *value) {
