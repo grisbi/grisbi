@@ -41,11 +41,10 @@
 
 
 /** 
- * 
+ * Return the absolute path of the current executable
  */
 static char *get_program_name(void) {
-    char *program_name=NULL;
-
+    char *program_name = NULL;
     char pathbuf[PATH_MAX + 1];
     uint32_t bufsize = sizeof(pathbuf);
 
@@ -55,17 +54,25 @@ static char *get_program_name(void) {
         g_warning("get_program_name() - _NSGetExecutablePath failed");
     }
 
-    return program_name;
+    return program_name; /* should be freed by caller */
 }
 
-static gchar *get_program_dir()
+/**
+ * return the directory containing the executable
+ */
+static gchar *get_program_dir(void)
 {
     char *program_name = get_program_name();
     gchar *program_dir = g_path_get_dirname(program_name);
+
     free(program_name);
-    return program_dir;
+    
+    return program_dir; /*should be g_freed by the caller */
 }
 
+/**
+ * Guess the bundle directory. If executable is run outside bundle, return the parent directory
+ */
 static gchar *get_bundle_prefix(void) {
     gchar *get_bundle_prefix;
     gchar *program_dir = get_program_dir();
@@ -80,9 +87,13 @@ static gchar *get_bundle_prefix(void) {
     g_free(program_dir);
     g_free(prefix);
 
-    return get_bundle_prefix;
+    return get_bundle_prefix; /* should be g_freed by the caller */
 }
 
+/**
+ * wrapper around setenv. It adds some debug logs
+ *
+ */
 static void my_setenv(const gchar *key, const gchar *value) {
     char set_env[255];
 
@@ -91,6 +102,9 @@ static void my_setenv(const gchar *key, const gchar *value) {
     g_setenv(key, value, TRUE);
 }
 
+/**
+ * set up all necessary environement variables
+ */
 static gchar *set_macos_app_bundle_env(gchar const *program_dir)
 {
     // use bundle identifier
@@ -182,6 +196,9 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
     return bundle_resources_dir;
 }
 
+/**
+ * set LANG according to user's preferences
+ */
 static void set_locale(void) {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString* lang = [NSString stringWithFormat:@"%@.UTF-8", [defaults stringForKey:@"AppleLocale"]];
@@ -190,8 +207,12 @@ static void set_locale(void) {
     my_setenv("LANG", lang_str);
 }
 
+
+/**
+ * Manage all MacOS initialization and return goffice plugins directory
+ */
 GSList *grisbi_osx_init(int *argc, char **argv[]) {
-    char const *program_dir = get_program_dir();
+    char *program_dir = get_program_dir();
     GSList *goffice_plugins_dirs = NULL;
     gchar *bundle_resources_dir = NULL;
 
@@ -222,6 +243,7 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
         // that get misdirected by using a launcher. The launcher needs to go and the
         // binary needs to setup the environment itself.
         bundle_resources_dir = set_macos_app_bundle_env(program_dir);
+        free(program_dir);
     } else {
         devel_debug("Running outside bundle");
     }
@@ -237,8 +259,9 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
     }
 #endif
 
+    g_free(bundle_resources_dir);
     devel_debug("MACOSX: initialization done.");
 
-    return goffice_plugins_dirs;
+    return goffice_plugins_dirs; /* should be g_slist_freed by caller */
 }
 
