@@ -39,6 +39,9 @@
 #include "grisbi_osx.h"
 #include "erreur.h"
 
+#ifdef HAVE_GOFFICE
+#include <goffice/goffice.h>
+#endif
 
 /** 
  * Return the absolute path of the current executable
@@ -253,7 +256,7 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
 #ifdef HAVE_GOFFICE
     if (bundle_resources_dir) {
         gchar *local_plugins_dir = g_build_filename(bundle_resources_dir,
-                                                    "/lib/goffice/0.10.49/plugins/", NULL);
+                                                    "/lib/goffice/" GOFFICE_VERSION "/plugins/", NULL);
         goffice_plugins_dirs = g_slist_prepend(NULL, local_plugins_dir);
         devel_debug(local_plugins_dir);
     }
