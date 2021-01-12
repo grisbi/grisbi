@@ -63,7 +63,7 @@ static gchar *get_program_dir()
     char *program_name = get_program_name();
     gchar *program_dir = g_path_get_dirname(program_name);
     free(program_name);
-    return program_name;
+    return program_dir;
 }
 
 static gchar *get_bundle_prefix(void) {
