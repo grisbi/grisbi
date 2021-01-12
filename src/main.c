@@ -127,9 +127,10 @@ int main (int argc, char **argv)
 #ifdef HAVE_GOFFICE
     /* liberation libgoffice */
     libgoffice_shutdown ();
-    g_slist_free(goffice_plugins_dirs); //, g_free);
+    g_slist_free_full(goffice_plugins_dirs, g_free);
 #endif /* HAVE_GOFFICE */
 
+    
     return status;
 }
 

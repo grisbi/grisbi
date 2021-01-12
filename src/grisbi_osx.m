@@ -43,8 +43,8 @@
 /** 
  * 
  */
-static char const *get_program_name(void) {
-    gchar *program_name="undefined";
+static char *get_program_name(void) {
+    char *program_name=NULL;
 
     char pathbuf[PATH_MAX + 1];
     uint32_t bufsize = sizeof(pathbuf);
@@ -58,18 +58,27 @@ static char const *get_program_name(void) {
     return program_name;
 }
 
-static char const *get_program_dir()
+static gchar *get_program_dir()
 {
-    return g_path_get_dirname(get_program_name());
+    char *program_name = get_program_name();
+    gchar *program_dir = g_path_get_dirname(program_name);
+    free(program_name);
+    return program_name;
 }
 
 static gchar *get_bundle_prefix(void) {
-    char const *program_dir = get_program_dir();
-
+    gchar *get_bundle_prefix;
+    gchar *program_dir = get_program_dir();
     gchar *prefix = g_path_get_dirname(program_dir);
+
     if (g_str_has_suffix(program_dir, "Contents/MacOS")) {
-        prefix = g_build_filename(prefix, "Resources", NULL);
+        get_bundle_prefix = g_build_filename(prefix, "Resources", NULL);
+    } else {
+        get_bundle_prefix = g_strdup(prefix);
     }
+
+    g_free(program_dir);
+    g_free(prefix);
 
     return prefix;
 }
@@ -108,11 +117,23 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
 
     // XDG
     // https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-    my_setenv("XDG_DATA_HOME",   g_build_filename(app_support_dir, "share", NULL));
+    gchar *support_share_dir = g_build_filename(app_support_dir, "share", NULL);
+    my_setenv("XDG_DATA_HOME",   support_share_dir);
+    g_free(support_share_dir);
+
     my_setenv("XDG_DATA_DIRS",   bundle_resources_share_dir);
-    my_setenv("XDG_CONFIG_HOME", g_build_filename(app_support_dir, "config", NULL));
-    my_setenv("XDG_CONFIG_DIRS", g_build_filename(bundle_resources_etc_dir, "xdg", NULL));
-    my_setenv("XDG_CACHE_HOME",  g_build_filename(app_support_dir, "cache", NULL));
+
+    gchar *support_config_dir = g_build_filename(app_support_dir, "config", NULL);
+    my_setenv("XDG_CONFIG_HOME", support_config_dir);
+    g_free(support_config_dir);
+
+    gchar *bundle_resources_xdg = g_build_filename(bundle_resources_etc_dir, "xdg", NULL);
+    my_setenv("XDG_CONFIG_DIRS", bundle_resources_xdg );
+    g_free(bundle_resources_xdg);
+
+    gchar *support_cache_dir = g_build_filename(app_support_dir, "cache", NULL);
+    my_setenv("XDG_CACHE_HOME", support_cache_dir);
+    g_free(support_cache_dir);
 
     // GTK
     // https://developer.gnome.org/gtk3/stable/gtk-running.html
@@ -120,24 +141,44 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
     my_setenv("GTK_DATA_PREFIX", bundle_resources_dir);
 
     // GDK
-    my_setenv("GDK_PIXBUF_MODULE_FILE", g_build_filename(bundle_resources_lib_dir, "gdk-pixbuf-2.0/2.10.0/loaders.cache", NULL));
+    gchar *bundle_resources_pixbuf_dir = g_build_filename(bundle_resources_lib_dir, "gdk-pixbuf-2.0/2.10.0/loaders.cache", NULL);
+    my_setenv("GDK_PIXBUF_MODULE_FILE", bundle_resources_pixbuf_dir);
+    g_free(bundle_resources_pixbuf_dir);
 
     // fontconfig
-    my_setenv("FONTCONFIG_PATH", g_build_filename(bundle_resources_etc_dir, "fonts", NULL));
+    gchar *bundle_resources_fontconfig_dir = g_build_filename(bundle_resources_etc_dir, "fonts", NULL);
+    my_setenv("FONTCONFIG_PATH", bundle_resources_fontconfig_dir);
+    g_free(bundle_resources_fontconfig_dir);
 
     // GIO
-    my_setenv("GIO_MODULE_DIR", g_build_filename(bundle_resources_lib_dir, "gio/modules", NULL));
+    gchar *bundle_resources_gio_dir = g_build_filename(bundle_resources_lib_dir, "gio/modules", NULL);
+    my_setenv("GIO_MODULE_DIR", bundle_resources_gio_dir);
+    g_free(bundle_resources_gio_dir);
 
     // GNOME introspection
-    my_setenv("GI_TYPELIB_PATH", g_build_filename(bundle_resources_lib_dir, "girepository-1.0", NULL));
+    gchar *bundle_resources_typelib_dir = g_build_filename(bundle_resources_lib_dir, "girepository-1.0", NULL);
+    my_setenv("GI_TYPELIB_PATH", bundle_resources_typelib_dir);
+    g_free(bundle_resources_typelib_dir);
 
     // PATH
-    my_setenv("PATH", g_build_path(":", bundle_resources_bin_dir, g_getenv("PATH"), NULL));
+    const gchar *path_current = g_getenv("PATH");
+    gchar *path_bin_dir = g_build_path(":", bundle_resources_bin_dir, path_current, NULL);
+    my_setenv("PATH", path_bin_dir);
+    g_free(path_bin_dir);
 
     // DYLD_LIBRARY_PATH
     // This is required to make Python GTK bindings work as they use dlopen()
     // to load libraries.
-    my_setenv("DYLD_LIBRARY_PATH", g_build_path(":", bundle_resources_lib_dir, NULL));
+    gchar *dyld_path_dir = g_build_path(":", bundle_resources_lib_dir, NULL);
+    my_setenv("DYLD_LIBRARY_PATH", dyld_path_dir);
+    g_free(dyld_path_dir);
+
+    g_free(app_support_dir);
+    g_free(bundle_resources_dir);
+    g_free(bundle_resources_etc_dir);
+    g_free(bundle_resources_bin_dir);
+    g_free(bundle_resources_lib_dir);
+    g_free(bundle_resources_share_dir);
 
     return bundle_resources_dir;
 }
