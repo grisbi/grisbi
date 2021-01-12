@@ -174,7 +174,6 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
     g_free(dyld_path_dir);
 
     g_free(app_support_dir);
-    g_free(bundle_resources_dir);
     g_free(bundle_resources_etc_dir);
     g_free(bundle_resources_bin_dir);
     g_free(bundle_resources_lib_dir);
