@@ -41,11 +41,10 @@
 
 
 /** 
- * 
+ * Return the absolute path of the current executable
  */
-static char const *get_program_name(void) {
-    gchar *program_name="undefined";
-
+static char *get_program_name(void) {
+    char *program_name = NULL;
     char pathbuf[PATH_MAX + 1];
     uint32_t bufsize = sizeof(pathbuf);
 
@@ -55,25 +54,46 @@ static char const *get_program_name(void) {
         g_warning("get_program_name() - _NSGetExecutablePath failed");
     }
 
-    return program_name;
+    return program_name; /* should be freed by caller */
 }
 
-static char const *get_program_dir()
+/**
+ * return the directory containing the executable
+ */
+static gchar *get_program_dir(void)
 {
-    return g_path_get_dirname(get_program_name());
+    char *program_name = get_program_name();
+    gchar *program_dir = g_path_get_dirname(program_name);
+
+    free(program_name);
+    
+    return program_dir; /*should be g_freed by the caller */
 }
 
+/**
+ * Guess the bundle directory. If executable is run outside bundle, return the parent directory
+ */
 static gchar *get_bundle_prefix(void) {
-    char const *program_dir = get_program_dir();
-
+    gchar *get_bundle_prefix;
+    gchar *program_dir = get_program_dir();
     gchar *prefix = g_path_get_dirname(program_dir);
+
     if (g_str_has_suffix(program_dir, "Contents/MacOS")) {
-        prefix = g_build_filename(prefix, "Resources", NULL);
+        get_bundle_prefix = g_build_filename(prefix, "Resources", NULL);
+    } else {
+        get_bundle_prefix = g_strdup(prefix);
     }
 
-    return prefix;
+    g_free(program_dir);
+    g_free(prefix);
+
+    return get_bundle_prefix; /* should be g_freed by the caller */
 }
 
+/**
+ * wrapper around setenv. It adds some debug logs
+ *
+ */
 static void my_setenv(const gchar *key, const gchar *value) {
     char set_env[255];
 
@@ -82,6 +102,9 @@ static void my_setenv(const gchar *key, const gchar *value) {
     g_setenv(key, value, TRUE);
 }
 
+/**
+ * set up all necessary environement variables
+ */
 static gchar *set_macos_app_bundle_env(gchar const *program_dir)
 {
     // use bundle identifier
@@ -108,11 +131,23 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
 
     // XDG
     // https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-    my_setenv("XDG_DATA_HOME",   g_build_filename(app_support_dir, "share", NULL));
+    gchar *support_share_dir = g_build_filename(app_support_dir, "share", NULL);
+    my_setenv("XDG_DATA_HOME",   support_share_dir);
+    g_free(support_share_dir);
+
     my_setenv("XDG_DATA_DIRS",   bundle_resources_share_dir);
-    my_setenv("XDG_CONFIG_HOME", g_build_filename(app_support_dir, "config", NULL));
-    my_setenv("XDG_CONFIG_DIRS", g_build_filename(bundle_resources_etc_dir, "xdg", NULL));
-    my_setenv("XDG_CACHE_HOME",  g_build_filename(app_support_dir, "cache", NULL));
+
+    gchar *support_config_dir = g_build_filename(app_support_dir, "config", NULL);
+    my_setenv("XDG_CONFIG_HOME", support_config_dir);
+    g_free(support_config_dir);
+
+    gchar *bundle_resources_xdg = g_build_filename(bundle_resources_etc_dir, "xdg", NULL);
+    my_setenv("XDG_CONFIG_DIRS", bundle_resources_xdg );
+    g_free(bundle_resources_xdg);
+
+    gchar *support_cache_dir = g_build_filename(app_support_dir, "cache", NULL);
+    my_setenv("XDG_CACHE_HOME", support_cache_dir);
+    g_free(support_cache_dir);
 
     // GTK
     // https://developer.gnome.org/gtk3/stable/gtk-running.html
@@ -120,28 +155,50 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
     my_setenv("GTK_DATA_PREFIX", bundle_resources_dir);
 
     // GDK
-    my_setenv("GDK_PIXBUF_MODULE_FILE", g_build_filename(bundle_resources_lib_dir, "gdk-pixbuf-2.0/2.10.0/loaders.cache", NULL));
+    gchar *bundle_resources_pixbuf_dir = g_build_filename(bundle_resources_lib_dir, "gdk-pixbuf-2.0/2.10.0/loaders.cache", NULL);
+    my_setenv("GDK_PIXBUF_MODULE_FILE", bundle_resources_pixbuf_dir);
+    g_free(bundle_resources_pixbuf_dir);
 
     // fontconfig
-    my_setenv("FONTCONFIG_PATH", g_build_filename(bundle_resources_etc_dir, "fonts", NULL));
+    gchar *bundle_resources_fontconfig_dir = g_build_filename(bundle_resources_etc_dir, "fonts", NULL);
+    my_setenv("FONTCONFIG_PATH", bundle_resources_fontconfig_dir);
+    g_free(bundle_resources_fontconfig_dir);
 
     // GIO
-    my_setenv("GIO_MODULE_DIR", g_build_filename(bundle_resources_lib_dir, "gio/modules", NULL));
+    gchar *bundle_resources_gio_dir = g_build_filename(bundle_resources_lib_dir, "gio/modules", NULL);
+    my_setenv("GIO_MODULE_DIR", bundle_resources_gio_dir);
+    g_free(bundle_resources_gio_dir);
 
     // GNOME introspection
-    my_setenv("GI_TYPELIB_PATH", g_build_filename(bundle_resources_lib_dir, "girepository-1.0", NULL));
+    gchar *bundle_resources_typelib_dir = g_build_filename(bundle_resources_lib_dir, "girepository-1.0", NULL);
+    my_setenv("GI_TYPELIB_PATH", bundle_resources_typelib_dir);
+    g_free(bundle_resources_typelib_dir);
 
     // PATH
-    my_setenv("PATH", g_build_path(":", bundle_resources_bin_dir, g_getenv("PATH"), NULL));
+    const gchar *path_current = g_getenv("PATH");
+    gchar *path_bin_dir = g_build_path(":", bundle_resources_bin_dir, path_current, NULL);
+    my_setenv("PATH", path_bin_dir);
+    g_free(path_bin_dir);
 
     // DYLD_LIBRARY_PATH
     // This is required to make Python GTK bindings work as they use dlopen()
     // to load libraries.
-    my_setenv("DYLD_LIBRARY_PATH", g_build_path(":", bundle_resources_lib_dir, NULL));
+    gchar *dyld_path_dir = g_build_path(":", bundle_resources_lib_dir, NULL);
+    my_setenv("DYLD_LIBRARY_PATH", dyld_path_dir);
+    g_free(dyld_path_dir);
+
+    g_free(app_support_dir);
+    g_free(bundle_resources_etc_dir);
+    g_free(bundle_resources_bin_dir);
+    g_free(bundle_resources_lib_dir);
+    g_free(bundle_resources_share_dir);
 
     return bundle_resources_dir;
 }
 
+/**
+ * set LANG according to user's preferences
+ */
 static void set_locale(void) {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString* lang = [NSString stringWithFormat:@"%@.UTF-8", [defaults stringForKey:@"AppleLocale"]];
@@ -150,8 +207,12 @@ static void set_locale(void) {
     my_setenv("LANG", lang_str);
 }
 
+
+/**
+ * Manage all MacOS initialization and return goffice plugins directory
+ */
 GSList *grisbi_osx_init(int *argc, char **argv[]) {
-    char const *program_dir = get_program_dir();
+    char *program_dir = get_program_dir();
     GSList *goffice_plugins_dirs = NULL;
     gchar *bundle_resources_dir = NULL;
 
@@ -182,6 +243,7 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
         // that get misdirected by using a launcher. The launcher needs to go and the
         // binary needs to setup the environment itself.
         bundle_resources_dir = set_macos_app_bundle_env(program_dir);
+        free(program_dir);
     } else {
         devel_debug("Running outside bundle");
     }
@@ -197,8 +259,9 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
     }
 #endif
 
+    g_free(bundle_resources_dir);
     devel_debug("MACOSX: initialization done.");
 
-    return goffice_plugins_dirs;
+    return goffice_plugins_dirs; /* should be g_slist_freed by caller */
 }
 
