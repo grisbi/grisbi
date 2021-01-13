@@ -145,20 +145,13 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="checkbutton_reconcile_sort">
+                    <property name="label" translatable="yes">Sort by descending date the reconciliations</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="hexpand">True</property>
                     <property name="draw_indicator">True</property>
-                    <child>
-                      <object class="GtkLabel" id="label3">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="label" translatable="yes">Sort by descending date the reconciliations</property>
-                        <property name="wrap">True</property>
-                      </object>
-                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -276,6 +269,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Find all marked transactions not associated with a reconciliation</property>
+                        <property name="justify">center</property>
                         <property name="wrap">True</property>
                       </object>
                     </child>
