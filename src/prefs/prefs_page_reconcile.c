@@ -454,7 +454,13 @@ static gboolean prefs_page_reconcile_button_end_date_toggled (GtkWidget *checkbu
 static void prefs_page_reconcile_button_reconcile_sort_toggled (GtkWidget *checkbutton,
 															  	GtkWidget *tree_view)
 {
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkTreePath *path_selected = NULL;
+	GtkTreeSelection *selection;
 	gint active;
+	gint depth = 0;
+	gint reconcile_number = 0;
 	GrisbiWinEtat *w_etat;
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
@@ -462,9 +468,55 @@ static void prefs_page_reconcile_button_reconcile_sort_toggled (GtkWidget *check
     w_etat->reconcile_sort = active;
 
 	/* update reconcile list */
-    prefs_page_reconcile_fill (tree_view);
-	utils_set_tree_store_background_color (tree_view, RECONCILIATION_BACKGROUND_COLOR);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	if (gtk_tree_selection_get_selected (selection, &model, &iter))
+	{
+		path_selected = gtk_tree_model_get_path (model, &iter);
+		depth = gtk_tree_path_get_depth (path_selected);
+		if (depth > 1)
+		{
+			gtk_tree_model_get (model, &iter, RECONCILIATION_RECONCILE_COLUMN, &reconcile_number, -1);
+		}
+	}
 
+    prefs_page_reconcile_fill (tree_view);
+	if (path_selected)
+	{
+		if (depth > 1)
+		{
+			GtkTreeIter fils_iter;
+			GtkTreePath *tmp_path;
+			gint tmp_number;
+
+			tmp_path = gtk_tree_path_copy (path_selected);
+			gtk_tree_path_up (tmp_path);
+			gtk_tree_view_expand_row (GTK_TREE_VIEW (tree_view), tmp_path, FALSE);
+			gtk_tree_model_get_iter (model, &iter, tmp_path);
+			gtk_tree_selection_select_path (selection, tmp_path);
+			gtk_tree_path_free (tmp_path);
+	    	if (gtk_tree_model_iter_children (model, &fils_iter, &iter))
+    		{
+				do
+				{
+					gtk_tree_model_get (model, &fils_iter, RECONCILIATION_RECONCILE_COLUMN, &tmp_number, -1);
+					if (tmp_number == reconcile_number)
+						break;
+				}
+				while (gtk_tree_model_iter_next (model, &fils_iter));
+				gtk_tree_selection_select_iter ( selection, &fils_iter);
+				tmp_path = gtk_tree_model_get_path (model, &fils_iter);
+				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), tmp_path, NULL, FALSE, 0, 0);
+				gtk_tree_path_free (tmp_path);
+			}
+		}
+		else
+		{
+			gtk_tree_selection_select_path (selection, path_selected);
+		}
+
+		gtk_tree_path_free (path_selected);
+	}
+	utils_set_tree_store_background_color (tree_view, RECONCILIATION_BACKGROUND_COLOR);
     gsb_file_set_modified (TRUE);
 }
 
