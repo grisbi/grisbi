@@ -103,7 +103,7 @@ AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug],[enable extra debug code]),
 	[enable_debug=$enableval],[enable_debug=no])
 
-if test "$enable_debug" = xyes; then
+if test "x$enable_debug" = xyes; then
 	AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
 else
 # make DEBUG = 1 for master
