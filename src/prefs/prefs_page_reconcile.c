@@ -137,8 +137,6 @@ static void prefs_page_reconcile_sensitive_details (PrefsPageReconcile *page,
 	priv = prefs_page_reconcile_get_instance_private (page);
 
 	gtk_widget_set_sensitive (priv->button_reconcile_delete, sensitive);
-	gtk_widget_set_sensitive (priv->button_reconcile_find, sensitive);
-    gtk_widget_set_sensitive (priv->checkbutton_reconcile_sort, sensitive);
 	gtk_widget_set_sensitive (priv->entry_reconcile_init_balance, sensitive);
 	gtk_widget_set_sensitive (priv->entry_reconcile_init_date, sensitive);
 	gtk_widget_set_sensitive (priv->entry_reconcile_final_balance, sensitive);
