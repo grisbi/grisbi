@@ -121,7 +121,10 @@ fi
 AC_ARG_ENABLE(early-debug,
 	AS_HELP_STRING([--enable-early-debug],[enable early debug code in a file]),
 	[enable_early_debug=$enableval],[enable_early_debug=no])
-AC_DEFINE(EARLY_DEBUG,1,[Defined if Grisbi should log to a file])
+if test "x$enable_early_debug" = xyes; then
+	AC_DEFINE(EARLY_DEBUG,1,[Defined if Grisbi should log to a file])
+fi
+AM_CONDITIONAL(EARLY_DEBUG, [test "$enable_early_debug" = yes])
 
 dnl ================================================================
 dnl Defined if Grisbi use a configuration file instead of gsettings
