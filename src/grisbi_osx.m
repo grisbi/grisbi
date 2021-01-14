@@ -43,6 +43,8 @@
 #include <goffice/goffice.h>
 #endif
 
+extern gboolean darkmode;	/* from grisbi_app.c */
+
 /** 
  * Return the absolute path of the current executable
  */
@@ -203,6 +205,7 @@ static void set_theme(void) {
     NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
     if ([osxMode isEqualToString:@"Dark"]) {
         my_setenv("GTK_THEME", "Adwaita:dark");
+		darkmode = TRUE;
     }
 }
 

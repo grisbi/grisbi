@@ -64,7 +64,7 @@
 /*START_STATIC*/
 static GtkCssProvider *	css_provider = NULL;    /* css provider */
 static gchar *			css_data = NULL;		/* fichier css sous forme de string */
-static gboolean			darkmode = FALSE;		/* use to set darkmode from command_line */
+gboolean				darkmode = FALSE;		/* use to set darkmode from command_line */
 
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
                                             GdkScreen *screen);
@@ -752,13 +752,6 @@ static const GOptionEntry options[] =
 		N_("DEBUG")
     },
 
-	/* darkmode */
-	{
-		"darkmode", 'm', 0, G_OPTION_ARG_NONE, NULL,
-		N_("If present, force the use of a dark theme"),
-		NULL
-	},
-
 	/* New instance */
 /*	{
 		"standalone", 's', 0, G_OPTION_ARG_NONE, NULL,
@@ -903,12 +896,6 @@ static gint grisbi_app_handle_local_options (GApplication *app,
         g_print("%s", extra_support ());
         return 0;
     }
-
-	if (g_variant_dict_contains (v_options, "darkmode"))
-	{
-		darkmode = TRUE;
-		g_print ("darkmode is set\n");
-	}
 
     return -1;
 }
