@@ -766,14 +766,6 @@ static const GOptionEntry options[] =
 		NULL
 	},
 */
-#ifdef __APPLE__
-    /* communicate with the macOS launcher */
-    {
-        "launcher", '\0', 0, G_OPTION_ARG_STRING, NULL,
-        "macOS launcher synchronisation pipe",
-        "FILENAME"
-    },
-#endif
 	/* collects file arguments */
 	{
 		G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_FILENAME_ARRAY, NULL, NULL,
@@ -829,9 +821,6 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 	GVariantDict *v_options;
 	gchar *tmp_str = NULL;
 	const gchar **remaining_args;
-#ifdef __APPLE__
-    gchar *launcher_str = NULL;
-#endif
 
 	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 
@@ -844,9 +833,6 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 	g_variant_dict_lookup (v_options, "new-window", "b", &priv->new_window);
 	g_variant_dict_lookup (v_options, "debug", "s", &tmp_str);
 	g_variant_dict_lookup (v_options, "d", "s", &tmp_str);
-#ifdef __APPLE__
-    g_variant_dict_lookup (v_options, "launcher", "s", &launcher_str);
-#endif
 
     /* Parse filenames */
 	if (g_variant_dict_lookup (v_options, G_OPTION_REMAINING, "^a&ay", &remaining_args))
@@ -890,27 +876,6 @@ static gboolean grisbi_app_cmdline (GApplication *application,
 			debug_initialize_debugging (priv->debug_level);
 			grisbi_app_print_environment_var ();
 		}
-#endif
-
-#ifdef __APPLE__
-    if (launcher_str && strlen(launcher_str) > 0)
-    {
-        FILE *fd;
-        fd = fopen(launcher_str, "w");
-        if (fd == NULL)
-        {
-            char *error;
-            asprintf(&error, "%s: %s", launcher_str, strerror(errno));
-            important_debug(error);
-            free(error);
-        }
-        else
-        {
-            char ok[] = "ok\n";
-            fwrite(ok, sizeof(ok), 1, fd);
-            fclose(fd);
-        }
-    }
 #endif
 
     if (priv->new_window)
