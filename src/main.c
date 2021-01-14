@@ -79,14 +79,13 @@ int main (int argc, char **argv)
     GSList *goffice_plugins_dirs = NULL;
 #endif
 	/* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
-/*#ifdef GDK_WINDOWING_WAYLAND
+#ifdef GDK_WINDOWING_WAYLAND
 	#ifdef GDK_WINDOWING_X11
 		gdk_set_allowed_backends ("x11");
 	#else
 		return (1);
 	#endif
 #endif
-*/
 
 #ifdef EARLY_DEBUG
 	debug_start_log_file ();
