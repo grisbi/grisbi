@@ -199,6 +199,13 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
     return bundle_resources_dir;
 }
 
+static void set_theme(void) {
+    NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+    if ([osxMode isEqualToString:@"Dark"]) {
+        my_setenv("GTK_THEME", "Adwaita:dark"); 
+    }
+}
+
 /**
  * set LANG according to user's preferences
  */
@@ -251,7 +258,7 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
         devel_debug("Running outside bundle");
     }
     set_locale();
-
+    set_theme();
 
 #ifdef HAVE_GOFFICE
     if (bundle_resources_dir) {
