@@ -106,7 +106,7 @@ AC_ARG_ENABLE(debug,
 # make DEBUG = 1 for master and odd minor version
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 	AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
-	enable_debug = yes
+	enable_debug=yes
 fi
 
 if test "x$enable_debug" = xyes; then
