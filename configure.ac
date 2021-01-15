@@ -107,6 +107,15 @@ AC_ARG_ENABLE(debug,
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 	AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
 	enable_debug = yes
+	if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
+		AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
+		git_hash=`git rev-parse --short HEAD`
+		if test [ -z "$git_hash"]; then
+			AC_DEFINE_UNQUOTED(GIT_HASH, ["$grisbi_git_hash"], [git head short hash])
+		else
+			AC_DEFINE_UNQUOTED(GIT_HASH, ["$git_hash"], [git head short hash])
+		fi
+	fi
 fi
 
 if test "x$enable_debug" = xyes; then
