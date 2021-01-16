@@ -4095,7 +4095,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 
      /* fill the buffer stat to check the permission */
     return_value = g_stat ( filename, &buffer_stat );
-    if ( !return_value && buffer_stat.st_mode != 33152 )
+    if ( !return_value && buffer_stat.st_mode & (S_IRGRP | S_IROTH) )
         gsb_file_util_display_warning_permissions ();
 #endif /* G_OS_WIN32 */
 
