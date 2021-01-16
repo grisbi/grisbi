@@ -13,7 +13,6 @@ jobs:
 
     strategy:
       matrix:
-        conf: [werror, goffice]
         os: [ubuntu-latest, macos-latest]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -28,8 +27,6 @@ jobs:
 
       - name: compile
         shell: bash
-        env:
-          CONF: ${{ matrix.conf }}
         run: |
           ./autogen.sh
           github-actions/build.sh
