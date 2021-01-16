@@ -4251,13 +4251,13 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 		gsb_assistant_archive_run ( TRUE );
 
 	/* check and remove duplicate currencies */
-	gboolean changed = gsb_data_currency_check_and_remove_duplicate ();
+	gboolean changed = gsb_data_currency_check_and_remove_duplicate (TRUE);
 	do
 	{
 		/* force update file */
 		gsb_file_set_modified (TRUE);
 
-		changed = gsb_data_currency_check_and_remove_duplicate ();
+		changed = gsb_data_currency_check_and_remove_duplicate (FALSE);
 	} while (changed);
 
     /* if we opened an archive, we say it here */

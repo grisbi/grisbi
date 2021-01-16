@@ -920,7 +920,7 @@ gint gsb_data_currency_new_with_data (const gchar *currency_name,
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_currency_check_and_remove_duplicate (void)
+gboolean gsb_data_currency_check_and_remove_duplicate (gboolean display_message)
 {
 	GSList *tmp_list;
 	GSList *used = NULL;
@@ -942,12 +942,16 @@ gboolean gsb_data_currency_check_and_remove_duplicate (void)
 
 			if (g_slist_find_custom (used, tmp_currency->currency_name, (GCompareFunc)my_strcasecmp))
 			{
-				gchar *msg;
+				if (display_message)
+				{
+					gchar *msg;
+
+					msg = g_strdup_printf ( _("The currency '%s' was duplicated. It has been deleted."),
+										   tmp_currency->currency_name);
+					dialogue_warning_hint (msg, _("Duplicate currency"));
+				}
 
 				currency_list = g_slist_remove (currency_list, tmp_currency);
-				msg = g_strdup_printf ( _("The currency '%s' was duplicated. It has been deleted."),
-									   tmp_currency->currency_name);
-				dialogue_warning_hint (msg, _("Duplicate currency"));
 				g_slist_free_full (used, (GDestroyNotify) g_free);
     			_gsb_data_currency_free (tmp_currency);
 

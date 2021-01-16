@@ -40,7 +40,7 @@ enum CurrencyConfigListColumns {
 };
 
 /* START_DECLARATION */
-gboolean			gsb_data_currency_check_and_remove_duplicate	(void);
+gboolean			gsb_data_currency_check_and_remove_duplicate	(gboolean display_message);
 const gchar *		gsb_data_currency_get_nickname 					(gint currency_number);
 gchar *				gsb_data_currency_get_code_iso4217 				(gint currency_number);
 gchar *				gsb_data_currency_get_nickname_or_code_iso 		(gint currency_number);
