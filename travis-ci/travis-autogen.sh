@@ -14,7 +14,6 @@ CFLAGS+=" -Wformat-security"
 CFLAGS+=" -Winit-self"
 CFLAGS+=" -Winline"
 CFLAGS+=" -Wmissing-declarations"
-CFLAGS+=" -Wmissing-include-dirs"
 CFLAGS+=" -Wmissing-prototypes"
 CFLAGS+=" -Wnested-externs"
 CFLAGS+=" -Wold-style-definition"
@@ -33,33 +32,22 @@ CFLAGS+=" -Wno-unused-parameter"
 
 configure_args=""
 
-# special configurations
-case "$CONF" in
-	*werror*)
-		# fail on warning
-		configure_args+=" --enable-real-werror"
+# fail on warning
+configure_args+=" --enable-real-werror"
 
-		if [ "$TRAVIS_OS_NAME" = "osx" ]
-		then
-			# disable deprecated warnings since gdk-pixbuf fails to
-			# build with:
-			# /usr/local/Cellar/gdk-pixbuf/2.38.1_1/include/gdk-pixbuf-2.0/gdk-pixbuf/gdk-pixbuf-animation.h:122:85: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
-			CFLAGS+=" -Wno-deprecated-declarations"
-		else
-			# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
-			CFLAGS+=" -Wno-deprecated-declarations"
-		fi
+if [ "$TRAVIS_OS_NAME" = "osx" ]
+then
+	# disable deprecated warnings since gdk-pixbuf fails to
+	# build with:
+	# /usr/local/Cellar/gdk-pixbuf/2.38.1_1/include/gdk-pixbuf-2.0/gdk-pixbuf/gdk-pixbuf-animation.h:122:85: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+	CFLAGS+=" -Wno-deprecated-declarations"
+else
+	# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
+	CFLAGS+=" -Wno-deprecated-declarations"
+fi
 
-		# disable goffice since it uses -pthread that generate warnings and then
-		# errors
-		configure_args+=" --without-goffice"
-	;;
-
-	*goffice*)
-		# enable goffice
-		configure_args+=" --with-goffice"
-	;;
-esac
+# enable goffice
+configure_args+=" --with-goffice"
 
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
