@@ -4095,7 +4095,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 
      /* fill the buffer stat to check the permission */
     return_value = g_stat ( filename, &buffer_stat );
-    if ( !return_value && buffer_stat.st_mode != 33152 )
+    if ( !return_value && buffer_stat.st_mode & (S_IRGRP | S_IROTH) )
         gsb_file_util_display_warning_permissions ();
 #endif /* G_OS_WIN32 */
 
@@ -4251,11 +4251,14 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 		gsb_assistant_archive_run ( TRUE );
 
 	/* check and remove duplicate currencies */
-	if (gsb_data_currency_check_and_remove_duplicate ())
+	gboolean changed = gsb_data_currency_check_and_remove_duplicate ();
+	do
 	{
 		/* force update file */
 		gsb_file_set_modified (TRUE);
-	}
+
+		changed = gsb_data_currency_check_and_remove_duplicate ();
+	} while (changed);
 
     /* if we opened an archive, we say it here */
     if ( w_etat->is_archive )

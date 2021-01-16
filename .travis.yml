@@ -3,10 +3,6 @@ language: c
 os:
   - linux
 
-env:
-  - CONF: werror
-  - CONF: goffice
-
 addons:
   homebrew:
     update: true

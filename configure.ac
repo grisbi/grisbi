@@ -464,7 +464,7 @@ echo "
                 Enable Early Debug:        $enable_early_debug
                 Enable Config file:        $enable_config_file
                 Enable fail on error:      $enable_real_werror
-                Enanle nooptim:            $enable_nooptim
+                Enable nooptim:            $enable_nooptim
                 Compiler flags:            $CFLAGS
 
 "
