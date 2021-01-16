@@ -25,11 +25,33 @@
 
 #include "include.h"
 
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-prototypes"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-prototypes"
+#endif
+
+/* this libofx/libofx.h header file generates
+ /usr/local/Cellar/libofx/0.10.0/include/libofx/libofx.h:113:42: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+  LibofxContextPtr libofx_get_new_context();
+                                         ^
+                                          void
+*/
 #include <libofx/libofx.h>
+
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
+
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "ofx.h"
+
 #include "dialog.h"
 #include "gsb_real.h"
 #include "structures.h"
