@@ -150,45 +150,6 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
 }
 
 /**
- * TODO: document
- * Borrowed from the Gimp Toolkit and modified.
- *
- */
-void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
-{
-    GtkWidget *widget;
-    GtkRequisition requisition;
-    GtkAllocation allocation;
-    gint screen_width, menu_xpos, menu_ypos, menu_width;
-
-    widget = GTK_WIDGET (user_data);
-
-    gtk_widget_get_preferred_size (GTK_WIDGET (menu), &requisition, NULL);
-    menu_width = requisition.width;
-
-    gdk_window_get_origin ( gtk_widget_get_window ( widget ), &menu_xpos, &menu_ypos );
-
-    gtk_widget_get_allocation ( widget, &allocation );
-    menu_xpos += allocation.x;
-    menu_ypos += allocation.y + allocation.height - 2;
-
-    if ( gtk_widget_get_direction ( widget) == GTK_TEXT_DIR_RTL )
-        menu_xpos = menu_xpos + allocation.width - menu_width;
-
-    /* Clamp the position on screen */
-    screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
-
-    if (menu_xpos < 0)
-	menu_xpos = 0;
-    else if ((menu_xpos + menu_width) > screen_width)
-	menu_xpos -= ((menu_xpos + menu_width) - screen_width);
-
-    *x = menu_xpos;
-    *y = menu_ypos;
-    *push_in = TRUE;
-}
-
-/**
  * called by a gsb_automem_checkbutton_new or a g_signal_connect on a checkbutton
  * sensitive or unsensitive tha param widget, according to the checkbutton
  *
