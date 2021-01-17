@@ -642,12 +642,10 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 											GdkScreen *screen)
 {
-#if GTK_CHECK_VERSION (3,22,0)
 	GdkWindow *window;
 	GdkDisplay *display;
 	GdkMonitor *monitor;
 	GdkRectangle rectangle;
-#endif
     GrisbiWin *win;
     GrisbiAppPrivate *priv;
 
@@ -706,7 +704,6 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
         gtk_window_set_screen (GTK_WINDOW (win), screen);
 
 	/* on teste s'il faut changer de résolution */
-#if GTK_CHECK_VERSION (3,22,0)
 	if (!(priv->a_conf)->low_definition_screen)
 	{
 		window = gtk_widget_get_window (GTK_WIDGET (win));
@@ -726,7 +723,6 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 							   (priv->a_conf)->main_height);
 		}
 	}
-#endif
     return win;
 }
 

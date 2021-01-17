@@ -760,7 +760,6 @@ static gboolean gtk_combofix_set_all_visible_rows (GtkComboFix *combofix)
 static gint gtk_combofix_get_screen_height (GtkComboFix *combofix,
 											gint y)
 {
-#if GTK_CHECK_VERSION (3,22,0)
 	GdkWindow *window;
 	GdkDisplay *display;
 	GdkMonitor *monitor;
@@ -771,10 +770,7 @@ static gint gtk_combofix_get_screen_height (GtkComboFix *combofix,
 	monitor = gdk_display_get_monitor_at_point (display, 0, y);
 	gdk_monitor_get_geometry (monitor, &rectangle);
 
-		return rectangle.height;
-#else
-		return gdk_screen_height ();
-#endif
+	return rectangle.height;
 }
 
 /**
@@ -1895,9 +1891,7 @@ static void gtk_combofix_class_init (GtkComboFixClass *klass)
     object_class->dispose = gtk_combofix_dispose;
     object_class->finalize = gtk_combofix_finalize;
 
-#if GTK_CHECK_VERSION (3,20,0)
 	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (klass), "combofix");
-#endif
 }
 
 /******************************************************************************/

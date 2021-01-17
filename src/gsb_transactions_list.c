@@ -591,12 +591,7 @@ static void gsb_transactions_list_popup_context_menu (gboolean full,
     /* Finish all. */
     gtk_widget_show_all (menu);
 
-#if GTK_CHECK_VERSION (3,22,0)
 	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
-#else
-    gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
-#endif
-
 }
 
 /**
@@ -1776,11 +1771,7 @@ static gboolean gsb_transactions_list_title_column_button_press (GtkWidget *butt
 				gtk_widget_show (menu_item);
 				gtk_widget_show (menu);
 
-#if GTK_CHECK_VERSION (3,22,0)
 				gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
-#else
-				gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ());
-#endif
 			}
 			break;
     }
@@ -2342,11 +2333,7 @@ static gboolean popup_transaction_rules_menu (GtkWidget *button,
 
     gtk_widget_show_all (menu);
 
-#if GTK_CHECK_VERSION (3,22,0)
 	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
-#else
-    gtk_menu_popup (GTK_MENU (menu) , NULL, button, set_popup_position, button, 1, gtk_get_current_event_time ());
-#endif
 
     return FALSE;
 }
@@ -2472,12 +2459,7 @@ static gboolean popup_transaction_view_mode_menu (GtkWidget *button,
 
     gtk_widget_show_all (menu);
 
-#if GTK_CHECK_VERSION (3,22,0)
 	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
-#else
-	gtk_menu_popup (GTK_MENU(menu), NULL, button, set_popup_position, button, 1,
-                        gtk_get_current_event_time ());
-#endif
 
     /* return */
     return FALSE;

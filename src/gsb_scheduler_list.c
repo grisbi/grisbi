@@ -401,11 +401,7 @@ static void gsb_scheduler_list_popup_scheduled_context_menu (GtkWidget *tree_vie
     /* Finish all. */
     gtk_widget_show_all (menu);
 
-#if GTK_CHECK_VERSION (3,22,0)
 	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
-#else
-	gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
-#endif
 }
 
 /**
@@ -511,11 +507,7 @@ static gboolean gsb_scheduler_list_popup_scheduler_view (GtkWidget *button,
     }
 
     gtk_widget_show_all (menu);
-#if GTK_CHECK_VERSION (3,22,0)
 	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
-#else
-    gtk_menu_popup (GTK_MENU (menu), NULL, button, set_popup_position, button, 1, gtk_get_current_event_time ());
-#endif
     view_menu_block_cb = FALSE;
 
     return TRUE;

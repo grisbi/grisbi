@@ -464,15 +464,10 @@ gchar *get_gtk_run_version (void)
 void lance_mailer (const gchar *uri)
 {
     GError *error = NULL;
-
-#if GTK_CHECK_VERSION (3,22,0)
 	GtkWindow *window;
 
 	window = GTK_WINDOW (grisbi_app_get_active_window (NULL));
     if (gtk_show_uri_on_window (window, uri, GDK_CURRENT_TIME, &error) == FALSE)
-#else
-	if (gtk_show_uri (NULL, uri, GDK_CURRENT_TIME, &error) == FALSE)
-#endif
     {
         gchar *tmp_str;
 

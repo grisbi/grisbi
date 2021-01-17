@@ -149,10 +149,6 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
     return vbox;
 }
 
-
-
-
-#if !GTK_CHECK_VERSION (3,22,0)
 /**
  * TODO: document
  * Borrowed from the Gimp Toolkit and modified.
@@ -191,7 +187,6 @@ void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
     *y = menu_ypos;
     *push_in = TRUE;
 }
-#endif
 
 /**
  * called by a gsb_automem_checkbutton_new or a g_signal_connect on a checkbutton

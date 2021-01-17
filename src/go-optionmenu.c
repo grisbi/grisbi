@@ -116,7 +116,6 @@ go_option_menu_select_item (GOOptionMenu *option_menu, GtkMenuItem *item)
 	go_option_menu_update_contents (option_menu);
 }
 
-#if !GTK_CHECK_VERSION (3,22,0)
 static void
 go_option_menu_position (GtkMenu  *menu,
 			 gint     *x,
@@ -175,7 +174,6 @@ go_option_menu_position (GtkMenu  *menu,
 	*y = menu_ypos;
 	*push_in = TRUE;
 }
-#endif
 
 static gint
 go_option_menu_button_press (GtkWidget      *widget,
@@ -190,13 +188,8 @@ go_option_menu_button_press (GtkWidget      *widget,
 
 	if (event->type == GDK_BUTTON_PRESS && event->button == 1)
 	{
-#if GTK_CHECK_VERSION (3,22,0)
-	gtk_menu_popup_at_pointer (GTK_MENU (option_menu->menu), NULL);
-#else
-	gtk_menu_popup (GTK_MENU (option_menu->menu), NULL, NULL,
-					go_option_menu_position, option_menu,
-					event->button, event->time);
-#endif
+		gtk_menu_popup_at_pointer (GTK_MENU (option_menu->menu), NULL);
+
 		return TRUE;
 	}
 
@@ -212,13 +205,8 @@ go_option_menu_key_press (GtkWidget   *widget,
 	switch (event->keyval) {
 	case GDK_KEY_KP_Space:
 	case GDK_KEY_space:
-#if GTK_CHECK_VERSION (3,22,0)
-	gtk_menu_popup_at_pointer (GTK_MENU (option_menu->menu), NULL);
-#else
-	gtk_menu_popup (GTK_MENU (option_menu->menu), NULL, NULL,
-					go_option_menu_position, option_menu,
-					0, event->time);
-#endif
+		gtk_menu_popup_at_pointer (GTK_MENU (option_menu->menu), NULL);
+
 		return TRUE;
 	}
 

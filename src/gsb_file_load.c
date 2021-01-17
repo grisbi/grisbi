@@ -4145,13 +4145,12 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 		/* si le fichier n'a pas été chiffré et n'est pas un fichier UTF8 valide on le corrige si possible */
 		if (!is_crypt && !g_utf8_validate (tmp_file_content, length, NULL))
 		{
+			GtkWidget *dialog;
 			gchar *text;
 			gchar *hint;
 
 			hint = g_strdup_printf (_("'%s' is not a valid UTF8 file"), filename);
 
-#if GLIB_CHECK_VERSION (2,52,0)
-			GtkWidget *dialog;
 
 			text = g_strdup_printf (_("You can choose to fix the file with the substitution character? "
 									  "or return to the file choice.\n"));
@@ -4173,14 +4172,6 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 				gtk_widget_destroy (dialog);
 				return FALSE;
 			}
-#else
-			text = g_strdup_printf (_("You will go back to the choice of the file.\n"));
-
-			dialogue_error_hint (text, hint);
-			g_free (tmp_file_content);
-
-			return FALSE;
-#endif
 		}
 		else
 			file_content = tmp_file_content;
@@ -4713,29 +4704,19 @@ void gsb_file_load_error ( GMarkupParseContext *context,
                         GError *error,
                         gpointer user_data )
 {
-#if GLIB_CHECK_VERSION (2,52,0)
-/* g_utf8_make_valid() has been introduced in glib 2.52 */
-#define HAVE_G_UTF8_MAKE_VALID
-#endif
+	gchar *tmp_str;
+	gchar *valid_utf8;
 
-#ifdef HAVE_G_UTF8_MAKE_VALID
-	gchar * valid_utf8 = g_utf8_make_valid(error -> message, -1);
-#endif
-    /* the first time we come here, we check if it's a Grisbi file */
-    gchar* tmpstr = g_strdup_printf (
-                        _("An error occurred while parsing the file :\nError number : %d\n%s"),
-                        error -> code,
-#ifdef HAVE_G_UTF8_MAKE_VALID
-						valid_utf8
-#else
-						error -> message
-#endif
-                         );
-    dialogue_error ( tmpstr );
-    g_free ( tmpstr );
-#ifdef HAVE_G_UTF8_MAKE_VALID
+	valid_utf8 = g_utf8_make_valid (error -> message, -1);
+
+	/* the first time we come here, we check if it's a Grisbi file */
+    tmp_str = g_strdup_printf (_("An error occurred while parsing the file :\nError number : %d\n%s"),
+							   error->code,
+							   valid_utf8);
+    dialogue_error (tmp_str);
+
+	g_free (tmp_str);
 	g_free(valid_utf8);
-#endif
 }
 
 /**

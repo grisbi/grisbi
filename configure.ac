@@ -23,8 +23,8 @@ AC_DEFINE(GRISBI_MICRO_VERSION, grisbi_micro_version, [grisbi micro version])
 AC_SUBST(GRISBI_MICRO_VERSION, grisbi_micro_version)
 
 # Dependencies
-GLIB_REQUIRED=2.44
-GTK_REQUIRED=3.16
+GLIB_REQUIRED=2.56
+GTK_REQUIRED=3.22
 LIBGSF_REQUIRED=1.14
 
 # Optionnel

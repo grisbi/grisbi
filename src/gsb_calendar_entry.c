@@ -540,7 +540,6 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     /* pour la soustraire à la position de l'entrée date */
     y -= popup_size.height;
 
-#if GTK_CHECK_VERSION (3,22,0)
 	GdkDisplay *display;
 	GdkMonitor *monitor;
 	GdkRectangle rectangle;
@@ -552,13 +551,6 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     /* on décale le popup si on est trop près de bord droit de l'écran */
     if (x > (rectangle.width - popup_size.width))
         x = rectangle.width - popup_size.width - 10;
-#else
-    gint screen_width = gdk_screen_width ( );
-
-    /* on décale le popup si on est trop près de bord droit de l'écran */
-    if ( x > ( screen_width - popup_size.width ) )
-        x = screen_width - popup_size.width - 10;
-#endif
 
     /* si une des coordonnées est négative, alors la fonction
        gtk_window_move échoue et affiche la popup en 0,0 */

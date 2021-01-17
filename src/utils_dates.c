@@ -330,13 +330,8 @@ GDate *gsb_date_copy (const GDate *date)
 
 	if (!date || !g_date_valid (date))
 		return NULL;
-#if GLIB_CHECK_VERSION (2,55,0)
+
 	new_date = g_date_copy (date);
-#else
-	new_date = g_date_new_dmy (g_date_get_day (date),
-							   g_date_get_month (date),
-							   g_date_get_year (date));
-#endif
 
 	return new_date;
 }

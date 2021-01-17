@@ -2247,6 +2247,7 @@ void grisbi_win_status_bar_wait (gboolean force_update)
     GdkCursor *cursor;
     GdkDevice *device;
     GdkDisplay *display;
+	GdkSeat *default_seat;
     GdkWindow *current_window;
     GdkWindow *run_window;
 	GrisbiAppConf *a_conf;
@@ -2265,17 +2266,8 @@ void grisbi_win_status_bar_wait (gboolean force_update)
     cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
     gdk_window_set_cursor (run_window, cursor);
 
-#if GTK_CHECK_VERSION (3,20,0)
-	GdkSeat *default_seat;
-
 	default_seat = gdk_display_get_default_seat (display);
 	device = gdk_seat_get_pointer (default_seat);
-#else
-    GdkDeviceManager *device_manager;
-
-	device_manager = gdk_display_get_device_manager (display);
-    device = gdk_device_manager_get_client_pointer (device_manager);
-#endif
 
     current_window = gdk_device_get_window_at_position (device, NULL, NULL);
     if (current_window && GDK_IS_WINDOW (current_window) && current_window != run_window)
