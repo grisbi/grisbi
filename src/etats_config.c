@@ -3234,7 +3234,7 @@ static void etats_config_initialise_onglet_affichage_generalites ( gint report_n
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton), activ);
 	if (report_name && activ)
 	{
-		gsb_button_sensitive_by_checkbutton (checkbutton, widget);
+		utils_buttons_sensitive_by_checkbutton (checkbutton, widget);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_function", NULL)),
 								  gsb_data_report_get_compl_name_function (report_number));
 		gtk_combo_box_set_active (GTK_COMBO_BOX (etats_prefs_widget_get_widget_by_name ("combo_box_compl_name_position", NULL)),

@@ -16,11 +16,11 @@ typedef enum GSB_BUTTON_STYLE {
 
 
 /*START_DECLARATION*/
-gboolean        gsb_button_sensitive_by_checkbutton             (GtkWidget *check_button,
-                                                                 GtkWidget *widget);
 GtkWidget *     utils_buttons_button_new_from_image             (const gchar *image_name);
 GtkWidget *     utils_buttons_button_new_from_stock             (const gchar *icon_name,
                                                                  const gchar *label_name);
+gboolean        utils_buttons_sensitive_by_checkbutton			(GtkWidget *check_button,
+																 GtkWidget *widget);
 GtkToolItem *   utils_buttons_tool_button_new_from_image_label  (const gchar *image_name,
                                                                  const gchar *label_name);
 GtkToolItem *   utils_buttons_tool_menu_new_from_image_label    (const gchar *image_name,

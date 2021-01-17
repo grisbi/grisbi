@@ -54,8 +54,8 @@
  *
  * \return FALSE
  * */
-gboolean gsb_button_sensitive_by_checkbutton ( GtkWidget *check_button,
-                        GtkWidget *widget )
+gboolean utils_buttons_sensitive_by_checkbutton (GtkWidget *check_button,
+												 GtkWidget *widget )
 {
     gtk_widget_set_sensitive ( widget,
 			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button)));

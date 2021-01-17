@@ -887,7 +887,7 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     compte->entry_name_rule = gtk_entry_new ();
     button = gsb_automem_checkbutton_new (_("Create a rule for this import. Name of the rule: "),
                         &compte->create_rule, G_CALLBACK (
-                        gsb_button_sensitive_by_checkbutton),
+                        utils_buttons_sensitive_by_checkbutton),
                         compte->entry_name_rule);
     gtk_box_pack_start (GTK_BOX (compte->hbox_rule), button, FALSE, FALSE, 0);
 

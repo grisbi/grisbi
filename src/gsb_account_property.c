@@ -354,7 +354,7 @@ GtkWidget *gsb_account_property_create_page ( void )
      * else issue when come back to that account property */
     g_signal_connect ( G_OBJECT (button_holder_address),
                         "toggled",
-                        G_CALLBACK (gsb_button_sensitive_by_checkbutton),
+                        G_CALLBACK (utils_buttons_sensitive_by_checkbutton),
                         detail_adresse_titulaire );
 
     /* create the text view for holder address */
