@@ -513,7 +513,12 @@ void debug_message_ptr ( const gchar *prefixe,
 * */
 void debug_start_log_file(void)
 {
-    debug_file = utils_files_utf8_fopen ( "/tmp/grisbi_log.txt", "w" );
+#ifdef G_OS_WIN32
+#define TMP_DIR "c:\\Windows\\Temp\\"
+#else
+#define TMP_DIR "/tmp/"
+#endif
+    debug_file = utils_files_utf8_fopen ( TMP_DIR "grisbi_log.txt", "w" );
 	debug_mode = TRUE;
 }
 
