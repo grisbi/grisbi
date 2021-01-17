@@ -170,9 +170,7 @@ static void dialogue_special (GtkMessageType param,
 							  const gchar *hint)
 {
     GtkWidget *dialog;
-    const gchar *primary_text;
-
-    primary_text = hint ? hint : text;
+    gchar *primary_text = NULL;
 
     if (NULL == grisbi_app_get_active_window (NULL))
         return;
@@ -184,15 +182,21 @@ static void dialogue_special (GtkMessageType param,
 
     if (hint)
     {
-        gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), dialogue_make_hint (primary_text, NULL));
+		primary_text = dialogue_make_hint (hint, NULL);
+        gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), primary_text);
         gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text);
     }
     else
+	{
+         primary_text = g_markup_escape_text(text, -1);
          gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), primary_text);
+	}
 
     gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
+
+	g_free(primary_text);
 }
 
 /**
