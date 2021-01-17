@@ -1947,7 +1947,7 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 
         if (!g_file_set_contents (filename, file_content, iterator, &error))
         {
-            gchar* tmpstr = g_strdup_printf (_("Cannot save file '%s': %s"),
+            gchar* tmpstr = g_markup_printf_escaped (_("Cannot save file '%s': %s"),
                               filename,
                               error->message);
             dialogue_error (tmpstr);
