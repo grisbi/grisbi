@@ -238,14 +238,14 @@ static void file_obfuscate_qif_start ( gchar *filename )
 			      file_content,
 			      -1, NULL ))
     {
-	tmpstr = g_markup_printf_escaped (_("File '%s' successfully saved"),
+	tmpstr = g_strdup_printf (_("File '%s' successfully saved"),
 				  new_filename );
 	dialogue (tmpstr);
 	g_free (tmpstr);
     }
     else
     {
-	tmpstr = g_markup_printf_escaped (_("File '%s' could not be saved"),
+	tmpstr = g_strdup_printf (_("File '%s' could not be saved"),
 				  new_filename );
 	dialogue_error (tmpstr);
 	g_free (tmpstr);

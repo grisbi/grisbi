@@ -1333,7 +1333,7 @@ static gboolean gsb_import_gunzip_file (gchar *filename)
         {
             gchar *tmp_str;
 
-			tmp_str = g_markup_printf_escaped (_("Cannot unzip file '%s': %s"),
+			tmp_str = g_strdup_printf (_("Cannot unzip file '%s': %s"),
 									   filename,
 									   error->message);
             dialogue_error (tmp_str);
