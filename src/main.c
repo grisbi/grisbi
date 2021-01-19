@@ -93,6 +93,8 @@ int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs) {
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, goffice_plugins_dirs, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
     /* Note: go_plugins_init will g_slist_free(goffice_plugins_dirs) ! */
+#else
+        (void)goffice_plugins_dirs; /* Avoid warning */
 #endif /* HAVE_GOFFICE */
 
     app = g_object_new (GRISBI_APP_TYPE,
