@@ -166,7 +166,7 @@ static gchar *gsb_select_icon_troncate_name_icon (gchar *name_icon,
  * \return un GtkTreePath qui donne la position de l'icône passée
  * en paramètre
  **/
-static GtkTreePath *gsb_select_icon_fill_icon_view (gchar *name_icon)
+static GtkTreePath *gsb_select_icon_fill_icon_view (const gchar *name_icon)
 
 {
     GDir *dir;
@@ -367,7 +367,7 @@ static void gsb_select_icon_entry_text_changed (GtkComboBox *entry,
  *
  * \return  le GtkComboBox
  **/
-static GtkWidget *gsb_select_icon_create_entry_text (gchar *name_icon)
+static GtkWidget *gsb_select_icon_create_entry_text (const gchar *name_icon)
 {
     GtkWidget *combo;
     GtkTreeIter iter;
@@ -400,7 +400,7 @@ static GtkWidget *gsb_select_icon_create_entry_text (gchar *name_icon)
  * \return le GtkIconView rempli avec l'icône sélectionnée au premier plan
  *
  **/
-static GtkWidget *gsb_select_icon_create_icon_view (gchar *name_icon)
+static GtkWidget *gsb_select_icon_create_icon_view (const gchar *name_icon)
 {
     GtkTreePath *tree_path;
 
@@ -453,7 +453,7 @@ static GdkPixbuf *gsb_select_icon_resize_logo_pixbuf (GdkPixbuf *pixbuf)
  *
  * \return le nouveau nom de l'icône ou NULL
  **/
-gchar *gsb_select_icon_create_window (gchar *name_icon)
+gchar *gsb_select_icon_create_window (const gchar *name_icon)
 {
     GtkWidget *content_area;
     GtkWidget *hbox;

@@ -7,7 +7,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-gchar * 	gsb_select_icon_create_window 						(gchar *name_icon);
+gchar * 	gsb_select_icon_create_window 						(const gchar *name_icon);
 GdkPixbuf *	gsb_select_icon_get_default_logo_pixbuf 			(void);
 GdkPixbuf *	gsb_select_icon_get_logo_pixbuf 					(void);
 gboolean 	gsb_select_icon_init_logo_variables 				(void);

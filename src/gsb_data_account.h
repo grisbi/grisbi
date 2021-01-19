@@ -101,7 +101,7 @@ gboolean 		gsb_data_account_get_mini_balance_authorized_message 	(gint account_n
 GsbReal 		gsb_data_account_get_mini_balance_wanted 				(gint account_number);
 gboolean 		gsb_data_account_get_mini_balance_wanted_message 		(gint account_number);
 gchar *			gsb_data_account_get_name 								(gint account_number);
-gchar *			gsb_data_account_get_name_icon 							(gint account_number);
+const gchar *	gsb_data_account_get_name_icon 							(gint account_number);
 gint 			gsb_data_account_get_nb_rows 							(gint account_number);
 gint 			gsb_data_account_get_no_account 						(gpointer account_ptr);
 gint 			gsb_data_account_get_no_account_by_name 				(const gchar *account_name);

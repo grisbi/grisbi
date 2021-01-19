@@ -2514,7 +2514,7 @@ gboolean gsb_data_account_dup_sort_values ( gint origin_account,
  *
  * \return icon_path or NULL if the account doesn't exist
  * */
-gchar *gsb_data_account_get_name_icon (gint account_number)
+const gchar *gsb_data_account_get_name_icon (gint account_number)
 {
     AccountStruct *account;
 
@@ -2709,7 +2709,7 @@ gchar *gsb_data_account_get_account_standard_pixbuf_filename ( KindAccount accou
 void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 {
     gchar *std_pixbuf_filename;
-    gchar *name_icon;
+    const gchar *name_icon;
     gchar *new_icon;
     gint current_account;
 
