@@ -329,7 +329,7 @@ static void _gsb_data_account_free ( AccountStruct* account )
         g_slist_free( account -> sort_list ) ;
     if ( account -> bet_start_date )
         g_date_free ( account -> bet_start_date );
-    if ( account -> pixbuf )
+    if (G_IS_OBJECT (account -> pixbuf))
         g_object_unref ( account -> pixbuf );
     g_free ( account );
     if ( account_buffer == account )
