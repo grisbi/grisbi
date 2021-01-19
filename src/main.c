@@ -129,11 +129,6 @@ int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs) {
  */
 int main (int argc, char **argv)
 {
-#if defined(HAVE_GOFFICE) || defined(__APPLE__)
-    GSList *goffice_plugins_dirs = NULL;
-#endif
-
-
 #ifdef EARLY_DEBUG
     debug_start_log_file ();
 #endif
