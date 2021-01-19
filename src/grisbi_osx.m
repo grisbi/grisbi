@@ -91,7 +91,7 @@ extern int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs);
     devel_debug("openFile()");
     const gchar *c_filename = [filename UTF8String];
     devel_debug(c_filename);
-    return gsb_file_open_file(c_filename);
+    return YES; //gsb_file_open_file(c_filename);
 }
 
 
