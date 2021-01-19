@@ -59,6 +59,10 @@
 #include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
+
+#ifdef GTKOSXAPPLICATION
+#include <gtkosxapplication.h>
+#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -522,6 +526,37 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 	}
 }
 
+
+#ifdef GTKOSXAPPLICATION
+static gint grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
+		gchar const *path)
+{
+	GrisbiWinRun *w_run;
+
+	devel_debug (NULL);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+
+    /* continue only if can close the current file */
+    if (w_run->file_is_loading && !gsb_file_close ())
+		return TRUE;
+
+	if (path)
+	{
+		if (gsb_file_open_file (path))
+		{
+			if (!w_run->file_is_loading)
+			{
+				gsb_gui_navigation_select_line (NULL, NULL);
+				w_run->file_is_loading = TRUE;
+			}
+			utils_files_append_name_to_recent_array (path);
+		}
+	}
+
+	return TRUE;
+}
+#endif
+
 /**
  * crée et initialise le menu de grisbi.
  *
@@ -587,6 +622,11 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
     grisbi_app_init_recent_files_menu (app);
 
     g_object_unref (builder);
+
+#ifdef GTKOSXAPPLICATION
+    GtkosxApplication *osxapp = gtkosx_application_get();
+    g_signal_connect(G_OBJECT(osxapp), "NSApplicationOpenFile", G_CALLBACK(grisbi_app_osx_openfile_callback), NULL);
+#endif
 }
 
 /* WINDOWS */

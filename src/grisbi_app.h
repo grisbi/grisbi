@@ -9,6 +9,8 @@
 
 G_BEGIN_DECLS
 
+extern gboolean darkmode;
+
 #define GRISBI_APP_TYPE         (grisbi_app_get_type ())
 #define GRISBI_APP(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), GRISBI_APP_TYPE, GrisbiApp))
 

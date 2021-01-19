@@ -36,6 +36,7 @@
 #include <gtk/gtk.h>
 #include <libintl.h>
 
+#include "grisbi_app.h"
 #include "grisbi_osx.h"
 #include "erreur.h"
 
@@ -43,7 +44,6 @@
 #include <goffice/goffice.h>
 #endif
 
-extern gboolean darkmode;	/* from grisbi_app.c */
 
 /** 
  * Return the absolute path of the current executable
@@ -270,11 +270,11 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
         goffice_plugins_dirs = g_slist_prepend(NULL, local_plugins_dir);
         devel_debug(local_plugins_dir);
     }
+    g_free(bundle_resources_dir);
 #endif
 
-    g_free(bundle_resources_dir);
     devel_debug("MACOSX: initialization done.");
 
-    return goffice_plugins_dirs; /* should be g_slist_freed by caller */
+    return goffice_plugins_dirs;
 }
 

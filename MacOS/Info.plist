@@ -4,29 +4,82 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+
 	<key>CFBundleExecutable</key>
 	<string>Grisbi</string>
+
 	<key>CFBundleGetInfoString</key>
 	<string>VERSION Copyright 2014 Grisbi Team</string>
+
 	<key>CFBundleIconFile</key>
 	<string>Grisbi.icns</string>
+
 	<key>CFBundleIdentifier</key>
 	<string>org.grisbi.Grisbi</string>
+
 	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
+	<string>8.0</string>
+
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+
 	<key>CFBundleShortVersionString</key>
 	<string>VERSION</string>
+
 	<key>CFBundleSignature</key>
 	<string>????</string>
+
 	<key>CFBundleVersion</key>
-	<string>0.1</string>
+	<string>1.0</string>
+
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright 2014 Grisbi Team, GNU General Public License.</string>
+	<string>Copyright 2021 Grisbi Team, GNU General Public License.</string>
+
 	<key>LSMinimumSystemVersion</key>
 	<string>10.8</string>
+
 	<key>NSHighResolutionCapable</key>
-	<string>YES</string>
+	<true/>
+
+
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>org.grisbi.Grisbi.gsb</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Grisbi file</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>gsb</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+
+	<key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>Grisbi file</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>org.grisbi.Grisbi.gsb</string>
+            </array>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+            <key>CFBundleTypeIconFile</key>
+	        <string>GrisbiFile.icns</string>
+        </dict>
+    </array>
+
 </dict>
 </plist>
