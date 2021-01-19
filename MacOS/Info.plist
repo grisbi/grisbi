@@ -18,7 +18,7 @@
 	<string>org.grisbi.Grisbi</string>
 	
 	<key>CFBundleInfoDictionaryVersion</key>
-	<string>7.0</string>
+	<string>8.0</string>
 	
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
@@ -30,7 +30,7 @@
 	<string>????</string>
 
 	<key>CFBundleVersion</key>
-	<string>0.1</string>
+	<string>1.0</string>
 
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright 2021 Grisbi Team, GNU General Public License.</string>
@@ -66,20 +66,18 @@
 	<key>CFBundleDocumentTypes</key>
     <array>
         <dict>
-            <key>CFBundleTypeIconFiles</key>
-            <array>
-	            <string>GrisbiFile.icns</string>
-	        </array>
             <key>CFBundleTypeName</key>
-            <string>Grisbi File</string>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>LSHandlerRank</key>
-            <string>Owner</string>
+            <string>Grisbi file</string>
             <key>LSItemContentTypes</key>
             <array>
                 <string>org.grisbi.Grisbi.gsb</string>
             </array>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+            <key>CFBundleTypeIconFile</key>
+	        <string>GrisbiFile.icns</string>
         </dict>
     </array>
 
