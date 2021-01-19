@@ -91,7 +91,17 @@ extern int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs);
     devel_debug("openFile()");
     const gchar *c_filename = [filename UTF8String];
     devel_debug(c_filename);
-    return YES; //gsb_file_open_file(c_filename);
+
+    char **new_argv = g_malloc((_argc+1) * sizeof(*new_argv));
+    int i;
+    for(i=0; i < _argc; i++)
+        new_argv[i] = _argv[i];
+
+    new_argv[_argc] = g_strdup(c_filename);
+    _argc += 1;
+    _argv  = new_argv; 
+
+    return YES;
 }
 
 
