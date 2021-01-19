@@ -28,9 +28,13 @@
 #endif
 
 #include "include.h"
+
+/*START_INCLUDE*/
 #include "gsb_dirs.h"
 #include "structures.h"
+/*END_INCLUDE*/
 
+/*START_STATIC*/
 static gchar *help_dir;
 static gchar *locale_dir;
 static gchar *pixmaps_dir;
@@ -40,6 +44,8 @@ static gchar *ui_dir;
 static gchar *user_config_dir;
 static gchar *user_data_dir;
 static gchar *user_default_dir;
+static gchar *user_icons_dir = NULL;
+/*END_STATIC*/
 
 /******************************************************************************/
 /* Public functions                                                           */
