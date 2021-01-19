@@ -59,7 +59,7 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
+int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs);
 
 
 
