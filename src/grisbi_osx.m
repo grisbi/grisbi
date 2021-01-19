@@ -38,11 +38,13 @@
 #include <libintl.h>
 
 #include "grisbi_osx.h"
+#include "grisbi_app.h"
 #include "erreur.h"
 
 #ifdef HAVE_GOFFICE
 #include <goffice/goffice.h>
 #endif
+
 
 
 extern int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs);
@@ -81,18 +83,13 @@ extern int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs);
     devel_debug("applicationWillTerminate");
 }
 
-- (BOOL)readFromURL:(NSURL *)url 
-            options:(NSDictionary<NSAttributedStringDocumentReadingOptionKey, id> *)opts 
- documentAttributes:(NSDictionary<NSAttributedStringDocumentAttributeKey, id> * _Nullable *)dict 
-              error:(NSError * _Nullable *)error {
 
-    devel_debug("readFromURL");
-
-    return YES;
-    }
+- (BOOL)application:(NSApplication *)sender 
+           openFile: (NSString *)filename {
+    devel_debug("openFile()");
+    return YES; // YES is opening is OKAY
+}
 @end
-
-
 
 
 /** 
@@ -274,7 +271,7 @@ static void set_locale(void) {
 /**
  * Manage all MacOS initialization and return goffice plugins directory
  */
-GSList *grisbi_osx_init(int *argc, char **argv[]) {
+void grisbi_osx_init(int *argc, char **argv[]) {
     char *program_dir = get_program_dir();
     GSList *goffice_plugins_dirs = NULL;
     gchar *bundle_resources_dir = NULL;
@@ -334,9 +331,9 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
         [NSApp run]; // Note this never returns until the app finishes, so you need to decide where to hook your code into
     }
 
-    devel_debug("After NSApplicationMain");
+    devel_debug("MACOSX: End of main loop");
 
-    return goffice_plugins_dirs; /* should be g_slist_freed by caller */
+    return;
 }
 
 

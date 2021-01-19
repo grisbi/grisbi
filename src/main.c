@@ -77,7 +77,7 @@ int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs) {
     #endif
 #endif
 */
-    printf("ARGC=%d", argc);
+
 	/* On commence par initialiser les répertoires */
     gsb_dirs_init (argv[0]);
 
