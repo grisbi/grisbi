@@ -63,38 +63,21 @@
 
 
 
-/**
- * Main function
- *
- * @param argc number of arguments
- * @param argv arguments
- *
- * @return Nothing
- */
-int main (int argc, char **argv)
-{
+int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs) {
     GrisbiApp *app;
-	gint status;
-#if defined(HAVE_GOFFICE) || defined(__APPLE__)
-    GSList *goffice_plugins_dirs = NULL;
-#endif
-	/* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
-#ifdef GDK_WINDOWING_WAYLAND
-	#ifdef GDK_WINDOWING_X11
-		gdk_set_allowed_backends ("x11");
-	#else
-		return (1);
-	#endif
-#endif
+    gint status;
 
-#ifdef EARLY_DEBUG
-	debug_start_log_file ();
-#endif
 
-#ifdef __APPLE__
-    goffice_plugins_dirs = grisbi_osx_init(&argc, &argv);
+    /* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
+/*#ifdef GDK_WINDOWING_WAYLAND
+    #ifdef GDK_WINDOWING_X11
+        gdk_set_allowed_backends ("x11");
+    #else
+        return (1);
+    #endif
 #endif
-
+*/
+    printf("ARGC=%d", argc);
 	/* On commence par initialiser les répertoires */
     gsb_dirs_init (argv[0]);
 
@@ -135,12 +118,28 @@ int main (int argc, char **argv)
 
 
 /**
+ * Main function
  *
+ * @param argc number of arguments
+ * @param argv arguments
  *
- * \param
- *
- * \return
- * */
-/* Local Variables: */
-/* c-basic-offset: 4 */
-/* End: */
+ * @return Nothing
+ */
+int main (int argc, char **argv)
+{
+#if defined(HAVE_GOFFICE) || defined(__APPLE__)
+    GSList *goffice_plugins_dirs = NULL;
+#endif
+
+
+#ifdef EARLY_DEBUG
+    debug_start_log_file ();
+#endif
+
+#ifdef __APPLE__
+    grisbi_osx_init(&argc, &argv);
+#endif
+
+    return run_grisbi(argc, argv, NULL); /* run_grisbi will be called by osx_init() through NSAppDelegte */
+}
+

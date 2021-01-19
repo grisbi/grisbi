@@ -28,6 +28,7 @@
 #include "config.h"
 #endif
 
+#import <Cocoa/Cocoa.h>
 #import <Foundation/NSUserDefaults.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/NSString.h>
@@ -43,7 +44,56 @@
 #include <goffice/goffice.h>
 #endif
 
-extern gboolean darkmode;	/* from grisbi_app.c */
+
+extern int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs);
+
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
+    int _argc;
+    char **_argv;
+    GSList *_goffice_plugins_dirs;
+}
+@end
+
+
+@implementation AppDelegate
+
+- (id)   initWithArgc: (int)argc
+              andArgv:(char **)argv
+     andGOPluginsDirs: (GSList *)goffice_plugins_dirs {
+    _argc = argc;
+    _argv = argv;
+    _goffice_plugins_dirs = goffice_plugins_dirs;
+
+    return self;
+}
+
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    devel_debug("applicationDidFinishLaunching");
+
+    gint status = run_grisbi(_argc, _argv, _goffice_plugins_dirs);
+
+    exit(status);
+}
+
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    devel_debug("applicationWillTerminate");
+}
+
+- (BOOL)readFromURL:(NSURL *)url 
+            options:(NSDictionary<NSAttributedStringDocumentReadingOptionKey, id> *)opts 
+ documentAttributes:(NSDictionary<NSAttributedStringDocumentAttributeKey, id> * _Nullable *)dict 
+              error:(NSError * _Nullable *)error {
+
+    devel_debug("readFromURL");
+
+    return YES;
+    }
+@end
+
+
+
 
 /** 
  * Return the absolute path of the current executable
@@ -275,6 +325,21 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
     g_free(bundle_resources_dir);
     devel_debug("MACOSX: initialization done.");
 
+
+    @autoreleasepool { 
+        AppDelegate * delegate = [[AppDelegate alloc] initWithArgc:*argc andArgv:*argv andGOPluginsDirs:goffice_plugins_dirs];
+
+        NSApplication * application = [NSApplication sharedApplication];
+        [application setDelegate:delegate];
+        [NSApp run]; // Note this never returns until the app finishes, so you need to decide where to hook your code into
+    }
+
+    devel_debug("After NSApplicationMain");
+
     return goffice_plugins_dirs; /* should be g_slist_freed by caller */
 }
+
+
+
+
 
