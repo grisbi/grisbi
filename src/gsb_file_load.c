@@ -542,7 +542,11 @@ static  void gsb_file_load_general_part ( const gchar **attribute_names,
                 break;
 
             case 'U':
-                if ( !strcmp ( attribute_names[i], "Use_logo" ))
+                if (!strcmp (attribute_names[i], "Use_icons_file_dir"))
+				{
+                    w_etat->use_icons_file_dir = utils_str_atoi (attribute_values[i]);
+				}
+                else if ( !strcmp ( attribute_names[i], "Use_logo" ))
 				{
                     etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
 					if (etat.utilise_logo)
@@ -1312,11 +1316,24 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
                 if ( !strcmp ( attribute_names[i], "Path_icon" ) )
                 {
 					GdkPixbuf *pixbuf = NULL;
+					gchar *tmp_filename;
+					GrisbiWinEtat *w_etat;
 
-                    gsb_data_account_set_name_icon ( account_number,
-                            attribute_values[i] );
-					pixbuf = gsb_select_icon_new_account_pixbuf_from_file (attribute_values[i]);
+					w_etat = grisbi_win_get_w_etat ();
+					if (w_etat->use_icons_file_dir)
+					{
+						tmp_filename = g_build_filename (gsb_dirs_get_user_icons_dir (),
+														 attribute_values[i],
+														 NULL);
+					}
+					else
+					{
+						tmp_filename = g_strdup (attribute_values[i]);
+					}
+                    gsb_data_account_set_name_icon (account_number, tmp_filename);
+					pixbuf = gsb_select_icon_new_account_pixbuf_from_file (tmp_filename);
 					gsb_data_account_set_account_icon_pixbuf (account_number, pixbuf);
+					g_free (tmp_filename);
                 }
 
                 else
@@ -4177,6 +4194,9 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 		}
 		else
 			file_content = tmp_file_content;
+
+		/* set the icons directory */
+		gsb_dirs_set_user_icons_dir (filename);
 
 		w_run = grisbi_win_get_w_run ();
 

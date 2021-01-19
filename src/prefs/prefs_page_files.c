@@ -38,14 +38,16 @@
 
 /*START_INCLUDE*/
 #include "prefs_page_files.h"
+#include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_account.h"
+#include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "parametres.h"
 #include "structures.h"
 #include "utils_prefs.h"
 #include "erreur.h"
-
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -61,7 +63,9 @@ struct _PrefsPageFilesPrivate
     GtkWidget *         checkbutton_sauvegarde_auto;
     GtkWidget *         checkbutton_force_enregistrement;
     GtkWidget *         checkbutton_compress_file;
+	GtkWidget *			checkbutton_use_icons_file_dir;
     GtkWidget *         checkbutton_crypt_file;
+	GtkWidget *			label_use_icons_file_dir;
 	GtkWidget *			label_nb_max_derniers_fichiers;
 	GtkWidget *         spinbutton_nb_max_derniers_fichiers;
 
@@ -85,6 +89,126 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageFiles, prefs_page_files, GTK_TYPE_BOX)
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_files_use_icons_file_dir_toggled (GtkToggleButton *checkbutton,
+														 PrefsPageFilesPrivate *priv)
+{
+	if (gtk_toggle_button_get_active (checkbutton))
+	{
+		GSList *icons_name_list = NULL;
+		GSList *tmp_list;
+		gchar *msg;
+		gint nbre_account = 0;
+		gint nbre_icons_present = 0;
+
+		devel_debug (NULL);
+		tmp_list = gsb_data_account_get_list_accounts ();
+		while (tmp_list)
+		{
+			const gchar *account_icon_name;
+			gint tmp_account;
+
+			tmp_account = gsb_data_account_get_no_account (tmp_list->data);
+			account_icon_name = gsb_data_account_get_name_icon (tmp_account);
+			if (account_icon_name && strlen (account_icon_name))
+			{
+				gchar *icon_basename;
+				gchar *new_icon_name;
+
+				icon_basename = g_path_get_basename (account_icon_name);
+				new_icon_name = g_build_filename (gsb_dirs_get_user_icons_dir (), icon_basename, NULL);
+
+				/* on ignore les doublons */
+				if (!g_slist_find_custom (icons_name_list, account_icon_name, (GCompareFunc) g_strcmp0))
+				{
+					icons_name_list = g_slist_insert_sorted (icons_name_list,
+															 g_strdup (account_icon_name),
+															 (GCompareFunc) g_strcmp0);
+				}
+
+				/* on teste l'existence du fichier dans icons */
+				if (g_file_test (new_icon_name, G_FILE_TEST_EXISTS))
+				{
+					gsb_data_account_set_name_icon (tmp_account, new_icon_name);
+					nbre_icons_present++;
+				}
+
+				g_free (icon_basename);
+				g_free (new_icon_name);
+				nbre_account++;
+			}
+			tmp_list = tmp_list->next;
+		}
+
+		if (nbre_icons_present == nbre_account)
+		{
+			msg = g_strdup_printf (_("Tous les %d comptes ont maintenant leur icône spécifique "
+									 "dans le répertoire :\n"
+									 "%s"),
+								   nbre_account,
+								   gsb_dirs_get_user_icons_dir ());
+
+			dialogue_warning_hint (msg,_("Déplacement des icones de compte dans le répertoire du fichier de comptes"));
+		}
+		else
+		{
+			gchar *str_to_free = NULL;
+			gchar *tmp_str = NULL;
+			gint i = 0;
+
+			/* set list icons for msg */
+			tmp_list = icons_name_list;
+			while (tmp_list)
+			{
+				if (tmp_str == NULL)
+				{
+					tmp_str =  g_strdup_printf ("%s\n", (gchar *) g_slist_nth_data (icons_name_list, i));
+				}
+				else
+				{
+					tmp_str =  g_strconcat (tmp_str, "\t- ", (gchar *) g_slist_nth_data (icons_name_list, i), "\n", NULL);
+					g_free (str_to_free);
+				}
+				str_to_free = tmp_str;
+				i++;
+				tmp_list = tmp_list->next;
+			}
+
+			msg = g_strdup_printf (_("%d comptes ont une icône spécifique parmi les %d icônes suivantes :\n"
+									 "\t- %s"
+									 "\n"
+									 "Pour utiliser cette option vous devrez déplacer une ou plusieurs "
+									 "de ces icônes dans le répertoire :\n%s\n"
+									 "avant le prochain redemarrage de grisbi"),
+								   nbre_account,
+								   g_slist_length (icons_name_list),
+								   tmp_str,
+								   gsb_dirs_get_user_icons_dir ());
+
+			dialogue_warning_hint (msg,_("Déplacement des icones de compte dans le répertoire du fichier de comptes"));
+
+			/* on rechange l'etat OK du bouton */
+			g_signal_handlers_block_by_func (checkbutton,
+											 G_CALLBACK (prefs_page_files_use_icons_file_dir_toggled),
+											 priv);
+			gtk_toggle_button_set_active (checkbutton, FALSE);
+			g_signal_handlers_unblock_by_func (checkbutton,
+											   G_CALLBACK (prefs_page_files_use_icons_file_dir_toggled),
+											   priv);
+			g_free (tmp_str);
+		}
+
+		g_slist_free_full (icons_name_list, (GDestroyNotify) g_free);
+	}
+}
+
+/**
  * Création de la page de gestion des fichiers
  *
  * \param prefs
@@ -94,13 +218,14 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageFiles, prefs_page_files, GTK_TYPE_BOX)
 static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 {
 	GtkWidget *head_page;
+	const gchar *icons_dir;
+	gchar *tmp_str;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 	PrefsPageFilesPrivate *priv;
 
 	devel_debug (NULL);
-
 	priv = prefs_page_files_get_instance_private (page);
 	is_loading = grisbi_win_file_is_loading ();
 	a_conf = grisbi_app_get_a_conf ();
@@ -123,10 +248,18 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_crypt_file),
 								  w_etat->crypt_file);
 	gtk_widget_set_sensitive (priv->checkbutton_crypt_file, is_loading);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_icons_file_dir),
+								  w_etat->use_icons_file_dir);
 
 	/* set the max number of files */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_nb_max_derniers_fichiers),
 							   a_conf->nb_max_derniers_fichiers_ouverts);
+
+	/* set the label for accounts icons */
+	icons_dir = gsb_dirs_get_user_icons_dir ();
+	tmp_str = g_strconcat (_("Put user icons in the directory: "), icons_dir, NULL);
+	gtk_label_set_text (GTK_LABEL (priv->label_use_icons_file_dir), tmp_str);
+	g_free (tmp_str);
 
     /* Connect signal */
     g_signal_connect (priv->checkbutton_load_last_file,
@@ -160,6 +293,16 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 							G_CALLBACK (utils_prefs_encryption_toggled),
 							NULL);
 #endif
+
+	g_signal_connect (priv->checkbutton_use_icons_file_dir,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &w_etat->use_icons_file_dir);
+
+	g_signal_connect_after (priv->checkbutton_use_icons_file_dir,
+							"toggled",
+							G_CALLBACK (prefs_page_files_use_icons_file_dir_toggled),
+							NULL);
 
 	/* callback for spinbutton_nb_max_derniers_fichiers_ouverts */
     g_signal_connect (priv->spinbutton_nb_max_derniers_fichiers,
@@ -313,6 +456,8 @@ static void prefs_page_files_class_init (PrefsPageFilesClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_force_enregistrement);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_compress_file);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_crypt_file);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, checkbutton_use_icons_file_dir);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, label_use_icons_file_dir);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, label_nb_max_derniers_fichiers);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageFiles, spinbutton_nb_max_derniers_fichiers);
 

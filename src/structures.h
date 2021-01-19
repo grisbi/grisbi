@@ -125,6 +125,7 @@ struct _GrisbiWinEtat
 	/* files and backup part */
 	gint 		crypt_file;									/* TRUE if we want to crypt the file */
     gint 		fichier_deja_ouvert;						/* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
+	gboolean	use_icons_file_dir;							/* TRUE = icons in accounts file directory */
 
     /* devises pour les catégories, imputations budgétaires et les tiers */
     gint		no_devise_totaux_categ;

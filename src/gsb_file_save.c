@@ -124,6 +124,8 @@ static gulong gsb_file_save_account_part (gulong iterator,
 		gchar *sort_list;
 		gchar *sort_kind_column;
 		GSList *list_tmp_2;
+		const gchar *account_icon_name;
+		gchar *icon_name;
 		gchar *new_string;
 		gchar *init_balance;
 		gchar *mini_wanted;
@@ -132,6 +134,7 @@ static gulong gsb_file_save_account_part (gulong iterator,
 		gchar *bet_str;
 		gchar *tmp_str;
 		KindAccount kind;
+		GrisbiWinEtat *w_etat;
 
 		account_number = gsb_data_account_get_no_account (list_tmp->data);
 
@@ -192,6 +195,24 @@ static gulong gsb_file_save_account_part (gulong iterator,
 
 		kind = gsb_data_account_get_kind (account_number);
 
+		/* get basename of icon if necessary */
+		account_icon_name = gsb_data_account_get_name_icon (account_number);
+		w_etat = grisbi_win_get_w_etat ();
+		if (w_etat->use_icons_file_dir)
+		{
+			if (account_icon_name == NULL)
+				icon_name = NULL;
+			else
+				icon_name = g_path_get_basename (account_icon_name);
+		}
+		else
+		{
+			if (account_icon_name == NULL)
+				icon_name = NULL;
+			else
+				icon_name = g_strdup (account_icon_name);
+		}
+
 		/* now we can fill the file content */
 		string_to_free1 = g_markup_printf_escaped ("\t<Account\n"
 														"\t\tName=\"%s\"\n"
@@ -231,8 +252,7 @@ static gulong gsb_file_save_account_part (gulong iterator,
 																		 (account_number)),
 														kind,
 														gsb_data_account_get_currency (account_number),
-														my_safe_null_str (gsb_data_account_get_name_icon
-																		  (account_number)),
+														my_safe_null_str (icon_name),
 														gsb_data_account_get_bank (account_number),
 														my_safe_null_str (gsb_data_account_get_bank_branch_code
 																		  (account_number)),
@@ -335,6 +355,8 @@ static gulong gsb_file_save_account_part (gulong iterator,
 		g_free (sort_list);
 		g_free (sort_kind_column);
 		g_free (init_balance);
+		if (icon_name)
+			g_free (icon_name);
 		g_free (mini_auto);
 		g_free (mini_wanted);
 		g_free (owner_str);
@@ -878,6 +900,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  "\t\tCrypt_file=\"%d\"\n"
 										  "\t\tArchive_file=\"%d\"\n"
 										  "\t\tFile_title=\"%s\"\n"
+										  "\t\tUse_icons_file_dir=\"%d\"\n"
 										  "\t\tGeneral_address=\"%s\"\n"
 										  "\t\tSecond_general_address=\"%s\"\n"
 										  "\t\tDate_format=\"%s\"\n"
@@ -946,6 +969,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  w_etat->crypt_file,
 										  is_archive,
 										  my_safe_null_str (w_etat->accounting_entity),
+										  w_etat->use_icons_file_dir,
 										  my_safe_null_str(adr_common_str),
 										  my_safe_null_str(adr_secondary_str),
 										  my_safe_null_str (date_format),

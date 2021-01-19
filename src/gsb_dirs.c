@@ -168,6 +168,7 @@ void gsb_dirs_shutdown (void)
     g_free (user_config_dir);
     g_free (user_data_dir);
     g_free (user_default_dir);
+    g_free (user_icons_dir);
 }
 
 /**
@@ -339,6 +340,36 @@ const gchar *gsb_dirs_get_grisbirc_filename (void)
     g_free (filename);
 
     return grisbirc_filename;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_dirs_get_user_icons_dir (void)
+{
+	return user_icons_dir;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return string  must be freed
+ **/
+void gsb_dirs_set_user_icons_dir (const gchar *filename)
+{
+	gchar *tmp_dir;
+
+	if (user_icons_dir)
+		g_free (user_icons_dir);
+
+	tmp_dir = g_path_get_dirname (filename);
+	user_icons_dir = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "icons", G_DIR_SEPARATOR_S, NULL);
 }
 
 /**

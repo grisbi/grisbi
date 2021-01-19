@@ -13,6 +13,7 @@ GdkPixbuf *	gsb_select_icon_get_logo_pixbuf 					(void);
 gboolean 	gsb_select_icon_init_logo_variables 				(void);
 GdkPixbuf *	gsb_select_icon_new_account_pixbuf_from_file 		(const gchar *filename);
 void 		gsb_select_icon_set_gtk_icon_theme_path 			(void);
+gchar *		gsb_select_icon_set_icon_in_user_icons_dir			(const gchar *name_icon);
 void 		gsb_select_icon_set_logo_pixbuf 					(GdkPixbuf *pixbuf);
 /* END_DECLARATION */
 #endif

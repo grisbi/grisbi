@@ -15,5 +15,7 @@ const gchar *	gsb_dirs_get_themes_dir				(void);
 const gchar *	gsb_dirs_get_ui_dir 				(void);
 const gchar *	gsb_dirs_get_user_config_dir 		(void);
 const gchar *	gsb_dirs_get_user_data_dir 			(void);
+const gchar *	gsb_dirs_get_user_icons_dir			(void);
+void			gsb_dirs_set_user_icons_dir			(const gchar *file_dir);
 void 			gsb_dirs_shutdown 					(void);
 #endif

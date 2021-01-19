@@ -673,6 +673,37 @@ void gsb_select_icon_set_logo_pixbuf (GdkPixbuf *pixbuf)
  *
  * \return
  **/
+gchar *gsb_select_icon_set_icon_in_user_icons_dir (const gchar *icon_name)
+{
+	GFile *source;
+	GFile *destination;
+	gchar *icon_basename;
+	gchar *new_icon_name;
+
+	icon_basename = g_path_get_basename (icon_name);
+	new_icon_name = g_build_filename (gsb_dirs_get_user_icons_dir (), icon_basename, NULL);
+
+	source = g_file_new_for_path (icon_name);
+	destination = g_file_new_for_path (new_icon_name);
+
+	if (g_file_copy (source, destination, G_FILE_COPY_OVERWRITE, FALSE, NULL, NULL, NULL))
+	{
+		g_free (icon_basename);
+		g_object_unref (source);
+		g_object_unref (destination);
+
+		return new_icon_name;
+	}
+	else
+	{
+		g_free (icon_basename);
+		g_object_unref (source);
+		g_object_unref (destination);
+
+		return NULL;
+	}
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
