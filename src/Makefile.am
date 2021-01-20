@@ -339,7 +339,7 @@ libgrisbi_la_SOURCES += \
 	grisbi_osx.m \
 	grisbi_osx.h
 
-grisbi_LDFLAGS = -framework Foundation -framework Cocoa
+grisbi_LDFLAGS = -framework Foundation
 endif
 
 grisbi_SOURCES = 		\
