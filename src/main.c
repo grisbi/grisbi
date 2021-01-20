@@ -59,16 +59,32 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs);
 
-
-
-int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs) {
+/**
+ * Main function
+ *
+ * @param argc number of arguments
+ * @param argv arguments
+ *
+ * @return Nothing
+ */
+int main (int argc, char **argv)
+{
     GrisbiApp *app;
     gint status;
+    GSList *goffice_plugins_dirs;
 
+#ifdef EARLY_DEBUG
+    debug_start_log_file ();
+#endif
 
-    /* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
+#ifdef __APPLE__
+     goffice_plugins_dirs = grisbi_osx_init(&argc, &argv);
+#else
+     goffice_plugins_dirs = NULL;
+#endif
+
+        /* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
 /*#ifdef GDK_WINDOWING_WAYLAND
     #ifdef GDK_WINDOWING_X11
         gdk_set_allowed_backends ("x11");
@@ -78,7 +94,7 @@ int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs) {
 #endif
 */
 
-	/* On commence par initialiser les répertoires */
+    /* On commence par initialiser les répertoires */
     gsb_dirs_init (argv[0]);
 
     /* Setup locale/gettext */
@@ -115,28 +131,6 @@ int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs) {
 #endif /* HAVE_GOFFICE */
 
 
-    return status;
-}
-
-
-/**
- * Main function
- *
- * @param argc number of arguments
- * @param argv arguments
- *
- * @return Nothing
- */
-int main (int argc, char **argv)
-{
-#ifdef EARLY_DEBUG
-    debug_start_log_file ();
-#endif
-
-#ifdef __APPLE__
-    grisbi_osx_init(&argc, &argv);
-#endif
-
-    return run_grisbi(argc, argv, NULL); /* run_grisbi will be called by osx_init() through NSAppDelegte */
+    return status; 
 }
 

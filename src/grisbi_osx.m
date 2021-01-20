@@ -28,13 +28,13 @@
 #include "config.h"
 #endif
 
-#import <Cocoa/Cocoa.h>
 #import <Foundation/NSUserDefaults.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/NSString.h>
 #include <mach-o/dyld.h> // for _NSGetExecutablePath
 
 #include <gtk/gtk.h>
+#include <gtkosxapplication.h>
 #include <libintl.h>
 
 #include "grisbi_osx.h"
@@ -45,68 +45,6 @@
 #ifdef HAVE_GOFFICE
 #include <goffice/goffice.h>
 #endif
-
-
-
-extern int run_grisbi(int argc, char **argv, GSList *goffice_plugins_dirs);
-
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
-    int _argc;
-    char **_argv;
-    GSList *_goffice_plugins_dirs;
-}
-@end
-
-
-@implementation AppDelegate
-
-- (id)   initWithArgc: (int)argc
-              andArgv:(char **)argv
-     andGOPluginsDirs: (GSList *)goffice_plugins_dirs {
-    _argc = argc;
-    _argv = argv;
-    _goffice_plugins_dirs = goffice_plugins_dirs;
-
-    return self;
-}
-
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    devel_debug("applicationDidFinishLaunching");
-
-    gint status = run_grisbi(_argc, _argv, _goffice_plugins_dirs);
-
-    exit(status);
-}
-
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    devel_debug("applicationWillTerminate");
-}
-
-
-- (BOOL)application:(NSApplication *)sender 
-           openFile: (NSString *)filename {
-
-    devel_debug("openFile()");
-    const gchar *c_filename = [filename UTF8String];
-    devel_debug(c_filename);
-
-    char **new_argv = g_malloc((_argc+1) * sizeof(*new_argv));
-    int i;
-    for(i=0; i < _argc; i++)
-        new_argv[i] = _argv[i];
-
-    new_argv[_argc] = g_strdup(c_filename);
-    _argc += 1;
-    _argv  = new_argv; 
-
-    return YES;
-}
-
-
-
-@end
 
 
 /** 
@@ -285,13 +223,24 @@ static void set_locale(void) {
 }
 
 
+static gboolean app_open_file_cb (GtkosxApplication *app, gchar *path, gpointer user_data) {
+    devel_debug("openFile()");
+    devel_debug(path);
+    return FALSE;
+}
+
+GtkosxApplication *osx_grisbi_gtk_init(void) {
+    return NULL;
+}
+
 /**
  * Manage all MacOS initialization and return goffice plugins directory
  */
-void grisbi_osx_init(int *argc, char **argv[]) {
+GSList *grisbi_osx_init(int *argc, char **argv[]) {
     char *program_dir = get_program_dir();
     GSList *goffice_plugins_dirs = NULL;
     gchar *bundle_resources_dir = NULL;
+    GtkosxApplication *osx_app;
 
     devel_debug("MACOSX: Start initialization");
     if (g_str_has_suffix(program_dir, "Contents/MacOS")) {
@@ -334,23 +283,12 @@ void grisbi_osx_init(int *argc, char **argv[]) {
         goffice_plugins_dirs = g_slist_prepend(NULL, local_plugins_dir);
         devel_debug(local_plugins_dir);
     }
+    g_free(bundle_resources_dir);
 #endif
 
-    g_free(bundle_resources_dir);
     devel_debug("MACOSX: initialization done.");
 
-
-    @autoreleasepool { 
-        AppDelegate * delegate = [[AppDelegate alloc] initWithArgc:*argc andArgv:*argv andGOPluginsDirs:goffice_plugins_dirs];
-
-        NSApplication * application = [NSApplication sharedApplication];
-        [application setDelegate:delegate];
-        [NSApp run]; // Note this never returns until the app finishes, so you need to decide where to hook your code into
-    }
-
-    devel_debug("MACOSX: End of main loop");
-
-    return;
+    return goffice_plugins_dirs;
 }
 
 
