@@ -34,12 +34,10 @@
 #include <mach-o/dyld.h> // for _NSGetExecutablePath
 
 #include <gtk/gtk.h>
-#include <gtkosxapplication.h>
 #include <libintl.h>
 
-#include "grisbi_osx.h"
 #include "grisbi_app.h"
-#include "gsb_file.h"
+#include "grisbi_osx.h"
 #include "erreur.h"
 
 #ifdef HAVE_GOFFICE
@@ -222,17 +220,6 @@ static void set_locale(void) {
     my_setenv("LANG", lang_str);
 }
 
-
-static gboolean app_open_file_cb (GtkosxApplication *app, gchar *path, gpointer user_data) {
-    devel_debug("openFile()");
-    devel_debug(path);
-    return FALSE;
-}
-
-GtkosxApplication *osx_grisbi_gtk_init(void) {
-    return NULL;
-}
-
 /**
  * Manage all MacOS initialization and return goffice plugins directory
  */
@@ -240,7 +227,6 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
     char *program_dir = get_program_dir();
     GSList *goffice_plugins_dirs = NULL;
     gchar *bundle_resources_dir = NULL;
-    GtkosxApplication *osx_app;
 
     devel_debug("MACOSX: Start initialization");
     if (g_str_has_suffix(program_dir, "Contents/MacOS")) {
