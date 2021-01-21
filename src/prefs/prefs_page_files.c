@@ -44,6 +44,7 @@
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_select_icon.h"
 #include "parametres.h"
 #include "structures.h"
 #include "utils_prefs.h"
@@ -104,8 +105,11 @@ static void prefs_page_files_use_icons_file_dir_toggled (GtkToggleButton *checkb
 		GSList *icons_name_list = NULL;
 		GSList *tmp_list;
 		gchar *msg;
+		gchar *str_to_free = NULL;
+		gchar *tmp_str = NULL;
 		gint nbre_account = 0;
-		gint nbre_icons_present = 0;
+		gint nbre_errors = 0;
+		gint i = 0;
 
 		devel_debug (NULL);
 		tmp_list = gsb_data_account_get_list_accounts ();
@@ -122,7 +126,6 @@ static void prefs_page_files_use_icons_file_dir_toggled (GtkToggleButton *checkb
 				gchar *new_icon_name;
 
 				icon_basename = g_path_get_basename (account_icon_name);
-				new_icon_name = g_build_filename (gsb_dirs_get_user_icons_dir (), icon_basename, NULL);
 
 				/* on ignore les doublons */
 				if (!g_slist_find_custom (icons_name_list, account_icon_name, (GCompareFunc) g_strcmp0))
@@ -132,78 +135,58 @@ static void prefs_page_files_use_icons_file_dir_toggled (GtkToggleButton *checkb
 															 (GCompareFunc) g_strcmp0);
 				}
 
-				/* on teste l'existence du fichier dans icons */
-				if (g_file_test (new_icon_name, G_FILE_TEST_EXISTS))
-				{
-					gsb_data_account_set_name_icon (tmp_account, new_icon_name);
-					nbre_icons_present++;
-				}
-
+				new_icon_name = gsb_select_icon_set_icon_in_user_icons_dir (account_icon_name);
+				gsb_data_account_set_name_icon (tmp_account, new_icon_name);
+				if (new_icon_name == NULL)
+					nbre_errors++;
+				else
+					g_free (new_icon_name);
 				g_free (icon_basename);
-				g_free (new_icon_name);
 				nbre_account++;
 			}
 			tmp_list = tmp_list->next;
 		}
 
-		if (nbre_icons_present == nbre_account)
+		/* set list icons for msg */
+		tmp_list = icons_name_list;
+		while (tmp_list)
 		{
-			msg = g_strdup_printf (_("Tous les %d comptes ont maintenant leur icône spécifique "
-									 "dans le répertoire :\n"
-									 "%s"),
-								   nbre_account,
-								   gsb_dirs_get_user_icons_dir ());
-
-			dialogue_warning_hint (msg,_("Déplacement des icones de compte dans le répertoire du fichier de comptes"));
-		}
-		else
-		{
-			gchar *str_to_free = NULL;
-			gchar *tmp_str = NULL;
-			gint i = 0;
-
-			/* set list icons for msg */
-			tmp_list = icons_name_list;
-			while (tmp_list)
+			if (tmp_str == NULL)
 			{
-				if (tmp_str == NULL)
-				{
-					tmp_str =  g_strdup_printf ("%s\n", (gchar *) g_slist_nth_data (icons_name_list, i));
-				}
-				else
-				{
-					tmp_str =  g_strconcat (tmp_str, "\t- ", (gchar *) g_slist_nth_data (icons_name_list, i), "\n", NULL);
-					g_free (str_to_free);
-				}
-				str_to_free = tmp_str;
-				i++;
-				tmp_list = tmp_list->next;
+				tmp_str =  g_strdup_printf ("%s\n", (gchar *) g_slist_nth_data (icons_name_list, i));
 			}
-
+			else
+			{
+				tmp_str =  g_strconcat (tmp_str, "\t- ", (gchar *) g_slist_nth_data (icons_name_list, i), "\n", NULL);
+				g_free (str_to_free);
+			}
+			str_to_free = tmp_str;
+			i++;
+			tmp_list = tmp_list->next;
+		}
+		if (nbre_errors)
 			msg = g_strdup_printf (_("%d comptes ont une icône spécifique parmi les %d icônes suivantes :\n"
 									 "\t- %s"
 									 "\n"
-									 "Pour utiliser cette option vous devrez déplacer une ou plusieurs "
-									 "de ces icônes dans le répertoire :\n%s\n"
-									 "avant le prochain redemarrage de grisbi"),
+									 "Une ou plusieurs erreurs de copie ont eu lieu probablement "
+									 "pour des raisons de droits d'écriture dans le répertoire de "
+									 "destination.\n"),
+								   nbre_account,
+								   g_slist_length (icons_name_list),
+								   tmp_str);
+		else
+			msg = g_strdup_printf (_("%d comptes ont une icône spécifique parmi les %d icônes suivantes :\n"
+									 "\t- %s"
+									 "\n"
+									 "Ces icônes on été copiées dans le répertoire :\n%s\n"),
 								   nbre_account,
 								   g_slist_length (icons_name_list),
 								   tmp_str,
 								   gsb_dirs_get_user_icons_dir ());
 
-			dialogue_warning_hint (msg,_("Déplacement des icones de compte dans le répertoire du fichier de comptes"));
+		dialogue_warning_hint (msg,_("Déplacement des icones de compte dans le répertoire du fichier de comptes"));
 
-			/* on rechange l'etat OK du bouton */
-			g_signal_handlers_block_by_func (checkbutton,
-											 G_CALLBACK (prefs_page_files_use_icons_file_dir_toggled),
-											 priv);
-			gtk_toggle_button_set_active (checkbutton, FALSE);
-			g_signal_handlers_unblock_by_func (checkbutton,
-											   G_CALLBACK (prefs_page_files_use_icons_file_dir_toggled),
-											   priv);
-			g_free (tmp_str);
-		}
-
+		g_free (tmp_str);
 		g_slist_free_full (icons_name_list, (GDestroyNotify) g_free);
 	}
 }
