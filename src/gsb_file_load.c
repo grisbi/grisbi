@@ -1325,6 +1325,22 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 						tmp_filename = g_build_filename (gsb_dirs_get_user_icons_dir (),
 														 attribute_values[i],
 														 NULL);
+						if (!g_file_test (tmp_filename, G_FILE_TEST_EXISTS))
+						{
+							gchar* tmp_str1;
+							gchar* tmp_str2;
+
+							tmp_str1 = g_strdup_printf (_("Cannot open file '%s': %s"),
+														tmp_filename,
+														_("File does not exist"));
+
+							tmp_str2 = g_strdup_printf (_("Error loading file '%s'"), tmp_filename);
+							dialogue_error_hint (tmp_str1, tmp_str2);
+
+							g_free (tmp_str1);
+							g_free (tmp_str2);
+							gsb_file_set_modified (TRUE);
+						}
 					}
 					else
 					{
