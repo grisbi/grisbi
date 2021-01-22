@@ -113,7 +113,7 @@ static struct		/* structure download_tmp_values */
 
 /* structure temporaire pour le chargement d'un tiers/catégorie/imputation et sous-catégorie
  * sous-imputation */
-struct new_div_sous_div_struct
+struct TmpDivSousDivStruct
 {
     gint no_div;
     gint new_no_div;
@@ -123,7 +123,7 @@ struct new_div_sous_div_struct
 
 };
 
-static struct new_div_sous_div_struct *buffer_new_div_sous_div;
+static struct TmpDivSousDivStruct *buffer_new_div_sous_div;
 
 /******************************************************************************/
 /* Private Methods                                                            */
@@ -4465,7 +4465,7 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
     gint i=0;
 
 	g_free (buffer_new_div_sous_div);
-    buffer_new_div_sous_div = g_malloc0 (sizeof (struct new_div_sous_div_struct));
+    buffer_new_div_sous_div = g_malloc0 (sizeof (struct TmpDivSousDivStruct));
 
     if ( !attribute_names[i] )
     return;
@@ -4600,7 +4600,7 @@ void gsb_file_load_category ( const gchar **attribute_names,
     gint i=0;
 
     g_free ( buffer_new_div_sous_div );
-    buffer_new_div_sous_div = g_malloc0 ( sizeof ( struct new_div_sous_div_struct ) );
+    buffer_new_div_sous_div = g_malloc0 ( sizeof ( struct TmpDivSousDivStruct ) );
 
     if ( !attribute_names[i] )
     return;
