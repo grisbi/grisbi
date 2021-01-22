@@ -33,6 +33,7 @@
 #include "gsb_select_icon.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "gsb_data_account.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "utils.h"
@@ -677,11 +678,21 @@ gchar *gsb_select_icon_set_icon_in_user_icons_dir (const gchar *icon_name)
 {
 	GFile *source;
 	GFile *destination;
+	gchar *file_basename;
 	gchar *icon_basename;
 	gchar *new_icon_name;
+	gchar *str_to_free;
+
+	file_basename = g_path_get_basename (grisbi_win_get_filename (NULL));
+	if (g_str_has_suffix (file_basename, ".gsb"))
+	{
+		file_basename[strlen (file_basename) -4] = '\0';
+	}
 
 	icon_basename = g_path_get_basename (icon_name);
-	new_icon_name = g_build_filename (gsb_dirs_get_user_icons_dir (), icon_basename, NULL);
+	str_to_free = g_strconcat (file_basename, "_", icon_basename, NULL);
+	new_icon_name = g_build_filename (gsb_dirs_get_user_icons_dir (), str_to_free, NULL);
+	g_free (str_to_free);
 
 	source = g_file_new_for_path (icon_name);
 	destination = g_file_new_for_path (new_icon_name);
@@ -689,6 +700,7 @@ gchar *gsb_select_icon_set_icon_in_user_icons_dir (const gchar *icon_name)
 	if (g_file_copy (source, destination, G_FILE_COPY_OVERWRITE, FALSE, NULL, NULL, NULL))
 	{
 		g_free (icon_basename);
+		g_free (file_basename);
 		g_object_unref (source);
 		g_object_unref (destination);
 
@@ -697,6 +709,8 @@ gchar *gsb_select_icon_set_icon_in_user_icons_dir (const gchar *icon_name)
 	else
 	{
 		g_free (icon_basename);
+		g_free (file_basename);
+		g_free (new_icon_name);
 		g_object_unref (source);
 		g_object_unref (destination);
 
