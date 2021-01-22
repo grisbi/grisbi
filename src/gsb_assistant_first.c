@@ -42,7 +42,6 @@
 #include "gsb_automem.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "parametres.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"

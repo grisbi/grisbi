@@ -55,7 +55,6 @@
 #include "help.h"
 #include "import.h"
 #include "navigation.h"
-#include "parametres.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "tip.h"

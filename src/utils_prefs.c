@@ -37,7 +37,6 @@
 #include "grisbi_prefs.h"
 #include "gsb_file.h"
 #include "gsb_dirs.h"
-#include "parametres.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_str.h"

@@ -70,7 +70,6 @@
 #include "import_csv.h"
 #include "menu.h"
 #include "navigation.h"
-#include "parametres.h"
 #include "qif.h"
 #include "structures.h"
 #include "tiers_onglet.h"

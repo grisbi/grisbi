@@ -31,7 +31,6 @@
 /*START_INCLUDE*/
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "parametres.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/

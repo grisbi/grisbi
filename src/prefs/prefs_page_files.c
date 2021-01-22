@@ -45,7 +45,6 @@
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_select_icon.h"
-#include "parametres.h"
 #include "structures.h"
 #include "utils_prefs.h"
 #include "erreur.h"

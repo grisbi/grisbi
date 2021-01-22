@@ -43,7 +43,6 @@
 #include "gsb_file.h"
 #include "imputation_budgetaire.h"
 #include "navigation.h"
-#include "parametres.h"
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "utils_prefs.h"

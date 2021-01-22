@@ -55,7 +55,6 @@
 #include "gsb_transactions_list.h"
 #include "menu.h"
 #include "navigation.h"
-#include "parametres.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"

@@ -37,7 +37,6 @@
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_rgba.h"
-#include "parametres.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
