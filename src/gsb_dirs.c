@@ -238,13 +238,6 @@ const gchar *gsb_dirs_get_ui_dir (void)
  *
  * \return
  **/
-/**
- *
- *
- * \param
- *
- * \return
- **/
 const gchar *gsb_dirs_get_user_config_dir (void)
 {
     return user_config_dir;
