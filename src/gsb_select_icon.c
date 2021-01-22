@@ -26,11 +26,13 @@
 #endif
 
 #include "include.h"
-#include <gdk-pixbuf/gdk-pixdata.h>
 #include <glib/gi18n.h>
+#include <sys/stat.h>
+#include <glib/gstdio.h>
 
-/*START_INCLUDE*/
+ /*START_INCLUDE*/
 #include "gsb_select_icon.h"
+#include "utils_files.h"
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_data_account.h"
@@ -678,8 +680,9 @@ gchar *gsb_select_icon_set_icon_in_user_icons_dir (const gchar *icon_name)
 {
 	GFile *source;
 	GFile *destination;
-	gchar *file_basename;
 	gchar *icon_basename;
+	const gchar *icon_dir;
+	gchar *file_basename;
 	gchar *new_icon_name;
 	gchar *str_to_free;
 
@@ -688,6 +691,15 @@ gchar *gsb_select_icon_set_icon_in_user_icons_dir (const gchar *icon_name)
 	{
 		file_basename[strlen (file_basename) -4] = '\0';
 	}
+
+	icon_dir = gsb_dirs_get_user_icons_dir ();
+	if (!g_file_test (icon_dir, G_FILE_TEST_IS_DIR))
+	{
+		int mode = S_IRUSR | S_IWUSR | S_IXUSR;
+
+		g_mkdir (icon_dir, mode);
+	}
+
 
 	icon_basename = g_path_get_basename (icon_name);
 	str_to_free = g_strconcat (file_basename, "_", icon_basename, NULL);
