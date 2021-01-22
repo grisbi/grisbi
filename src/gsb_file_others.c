@@ -725,7 +725,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Category" ))
     {
-	gsb_file_load_category ( attribute_names,
+	gsb_file_load_category_part ( attribute_names,
 				 attribute_values );
 	return;
     }
@@ -733,7 +733,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Sub_category" ))
     {
-	gsb_file_load_sub_category ( attribute_names,
+	gsb_file_load_sub_category_part ( attribute_names,
 				     attribute_values );
 	return;
     }
@@ -741,7 +741,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Budgetary" ))
     {
-	gsb_file_load_budgetary ( attribute_names,
+	gsb_file_load_budgetary_part ( attribute_names,
 				  attribute_values );
 	return;
     }
@@ -749,7 +749,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Sub_budgetary" ))
     {
-	gsb_file_load_sub_budgetary ( attribute_names,
+	gsb_file_load_sub_budgetary_part ( attribute_names,
 				      attribute_values );
 	return;
     }
@@ -757,7 +757,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Report" ))
     {
-	gsb_file_load_report ( attribute_names,
+	gsb_file_load_report_part ( attribute_names,
 			       attribute_values );
 	return;
     }
@@ -765,7 +765,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Text_comparison" ))
     {
-	gsb_file_load_text_comparison ( attribute_names,
+	gsb_file_load_text_comparison_part ( attribute_names,
 					attribute_values );
 	return;
     }
@@ -773,7 +773,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Amount_comparison" ))
     {
-	gsb_file_load_amount_comparison ( attribute_names,
+	gsb_file_load_amount_comparison_part ( attribute_names,
 					  attribute_values );
 	return;
     }
@@ -872,13 +872,13 @@ void gsb_file_others_start_budget_from_category ( GMarkupParseContext *context,
 {
     if ( !strcmp ( element_name, "Category" ) )
     {
-	    gsb_file_load_budgetary ( attribute_names, attribute_values );
+	    gsb_file_load_budgetary_part ( attribute_names, attribute_values );
 	    return;
     }
 
     if ( !strcmp ( element_name, "Sub_category" ))
     {
-	    gsb_file_load_sub_budgetary ( attribute_names, attribute_values );
+	    gsb_file_load_sub_budgetary_part ( attribute_names, attribute_values );
 	    return;
     }
 }
