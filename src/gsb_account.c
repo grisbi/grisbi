@@ -188,7 +188,7 @@ gboolean gsb_account_delete ( void )
     g_free ( tmpstr );
 
     /* if the last account, close the file */
-    if ( gsb_data_account_get_accounts_amount () == 1 )
+    if ( gsb_data_account_get_number_of_accounts () == 1 )
     {
         gsb_file_set_modified ( FALSE );
         (void)gsb_file_close ();

@@ -4658,7 +4658,7 @@ static void traitement_operations_importees (GtkWindow *parent)
      * (see affichage_recapitulatif_importation) */
 
     /* if new file, init grisbi */
-    if (gsb_data_account_get_accounts_amount ())
+    if (gsb_data_account_get_number_of_accounts ())
     new_file = 0;
     else
     {
@@ -4790,7 +4790,7 @@ static void traitement_operations_importees (GtkWindow *parent)
 
     /* if no account created, there is a problem
      * show an error and go away */
-    if (!gsb_data_account_get_accounts_amount ())
+    if (!gsb_data_account_get_number_of_accounts ())
     {
     dialogue_error (_("No account in memory now, this is bad...\nBetter to leave "
                       "the import before a crash.\n\nPlease contact the Grisbi team "

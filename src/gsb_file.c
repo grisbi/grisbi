@@ -564,7 +564,7 @@ static gboolean gsb_file_save_file (gint origine)
 	/* on regarde si il y a quelque chose à sauvegarder sauf pour "sauvegarder sous" */
 	if ((!gsb_file_get_modified () && origine != -2)
         ||
-        !gsb_data_account_get_accounts_amount ())
+        !gsb_data_account_get_number_of_accounts ())
     {
         notice_debug ("nothing done in gsb_file_save_file");
         return (TRUE);
@@ -1123,7 +1123,7 @@ gboolean gsb_file_close (void)
 	     /* remove the lock */
 	    if (!etat.fichier_deja_ouvert
 			&&
-			gsb_data_account_get_accounts_amount ()
+			gsb_data_account_get_number_of_accounts ()
 			&&
 			filename)
 		{
@@ -1163,7 +1163,7 @@ void gsb_file_set_modified (gboolean modified)
 /*     devel_debug_int (modified);  */
 
     /* If no file is loaded, do not change menu items. */
-	if (!gsb_data_account_get_accounts_amount ())
+	if (!gsb_data_account_get_number_of_accounts ())
 		return;
 
 	if (modified)
@@ -1313,7 +1313,7 @@ gboolean gsb_file_quit (void)
 	     /* remove the lock */
 	    if (!etat.fichier_deja_ouvert
 			&&
-			gsb_data_account_get_accounts_amount ()
+			gsb_data_account_get_number_of_accounts ()
 			&&
 			filename)
 		{

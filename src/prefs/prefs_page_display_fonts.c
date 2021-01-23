@@ -180,7 +180,7 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
 	gchar *chemin_logo;
 	PrefsPageDisplayFontsPrivate *priv;
 
-	if (!gsb_data_account_get_accounts_amount ())
+	if (!gsb_data_account_get_number_of_accounts ())
 		return;
 
 	priv = prefs_page_display_fonts_get_instance_private (page);

@@ -1780,7 +1780,7 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 	 * with that i think we will allocate enough memory in one time but not too much */
 
 	length_calculated = general_part
-	+ account_part * gsb_data_account_get_accounts_amount ()
+	+ account_part * gsb_data_account_get_number_of_accounts ()
 	+ transaction_part * g_slist_length (gsb_data_transaction_get_complete_transactions_list ())
 	+ party_part * g_slist_length (gsb_data_payee_get_payees_list ())
 	+ category_part * g_slist_length (gsb_data_category_get_categories_list ())

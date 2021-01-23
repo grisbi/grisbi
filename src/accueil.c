@@ -975,7 +975,7 @@ static void update_liste_comptes_accueil (gboolean force,
 
     if (!force
 		&& !(run.mise_a_jour_liste_comptes_accueil
-			 && gsb_data_account_get_accounts_amount ()))
+			 && gsb_data_account_get_number_of_accounts ()))
         return;
 
     run.mise_a_jour_liste_comptes_accueil = FALSE;

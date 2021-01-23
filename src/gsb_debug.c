@@ -183,7 +183,7 @@ static gchar *gsb_debug_reconcile_test (void)
     gint tested_account = 0;
 
     /* S'il n'y a pas de compte, on quitte */
-    if (!gsb_data_account_get_accounts_amount ())
+    if (!gsb_data_account_get_number_of_accounts ())
     {
 		return NULL;
     }

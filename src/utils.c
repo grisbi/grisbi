@@ -385,7 +385,7 @@ GtkWidget *new_vbox_with_title_and_icon (const gchar *title,
  */
 gboolean assert_account_loaded (void)
 {
-  return gsb_data_account_get_accounts_amount () != 0;
+  return gsb_data_account_get_number_of_accounts () != 0;
 }
 
 
