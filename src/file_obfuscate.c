@@ -415,7 +415,7 @@ gboolean file_obfuscate_run ( void )
         if ( nom_fichier_comptes )
         {
             /* remove the .gsb */
-            nom_fichier_comptes[strlen ( nom_fichier_comptes ) -4] = 0;
+            nom_fichier_comptes[strlen ( nom_fichier_comptes ) -4] = '\0';
             filename = g_strconcat ( nom_fichier_comptes, "-obfuscated.gsb", NULL);
         }
         else
