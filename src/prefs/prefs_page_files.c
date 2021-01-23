@@ -177,8 +177,7 @@ static void prefs_page_files_use_icons_file_dir_toggled (GtkToggleButton *checkb
 			msg = g_strdup_printf (_("%d comptes ont une icône spécifique parmi les %d icônes suivantes :\n"
 									 "\t- %s"
 									 "\n"
-									 "Ces icônes, préfixées avec le nom du compte, ont été copiées "
-									 "dans le répertoire :\n%s\n"),
+									 "Ces icônes ont été copiées dans le répertoire :\n%s\n"),
 								   nbre_account,
 								   g_slist_length (icons_name_list),
 								   tmp_str,

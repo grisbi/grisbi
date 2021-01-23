@@ -356,13 +356,27 @@ const gchar *gsb_dirs_get_user_icons_dir (void)
  **/
 void gsb_dirs_set_user_icons_dir (const gchar *filename)
 {
+	gchar *file_basename;
 	gchar *tmp_dir;
 
 	if (user_icons_dir)
 		g_free (user_icons_dir);
 
+	file_basename = g_path_get_basename (filename);
+	if (g_str_has_suffix (file_basename, ".gsb"))
+	{
+		file_basename[strlen (file_basename) -4] = '\0';
+	}
+
 	tmp_dir = g_path_get_dirname (filename);
-	user_icons_dir = g_strconcat (tmp_dir, G_DIR_SEPARATOR_S, "icons", G_DIR_SEPARATOR_S, NULL);
+	user_icons_dir = g_strconcat (tmp_dir,
+								  G_DIR_SEPARATOR_S,
+								  file_basename,
+								  "_icons",
+								  G_DIR_SEPARATOR_S,
+								  NULL);
+	g_free (file_basename);
+	g_free  (tmp_dir);
 }
 
 /**
