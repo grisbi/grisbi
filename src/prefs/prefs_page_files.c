@@ -231,8 +231,6 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_crypt_file),
 								  w_etat->crypt_file);
 	gtk_widget_set_sensitive (priv->checkbutton_crypt_file, is_loading);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_icons_file_dir),
-								  w_etat->use_icons_file_dir);
 
 	/* set the max number of files */
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_nb_max_derniers_fichiers),
@@ -243,6 +241,29 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 	tmp_str = g_strconcat (_("Put user icons in the directory: "), icons_dir, NULL);
 	gtk_label_set_text (GTK_LABEL (priv->label_use_icons_file_dir), tmp_str);
 	g_free (tmp_str);
+
+	/* test and set value */
+	if (w_etat->use_icons_file_dir)
+	{
+		const gchar *icon_dir;
+
+		icon_dir = gsb_dirs_get_user_icons_dir ();
+		if (!g_file_test (icon_dir, G_FILE_TEST_IS_DIR))
+		{
+			gchar *msg;
+
+			msg = g_strdup (_("Vous avez selectionné l'option \"mettre les icônes spécifiques "
+							  "des comptes\" dans le répertoire du fichier de comptes mais vous "
+							  "n'avez pas utilisé cette possibilité.\n"
+							  "Si vous en avez besoin faites le sinon décochez l'option"));
+
+			dialogue_warning_hint (msg,_("Mettre les icones des comptes dans le répertoire du fichier de comptes"));
+			g_free (msg);
+
+		}
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_icons_file_dir),
+									  w_etat->use_icons_file_dir);
+	}
 
     /* Connect signal */
     g_signal_connect (priv->checkbutton_load_last_file,
