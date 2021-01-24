@@ -77,14 +77,14 @@ gboolean gsb_file_util_test_overwrite (const gchar *filename)
 		/* the file exists */
 		if (g_file_test (filename, G_FILE_TEST_IS_DIR))
 		{
-			tmp_str = g_markup_printf_escaped (_("%s is a directory...\nPlease choose another name."),
+			tmp_str = g_strdup_printf (_("%s is a directory...\nPlease choose another name."),
 									   filename);
 			dialogue_error (tmp_str);
 			g_free (tmp_str);
 			return FALSE;
 		}
 
-		tmp_str = g_markup_printf_escaped (_("Do you want to overwrite file \"%s\"?"), filename);
+		tmp_str = g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename);
 		response = dialogue_yes_no (tmp_str,
 									_("File already exists"),
 									GTK_RESPONSE_NO);
@@ -135,7 +135,7 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
     if (stat (os_filename, &stat_buf))
     {
 		gchar *tmp_str;
-		tmp_str = g_markup_printf_escaped (_("Grisbi cannot stat file %s, please check the file."),
+		tmp_str = g_strdup_printf (_("Grisbi cannot stat file %s, please check the file."),
 								   os_filename);
 		dialogue_error (tmp_str);
 		g_free (tmp_str);
@@ -181,7 +181,7 @@ gboolean gsb_file_util_get_contents (const gchar *filename,
 		gchar *tmp_str;
 
 		g_free (content);
-		tmp_str = g_markup_printf_escaped (_("Failed to read from file '%s': %s"),
+		tmp_str = g_strdup_printf (_("Failed to read from file '%s': %s"),
 								   os_filename,
 								   g_strerror (save_errno));
 		dialogue_error (tmp_str);
@@ -307,7 +307,7 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
         {
             gchar *tmp_str;
 
-			tmp_str = g_markup_printf_escaped (_("Cannot write lock file: '%s': %s"),
+			tmp_str = g_strdup_printf (_("Cannot write lock file: '%s': %s"),
 									   filename,
 									   g_strerror (errno));
             dialogue_error (tmp_str);
@@ -339,7 +339,7 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
 			{
 				gchar* tmp_str;
 
-				tmp_str = g_markup_printf_escaped (_("Cannot erase lock file: '%s': %s"),
+				tmp_str = g_strdup_printf (_("Cannot erase lock file: '%s': %s"),
 										   filename,
 										   g_strerror (errno));
 				dialogue_error (tmp_str);

@@ -4132,7 +4132,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 				text = g_strdup_printf (_("This build of Grisbi does not support encryption.\n"
 										  "Please recompile Grisbi with OpenSSL encryption enabled."));
 
-				hint = g_markup_printf_escaped (_("Cannot open encrypted file '%s'"), filename);
+				hint = g_strdup_printf (_("Cannot open encrypted file '%s'"), filename);
 
 				dialogue_error_hint ( text, hint );
 				g_free ( hint );
@@ -4149,7 +4149,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 			gchar *text;
 			gchar *hint;
 
-			hint = g_markup_printf_escaped (_("'%s' is not a valid UTF8 file"), filename);
+			hint = g_strdup_printf (_("'%s' is not a valid UTF8 file"), filename);
 
 
 			text = g_strdup_printf (_("You can choose to fix the file with the substitution character? "
