@@ -47,7 +47,7 @@
 #include "gsb_calendar_entry.h"
 #include "gsb_fyear.h"
 #include "navigation.h"
-#include "prefs_widget_loan.h"
+#include "widget_loan.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_dates.h"
@@ -327,7 +327,7 @@ static void prefs_page_bet_account_initialise_loan_data (gint account_number,
 		s_loan = bet_data_loan_struct_loan_init ();
 		s_loan->account_number = account_number;
 		s_loan->version_number = -1;
-		widget = GTK_WIDGET (prefs_widget_loan_new (s_loan));
+		widget = GTK_WIDGET (widget_loan_new (s_loan));
 		label = gtk_label_new (_("Initial loan"));
 		utils_widget_set_padding (label, MARGIN_BOX, 0);
 		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_credit_data), widget, label);
@@ -344,7 +344,7 @@ static void prefs_page_bet_account_initialise_loan_data (gint account_number,
 
 		s_loan = (LoanStruct *) tmp_list->data;
 		index = s_loan->version_number;
-		widget = GTK_WIDGET (prefs_widget_loan_new (s_loan));
+		widget = GTK_WIDGET (widget_loan_new (s_loan));
 		if (!index)
 			label = gtk_label_new (_("Initial loan"));
 		else
@@ -719,7 +719,7 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 	/* Data for the credit */
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (priv->notebook_credit_data), TRUE);
 
-	priv->vbox_loan_data = GTK_WIDGET (prefs_widget_loan_new (NULL));
+	priv->vbox_loan_data = GTK_WIDGET (widget_loan_new (NULL));
 	g_object_set_data (G_OBJECT (account_page), "Data_for_credit", priv->vbox_loan_data);
 	label = gtk_label_new (_("Initial loan"));
 	utils_widget_set_padding (label, MARGIN_BOX, 0);

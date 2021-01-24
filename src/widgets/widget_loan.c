@@ -5,8 +5,8 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          2008-2021 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -37,7 +37,7 @@
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
-#include "prefs_widget_loan.h"
+#include "widget_loan.h"
 #include "bet_finance_ui.h"
 #include "grisbi_app.h"
 #include "gsb_data_currency.h"
@@ -69,10 +69,10 @@
 /*END_EXTERN*/
 
 
-typedef struct _PrefsWidgetLoanPrivate	PrefsWidgetLoanPrivate;
-typedef struct _DialogScheduled   		DialogScheduled;
+typedef struct _WidgetLoanPrivate	WidgetLoanPrivate;
+typedef struct _DialogScheduled   	DialogScheduled;
 
-struct _PrefsWidgetLoanPrivate
+struct _WidgetLoanPrivate
 {
 	GtkWidget *			vbox_loan_data;
 
@@ -100,7 +100,7 @@ struct _PrefsWidgetLoanPrivate
 	LoanStruct *		s_loan;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PrefsWidgetLoan, prefs_widget_loan, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (WidgetLoan, widget_loan, GTK_TYPE_BOX)
 
 struct _DialogScheduled
 {
@@ -123,8 +123,8 @@ struct _DialogScheduled
 };
 
 /*START_STATIC*/
-static void prefs_widget_loan_button_init_scheduled_clicked (GtkButton *button,
-															 PrefsWidgetLoan *w_loan);
+static void widget_loan_button_init_scheduled_clicked (GtkButton *button,
+													   WidgetLoan *w_loan);
 
 /* memorisation des date */
 static gchar *old_entry = NULL;
@@ -137,15 +137,15 @@ static GdkPixbuf *pixbuf_NOK;
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-static void prefs_widget_loan_checkbutton_invers_cols_cap_ech (GtkToggleButton *togglebutton,
-															   PrefsWidgetLoan *w_loan)
+static void widget_loan_checkbutton_invers_cols_cap_ech (GtkToggleButton *togglebutton,
+														 WidgetLoan *w_loan)
 {
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 	LoanStruct *s_loan;
 
 	devel_debug (NULL);
 
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 	s_loan = priv->s_loan;
 	s_loan->invers_cols_cap_ech = gtk_toggle_button_get_active (togglebutton);
 	if (gsb_gui_navigation_get_current_account () == s_loan->account_number)
@@ -165,7 +165,7 @@ static void prefs_widget_loan_checkbutton_invers_cols_cap_ech (GtkToggleButton *
  *
  * \return
  **/
-static DialogScheduled *prefs_widget_loan_scheduled_dialog_struct_init (void)
+static DialogScheduled *widget_loan_scheduled_dialog_struct_init (void)
 {
 	DialogScheduled	*s_sch_dialog;
 
@@ -181,7 +181,7 @@ static DialogScheduled *prefs_widget_loan_scheduled_dialog_struct_init (void)
  *
  * \return
  **/
-static void prefs_widget_loan_scheduled_dialog_struct_free (DialogScheduled	*s_sch_dialog)
+static void widget_loan_scheduled_dialog_struct_free (DialogScheduled	*s_sch_dialog)
 {
 	g_free (s_sch_dialog);
 }
@@ -193,7 +193,7 @@ static void prefs_widget_loan_scheduled_dialog_struct_free (DialogScheduled	*s_s
  *
  * \return TRUE if valide else FALSE
  **/
-static gboolean prefs_widget_loan_scheduled_dialog_validate (DialogScheduled *s_sch_dialog)
+static gboolean widget_loan_scheduled_dialog_validate (DialogScheduled *s_sch_dialog)
 {
 	gboolean valide_payee = FALSE;
 	gboolean valide_second_line = FALSE;
@@ -227,7 +227,7 @@ static gboolean prefs_widget_loan_scheduled_dialog_validate (DialogScheduled *s_
  *
  * \return
  **/
-static gint prefs_widget_loan_combo_frequency_get_frequency (gint index)
+static gint widget_loan_combo_frequency_get_frequency (gint index)
 {
 	switch (index)
 	{
@@ -253,7 +253,7 @@ static gint prefs_widget_loan_combo_frequency_get_frequency (gint index)
  *
  * \return FALSE
  **/
-static gboolean prefs_widget_loan_combofix_enter_focus (GtkWidget *entry,
+static gboolean widget_loan_combofix_enter_focus (GtkWidget *entry,
 														GdkEventFocus *ev,
 														gpointer user_data)
 {
@@ -276,9 +276,9 @@ static gboolean prefs_widget_loan_combofix_enter_focus (GtkWidget *entry,
  *
  * \return FALSE
  **/
-static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
-													   GdkEventFocus *ev,
-													   GtkWidget *combo)
+static gboolean widget_loan_combofix_lose_focus (GtkWidget *entry,
+												 GdkEventFocus *ev,
+												 GtkWidget *combo)
 {
     const gchar *string;
     gint element_number;
@@ -374,18 +374,18 @@ static gboolean prefs_widget_loan_combofix_lose_focus (GtkWidget *entry,
  *
  * \return
  **/
-static	void prefs_widget_loan_combo_account_list_changed (GtkComboBox *combo_box,
-														   PrefsWidgetLoan *w_loan)
+static	void widget_loan_combo_account_list_changed (GtkComboBox *combo_box,
+													 WidgetLoan *w_loan)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
     gint index;
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 	LoanStruct *s_loan;
 
 	devel_debug (NULL);
 
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 
 	s_loan = priv->s_loan;
 	gsb_data_account_set_bet_init_sch_with_loan (s_loan->associated_account, FALSE);
@@ -410,7 +410,7 @@ static	void prefs_widget_loan_combo_account_list_changed (GtkComboBox *combo_box
  *
  * \return a new GtkCombobox containing the list of the accounts
  **/
-static GtkWidget *prefs_widget_loan_combo_account_list_create (void)
+static GtkWidget *widget_loan_combo_account_list_create (void)
 {
     GSList *list_tmp;
     GtkListStore *store;
@@ -463,9 +463,9 @@ static GtkWidget *prefs_widget_loan_combo_account_list_create (void)
  *
  * \return
  **/
-static void prefs_widget_loan_entry_focus_in (GtkWidget *widget,
-											  GdkEvent *event,
-											  PrefsWidgetLoan *w_loan)
+static void widget_loan_entry_focus_in (GtkWidget *widget,
+										GdkEvent *event,
+										WidgetLoan *w_loan)
 {
 	if (GTK_IS_ENTRY (widget))
 	{
@@ -494,18 +494,18 @@ static void prefs_widget_loan_entry_focus_in (GtkWidget *widget,
  *
  * \return
  **/
-static void prefs_widget_loan_entry_focus_out (GtkWidget *widget,
-											   GdkEvent  *event,
-											   PrefsWidgetLoan *w_loan)
+static void widget_loan_entry_focus_out (GtkWidget *widget,
+										 GdkEvent  *event,
+										 WidgetLoan *w_loan)
 {
 	const gchar *name;
 	const gchar *tmp_str;
 	gboolean valide;
 	LoanStruct *s_loan;
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 
 	devel_debug (NULL);
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 	s_loan = priv->s_loan;
 	name = gtk_widget_get_name (GTK_WIDGET (widget));
 
@@ -664,11 +664,11 @@ static void prefs_widget_loan_entry_focus_out (GtkWidget *widget,
  *
  * \return
  **/
-static void prefs_widget_loan_entry_deleted (GtkEditable *entry,
-											  guint position,
-											  gchar *chars,
-											  guint n_chars,
-											  PrefsWidgetLoan *w_loan)
+static void widget_loan_entry_deleted (GtkEditable *entry,
+									   guint position,
+									   gchar *chars,
+									   guint n_chars,
+									   WidgetLoan *w_loan)
 {
 	if (gtk_entry_get_text_length (GTK_ENTRY (entry)) == 1)
 	{
@@ -702,15 +702,15 @@ static void prefs_widget_loan_entry_deleted (GtkEditable *entry,
  *
  * \return
  **/
-static void prefs_widget_loan_checkbutton_amount_first_toggled (GtkToggleButton *togglebutton,
-																PrefsWidgetLoan *w_loan)
+static void widget_loan_checkbutton_amount_first_toggled (GtkToggleButton *togglebutton,
+														  WidgetLoan *w_loan)
 {
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 	LoanStruct *s_loan;
 
 	devel_debug (NULL);
 
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 	s_loan = priv->s_loan;
 	if (gtk_toggle_button_get_active (togglebutton))
 	{
@@ -746,8 +746,8 @@ static void prefs_widget_loan_checkbutton_amount_first_toggled (GtkToggleButton 
  *
  * \return
  **/
-static void prefs_widget_loan_button_amortization_table_clicked (GtkButton *button,
-																 PrefsWidgetLoan *w_loan)
+static void widget_loan_button_amortization_table_clicked (GtkButton *button,
+														   WidgetLoan *w_loan)
 {
 	GtkWidget *popup;
 	GtkWidget *page;
@@ -758,12 +758,12 @@ static void prefs_widget_loan_button_amortization_table_clicked (GtkButton *butt
 	GtkWidget *account_toolbar;
 	GtkWidget *item;
 	GtkWidget *label_title;
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 	LoanStruct *s_loan;
 
 	devel_debug (NULL);
 
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 
 	s_loan = priv->s_loan;
 	prefs = grisbi_win_get_prefs_dialog (NULL);
@@ -820,14 +820,14 @@ static void prefs_widget_loan_button_amortization_table_clicked (GtkButton *butt
  *
  * \return
  **/
-static void prefs_widget_loan_radiobutton_type_taux_toggled (GtkToggleButton *togglebutton,
-															 PrefsWidgetLoan *w_loan)
+static void widget_loan_radiobutton_type_taux_toggled (GtkToggleButton *togglebutton,
+													   WidgetLoan *w_loan)
 {
 	const gchar *name;
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 	LoanStruct *s_loan;
 
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 	name = gtk_widget_get_name (GTK_WIDGET (togglebutton));
 	s_loan = priv->s_loan;
 
@@ -852,8 +852,8 @@ static void prefs_widget_loan_radiobutton_type_taux_toggled (GtkToggleButton *to
  *
  * \return
  **/
-static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page,
-																 PrefsWidgetLoan *w_loan)
+static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
+														   WidgetLoan *w_loan)
 {
 	GtkWidget *entry;
 	GtkWidget *label;
@@ -869,12 +869,12 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 	gint scheduled_number = 0;
 	DialogScheduled *s_sch_dialog;
 	LoanStruct *s_loan;
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 
 	devel_debug (NULL);
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 	s_loan = priv->s_loan;
-	s_sch_dialog = prefs_widget_loan_scheduled_dialog_struct_init ();
+	s_sch_dialog = widget_loan_scheduled_dialog_struct_init ();
 
 	/* Main account */
 	paddingbox = new_paddingbox_with_title (page, FALSE, _("Associated account"));
@@ -886,7 +886,7 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 	label = gtk_label_new (_("Associated account: "));
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-	s_sch_dialog->AccountListCombo = prefs_widget_loan_combo_account_list_create ();
+	s_sch_dialog->AccountListCombo = widget_loan_combo_account_list_create ();
 	gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->AccountListCombo, FALSE, FALSE, 0);
 
 	if (s_loan->associated_account)
@@ -1271,98 +1271,98 @@ static DialogScheduled *prefs_widget_loan_dialog_scheduled_init (GtkWidget *page
 	/* callback for combo_account */
     g_signal_connect (s_sch_dialog->AccountListCombo,
 					  "changed",
-					  G_CALLBACK (prefs_widget_loan_combo_account_list_changed),
+					  G_CALLBACK (widget_loan_combo_account_list_changed),
 					  w_loan);
 
 	/* callback for first combo data budget */
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo));
 	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
+					  G_CALLBACK (widget_loan_combofix_enter_focus),
 					  NULL);
     g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
+					  G_CALLBACK (widget_loan_combofix_lose_focus),
 					  s_sch_dialog->FBudgetCombo);
 
 	/* callback for second combo data budget */
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo));
 	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
+					  G_CALLBACK (widget_loan_combofix_enter_focus),
 					  NULL);
     g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
+					  G_CALLBACK (widget_loan_combofix_lose_focus),
 					  s_sch_dialog->SBudgetCombo);
 
 	/* callback for third combo data budget */
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo));
 	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
+					  G_CALLBACK (widget_loan_combofix_enter_focus),
 					  NULL);
     g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
+					  G_CALLBACK (widget_loan_combofix_lose_focus),
 					  s_sch_dialog->TBudgetCombo);
 
 	/* callback for second combo data catégories */
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->SCategCombo));
 	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
+					  G_CALLBACK (widget_loan_combofix_enter_focus),
 					  NULL);
     g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
+					  G_CALLBACK (widget_loan_combofix_lose_focus),
 					  s_sch_dialog->SCategCombo);
 
 	/* callback for third combo data catégories */
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->TCategCombo));
 	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
+					  G_CALLBACK (widget_loan_combofix_enter_focus),
 					  NULL);
     g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
+					  G_CALLBACK (widget_loan_combofix_lose_focus),
 					  s_sch_dialog->TCategCombo);
 
 	/* callback for combo data payees */
 	entry = gtk_combofix_get_entry (GTK_COMBOFIX (s_sch_dialog->APayeeCombo));
 	g_signal_connect (G_OBJECT (entry),
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_enter_focus),
+					  G_CALLBACK (widget_loan_combofix_enter_focus),
 					  NULL);
     g_signal_connect (G_OBJECT (entry),
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_combofix_lose_focus),
+					  G_CALLBACK (widget_loan_combofix_lose_focus),
 					  s_sch_dialog->APayeeCombo);
 
 	return s_sch_dialog;
 }
 
-static void prefs_widget_loan_button_delete_scheduled_clicked (GtkButton *button,
-															   PrefsWidgetLoan *w_loan)
+static void widget_loan_button_delete_scheduled_clicked (GtkButton *button,
+														 WidgetLoan *w_loan)
 {
 	LoanStruct *s_loan;
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 
 	devel_debug (NULL);
 
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 	s_loan = priv->s_loan;
 	gsb_data_scheduled_remove_scheduled (s_loan->associated_scheduled);
 
 	/* change button_init_scheduled */
 	gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Create new scheduled transaction"));
 	g_signal_handlers_disconnect_by_func(priv->button_init_scheduled,
-										 G_CALLBACK (prefs_widget_loan_button_delete_scheduled_clicked),
+										 G_CALLBACK (widget_loan_button_delete_scheduled_clicked),
 										 w_loan);
 	g_signal_connect (priv->button_init_scheduled,
 					  "clicked",
-					  G_CALLBACK (prefs_widget_loan_button_init_scheduled_clicked),
+					  G_CALLBACK (widget_loan_button_init_scheduled_clicked),
 					  w_loan);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_init_sch_with_loan), FALSE);
 }
@@ -1375,8 +1375,8 @@ static void prefs_widget_loan_button_delete_scheduled_clicked (GtkButton *button
  *
  * \return
  **/
-static void prefs_widget_loan_button_init_scheduled_clicked (GtkButton *button,
-															 PrefsWidgetLoan *w_loan)
+static void widget_loan_button_init_scheduled_clicked (GtkButton *button,
+													   WidgetLoan *w_loan)
 {
 	GtkWidget *popup;
 	GtkWidget *page;
@@ -1385,11 +1385,11 @@ static void prefs_widget_loan_button_init_scheduled_clicked (GtkButton *button,
 	gint result;
 	DialogScheduled *s_sch_dialog;
 	LoanStruct *s_loan;
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 
 	devel_debug (NULL);
 
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 	s_loan = priv->s_loan;
 	prefs = grisbi_win_get_prefs_dialog (NULL);
 
@@ -1409,7 +1409,7 @@ static void prefs_widget_loan_button_init_scheduled_clicked (GtkButton *button,
 	s_loan->capital_du = s_loan->capital;
 
 	/* initialisation des widgets */
-	s_sch_dialog = prefs_widget_loan_dialog_scheduled_init (page, w_loan);
+	s_sch_dialog = widget_loan_dialog_scheduled_init (page, w_loan);
 
 	gtk_widget_show_all (popup);
 
@@ -1441,7 +1441,7 @@ dialog_return:
 		gsb_data_scheduled_set_date (scheduled_number, s_loan->first_date);
 		/* set frequency */
 		s_loan->associated_frequency = gsb_combo_box_get_index (s_sch_dialog->AFreqencyCombo);
-		associated_frequency = prefs_widget_loan_combo_frequency_get_frequency (s_loan->associated_frequency);
+		associated_frequency = widget_loan_combo_frequency_get_frequency (s_loan->associated_frequency);
 		gsb_data_scheduled_set_frequency (scheduled_number, associated_frequency);	/* par mois par défaut */
 		/* set currency */
 		gsb_data_scheduled_set_currency_number (scheduled_number, s_loan->currency_number);
@@ -1565,24 +1565,24 @@ dialog_return:
 			gsb_data_category_set_category_from_string (scheduled_number, text, FALSE);
 		}
 
-		if (!prefs_widget_loan_scheduled_dialog_validate (s_sch_dialog))
+		if (!widget_loan_scheduled_dialog_validate (s_sch_dialog))
 		{
 			goto dialog_return;
 		}
 		gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Delete scheduled transaction"));
 		g_signal_handlers_disconnect_by_func(priv->button_init_scheduled,
-											 G_CALLBACK (prefs_widget_loan_button_init_scheduled_clicked),
+											 G_CALLBACK (widget_loan_button_init_scheduled_clicked),
 											 w_loan);
 		g_signal_connect (priv->button_init_scheduled,
 						  "clicked",
-						  G_CALLBACK (prefs_widget_loan_button_delete_scheduled_clicked),
+						  G_CALLBACK (widget_loan_button_delete_scheduled_clicked),
 						  w_loan);
 	}
 	else
 	{
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_init_sch_with_loan), FALSE);
 	}
-	prefs_widget_loan_scheduled_dialog_struct_free (s_sch_dialog);
+	widget_loan_scheduled_dialog_struct_free (s_sch_dialog);
 	gtk_widget_destroy (popup);
 }
 
@@ -1594,14 +1594,14 @@ dialog_return:
  *
  * \return
  **/
-static void prefs_widget_loan_checkbutton_init_sch_with_loan_toggle (GtkToggleButton *togglebutton,
-																	 PrefsWidgetLoan *w_loan)
+static void widget_loan_checkbutton_init_sch_with_loan_toggle (GtkToggleButton *togglebutton,
+															   WidgetLoan *w_loan)
 {
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 	LoanStruct *s_loan;
 
 	devel_debug (NULL);
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 
 	s_loan = priv->s_loan;
 	s_loan->init_sch_with_loan = gtk_toggle_button_get_active (togglebutton);
@@ -1612,11 +1612,11 @@ static void prefs_widget_loan_checkbutton_init_sch_with_loan_toggle (GtkToggleBu
 		/* change button_init_scheduled */
 		gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Create new scheduled transaction"));
 		g_signal_handlers_disconnect_by_func(priv->button_init_scheduled,
-											 G_CALLBACK (prefs_widget_loan_button_delete_scheduled_clicked),
+											 G_CALLBACK (widget_loan_button_delete_scheduled_clicked),
 											 w_loan);
 		g_signal_connect (priv->button_init_scheduled,
 						  "clicked",
-						  G_CALLBACK (prefs_widget_loan_button_init_scheduled_clicked),
+						  G_CALLBACK (widget_loan_button_init_scheduled_clicked),
 						  w_loan);
 		s_loan->associated_account = 0;
 		s_loan->associated_scheduled = 0;
@@ -1632,18 +1632,18 @@ static void prefs_widget_loan_checkbutton_init_sch_with_loan_toggle (GtkToggleBu
  *
  * \return
  **/
-static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
-											LoanStruct *s_loan)
+static void widget_loan_setup_widget (WidgetLoan *w_loan,
+									  LoanStruct *s_loan)
 {
 	GtkWidget *separator;
 	gchar *tmp_str = NULL;
 	gchar *code_devise;
 	gint devise;
 	GsbReal real;
-	PrefsWidgetLoanPrivate *priv;
+	WidgetLoanPrivate *priv;
 
 	devel_debug (NULL);
-	priv = prefs_widget_loan_get_instance_private (w_loan);
+	priv = widget_loan_get_instance_private (w_loan);
 
 	/* set s_loan structure */
 	priv->s_loan = s_loan;
@@ -1790,135 +1790,135 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
     /* callback for checkbutton amount_first_is_different */
     g_signal_connect (priv->checkbutton_amount_first_is_different,
 					  "toggled",
-					  G_CALLBACK (prefs_widget_loan_checkbutton_amount_first_toggled),
+					  G_CALLBACK (widget_loan_checkbutton_amount_first_toggled),
 					  w_loan);
 
     /* callback for entry loan_capital */
     g_signal_connect (priv->entry_loan_capital,
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_in),
+					  G_CALLBACK (widget_loan_entry_focus_in),
 					  w_loan);
     g_signal_connect (priv->entry_loan_capital,
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_out),
+					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 	g_signal_connect (priv->entry_loan_capital,
 					  "delete-text",
-					  G_CALLBACK (prefs_widget_loan_entry_deleted),
+					  G_CALLBACK (widget_loan_entry_deleted),
 					  w_loan);
 
     /* callback for entry fees_per_month */
     g_signal_connect (priv->entry_fees_per_month,
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_in),
+					  G_CALLBACK (widget_loan_entry_focus_in),
 					  w_loan);
     g_signal_connect (priv->entry_fees_per_month,
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_out),
+					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 	g_signal_connect (priv->entry_fees_per_month,
 					  "delete-text",
-					  G_CALLBACK (prefs_widget_loan_entry_deleted),
+					  G_CALLBACK (widget_loan_entry_deleted),
 					  w_loan);
 
     /* callback for calendar entry */
     g_signal_connect (priv->calendar_entry,
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_in),
+					  G_CALLBACK (widget_loan_entry_focus_in),
 					  w_loan);
     g_signal_connect (priv->calendar_entry,
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_out),
+					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 
     /* callback for entry amount_first_capital */
     g_signal_connect (priv->entry_amount_first_capital,
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_in),
+					  G_CALLBACK (widget_loan_entry_focus_in),
 					  w_loan);
     g_signal_connect (priv->entry_amount_first_capital,
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_out),
+					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 	g_signal_connect (priv->entry_amount_first_capital,
 					  "delete-text",
-					  G_CALLBACK (prefs_widget_loan_entry_deleted),
+					  G_CALLBACK (widget_loan_entry_deleted),
 					  w_loan);
 
     /* callback for entry amount_first_interests */
     g_signal_connect (priv->entry_amount_first_interests,
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_in),
+					  G_CALLBACK (widget_loan_entry_focus_in),
 					  w_loan);
     g_signal_connect (priv->entry_amount_first_interests,
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_out),
+					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 	g_signal_connect (priv->entry_amount_first_interests,
 					  "delete-text",
-					  G_CALLBACK (prefs_widget_loan_entry_deleted),
+					  G_CALLBACK (widget_loan_entry_deleted),
 					  w_loan);
 
 	/* callback for spinbutton loan_duration */
     g_signal_connect (priv->spinbutton_loan_duration,
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_in),
+					  G_CALLBACK (widget_loan_entry_focus_in),
 					  w_loan);
     g_signal_connect (priv->spinbutton_loan_duration,
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_out),
+					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 
 	/* callback for spinbutton rate_interest */
     g_signal_connect (priv->spinbutton_rate_interest,
 					  "focus-in-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_in),
+					  G_CALLBACK (widget_loan_entry_focus_in),
 					  w_loan);
     g_signal_connect (priv->spinbutton_rate_interest,
 					  "focus-out-event",
-					  G_CALLBACK (prefs_widget_loan_entry_focus_out),
+					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 
 	/* callback for radiobutton type_taux_1 */
 	g_signal_connect (G_OBJECT (priv->radiobutton_type_taux_1),
 					  "toggled",
-					  G_CALLBACK (prefs_widget_loan_radiobutton_type_taux_toggled),
+					  G_CALLBACK (widget_loan_radiobutton_type_taux_toggled),
 					  w_loan);
 
 	/* callback for radiobutton type_taux_2 */
 	g_signal_connect (G_OBJECT (priv->radiobutton_type_taux_2),
 					  "toggled",
-					  G_CALLBACK (prefs_widget_loan_radiobutton_type_taux_toggled),
+					  G_CALLBACK (widget_loan_radiobutton_type_taux_toggled),
 					  w_loan);
 
 	/* callback for checkbutton_init_sch_with_loan */
     g_signal_connect (priv->checkbutton_init_sch_with_loan,
 					  "toggled",
-					  G_CALLBACK (prefs_widget_loan_checkbutton_init_sch_with_loan_toggle),
+					  G_CALLBACK (widget_loan_checkbutton_init_sch_with_loan_toggle),
 					  w_loan);
 
 	/* callback for button_init_scheduled */
 	if (s_loan && s_loan->associated_account)
 		g_signal_connect (priv->button_init_scheduled,
 						  "clicked",
-						  G_CALLBACK (prefs_widget_loan_button_delete_scheduled_clicked),
+						  G_CALLBACK (widget_loan_button_delete_scheduled_clicked),
 						  w_loan);
 	else
 		g_signal_connect (priv->button_init_scheduled,
 						  "clicked",
-						  G_CALLBACK (prefs_widget_loan_button_init_scheduled_clicked),
+						  G_CALLBACK (widget_loan_button_init_scheduled_clicked),
 						  w_loan);
 
     /* callback for checkbutton amount_first_is_different */
     g_signal_connect (priv->checkbutton_invers_cols_cap_ech,
 					  "toggled",
-					  G_CALLBACK (prefs_widget_loan_checkbutton_invers_cols_cap_ech),
+					  G_CALLBACK (widget_loan_checkbutton_invers_cols_cap_ech),
 					  w_loan);
 
 	/* callback for button_amortization_table */
     g_signal_connect (priv->button_amortization_table,
 					  "clicked",
-					  G_CALLBACK (prefs_widget_loan_button_amortization_table_clicked),
+					  G_CALLBACK (widget_loan_button_amortization_table_clicked),
 					  w_loan);
 }
 
@@ -1932,7 +1932,7 @@ static void prefs_widget_loan_setup_widget (PrefsWidgetLoan *w_loan,
  *
  * \return
  **/
-static void prefs_widget_loan_init (PrefsWidgetLoan *w_loan)
+static void widget_loan_init (WidgetLoan *w_loan)
 {
 	gchar *filename;
 
@@ -1954,36 +1954,36 @@ static void prefs_widget_loan_init (PrefsWidgetLoan *w_loan)
  *
  * \return
  **/
-static void prefs_widget_loan_dispose (GObject *object)
+static void widget_loan_dispose (GObject *object)
 {
-	G_OBJECT_CLASS (prefs_widget_loan_parent_class)->dispose (object);
+	G_OBJECT_CLASS (widget_loan_parent_class)->dispose (object);
 }
 
-static void prefs_widget_loan_class_init (PrefsWidgetLoanClass *klass)
+static void widget_loan_class_init (WidgetLoanClass *klass)
 {
-	G_OBJECT_CLASS (klass)->dispose = prefs_widget_loan_dispose;
+	G_OBJECT_CLASS (klass)->dispose = widget_loan_dispose;
 
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-												 "/org/gtk/grisbi/ui/prefs_widget_loan.ui");
+												 "/org/gtk/grisbi/widgets/widget_loan.ui");
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, vbox_loan_data);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, grid_loan_data);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, entry_amount_first_capital);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, entry_amount_first_interests);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, entry_fees_per_month);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, entry_loan_capital);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, label_fees_per_month_devise);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, label_loan_capital_devise);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, radiobutton_type_taux_1);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, radiobutton_type_taux_2);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, spinbutton_loan_duration);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, spinbutton_rate_interest);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, adjustment_rate_interest);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, checkbutton_amount_first_is_different);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, checkbutton_init_sch_with_loan);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, button_init_scheduled);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, checkbutton_invers_cols_cap_ech);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsWidgetLoan, button_amortization_table);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, vbox_loan_data);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, grid_loan_data);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_amount_first_capital);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_amount_first_interests);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_fees_per_month);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_loan_capital);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_fees_per_month_devise);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_loan_capital_devise);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, radiobutton_type_taux_1);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, radiobutton_type_taux_2);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, spinbutton_loan_duration);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, spinbutton_rate_interest);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, adjustment_rate_interest);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, checkbutton_amount_first_is_different);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, checkbutton_init_sch_with_loan);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, button_init_scheduled);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, checkbutton_invers_cols_cap_ech);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, button_amortization_table);
 }
 
 /******************************************************************************/
@@ -1996,14 +1996,14 @@ static void prefs_widget_loan_class_init (PrefsWidgetLoanClass *klass)
  *
  * \return
  **/
-PrefsWidgetLoan *prefs_widget_loan_new (LoanStruct *s_loan)
+WidgetLoan *widget_loan_new (LoanStruct *s_loan)
 {
-	PrefsWidgetLoan *w_loan;
+	WidgetLoan *w_loan;
 
 	devel_debug (NULL);
 
-	w_loan = g_object_new (PREFS_WIDGET_LOAN_TYPE, NULL);
-	prefs_widget_loan_setup_widget (w_loan, s_loan);
+	w_loan = g_object_new (WIDGET_LOAN_TYPE, NULL);
+	widget_loan_setup_widget (w_loan, s_loan);
 
 	return w_loan;
 }

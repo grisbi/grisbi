@@ -36,7 +36,6 @@
 		<file preprocess="xml-stripblanks">ui/prefs_page_payment_method.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_reconcile.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_reconcile_sort.ui</file>
-		<file preprocess="xml-stripblanks">ui/prefs_widget_loan.ui</file>
 		<file preprocess="xml-stripblanks">ui/search_transaction.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_bank_details.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_css_rules.ui</file>
@@ -45,6 +44,7 @@
 		<file preprocess="xml-stripblanks">widgets/widget_currency_popup.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_import_asso.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_import_files.ui</file>
+		<file preprocess="xml-stripblanks">widgets/widget_loan.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_transfer.ui</file>
   </gresource>
 </gresources>
