@@ -232,7 +232,6 @@ static void widget_transfer_sensitive_direct_debit (WidgetTransfer *dialog,
 	GtkWidget *icon_1;
 	GtkWidget *icon_2;
 	WidgetTransferPrivate *priv;
-devel_debug (NULL);
 
 	priv = widget_transfer_get_instance_private (dialog);
 	icon_1 = g_object_get_data (G_OBJECT (priv->combo_main_payee), "icon");
@@ -1122,8 +1121,11 @@ static void widget_transfer_setup_main_part (WidgetTransfer *dialog,
 					  "focus-out-event",
 					  G_CALLBACK (widget_transfert_div_entry_focus_out),
 					  dialog);
-	/* set checkbuttons */
+
+	/* sensitive main part */
 	widget_transfer_sensitive_direct_debit (dialog, FALSE);
+
+	/* set checkbuttons */
 	if (priv->create_mode)
 	{
 		/* set checkbutton_direct_debit */
@@ -1524,6 +1526,10 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 
 	/* main account part */
 
+	/* sensitive main part */
+	if (transfert->direct_debit || transfert->replace_transaction)
+		widget_transfer_sensitive_direct_debit (WIDGET_TRANSFER (dialog), TRUE);
+
 	/* date debit */
 	gsb_calendar_entry_set_date (priv->entry_date_debit, transfert->date_debit);
 	gsb_form_widget_set_empty (priv->entry_date_debit, FALSE);
@@ -1548,11 +1554,13 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 
 		 /* on actualise l'état de l'icone associée */
 		utils_set_image_with_state (priv->combo_main_payee, TRUE);
+		priv->valid_main_payee = TRUE;
    }
 	else
 	{
 		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_main_payee), _("Payee"));
 		gsb_form_widget_set_empty (priv->combo_main_payee, TRUE);
+		priv->valid_main_payee = FALSE;
 	}
 
 	/* set main_payment_method */
@@ -1599,9 +1607,15 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 	}
 
 	if (transfert->main_category_number > 0 || transfert->main_budgetary_number > 0)
+	{
 		utils_set_image_with_state (priv->combo_main_budget, TRUE);
+		priv->valid_main_div = TRUE;
+	}
 	else
+	{
 		utils_set_image_with_state (priv->combo_main_budget, FALSE);
+		priv->valid_main_div = FALSE;
+	}
 
 	/* set checkbutton_direct_debit */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_direct_debit), transfert->direct_debit);
