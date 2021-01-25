@@ -240,7 +240,7 @@ gboolean grisbi_conf_load_app_config (void)
     gsb_file_set_backup_path (tmp_path);
     g_free (tmp_path);
 
-    a_conf->compress_backup = g_key_file_get_integer (config,
+    a_conf->compress_backup = g_key_file_get_boolean (config,
 													  "Backup",
 													  "compress-backup",
 													  NULL);

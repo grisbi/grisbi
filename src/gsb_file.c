@@ -510,7 +510,7 @@ static gboolean gsb_file_save_backup (gboolean make_bakup_single_file,
 										 day_time->tm_sec);
     }
 
-    retour = gsb_file_save_save_file (new_filename, compress_backup, FALSE);
+    retour = gsb_file_save_save_file (new_filename, compress_backup, 0);
 
     g_free (new_filename);
     g_free (name);
@@ -627,7 +627,7 @@ static gboolean gsb_file_save_file (gint origine)
     /*  on a maintenant un nom de fichier et on sait qu'on peut sauvegarder */
     grisbi_win_status_bar_message (_("Saving file"));
 
-    result = gsb_file_save_save_file (nouveau_nom_enregistrement, a_conf->compress_file, FALSE);
+    result = gsb_file_save_save_file (nouveau_nom_enregistrement, a_conf->compress_file, 0);
 
     if (result)
     {
