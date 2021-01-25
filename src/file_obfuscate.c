@@ -421,7 +421,7 @@ gboolean file_obfuscate_run ( void )
         else
             filename = g_build_filename ( gsb_dirs_get_default_dir (), "No_name-obfuscated.gsb", NULL);
 
-        if ( gsb_file_save_save_file ( filename, FALSE, FALSE ) )
+        if ( gsb_file_save_save_file ( filename, FALSE,0 ) )
             dialogue_hint ( g_strdup_printf ( _("Obfuscated file saved as\n'%s'"), filename ),
                         _("Obfuscation succeeded") );
         else
