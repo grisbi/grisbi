@@ -164,7 +164,7 @@ static void prefs_page_files_use_icons_file_dir_toggled (GtkToggleButton *checkb
 			tmp_list = tmp_list->next;
 		}
 		if (nbre_errors)
-			msg = g_strdup_printf (_("%d comptes ont une icône spécifique parmi les %d icônes suivantes :\n"
+			msg = g_strdup_printf (_("%d accounts have a specific icon among the following %d icons:\n"
 									 "\t- %s"
 									 "\n"
 									 "Une ou plusieurs erreurs de copie ont eu lieu probablement "
@@ -174,16 +174,16 @@ static void prefs_page_files_use_icons_file_dir_toggled (GtkToggleButton *checkb
 								   g_slist_length (icons_name_list),
 								   tmp_str);
 		else
-			msg = g_strdup_printf (_("%d comptes ont une icône spécifique parmi les %d icônes suivantes :\n"
+			msg = g_strdup_printf (_("%d accounts have a specific icon among the following %d icons:\n"
 									 "\t- %s"
 									 "\n"
-									 "Ces icônes ont été copiées dans le répertoire :\n%s\n"),
+									 "These icons have been copied into the directory:\n%s\n"),
 								   nbre_account,
 								   g_slist_length (icons_name_list),
 								   tmp_str,
 								   gsb_dirs_get_user_icons_dir ());
 
-		dialogue_warning_hint (msg,_("Déplacement des icones de compte dans le répertoire du fichier de comptes"));
+		dialogue_warning_hint (msg,_("Move account icons in the accounts file directory"));
 
 		g_free (tmp_str);
 		g_slist_free_full (icons_name_list, (GDestroyNotify) g_free);
@@ -237,7 +237,9 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 
 	/* set the label for accounts icons */
 	icons_dir = gsb_dirs_get_user_icons_dir ();
-	tmp_str = g_strconcat (_("Put user icons in the directory: "), icons_dir, NULL);
+	tmp_str = g_strconcat (_("Put the specific icons of the accounts in the directory:\n"
+							 "\t"), icons_dir,
+						   NULL);
 	gtk_label_set_text (GTK_LABEL (priv->label_use_icons_file_dir), tmp_str);
 	g_free (tmp_str);
 
@@ -251,12 +253,12 @@ static void prefs_page_files_setup_files_page (PrefsPageFiles *page)
 		{
 			gchar *msg;
 
-			msg = g_strdup (_("Vous avez selectionné l'option \"mettre les icônes spécifiques "
-							  "des comptes\" dans le répertoire du fichier de comptes mais vous "
-							  "n'avez pas utilisé cette possibilité.\n"
-							  "Si vous en avez besoin faites le sinon décochez l'option"));
+			msg = g_strdup (_("You selected the option \"put the specific icons of the accounts "
+							  "in the directory of the accounts file\" but you did not use this "
+							  "possibility.\n"
+							  "If you need it, do so otherwise uncheck the option" ));
 
-			dialogue_warning_hint (msg,_("Mettre les icones des comptes dans le répertoire du fichier de comptes"));
+			dialogue_warning_hint (msg,_("Put the icons of the accounts in the directory of the accounts file"));
 			g_free (msg);
 
 		}

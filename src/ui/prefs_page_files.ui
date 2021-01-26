@@ -188,9 +188,9 @@
                               <object class="GtkLabel" id="label_use_icons_file_dir">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="tooltip_text" translatable="yes">Put the user icons in the "icons" sub-directory of the accounts file directory</property>
                                 <property name="halign">start</property>
                                 <property name="label" translatable="yes">label</property>
+                                <property name="wrap">True</property>
                               </object>
                             </child>
                           </object>
