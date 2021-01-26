@@ -29,7 +29,6 @@
 [type: gettext/glade]src/ui/prefs_page_payment_method.ui
 [type: gettext/glade]src/ui/prefs_page_reconcile.ui
 [type: gettext/glade]src/ui/prefs_page_reconcile_sort.ui
-[type: gettext/glade]src/ui/prefs_widget_loan.ui
 [type: gettext/glade]src/ui/search_transaction.ui
 [type: gettext/glade]src/widgets/widget_bank_details.ui
 [type: gettext/glade]src/widgets/widget_css_rules.ui
@@ -38,6 +37,7 @@
 [type: gettext/glade]src/widgets/widget_currency_popup.ui
 [type: gettext/glade]src/widgets/widget_import_asso.ui
 [type: gettext/glade]src/widgets/widget_import_files.ui
+[type: gettext/glade]src/widgets/widget_loan.ui
 [type: gettext/glade]src/widgets/widget_transfer.ui
 [type: gettext/gsettings]src/org.gtk.grisbi.gschema.xml
 share/grisbi.desktop.in
@@ -182,7 +182,6 @@ src/prefs/prefs_page_options_ope.c
 src/prefs/prefs_page_payment_method.c
 src/prefs/prefs_page_reconcile.c
 src/prefs/prefs_page_reconcile_sort.c
-src/prefs/prefs_widget_loan.c
 src/print_dialog_config.c
 src/print_report.c
 src/print_transactions_list.c
@@ -213,4 +212,5 @@ src/widgets/widget_currency_link.c
 src/widgets/widget_currency_popup.c
 src/widgets/widget_import_asso.c
 src/widgets/widget_import_files.c
+src/widgets/widget_loan.c
 src/widgets/widget_transfer.c
