@@ -31,3 +31,4 @@ jobs:
           ./autogen.sh
           github-actions/build.sh
           make
+          make distcheck
