@@ -181,6 +181,7 @@
 		006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68DA1DB426EE0038B1F0 /* gnucash.c */; };
 		006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68DD1DB427130038B1F0 /* libxml2.tbd */; };
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
+		00760ED025C07E320038199C /* widget_loan.c in Sources */ = {isa = PBXBuildFile; fileRef = 00760ECD25C07E320038199C /* widget_loan.c */; };
 		00972E5A25AC960E00856C07 /* grisbi_osx.m in Sources */ = {isa = PBXBuildFile; fileRef = 00972E5925AC960E00856C07 /* grisbi_osx.m */; };
 		00A496AB245DC91900CB598C /* prefs_page_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496A9245DC91900CB598C /* prefs_page_currency_link.c */; };
 		00A496AF245DC94400CB598C /* widget_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496AD245DC94300CB598C /* widget_currency_link.c */; };
@@ -189,7 +190,6 @@
 		00AAC232245B74E000993764 /* prefs_page_currency.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC231245B74E000993764 /* prefs_page_currency.c */; };
 		00AAC239245B750C00993764 /* widget_currency_details.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC237245B750C00993764 /* widget_currency_details.c */; };
 		00AAC23A245B750C00993764 /* widget_currency_popup.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC238245B750C00993764 /* widget_currency_popup.c */; };
-		00AFB95620F2462C00506F2F /* prefs_widget_loan.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AFB95420F2462C00506F2F /* prefs_widget_loan.c */; };
 		00B77C441DB2A17600A5D233 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 00B77C431DB2A17600A5D233 /* main.c */; };
 		00BCBD381E0701C100579172 /* grisbi.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00BCBD331E07018400579172 /* grisbi.css */; };
 		00C17BA0246DD16C00D9E257 /* prefs_page_import.c in Sources */ = {isa = PBXBuildFile; fileRef = 00C17B9D246DD16C00D9E257 /* prefs_page_import.c */; };
@@ -581,6 +581,9 @@
 		006E68E01DB4276C0038B1F0 /* ofx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ofx.c; sourceTree = "<group>"; };
 		006E68E11DB4276C0038B1F0 /* ofx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofx.h; sourceTree = "<group>"; };
 		006E68E31DB427DF0038B1F0 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../usr_local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
+		00760ECD25C07E320038199C /* widget_loan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_loan.c; sourceTree = "<group>"; };
+		00760ECE25C07E320038199C /* widget_loan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_loan.h; sourceTree = "<group>"; };
+		00760ECF25C07E320038199C /* widget_loan.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_loan.ui; sourceTree = "<group>"; };
 		00972E5825AC960E00856C07 /* grisbi_osx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_osx.h; sourceTree = "<group>"; };
 		00972E5925AC960E00856C07 /* grisbi_osx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = grisbi_osx.m; sourceTree = "<group>"; };
 		00A496A9245DC91900CB598C /* prefs_page_currency_link.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_currency_link.c; path = prefs/prefs_page_currency_link.c; sourceTree = "<group>"; };
@@ -600,8 +603,6 @@
 		00AAC236245B750C00993764 /* widget_currency_details.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_currency_details.h; sourceTree = "<group>"; };
 		00AAC237245B750C00993764 /* widget_currency_details.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_currency_details.c; sourceTree = "<group>"; };
 		00AAC238245B750C00993764 /* widget_currency_popup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_currency_popup.c; sourceTree = "<group>"; };
-		00AFB95420F2462C00506F2F /* prefs_widget_loan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_widget_loan.c; path = prefs/prefs_widget_loan.c; sourceTree = "<group>"; };
-		00AFB95520F2462C00506F2F /* prefs_widget_loan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_widget_loan.h; path = prefs/prefs_widget_loan.h; sourceTree = "<group>"; };
 		00B77C381DB2A0EC00A5D233 /* grisbi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = grisbi; sourceTree = BUILT_PRODUCTS_DIR; };
 		00B77C431DB2A17600A5D233 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		00BCBD2F1E07018400579172 /* bet_graph.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = bet_graph.ui; path = src/ui/bet_graph.ui; sourceTree = "<group>"; };
@@ -719,6 +720,9 @@
 				00C17BA4246DD19600D9E257 /* widget_import_files.c */,
 				00C17BA5246DD19600D9E257 /* widget_import_files.h */,
 				00C17BA6246DD19600D9E257 /* widget_import_files.ui */,
+				00760ECD25C07E320038199C /* widget_loan.c */,
+				00760ECE25C07E320038199C /* widget_loan.h */,
+				00760ECF25C07E320038199C /* widget_loan.ui */,
 				00FEBE1624965A5000F6405D /* widget_transfer.c */,
 				00FEBE1524965A5000F6405D /* widget_transfer.h */,
 				00FEBE1424965A5000F6405D /* widget_transfer.ui */,
@@ -779,8 +783,6 @@
 				000B8598244C78C300EE28BD /* prefs_page_reconcile_sort.h */,
 				000B859A244C78C400EE28BD /* prefs_page_reconcile.c */,
 				000B859D244C78C400EE28BD /* prefs_page_reconcile.h */,
-				00AFB95420F2462C00506F2F /* prefs_widget_loan.c */,
-				00AFB95520F2462C00506F2F /* prefs_widget_loan.h */,
 			);
 			name = prefs;
 			sourceTree = "<group>";
@@ -1313,6 +1315,7 @@
 				006E68A81DB3E7AD0038B1F0 /* print_report.c in Sources */,
 				006E68511DB3E7AD0038B1F0 /* grisbi_win.c in Sources */,
 				006E68351DB3E7AD0038B1F0 /* bet_graph.c in Sources */,
+				00760ED025C07E320038199C /* widget_loan.c in Sources */,
 				006E684E1DB3E7AD0038B1F0 /* grisbi_app.c in Sources */,
 				006E68941DB3E7AD0038B1F0 /* gsb_report.c in Sources */,
 				006E68991DB3E7AD0038B1F0 /* gsb_transactions_list_sort.c in Sources */,
@@ -1356,7 +1359,6 @@
 				006E68551DB3E7AD0038B1F0 /* gsb_assistant_account.c in Sources */,
 				006E68BD1DB3E7AD0038B1F0 /* utils.c in Sources */,
 				00272EAD20CABC7A00E9913C /* prefs_page_bet_account.c in Sources */,
-				00AFB95620F2462C00506F2F /* prefs_widget_loan.c in Sources */,
 				006E68571DB3E7AD0038B1F0 /* gsb_assistant_archive.c in Sources */,
 				006E68A21DB3E7AD0038B1F0 /* meta_categories.c in Sources */,
 				006E68AA1DB3E7AD0038B1F0 /* print_tree_view_list.c in Sources */,
