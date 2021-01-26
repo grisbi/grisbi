@@ -28,4 +28,4 @@ script:
     - echo "export TRAVIS_OS_NAME=$TRAVIS_OS_NAME" > travis-ci/env
     - echo "export CONF=$CONF" >> travis-ci/env
 
-    - . travis-ci/env ; ./travis-ci/travis-autogen.sh ; make
+    - . travis-ci/env ; ./travis-ci/travis-autogen.sh ; make && make distcheck
