@@ -270,19 +270,19 @@ static void prefs_page_display_gui_setup_page (PrefsPageDisplayGui *page,
     /* set the variables for display toolbar */
 	switch (a_conf->display_toolbar)
 	{
-		case GSB_BUTTON_BOTH:
+		case GTK_TOOLBAR_BOTH:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_both), TRUE);
 			break;
 
-		case GSB_BUTTON_BOTH_HORIZ:
+		case GTK_TOOLBAR_BOTH_HORIZ:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_both_horiz), TRUE);
 			break;
 
-		case GSB_BUTTON_ICON:
+		case GTK_TOOLBAR_ICONS:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_icon), TRUE);
 			break;
 
-		case GSB_BUTTON_TEXT:
+		case GTK_TOOLBAR_TEXT:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_text), TRUE);
 			break;
 	}
@@ -293,16 +293,16 @@ static void prefs_page_display_gui_setup_page (PrefsPageDisplayGui *page,
 	/* set data for each widget */
 	g_object_set_data (G_OBJECT (priv->radiobutton_display_both),
 					   "display",
-					   GINT_TO_POINTER (GSB_BUTTON_BOTH));
+					   GINT_TO_POINTER (GTK_TOOLBAR_BOTH));
 	g_object_set_data (G_OBJECT (priv->radiobutton_display_both_horiz),
 					   "display",
-					   GINT_TO_POINTER (GSB_BUTTON_BOTH_HORIZ));
+					   GINT_TO_POINTER (GTK_TOOLBAR_BOTH_HORIZ));
 	g_object_set_data (G_OBJECT (priv->radiobutton_display_icon),
 					   "display",
-					   GINT_TO_POINTER (GSB_BUTTON_ICON));
+					   GINT_TO_POINTER (GTK_TOOLBAR_ICONS));
 	g_object_set_data (G_OBJECT (priv->radiobutton_display_text),
 					   "display",
-					   GINT_TO_POINTER (GSB_BUTTON_TEXT));
+					   GINT_TO_POINTER (GTK_TOOLBAR_TEXT));
 
 	/* Connect signal */
 	g_signal_connect (G_OBJECT (priv->radiobutton_display_both),

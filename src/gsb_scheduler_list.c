@@ -263,7 +263,7 @@ static gboolean gsb_scheduler_list_show_notes (GtkWidget *item)
 		GrisbiAppConf *a_conf;
 
 		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-		if (a_conf->display_toolbar != GSB_BUTTON_ICON)
+		if (a_conf->display_toolbar != GTK_TOOLBAR_ICONS)
         {
             if (etat.affichage_commentaire_echeancier)
                 gtk_tool_button_set_label (GTK_TOOL_BUTTON (item), _("Frequency/Mode"));

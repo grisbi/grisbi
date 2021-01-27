@@ -6,15 +6,6 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
-
-typedef enum GSB_BUTTON_STYLE {
-    GSB_BUTTON_TEXT,
-    GSB_BUTTON_ICON,
-    GSB_BUTTON_BOTH,
-    GSB_BUTTON_BOTH_HORIZ
-} GsbButtonStyle;
-
-
 /*START_DECLARATION*/
 GtkWidget *     utils_buttons_button_new_from_image             (const gchar *image_name);
 GtkWidget *     utils_buttons_button_new_from_stock             (const gchar *icon_name,

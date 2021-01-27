@@ -89,7 +89,7 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
 	a_conf->sauvegarde_fermeture = TRUE;
 
 	/* priv->settings_display */
-    a_conf->display_toolbar = GSB_BUTTON_BOTH;				/* "Text + Icons" */
+    a_conf->display_toolbar = GTK_TOOLBAR_BOTH;				/* "Text + Icons" */
 	a_conf->display_window_title = 0;						/* "Entity name" */
 	a_conf->formulaire_toujours_affiche = TRUE;
 	a_conf->group_partial_balance_under_accounts = TRUE;
@@ -279,11 +279,11 @@ gboolean grisbi_conf_load_app_config (void)
 								     "display-toolbar",
 								     NULL);
     if (g_strcmp0 (tmp_str, "Text") == 0)
-        a_conf->display_toolbar = GSB_BUTTON_TEXT;
+        a_conf->display_toolbar = GTK_TOOLBAR_TEXT;
     else if (g_strcmp0 (tmp_str, "Icons") == 0)
-        a_conf->display_toolbar = GSB_BUTTON_ICON;
+        a_conf->display_toolbar = GTK_TOOLBAR_ICONS;
     else
-        a_conf->display_toolbar = GSB_BUTTON_BOTH;
+        a_conf->display_toolbar = GTK_TOOLBAR_BOTH;
     g_free (tmp_str);
 
 	tmp_str = g_key_file_get_string (config,
@@ -767,10 +767,10 @@ gboolean grisbi_conf_save_app_config (void)
     /* settings_display */
     switch (a_conf->display_toolbar)
     {
-        case GSB_BUTTON_TEXT:
+        case GTK_TOOLBAR_TEXT:
             tmp_str = "Text";
             break;
-        case GSB_BUTTON_ICON:
+        case GTK_TOOLBAR_ICONS:
             tmp_str = "Icons";
             break;
         default:

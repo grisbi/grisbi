@@ -2366,16 +2366,16 @@ void grisbi_win_update_all_toolbars (void)
 	a_conf = grisbi_app_get_a_conf ();
     switch (a_conf->display_toolbar)
     {
-        case GSB_BUTTON_TEXT:
+        case GTK_TOOLBAR_TEXT:
             toolbar_style = GTK_TOOLBAR_TEXT;
             break;
-        case GSB_BUTTON_ICON:
+        case GTK_TOOLBAR_ICONS:
             toolbar_style = GTK_TOOLBAR_ICONS;
             break;
-        case GSB_BUTTON_BOTH:
+        case GTK_TOOLBAR_BOTH:
             toolbar_style = GTK_TOOLBAR_BOTH;
             break;
-        case GSB_BUTTON_BOTH_HORIZ:
+        case GTK_TOOLBAR_BOTH_HORIZ:
             toolbar_style = GTK_TOOLBAR_BOTH_HORIZ;
             break;
     }

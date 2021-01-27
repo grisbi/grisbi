@@ -1266,10 +1266,10 @@ void grisbi_settings_save_in_config_file (void)
     /* settings_display */
     switch (a_conf->display_toolbar)
     {
-        case GSB_BUTTON_TEXT:
+        case GTK_TOOLBAR_TEXT:
             tmp_str = "Text";
             break;
-        case GSB_BUTTON_ICON:
+        case GTK_TOOLBAR_ICONS:
             tmp_str = "Icons";
             break;
         default:
