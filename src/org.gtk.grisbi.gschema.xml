@@ -492,16 +492,16 @@
 		</schema>
 
 	<schema gettext-domain="@GETTEXT_PACKAGE@" path="/org/gtk/grisbi/prefs/" id='org.gtk.grisbi.prefs'>
-		<key name="prefs-archives-sort-order" type="b">
-			<default>false</default>
+		<key name="prefs-archives-sort-order" type="i">
+			<default>0</default>
 			<summary>Sort order of the archives</summary>
 			<description>
 				Sort order of the archives : GTK_SORT_ASCENDING (0) by default,
 				sort by GTK_SORT_DESCENDING: a number different of 0.
 			</description>
 		</key>
-		<key name="prefs-fyear-sort-order" type="b">
-			<default>false</default>
+		<key name="prefs-fyear-sort-order" type="i">
+			<default>0</default>
 			<summary>Sort order of the financial years</summary>
 			<description>
 				Sort order of the financial years : GTK_SORT_ASCENDING (0) by default,

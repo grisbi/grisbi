@@ -216,7 +216,7 @@ struct _GrisbiWinEtat
 struct _GrisbiAppConf
 {
 /* root part*/
-    gint        first_use;                                  /* première utilisation ou réinitialisation de grisbi */
+    gboolean	first_use;                                  /* TRUE = première utilisation de grisbi */
 
 /* backup part */
     gboolean    compress_backup;                            /* TRUE if we want to compress the backup */
@@ -229,8 +229,8 @@ struct _GrisbiAppConf
 	guint		remove_backup_months;						/* Number of months before removing backup files */
 
 /* display part */
-    gint        display_window_title;                       /* selection du titre principal de grisbi */
-    gint		display_toolbar;                            /* Display mode of toolbar. */
+    gint        display_window_title;                       /* selection du titre principal de grisbi 1,2 ou 3*/
+    gint		display_toolbar;                            /* Display mode of toolbar: GtkToolbarStyle */
     gboolean    formulaire_toujours_affiche;                /* TRUE formulaire toujours affiché */
     gboolean    group_partial_balance_under_accounts;       /* TRUE = in home page group the partial balance with accounts */
     gboolean    show_headings_bar;                          /* Show headings bar or not. */
@@ -238,7 +238,7 @@ struct _GrisbiAppConf
 
 /* files part */
     gboolean    compress_file;                              /* TRUE if we want to compress the Grisbi file */
-    gint        dernier_fichier_auto;                       /* chargement du dernier fichier utilisé */
+    gboolean	dernier_fichier_auto;                       /* chargement du dernier fichier utilisé */
     gboolean    force_enregistrement;                       /* à un si on force l'enregistrement */
     gchar *     last_open_file;                             /* dernier fichier ouvert */
     gint        nb_max_derniers_fichiers_ouverts;           /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
@@ -253,13 +253,13 @@ struct _GrisbiAppConf
     gint        max_non_archived_transactions_for_check;    /* the max number of transaction before grisbi warm at the opening */
 
 /* form part*/
-    gboolean    affichage_exercice_automatique;             /* automatic fyear :0 to set according to the date, 1 according to value date */
-    gboolean    automatic_completion_payee;                 /* 1 pour autoriser la completion automatique des opérations */
-    gboolean    automatic_erase_credit_debit;               /* 1 pour effacer les champs crédit et débit */
-    gboolean    automatic_recover_splits;                   /* 1 pour recréer automatiquement les sous opérations */
+    gboolean    affichage_exercice_automatique;             /* automatic fyear :FALSE = according to the date, TRUE = according to value date */
+    gboolean    automatic_completion_payee;                 /* TRUE pour autoriser la completion automatique des opérations */
+    gboolean    automatic_erase_credit_debit;               /* TRUE pour effacer les champs crédit et débit */
+    gboolean    automatic_recover_splits;                   /* TRUE pour recréer automatiquement les sous opérations */
 	gint		completion_minimum_key_length;				/* Minimum length of the search key in characters */
     gboolean    form_enter_key;								/* si TRUE, la touche entrée finit l'opération */
-	gboolean	form_validate_split;						/* 0 select a new transaction, 1 select the mother transaction */
+	gboolean	form_validate_split;						/* FALSE select a new transaction, TRUE select the mother transaction */
     gint        fyear_combobox_sort_order;                  /* fyear combobox type sort, GTK_SORT_ASCENDING by default */
     gboolean    limit_completion_to_current_account;        /* Limit payee completion to current account or do a full search. */
 
@@ -270,10 +270,9 @@ struct _GrisbiAppConf
 	gchar *		language_chosen;							/* choix de la langue : NULL par défaut = langue système */
 	gchar *		current_theme;
 	gint		force_type_theme;							/* 0 = auto, 1 = standard 2 = dark theme 3 = light theme */
-	gint		use_type_theme;								/* 1 = standard 2 = dark theme 3 = light theme */
 
     /* Home page */
-    gint        pluriel_final;                              /* 0 = finals 1 = finaux */
+    gboolean	pluriel_final;                              /* FALSE = finals TRUE = finaux */
 
     /* variables for the list of categories */
     gint        metatree_action_2button_press;              /* 0 default gtk, 1 edit_function, 2 manage division if possible */
@@ -294,12 +293,12 @@ struct _GrisbiAppConf
     gboolean    maximize_screen;                            /* TRUE to maximize screen, 0 else */
 
 /* panel part */
-    gboolean 	active_scrolling_left_pane;                 /* active mouse scrolling in the left_pane. */
+    gboolean 	active_scrolling_left_pane;                 /* TRUE active mouse scrolling in the left_pane. */
     gint        panel_width;                                /* navigation paned width */
 
 /* prefs part */
-	gboolean	prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
-    gboolean	prefs_fyear_sort_order;                     /* fyear type sort, GTK_SORT_ASCENDING by default */
+	gint		prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
+    gint		prefs_fyear_sort_order;						/* fyear type sort, GTK_SORT_ASCENDING by default */
 	gint		prefs_height;								/* preferences height */
 	gint		prefs_panel_width;							/* preferences paned width */
     gint        prefs_width;                                /* preferences width */
@@ -309,17 +308,20 @@ struct _GrisbiAppConf
     gboolean    execute_scheduled_of_month;                 /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
 	gboolean	last_selected_scheduler;					/* TRUE = last scheduler selected in list = default */
 	gint		nb_days_before_scheduled;					/* nombre de jours avant relance des opérations planifiées */
-	gboolean	scheduler_set_fixed_day;					/* Si coché le nombre est considéré comme un jour fixe */
+	gboolean	scheduler_set_fixed_day;					/* Si TRUE le nombre est considéré comme un jour fixe */
 	gint		scheduler_fixed_day;
 
-    /* Tips */
+/* Tips */
     gint        last_tip;
     gboolean    show_tip;
 
 	/* NOT SAVED */
+	/* general part */
+	gint		use_type_theme;								/* 1 = standard 2 = dark theme 3 = light theme */
+
 	/* CSS data */
 	gint		prefs_change_css_data;						/* compteur de modification d'une règle CSS */
-	gboolean	use_css_local_file;							/* TRUE si utilisation du fichier css local NOT SAVED*/
+	gboolean	use_css_local_file;							/* TRUE si utilisation du fichier css local */
 };
 
 /* structure run

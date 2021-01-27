@@ -410,8 +410,8 @@ static void grisbi_settings_init_settings_panel (GSettings *settings,
 static void grisbi_settings_init_settings_prefs (GSettings *settings,
 												 GrisbiAppConf *a_conf)
 {
-    a_conf->prefs_archives_sort_order = g_settings_get_boolean (settings, "prefs-archives-sort-order");
-    a_conf->prefs_fyear_sort_order = g_settings_get_boolean (settings, "prefs-fyear-sort-order");
+    a_conf->prefs_archives_sort_order = g_settings_get_int (settings, "prefs-archives-sort-order");
+    a_conf->prefs_fyear_sort_order = g_settings_get_int (settings, "prefs-fyear-sort-order");
     a_conf->prefs_height = g_settings_get_int (settings, "prefs-height");
     a_conf->prefs_panel_width = g_settings_get_int (settings, "prefs-panel-width");
     a_conf->prefs_width = g_settings_get_int (settings, "prefs-width");
@@ -940,13 +940,13 @@ static void grisbi_settings_save_settings_panel (GSettings *settings,
 static void grisbi_settings_save_settings_prefs (GSettings *settings,
 												 GrisbiAppConf *a_conf)
 {
-	if (a_conf->prefs_archives_sort_order)
-		g_settings_set_boolean (G_SETTINGS (settings), "prefs-archives-sort-order", TRUE);
+	if (a_conf->prefs_archives_sort_order == GTK_SORT_DESCENDING)
+		g_settings_set_int (G_SETTINGS (settings), "prefs-archives-sort-order", TRUE);
 	else
 		g_settings_reset (G_SETTINGS (settings), "prefs-archives-sort-order");
 
-	if (a_conf->prefs_fyear_sort_order)
-		g_settings_set_boolean (G_SETTINGS (settings), "prefs-fyear-sort-order", TRUE);
+	if (a_conf->prefs_fyear_sort_order == GTK_SORT_DESCENDING)
+		g_settings_set_int (G_SETTINGS (settings), "prefs-fyear-sort-order", TRUE);
 	else
 		g_settings_reset (G_SETTINGS (settings), "prefs-fyear-sort-order");
 
@@ -1571,14 +1571,14 @@ void grisbi_settings_save_in_config_file (void)
                         	a_conf->panel_width);
 
 	/* settings_prefs */
-    g_key_file_set_boolean (config,
-							"Prefs",
-							"prefs-archives-sort-order",
-							a_conf->prefs_archives_sort_order);
-   g_key_file_set_boolean (config,
-						   "Prefs",
-						   "prefs-fyear-sort-order",
-						   a_conf->prefs_fyear_sort_order);
+    g_key_file_set_int (config,
+						"Prefs",
+						"prefs-archives-sort-order",
+						a_conf->prefs_archives_sort_order);
+   g_key_file_set_int (config,
+					   "Prefs",
+					   "prefs-fyear-sort-order",
+					   a_conf->prefs_fyear_sort_order);
     g_key_file_set_integer (config,
 							"Prefs",
                         	"prefs-height",

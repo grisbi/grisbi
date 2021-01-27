@@ -167,8 +167,8 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
     a_conf->panel_width = PANEL_MIN_WIDTH;
 
 	/* settings_prefs */
-    a_conf->prefs_archives_sort_order = FALSE;
-    a_conf->prefs_fyear_sort_order = FALSE;
+    a_conf->prefs_archives_sort_order = GTK_SORT_ASCENDING;
+    a_conf->prefs_fyear_sort_order = GTK_SORT_ASCENDING;
     a_conf->prefs_height = 600;
 	a_conf->prefs_panel_width = 360;
     a_conf->prefs_width = 1050;
@@ -637,14 +637,14 @@ gboolean grisbi_conf_load_app_config (void)
 											   NULL);
 
 	/* settings_prefs */
-    a_conf->prefs_archives_sort_order = g_key_file_get_boolean (config,
-														     "Prefs",
-															 "prefs-archives-sort-order",
+    a_conf->prefs_archives_sort_order = g_key_file_get_integer (config,
+																"Prefs",
+																"prefs-archives-sort-order",
+																NULL);
+    a_conf->prefs_fyear_sort_order = g_key_file_get_integer (config,
+															 "Prefs",
+															 "prefs-fyear-sort-order",
 															 NULL);
-    a_conf->prefs_fyear_sort_order = g_key_file_get_boolean (config,
-													      "Prefs",
-														  "prefs-fyear-sort-order",
-														  NULL);
     a_conf->prefs_height = g_key_file_get_integer (config,
 											    "Prefs",
 											    "prefs-height",
@@ -1072,11 +1072,11 @@ gboolean grisbi_conf_save_app_config (void)
                         	a_conf->panel_width);
 
 	/* settings_prefs */
-    g_key_file_set_boolean (config,
+    g_key_file_set_integer (config,
 							"Prefs",
 							"prefs-archives-sort-order",
 							a_conf->prefs_archives_sort_order);
-   g_key_file_set_boolean (config,
+   g_key_file_set_integer (config,
 						   "Prefs",
 						   "prefs-fyear-sort-order",
 						   a_conf->prefs_fyear_sort_order);
