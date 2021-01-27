@@ -8,11 +8,13 @@
  * Associate an element number to its widget,
  * used to be appended in the widgets list
  * */
-typedef struct
+typedef struct _FormElement		FormElement;
+
+struct _FormElement
 {
     gint element_number;
     GtkWidget *element_widget;
-} struct_element;
+};
 
 
 /* START_INCLUDE_H */

@@ -483,7 +483,7 @@ static void gsb_form_take_datas_from_form (gint transaction_number,
 
     while (tmp_list)
     {
-		struct_element *element;
+		FormElement *element;
 
 		element = tmp_list->data;
 
@@ -1336,7 +1336,7 @@ gboolean gsb_form_fill_by_transaction (gint transaction_number,
     tmp_list = gsb_form_widget_get_list ();
     while (tmp_list)
     {
-        struct_element *element;
+        FormElement *element;
 
         element = tmp_list->data;
         if (mother_number && transaction_number < 0)
@@ -1439,7 +1439,7 @@ gboolean gsb_form_set_sensitive (gboolean split,
     tmp_list = gsb_form_widget_get_list ();
     while (tmp_list)
     {
-        struct_element *element;
+        FormElement *element;
 
         element = tmp_list->data;
 
@@ -1970,7 +1970,7 @@ gboolean gsb_form_clean (gint account_number)
     tmp_list = gsb_form_widget_get_list ();
     while (tmp_list)
     {
-		struct_element *element;
+		FormElement *element;
 
 		element = tmp_list->data;
 
@@ -3507,7 +3507,7 @@ GtkWidget *gsb_form_get_element_widget_from_list (gint element_number,
 
     while (list_tmp)
     {
-        struct_element *element;
+        FormElement *element;
 
         element = list_tmp->data;
         if (element->element_number == element_number)

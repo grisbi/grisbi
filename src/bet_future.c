@@ -82,7 +82,7 @@ struct _BetFormOrganization
  * for now, this list if filled at the opening of grisbi and never erased */
 static GSList *bet_schedul_element_list = NULL;
 
-/** contains a list of struct_element according to the current form */
+/** contains a list of FormElement according to the current form */
 static GSList *bet_form_list_widgets = NULL;
 
 static GtkWidget *bet_futur_dialog = NULL;
@@ -475,7 +475,7 @@ static gboolean bet_form_clean (gint account_number)
 
     while (tmp_list)
     {
-        struct_element *element;
+        FormElement *element;
 
         element = tmp_list->data;
 
@@ -511,7 +511,7 @@ static gboolean bet_form_clean (gint account_number)
 
     while (tmp_list)
     {
-        struct_element *element;
+        FormElement *element;
 
         element = tmp_list->data;
 
@@ -826,7 +826,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
     gint element_number;
     gint row = 2;
     gint column = 0;
-    struct_element *element;
+    FormElement *element;
     GSList *tmp_list;
 
     account_number = gsb_gui_navigation_get_current_account ();
@@ -835,7 +835,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
     widget = gsb_calendar_entry_new (FALSE);
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -851,7 +851,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 	gsb_data_payee_free_name_and_report_list (tmp_list);
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -867,7 +867,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 					  NULL);
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -883,7 +883,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 		              NULL);
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -896,7 +896,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 					  _("Choose the financial year"));
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -912,7 +912,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -928,7 +928,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
 
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -945,7 +945,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 1, 1);
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -956,7 +956,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 	widget = gtk_entry_new();
     gtk_widget_show (widget);
     gtk_grid_attach (GTK_GRID (table), widget, column, row, 4, 1);
-    element = g_malloc0 (sizeof (struct_element));
+    element = g_malloc0 (sizeof (FormElement));
     element->element_number = element_number;
     element->element_widget = widget;
     bet_form_list_widgets = g_slist_append (bet_form_list_widgets, element);
@@ -965,7 +965,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 
     while (tmp_list)
     {
-        struct_element *element_list;
+        FormElement *element_list;
 
         element_list = tmp_list->data;
 
@@ -1060,7 +1060,7 @@ static gboolean bet_form_create_scheduler_part (GtkWidget *dialog,
 										  N_("Quarterly"), N_("Yearly"), N_("Custom"), NULL };
 	    const gchar *text_frequency_user [] = { N_("Days"), N_("Weeks"), N_("Months"), N_("Years"), NULL };
         gint element_number;
-        struct_element *element;
+        FormElement *element;
 
         /* on tient compte que le premier widget utile est le troisième du formulaire */
 	    element_number = column + 2;
@@ -1141,7 +1141,7 @@ static gboolean bet_form_create_scheduler_part (GtkWidget *dialog,
             gtk_widget_set_tooltip_text (GTK_WIDGET (widget), tooltip_text);
 
         /* save the element */
-	    element = g_malloc0 (sizeof (struct_element));
+	    element = g_malloc0 (sizeof (FormElement));
 	    element->element_number = element_number;
 	    element->element_widget = widget;
 	    bet_schedul_element_list = g_slist_append (bet_schedul_element_list, element);

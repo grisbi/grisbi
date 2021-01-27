@@ -58,7 +58,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GSList *		form_list_widgets = NULL; /* contains a list of struct_element according to the current form */
+static GSList *		form_list_widgets = NULL; /* contains a list of FormElement according to the current form */
 static gchar *		old_debit = NULL;
 static gchar *		old_credit = NULL;
 static gint			old_credit_payment_number = 0;
@@ -202,7 +202,7 @@ gboolean gsb_form_widget_free_list (void)
     tmp_list = form_list_widgets;
     while (tmp_list)
     {
-        struct_element *element;
+        FormElement *element;
 
         element = tmp_list->data;
         if (!element)
@@ -438,9 +438,9 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 		gtk_widget_set_size_request (widget, FORM_COURT_WIDTH, -1);
 
 		/* first, append the widget to the list */
-		struct_element *element;
+		FormElement *element;
 
-		element = g_malloc0 (sizeof (struct_element));
+		element = g_malloc0 (sizeof (FormElement));
 		element->element_number = element_number;
 		element->element_widget = widget;
 		form_list_widgets = g_slist_append (form_list_widgets, element);
@@ -1308,7 +1308,7 @@ gboolean gsb_form_widget_free_list_without_widgets (void)
     tmp_list = form_list_widgets;
     while (tmp_list)
     {
-        struct_element *element;
+        FormElement *element;
 
         element = tmp_list->data;
         g_free (element);

@@ -121,7 +121,7 @@ static gint last_account_number = 0;
 gboolean gsb_form_scheduler_create ( GtkWidget *table )
 {
     gint row, column;
-    struct_element *element;
+    FormElement *element;
 
     devel_debug (NULL);
     if (!table)
@@ -222,7 +222,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
                         tooltip_text);
 
 	    /* save the element */
-	    element = g_malloc0 (sizeof (struct_element));
+	    element = g_malloc0 (sizeof (FormElement));
 	    element -> element_number = element_number;
 	    element -> element_widget = widget;
 	    scheduled_element_list = g_slist_append ( scheduled_element_list,
@@ -258,7 +258,7 @@ gboolean gsb_form_scheduler_free_list ( void )
 
     while (list_tmp)
     {
-	struct_element *element;
+	FormElement *element;
 
 	element = list_tmp -> data;
 	g_free (element);
@@ -368,7 +368,7 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 
     while (tmp_list)
     {
-	struct_element *element;
+	FormElement *element;
 
 	element = tmp_list -> data;
 
@@ -485,7 +485,7 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 
 	while (form_list)
 	{
-	    struct_element *form_element;
+	    FormElement *form_element;
 
 	    form_element = form_list -> data;
 

@@ -93,7 +93,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
     tmp_list = gsb_form_widget_get_list ();
     while (tmp_list)
     {
-        struct_element *element;
+        FormElement *element;
 
         element = tmp_list -> data;
 
@@ -138,7 +138,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
     tmp_list = gsb_form_widget_get_list ();
     while (tmp_list)
     {
-    struct_element *element;
+    FormElement *element;
 
     element = tmp_list -> data;
 
