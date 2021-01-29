@@ -1139,9 +1139,11 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
     GtkListStore *store;
     GtkTreeIter iter;
     GtkTreeSelection *selection;
+	const gchar *titles[] = {N_("Name"), N_("Init date"), N_("Final date")};
     gint return_value;
     gint i;
     gint reconcile_number;
+	gfloat alignment[] = {COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER};
     enum reconcile_choose_column {
 	RECONCILE_CHOOSE_NAME = 0,
 	RECONCILE_CHOOSE_INIT_DATE,
@@ -1195,8 +1197,6 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
     {
 		GtkTreeViewColumn *column;
 		GtkCellRenderer *cell;
-		gchar *titles[] = {_("Name"), _("Init date"), _("Final date")};
-		gfloat alignment[] = {COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER};
 
 		cell = gtk_cell_renderer_text_new ();
 		g_object_set (G_OBJECT (cell), "xalign", alignment[i], NULL);
@@ -1204,7 +1204,7 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
 		gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 		gtk_tree_view_column_set_alignment (column, alignment[i]);
 		gtk_tree_view_column_pack_start (column, cell, TRUE);
-		gtk_tree_view_column_set_title (column, titles[i]);
+		gtk_tree_view_column_set_title (column, gettext (titles[i]));
 		gtk_tree_view_column_set_attributes (column, cell, "text", i, NULL);
 		gtk_tree_view_column_set_expand (column, TRUE);
 		gtk_tree_view_column_set_resizable (column, TRUE);
