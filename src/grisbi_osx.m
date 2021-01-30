@@ -224,10 +224,11 @@ static void set_locale(void) {
 /**
  * Manage all MacOS initialization and return goffice plugins directory
  */
-GSList *grisbi_osx_init(int *argc, char **argv[]) {
+GSList *grisbi_osx_init(int *pargc, char *argv[]) {
     char *program_dir = get_program_dir();
     GSList *goffice_plugins_dirs = NULL;
     gchar *bundle_resources_dir = NULL;
+	int argc = *pargc;
 
     devel_debug("MACOSX: Start initialization");
     if (g_str_has_suffix(program_dir, "Contents/MacOS")) {
@@ -237,16 +238,16 @@ GSList *grisbi_osx_init(int *argc, char **argv[]) {
         // Code adopted from GIMP's app/main.c
 
         int new_argc = 0;
-        for (int i = 0; i < *argc; i++) {
+        for (int i = 0; i < argc; i++) {
             // Rewrite argv[] without "-psn_..." argument.
-            if (!g_str_has_prefix(*argv[i], "-psn_")) {
-                *argv[new_argc] = *argv[i];
+            if (!g_str_has_prefix(argv[i], "-psn_")) {
+                argv[new_argc] = argv[i];
                 new_argc++;
             }
         }
-        if (*argc > new_argc) {
-            *argv[new_argc] = NULL; // glib expects null-terminated array
-            *argc = new_argc;
+        if (argc > new_argc) {
+            argv[new_argc] = NULL; // glib expects null-terminated array
+            *pargc = new_argc;
         }
 
         // Step 2

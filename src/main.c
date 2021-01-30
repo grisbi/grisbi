@@ -92,7 +92,7 @@ int main (int argc, char **argv)
 #endif
 
 #ifdef __APPLE__
-    goffice_plugins_dirs = grisbi_osx_init(&argc, &argv);
+     goffice_plugins_dirs = grisbi_osx_init(&argc, argv);
 #endif
 
 	/* On commence par initialiser les répertoires */
