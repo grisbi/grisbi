@@ -79,7 +79,7 @@ int main (int argc, char **argv)
 #endif
 
 #ifdef __APPLE__
-     goffice_plugins_dirs = grisbi_osx_init(&argc, &argv);
+	goffice_plugins_dirs = grisbi_osx_init(&argc, argv);
 #endif
 
 	 /* On force l'utilisation de X11 en attendant que grisbi fonctionne correctement sous wayland */
