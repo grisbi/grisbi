@@ -107,7 +107,7 @@ GtkWidget *gsb_calendar_entry_new (gint set_today)
 void gsb_calendar_entry_new_from_ui (GtkWidget *entry,
 									 gint set_today)
 {
-    gtk_widget_set_size_request (entry, ENTRY_MIN_WIDTH_1, -1);
+    gtk_widget_set_size_request (entry, ENTRY_MIN_WIDTH, -1);
 
     g_signal_connect ( G_OBJECT (entry),
 					  "button-press-event",

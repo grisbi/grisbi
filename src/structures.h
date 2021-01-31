@@ -60,7 +60,7 @@
 
 /* width for widget */
 #define BOX_BORDER_WIDTH		10
-#define ENTRY_MIN_WIDTH_1		100
+#define ENTRY_MIN_WIDTH			100
 #define FORM_COURT_WIDTH		120				/* largeur minimale demandée pour les champs courts du formulaire */
 #define FORM_LONG_WIDTH			200				/* largeur minimale demandée pour les champs longs du formulaire */
 

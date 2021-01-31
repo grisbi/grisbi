@@ -640,7 +640,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 													     priv->treeview_reconcile,
 													     G_CALLBACK (gsb_data_reconcile_set_name),
 													     0);
-    gtk_widget_set_size_request (priv->entry_reconcile_name, ENTRY_MIN_WIDTH_1, -1);
+    gtk_widget_set_size_request (priv->entry_reconcile_name, ENTRY_MIN_WIDTH, -1);
 	gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_name, 2, 6, 1, 1);
 
 	priv->entry_reconcile_init_date = gsb_autofunc_date_new (NULL,
@@ -648,7 +648,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 															 priv->treeview_reconcile,
 															 G_CALLBACK (gsb_data_reconcile_set_init_date),
 															 0);
-    gtk_widget_set_size_request (priv->entry_reconcile_init_date, ENTRY_MIN_WIDTH_1, -1);
+    gtk_widget_set_size_request (priv->entry_reconcile_init_date, ENTRY_MIN_WIDTH, -1);
 	gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_init_date, 2, 7, 1, 1);
 
 	priv->entry_reconcile_final_date = gsb_autofunc_date_new (NULL,
@@ -656,7 +656,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 															  priv->treeview_reconcile,
 															  G_CALLBACK (gsb_data_reconcile_set_final_date),
 															  0);
-    gtk_widget_set_size_request (priv->entry_reconcile_final_date, ENTRY_MIN_WIDTH_1, -1);
+    gtk_widget_set_size_request (priv->entry_reconcile_final_date, ENTRY_MIN_WIDTH, -1);
 	gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_final_date, 2, 8, 1, 1);
 
 	priv->entry_reconcile_init_balance = gsb_autofunc_real_new (null_real,
@@ -664,7 +664,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 																priv->treeview_reconcile,
 																G_CALLBACK (gsb_data_reconcile_set_init_balance),
 																0);
-    gtk_widget_set_size_request (priv->entry_reconcile_init_balance, ENTRY_MIN_WIDTH_1, -1);
+    gtk_widget_set_size_request (priv->entry_reconcile_init_balance, ENTRY_MIN_WIDTH, -1);
 	gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_init_balance, 4, 7, 1, 1);
 
 	priv->entry_reconcile_final_balance = gsb_autofunc_real_new (null_real,
@@ -672,7 +672,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 																 priv->treeview_reconcile,
 																 G_CALLBACK (gsb_data_reconcile_set_final_balance),
 																 0);
-    gtk_widget_set_size_request (priv->entry_reconcile_final_balance, ENTRY_MIN_WIDTH_1, -1);
+    gtk_widget_set_size_request (priv->entry_reconcile_final_balance, ENTRY_MIN_WIDTH, -1);
     gtk_grid_attach (GTK_GRID (priv->grid_reconcile), priv->entry_reconcile_final_balance, 4, 8, 1, 1);
 
 	/* set the checkbutton_reconcile_sort */
