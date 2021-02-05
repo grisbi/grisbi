@@ -59,6 +59,7 @@
 #include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
+#include "utils.h"
 
 #ifdef GTKOSXAPPLICATION
 #include <gtkosxapplication.h>
@@ -69,6 +70,7 @@
 static GtkCssProvider *	css_provider = NULL;    /* css provider */
 static gchar *			css_data = NULL;		/* fichier css sous forme de string */
 gboolean				darkmode = FALSE;		/* use to set darkmode from command_line */
+gboolean				has_started = FALSE;	/* TRUE when grisbi_app_activate() finishes */
 
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
                                             GdkScreen *screen);
@@ -528,8 +530,8 @@ static void grisbi_app_init_recent_files_menu (GrisbiApp *app)
 
 
 #ifdef GTKOSXAPPLICATION
-static gint grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
-		gchar const *path)
+static gboolean grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
+		gchar const *path, GrisbiApp *app)
 {
 	GrisbiWinRun *w_run;
 
@@ -542,14 +544,26 @@ static gint grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
 
 	if (path)
 	{
-		if (gsb_file_open_file (path))
+		if (has_started)
 		{
-			if (!w_run->file_is_loading)
+			if (gsb_file_open_file (path))
 			{
-				gsb_gui_navigation_select_line (NULL, NULL);
-				w_run->file_is_loading = TRUE;
+				if (!w_run->file_is_loading)
+				{
+					gsb_gui_navigation_select_line (NULL, NULL);
+					w_run->file_is_loading = TRUE;
+				}
+				utils_files_append_name_to_recent_array (path);
 			}
-			utils_files_append_name_to_recent_array (path);
+		}
+		else
+		{
+			/* simulate an argument on the command line
+			 as if we start Grisbi with the filename as argument */
+			GrisbiAppPrivate *priv;
+
+			priv = grisbi_app_get_instance_private (GRISBI_APP (app));
+			priv->file_list = g_slist_prepend (priv->file_list, g_strdup (path));
 		}
 	}
 
@@ -625,7 +639,7 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 
 #ifdef GTKOSXAPPLICATION
     GtkosxApplication *osxapp = gtkosx_application_get();
-    g_signal_connect(G_OBJECT(osxapp), "NSApplicationOpenFile", G_CALLBACK(grisbi_app_osx_openfile_callback), NULL);
+    g_signal_connect(G_OBJECT(osxapp), "NSApplicationOpenFile", G_CALLBACK(grisbi_app_osx_openfile_callback), app);
 #endif
 }
 
@@ -976,6 +990,9 @@ static gboolean grisbi_app_load_file_if_necessary (GrisbiApp *app)
 	GrisbiWinRun *w_run;
     GrisbiAppPrivate *priv;
 
+	/* let a chance to events (like grisbi_app_osx_openfile_callback) to be handled */
+	update_gui();
+
     priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
     /* check the command line, if there is something to open */
@@ -1187,6 +1204,8 @@ static void grisbi_app_activate (GApplication *application)
         &&
         (priv->a_conf)->make_backup_nb_minutes)
         gsb_file_automatic_backup_start (NULL, NULL);
+
+	has_started = TRUE;
 }
 
 /**
