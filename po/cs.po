@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-11 08:08+0100\n"
+"POT-Creation-Date: 2021-02-09 18:38+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1415,7 +1415,7 @@ msgstr "Počet dní před oznámením nebo provedením: "
 msgid "Web browser"
 msgstr "Příkaz webového prohlížeče: "
 
-#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:225
+#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:223
 msgid "Web browser command: "
 msgstr "Příkaz webového prohlížeče: "
 
@@ -1547,17 +1547,17 @@ msgstr "Lokalizace"
 msgid "Options"
 msgstr "Volby"
 
-#: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:241
+#: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:239
 msgid "Account files handling"
 msgstr "Operace se soubory"
 
 #. Automatically load last file on startup?
-#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:244
+#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:242
 msgid "Automatically load last file on startup"
 msgstr "Při startu automaticky načíst poslední soubor"
 
 #. automatically save file at closing
-#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:249
+#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:247
 msgid "Automatically save on exit"
 msgstr "Automaticky uložit při ukončení"
 
@@ -1566,7 +1566,7 @@ msgid "Force saving of locked files"
 msgstr "Vynutit uložení uzamčených souborů"
 
 #: ../src/ui/prefs_page_files.ui.h:5 ../src/gsb_assistant_file.c:363
-#: ../src/gsb_assistant_first.c:257
+#: ../src/gsb_assistant_first.c:255
 msgid "Encrypt Grisbi file"
 msgstr "Zašifrovat soubor Grisbi"
 
@@ -1594,15 +1594,15 @@ msgstr "Komprimovat zálohu Grisbi"
 msgid "Make a backup copy after opening files"
 msgstr "Vytvořit záložní kopii po otevření souboru"
 
-#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:272
+#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:270
 msgid "Make a backup copy before saving files"
 msgstr "Vytvořit záložní kopii před otevřením souboru"
 
-#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:280
+#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:278
 msgid "Make a backup copy every "
 msgstr "Vytvořit záložní kopii každých "
 
-#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:290
+#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:288
 msgid " minutes"
 msgstr " minut"
 
@@ -1615,7 +1615,7 @@ msgstr ""
 msgid "months"
 msgstr "měsíce"
 
-#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:298
+#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:296
 msgid "Backup directory: "
 msgstr "Složka zálohy: "
 
@@ -3567,7 +3567,7 @@ msgstr "Frekvence"
 #: ../src/bet_future.c:1101 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_archives.c:483
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Final date"
 msgstr "Koncové datum"
 
@@ -3585,7 +3585,7 @@ msgstr "Volitelná frekvence"
 #: ../src/export_csv.c:815 ../src/gsb_data_category.c:1085
 #: ../src/gsb_data_payment.c:634 ../src/gsb_data_payment.c:718
 #: ../src/gsb_data_payment.c:757 ../src/gsb_form.c:2970 ../src/import.c:2480
-#: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:380
+#: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:402
 msgid "Transfer"
 msgstr "Převod"
 
@@ -4070,7 +4070,7 @@ msgstr "Zaškrtněte pro automatickou změnu počátečního data"
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:857
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1144
 #: ../src/prefs/prefs_page_payment_method.c:1210
-#: ../src/prefs/prefs_page_reconcile.c:352 ../src/tiers_onglet.c:728
+#: ../src/prefs/prefs_page_reconcile.c:350 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr "Účet"
 
@@ -4476,16 +4476,16 @@ msgid ""
 "You will delete %d backups from your account file that are older than %s."
 msgstr ""
 
-#: ../src/dialog.c:270
+#: ../src/dialog.c:274
 msgid "Do not show this message again"
 msgstr "Příště tuto zprávu nezobrazovat"
 
-#: ../src/dialog.c:274 ../src/dialog.c:643 ../src/dialog.c:695
+#: ../src/dialog.c:278 ../src/dialog.c:647 ../src/dialog.c:699
 #: ../src/gsb_scheduler_list.c:2907
 msgid "Keep this choice and no longer see this message?"
 msgstr ""
 
-#: ../src/dialog.c:803
+#: ../src/dialog.c:807
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
@@ -4493,11 +4493,11 @@ msgstr ""
 "Nyní se nacházíte zde, uprostřed ničeho, mezi dvěma řádkami kódu. Očekává "
 "se, že Grisbi brzo spadne. Hezký den."
 
-#: ../src/dialog.c:805
+#: ../src/dialog.c:809
 msgid "Serious brain damage expected."
 msgstr "POZOR! Vážná chyba!"
 
-#: ../src/dialog.c:819
+#: ../src/dialog.c:823
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -4505,7 +4505,7 @@ msgstr ""
 "Brzy dojde k chybě. Pro jistotu si uložte soubor účtů do jiného souboru pro "
 "případ, že by došlo k jeno poškození při ukládání."
 
-#: ../src/dialog.c:821
+#: ../src/dialog.c:825
 msgid "Cannot allocate memory"
 msgstr "Nelze alokovat paměť"
 
@@ -4569,7 +4569,7 @@ msgstr ""
 msgid "Debug updated by cmd line, level is '%s'"
 msgstr "Ladění povoleno, úroveň je '%s'"
 
-#: ../src/erreur.c:416 ../src/erreur.c:672
+#: ../src/erreur.c:416 ../src/erreur.c:677
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr "%s, %2f : %s - %s:%d:%s - %s\n"
@@ -4579,7 +4579,7 @@ msgstr "%s, %2f : %s - %s:%d:%s - %s\n"
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr "%s, %2f : %s - %s:%d:%s\n"
 
-#: ../src/erreur.c:560
+#: ../src/erreur.c:565
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -4589,14 +4589,14 @@ msgstr ""
 "připojte tento soubor spolu se znepřehledněným souborem účtů k hlášení chyby."
 
 #. début du mode de débogage
-#: ../src/erreur.c:577
+#: ../src/erreur.c:582
 #, fuzzy, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
 "\n"
 msgstr "%s, %2f : %s - %s:%d:%s\n"
 
-#: ../src/erreur.c:632
+#: ../src/erreur.c:637
 msgid "Grisbi failed to create the log file..."
 msgstr "Nepodařilo se vytvořit logovací soubor..."
 
@@ -6495,51 +6495,46 @@ msgstr "Režim ladění"
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:758
-#, fuzzy
-msgid "If present, force the use of a dark theme"
-msgstr "Archivovat podle data"
-
-#: ../src/grisbi_app.c:780
+#: ../src/grisbi_app.c:765
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:969
+#: ../src/grisbi_app.c:921
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
-#: ../src/grisbi_app.c:972
+#: ../src/grisbi_app.c:924
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
-#: ../src/grisbi_app.c:975
+#: ../src/grisbi_app.c:927
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
-#: ../src/grisbi_app.c:1193 ../src/menu.c:632
+#: ../src/grisbi_app.c:1145 ../src/menu.c:632
 #, fuzzy
 msgid "Start an action!"
 msgstr "Řadit transakce podle"
 
-#: ../src/grisbi_app.c:1483
+#: ../src/grisbi_app.c:1435
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "Vybrat všechny transakce"
 
-#: ../src/grisbi_app.c:1485
+#: ../src/grisbi_app.c:1437
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Odsouhlasené transakce"
 
-#: ../src/grisbi_app.c:1486
+#: ../src/grisbi_app.c:1438
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Odsouhlasené transakce"
 
-#: ../src/grisbi_conf.c:1138 ../src/grisbi_settings.c:1636
+#: ../src/grisbi_conf.c:1136 ../src/grisbi_settings.c:1634
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nelze uložit konfigurační soubor '%s': %s"
@@ -6610,8 +6605,8 @@ msgid "Messages before deleting"
 msgstr "Dotazy před odstraněním"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:337
-#: ../src/prefs/prefs_page_reconcile.c:574
+#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:335
+#: ../src/prefs/prefs_page_reconcile.c:624
 msgid "Reconciliation"
 msgstr "Odsouhlasení"
 
@@ -7267,7 +7262,7 @@ msgstr ""
 
 #. create the assistant
 #: ../src/gsb_assistant_file.c:129 ../src/gsb_assistant_first.c:88
-#: ../src/gsb_assistant_first.c:143
+#: ../src/gsb_assistant_first.c:141
 msgid "Welcome to Grisbi!"
 msgstr "Vítejte v Grisbi!"
 
@@ -7416,7 +7411,7 @@ msgstr ""
 "\n"
 "Děkujeme, že používáte Grisbi, a přejeme hodně štěstí!"
 
-#: ../src/gsb_assistant_first.c:144
+#: ../src/gsb_assistant_first.c:142
 #, fuzzy
 msgid ""
 "You are using Grisbi for the first time.  While most of the interface has "
@@ -7451,29 +7446,29 @@ msgstr ""
 "\n"
 "Více o dalších vylepšeních naleznete na  https://www.grisbi.org/."
 
-#: ../src/gsb_assistant_first.c:213
+#: ../src/gsb_assistant_first.c:211
 msgid "General configuration of Grisbi"
 msgstr "Základní nastavení Grisbi"
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:218
+#: ../src/gsb_assistant_first.c:216
 msgid "Web"
 msgstr "Web"
 
-#: ../src/gsb_assistant_first.c:232
+#: ../src/gsb_assistant_first.c:230
 #, fuzzy, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr "Můžete použít %s na určení URL např.: 'firefox -remote %s'"
 
-#: ../src/gsb_assistant_first.c:302
+#: ../src/gsb_assistant_first.c:300
 msgid "Select/Create backup directory"
 msgstr "Vyberte/vytvořte složku pro zálohy"
 
-#: ../src/gsb_assistant_first.c:341
+#: ../src/gsb_assistant_first.c:339
 msgid "Error getting reconciliations"
 msgstr "Chyba při nahrávání odsouhlasení"
 
-#: ../src/gsb_assistant_first.c:349
+#: ../src/gsb_assistant_first.c:347
 msgid ""
 "When importing the file from the previous version, Grisbi has found "
 "inconsistencies\n"
@@ -9222,12 +9217,12 @@ msgstr "Venezuelský bolívar"
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: ../src/gsb_data_currency.c:948
+#: ../src/gsb_data_currency.c:949
 #, c-format
 msgid "The currency '%s' was duplicated. It has been deleted."
 msgstr ""
 
-#: ../src/gsb_data_currency.c:950
+#: ../src/gsb_data_currency.c:951
 #, fuzzy
 msgid "Duplicate currency"
 msgstr "První měna"
@@ -9338,7 +9333,7 @@ msgstr "Sestava"
 
 #. Deposit = Dépôt
 #: ../src/gsb_data_payment.c:723 ../src/import.c:2459
-#: ../src/plugins/ofx/ofx.c:368
+#: ../src/plugins/ofx/ofx.c:390
 msgid "Deposit"
 msgstr "Vklad"
 
@@ -9872,7 +9867,7 @@ msgstr "Komprimovat zálohu Grisbi"
 msgid "You will go back to the choice of the file.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4262
+#: ../src/gsb_file_load.c:4265
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9885,11 +9880,11 @@ msgstr ""
 "důležitých informací mějte na paměti, že se jedná o již archivované "
 "transakce."
 
-#: ../src/gsb_file_load.c:4266
+#: ../src/gsb_file_load.c:4269
 msgid "Grisbi archive opened"
 msgstr "Archiv Grisbi otevřen"
 
-#: ../src/gsb_file_load.c:4276
+#: ../src/gsb_file_load.c:4279
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -9898,12 +9893,12 @@ msgid ""
 "You will have to re-customize the icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4282
+#: ../src/gsb_file_load.c:4285
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4723
+#: ../src/gsb_file_load.c:4726
 #, fuzzy, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -10190,14 +10185,14 @@ msgstr "Ručně"
 msgid "Cheque/Transfer number"
 msgstr "Číslo převodu/šeku"
 
-#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:392
+#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:414
 msgid "Direct deposit"
 msgstr "Vklad"
 
 #. Check = Chèque
 #: ../src/gsb_form.c:2941 ../src/import.c:2293 ../src/import.c:2314
-#: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:348
-#: ../src/plugins/ofx/ofx.c:409
+#: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:370
+#: ../src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Šek"
 
@@ -10798,7 +10793,7 @@ msgstr ""
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "Vyberte odsouhlasení ke kterému budou připojeny vybrané tranaskce: "
 
-#: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_reconcile.c:350
 msgid "Init date"
 msgstr "Počáteční datum"
 
@@ -12196,67 +12191,67 @@ msgstr ""
 msgid "Error opening temporary file '%s'."
 msgstr "Chyba při otevírání dočasného souboru '%s'."
 
-#: ../src/plugins/ofx/ofx.c:198
+#: ../src/plugins/ofx/ofx.c:220
 msgid "OFX processing returned following message:\n"
 msgstr "Zpracování OFX vrátilo následující zprávu:\n"
 
-#: ../src/plugins/ofx/ofx.c:204
+#: ../src/plugins/ofx/ofx.c:226
 msgid "OFX processing ended in a warning message which is not valid."
 msgstr "Zpracování OFX skončilo s varováním, které je neplatné."
 
-#: ../src/plugins/ofx/ofx.c:210
+#: ../src/plugins/ofx/ofx.c:232
 msgid "OFX processing returned following error message:\n"
 msgstr "Zpracování OFX vrátilo následující chybovou zprávu:\n"
 
-#: ../src/plugins/ofx/ofx.c:216
+#: ../src/plugins/ofx/ofx.c:238
 msgid "OFX processing returned an error message which is not valid."
 msgstr "Zpracování OFX vrátilo chybovou zprávu, která je neplatná."
 
-#: ../src/plugins/ofx/ofx.c:290
+#: ../src/plugins/ofx/ofx.c:312
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr "Snažíte se uložit transakci, ale nebyl vytvořen žádný účet... \n"
 
-#: ../src/plugins/ofx/ofx.c:352
+#: ../src/plugins/ofx/ofx.c:374
 msgid "Interest"
 msgstr "Úrok"
 
-#: ../src/plugins/ofx/ofx.c:356
+#: ../src/plugins/ofx/ofx.c:378
 msgid "Dividend"
 msgstr "Dividenda"
 
-#: ../src/plugins/ofx/ofx.c:360
+#: ../src/plugins/ofx/ofx.c:382
 msgid "Service charge"
 msgstr "Manipulační poplatek"
 
-#: ../src/plugins/ofx/ofx.c:364
+#: ../src/plugins/ofx/ofx.c:386
 msgid "Fee"
 msgstr "Poplatek"
 
-#: ../src/plugins/ofx/ofx.c:372
+#: ../src/plugins/ofx/ofx.c:394
 msgid "Cash dispenser"
 msgstr "Bankomat"
 
-#: ../src/plugins/ofx/ofx.c:376
+#: ../src/plugins/ofx/ofx.c:398
 msgid "Point of sale"
 msgstr "Prodejní místo"
 
-#: ../src/plugins/ofx/ofx.c:384
+#: ../src/plugins/ofx/ofx.c:406
 msgid "Electronic payment"
 msgstr "Elektronická platba"
 
-#: ../src/plugins/ofx/ofx.c:388
+#: ../src/plugins/ofx/ofx.c:410
 msgid "Cash"
 msgstr "Hotovost"
 
-#: ../src/plugins/ofx/ofx.c:396
+#: ../src/plugins/ofx/ofx.c:418
 msgid "Merchant initiated debit"
 msgstr "Inkaso od obchodníka"
 
-#: ../src/plugins/ofx/ofx.c:400
+#: ../src/plugins/ofx/ofx.c:422
 msgid "Repeating payment/standing order"
 msgstr "Opakovaná platba / trvalý příkaz"
 
-#: ../src/plugins/ofx/ofx.c:478
+#: ../src/plugins/ofx/ofx.c:500
 msgid "Invalid OFX file"
 msgstr "Chybný soubor OFX"
 
@@ -12881,17 +12876,17 @@ msgstr "Výchozí"
 msgid "Numbering"
 msgstr "Číslování"
 
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Init balance"
 msgstr "Počáteční zůstatek"
 
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Final balance"
 msgstr "Konečný zůstatek"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/prefs/prefs_page_reconcile.c:522
+#: ../src/prefs/prefs_page_reconcile.c:572
 #, fuzzy, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -12905,7 +12900,7 @@ msgstr ""
 "v tomto odsouhlasení budou opět neodsouhlasené a označené jako P.\n"
 "Přejete si pokračovat?"
 
-#: ../src/prefs/prefs_page_reconcile.c:528
+#: ../src/prefs/prefs_page_reconcile.c:578
 msgid "Delete reconciliation"
 msgstr "Odstranit odsouhlasení"
 
@@ -13170,6 +13165,21 @@ msgstr "Chyba při otevírání souboru '%s'"
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "Musíte zadat datum."
+
+#: ../src/search_transaction.c:505
+#, fuzzy
+msgid "1 transaction were found"
+msgstr "Vybrat transakce podle částky"
+
+#: ../src/search_transaction.c:507
+#, fuzzy
+msgid " transactions were found"
+msgstr "Vybrat transakce podle částky"
+
+#: ../src/search_transaction.c:524
+#, fuzzy
+msgid "No transaction was found"
+msgstr "Písmo transakcí"
 
 #. on demande de choisir un nouveau compte
 #: ../src/search_transaction.c:962
@@ -13788,7 +13798,7 @@ msgstr "Rozšifrovat soubor"
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 
-#: ../src/widgets/widget_css_rules.c:269
+#: ../src/widgets/widget_css_rules.c:270
 #, c-format
 msgid ""
 "Warning: you will delete your grisbi color adjustment file.\n"
@@ -13796,7 +13806,7 @@ msgid ""
 "Do you want to delete the file: \"%s\"?"
 msgstr ""
 
-#: ../src/widgets/widget_css_rules.c:274
+#: ../src/widgets/widget_css_rules.c:275
 #, fuzzy
 msgid "Delete CSS user file"
 msgstr "Odstranit zvolenou sestavu"
@@ -13863,6 +13873,10 @@ msgstr "Souhrnný zůstatek"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy
+#~ msgid "If present, force the use of a dark theme"
+#~ msgstr "Archivovat podle data"
 
 #, fuzzy
 #~ msgid "10"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-11 08:08+0100\n"
+"POT-Creation-Date: 2021-02-09 18:38+0100\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -1419,7 +1419,7 @@ msgstr "Dienu skaits pirms brīdinājuma vai izpildes:"
 msgid "Web browser"
 msgstr "Tīmekļa pārlūka komanda:"
 
-#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:225
+#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:223
 msgid "Web browser command: "
 msgstr "Tīmekļa pārlūka komanda:"
 
@@ -1553,17 +1553,17 @@ msgstr "Lokalizācija"
 msgid "Options"
 msgstr "Opcijas"
 
-#: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:241
+#: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:239
 msgid "Account files handling"
 msgstr "Konta failu apstrāde"
 
 #. Automatically load last file on startup?
-#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:244
+#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:242
 msgid "Automatically load last file on startup"
 msgstr "Startējot automātiski ielādēt pēdējo failu"
 
 #. automatically save file at closing
-#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:249
+#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:247
 msgid "Automatically save on exit"
 msgstr "Aizverot automātiski saglabāt"
 
@@ -1572,7 +1572,7 @@ msgid "Force saving of locked files"
 msgstr "Piespiest bloķēto failu saglabāšanu"
 
 #: ../src/ui/prefs_page_files.ui.h:5 ../src/gsb_assistant_file.c:363
-#: ../src/gsb_assistant_first.c:257
+#: ../src/gsb_assistant_first.c:255
 msgid "Encrypt Grisbi file"
 msgstr "Grisbi šifrēti faili"
 
@@ -1600,15 +1600,15 @@ msgstr "Saspiest Grisbi dublējumus"
 msgid "Make a backup copy after opening files"
 msgstr "Izveidot dublējuma kopiju pēc failu atvēršanas"
 
-#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:272
+#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:270
 msgid "Make a backup copy before saving files"
 msgstr "Izveidot faila dublējuma kopiju pirms saglabāšanas"
 
-#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:280
+#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:278
 msgid "Make a backup copy every "
 msgstr "Izveidot dublējuma kopiju ik minūti"
 
-#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:290
+#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:288
 msgid " minutes"
 msgstr "minūtes"
 
@@ -1621,7 +1621,7 @@ msgstr ""
 msgid "months"
 msgstr "mēnesis"
 
-#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:298
+#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:296
 msgid "Backup directory: "
 msgstr "Dublējuma mape:"
 
@@ -3575,7 +3575,7 @@ msgstr "Biežums"
 #: ../src/bet_future.c:1101 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_archives.c:483
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Final date"
 msgstr "Beigu datums"
 
@@ -3593,7 +3593,7 @@ msgstr "Pielāgot biežumu"
 #: ../src/export_csv.c:815 ../src/gsb_data_category.c:1085
 #: ../src/gsb_data_payment.c:634 ../src/gsb_data_payment.c:718
 #: ../src/gsb_data_payment.c:757 ../src/gsb_form.c:2970 ../src/import.c:2480
-#: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:380
+#: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:402
 msgid "Transfer"
 msgstr "Pārskaitījums"
 
@@ -4079,7 +4079,7 @@ msgstr "Atzīmējiet rūtiņu, lai automātiski mainītu datumu"
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:857
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1144
 #: ../src/prefs/prefs_page_payment_method.c:1210
-#: ../src/prefs/prefs_page_reconcile.c:352 ../src/tiers_onglet.c:728
+#: ../src/prefs/prefs_page_reconcile.c:350 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr "Konts"
 
@@ -4474,16 +4474,16 @@ msgid ""
 "You will delete %d backups from your account file that are older than %s."
 msgstr ""
 
-#: ../src/dialog.c:270
+#: ../src/dialog.c:274
 msgid "Do not show this message again"
 msgstr "Nerādīt šo ziņojumu vairs"
 
-#: ../src/dialog.c:274 ../src/dialog.c:643 ../src/dialog.c:695
+#: ../src/dialog.c:278 ../src/dialog.c:647 ../src/dialog.c:699
 #: ../src/gsb_scheduler_list.c:2907
 msgid "Keep this choice and no longer see this message?"
 msgstr ""
 
-#: ../src/dialog.c:803
+#: ../src/dialog.c:807
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
@@ -4491,11 +4491,11 @@ msgstr ""
 "Sveiki, jūs esat starp divām koda rindām. Ir paredzams, ka Grisbi drīz vien "
 "salūzīs. Lai jums jauka diena."
 
-#: ../src/dialog.c:805
+#: ../src/dialog.c:809
 msgid "Serious brain damage expected."
 msgstr "Iespējams nopietns smadzeņu bojājums."
 
-#: ../src/dialog.c:819
+#: ../src/dialog.c:823
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -4503,7 +4503,7 @@ msgstr ""
 "Var notikt neparedzamas lietas. Saglabājiet katras izmaiņas atsevišķā failā, "
 "jo Grisbi var sabojāt failu."
 
-#: ../src/dialog.c:821
+#: ../src/dialog.c:825
 msgid "Cannot allocate memory"
 msgstr "Neatcerēties"
 
@@ -4566,7 +4566,7 @@ msgstr ""
 msgid "Debug updated by cmd line, level is '%s'"
 msgstr "Kļūdu labošana ieslēgta, līmenis ir '%s'"
 
-#: ../src/erreur.c:416 ../src/erreur.c:672
+#: ../src/erreur.c:416 ../src/erreur.c:677
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr "%s, %2f: %s - %s:%d:%s - %s\n"
@@ -4576,7 +4576,7 @@ msgstr "%s, %2f: %s - %s:%d:%s - %s\n"
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr "%s, %2f: %s - %s:%d:%s\n"
 
-#: ../src/erreur.c:560
+#: ../src/erreur.c:565
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -4584,7 +4584,7 @@ msgid ""
 msgstr "Lai labotu kļūdu rakstiet uz %s. Lūdzu nosūtiet šo kļūdas ziņojumu."
 
 #. début du mode de débogage
-#: ../src/erreur.c:577
+#: ../src/erreur.c:582
 #, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
@@ -4593,7 +4593,7 @@ msgstr ""
 "%s, %2f: Debug - %s:%d:%s\n"
 "\n"
 
-#: ../src/erreur.c:632
+#: ../src/erreur.c:637
 msgid "Grisbi failed to create the log file..."
 msgstr "Grisbi neizdevās parādīt failu logu..."
 
@@ -6491,51 +6491,46 @@ msgstr "Atkļūdošanas režīms"
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:758
-#, fuzzy
-msgid "If present, force the use of a dark theme"
-msgstr "Arhivēt pēc datuma"
-
-#: ../src/grisbi_app.c:780
+#: ../src/grisbi_app.c:765
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:969
+#: ../src/grisbi_app.c:921
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Kļūda: neizdevās noķert SIGSEGV\n"
 
-#: ../src/grisbi_app.c:972
+#: ../src/grisbi_app.c:924
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Kļūda: neizdevās noķert SIGSEGV\n"
 
-#: ../src/grisbi_app.c:975
+#: ../src/grisbi_app.c:927
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Kļūda: neizdevās noķert SIGSEGV\n"
 
-#: ../src/grisbi_app.c:1193 ../src/menu.c:632
+#: ../src/grisbi_app.c:1145 ../src/menu.c:632
 #, fuzzy
 msgid "Start an action!"
 msgstr "Kārtot darījumus ar"
 
-#: ../src/grisbi_app.c:1483
+#: ../src/grisbi_app.c:1435
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "Izvēlēties visus darījumus"
 
-#: ../src/grisbi_app.c:1485
+#: ../src/grisbi_app.c:1437
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Saskaņotie darījumi"
 
-#: ../src/grisbi_app.c:1486
+#: ../src/grisbi_app.c:1438
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Saskaņotie darījumi"
 
-#: ../src/grisbi_conf.c:1138 ../src/grisbi_settings.c:1636
+#: ../src/grisbi_conf.c:1136 ../src/grisbi_settings.c:1634
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Neizdevās saglabāt iestatījumu failu '%s': %s"
@@ -6606,8 +6601,8 @@ msgid "Messages before deleting"
 msgstr "Brīdinājumi pirms dzēšanas"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:337
-#: ../src/prefs/prefs_page_reconcile.c:574
+#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:335
+#: ../src/prefs/prefs_page_reconcile.c:624
 msgid "Reconciliation"
 msgstr "Saskaņošana"
 
@@ -7255,7 +7250,7 @@ msgstr ""
 
 #. create the assistant
 #: ../src/gsb_assistant_file.c:129 ../src/gsb_assistant_first.c:88
-#: ../src/gsb_assistant_first.c:143
+#: ../src/gsb_assistant_first.c:141
 msgid "Welcome to Grisbi!"
 msgstr "Esiet sveicināts Grisbi!"
 
@@ -7406,7 +7401,7 @@ msgstr ""
 "\n"
 "Paldies, ka izmantojat Grisbi!"
 
-#: ../src/gsb_assistant_first.c:144
+#: ../src/gsb_assistant_first.c:142
 #, fuzzy
 msgid ""
 "You are using Grisbi for the first time.  While most of the interface has "
@@ -7440,32 +7435,32 @@ msgstr ""
 "iesakām darīt to tagad.\n"
 "Citus uzlabojumus varat atrast htp://www.grisbi.org/."
 
-#: ../src/gsb_assistant_first.c:213
+#: ../src/gsb_assistant_first.c:211
 msgid "General configuration of Grisbi"
 msgstr "Grisbi vispārīgie iestatījumi"
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:218
+#: ../src/gsb_assistant_first.c:216
 msgid "Web"
 msgstr "Tīmeklis"
 
-#: ../src/gsb_assistant_first.c:232
+#: ../src/gsb_assistant_first.c:230
 #, fuzzy, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr ""
 "Jūs varat izmantot % s, lai izvērstu URL. Piemēram:  'Firefox - tālvadības "
 "%s'"
 
-#: ../src/gsb_assistant_first.c:302
+#: ../src/gsb_assistant_first.c:300
 msgid "Select/Create backup directory"
 msgstr "Atlasīt/Izveidot dublējumu direktorijs"
 
-#: ../src/gsb_assistant_first.c:341
+#: ../src/gsb_assistant_first.c:339
 #, fuzzy
 msgid "Error getting reconciliations"
 msgstr "Kļūda, iegūstot piesaistes"
 
-#: ../src/gsb_assistant_first.c:349
+#: ../src/gsb_assistant_first.c:347
 msgid ""
 "When importing the file from the previous version, Grisbi has found "
 "inconsistencies\n"
@@ -9204,12 +9199,12 @@ msgstr "Venezuelan Bolivar"
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: ../src/gsb_data_currency.c:948
+#: ../src/gsb_data_currency.c:949
 #, c-format
 msgid "The currency '%s' was duplicated. It has been deleted."
 msgstr ""
 
-#: ../src/gsb_data_currency.c:950
+#: ../src/gsb_data_currency.c:951
 #, fuzzy
 msgid "Duplicate currency"
 msgstr "Primārā valūta"
@@ -9321,7 +9316,7 @@ msgstr "Pārskati"
 
 #. Deposit = Dépôt
 #: ../src/gsb_data_payment.c:723 ../src/import.c:2459
-#: ../src/plugins/ofx/ofx.c:368
+#: ../src/plugins/ofx/ofx.c:390
 msgid "Deposit"
 msgstr "Depozīts"
 
@@ -9845,7 +9840,7 @@ msgstr "Saspiest Grisbi dublējumus"
 msgid "You will go back to the choice of the file.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4262
+#: ../src/gsb_file_load.c:4265
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9856,11 +9851,11 @@ msgstr ""
 "Jūs varat to izmainīt un saglabāt vēlāk ( jauns pārskats), bet atceraties, "
 "ka tas ir arhīvs pirms veiktajām izmaiņām iepriekš."
 
-#: ../src/gsb_file_load.c:4266
+#: ../src/gsb_file_load.c:4269
 msgid "Grisbi archive opened"
 msgstr "Grisbi arhīva atvēršana"
 
-#: ../src/gsb_file_load.c:4276
+#: ../src/gsb_file_load.c:4279
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -9869,12 +9864,12 @@ msgid ""
 "You will have to re-customize the icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4282
+#: ../src/gsb_file_load.c:4285
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4723
+#: ../src/gsb_file_load.c:4726
 #, fuzzy, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -10157,14 +10152,14 @@ msgstr "Manuāli"
 msgid "Cheque/Transfer number"
 msgstr "Čeka/pārskaitījuma numurs"
 
-#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:392
+#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:414
 msgid "Direct deposit"
 msgstr "Tiešo depozītu"
 
 #. Check = Chèque
 #: ../src/gsb_form.c:2941 ../src/import.c:2293 ../src/import.c:2314
-#: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:348
-#: ../src/plugins/ofx/ofx.c:409
+#: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:370
+#: ../src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Pārbaude"
 
@@ -10763,7 +10758,7 @@ msgstr ""
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "Izvēlieties atlasīto darījumu saskaņošanu:"
 
-#: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_reconcile.c:350
 msgid "Init date"
 msgstr "Inicializācijas datums"
 
@@ -12154,67 +12149,67 @@ msgstr ""
 msgid "Error opening temporary file '%s'."
 msgstr "Kļūda, atverot pagaidu failu '%s'."
 
-#: ../src/plugins/ofx/ofx.c:198
+#: ../src/plugins/ofx/ofx.c:220
 msgid "OFX processing returned following message:\n"
 msgstr "OFX apstrādei atgriests ar šādu ziņojumu:\n"
 
-#: ../src/plugins/ofx/ofx.c:204
+#: ../src/plugins/ofx/ofx.c:226
 msgid "OFX processing ended in a warning message which is not valid."
 msgstr "OFX apstrāde beidzās ar brīdinājuma ziņojumu, kas tas nav derīgs."
 
-#: ../src/plugins/ofx/ofx.c:210
+#: ../src/plugins/ofx/ofx.c:232
 msgid "OFX processing returned following error message:\n"
 msgstr "OFX apstrāde atgrieza šādu kļūdas ziņojumu:\n"
 
-#: ../src/plugins/ofx/ofx.c:216
+#: ../src/plugins/ofx/ofx.c:238
 msgid "OFX processing returned an error message which is not valid."
 msgstr "OFX apstrāde beidzās ar kļūdas ziņojumu, kas tas nav derīgs."
 
-#: ../src/plugins/ofx/ofx.c:290
+#: ../src/plugins/ofx/ofx.c:312
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr "Darījums, mēģināts saglabāt bez konta izveides...\n"
 
-#: ../src/plugins/ofx/ofx.c:352
+#: ../src/plugins/ofx/ofx.c:374
 msgid "Interest"
 msgstr "Procenti"
 
-#: ../src/plugins/ofx/ofx.c:356
+#: ../src/plugins/ofx/ofx.c:378
 msgid "Dividend"
 msgstr "Dividendes"
 
-#: ../src/plugins/ofx/ofx.c:360
+#: ../src/plugins/ofx/ofx.c:382
 msgid "Service charge"
 msgstr "Pakalpojuma cena"
 
-#: ../src/plugins/ofx/ofx.c:364
+#: ../src/plugins/ofx/ofx.c:386
 msgid "Fee"
 msgstr "Maksa"
 
-#: ../src/plugins/ofx/ofx.c:372
+#: ../src/plugins/ofx/ofx.c:394
 msgid "Cash dispenser"
 msgstr "Bankomāts"
 
-#: ../src/plugins/ofx/ofx.c:376
+#: ../src/plugins/ofx/ofx.c:398
 msgid "Point of sale"
 msgstr "Tirdzniecības vietas"
 
-#: ../src/plugins/ofx/ofx.c:384
+#: ../src/plugins/ofx/ofx.c:406
 msgid "Electronic payment"
 msgstr "Elektroniskie norēķini"
 
-#: ../src/plugins/ofx/ofx.c:388
+#: ../src/plugins/ofx/ofx.c:410
 msgid "Cash"
 msgstr "Nauda"
 
-#: ../src/plugins/ofx/ofx.c:396
+#: ../src/plugins/ofx/ofx.c:418
 msgid "Merchant initiated debit"
 msgstr "Debeta uzsākšanas subjekts"
 
-#: ../src/plugins/ofx/ofx.c:400
+#: ../src/plugins/ofx/ofx.c:422
 msgid "Repeating payment/standing order"
 msgstr "Atkārtot maksājuma/rīkojuma orderi"
 
-#: ../src/plugins/ofx/ofx.c:478
+#: ../src/plugins/ofx/ofx.c:500
 msgid "Invalid OFX file"
 msgstr "Nepareizs OFX fails"
 
@@ -12839,17 +12834,17 @@ msgstr "Noklusējums"
 msgid "Numbering"
 msgstr "Numerācija"
 
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Init balance"
 msgstr "Inicializācijas bilance"
 
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Final balance"
 msgstr "Beigu bilance"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/prefs/prefs_page_reconcile.c:522
+#: ../src/prefs/prefs_page_reconcile.c:572
 #, fuzzy, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -12863,7 +12858,7 @@ msgstr ""
 "šo saskaņojumu būs jāsaskaņo .\n"
 "Vai tiešām vēlaties turpināt?"
 
-#: ../src/prefs/prefs_page_reconcile.c:528
+#: ../src/prefs/prefs_page_reconcile.c:578
 msgid "Delete reconciliation"
 msgstr "Dzēst saskaņošnu"
 
@@ -13125,6 +13120,21 @@ msgstr "Kļūda atverot failu '%s'"
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "Ievadiet datumu."
+
+#: ../src/search_transaction.c:505
+#, fuzzy
+msgid "1 transaction were found"
+msgstr "Izvēlēties darījuma summu"
+
+#: ../src/search_transaction.c:507
+#, fuzzy
+msgid " transactions were found"
+msgstr "Izvēlēties darījuma summu"
+
+#: ../src/search_transaction.c:524
+#, fuzzy
+msgid "No transaction was found"
+msgstr "Darījumu fonts"
 
 #. on demande de choisir un nouveau compte
 #: ../src/search_transaction.c:962
@@ -13731,7 +13741,7 @@ msgstr "Atšifrēt failu"
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Izvēlēties finanšu gadu, vai pēdējos 12 mēnešus"
 
-#: ../src/widgets/widget_css_rules.c:269
+#: ../src/widgets/widget_css_rules.c:270
 #, c-format
 msgid ""
 "Warning: you will delete your grisbi color adjustment file.\n"
@@ -13739,7 +13749,7 @@ msgid ""
 "Do you want to delete the file: \"%s\"?"
 msgstr ""
 
-#: ../src/widgets/widget_css_rules.c:274
+#: ../src/widgets/widget_css_rules.c:275
 #, fuzzy
 msgid "Delete CSS user file"
 msgstr "Dzēst izvēlēto pārskatu"
@@ -13806,6 +13816,10 @@ msgstr "Daļēja bilance"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy
+#~ msgid "If present, force the use of a dark theme"
+#~ msgstr "Arhivēt pēc datuma"
 
 #, fuzzy
 #~ msgid "10"

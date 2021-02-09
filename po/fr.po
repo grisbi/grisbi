@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-11 08:08+0100\n"
+"POT-Creation-Date: 2021-02-09 18:38+0100\n"
 "PO-Revision-Date: 2020-06-14 18:21+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -1349,7 +1349,7 @@ msgstr "Nombre de jours avant l'alerte ou l'exécution des opérations : "
 msgid "Web browser"
 msgstr "Navigateur Web"
 
-#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:225
+#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:223
 msgid "Web browser command: "
 msgstr "Navigateur Web : "
 
@@ -1477,17 +1477,17 @@ msgstr "Paramètres régionaux"
 msgid "Options"
 msgstr "Options"
 
-#: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:241
+#: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:239
 msgid "Account files handling"
 msgstr "Gestion des fichiers de comptes"
 
 #. Automatically load last file on startup?
-#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:244
+#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:242
 msgid "Automatically load last file on startup"
 msgstr "Chargement automatique du dernier fichier consulté"
 
 #. automatically save file at closing
-#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:249
+#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:247
 msgid "Automatically save on exit"
 msgstr "Enregistrer automatiquement en fermant"
 
@@ -1496,7 +1496,7 @@ msgid "Force saving of locked files"
 msgstr "Forcer l'enregistrement des fichiers verrouillés"
 
 #: ../src/ui/prefs_page_files.ui.h:5 ../src/gsb_assistant_file.c:363
-#: ../src/gsb_assistant_first.c:257
+#: ../src/gsb_assistant_first.c:255
 msgid "Encrypt Grisbi file"
 msgstr "Chiffrer le fichier Grisbi"
 
@@ -1524,15 +1524,15 @@ msgstr "Compresser le fichier de sauvegarde"
 msgid "Make a backup copy after opening files"
 msgstr "Effectuer une copie de sauvegarde après avoir ouvert les fichiers"
 
-#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:272
+#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:270
 msgid "Make a backup copy before saving files"
 msgstr "Effectuer une copie de sauvegarde avant d'enregistrer les fichiers"
 
-#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:280
+#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:278
 msgid "Make a backup copy every "
 msgstr "Effectuer une copie de sauvegarde toutes les "
 
-#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:290
+#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:288
 msgid " minutes"
 msgstr " minutes"
 
@@ -1545,7 +1545,7 @@ msgstr "Supprimer les sauvegardes antérieures à "
 msgid "months"
 msgstr "mois"
 
-#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:298
+#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:296
 msgid "Backup directory: "
 msgstr "Répertoire de sauvegarde : "
 
@@ -3461,7 +3461,7 @@ msgstr "Périodicité"
 #: ../src/bet_future.c:1101 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_archives.c:483
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Final date"
 msgstr "Date finale"
 
@@ -3479,7 +3479,7 @@ msgstr "Périodicité personnalisée"
 #: ../src/export_csv.c:815 ../src/gsb_data_category.c:1085
 #: ../src/gsb_data_payment.c:634 ../src/gsb_data_payment.c:718
 #: ../src/gsb_data_payment.c:757 ../src/gsb_form.c:2970 ../src/import.c:2480
-#: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:380
+#: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:402
 msgid "Transfer"
 msgstr "Virement"
 
@@ -3945,7 +3945,7 @@ msgstr "Cochez la case pour changer automatiquement de date de début"
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:857
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1144
 #: ../src/prefs/prefs_page_payment_method.c:1210
-#: ../src/prefs/prefs_page_reconcile.c:352 ../src/tiers_onglet.c:728
+#: ../src/prefs/prefs_page_reconcile.c:350 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr "Compte"
 
@@ -4338,16 +4338,16 @@ msgstr ""
 "Vous allez supprimer %d sauvegardes de votre fichier de comptes antérieures "
 "au %s."
 
-#: ../src/dialog.c:270
+#: ../src/dialog.c:274
 msgid "Do not show this message again"
 msgstr "Ne plus montrer ce message"
 
-#: ../src/dialog.c:274 ../src/dialog.c:643 ../src/dialog.c:695
+#: ../src/dialog.c:278 ../src/dialog.c:647 ../src/dialog.c:699
 #: ../src/gsb_scheduler_list.c:2907
 msgid "Keep this choice and no longer see this message?"
 msgstr "Gardez ce choix et ne plus voir ce message ?"
 
-#: ../src/dialog.c:803
+#: ../src/dialog.c:807
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
@@ -4355,11 +4355,11 @@ msgstr ""
 "Salut ! Vous êtes au milieu de nulle part, entre deux lignes de code. Grisbi "
 "va très bientôt planter ! Passez une bonne journée."
 
-#: ../src/dialog.c:805
+#: ../src/dialog.c:809
 msgid "Serious brain damage expected."
 msgstr "De gros problèmes en perspective."
 
-#: ../src/dialog.c:819
+#: ../src/dialog.c:823
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -4367,7 +4367,7 @@ msgstr ""
 "Des problèmes vont survenir. Prenez la précaution de sauvegarder vos "
 "modifications dans un fichier séparé au cas où un problème surviendrait."
 
-#: ../src/dialog.c:821
+#: ../src/dialog.c:825
 msgid "Cannot allocate memory"
 msgstr "Erreur dans l'allocation de mémoire"
 
@@ -4428,7 +4428,7 @@ msgstr "Niveau de débogage : Débug"
 msgid "Debug updated by cmd line, level is '%s'"
 msgstr "Mode Debug modifié par l'utilisateur : niveau « %s »"
 
-#: ../src/erreur.c:416 ../src/erreur.c:672
+#: ../src/erreur.c:416 ../src/erreur.c:677
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr "%s, %2f : %s - %s:%d:%s - %s\n"
@@ -4438,7 +4438,7 @@ msgstr "%s, %2f : %s - %s:%d:%s - %s\n"
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr "%s, %2f : %s - %s:%d:%s\n"
 
-#: ../src/erreur.c:560
+#: ../src/erreur.c:565
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -4449,7 +4449,7 @@ msgstr ""
 "fichier de compte et/ou QIF rendu anonyme."
 
 #. début du mode de débogage
-#: ../src/erreur.c:577
+#: ../src/erreur.c:582
 #, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
@@ -4458,7 +4458,7 @@ msgstr ""
 "%s, %2f : Mode débogage - %s:%d:%s\n"
 "\n"
 
-#: ../src/erreur.c:632
+#: ../src/erreur.c:637
 msgid "Grisbi failed to create the log file..."
 msgstr "Grisbi n'a pas pu créer le fichier de log..."
 
@@ -6346,46 +6346,42 @@ msgstr "Mode de débogage : niveau de 0 à 5"
 msgid "DEBUG"
 msgstr "DEBUG"
 
-#: ../src/grisbi_app.c:758
-msgid "If present, force the use of a dark theme"
-msgstr "Si présent, force l'utilisation d'un thème sombre"
-
-#: ../src/grisbi_app.c:780
+#: ../src/grisbi_app.c:765
 msgid "[FILE...]"
 msgstr "[FILE...]"
 
-#: ../src/grisbi_app.c:969
+#: ../src/grisbi_app.c:921
 #, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGINT ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:972
+#: ../src/grisbi_app.c:924
 #, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGTERM ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:975
+#: ../src/grisbi_app.c:927
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: ../src/grisbi_app.c:1193 ../src/menu.c:632
+#: ../src/grisbi_app.c:1145 ../src/menu.c:632
 msgid "Start an action!"
 msgstr "Choisissez une action !"
 
-#: ../src/grisbi_app.c:1483
+#: ../src/grisbi_app.c:1435
 msgid "<b>Actions in transaction list :</b>"
 msgstr "<b>Actions de la liste des opérations :</b>"
 
-#: ../src/grisbi_app.c:1485
+#: ../src/grisbi_app.c:1437
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "(Dé)Pointe une opération\t-> <Primary>p, <Primary>F12\n"
 
-#: ../src/grisbi_app.c:1486
+#: ../src/grisbi_app.c:1438
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "(Dé)Rapproche une opération\t-> <Primary>r\n"
 
-#: ../src/grisbi_conf.c:1138 ../src/grisbi_settings.c:1636
+#: ../src/grisbi_conf.c:1136 ../src/grisbi_settings.c:1634
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Impossible de sauvegarder le fichier « %s » : %s"
@@ -6453,8 +6449,8 @@ msgid "Messages before deleting"
 msgstr "Messages avant suppression"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:337
-#: ../src/prefs/prefs_page_reconcile.c:574
+#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:335
+#: ../src/prefs/prefs_page_reconcile.c:624
 msgid "Reconciliation"
 msgstr "Rapprochement"
 
@@ -7105,7 +7101,7 @@ msgstr ""
 
 #. create the assistant
 #: ../src/gsb_assistant_file.c:129 ../src/gsb_assistant_first.c:88
-#: ../src/gsb_assistant_first.c:143
+#: ../src/gsb_assistant_first.c:141
 msgid "Welcome to Grisbi!"
 msgstr "Bienvenue dans Grisbi !"
 
@@ -7258,7 +7254,7 @@ msgstr ""
 "\n"
 "Merci d'utiliser Grisbi et amusez-vous bien avec !"
 
-#: ../src/gsb_assistant_first.c:144
+#: ../src/gsb_assistant_first.c:142
 msgid ""
 "You are using Grisbi for the first time.  While most of the interface has "
 "not changed, you will notice a lot of improvements. Do not hesitate to read "
@@ -7287,29 +7283,29 @@ msgstr ""
 "\n"
 "Vous pouvez découvrir d'autres améliorations sur http: // www.grisbi.org/."
 
-#: ../src/gsb_assistant_first.c:213
+#: ../src/gsb_assistant_first.c:211
 msgid "General configuration of Grisbi"
 msgstr "Généralités"
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:218
+#: ../src/gsb_assistant_first.c:216
 msgid "Web"
 msgstr "Web"
 
-#: ../src/gsb_assistant_first.c:232
+#: ../src/gsb_assistant_first.c:230
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr "Vous pouvez essayer de mettre %s - Exemple : 'firefox %s' "
 
-#: ../src/gsb_assistant_first.c:302
+#: ../src/gsb_assistant_first.c:300
 msgid "Select/Create backup directory"
 msgstr "Sélectionner/Créer un répertoire de sauvegarde"
 
-#: ../src/gsb_assistant_first.c:341
+#: ../src/gsb_assistant_first.c:339
 msgid "Error getting reconciliations"
 msgstr "Erreur de récupération des rapprochements"
 
-#: ../src/gsb_assistant_first.c:349
+#: ../src/gsb_assistant_first.c:347
 msgid ""
 "When importing the file from the previous version, Grisbi has found "
 "inconsistencies\n"
@@ -9062,12 +9058,12 @@ msgstr "Bolivar"
 msgid "Venezuela"
 msgstr "Vénézuela"
 
-#: ../src/gsb_data_currency.c:948
+#: ../src/gsb_data_currency.c:949
 #, c-format
 msgid "The currency '%s' was duplicated. It has been deleted."
 msgstr "La devise « %s » est en double. Elle va être supprimée."
 
-#: ../src/gsb_data_currency.c:950
+#: ../src/gsb_data_currency.c:951
 msgid "Duplicate currency"
 msgstr "Devise en double"
 
@@ -9176,7 +9172,7 @@ msgstr "État"
 
 #. Deposit = Dépôt
 #: ../src/gsb_data_payment.c:723 ../src/import.c:2459
-#: ../src/plugins/ofx/ofx.c:368
+#: ../src/plugins/ofx/ofx.c:390
 msgid "Deposit"
 msgstr "Dépôt"
 
@@ -9717,7 +9713,7 @@ msgstr "Corriger le fichier"
 msgid "You will go back to the choice of the file.\n"
 msgstr "Vous allez revenir au choix du fichier.\n"
 
-#: ../src/gsb_file_load.c:4262
+#: ../src/gsb_file_load.c:4265
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9730,11 +9726,11 @@ msgstr ""
 "c'est une archive avant de modifier certaines opérations ou informations "
 "importantes."
 
-#: ../src/gsb_file_load.c:4266
+#: ../src/gsb_file_load.c:4269
 msgid "Grisbi archive opened"
 msgstr "Archive Grisbi ouverte"
 
-#: ../src/gsb_file_load.c:4276
+#: ../src/gsb_file_load.c:4279
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -9747,14 +9743,14 @@ msgstr ""
 "\n"
 "Vous devrez refaire la personnalisation des icônes et des couleurs."
 
-#: ../src/gsb_file_load.c:4282
+#: ../src/gsb_file_load.c:4285
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 "Importation d'un fichier dont la version est pour une version antérieure de "
 "Grisbi"
 
-#: ../src/gsb_file_load.c:4723
+#: ../src/gsb_file_load.c:4726
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -10054,14 +10050,14 @@ msgstr "Manuel"
 msgid "Cheque/Transfer number"
 msgstr "N° Chèque/Virement"
 
-#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:392
+#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:414
 msgid "Direct deposit"
 msgstr "Dépôt"
 
 #. Check = Chèque
 #: ../src/gsb_form.c:2941 ../src/import.c:2293 ../src/import.c:2314
-#: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:348
-#: ../src/plugins/ofx/ofx.c:409
+#: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:370
+#: ../src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Chèque"
 
@@ -10642,7 +10638,7 @@ msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr ""
 "Sélectionnez le rapprochement à associer aux opérations sélectionnées : "
 
-#: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_reconcile.c:350
 msgid "Init date"
 msgstr "Date initiale"
 
@@ -12030,68 +12026,68 @@ msgstr ""
 msgid "Error opening temporary file '%s'."
 msgstr "Erreur lors de l'ouverture du fichier temporaire « %s »."
 
-#: ../src/plugins/ofx/ofx.c:198
+#: ../src/plugins/ofx/ofx.c:220
 msgid "OFX processing returned following message:\n"
 msgstr "Le traitement a retourné le message suivant :\n"
 
-#: ../src/plugins/ofx/ofx.c:204
+#: ../src/plugins/ofx/ofx.c:226
 msgid "OFX processing ended in a warning message which is not valid."
 msgstr "Le traitement a retourné un message d'avertissement invalide."
 
-#: ../src/plugins/ofx/ofx.c:210
+#: ../src/plugins/ofx/ofx.c:232
 msgid "OFX processing returned following error message:\n"
 msgstr "Le traitement a retourné le message d'erreur suivant :\n"
 
-#: ../src/plugins/ofx/ofx.c:216
+#: ../src/plugins/ofx/ofx.c:238
 msgid "OFX processing returned an error message which is not valid."
 msgstr "Le traitement a retourné un message d'erreur invalide."
 
-#: ../src/plugins/ofx/ofx.c:290
+#: ../src/plugins/ofx/ofx.c:312
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
 "Tentative d'enregistrement d'une opération dans un compte inexistant...\n"
 
-#: ../src/plugins/ofx/ofx.c:352
+#: ../src/plugins/ofx/ofx.c:374
 msgid "Interest"
 msgstr "Intérêt"
 
-#: ../src/plugins/ofx/ofx.c:356
+#: ../src/plugins/ofx/ofx.c:378
 msgid "Dividend"
 msgstr "Dividende"
 
-#: ../src/plugins/ofx/ofx.c:360
+#: ../src/plugins/ofx/ofx.c:382
 msgid "Service charge"
 msgstr "Frais de service"
 
-#: ../src/plugins/ofx/ofx.c:364
+#: ../src/plugins/ofx/ofx.c:386
 msgid "Fee"
 msgstr "Frais"
 
-#: ../src/plugins/ofx/ofx.c:372
+#: ../src/plugins/ofx/ofx.c:394
 msgid "Cash dispenser"
 msgstr "Distributeur de billets"
 
-#: ../src/plugins/ofx/ofx.c:376
+#: ../src/plugins/ofx/ofx.c:398
 msgid "Point of sale"
 msgstr "Point de vente"
 
-#: ../src/plugins/ofx/ofx.c:384
+#: ../src/plugins/ofx/ofx.c:406
 msgid "Electronic payment"
 msgstr "Prélèvement"
 
-#: ../src/plugins/ofx/ofx.c:388
+#: ../src/plugins/ofx/ofx.c:410
 msgid "Cash"
 msgstr "Espèces"
 
-#: ../src/plugins/ofx/ofx.c:396
+#: ../src/plugins/ofx/ofx.c:418
 msgid "Merchant initiated debit"
 msgstr "Prélèvement"
 
-#: ../src/plugins/ofx/ofx.c:400
+#: ../src/plugins/ofx/ofx.c:422
 msgid "Repeating payment/standing order"
 msgstr "Paiement répété"
 
-#: ../src/plugins/ofx/ofx.c:478
+#: ../src/plugins/ofx/ofx.c:500
 msgid "Invalid OFX file"
 msgstr "Fichier OFX invalide"
 
@@ -12711,17 +12707,17 @@ msgstr "Défaut"
 msgid "Numbering"
 msgstr "Numérotation"
 
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Init balance"
 msgstr "Solde initial"
 
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Final balance"
 msgstr "Solde final"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/prefs/prefs_page_reconcile.c:522
+#: ../src/prefs/prefs_page_reconcile.c:572
 #, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -12735,7 +12731,7 @@ msgstr ""
 "opérations liées seront marquées P.\n"
 "Voulez-vous continuer ?"
 
-#: ../src/prefs/prefs_page_reconcile.c:528
+#: ../src/prefs/prefs_page_reconcile.c:578
 msgid "Delete reconciliation"
 msgstr "Supprimer un rapprochement"
 
@@ -12989,6 +12985,18 @@ msgstr "Erreur lors de l'ouverture du fichier « %s »"
 #: ../src/search_transaction.c:466 ../src/search_transaction.c:775
 msgid "You must enter a search text"
 msgstr "Vous devez entrer un text à rechercher"
+
+#: ../src/search_transaction.c:505
+msgid "1 transaction were found"
+msgstr "1 opération a été trouvée"
+
+#: ../src/search_transaction.c:507
+msgid " transactions were found"
+msgstr " opérations ont été trouvées"
+
+#: ../src/search_transaction.c:524
+msgid "No transaction was found"
+msgstr "Aucune opération n'a été trouvée"
 
 #. on demande de choisir un nouveau compte
 #: ../src/search_transaction.c:962
@@ -13620,7 +13628,7 @@ msgstr "Impossible de crypter le fichier"
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Choix de l'exercice ou 12 mois glissants"
 
-#: ../src/widgets/widget_css_rules.c:269
+#: ../src/widgets/widget_css_rules.c:270
 #, c-format
 msgid ""
 "Warning: you will delete your grisbi color adjustment file.\n"
@@ -13632,7 +13640,7 @@ msgstr ""
 "Cette opération sera définitive.\n"
 "Voulez vous supprimer le fichier : « %s » ?"
 
-#: ../src/widgets/widget_css_rules.c:274
+#: ../src/widgets/widget_css_rules.c:275
 msgid "Delete CSS user file"
 msgstr "Supprimer le fichier CSS de l'utilisateur"
 
@@ -13706,3 +13714,6 @@ msgstr "Solde partiel"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr "Il est recommandé d'utiliser un des deux champs"
+
+#~ msgid "If present, force the use of a dark theme"
+#~ msgstr "Si présent, force l'utilisation d'un thème sombre"

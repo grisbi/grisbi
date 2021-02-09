@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-11 08:08+0100\n"
+"POT-Creation-Date: 2021-02-09 18:38+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -1521,7 +1521,7 @@ msgstr "Numărul de zile precedând rapelul unei operaţiuni planificate:"
 msgid "Web browser"
 msgstr "Navigator web"
 
-#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:225
+#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:223
 #, fuzzy
 msgid "Web browser command: "
 msgstr "Navigator web:"
@@ -1657,17 +1657,17 @@ msgstr "Apropiere"
 msgid "Options"
 msgstr "Cheltueli"
 
-#: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:241
+#: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:239
 msgid "Account files handling"
 msgstr "Gestiunea fişierelor de conturi"
 
 #. Automatically load last file on startup?
-#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:244
+#: ../src/ui/prefs_page_files.ui.h:2 ../src/gsb_assistant_first.c:242
 msgid "Automatically load last file on startup"
 msgstr "Încăcarea automatică a ultimului fişier consultat"
 
 #. automatically save file at closing
-#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:249
+#: ../src/ui/prefs_page_files.ui.h:3 ../src/gsb_assistant_first.c:247
 msgid "Automatically save on exit"
 msgstr "Înregistra automatic închizând"
 
@@ -1676,7 +1676,7 @@ msgid "Force saving of locked files"
 msgstr "Forţaţi înregistrarea fişierilor zăvorite"
 
 #: ../src/ui/prefs_page_files.ui.h:5 ../src/gsb_assistant_file.c:363
-#: ../src/gsb_assistant_first.c:257
+#: ../src/gsb_assistant_first.c:255
 #, fuzzy
 msgid "Encrypt Grisbi file"
 msgstr "Fişier Postscript"
@@ -1707,16 +1707,16 @@ msgstr ""
 msgid "Make a backup copy after opening files"
 msgstr "A efectua o copie de salvare după ce fişierele au fost deschise"
 
-#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:272
+#: ../src/ui/prefs_page_files.ui.h:12 ../src/gsb_assistant_first.c:270
 msgid "Make a backup copy before saving files"
 msgstr "Efectua o copie de salvare înainte de a înregistra fişierele"
 
-#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:280
+#: ../src/ui/prefs_page_files.ui.h:13 ../src/gsb_assistant_first.c:278
 #, fuzzy
 msgid "Make a backup copy every "
 msgstr "Efectua o copie de salvare înainte de a înregistra fişierele"
 
-#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:290
+#: ../src/ui/prefs_page_files.ui.h:15 ../src/gsb_assistant_first.c:288
 #, fuzzy
 msgid " minutes"
 msgstr "notă"
@@ -1731,7 +1731,7 @@ msgstr ""
 msgid "months"
 msgstr "Luni"
 
-#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:298
+#: ../src/ui/prefs_page_files.ui.h:18 ../src/gsb_assistant_first.c:296
 #, fuzzy
 msgid "Backup directory: "
 msgstr "Fişier de salvare:"
@@ -3737,7 +3737,7 @@ msgstr "Frecvenţă"
 #: ../src/bet_future.c:1101 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_archives.c:483
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Final date"
 msgstr ".Dată finală"
 
@@ -3755,7 +3755,7 @@ msgstr "Frecvenţă personalizată"
 #: ../src/export_csv.c:815 ../src/gsb_data_category.c:1085
 #: ../src/gsb_data_payment.c:634 ../src/gsb_data_payment.c:718
 #: ../src/gsb_data_payment.c:757 ../src/gsb_form.c:2970 ../src/import.c:2480
-#: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:380
+#: ../src/import.c:2501 ../src/plugins/ofx/ofx.c:402
 msgid "Transfer"
 msgstr "Virament"
 
@@ -4253,7 +4253,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:857
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1144
 #: ../src/prefs/prefs_page_payment_method.c:1210
-#: ../src/prefs/prefs_page_reconcile.c:352 ../src/tiers_onglet.c:728
+#: ../src/prefs/prefs_page_reconcile.c:350 ../src/tiers_onglet.c:728
 msgid "Account"
 msgstr "Cont"
 
@@ -4666,32 +4666,32 @@ msgid ""
 "You will delete %d backups from your account file that are older than %s."
 msgstr ""
 
-#: ../src/dialog.c:270
+#: ../src/dialog.c:274
 msgid "Do not show this message again"
 msgstr "A nu mai arăta acest mesaj"
 
-#: ../src/dialog.c:274 ../src/dialog.c:643 ../src/dialog.c:695
+#: ../src/dialog.c:278 ../src/dialog.c:647 ../src/dialog.c:699
 #: ../src/gsb_scheduler_list.c:2907
 msgid "Keep this choice and no longer see this message?"
 msgstr ""
 
-#: ../src/dialog.c:803
+#: ../src/dialog.c:807
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
 msgstr ""
 
-#: ../src/dialog.c:805
+#: ../src/dialog.c:809
 msgid "Serious brain damage expected."
 msgstr "Mari probleme în perspectivă."
 
-#: ../src/dialog.c:819
+#: ../src/dialog.c:823
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
 msgstr ""
 
-#: ../src/dialog.c:821
+#: ../src/dialog.c:825
 #, fuzzy
 msgid "Cannot allocate memory"
 msgstr "Eroare în alocarea memoriei se va termina foarte rău"
@@ -4755,7 +4755,7 @@ msgstr ""
 msgid "Debug updated by cmd line, level is '%s'"
 msgstr ""
 
-#: ../src/erreur.c:416 ../src/erreur.c:672
+#: ../src/erreur.c:416 ../src/erreur.c:677
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr ""
@@ -4765,7 +4765,7 @@ msgstr ""
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr ""
 
-#: ../src/erreur.c:560
+#: ../src/erreur.c:565
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -4773,14 +4773,14 @@ msgid ""
 msgstr ""
 
 #. début du mode de débogage
-#: ../src/erreur.c:577
+#: ../src/erreur.c:582
 #, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
 "\n"
 msgstr ""
 
-#: ../src/erreur.c:632
+#: ../src/erreur.c:637
 msgid "Grisbi failed to create the log file..."
 msgstr ""
 
@@ -6706,51 +6706,46 @@ msgstr "Debogaţi fişierul"
 msgid "DEBUG"
 msgstr ""
 
-#: ../src/grisbi_app.c:758
-#, fuzzy
-msgid "If present, force the use of a dark theme"
-msgstr "Tri pe dată"
-
-#: ../src/grisbi_app.c:780
+#: ../src/grisbi_app.c:765
 msgid "[FILE...]"
 msgstr ""
 
-#: ../src/grisbi_app.c:969
+#: ../src/grisbi_app.c:921
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
 
-#: ../src/grisbi_app.c:972
+#: ../src/grisbi_app.c:924
 #, fuzzy, c-format
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
 
-#: ../src/grisbi_app.c:975
+#: ../src/grisbi_app.c:927
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
 
-#: ../src/grisbi_app.c:1193 ../src/menu.c:632
+#: ../src/grisbi_app.c:1145 ../src/menu.c:632
 #, fuzzy
 msgid "Start an action!"
 msgstr "Clasament a operaţiunilor prin"
 
-#: ../src/grisbi_app.c:1483
+#: ../src/grisbi_app.c:1435
 #, fuzzy
 msgid "<b>Actions in transaction list :</b>"
 msgstr "Suprima operaţiunea"
 
-#: ../src/grisbi_app.c:1485
+#: ../src/grisbi_app.c:1437
 #, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"
 msgstr "Operaţii apropiate"
 
-#: ../src/grisbi_app.c:1486
+#: ../src/grisbi_app.c:1438
 #, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Primary>r\n"
 msgstr "Operaţii apropiate"
 
-#: ../src/grisbi_conf.c:1138 ../src/grisbi_settings.c:1636
+#: ../src/grisbi_conf.c:1136 ../src/grisbi_settings.c:1634
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Imposibil de a salva fişierul '%s': %s"
@@ -6823,8 +6818,8 @@ msgid "Messages before deleting"
 msgstr "Mesaje şi alarme"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:337
-#: ../src/prefs/prefs_page_reconcile.c:574
+#: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:335
+#: ../src/prefs/prefs_page_reconcile.c:624
 msgid "Reconciliation"
 msgstr "Apropiere"
 
@@ -7450,7 +7445,7 @@ msgstr ""
 
 #. create the assistant
 #: ../src/gsb_assistant_file.c:129 ../src/gsb_assistant_first.c:88
-#: ../src/gsb_assistant_first.c:143
+#: ../src/gsb_assistant_first.c:141
 #, fuzzy
 msgid "Welcome to Grisbi!"
 msgstr "Despre Grisbi"
@@ -7574,7 +7569,7 @@ msgid ""
 "Thanks for using Grisbi, enjoy!"
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:144
+#: ../src/gsb_assistant_first.c:142
 msgid ""
 "You are using Grisbi for the first time.  While most of the interface has "
 "not changed, you will notice a lot of improvements. Do not hesitate to read "
@@ -7593,31 +7588,31 @@ msgid ""
 "You can find out other improvements on https://www.grisbi.org/."
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:213
+#: ../src/gsb_assistant_first.c:211
 msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:218
+#: ../src/gsb_assistant_first.c:216
 #, fuzzy
 msgid "Web"
 msgstr "Situl Web"
 
-#: ../src/gsb_assistant_first.c:232
+#: ../src/gsb_assistant_first.c:230
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:302
+#: ../src/gsb_assistant_first.c:300
 msgid "Select/Create backup directory"
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:341
+#: ../src/gsb_assistant_first.c:339
 #, fuzzy
 msgid "Error getting reconciliations"
 msgstr "Apropiere"
 
-#: ../src/gsb_assistant_first.c:349
+#: ../src/gsb_assistant_first.c:347
 msgid ""
 "When importing the file from the previous version, Grisbi has found "
 "inconsistencies\n"
@@ -9349,12 +9344,12 @@ msgstr "Bolivar venezulian"
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: ../src/gsb_data_currency.c:948
+#: ../src/gsb_data_currency.c:949
 #, c-format
 msgid "The currency '%s' was duplicated. It has been deleted."
 msgstr ""
 
-#: ../src/gsb_data_currency.c:950
+#: ../src/gsb_data_currency.c:951
 #, fuzzy
 msgid "Duplicate currency"
 msgstr "Alegerea devizei"
@@ -9478,7 +9473,7 @@ msgstr "Stare"
 
 #. Deposit = Dépôt
 #: ../src/gsb_data_payment.c:723 ../src/import.c:2459
-#: ../src/plugins/ofx/ofx.c:368
+#: ../src/plugins/ofx/ofx.c:390
 msgid "Deposit"
 msgstr "Depozit"
 
@@ -9989,7 +9984,7 @@ msgstr "Creaţia unui nume de fişier de conturi"
 msgid "You will go back to the choice of the file.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4262
+#: ../src/gsb_file_load.c:4265
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9997,11 +9992,11 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4266
+#: ../src/gsb_file_load.c:4269
 msgid "Grisbi archive opened"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4276
+#: ../src/gsb_file_load.c:4279
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -10010,12 +10005,12 @@ msgid ""
 "You will have to re-customize the icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4282
+#: ../src/gsb_file_load.c:4285
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4723
+#: ../src/gsb_file_load.c:4726
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -10297,14 +10292,14 @@ msgstr "Manual"
 msgid "Cheque/Transfer number"
 msgstr "Nr cec/Virament"
 
-#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:392
+#: ../src/gsb_form.c:2932 ../src/plugins/ofx/ofx.c:414
 msgid "Direct deposit"
 msgstr "Depunere directă"
 
 #. Check = Chèque
 #: ../src/gsb_form.c:2941 ../src/import.c:2293 ../src/import.c:2314
-#: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:348
-#: ../src/plugins/ofx/ofx.c:409
+#: ../src/import.c:2441 ../src/plugins/ofx/ofx.c:370
+#: ../src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Cec"
 
@@ -10925,7 +10920,7 @@ msgstr ""
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "Operaţiile apropiate:"
 
-#: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/gsb_transactions_list.c:1203 ../src/prefs/prefs_page_reconcile.c:350
 #, fuzzy
 msgid "Init date"
 msgstr "Dată iniţială"
@@ -12299,72 +12294,72 @@ msgstr ""
 msgid "Error opening temporary file '%s'."
 msgstr "Eroare la deschiderea fişierului temporar '%s'"
 
-#: ../src/plugins/ofx/ofx.c:198
+#: ../src/plugins/ofx/ofx.c:220
 #, fuzzy
 msgid "OFX processing returned following message:\n"
 msgstr "Această operaţie a întors un mesaj"
 
-#: ../src/plugins/ofx/ofx.c:204
+#: ../src/plugins/ofx/ofx.c:226
 #, fuzzy
 msgid "OFX processing ended in a warning message which is not valid."
 msgstr "Fişierul a întors un mesaj de avertisment nu valid."
 
-#: ../src/plugins/ofx/ofx.c:210
+#: ../src/plugins/ofx/ofx.c:232
 #, fuzzy
 msgid "OFX processing returned following error message:\n"
 msgstr "Această operaţie a întors un mesaj"
 
-#: ../src/plugins/ofx/ofx.c:216
+#: ../src/plugins/ofx/ofx.c:238
 #, fuzzy
 msgid "OFX processing returned an error message which is not valid."
 msgstr "Fişierul a întors un mesaj de avertisment nu valid."
 
-#: ../src/plugins/ofx/ofx.c:290
+#: ../src/plugins/ofx/ofx.c:312
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
 "Tentativă de înregistrare a unei operaţiuni fără cont creată înainte..\n"
 
-#: ../src/plugins/ofx/ofx.c:352
+#: ../src/plugins/ofx/ofx.c:374
 msgid "Interest"
 msgstr "Interes"
 
-#: ../src/plugins/ofx/ofx.c:356
+#: ../src/plugins/ofx/ofx.c:378
 msgid "Dividend"
 msgstr "Devident"
 
-#: ../src/plugins/ofx/ofx.c:360
+#: ../src/plugins/ofx/ofx.c:382
 msgid "Service charge"
 msgstr "Cheltueli de serviciu"
 
-#: ../src/plugins/ofx/ofx.c:364
+#: ../src/plugins/ofx/ofx.c:386
 msgid "Fee"
 msgstr "Proaspăt"
 
-#: ../src/plugins/ofx/ofx.c:372
+#: ../src/plugins/ofx/ofx.c:394
 msgid "Cash dispenser"
 msgstr "Distributor de bani"
 
-#: ../src/plugins/ofx/ofx.c:376
+#: ../src/plugins/ofx/ofx.c:398
 msgid "Point of sale"
 msgstr "Punct de vânzare"
 
-#: ../src/plugins/ofx/ofx.c:384
+#: ../src/plugins/ofx/ofx.c:406
 msgid "Electronic payment"
 msgstr "Plătire electronică"
 
-#: ../src/plugins/ofx/ofx.c:388
+#: ../src/plugins/ofx/ofx.c:410
 msgid "Cash"
 msgstr "În lichid"
 
-#: ../src/plugins/ofx/ofx.c:396
+#: ../src/plugins/ofx/ofx.c:418
 msgid "Merchant initiated debit"
 msgstr "Prelevare"
 
-#: ../src/plugins/ofx/ofx.c:400
+#: ../src/plugins/ofx/ofx.c:422
 msgid "Repeating payment/standing order"
 msgstr "Plată repetată"
 
-#: ../src/plugins/ofx/ofx.c:478
+#: ../src/plugins/ofx/ofx.c:500
 #, fuzzy
 msgid "Invalid OFX file"
 msgstr "Starea fişierului nu este bună"
@@ -12999,18 +12994,18 @@ msgstr "Configuraţie de bază"
 msgid "Numbering"
 msgstr "Numerotare"
 
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 #, fuzzy
 msgid "Init balance"
 msgstr "Sold iniţial"
 
-#: ../src/prefs/prefs_page_reconcile.c:352
+#: ../src/prefs/prefs_page_reconcile.c:350
 msgid "Final balance"
 msgstr "Sold final"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/prefs/prefs_page_reconcile.c:522
+#: ../src/prefs/prefs_page_reconcile.c:572
 #, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -13020,7 +13015,7 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../src/prefs/prefs_page_reconcile.c:528
+#: ../src/prefs/prefs_page_reconcile.c:578
 #, fuzzy
 msgid "Delete reconciliation"
 msgstr "Creaţi un nou cont"
@@ -13295,6 +13290,21 @@ msgstr "Eroare la deschiderea fişierului '%s'."
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "O dată este obligatorie."
+
+#: ../src/search_transaction.c:505
+#, fuzzy
+msgid "1 transaction were found"
+msgstr "Selecţionaţi operaţiile după sume"
+
+#: ../src/search_transaction.c:507
+#, fuzzy
+msgid " transactions were found"
+msgstr "Selecţionaţi operaţiile după sume"
+
+#: ../src/search_transaction.c:524
+#, fuzzy
+msgid "No transaction was found"
+msgstr "Poliţa listei de tranzacţiuni"
 
 #. on demande de choisir un nouveau compte
 #: ../src/search_transaction.c:962
@@ -13808,7 +13818,7 @@ msgstr "Fişier Postscript"
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Alegerea exerciţiului"
 
-#: ../src/widgets/widget_css_rules.c:269
+#: ../src/widgets/widget_css_rules.c:270
 #, c-format
 msgid ""
 "Warning: you will delete your grisbi color adjustment file.\n"
@@ -13816,7 +13826,7 @@ msgid ""
 "Do you want to delete the file: \"%s\"?"
 msgstr ""
 
-#: ../src/widgets/widget_css_rules.c:274
+#: ../src/widgets/widget_css_rules.c:275
 #, fuzzy
 msgid "Delete CSS user file"
 msgstr "Stergeţi starea"
@@ -13887,6 +13897,10 @@ msgstr "Sold iniţial"
 #: ../src/widgets/widget_transfer.c:938
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy
+#~ msgid "If present, force the use of a dark theme"
+#~ msgstr "Tri pe dată"
 
 #, fuzzy
 #~ msgid "Config file"
