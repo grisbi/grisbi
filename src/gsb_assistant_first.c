@@ -102,9 +102,7 @@ GtkResponseType gsb_assistant_first_run ( void )
     init_variables ();
 
     /* set up the XDG Environment variables for linux*/
-    #ifndef G_OS_WIN32
         utils_files_create_XDG_dir ( );
-    #endif
 
     /* now we launch the assistant */
     return_value = gsb_assistant_run (assistant);

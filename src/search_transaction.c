@@ -502,9 +502,9 @@ static void search_transaction_button_search_clicked (GtkButton *button,
 			/* on affiche le résultat */
 			str_number = utils_str_itoa (search_active);
 			if (search_active == 1)
-				tmp_str = g_strdup ("1 transaction were found");
+				tmp_str = g_strdup (_("1 transaction were found"));
 			else
-				tmp_str = g_strconcat (str_number, " transactions were found", NULL);
+				tmp_str = g_strconcat (str_number, _(" transactions were found"), NULL);
 			g_free (str_number);
 
 			transaction_number = GPOINTER_TO_INT (g_slist_nth_data (priv->list, search_active-1));
@@ -521,7 +521,7 @@ static void search_transaction_button_search_clicked (GtkButton *button,
 		}
 		else
 		{
-			tmp_str = g_strdup ("No transaction was found");
+			tmp_str = g_strdup (_("No transaction was found"));
 			gtk_widget_set_sensitive (priv->box_other_account, TRUE);
 			search_active = -1;
 		}

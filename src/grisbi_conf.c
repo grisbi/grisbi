@@ -1124,12 +1124,10 @@ gboolean grisbi_conf_save_app_config (void)
 
     /* save into a file */
 	/* verifier l'utilité de  ce test */
-#ifndef _WIN32
 	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
 	{
 		utils_files_create_XDG_dir ();
 	}
-#endif
 
 	if (!g_key_file_save_to_file (config, filename, &error))
 	{
