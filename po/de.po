@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-10 18:57+0100\n"
-"PO-Revision-Date: 2021-01-11 18:28+0100\n"
+"PO-Revision-Date: 2021-02-13 12:22+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 20.12.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/ui/bet_graph.ui.h:1
@@ -1385,8 +1385,7 @@ msgid ""
 "the following month.\n"
 "They will start on the chosen day)"
 msgstr ""
-"(Mit dieser Einstellung wird das Ausführungsdatum der geplanten Buchung "
-"festgelegt)"
+"(Diese Einstellung legt das Ausführungsdatum der geplanten Buchung fest)"
 
 #: ../src/ui/prefs_page_divers.ui.h:19
 msgid ""
@@ -1399,8 +1398,8 @@ msgid ""
 "(This option sets the day of launching the operation if it exists. For "
 "example every 29th of the month except leap years)"
 msgstr ""
-"(Mit dieser Einstellung werden wird das Ausführungsdatum automatisch "
-"angepasst Als Beispiel 29. Tag im Februar und kein Schaltjahr)"
+"(Diese Einstellung passt das Ausführungsdatum automatisch an."
+"Als Beispiel 29. Tag im Februar und kein Schaltjahr)"
 
 #: ../src/ui/prefs_page_divers.ui.h:22
 msgid "Use a default account for sheduler form: "
@@ -1918,11 +1917,11 @@ msgstr "Abstimmung: Buchungen sortieren"
 
 #: ../src/ui/search_transaction.ui.h:2
 msgid "Searched string :"
-msgstr "Gesuchte Zeichenkette:"
+msgstr "Suchbegriff:"
 
 #: ../src/ui/search_transaction.ui.h:3
 msgid "Search a string"
-msgstr "Suche nach Zeichenkette"
+msgstr "Suche nach Text"
 
 #: ../src/ui/search_transaction.ui.h:4
 msgid "Search in payee name"
@@ -1938,7 +1937,7 @@ msgstr "Suche nach Betrag"
 
 #: ../src/ui/search_transaction.ui.h:7
 msgid "Search an amount at + or - "
-msgstr "Suche nach Betrag mit + oder -"
+msgstr "Betrag im Bereich von  + / -"
 
 #. others options for search
 #: ../src/ui/search_transaction.ui.h:9 ../src/widgets/widget_import_asso.ui.h:8
@@ -2034,15 +2033,11 @@ msgstr "Voreinstellung"
 
 #: ../src/widgets/widget_css_rules.ui.h:10
 msgid "This action deletes the personal CSS file and resets all colors"
-msgstr ""
-"Mit dieser Aktion werden alle benutzerdefinierte CSS Einstellungen "
-"zurückgesetzt"
+msgstr "Diese Aktion setzt alle benutzerdefinierte CSS Einstellungen zurück"
 
 #: ../src/widgets/widget_css_rules.ui.h:11
 msgid "(This action deletes the personal CSS file and resets all colors)"
-msgstr ""
-"(Mit dieser Aktion werden alle benutzerdefinierte CSS Einstellungen "
-"zurückgesetzt)"
+msgstr "Diese Aktion setzt alle benutzerdefinierte CSS Einstellungen zurück"
 
 #: ../src/widgets/widget_currency_details.ui.h:2
 msgid "Sign: "
@@ -12470,6 +12465,10 @@ msgid ""
 "Une ou plusieurs erreurs de copie ont eu lieu probablement pour des raisons "
 "de droits d'écriture dans le répertoire de destination.\n"
 msgstr ""
+"%d Konten haben folgende %d Symbole:\n"
+"\t- %s\n"
+"Beim Kopieren in das Zielverzeichnis sind Fehler aufgrund fehlender"
+" Berechtigungen aufgetreten.\n"
 
 #: ../src/prefs/prefs_page_files.c:177
 #, c-format
@@ -12479,16 +12478,22 @@ msgid ""
 "These icons have been copied into the directory:\n"
 "%s\n"
 msgstr ""
+"%d Konten haben folgende %d Symbole:\n"
+"\t- %s\n"
+"Diese Symbole wurden in folgendes Verzeichnis kopiert:\n"
+"%s\n"
 
 #: ../src/prefs/prefs_page_files.c:186
 msgid "Move account icons in the accounts file directory"
-msgstr ""
+msgstr "Symbole für Konten in Verzeichnis von Grisbi Datei kopieren"
 
 #: ../src/prefs/prefs_page_files.c:240
 msgid ""
 "Put the specific icons of the accounts in the directory:\n"
 "\t"
 msgstr ""
+"Symbole für Konten in in diesem Verzeichnis ablegen:\n"
+"\t"
 
 #: ../src/prefs/prefs_page_files.c:256
 msgid ""
@@ -12496,10 +12501,13 @@ msgid ""
 "directory of the accounts file\" but you did not use this possibility.\n"
 "If you need it, do so otherwise uncheck the option"
 msgstr ""
+"Es wurde die Einstellung \"Symbole für Konten in Verzeichnis von Grisbi Datei"
+" ablegen\" ausgewählt, jedoch wird diese Einstellung nicht verwendet.\n"
+"Diese Einstellung kann je nach Bedarf aus oder abgewählt werden."
 
 #: ../src/prefs/prefs_page_files.c:261
 msgid "Put the icons of the accounts in the directory of the accounts file"
-msgstr ""
+msgstr "Symbole für Konten in Verzeichnis von Grisbi Datei ablegen"
 
 #. On récupère le nom de la page
 #: ../src/prefs/prefs_page_form_completion.c:242
@@ -12956,19 +12964,16 @@ msgid "You must enter a search text"
 msgstr "Sie müssen einen Suchbegriff eingeben"
 
 #: ../src/search_transaction.c:505
-#, fuzzy
 msgid "1 transaction were found"
-msgstr "Es wurden mehrere Buchungen gefunden"
+msgstr "Es wurde 1 Buchung gefunden"
 
 #: ../src/search_transaction.c:507
-#, fuzzy
 msgid " transactions were found"
-msgstr "Es wurden mehrere Buchungen gefunden"
+msgstr " Buchungen wurden gefunden"
 
 #: ../src/search_transaction.c:524
-#, fuzzy
 msgid "No transaction was found"
-msgstr "Schrift Buchungen"
+msgstr "Es wurde keine Buchung gefunden"
 
 #. on demande de choisir un nouveau compte
 #: ../src/search_transaction.c:962
