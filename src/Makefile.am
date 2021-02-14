@@ -1,6 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
 AM_CPPFLAGS = -I$(top_srcdir) \
+	      -I$(top_srcdir)/src/etats \
 	      -I$(top_srcdir)/src/prefs \
 	      -I$(top_srcdir)/src/widgets \
 	      $(GLIB_CFLAGS) \
@@ -27,6 +28,7 @@ grisbi_LDADD = \
 
 libgrisbi_la_LIBADD =
 
+libgrisbi_la_LIBADD += etats/libetatspages.la
 libgrisbi_la_LIBADD += prefs/libprefspages.la
 libgrisbi_la_LIBADD += widgets/libwidgets.la
 
@@ -371,7 +373,7 @@ endif
 
 
 
-SUBDIRS = prefs ui widgets plugins/gnucash plugins/ofx plugins/openssl images
+SUBDIRS = etats prefs ui widgets plugins/gnucash plugins/ofx plugins/openssl images
 
 if HAVE_CUNIT
 SUBDIRS += tests
