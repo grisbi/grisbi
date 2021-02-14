@@ -11,24 +11,6 @@ G_BEGIN_DECLS
 
 /*START_GLOBAL_VARIABLES*/
 /* liste des plages de date possibles */
-static const gchar *etats_config_liste_plages_dates[] =
-{
-    N_("All"),
-    N_("Custom"),
-    N_("Total to now"),
-    N_("Current month"),
-    N_("Current year"),
-    N_("Current month to now"),
-    N_("Current year to now"),
-    N_("Previous month"),
-    N_("Previous year"),
-    N_("Last 30 days"),
-    N_("Last 3 months"),
-    N_("Last 6 months"),
-    N_("Last 12 months"),
-    NULL,
-};
-
 static const gchar *jours_semaine[] =
 {
     N_("Monday"),
@@ -88,7 +70,6 @@ static GtkWidget *	etats_prefs_onglet_comptes_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_divers_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_mode_paiement_create_page 			(gint page);
 static GtkWidget *	etats_prefs_onglet_montants_create_page 				(gint page);
-static GtkWidget *	etats_prefs_onglet_periode_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_textes_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_tiers_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_virements_create_page 				(gint page);

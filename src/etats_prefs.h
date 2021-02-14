@@ -29,6 +29,16 @@ struct _EtatsPrefsClass
     GtkDialogClass parent_class;
 };
 
+enum EtatsPrefsPageType
+{
+	DATE_PAGE_TYPE,
+	TRANSFER_PAGE_TYPE,
+	ACCOUNT_PAGE_TYPE,
+	PAYEE_PAGE_TYPE,
+	CATEGORY_PAGE_TYPE,
+	BUDGETARY_PAGE_TYPE
+};
+
 /* START_DECLARATION */
 GType		etats_prefs_get_type										(void) G_GNUC_CONST;
 
@@ -48,7 +58,6 @@ void 		etats_prefs_onglet_categ_budget_check_uncheck_all 			(GtkToggleButton *to
 GSList *	etats_prefs_onglet_mode_paiement_get_list_rows_selected 	(const gchar *treeview_name);
 void 		etats_prefs_onglet_mode_paiement_select_rows_from_list 		(GSList *liste,
 																		 const gchar *treeview_name);
-void 		etats_prefs_onglet_periode_date_interval_sensitive 			(gboolean show);
 
 GSList *	etats_prefs_tree_view_get_list_rows_selected 				(const gchar *treeview_name);
 gint 		etats_prefs_tree_view_get_single_row_selected 				(const gchar *treeview_name);
@@ -61,6 +70,19 @@ GtkWidget *	etats_prefs_widget_get_widget_by_name 						(const gchar *parent_nam
 																		 const gchar *child_name);
 gboolean 	etats_prefs_widget_set_sensitive 							(const gchar *widget_name,
 																		 gboolean sensitive);
+gboolean	etats_prefs_left_panel_tree_view_update_style				(GtkWidget *button,
+																		  gint *page_number);
+
+/* TRANSITOIRE */
+void 		new_etats_prefs_tree_view_select_rows_from_list 			(GSList *liste,
+																		 GtkWidget *tree_view,
+																		 gint column);
+void 		new_etats_prefs_tree_view_select_single_row 				(GtkWidget *tree_view,
+												 						 gint numero);
+gint 		new_etats_prefs_tree_view_get_single_row_selected			(GtkWidget *tree_view);
+GtkWidget *	etats_prefs_get_page_by_number								(GtkWidget *etats_prefs,
+																		 gint num_page);
+GSList *	new_etats_prefs_tree_view_get_list_rows_selected			(GtkWidget *tree_view);
 /* END_DECLARATION */
 
 G_END_DECLS

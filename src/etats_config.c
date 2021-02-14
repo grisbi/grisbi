@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)           */
-/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          2008-2021 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -37,6 +37,7 @@
 #include "etats_config.h"
 #include "etats_prefs.h"
 #include "etats_onglet.h"
+#include "etats_page_period.h"
 #include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
@@ -164,7 +165,6 @@ static const gchar *champs_comparateur_montant[] =
 
 /*END*/
 
-
 /*COMMON_FUNCTIONS*/
 /**
  * Rend sensitif la suite de la comparaison de numéro
@@ -185,235 +185,6 @@ static void etats_config_combo_lien_nombre_2_changed ( GtkComboBox *combo,
     else
         gtk_widget_set_sensitive ( widget, TRUE );
 }
-
-
-/*ONGLET_PERIODE*/
-/**
- * Initialise les informations de l'onglet periode
- *
- * \param report_number
- *
- * \return
- */
-static void etats_config_initialise_onglet_periode ( gint report_number )
-{
-    if ( gsb_data_report_get_use_financial_year ( report_number ) )
-    {
-        gint financial_year_type;
-
-        etats_prefs_button_toggle_set_actif ( "radio_button_utilise_exo", TRUE );
-
-        financial_year_type = gsb_data_report_get_financial_year_type ( report_number );
-        etats_prefs_buttons_radio_set_active_index ( "bouton_exo_tous", financial_year_type );
-
-        if ( financial_year_type == 3 )
-            etats_prefs_tree_view_select_rows_from_list (
-                                gsb_data_report_get_financial_year_list ( report_number ),
-                                "treeview_exer",
-                                1 );
-
-        /* on initialise le tree_view des dates avec une valeur par défaut (mois en cours) */
-        etats_prefs_tree_view_select_single_row ( "treeview_dates", 3 );
-    }
-    else
-    {
-        etats_prefs_button_toggle_set_actif ( "radio_button_utilise_dates", TRUE );
-        etats_prefs_tree_view_select_single_row ( "treeview_dates",
-                        gsb_data_report_get_date_type ( report_number ) );
-
-		/* on active le choix du type de date */
-		etats_prefs_onglet_periode_date_interval_sensitive (TRUE);
-
-        if (gsb_data_report_get_date_type (report_number) == 1)
-        {
-            GDate *date;
-
-            etats_prefs_onglet_periode_date_interval_sensitive (TRUE);
-
-            /* on remplit les dates perso si elles existent */
-            if ( ( date = gsb_data_report_get_personal_date_start ( report_number ) ) )
-                gsb_calendar_entry_set_date (
-                                etats_prefs_widget_get_widget_by_name ( "hbox_date_init",
-                                "entree_date_init_etat" ),
-                                date );
-
-            if ( ( date = gsb_data_report_get_personal_date_end ( report_number ) ) )
-            gsb_calendar_entry_set_date (
-                                etats_prefs_widget_get_widget_by_name ( "hbox_date_finale",
-                                "entree_date_finale_etat" ),
-                                date );
-        }
-    }
-}
-
-
-/**
- * Récupère les informations de l'onglet periode
- *
- * \param report_number  numéro d'état à mettre à jour
- *
- * \return
- */
-static void etats_config_recupere_info_onglet_periode ( gint report_number )
-{
-    gint active;
-
-    active = etats_prefs_button_toggle_get_actif ( "radio_button_utilise_exo" );
-    gsb_data_report_set_use_financial_year ( report_number, active );
-
-    if ( !active )
-    {
-        gint item_selected;
-
-        /* Check that custom dates are OK, but only if custom date range
-         * has been selected. */
-        if ( ( item_selected = etats_prefs_tree_view_get_single_row_selected ( "treeview_dates" ) ) == 1 )
-        {
-            GtkWidget *entry;
-
-            entry = etats_prefs_widget_get_widget_by_name ( "hbox_date_init", "entree_date_init_etat" );
-            if ( !gsb_date_check_entry ( entry ) )
-            {
-                gchar *text;
-                gchar *hint;
-
-                text = g_strdup ( _("Grisbi can't parse date.  For a list of date formats"
-                                    " that Grisbi can use, refer to Grisbi manual.") );
-                hint = g_strdup_printf ( _("Invalid initial date '%s'"),
-                                gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-                dialogue_error_hint ( text, hint );
-                g_free ( text );
-                g_free ( hint );
-
-                return;
-            }
-            else
-                gsb_data_report_set_personal_date_start ( report_number,
-                                gsb_calendar_entry_get_date ( entry ) );
-
-            entry = etats_prefs_widget_get_widget_by_name ( "hbox_date_finale", "entree_date_finale_etat" );
-            if ( !gsb_date_check_entry ( entry ) )
-            {
-                gchar *text;
-                gchar *hint;
-
-                text = g_strdup ( _("Grisbi can't parse date.  For a list of date formats"
-                                    " that Grisbi can use, refer to Grisbi manual.") );
-                hint = g_strdup_printf ( _("Invalid final date '%s'"),
-                                gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-                dialogue_error_hint ( text, hint );
-                g_free ( text );
-                g_free ( hint );
-
-                return;
-            }
-            else
-                gsb_data_report_set_personal_date_end ( report_number,
-                                gsb_calendar_entry_get_date ( entry ) );
-        }
-        gsb_data_report_set_date_type ( report_number, item_selected );
-    }
-    else
-    {
-        gint index;
-
-        index = etats_prefs_buttons_radio_get_active_index ( "bouton_exo_tous" );
-        gsb_data_report_set_financial_year_type ( report_number, index );
-
-        if ( index == 3 )
-        {
-            gsb_data_report_free_financial_year_list ( report_number );
-            gsb_data_report_set_financial_year_list ( report_number,
-                                etats_prefs_tree_view_get_list_rows_selected ( "treeview_exer" ) );
-            if ( utils_tree_view_all_rows_are_selected ( GTK_TREE_VIEW (
-             etats_prefs_widget_get_widget_by_name ( "treeview_exer", NULL ) ) ) )
-            {
-                gchar *text;
-                gchar *hint;
-
-                hint = g_strdup ( _("Performance issue.") );
-                text = g_strdup ( _("All financial years have been selected.  Grisbi will run "
-                                "faster without the \"Detail financial years\" option activated.") );
-
-                dialogue_hint ( text, hint );
-                etats_prefs_button_toggle_set_actif ( "bouton_exo_tous", FALSE );
-                gsb_data_report_set_financial_year_type ( report_number, 0 );
-
-                g_free ( text );
-                g_free ( hint );
-            }
-        }
-    }
-}
-
-
-/**
- * retourne la liste des exercices
- *
- * \param
- *
- * \return un GtkTreeModel
- */
-GtkTreeModel *etats_config_onglet_periode_get_model_exercices ( void )
-{
-    GtkListStore *list_store;
-    GSList *list_tmp;
-
-    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ),
-                        0, GTK_SORT_DESCENDING );
-
-    /* on remplit la liste des exercices */
-    list_tmp = gsb_data_fyear_get_fyears_list ();
-
-    while ( list_tmp )
-    {
-        GtkTreeIter iter;
-        gchar *name;
-        gint fyear_number;
-
-        fyear_number = gsb_data_fyear_get_no_fyear ( list_tmp -> data );
-
-        name = my_strdup ( gsb_data_fyear_get_name ( fyear_number ) );
-
-        gtk_list_store_append ( list_store, &iter );
-        gtk_list_store_set ( list_store, &iter, 0, name, 1, fyear_number, -1 );
-
-        if ( name )
-            g_free ( name );
-
-        list_tmp = list_tmp -> next;
-    }
-
-    return GTK_TREE_MODEL ( list_store );
-}
-
-
-/**
- * ajoute les entrées pour saisir les dates personnalisées
- *
- * \param
- *
- * \return
- */
-void etats_config_onglet_periode_make_calendar_entry ( void )
-{
-    GtkWidget *hbox;
-    GtkWidget *entry;
-
-    hbox =  etats_prefs_widget_get_widget_by_name ( "hbox_date_init", NULL );
-    entry = gsb_calendar_entry_new ( FALSE );
-    gtk_widget_set_size_request ( entry, 100, -1 );
-    g_object_set_data ( G_OBJECT ( hbox ), "entree_date_init_etat", entry );
-    gtk_box_pack_end ( GTK_BOX ( hbox ), entry, FALSE, FALSE, 0 );
-
-    hbox =  etats_prefs_widget_get_widget_by_name ( "hbox_date_finale", NULL );
-    entry = gsb_calendar_entry_new ( FALSE );
-    gtk_widget_set_size_request ( entry, 100, -1 );
-    g_object_set_data ( G_OBJECT ( hbox ), "entree_date_finale_etat", entry );
-    gtk_box_pack_end ( GTK_BOX ( hbox ), entry, FALSE, FALSE, 0 );
-}
-
 
 /*ONGLET_VIREMENTS*/
 /**
@@ -3761,10 +3532,11 @@ void etats_config_onglet_affichage_devises_make_combobox ( void )
  *
  * \return
  */
-static gboolean etats_config_initialise_dialog_from_etat ( gint report_number )
+static gboolean etats_config_initialise_dialog_from_etat (GtkWidget *etats_prefs,
+														  gint report_number)
 {
     /* onglet période */
-    etats_config_initialise_onglet_periode ( report_number );
+    etats_page_period_initialise_onglet (etats_prefs, report_number);
 
     /* onglet virements */
     etats_config_initialise_onglet_virements ( report_number );
@@ -3823,12 +3595,13 @@ static gboolean etats_config_initialise_dialog_from_etat ( gint report_number )
  *
  * \return
  */
-static gboolean etats_config_recupere_info_to_etat ( gint report_number )
+static gboolean etats_config_recupere_info_to_etat (GtkWidget *etats_prefs,
+													gint report_number )
 {
 	gboolean payee_new_state = FALSE;
 
     /* onglet période */
-    etats_config_recupere_info_onglet_periode ( report_number );
+    etats_page_period_get_info	(etats_prefs, report_number);
 
     /* onglet virements */
     etats_config_recupere_info_onglet_virements ( report_number );
@@ -3925,7 +3698,7 @@ gint etats_config_personnalisation_etat ( void )
         return result;
 
     /* initialisation des données de la fenetre de dialog */
-    etats_config_initialise_dialog_from_etat ( current_report_number );
+    etats_config_initialise_dialog_from_etat (dialog, current_report_number);
 
     gtk_widget_show_all ( dialog );
 
@@ -3937,7 +3710,7 @@ gint etats_config_personnalisation_etat ( void )
     switch (result)
     {
         case GTK_RESPONSE_OK:
-            etats_config_recupere_info_to_etat ( current_report_number );
+            etats_config_recupere_info_to_etat (dialog, current_report_number);
             last_report = current_report_number;
             break;
 

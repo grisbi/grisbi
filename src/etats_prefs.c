@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)           */
-/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2021 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -34,6 +34,7 @@
 #include "etats_prefs.h"
 #include "etats_prefs_private.h"
 #include "etats_config.h"
+#include "etats_page_period.h"
 #include "grisbi_app.h"
 #include "structures.h"
 #include "utils.h"
@@ -55,7 +56,8 @@ typedef struct _EtatsPrefsPrivate EtatsPrefsPrivate;
 
 struct _EtatsPrefsPrivate
 {
-    GtkWidget           *hpaned;
+    GtkWidget *		hpaned;
+	GtkWidget *		notebook_etats_prefs;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
@@ -87,6 +89,7 @@ static gboolean etats_prefs_initialise_builder (EtatsPrefs *prefs)
 
 	priv = etats_prefs_get_instance_private (prefs);
 	priv->hpaned = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "dialog_hpaned"));
+	priv->notebook_etats_prefs = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "notebook_etats_prefs"));
 
     return TRUE;
 }
@@ -250,6 +253,59 @@ void etats_prefs_tree_view_select_rows_from_list (GSList *liste,
     }
 }
 
+/**
+ * Sélectionne les iters en fonction des données de la liste
+ *
+ * \param liste des lignes à sélectionner
+ * \param nom du tree_view concerné
+ * \param numéro de la colonne contenant la donnée testée
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void new_etats_prefs_tree_view_select_rows_from_list (GSList *liste,
+													  GtkWidget *tree_view,
+													  gint column)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GSList *tmp_list;
+
+    if (!liste)
+        return;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
+    {
+        do
+        {
+            gint tmp_number;
+
+            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, column, &tmp_number, -1);
+
+            tmp_list = liste;
+            while (tmp_list)
+            {
+                gint result;
+
+                result = GPOINTER_TO_INT (tmp_list->data);
+
+                if (result == tmp_number)
+                    gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
+
+                tmp_list = tmp_list->next;
+            }
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    }
+}
+
 /*LEFT_PANEL*/
 /**
  * If applicable, update report navigation tree style to reflect which
@@ -260,7 +316,7 @@ void etats_prefs_tree_view_select_rows_from_list (GSList *liste,
  *
  * \return      FALSE
  **/
-static gboolean etats_prefs_left_panel_tree_view_update_style (GtkWidget *button,
+gboolean etats_prefs_left_panel_tree_view_update_style (GtkWidget *button,
 															   gint *page_number)
 {
     gint iter_page_number;
@@ -354,17 +410,22 @@ static void etats_prefs_left_panel_notebook_change_page (GtkNotebook *notebook,
  * \return
  **/
 static void etats_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model,
-                        GtkWidget *notebook)
+														EtatsPrefs *prefs)
 {
+	GtkWidget *notebook;
     GtkWidget *widget = NULL;
     gint page = 0;
+	EtatsPrefsPrivate *priv;
+
+	priv = etats_prefs_get_instance_private (prefs);
+	notebook = priv->notebook_etats_prefs;
 
     /* append group page */
     utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Data selection"), -1);
 
     /* append page Dates */
-    widget = etats_prefs_onglet_periode_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Dates"), page);
+	widget = GTK_WIDGET (etats_page_period_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Dates"), DATE_PAGE_TYPE);
     page++;
 
     /* append page Transferts */
@@ -455,7 +516,7 @@ static void etats_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model
  *
  *\return tree_view or NULL;
  **/
-static GtkWidget *etats_prefs_left_panel_create_tree_view (void)
+static GtkWidget *etats_prefs_left_panel_create_tree_view (EtatsPrefs *prefs)
 {
     GtkWidget *tree_view = NULL;
     GtkWidget *notebook;
@@ -516,7 +577,7 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view (void)
                         (gpointer) "0:0");
 
     /* remplissage du paned gauche */
-    etats_prefs_left_panel_populate_tree_model (model, notebook);
+    etats_prefs_left_panel_populate_tree_model (model, prefs);
 
     /* on met la connexion pour mémoriser la dernière page utilisée */
     g_signal_connect_after (notebook,
@@ -529,203 +590,6 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view (void)
 
 
     return tree_view;
-}
-
-/*RIGHT_PANEL : ONGLET_PERIODE*/
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static GtkTreeModel *etats_prefs_onglet_periode_get_liste_dates (void)
-{
-    GtkListStore *list_store;
-
-    list_store = utils_list_store_create_from_string_array (etats_config_liste_plages_dates);
-
-    return GTK_TREE_MODEL (list_store);
-}
-
-/**
- * rend accessible ou nom l'ensemble des données de date configurables
- *
- * \param TRUE rend sensible FALSE rend insensible les données
- *
- * \return
- **/
-void etats_prefs_onglet_periode_date_interval_sensitive (gboolean show)
-{
-	if (show > 1)
-		show = 0;
-
-	etats_prefs_widget_set_sensitive ("hbox_select_dates", show);
-	gtk_widget_set_sensitive (utils_gtkbuilder_get_widget_by_name (etats_prefs_builder,
-				"hbox_date_init", "entree_date_init_etat"), show);
-	gtk_widget_set_sensitive (utils_gtkbuilder_get_widget_by_name (etats_prefs_builder,
-				"hbox_date_finale", "entree_date_finale_etat"), show);
-}
-
-/**
- * If applicable, update report navigation tree style to reflect which
- * pages have been changed.
- *
- * \param page_number Page that contained an interface element just
- *                      changed that triggered this event.
- * \param
- *
- * \return      FALSE
- **/
-static gboolean etats_prefs_onglet_periode_update_style_left_panel (GtkWidget *button,
-																	gint *page_number)
-{
-    GtkWidget *tree_view;
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    gchar *path_string;
-    gchar *tmp_str;
-    gint index;
-    gint iter_page_number;
-
-    iter_page_number = GPOINTER_TO_INT (page_number);
-
-    index = etats_prefs_buttons_radio_get_active_index ("radio_button_utilise_exo");
-
-    if (index == 0)
-    {
-        if (etats_prefs_tree_view_get_single_row_selected ("treeview_dates") == 1)
-        index = 1;
-    }
-
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "treeview_left_panel"));
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-
-    tmp_str = utils_str_itoa (iter_page_number);
-    path_string = g_strconcat ("0:", tmp_str, NULL);
-
-    if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (model), &iter, path_string))
-    {
-        gtk_tree_store_set (GTK_TREE_STORE (model),
-                        &iter,
-                        LEFT_PANEL_TREE_ITALIC_COLUMN, index,
-                        -1);
-    }
-
-    g_free (tmp_str);
-    g_free (path_string);
-
-    return FALSE;
-}
-
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- **/
-static gboolean etats_prefs_onglet_periode_selection_dates_changed (GtkTreeSelection *selection,
-																	GtkWidget *widget)
-{
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    gint selected;
-
-    if (!gtk_tree_selection_get_selected (selection, &model, &iter))
-        return FALSE;
-
-    gtk_tree_model_get (model, &iter, 1, &selected, -1);
-    etats_prefs_onglet_periode_date_interval_sensitive (selected);
-
-    /* on regarde si on utilise des dates personalisées */
-    etats_prefs_onglet_periode_update_style_left_panel (NULL, 0);
-
-    return TRUE;
-}
-
-/**
- * Création de la page de détermination de la période de requête
- *
- * \param
- *
- * \return la page
- **/
-static GtkWidget *etats_prefs_onglet_periode_create_page (gint page)
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-    GtkWidget *button;
-
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "onglet_etat_periode"));
-
-    vbox = new_vbox_with_title_and_icon (_("Date selection"), "gsb-scheduler-32.png");
-
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
-
-    /* on traite la partie gauche de l'onglet dates */
-    etats_prefs_tree_view_init ("treeview_dates",
-                        etats_prefs_onglet_periode_get_liste_dates,
-                        GTK_SELECTION_SINGLE,
-                        G_CALLBACK (etats_prefs_onglet_periode_selection_dates_changed));
-
-    gtk_container_set_border_width (GTK_CONTAINER (
-                        gtk_builder_get_object (etats_prefs_builder, "vbox_utilisation_date")),
-                        BOX_BORDER_WIDTH);
-
-    /* on initialise les entrées pour les dates personnalisées */
-    etats_config_onglet_periode_make_calendar_entry ();
-
-    etats_prefs_onglet_periode_date_interval_sensitive (FALSE);
-
-    /* on traite la partie droite de l'onglet dates */
-    etats_prefs_tree_view_init ("treeview_exer",
-                        etats_config_onglet_periode_get_model_exercices,
-                        GTK_SELECTION_MULTIPLE,
-                        NULL);
-    gtk_container_set_border_width (GTK_CONTAINER (
-                        gtk_builder_get_object (etats_prefs_builder, "vbox_utilisation_exo")),
-                        BOX_BORDER_WIDTH);
-
-    button = utils_gtkbuilder_get_widget_by_name (etats_prefs_builder,
-                        "radio_button_utilise_dates", NULL);
-    /* on met la connection pour changer le style de la ligne du panneau de gauche */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (etats_prefs_onglet_periode_update_style_left_panel),
-                        GINT_TO_POINTER (page));
-
-    /* on met la connection pour rendre sensitif la frame vbox_utilisation_date */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "vbox_utilisation_date"));
-
-    button = utils_gtkbuilder_get_widget_by_name (etats_prefs_builder,
-                        "radio_button_utilise_exo", NULL);
-    /* on met la connection pour changer le style de la ligne du panneau de gauche */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (etats_prefs_onglet_periode_update_style_left_panel),
-                        GINT_TO_POINTER (page));
-
-    /* on met la connection pour rendre sensitif la frame vbox_utilisation_exo */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "vbox_utilisation_exo"));
-
-    /* on connecte les signaux nécessaires pour gérer la sélection de l'exercice */
-    g_signal_connect (G_OBJECT (gtk_builder_get_object (etats_prefs_builder, "bouton_detaille_exo_etat")),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "sw_exer"));
-
-    gtk_widget_show_all (vbox_onglet);
-
-    return vbox_onglet;
 }
 
 /*RIGHT_PANEL : ONGLET_COMPTES*/
@@ -2413,10 +2277,10 @@ static GtkWidget *etats_prefs_onglet_data_separation_create_page (gint page)
     gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
 
     /* on met la connexion pour la séparation par exercice avec le bouton radio_button_utilise_exo */
-    g_signal_connect (G_OBJECT (gtk_builder_get_object (etats_prefs_builder, "radio_button_utilise_exo")),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_separe_exo_etat"));
+    //~ g_signal_connect (G_OBJECT (gtk_builder_get_object (etats_prefs_builder, "radio_button_utilise_exo")),
+                        //~ "toggled",
+                        //~ G_CALLBACK (sens_desensitive_pointeur),
+                        //~ gtk_builder_get_object (etats_prefs_builder, "bouton_separe_exo_etat"));
 
     /* on met la connexion pour rendre sensible la boite avec le bouton bouton_type_separe_plages_etat */
     g_signal_connect (G_OBJECT (gtk_builder_get_object (etats_prefs_builder, "bouton_separe_plages_etat")),
@@ -2683,7 +2547,6 @@ static GtkWidget *etats_prefs_onglet_affichage_devises_create_page (gint page)
 /******************************************************************************/
 /* Fonctions propres à l'initialisation des fenêtres                          */
 /******************************************************************************/
-
 /**
  * Initialise EtatsPrefs
  *
@@ -2713,7 +2576,7 @@ static void etats_prefs_init (EtatsPrefs *prefs)
     gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (prefs))), 2);
 
     /* Recupération d'un pointeur sur le gtk_tree_view. */
-    etats_prefs_left_panel_create_tree_view ();
+    etats_prefs_left_panel_create_tree_view (prefs);
 
     gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (prefs))),
                         priv->hpaned, TRUE, TRUE, 0);
@@ -2914,6 +2777,33 @@ gint etats_prefs_tree_view_get_single_row_selected (const gchar *treeview_name)
 }
 
 /**
+ * récupère l'index l'iter selectionné
+ *
+ * \param nom du tree_view
+ *
+ * \return numéro de la ligne sélectionnée
+ **/
+gint new_etats_prefs_tree_view_get_single_row_selected (GtkWidget *tree_view)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+
+    if (gtk_tree_selection_get_selected (selection, &model, &iter))
+    {
+        gint index;
+
+        gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &index, -1);
+
+        return index;
+    }
+
+	return -1;
+}
+
+/**
  *
  *
  * \param
@@ -2932,6 +2822,42 @@ void etats_prefs_tree_view_select_single_row (const gchar *treeview_name,
     tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, treeview_name));
     if (!tree_view)
         return;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
+    {
+        do
+        {
+            gint index;
+
+            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &index, -1);
+
+            if (numero == index)
+            {
+                gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
+                break;
+            }
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    }
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void new_etats_prefs_tree_view_select_single_row (GtkWidget *tree_view,
+												  gint numero)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
 
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
@@ -3007,6 +2933,35 @@ GSList *etats_prefs_tree_view_get_list_rows_selected (const gchar *treeview_name
     }
     g_list_free (rows_list);
 
+    return tmp_list;
+}
+
+GSList *new_etats_prefs_tree_view_get_list_rows_selected (GtkWidget *tree_view)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GSList *tmp_list = NULL;
+    GList *rows_list;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+    rows_list = gtk_tree_selection_get_selected_rows (selection, &model);
+    while (rows_list)
+    {
+        GtkTreePath *path;
+        gint index;
+
+        path = rows_list->data;
+
+        gtk_tree_model_get_iter (model, &iter, path) ;
+        gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &index, -1);
+        tmp_list = g_slist_append (tmp_list, GINT_TO_POINTER (index));
+
+        rows_list = rows_list->next;
+    }
+    g_list_free_full (rows_list, (GDestroyNotify) gtk_tree_path_free);
+
+	printf ("nbre accounts = %d\n", g_slist_length (tmp_list));
     return tmp_list;
 }
 
@@ -3103,6 +3058,25 @@ GSList *etats_prefs_onglet_mode_paiement_get_list_rows_selected (const gchar *tr
     g_list_free (rows_list);
 
     return tmp_list;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *etats_prefs_get_page_by_number (GtkWidget *etats_prefs,
+										   gint num_page)
+{
+	GtkWidget *page = NULL;
+	EtatsPrefsPrivate *priv;
+
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+	page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_etats_prefs), num_page);
+
+	return page;
 }
 
 /**

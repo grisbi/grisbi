@@ -32,8 +32,6 @@ void 			etats_config_onglet_data_grouping_move_in_list 					(gint src_pos,
 																				 gint dst_pos);
 void 			etats_config_onglet_data_separation_combo_changed 				(GtkComboBox *combo,
 																				 GtkWidget *widget);
-GtkTreeModel *	etats_config_onglet_periode_get_model_exercices					(void);
-void 			etats_config_onglet_periode_make_calendar_entry 				(void);
 GtkTreeModel *	etats_config_onglet_get_liste_comptes 							(void);
 GtkTreeModel *	etats_config_onglet_get_liste_tiers 							(void);
 
