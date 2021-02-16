@@ -1371,13 +1371,9 @@ gchar *utils_str_break_form_name_field (const gchar *text,
 							while (nbre_char < trunc)
 							{
 								ptr_free = tmp_str;
-								if (g_utf8_strlen (tab[i], -1) == 0)
-									i++;
-								else
-								{
-									tmp_str = g_strconcat (tmp_str, " ", tab[i], NULL);
-									g_free (ptr_free);
-								}
+								tmp_str = g_strconcat (tmp_str, " ", tab[i], NULL);
+								g_free (ptr_free);
+
 								if (!tab[i+1])
 									break;
 
@@ -1416,13 +1412,9 @@ gchar *utils_str_break_form_name_field (const gchar *text,
 							while (nbre_char < trunc)
 							{
 								ptr_free2 = tmp_str2;
-								if (g_utf8_strlen (tab[i], -1) == 0)
-									i++;
-								else
-								{
-									tmp_str2 = g_strconcat (tmp_str2, " ", tab[i], NULL);
-									g_free (ptr_free2);
-								}
+								tmp_str2 = g_strconcat (tmp_str2, " ", tab[i], NULL);
+								g_free (ptr_free2);
+
 								if (!tab[i+1])
 									break;
 
