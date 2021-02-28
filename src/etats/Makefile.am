@@ -8,7 +8,9 @@ AM_CPPFLAGS = -I$(top_srcdir) \
 noinst_LTLIBRARIES = libetatspages.la
 
 libetatspages_la_SOURCES = \
+	etats_page_accounts.c \
 	etats_page_period.c \
+	etats_page_accounts.h \
 	etats_page_period.h
 
 libetatspages_la_LIBADD= $(LIBETATSPAGES_LIBS)
@@ -20,5 +22,6 @@ MAINTAINERCLEANFILES = \
 	Makefile.in
 	
 EXTRA_DIST = \
+	etats_page_accounts.ui \
 	etats_page_period.ui
 

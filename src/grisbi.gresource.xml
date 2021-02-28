@@ -5,6 +5,7 @@
 		<file>images/gsb-up-16.png</file>
 		<file>images/gtk-eye-not-looking.svg</file>
 		<file>images/gtk-eye-looking.svg</file>
+		<file preprocess="xml-stripblanks">etats/etats_page_accounts.ui</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_period.ui</file>
 		<file preprocess="xml-stripblanks">ui/bet_graph.ui</file>
 		<file preprocess="xml-stripblanks">ui/csv_template_rule.ui</file>
