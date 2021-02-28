@@ -243,6 +243,7 @@ static Iso4217Currency iso_4217_currencies[] =
     { N_("Southern America"), N_("Suriname Guilder"), N_("Suriname"), "SRG", NULL, TRUE, "SRD.png", 2, 1 },
     { N_("Southern America"), N_("Peso"), N_("Uruguay"), "UYU", "₱", TRUE, "UYU.png", 2, 1 },
     { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE, "VEB.png", 2, 1 },
+	{ N_("World"), N_("bitcoin"), N_("World"), "XBT", "₿", TRUE, "XBT.png", 3, 0},
     { NULL, NULL, NULL, NULL, NULL, FALSE, NULL, 0, 0 },
 };
 
