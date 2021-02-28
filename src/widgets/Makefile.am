@@ -22,6 +22,8 @@ libwidgets_la_SOURCES = \
 	widget_import_asso.h \
 	widget_import_files.c \
 	widget_import_files.h \
+	widget_list_accounts.c \
+	widget_list_accounts.h \
 	widget_loan.c \
 	widget_loan.h \
 	widget_transfer.c \
@@ -43,6 +45,7 @@ EXTRA_DIST = \
 	widget_currency_popup.ui \
 	widget_import_files.ui \
 	widget_import_asso.ui \
+	widget_list_accounts.ui \
 	widget_loan.ui \
 	widget_transfer.ui
 

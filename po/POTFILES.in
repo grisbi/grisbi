@@ -38,6 +38,7 @@
 [type: gettext/glade]src/widgets/widget_currency_popup.ui
 [type: gettext/glade]src/widgets/widget_import_asso.ui
 [type: gettext/glade]src/widgets/widget_import_files.ui
+[type: gettext/glade]src/widgets/widget_list_accounts.ui
 [type: gettext/glade]src/widgets/widget_loan.ui
 [type: gettext/glade]src/widgets/widget_transfer.ui
 [type: gettext/gsettings]src/org.gtk.grisbi.gschema.xml
@@ -214,5 +215,6 @@ src/widgets/widget_currency_link.c
 src/widgets/widget_currency_popup.c
 src/widgets/widget_import_asso.c
 src/widgets/widget_import_files.c
+src/widgets/widget_list_accounts.c
 src/widgets/widget_loan.c
 src/widgets/widget_transfer.c
