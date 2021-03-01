@@ -1,5 +1,6 @@
 [type: gettext/glade]src/etats/etats_page_accounts.ui
 [type: gettext/glade]src/etats/etats_page_period.ui
+[type: gettext/glade]src/etats/etats_page_transfer.ui
 [type: gettext/glade]src/ui/bet_graph.ui
 [type: gettext/glade]src/ui/csv_template_rule.ui
 [type: gettext/glade]src/ui/etats_prefs.ui
@@ -210,6 +211,7 @@ src/utils_str.c
 src/utils_widgets.c
 src/etats/etats_page_accounts.c
 src/etats/etats_page_period.c
+src/etats/etats_page_transfer.c
 src/widgets/widget_bank_details.c
 src/widgets/widget_css_rules.c
 src/widgets/widget_currency_details.c
