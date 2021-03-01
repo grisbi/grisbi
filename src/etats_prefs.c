@@ -34,6 +34,7 @@
 #include "etats_prefs.h"
 #include "etats_prefs_private.h"
 #include "etats_config.h"
+#include "etats_page_accounts.h"
 #include "etats_page_period.h"
 #include "grisbi_app.h"
 #include "structures.h"
@@ -434,8 +435,8 @@ static void etats_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model
     page++;
 
     /* append page Accounts */
-    widget = etats_prefs_onglet_comptes_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Accounts"), page);
+    widget = GTK_WIDGET (etats_page_accounts_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Accounts"), ACCOUNT_PAGE_TYPE);
     page++;
 
     /* append page Payee */
@@ -710,68 +711,6 @@ static void etats_prefs_onglet_comptes_init_buttons_selection (const gchar *name
                         G_CALLBACK (etats_prefs_onglet_comptes_select_unselect),
                         tree_view);
     g_free (tmp_str);
-}
-
-/**
- * Création de l'onglet comptes
- *
- * \param
- *
- * \return
- **/
-static GtkWidget *etats_prefs_onglet_comptes_create_page (gint page)
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-    GtkWidget *button;
-    GtkWidget *tree_view;
-
-	vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "onglet_etat_comptes"));
-
-    vbox = new_vbox_with_title_and_icon (_("Account selection"), "gsb-ac-bank-32.png");
-
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
-
-    etats_prefs_widget_set_sensitive ("vbox_generale_comptes_etat", FALSE);
-
-	/* on adapte le label pour Mac_OSX */
-#ifdef OS_OSX
-	GtkLabel *label;
-
-	label = GTK_LABEL (gtk_builder_get_object (etats_prefs_builder, "label_comptes_search_help"));
-	gtk_label_set_text (label, _(label_search_help));
-	gtk_label_set_justify (label, GTK_JUSTIFY_CENTER);
-#endif /* OS_OSX */
-
-    /* on crée la liste des comptes */
-    etats_prefs_tree_view_init ("treeview_comptes",
-                        etats_config_onglet_get_liste_comptes,
-                        GTK_SELECTION_MULTIPLE,
-                        NULL);
-
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "treeview_comptes"));
-
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "bouton_detaille_comptes_etat"));
-
-	/* on met la connection pour changer le style de la ligne du panneau de gauche */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
-                        GINT_TO_POINTER (page));
-
-    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "vbox_generale_comptes_etat"));
-
-    /* on met la connection pour sélectionner une partie des comptes */
-    etats_prefs_onglet_comptes_init_buttons_selection ("comptes", tree_view);
-
-    gtk_widget_show_all (vbox_onglet);
-
-    return vbox_onglet;
 }
 
 /*RIGHT_PANEL : ONGLET_VIREMENTS*/

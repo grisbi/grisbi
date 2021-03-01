@@ -66,7 +66,6 @@ static GtkBuilder *etats_prefs_builder = NULL;
 /*START_PRIVATE_FUNCTIONS*/
 static GtkWidget *	etats_prefs_onglet_budgets_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_categories_create_page 				(gint page);
-static GtkWidget *	etats_prefs_onglet_comptes_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_divers_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_mode_paiement_create_page 			(gint page);
 static GtkWidget *	etats_prefs_onglet_montants_create_page 				(gint page);

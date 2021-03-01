@@ -37,6 +37,7 @@
 #include "etats_config.h"
 #include "etats_prefs.h"
 #include "etats_onglet.h"
+#include "etats_page_accounts.h"
 #include "etats_page_period.h"
 #include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
@@ -255,79 +256,6 @@ static void etats_config_recupere_info_onglet_virements ( gint report_number )
 
 
 /*ONGLET_COMPTES*/
-/**
- * Initialise les informations de l'onglet comptes
- *
- * \param report_number
- *
- * \return
- */
-static void etats_config_initialise_onglet_comptes ( gint report_number )
-{
-    gint active;
-
-    active = gsb_data_report_get_account_use_chosen ( report_number );
-    etats_prefs_button_toggle_set_actif ( "bouton_detaille_comptes_etat", active );
-
-    if ( active )
-    {
-        etats_prefs_tree_view_select_rows_from_list (
-                                gsb_data_report_get_account_numbers_list ( report_number ),
-                                "treeview_comptes",
-                                1 );
-
-        if ( g_slist_length ( gsb_data_report_get_account_numbers_list ( report_number ) ) )
-            utils_togglebutton_set_label_position_unselect (
-                                etats_prefs_widget_get_widget_by_name (
-                                "togglebutton_select_all_comptes", NULL ),
-                                G_CALLBACK ( etats_prefs_onglet_comptes_select_unselect ),
-                                etats_prefs_widget_get_widget_by_name ( "treeview_comptes", NULL ) );
-    }
-}
-
-
-/**
- * Récupère les informations de l'onglet comptes
- *
- * \param numéro d'état à mettre à jour
- *
- * \return
- */
-static void etats_config_recupere_info_onglet_comptes ( gint report_number )
-{
-    gint active;
-
-    active = etats_prefs_button_toggle_get_actif ( "bouton_detaille_comptes_etat" );
-    gsb_data_report_set_account_use_chosen ( report_number, active );
-
-    if ( active )
-    {
-        gsb_data_report_free_account_numbers_list ( report_number );
-
-        if ( utils_tree_view_all_rows_are_selected ( GTK_TREE_VIEW (
-         etats_prefs_widget_get_widget_by_name ( "treeview_comptes", NULL ) ) ) )
-        {
-            gchar *text;
-            gchar *hint;
-
-            hint = g_strdup ( _("Performance issue.") );
-            text = g_strdup ( _("All accounts have been selected.  Grisbi will run "
-                            "faster without the \"Detail accounts used\" option activated") );
-
-            dialogue_hint ( text, hint );
-            etats_prefs_button_toggle_set_actif ( "gsb_data_report_set_account_use_chosen", FALSE );
-            gsb_data_report_set_account_use_chosen ( report_number, FALSE );
-
-            g_free ( text );
-            g_free ( hint );
-        }
-        else
-            gsb_data_report_set_account_numbers_list ( report_number,
-                            etats_prefs_tree_view_get_list_rows_selected ( "treeview_comptes" ) );
-    }
-}
-
-
 /**
  * retourne la liste des comptes dans un GtkTreeModel
  *
@@ -3542,7 +3470,7 @@ static gboolean etats_config_initialise_dialog_from_etat (GtkWidget *etats_prefs
     etats_config_initialise_onglet_virements ( report_number );
 
     /* onglet comptes */
-    etats_config_initialise_onglet_comptes ( report_number );
+    etats_page_accounts_initialise_onglet (etats_prefs, report_number);
 
     /* onglet tiers */
     etats_config_initialise_onglet_tiers ( report_number );
@@ -3607,7 +3535,7 @@ static gboolean etats_config_recupere_info_to_etat (GtkWidget *etats_prefs,
     etats_config_recupere_info_onglet_virements ( report_number );
 
     /* onglet comptes */
-    etats_config_recupere_info_onglet_comptes ( report_number );
+    etats_page_accounts_get_info	(etats_prefs, report_number);
 
     /* onglet tiers */
     etats_config_recupere_info_onglet_tiers ( report_number );
