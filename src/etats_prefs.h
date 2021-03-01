@@ -51,8 +51,6 @@ void 		etats_prefs_buttons_radio_set_active_index 					(const gchar *button_name
 																		 gint index);
 void 		etats_prefs_free_all_var 									(void);
 gboolean 	etats_prefs_left_panel_tree_view_select_last_page			(void);
-void 		etats_prefs_onglet_comptes_select_unselect 					(GtkToggleButton *togglebutton,
-																		 GtkWidget *tree_view);
 void 		etats_prefs_onglet_categ_budget_check_uncheck_all 			(GtkToggleButton *togglebutton,
 																		 GtkWidget *tree_view);
 GSList *	etats_prefs_onglet_mode_paiement_get_list_rows_selected 	(const gchar *treeview_name);

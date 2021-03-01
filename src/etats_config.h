@@ -32,12 +32,9 @@ void 			etats_config_onglet_data_grouping_move_in_list 					(gint src_pos,
 																				 gint dst_pos);
 void 			etats_config_onglet_data_separation_combo_changed 				(GtkComboBox *combo,
 																				 GtkWidget *widget);
-GtkTreeModel *	etats_config_onglet_get_liste_comptes 							(void);
 GtkTreeModel *	etats_config_onglet_get_liste_tiers 							(void);
 
 GtkTreeModel *	etats_config_onglet_mode_paiement_get_model 					(void);
-void 			etats_config_onglet_select_partie_liste_comptes 				(GtkWidget *tree_view,
-																				 gint type_compte);
 gint			etats_config_personnalisation_etat								(void);
 /* END_DECLARATION */
 

@@ -39,6 +39,7 @@
 #include "etats_onglet.h"
 #include "etats_page_accounts.h"
 #include "etats_page_period.h"
+#include "etats_page_transfer.h"
 #include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
@@ -185,147 +186,6 @@ static void etats_config_combo_lien_nombre_2_changed ( GtkComboBox *combo,
         gtk_widget_set_sensitive ( widget, FALSE );
     else
         gtk_widget_set_sensitive ( widget, TRUE );
-}
-
-/*ONGLET_VIREMENTS*/
-/**
- * Initialise les informations de l'onglet virements
- *
- * \param report_number
- *
- * \return
- */
-static void etats_config_initialise_onglet_virements ( gint report_number )
-{
-    gint index;
-
-    index = gsb_data_report_get_transfer_choice ( report_number );
-    etats_prefs_buttons_radio_set_active_index ( "bouton_non_inclusion_virements", index );
-
-    if ( index == 3 )
-    {
-        etats_prefs_tree_view_select_rows_from_list (
-                                gsb_data_report_get_transfer_account_numbers_list ( report_number ),
-                                "treeview_virements",
-                                1 );
-        if ( g_slist_length ( gsb_data_report_get_account_numbers_list ( report_number ) ) )
-        {
-            utils_togglebutton_set_label_position_unselect (
-                                etats_prefs_widget_get_widget_by_name (
-                                "togglebutton_select_all_virements", NULL ),
-                                G_CALLBACK ( etats_prefs_onglet_comptes_select_unselect ),
-                                etats_prefs_widget_get_widget_by_name ( "treeview_virements", NULL ) );
-        }
-    }
-
-    if ( index > 0 )
-    {
-        etats_prefs_widget_set_sensitive ( "bouton_exclure_non_virements_etat", TRUE );
-        etats_prefs_button_toggle_set_actif ( "bouton_exclure_non_virements_etat",
-                                gsb_data_report_get_transfer_reports_only ( report_number ) );
-    }
-    else
-        etats_prefs_widget_set_sensitive ( "bouton_exclure_non_virements_etat", FALSE );
-}
-
-
-/**
- * Récupère les informations de l'onglet virements
- *
- * \param report_number
- *
- * \return
- */
-static void etats_config_recupere_info_onglet_virements ( gint report_number )
-{
-    gint index;
-
-    index = etats_prefs_buttons_radio_get_active_index ( "bouton_non_inclusion_virements" );
-    gsb_data_report_set_transfer_choice ( report_number, index );
-
-    if ( index == 3 )
-    {
-        gsb_data_report_free_transfer_account_numbers_list ( report_number );
-        gsb_data_report_set_transfer_account_numbers_list ( report_number,
-                            etats_prefs_tree_view_get_list_rows_selected ( "treeview_virements" ) );
-    }
-
-    gsb_data_report_set_transfer_reports_only ( report_number,
-                        etats_prefs_button_toggle_get_actif ( "bouton_exclure_non_virements_etat" ) );
-}
-
-
-/*ONGLET_COMPTES*/
-/**
- * retourne la liste des comptes dans un GtkTreeModel
- *
- * \param
- *
- * \return model
- */
-GtkTreeModel *etats_config_onglet_get_liste_comptes ( void )
-{
-    GtkListStore *list_store;
-    GSList *list_tmp;
-
-    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
-
-    /* on remplit la liste des exercices */
-    list_tmp = gsb_data_account_get_list_accounts ( );
-
-    while ( list_tmp )
-    {
-        GtkTreeIter iter;
-        gchar *name;
-        gint account_number;
-
-        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-
-        name = my_strdup ( gsb_data_account_get_name ( account_number ) );
-
-        gtk_list_store_append ( list_store, &iter );
-        gtk_list_store_set ( list_store, &iter, 0, name, 1, account_number, -1 );
-
-        if ( name )
-            g_free ( name );
-
-        list_tmp = list_tmp -> next;
-    }
-
-    return GTK_TREE_MODEL ( list_store );
-}
-
-
-/**
- * sélectionne une partie de la liste des comptes
- *
- * \param
- * \param
- *
- * \return
- * */
-void etats_config_onglet_select_partie_liste_comptes ( GtkWidget *tree_view,
-                        gint type_compte )
-{
-        GtkTreeModel *model;
-        GtkTreeIter iter;
-        GtkTreeSelection *selection;
-
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
-
-        model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
-        if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
-            return;
-
-        do
-        {
-            gint account_number;
-
-            gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 1, &account_number, -1 );
-            if ( gsb_data_account_get_kind ( account_number ) == type_compte )
-                gtk_tree_selection_select_iter ( selection, &iter );
-        }
-        while (gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
 }
 
 /*ONGLET_TIERS*/
@@ -3467,7 +3327,7 @@ static gboolean etats_config_initialise_dialog_from_etat (GtkWidget *etats_prefs
     etats_page_period_initialise_onglet (etats_prefs, report_number);
 
     /* onglet virements */
-    etats_config_initialise_onglet_virements ( report_number );
+    etats_page_transfer_initialise_onglet (etats_prefs, report_number);
 
     /* onglet comptes */
     etats_page_accounts_initialise_onglet (etats_prefs, report_number);
@@ -3532,7 +3392,7 @@ static gboolean etats_config_recupere_info_to_etat (GtkWidget *etats_prefs,
     etats_page_period_get_info	(etats_prefs, report_number);
 
     /* onglet virements */
-    etats_config_recupere_info_onglet_virements ( report_number );
+    etats_page_transfer_get_info (etats_prefs, report_number);
 
     /* onglet comptes */
     etats_page_accounts_get_info	(etats_prefs, report_number);
