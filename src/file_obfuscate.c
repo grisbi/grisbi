@@ -567,7 +567,7 @@ GtkWidget *file_obfuscate_page_2 ( void )
                         "Obfuscated file will be named %s, in the same directory as original file.\n\n"
                         "Please check the bug is still there and send your file with the explanation to "
                         "make the bug at bugsreports@listes.grisbi.org or on the bugracker (Mantis) "
-                        "at http://grisbi.tuxfamily.org/mantis/main_page.php\n\n"
+                        "at https://www.grisbi.org/bugsreports/\n\n"
                         "The account is saved in text, you may double check with a text editor if there "
                         "is no personal information anymore in this file."
                         "Grisbi will close immediately after saving the obfuscated file."),
