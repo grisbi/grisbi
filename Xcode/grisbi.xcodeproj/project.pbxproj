@@ -198,7 +198,7 @@
 		00C17BA9246DD19600D9E257 /* widget_import_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 00C17BA4246DD19600D9E257 /* widget_import_files.c */; };
 		00D3D90B25A0B9AA007E3DFB /* search_transaction.c in Sources */ = {isa = PBXBuildFile; fileRef = 00D3D90925A0B9AA007E3DFB /* search_transaction.c */; };
 		00E6347125EFCAB600A3DD96 /* etats_page_period.c in Sources */ = {isa = PBXBuildFile; fileRef = 00E6346F25EFCAB600A3DD96 /* etats_page_period.c */; };
-		00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib */; };
+		00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib */; };
 		00EA61021F915CBA00569C19 /* grisbi_resources.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EA61011F915CBA00569C19 /* grisbi_resources.c */; };
 		00EE9D061E01EAFB005BB1B0 /* openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 00EE9D041E01EAFB005BB1B0 /* openssl.c */; };
 		00FB5A4F21CA477F00A10B81 /* prefs_page_metatree.c in Sources */ = {isa = PBXBuildFile; fileRef = 00FB5A4E21CA477F00A10B81 /* prefs_page_metatree.c */; };
@@ -651,7 +651,7 @@
 		00EA60951F91018600569C19 /* ro.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ro.po; path = po/ro.po; sourceTree = "<group>"; };
 		00EA60981F91018600569C19 /* pt_BR.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = pt_BR.po; path = po/pt_BR.po; sourceTree = "<group>"; };
 		00EA609B1F91018700569C19 /* es.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = es.po; path = po/es.po; sourceTree = "<group>"; };
-		00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgtkmacintegration-gtk3.2.dylib"; path = "../../../../../../usr/local/Cellar/gtk-mac-integration/2.0.8_1/lib/libgtkmacintegration-gtk3.2.dylib"; sourceTree = "<group>"; };
+		00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgtkmacintegration-gtk3.4.dylib"; path = "../../../../../../usr/local/Cellar/gtk-mac-integration/2.0.8_1/lib/libgtkmacintegration-gtk3.4.dylib"; sourceTree = "<group>"; };
 		00EA60ED1F91502F00569C19 /* grisbi_prefs.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = grisbi_prefs.ui; path = src/ui/grisbi_prefs.ui; sourceTree = "<group>"; };
 		00EA60EF1F91502F00569C19 /* prefs_page_archives.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = prefs_page_archives.ui; path = src/ui/prefs_page_archives.ui; sourceTree = "<group>"; };
 		00EA60F01F91503000569C19 /* csv_template_rule.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = csv_template_rule.ui; path = src/ui/csv_template_rule.ui; sourceTree = "<group>"; };
@@ -677,7 +677,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib in Frameworks */,
+				00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib in Frameworks */,
 				003AC2201F49DF68007DA275 /* libgoffice-0.10.10.dylib in Frameworks */,
 				003AC21E1F49DEA4007DA275 /* libpango-1.0.a in Frameworks */,
 				003AC21A1F49DE39007DA275 /* libintl.a in Frameworks */,
@@ -793,7 +793,7 @@
 		006E68BE1DB3E96C0038B1F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.2.dylib */,
+				00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib */,
 				003AC21F1F49DF68007DA275 /* libgoffice-0.10.10.dylib */,
 				003AC21D1F49DEA4007DA275 /* libpango-1.0.a */,
 				003AC21B1F49DE86007DA275 /* 1.40.7 */,
