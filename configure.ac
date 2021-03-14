@@ -474,14 +474,15 @@ if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 cat << EOF
  *** IMPORTANT ***
 
-This is an unstable version of grisbi. It is for test purposes only.
-Please, DO NOT use it in a production environment. It will probably crash and you will lose your data.
+This is an unstable version of Grisbi. It is for test purposes only.
+Please, DO NOT use it in a production environment. It will probably
+crash and you will lose your data.
 
-If you are looking for a stable release of grisbi (1.0.x), either download it from:
-http://sourceforge.net/projects/grisbi/files/grisbi%20stable/
+If you are looking for a stable release of Grisbi (2.0.x) download it from:
+https://sourceforge.net/projects/grisbi/files/grisbi%20stable/
 
 Thanks,
-The grisbi team
+The Grisbi team
 
  *** END OF WARNING ***
 EOF
