@@ -140,15 +140,23 @@ void gsb_dirs_init (char* gsb_bin_path)
 }
 #endif /* G_OS_WIN32 */
 
-    local_ui_handle = g_dir_open (local_ui_dir, 0, NULL);
-    if (NULL != local_ui_handle)
-    {
-        g_free (ui_dir);
-        ui_dir = local_ui_dir;
-		g_dir_close (local_ui_handle);
-    }
-	else
+	/* corrige un bug si un répertoire ui existe dans le compte de l'utilisateur */
+	if (g_strcmp0 (gsb_bin_path, "grisbi") == 0)
+	{
 		g_free (local_ui_dir);
+	}
+	else
+	{
+		local_ui_handle = g_dir_open (local_ui_dir, 0, NULL);
+		if (NULL != local_ui_handle)
+		{
+			g_free (ui_dir);
+			ui_dir = local_ui_dir;
+			g_dir_close (local_ui_handle);
+		}
+		else
+			g_free (local_ui_dir);
+	}
 }
 
 /**
