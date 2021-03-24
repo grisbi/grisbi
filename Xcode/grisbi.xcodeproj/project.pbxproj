@@ -37,6 +37,9 @@
 		003AC23C1F49E0A8007DA275 /* csv_template_rule.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC23B1F49E0A8007DA275 /* csv_template_rule.c */; };
 		004BCAAE243DC571002999B6 /* prefs_page_fyear.c in Sources */ = {isa = PBXBuildFile; fileRef = 004BCAAC243DC571002999B6 /* prefs_page_fyear.c */; };
 		004BCAB1243DC5F9002999B6 /* grisbi_conf.c in Sources */ = {isa = PBXBuildFile; fileRef = 004BCAB0243DC5F8002999B6 /* grisbi_conf.c */; };
+		0055052F260BA7D60008ED75 /* etats_page_accounts.c in Sources */ = {isa = PBXBuildFile; fileRef = 00550529260BA7D60008ED75 /* etats_page_accounts.c */; };
+		00550530260BA7D60008ED75 /* etats_page_transfer.c in Sources */ = {isa = PBXBuildFile; fileRef = 0055052C260BA7D60008ED75 /* etats_page_transfer.c */; };
+		00550534260BA7FA0008ED75 /* widget_list_accounts.c in Sources */ = {isa = PBXBuildFile; fileRef = 00550531260BA7FA0008ED75 /* widget_list_accounts.c */; };
 		005BC3401F6C1943006DB25E /* prefs_page_display_adr.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */; };
 		005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */; };
 		0069D0C02498C36600C4BDAB /* widget_css_rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 0069D0BD2498C36600C4BDAB /* widget_css_rules.c */; };
@@ -289,6 +292,15 @@
 		004BCAAF243DC5F8002999B6 /* grisbi_conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_conf.h; sourceTree = "<group>"; };
 		004BCAB0243DC5F8002999B6 /* grisbi_conf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_conf.c; sourceTree = "<group>"; };
 		004BCAB2243DC60D002999B6 /* prefs_page_fyear.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = prefs_page_fyear.ui; path = src/ui/prefs_page_fyear.ui; sourceTree = "<group>"; };
+		00550529260BA7D60008ED75 /* etats_page_accounts.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = etats_page_accounts.c; path = etats/etats_page_accounts.c; sourceTree = "<group>"; };
+		0055052A260BA7D60008ED75 /* etats_page_accounts.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = etats_page_accounts.ui; path = etats/etats_page_accounts.ui; sourceTree = "<group>"; };
+		0055052B260BA7D60008ED75 /* etats_page_accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = etats_page_accounts.h; path = etats/etats_page_accounts.h; sourceTree = "<group>"; };
+		0055052C260BA7D60008ED75 /* etats_page_transfer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = etats_page_transfer.c; path = etats/etats_page_transfer.c; sourceTree = "<group>"; };
+		0055052D260BA7D60008ED75 /* etats_page_transfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = etats_page_transfer.h; path = etats/etats_page_transfer.h; sourceTree = "<group>"; };
+		0055052E260BA7D60008ED75 /* etats_page_transfer.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = etats_page_transfer.ui; path = etats/etats_page_transfer.ui; sourceTree = "<group>"; };
+		00550531260BA7FA0008ED75 /* widget_list_accounts.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_list_accounts.c; sourceTree = "<group>"; };
+		00550532260BA7FA0008ED75 /* widget_list_accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_list_accounts.h; sourceTree = "<group>"; };
+		00550533260BA7FA0008ED75 /* widget_list_accounts.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_list_accounts.ui; sourceTree = "<group>"; };
 		005BC33E1F6C1943006DB25E /* prefs_page_display_adr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_adr.h; path = prefs/prefs_page_display_adr.h; sourceTree = "<group>"; };
 		005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_adr.c; path = prefs/prefs_page_display_adr.c; sourceTree = "<group>"; };
 		005BC3411F6C196D006DB25E /* prefs_page_display_gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_gui.h; path = prefs/prefs_page_display_gui.h; sourceTree = "<group>"; };
@@ -723,6 +735,9 @@
 				00C17BA4246DD19600D9E257 /* widget_import_files.c */,
 				00C17BA5246DD19600D9E257 /* widget_import_files.h */,
 				00C17BA6246DD19600D9E257 /* widget_import_files.ui */,
+				00550531260BA7FA0008ED75 /* widget_list_accounts.c */,
+				00550532260BA7FA0008ED75 /* widget_list_accounts.h */,
+				00550533260BA7FA0008ED75 /* widget_list_accounts.ui */,
 				00760ECD25C07E320038199C /* widget_loan.c */,
 				00760ECE25C07E320038199C /* widget_loan.h */,
 				00760ECF25C07E320038199C /* widget_loan.ui */,
@@ -1218,9 +1233,15 @@
 		00E6346D25EFCA9B00A3DD96 /* etats */ = {
 			isa = PBXGroup;
 			children = (
+				00550529260BA7D60008ED75 /* etats_page_accounts.c */,
+				0055052B260BA7D60008ED75 /* etats_page_accounts.h */,
+				0055052A260BA7D60008ED75 /* etats_page_accounts.ui */,
 				00E6346F25EFCAB600A3DD96 /* etats_page_period.c */,
 				00E6346E25EFCAB600A3DD96 /* etats_page_period.h */,
 				00E6347025EFCAB600A3DD96 /* etats_page_period.ui */,
+				0055052C260BA7D60008ED75 /* etats_page_transfer.c */,
+				0055052D260BA7D60008ED75 /* etats_page_transfer.h */,
+				0055052E260BA7D60008ED75 /* etats_page_transfer.ui */,
 			);
 			name = etats;
 			sourceTree = "<group>";
@@ -1430,6 +1451,7 @@
 				006E684D1DB3E7AD0038B1F0 /* go-optionmenu.c in Sources */,
 				006E68AE1DB3E7AD0038B1F0 /* traitement_variables.c in Sources */,
 				006E687F1DB3E7AD0038B1F0 /* gsb_file_load.c in Sources */,
+				00550534260BA7FA0008ED75 /* widget_list_accounts.c in Sources */,
 				006E68381DB3E7AD0038B1F0 /* categories_onglet.c in Sources */,
 				006E68521DB3E7AD0038B1F0 /* gsb_account_property.c in Sources */,
 				006E683F1DB3E7AD0038B1F0 /* etats_calculs.c in Sources */,
@@ -1439,6 +1461,8 @@
 				006E68581DB3E7AD0038B1F0 /* gsb_assistant_file.c in Sources */,
 				00285A4B24197F15004828B4 /* prefs_page_display_form.c in Sources */,
 				006E688A1DB3E7AD0038B1F0 /* gsb_fyear.c in Sources */,
+				0055052F260BA7D60008ED75 /* etats_page_accounts.c in Sources */,
+				00550530260BA7D60008ED75 /* etats_page_transfer.c in Sources */,
 				006E686E1DB3E7AD0038B1F0 /* gsb_data_currency.c in Sources */,
 				00285A5524197F5B004828B4 /* prefs_page_msg_warning.c in Sources */,
 				003AC2351F49E06D007DA275 /* prefs_page_display_fonts.c in Sources */,
