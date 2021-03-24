@@ -48,7 +48,7 @@
 #include "utils_buttons.h"
 #include "utils_prefs.h"
 #include "utils_prefs.h"
-#include "widgets/widget_list_accounts.h"
+#include "widget_list_accounts.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
