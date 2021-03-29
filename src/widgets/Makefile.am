@@ -24,6 +24,8 @@ libwidgets_la_SOURCES = \
 	widget_import_files.h \
 	widget_list_accounts.c \
 	widget_list_accounts.h \
+	widget_list_metatree.c \
+	widget_list_metatree.h \
 	widget_loan.c \
 	widget_loan.h \
 	widget_transfer.c \
@@ -46,6 +48,7 @@ EXTRA_DIST = \
 	widget_import_files.ui \
 	widget_import_asso.ui \
 	widget_list_accounts.ui \
+	widget_list_metatree.ui \
 	widget_loan.ui \
 	widget_transfer.ui
 

@@ -48,6 +48,7 @@
 		<file preprocess="xml-stripblanks">widgets/widget_import_asso.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_import_files.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_list_accounts.ui</file>
+		<file preprocess="xml-stripblanks">widgets/widget_list_metatree.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_loan.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_transfer.ui</file>
   </gresource>
