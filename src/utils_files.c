@@ -802,6 +802,7 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
 
     label = gtk_label_new (_("Select a charset"));
     utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
     g_object_set_data (G_OBJECT (dialog), "charset_label", label);
