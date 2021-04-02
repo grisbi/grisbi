@@ -59,9 +59,6 @@ dnl Initialize libtool
 LT_INIT
 LT_LIB_M
 
-dnl GSettings
-GLIB_GSETTINGS
-
 dnl GLIB_COMPILE_RESOURCES
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
 
@@ -126,20 +123,6 @@ if test "x$enable_early_debug" = xyes; then
 	AC_DEFINE(EARLY_DEBUG,1,[Defined if Grisbi should log to a file])
 fi
 AM_CONDITIONAL(EARLY_DEBUG, [test "$enable_early_debug" = yes])
-
-dnl ================================================================
-dnl Defined if Grisbi use a configuration file instead of gsettings
-dnl ================================================================
-
-AC_ARG_ENABLE(config-file,
-	AS_HELP_STRING([--disable-config-file],[enable config file instead of gsettings (default: enabled]),
-	[enable_config_file=$enableval],
-	[enable_config_file=yes])
-
-if test "x$enable_config_file" = xyes; then
-	AC_DEFINE(USE_CONFIG_FILE,1,[Defined if Grisbi use a configuration file instead of gsettings])
-fi
-AM_CONDITIONAL(USE_CONFIG_FILE, [test "$enable_config_file" = yes])
 
 dnl ================================================================
 dnl XML2

@@ -77,6 +77,7 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate.c	\
 	file_obfuscate_qif.c	\
 	grisbi_app.c		\
+	grisbi_conf.c \
 	grisbi_prefs.c \
 	grisbi_win.c		\
 	gsb_account.c		\
@@ -210,6 +211,7 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate.h	\
 	file_obfuscate_qif.h	\
 	grisbi_app.h		\
+	grisbi_conf.h \
 	grisbi_prefs.h \
 	grisbi_win.h		\
 	gsb_account.h		\
@@ -318,16 +320,6 @@ libgrisbi_la_SOURCES = \
 	utils_widgets.h \
 	grisbi.gresource.xml
 
-if USE_CONFIG_FILE
-libgrisbi_la_SOURCES += \
-	grisbi_conf.c \
-	grisbi_conf.h
-else
-libgrisbi_la_SOURCES += \
-	grisbi_settings.c \
-	grisbi_settings.h
-endif
-
 if !HAVE_GOFFICE
 libgrisbi_la_SOURCES += \
 	go-charmap-sel.c \
@@ -362,16 +354,11 @@ endif
 grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir) $(srcdir)/grisbi.gresource.xml)
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --generate-source --c-name grisbi --sourcedir=$(srcdir) $<
 
-gsettings_SCHEMAS = org.gtk.grisbi.gschema.xml
-@GSETTINGS_RULES@
-
 @INTLTOOL_XML_NOMERGE_RULE@
 
 if WIN32
 grisbi_LDFLAGS = -mwindows
 endif
-
-
 
 SUBDIRS = etats prefs ui widgets plugins/gnucash plugins/ofx plugins/openssl images
 
@@ -380,8 +367,7 @@ SUBDIRS += tests
 endif
 
 EXTRA_DIST = grisbi.keys grisbi.mime \
-	grisbi.gresource.xml \
-	$(gsettings_SCHEMAS)
+	grisbi.gresource.xml
 
 CLEANFILES = $(BUILT_SOURCES)
 

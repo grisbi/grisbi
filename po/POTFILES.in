@@ -46,7 +46,6 @@
 [type: gettext/glade]src/widgets/widget_list_metatree.ui
 [type: gettext/glade]src/widgets/widget_loan.ui
 [type: gettext/glade]src/widgets/widget_transfer.ui
-[type: gettext/gsettings]src/org.gtk.grisbi.gschema.xml
 share/grisbi.desktop.in
 src/accueil.c
 src/bet_data.c
@@ -82,7 +81,6 @@ src/go-optionmenu.c
 src/grisbi_app.c
 src/grisbi_conf.c
 src/grisbi_prefs.c
-src/grisbi_settings.c
 src/grisbi_win.c
 src/gsb_account.c
 src/gsb_account_property.c

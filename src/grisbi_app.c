@@ -39,11 +39,7 @@
 #include "gsb_assistant_first.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#ifdef USE_CONFIG_FILE
 #include "grisbi_conf.h"
-#else
-#include "grisbi_settings.h"
-#endif
 #include "gsb_file_save.h"
 #include "gsb_locale.h"
 #include "gsb_rgba.h"
@@ -1069,11 +1065,7 @@ static void grisbi_app_startup (GApplication *application)
     grisbi_app_struct_conf_init (app);
 
     /* initialisation des variables de configuration globales */
-#ifdef USE_CONFIG_FILE
 	grisbi_conf_load_app_config ();
-#else
-	grisbi_settings_load_app_config ();
-#endif
 
 	/* force dark type */
 	if (darkmode)
@@ -1319,12 +1311,7 @@ static void grisbi_app_shutdown (GApplication *application)
 		(priv->a_conf)->force_type_theme = 0;
 
     /* Sauvegarde de la configuration générale */
-#ifdef USE_CONFIG_FILE
 	grisbi_conf_save_app_config ();
-#else
-	grisbi_settings_save_app_config ();
-	grisbi_settings_save_in_config_file ();
-#endif
 
 	/* libération de mémoire utilisée par gsb_dirs*/
     gsb_dirs_shutdown ();

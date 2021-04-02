@@ -28,8 +28,6 @@
  * \file gsb_file_config.c
  * save and load the config file
  */
-#ifdef USE_CONFIG_FILE
-
 #include "include.h"
 #include <errno.h>
 #include <glib/gstdio.h>
@@ -1156,7 +1154,6 @@ gboolean grisbi_conf_save_app_config (void)
  * \return
  **/
 
-#endif	/* USE_CONFIG_FILE */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
