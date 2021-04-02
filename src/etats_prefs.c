@@ -35,6 +35,8 @@
 #include "etats_prefs_private.h"
 #include "etats_config.h"
 #include "etats_page_accounts.h"
+#include "etats_page_budget.h"
+#include "etats_page_category.h"
 #include "etats_page_period.h"
 #include "etats_page_transfer.h"
 #include "grisbi_app.h"
@@ -97,37 +99,6 @@ static gboolean etats_prefs_initialise_builder (EtatsPrefs *prefs)
 }
 
 /*FONCTIONS UTILITAIRES COMMUNES*/
-/**
- * initialise le bouton expand collapse all
- *
- * \param suffixe name
- * \param tree_view
- *
- * \return
- **/
-static void etats_prefs_toggle_button_init_button_expand (const gchar *name,
-														  GtkWidget *tree_view)
-{
-    GtkWidget *button;
-    gchar *tmp_str;
-
-    tmp_str = g_strconcat ("togglebutton_expand_", name, NULL);
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, tmp_str));
-    g_free (tmp_str);
-
-    tmp_str = g_strconcat ("hbox_toggle_expand_", name, NULL);
-    g_object_set_data (G_OBJECT (button), "hbox_expand", gtk_builder_get_object (etats_prefs_builder, tmp_str));
-    g_free (tmp_str);
-
-    tmp_str = g_strconcat ("hbox_toggle_collapse_", name, NULL);
-    g_object_set_data (G_OBJECT (button), "hbox_collapse", gtk_builder_get_object (etats_prefs_builder, tmp_str));
-
-    g_signal_connect (G_OBJECT (button),
-                      "clicked",
-                      G_CALLBACK (utils_togglebutton_collapse_expand_all_rows),
-                      tree_view);
-}
-
 /**
  * crée un nouveau tree_view initialisé avec model.
  * le modèle comporte deux colonnes : G_TYPE_STRING, G_TYPE_INT
@@ -446,13 +417,13 @@ static void etats_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model
     page++;
 
     /* append page Categories */
-    widget = etats_prefs_onglet_categories_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Categories"), page);
+    widget = GTK_WIDGET (etats_page_category_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Categories"), CATEGORY_PAGE_TYPE);
     page++;
 
     /* append page Budgetary lines */
-    widget = etats_prefs_onglet_budgets_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Budgetary lines"), page);
+    widget = GTK_WIDGET (etats_page_budget_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Budgetary lines"), BUDGET_PAGE_TYPE);
     page++;
 
     /* append page Texts */
@@ -1092,233 +1063,6 @@ static GtkWidget *etats_prefs_onglet_tiers_create_page (gint page)
                         "delete-text",
                         G_CALLBACK (etats_prefs_onglet_tiers_entry_delete_text),
                         tree_view);
-
-    gtk_widget_show_all (vbox_onglet);
-
-    /* return */
-    return vbox_onglet;
-}
-
-/*RIGHT_PANEL : COMMUN_ONGLET__BUDGET_CATEGORIES*/
-/**
- * create the category/budget list for reports
- * it's a tree with categories/budget and sub-categories/budgets,
- * and a check-button to select them
- *
- * \param
- *
- * \return a GtkWidget : the GtkTreeView
- **/
-static GtkWidget *etats_prefs_onglet_categ_budget_tree_view_create (gboolean is_categ)
-{
-    GtkWidget *tree_view;
-    GtkTreeModel *model;
-    GtkTreeViewColumn *column;
-    GtkCellRenderer *cell_renderer;
-    GtkCellRenderer *radio_renderer;
-    gchar *treeview_name;
-
-    /* get the model */
-    model = etats_config_onglet_categ_budget_get_model (is_categ);
-
-    if (is_categ)
-        treeview_name = g_strdup ("treeview_categ");
-    else
-        treeview_name = g_strdup ("treeview_budget");
-
-    /* create the tree view */
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, treeview_name));
-    gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
-
-    /* set the color of selected row */
-	gtk_widget_set_name (tree_view, "tree_view");
-
-    if (model)
-    {
-        gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), model);
-        g_object_unref (G_OBJECT (model));
-    }
-
-    /* create the column */
-    column = gtk_tree_view_column_new ();
-
-    /* create the toggle button part */
-    radio_renderer = gtk_cell_renderer_toggle_new ();
-    g_object_set (G_OBJECT (radio_renderer), "xalign", 0.0, NULL);
-
-    gtk_tree_view_column_pack_start (column,
-                        radio_renderer,
-                        FALSE);
-    gtk_tree_view_column_set_attributes (column,
-                        radio_renderer,
-                        "active", 1,
-                        "activatable", 2,
-                        NULL);
-    g_signal_connect (G_OBJECT (radio_renderer),
-                        "toggled",
-                        G_CALLBACK (etats_config_onglet_categ_budget_toggled),
-                        model);
-
-    /* create the text part */
-    cell_renderer = gtk_cell_renderer_text_new ();
-    g_object_set (G_OBJECT (cell_renderer),
-                        "xalign", 0.0,
-                        NULL);
-    gtk_tree_view_column_pack_start (column,
-                        cell_renderer,
-                        TRUE);
-    gtk_tree_view_column_set_attributes (column,
-                        cell_renderer,
-                        "text", 0,
-                        NULL);
-
-    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-    g_free (treeview_name);
-
-    return tree_view;
-}
-
-/**
- * initialisation des boutons de sélection des catégories
- *
- * \param suffixe name of widgets
- * \param tree_view
- *
- * \return
- **/
-static void etats_prefs_onglet_categ_budget_init_buttons_select_unselect (const gchar *name,
-																		  GtkWidget *tree_view,
-																		  gboolean is_categ)
-{
-    GtkWidget *button;
-    gchar *tmp_str;
-
-    tmp_str = g_strconcat ("togglebutton_select_all_", name, NULL);
-    button = utils_gtkbuilder_get_widget_by_name (etats_prefs_builder, tmp_str, NULL);
-    g_signal_connect (G_OBJECT  (button),
-                        "toggled",
-                        G_CALLBACK (etats_prefs_onglet_categ_budget_check_uncheck_all),
-                        tree_view);
-    g_free (tmp_str);
-
-    tmp_str = g_strconcat ("button_income_", name, NULL);
-    button = utils_gtkbuilder_get_widget_by_name (etats_prefs_builder, tmp_str, NULL);
-    g_object_set_data (G_OBJECT (button), "is_categ", GINT_TO_POINTER (is_categ));
-    g_object_set_data (G_OBJECT (button), "type_div", GINT_TO_POINTER (FALSE));
-    g_signal_connect (G_OBJECT  (button),
-                        "button-press-event",
-                        G_CALLBACK (etats_config_onglet_categ_budget_select_partie_liste),
-                        tree_view);
-    g_free (tmp_str);
-
-    tmp_str = g_strconcat ("button_outgoing_", name, NULL);
-    button = utils_gtkbuilder_get_widget_by_name (etats_prefs_builder, tmp_str, NULL);
-    g_object_set_data (G_OBJECT (button), "is_categ", GINT_TO_POINTER (is_categ));
-    g_object_set_data (G_OBJECT (button), "type_div", GINT_TO_POINTER (TRUE));
-    g_signal_connect (G_OBJECT  (button),
-                        "button-press-event",
-                        G_CALLBACK (etats_config_onglet_categ_budget_select_partie_liste),
-                        tree_view);
-    g_free (tmp_str);
-}
-
-/*RIGHT_PANEL : ONGLET_CATEGORIES*/
-/**
- * Création de l'onglet Catégories
- *
- * \param
- *
- * \return
- **/
-static GtkWidget *etats_prefs_onglet_categories_create_page (gint page)
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-    GtkWidget *tree_view;
-    GtkWidget *button;
-
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "onglet_etat_categories"));
-
-    vbox = new_vbox_with_title_and_icon (_("Categories"), "gsb-categories-32.png");
-
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
-
-    etats_prefs_widget_set_sensitive ("vbox_detaille_categ_etat", FALSE);
-
-    /* on crée la liste des catégories */
-    tree_view = etats_prefs_onglet_categ_budget_tree_view_create (TRUE);
-
-    /* on met la connection pour rendre sensitif la vbox_detaille_categ_etat */
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "bouton_detaille_categ_etat"));
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "vbox_detaille_categ_etat"));
-
-    /* on met la connection pour changer le style de la ligne du panneau de gauche */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
-                        GINT_TO_POINTER (page));
-
-    /* on met la connection pour déplier replier les catégories */
-    etats_prefs_toggle_button_init_button_expand ("categ", tree_view);
-
-    /* on met la connection pour (dé)sélectionner tout ou partie des catégories */
-    etats_prefs_onglet_categ_budget_init_buttons_select_unselect ("categ", tree_view, TRUE);
-
-    gtk_widget_show_all (vbox_onglet);
-
-    return vbox_onglet;
-}
-
-/*RIGHT_PANEL : ONGLET_BUDGETS*/
-/**
- * Création de l'onglet Budgets
- *
- * \param
- *
- * \return
- **/
-static GtkWidget *etats_prefs_onglet_budgets_create_page (gint page)
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-    GtkWidget *button;
-    GtkWidget *tree_view;
-
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "onglet_etat_ib"));
-
-    vbox = new_vbox_with_title_and_icon (_("Budgetary lines"), "gsb-budgetary_lines-32.png");
-
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
-
-    etats_prefs_widget_set_sensitive ("vbox_detaille_budget_etat", FALSE);
-
-    /* on crée la liste des IB */
-    tree_view = etats_prefs_onglet_categ_budget_tree_view_create (FALSE);
-
-    /* on met la connection pour rendre sensitif la vbox_detaille_budget_etat */
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "bouton_detaille_budget_etat"));
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        utils_gtkbuilder_get_widget_by_name (etats_prefs_builder, "vbox_detaille_budget_etat", NULL));
-
-    /* on met la connection pour changer le style de la ligne du panneau de gauche */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
-                        GINT_TO_POINTER (page));
-
-    /* on met la connection pour déplier replier les IB */
-    etats_prefs_toggle_button_init_button_expand ("budget", tree_view);
-
-    /* on met la connection pour sélectionner tout ou partie des IB */
-    etats_prefs_onglet_categ_budget_init_buttons_select_unselect ("budget", tree_view, FALSE);
 
     gtk_widget_show_all (vbox_onglet);
 
@@ -2672,7 +2416,6 @@ GSList *new_etats_prefs_tree_view_get_list_rows_selected (GtkWidget *tree_view)
     }
     g_list_free_full (rows_list, (GDestroyNotify) gtk_tree_path_free);
 
-	printf ("nbre accounts = %d\n", g_slist_length (tmp_list));
     return tmp_list;
 }
 
@@ -2696,36 +2439,6 @@ gboolean etats_prefs_widget_set_sensitive (const gchar *widget_name,
     gtk_widget_set_sensitive (widget, sensitive);
 
     return TRUE;
-}
-
-/*RIGHT_PANEL : COMMUN_ONGLET__BUDGET_CATEGORIES*/
-/**
- * coche ou décoche toutes les cases du tree_view
- *
- * \param toggle_button
- * \param tree_view
- *
- * \return
- **/
-void etats_prefs_onglet_categ_budget_check_uncheck_all (GtkToggleButton *togglebutton,
-														GtkWidget *tree_view)
-{
-    GtkTreeModel *model;
-    gchar *label;
-    gboolean toggle;
-
-    toggle = gtk_toggle_button_get_active (togglebutton);
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-
-    etats_config_onglet_categ_budget_tree_model_check_uncheck_all (model, toggle);
-
-    if ((toggle))
-        label = g_strdup (_("Unselect all"));
-    else
-        label = g_strdup (_("Select all"));
-
-    gtk_button_set_label (GTK_BUTTON (togglebutton), label);
-	g_free (label);
 }
 
 /*RIGHT_PANEL : ONGLET_MODE_PAIEMENT*/

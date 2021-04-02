@@ -17,14 +17,6 @@
 /* START_DECLARATION */
 void 			etats_config_onglet_affichage_devises_make_combobox 			(void);
 GtkTreeModel *	etats_config_onglet_categ_budget_get_model 						(gboolean is_categ);
-gboolean 		etats_config_onglet_categ_budget_select_partie_liste 			(GtkWidget *button,
-																				 GdkEventButton *event,
-																				 GtkWidget *tree_view);
-gboolean 		etats_config_onglet_categ_budget_toggled 						(GtkCellRendererToggle *radio_renderer,
-																				 gchar *path_str,
-																				 GtkTreeStore *store);
-void 			etats_config_onglet_categ_budget_tree_model_check_uncheck_all	(GtkTreeModel *model,
-																				 gboolean toggle_value);
 gchar *			etats_config_onglet_data_grouping_get_string 					(gint type_data,
 																				 gint pos);
 void 			etats_config_onglet_data_grouping_move_in_list 					(gint src_pos,
