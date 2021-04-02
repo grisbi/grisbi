@@ -10,9 +10,12 @@ noinst_LTLIBRARIES = libetatspages.la
 libetatspages_la_SOURCES = \
 	etats_page_accounts.c \
 	etats_page_budget.c \
+	etats_page_category.c \
 	etats_page_period.c \
 	etats_page_transfer.c \
 	etats_page_accounts.h \
+	etats_page_budget.h \
+	etats_page_category.h \
 	etats_page_period.h \
 	etats_page_transfer.h
 
@@ -27,6 +30,7 @@ MAINTAINERCLEANFILES = \
 EXTRA_DIST = \
 	etats_page_accounts.ui \
 	etats_page_budget.ui\
+	etats_page_category.ui \
 	etats_page_period.ui \
 	etats_page_transfer.ui
 
