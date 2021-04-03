@@ -88,9 +88,6 @@ struct _FormOrganization
     /*  20: TRANSACTION_FORM_WIDGET_NB */
 
     gint form_table[MAX_HEIGHT][MAX_WIDTH];
-
-    /* percentage of each columns */
-    gint width_columns_percent[MAX_WIDTH];
 };
 
 
@@ -138,7 +135,6 @@ gboolean gsb_data_form_set_default_organization (void)
 	{ 0, TRANSACTION_FORM_NOTES, TRANSACTION_FORM_CONTRA, 0, 0, 0 },
 	{ 0, 0, 0, 0, 0, 0 }
     };
-    gint width[MAX_WIDTH] = { 15, 50, 15, 15, 0, 0 };
     gint i, j;
 
 	form = grisbi_win_get_form_organization ();
@@ -156,11 +152,6 @@ gboolean gsb_data_form_set_default_organization (void)
 		{
 			form->form_table[i][j] = tab[i][j];
 		}
-	}
-
-	for (i = 0 ; i<6 ; i++)
-	{
-		form->width_columns_percent[i] = width[i];
 	}
 
     return FALSE;
@@ -292,47 +283,6 @@ gboolean gsb_data_form_set_value (gint column,
     form->form_table[row][column] = value;
 
 	return TRUE;
-}
-
-/**
- * get the width of a column in  the form
- *
- * \param column
- *
- * \return the value or -1 if problem
- **/
-gint gsb_data_form_get_width_column (gint column)
-{
-    FormOrganization *form;
-
-    form = grisbi_win_get_form_organization ();
-
-    if (!form || column >= MAX_WIDTH)
-		return -1;
-
-    return form->width_columns_percent[column];
-}
-
-/**
- * set a width for a column of the form
- *
- * \param column
- * \param value
- *
- * \return TRUE if ok, FALSE if problem
- **/
-gboolean gsb_data_form_set_width_column (gint column,
-										 gint width)
-{
-    FormOrganization *form;
-
-    form = grisbi_win_get_form_organization ();
-
-    if (!form || column >= MAX_WIDTH)
-		return FALSE;
-
-    form->width_columns_percent[column] = width;
-    return TRUE;
 }
 
 /**

@@ -43,7 +43,6 @@ gint 		gsb_data_form_get_nb_rows 				(void);
 gint 		gsb_data_form_get_value 				(gint column,
 												     gint row);
 gint 		gsb_data_form_get_values_total 			(void);
-gint 		gsb_data_form_get_width_column 			(gint column);
 gboolean 	gsb_data_form_look_for_value 			(gint value,
 													 gint *return_row,
 													 gint *return_column);
@@ -54,7 +53,5 @@ gboolean 	gsb_data_form_set_nb_rows 				(gint rows);
 gboolean 	gsb_data_form_set_value 				(gint column,
 													 gint row,
 													 gint value);
-gboolean 	gsb_data_form_set_width_column 			(gint column,
-													 gint width);
 /* END_DECLARATION */
 #endif

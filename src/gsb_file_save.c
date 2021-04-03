@@ -785,7 +785,6 @@ static gulong gsb_file_save_general_part (gulong iterator,
 	gchar *mon_thousands_sep;
 	gchar *navigation_order_list = NULL;
 	gchar *form_organization;
-	gchar *form_columns_width;
 	gboolean is_archive = FALSE;
 	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
@@ -848,24 +847,6 @@ static gulong gsb_file_save_general_part (gulong iterator,
 			else
 				form_organization = utils_str_itoa (gsb_data_form_get_value (j, k));
 		}
-	}
-
-	/* set the form columns width */
-	form_columns_width = NULL;
-
-	for (k=0 ; k<MAX_WIDTH ; k++)
-	{
-		if (form_columns_width)
-		{
-			form_columns_width = g_strconcat (string_to_free1 = form_columns_width,
-											  "-",
-											  string_to_free2 = utils_str_itoa (gsb_data_form_get_width_column (k)),
-											  NULL);
-			g_free (string_to_free1);
-			g_free (string_to_free2);
-		}
-		else
-			form_columns_width = utils_str_itoa (gsb_data_form_get_width_column (k));
 	}
 
 	/* prepare bet_array_column_width_write */
@@ -934,7 +915,6 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  "\t\tForm_columns_number=\"%d\"\n"
 										  "\t\tForm_lines_number=\"%d\"\n"
 										  "\t\tForm_organization=\"%s\"\n"
-										  "\t\tForm_columns_width=\"%s\"\n"
 										  "\t\tReconcile_end_date=\"%d\"\n"
 										  "\t\tReconcile_sort=\"%d\"\n"
 										  "\t\tUse_logo=\"%d\"\n"
@@ -1003,7 +983,6 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  gsb_data_form_get_nb_columns (),
 										  gsb_data_form_get_nb_rows (),
 										  my_safe_null_str(form_organization),
-										  my_safe_null_str(form_columns_width),
 										  w_etat->reconcile_end_date,
 										  w_etat->reconcile_sort,
 										  etat.utilise_logo,
@@ -1051,7 +1030,6 @@ static gulong gsb_file_save_general_part (gulong iterator,
 	g_free (string_to_free3);
 
 	g_free (form_organization);
-	g_free (form_columns_width);
 
 	g_free (bet_array_column_width_write);
 

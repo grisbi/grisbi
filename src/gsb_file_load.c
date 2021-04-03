@@ -394,19 +394,6 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
                     g_strfreev (pointeur_char);
                 }
 
-                else if (!strcmp (attribute_names[i], "Form_columns_width"))
-                {
-                    gchar **pointeur_char;
-                    gint j;
-
-                    pointeur_char = g_strsplit (attribute_values[i], "-", 0);
-
-                    for (j=0 ; j<MAX_WIDTH ; j++)
-                        gsb_data_form_set_width_column (j, utils_str_atoi (pointeur_char[j]));
-
-                    g_strfreev (pointeur_char);
-                }
-
                 else
                     unknown = 1;
                 break;
@@ -632,7 +619,7 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
         {
 			gchar *tmp_str;
 
-            tmp_str = g_strdup_printf ("Unknown attribute '%s'", attribute_names[i]);
+            tmp_str = g_strdup_printf ("Unknown attribute '%s'\n", attribute_names[i]);
             g_print ("%s", tmp_str);
             g_free (tmp_str);
         }
@@ -2106,19 +2093,6 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                     g_strfreev (pointeur_char);
                 }
 
-                else if (!strcmp (attribute_names[i], "Form_columns_width"))
-                {
-                    gchar **pointeur_char;
-                    gint j;
-
-                    pointeur_char = g_strsplit (attribute_values[i], "-", 0);
-
-                    for (j=0 ; j<MAX_WIDTH ; j++)
-                        gsb_data_form_set_width_column (j, utils_str_atoi (pointeur_char[j]));
-
-                    g_strfreev (pointeur_char);
-                }
-
 				else
                     unknown = 1;
                 break;
@@ -2333,7 +2307,7 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
         {
 			gchar *tmp_str;
 
-            tmp_str = g_strdup_printf ("Unknown attribute '%s'", attribute_names[i]);
+            tmp_str = g_strdup_printf ("Unknown attribute '%s'\n", attribute_names[i]);
             g_print ("%s", tmp_str);
             g_free (tmp_str);
         }
@@ -3636,7 +3610,7 @@ static void gsb_file_load_transactions_part (const gchar **attribute_names,
         {
 			gchar *tmp_str;
 
-            tmp_str = g_strdup_printf ("Unknown attribute '%s'", attribute_names[i]);
+            tmp_str = g_strdup_printf ("Unknown attribute '%s'\n", attribute_names[i]);
             g_print ("%s", tmp_str);
             g_free (tmp_str);
         }

@@ -520,17 +520,13 @@ static gboolean prefs_page_display_form_add_column (GtkButton *button,
 													GtkWidget *tree_view)
 {
     gint nb_columns;
-    gint new_size;
 
     nb_columns = gsb_data_form_get_nb_columns ();
 
 	if (nb_columns == MAX_WIDTH)
 		return FALSE;
 
-    /* split by 2 the size of the current last column to add the new column */
-    new_size = gsb_data_form_get_width_column (nb_columns - 1) / 2;
-    gsb_data_form_set_width_column (nb_columns - 1, new_size);
-    gsb_data_form_set_width_column (nb_columns, new_size);
+    /* add the new column */
     gsb_data_form_set_nb_columns (nb_columns + 1);
 
 	/* show the new column */
@@ -595,18 +591,10 @@ static gboolean prefs_page_display_form_remove_column (GtkButton *button,
 		}
     }
 
-    /* change the size of the last column */
-    gsb_data_form_set_width_column (nb_columns - 1,
-									gsb_data_form_get_width_column (nb_columns)
-									+
-									gsb_data_form_get_width_column (nb_columns));
-    gsb_data_form_set_width_column (nb_columns, 0);
-
 	/* hide the new column */
 	gtk_tree_view_column_set_visible (gtk_tree_view_get_column (GTK_TREE_VIEW (tree_view),
 																nb_columns),
 									  FALSE);
-
 
 	/* update form and list */
 	prefs_page_display_form_update_form_list (tree_view, FALSE);
