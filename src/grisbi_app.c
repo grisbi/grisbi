@@ -1449,9 +1449,17 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 		for (i = 0; i < G_N_ELEMENTS (accels); i++)
 		{
 			gchar *str;
+			gchar *str_to_free;
 			gchar *text;
 
-			str = g_strjoinv (",", (gchar **) accels[i].accelerators);
+			str_to_free = g_strjoinv (",", (gchar **) accels[i].accelerators);
+#ifdef GTKOSXAPPLICATION
+			str = gsb_string_remplace_string (str_to_free, "Primary", "Command");
+#else
+			str = gsb_string_remplace_string (str_to_free, "Primary", "Ctrl");
+#endif
+			g_free (str_to_free);
+
 			text = g_strdup_printf ("%s\t-> %s.\n", gettext (accels[i].translate_string), str);
 			gtk_text_buffer_insert (buffer, &iter, text, -1);
 			g_free (str);
@@ -1463,9 +1471,17 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 		for (i = 0; i < G_N_ELEMENTS (accels_classic); i++)
 		{
 			gchar *str;
+			gchar *str_to_free;
 			gchar *text;
 
-			str = g_strjoinv (",", (gchar **) accels[i].accelerators);
+			str_to_free = g_strjoinv (",", (gchar **) accels[i].accelerators);
+#ifdef GTKOSXAPPLICATION
+			str = gsb_string_remplace_string (str_to_free, "Primary", "Command");
+#else
+			str = gsb_string_remplace_string (str_to_free, "Primary", "Ctrl");
+#endif
+			g_free (str_to_free);
+
 			text = g_strdup_printf ("%s\t\t-> %s.\n", gettext (accels[i].translate_string), str);
 			gtk_text_buffer_insert (buffer, &iter, text, -1);
 			g_free (str);
@@ -1476,8 +1492,13 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
 	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list :</b>"), -1);
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
-	gtk_text_buffer_insert (buffer, &iter, _("(Un)Pointing a transaction\t\t-> <Primary>p, <Primary>F12\n"), -1);
-	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t\t-> <Primary>r\n"), -1);
+#ifdef GTKOSXAPPLICATION
+	gtk_text_buffer_insert (buffer, &iter, _("(Un)Pointing a transaction\t\t-> <Command>p, <Command>F12\n"), -1);
+	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t\t-> <Command>r\n"), -1);
+#else
+	gtk_text_buffer_insert (buffer, &iter, _("(Un)Pointing a transaction\t\t-> <Ctrl>p, <Ctrl>F12\n"), -1);
+	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t\t-> <Ctrl>r\n"), -1);
+#endif
 }
 
 gpointer grisbi_app_get_a_conf (void)
