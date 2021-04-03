@@ -2793,6 +2793,7 @@ GtkWidget *gsb_transactions_list_make_gui_list (void)
 
     /* and now we can create the tree_view */
     tree_view = gsb_transactions_list_create_tree_view (GTK_TREE_MODEL (transaction_model_get_model ()));
+	gtk_widget_set_margin_end (tree_view, MARGIN_END);
     gtk_container_add (GTK_CONTAINER (scrolled_window), tree_view);
 
     /* we save the values */
