@@ -1956,12 +1956,8 @@ void grisbi_win_form_label_align_right (GtkAllocation *allocation)
 	win = grisbi_app_get_active_window (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-	new_width = allocation->width -30;
-
-	/* addition of a feedback loop EXPERIMENTAL */
 	sw_general_width = gtk_widget_get_allocated_width (priv->sw_general);
-	if (new_width + 40 > sw_general_width)
-		new_width = sw_general_width - 40;
+	new_width = sw_general_width - EXPANDER_LABEL_GAP;
 
 	expander_label = gtk_expander_get_label_widget (GTK_EXPANDER(priv->form_expander));
 	gtk_widget_set_size_request (expander_label, new_width, -1);

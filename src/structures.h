@@ -61,6 +61,7 @@
 /* width for widget */
 #define BOX_BORDER_WIDTH		10
 #define ENTRY_MIN_WIDTH			100
+#define EXPANDER_LABEL_GAP		40				/* ecart negatif pour la largeur du label de l'expander */
 #define FORM_COURT_WIDTH		120				/* largeur minimale demandée pour les champs courts du formulaire */
 #define FORM_LONG_WIDTH			200				/* largeur minimale demandée pour les champs longs du formulaire */
 
