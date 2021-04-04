@@ -73,7 +73,6 @@
 		006E684C1DB3E7AD0038B1F0 /* go-charmap-sel.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67411DB3E7AC0038B1F0 /* go-charmap-sel.c */; };
 		006E684D1DB3E7AD0038B1F0 /* go-optionmenu.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67431DB3E7AC0038B1F0 /* go-optionmenu.c */; };
 		006E684E1DB3E7AD0038B1F0 /* grisbi_app.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67451DB3E7AC0038B1F0 /* grisbi_app.c */; };
-		006E68501DB3E7AD0038B1F0 /* grisbi_settings.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E674A1DB3E7AC0038B1F0 /* grisbi_settings.c */; };
 		006E68511DB3E7AD0038B1F0 /* grisbi_win.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E674C1DB3E7AC0038B1F0 /* grisbi_win.c */; };
 		006E68521DB3E7AD0038B1F0 /* gsb_account_property.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67511DB3E7AC0038B1F0 /* gsb_account_property.c */; };
 		006E68531DB3E7AD0038B1F0 /* gsb_account.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67531DB3E7AC0038B1F0 /* gsb_account.c */; };
@@ -185,6 +184,9 @@
 		006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68DD1DB427130038B1F0 /* libxml2.tbd */; };
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
 		00760ED025C07E320038199C /* widget_loan.c in Sources */ = {isa = PBXBuildFile; fileRef = 00760ECD25C07E320038199C /* widget_loan.c */; };
+		007A1C74261A1F98003B3311 /* etats_page_category.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C6F261A1F98003B3311 /* etats_page_category.c */; };
+		007A1C75261A1F98003B3311 /* etats_page_budget.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C70261A1F98003B3311 /* etats_page_budget.c */; };
+		007A1C79261A1FD6003B3311 /* widget_list_metatree.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C76261A1FD6003B3311 /* widget_list_metatree.c */; };
 		00972E5A25AC960E00856C07 /* grisbi_osx.m in Sources */ = {isa = PBXBuildFile; fileRef = 00972E5925AC960E00856C07 /* grisbi_osx.m */; };
 		00A496AB245DC91900CB598C /* prefs_page_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496A9245DC91900CB598C /* prefs_page_currency_link.c */; };
 		00A496AF245DC94400CB598C /* widget_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496AD245DC94300CB598C /* widget_currency_link.c */; };
@@ -370,8 +372,6 @@
 		006E67441DB3E7AC0038B1F0 /* go-optionmenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "go-optionmenu.h"; sourceTree = "<group>"; };
 		006E67451DB3E7AC0038B1F0 /* grisbi_app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_app.c; sourceTree = "<group>"; };
 		006E67471DB3E7AC0038B1F0 /* grisbi_app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_app.h; sourceTree = "<group>"; };
-		006E674A1DB3E7AC0038B1F0 /* grisbi_settings.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_settings.c; sourceTree = "<group>"; };
-		006E674B1DB3E7AC0038B1F0 /* grisbi_settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_settings.h; sourceTree = "<group>"; };
 		006E674C1DB3E7AC0038B1F0 /* grisbi_win.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_win.c; sourceTree = "<group>"; };
 		006E674D1DB3E7AC0038B1F0 /* grisbi_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_win.h; sourceTree = "<group>"; };
 		006E674E1DB3E7AC0038B1F0 /* grisbi.gresource.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = grisbi.gresource.xml; sourceTree = "<group>"; };
@@ -596,6 +596,15 @@
 		00760ECD25C07E320038199C /* widget_loan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_loan.c; sourceTree = "<group>"; };
 		00760ECE25C07E320038199C /* widget_loan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_loan.h; sourceTree = "<group>"; };
 		00760ECF25C07E320038199C /* widget_loan.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_loan.ui; sourceTree = "<group>"; };
+		007A1C6E261A1F98003B3311 /* etats_page_category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = etats_page_category.h; path = etats/etats_page_category.h; sourceTree = "<group>"; };
+		007A1C6F261A1F98003B3311 /* etats_page_category.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = etats_page_category.c; path = etats/etats_page_category.c; sourceTree = "<group>"; };
+		007A1C70261A1F98003B3311 /* etats_page_budget.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = etats_page_budget.c; path = etats/etats_page_budget.c; sourceTree = "<group>"; };
+		007A1C71261A1F98003B3311 /* etats_page_category.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = etats_page_category.ui; path = etats/etats_page_category.ui; sourceTree = "<group>"; };
+		007A1C72261A1F98003B3311 /* etats_page_budget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = etats_page_budget.h; path = etats/etats_page_budget.h; sourceTree = "<group>"; };
+		007A1C73261A1F98003B3311 /* etats_page_budget.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = etats_page_budget.ui; path = etats/etats_page_budget.ui; sourceTree = "<group>"; };
+		007A1C76261A1FD6003B3311 /* widget_list_metatree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_list_metatree.c; sourceTree = "<group>"; };
+		007A1C77261A1FD6003B3311 /* widget_list_metatree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_list_metatree.h; sourceTree = "<group>"; };
+		007A1C78261A1FD6003B3311 /* widget_list_metatree.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_list_metatree.ui; sourceTree = "<group>"; };
 		00972E5825AC960E00856C07 /* grisbi_osx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_osx.h; sourceTree = "<group>"; };
 		00972E5925AC960E00856C07 /* grisbi_osx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = grisbi_osx.m; sourceTree = "<group>"; };
 		00A496A9245DC91900CB598C /* prefs_page_currency_link.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_currency_link.c; path = prefs/prefs_page_currency_link.c; sourceTree = "<group>"; };
@@ -738,6 +747,9 @@
 				00550531260BA7FA0008ED75 /* widget_list_accounts.c */,
 				00550532260BA7FA0008ED75 /* widget_list_accounts.h */,
 				00550533260BA7FA0008ED75 /* widget_list_accounts.ui */,
+				007A1C76261A1FD6003B3311 /* widget_list_metatree.c */,
+				007A1C77261A1FD6003B3311 /* widget_list_metatree.h */,
+				007A1C78261A1FD6003B3311 /* widget_list_metatree.ui */,
 				00760ECD25C07E320038199C /* widget_loan.c */,
 				00760ECE25C07E320038199C /* widget_loan.h */,
 				00760ECF25C07E320038199C /* widget_loan.ui */,
@@ -968,8 +980,6 @@
 				003AC2241F49DFE1007DA275 /* grisbi_prefs.c */,
 				003AC2261F49E00B007DA275 /* grisbi_prefs.h */,
 				00EA61011F915CBA00569C19 /* grisbi_resources.c */,
-				006E674A1DB3E7AC0038B1F0 /* grisbi_settings.c */,
-				006E674B1DB3E7AC0038B1F0 /* grisbi_settings.h */,
 				006E674C1DB3E7AC0038B1F0 /* grisbi_win.c */,
 				006E674D1DB3E7AC0038B1F0 /* grisbi_win.h */,
 				006E674E1DB3E7AC0038B1F0 /* grisbi.gresource.xml */,
@@ -1236,6 +1246,12 @@
 				00550529260BA7D60008ED75 /* etats_page_accounts.c */,
 				0055052B260BA7D60008ED75 /* etats_page_accounts.h */,
 				0055052A260BA7D60008ED75 /* etats_page_accounts.ui */,
+				007A1C70261A1F98003B3311 /* etats_page_budget.c */,
+				007A1C72261A1F98003B3311 /* etats_page_budget.h */,
+				007A1C73261A1F98003B3311 /* etats_page_budget.ui */,
+				007A1C6F261A1F98003B3311 /* etats_page_category.c */,
+				007A1C6E261A1F98003B3311 /* etats_page_category.h */,
+				007A1C71261A1F98003B3311 /* etats_page_category.ui */,
 				00E6346F25EFCAB600A3DD96 /* etats_page_period.c */,
 				00E6346E25EFCAB600A3DD96 /* etats_page_period.h */,
 				00E6347025EFCAB600A3DD96 /* etats_page_period.ui */,
@@ -1348,6 +1364,7 @@
 				006E68B91DB3E7AD0038B1F0 /* utils_gtkbuilder.c in Sources */,
 				006E68A81DB3E7AD0038B1F0 /* print_report.c in Sources */,
 				006E68511DB3E7AD0038B1F0 /* grisbi_win.c in Sources */,
+				007A1C79261A1FD6003B3311 /* widget_list_metatree.c in Sources */,
 				006E68351DB3E7AD0038B1F0 /* bet_graph.c in Sources */,
 				00760ED025C07E320038199C /* widget_loan.c in Sources */,
 				006E684E1DB3E7AD0038B1F0 /* grisbi_app.c in Sources */,
@@ -1400,7 +1417,6 @@
 				006E68A31DB3E7AD0038B1F0 /* meta_payee.c in Sources */,
 				003AC2251F49DFE1007DA275 /* grisbi_prefs.c in Sources */,
 				006E689C1DB3E7AD0038B1F0 /* help.c in Sources */,
-				006E68501DB3E7AD0038B1F0 /* grisbi_settings.c in Sources */,
 				006E68981DB3E7AD0038B1F0 /* gsb_select_icon.c in Sources */,
 				00EA61021F915CBA00569C19 /* grisbi_resources.c in Sources */,
 				006E688D1DB3E7AD0038B1F0 /* gsb_payment_method.c in Sources */,
@@ -1455,6 +1471,7 @@
 				006E68381DB3E7AD0038B1F0 /* categories_onglet.c in Sources */,
 				006E68521DB3E7AD0038B1F0 /* gsb_account_property.c in Sources */,
 				006E683F1DB3E7AD0038B1F0 /* etats_calculs.c in Sources */,
+				007A1C74261A1F98003B3311 /* etats_page_category.c in Sources */,
 				006E68331DB3E7AD0038B1F0 /* bet_finance_ui.c in Sources */,
 				006E68341DB3E7AD0038B1F0 /* bet_future.c in Sources */,
 				004BCAAE243DC571002999B6 /* prefs_page_fyear.c in Sources */,
@@ -1488,6 +1505,7 @@
 				006E68BC1DB3E7AD0038B1F0 /* utils_str.c in Sources */,
 				006E68711DB3E7AD0038B1F0 /* gsb_data_import_rule.c in Sources */,
 				006E68851DB3E7AD0038B1F0 /* gsb_form_scheduler.c in Sources */,
+				007A1C75261A1F98003B3311 /* etats_page_budget.c in Sources */,
 				00AAC23A245B750C00993764 /* widget_currency_popup.c in Sources */,
 				006E687E1DB3E7AD0038B1F0 /* gsb_dirs.c in Sources */,
 				004BCAB1243DC5F9002999B6 /* grisbi_conf.c in Sources */,
