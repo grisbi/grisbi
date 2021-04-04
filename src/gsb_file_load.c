@@ -101,6 +101,7 @@
 struct DownloadTmpValues
 {
     gboolean 		download_ok;
+    gboolean		already_failed;
     gchar *			file_version;
     gchar *			grisbi_version;
 
@@ -110,7 +111,7 @@ struct DownloadTmpValues
     gboolean		report_part;
 };
 
-static struct DownloadTmpValues download_tmp_values = {FALSE, NULL, NULL, FALSE, FALSE, FALSE};
+static struct DownloadTmpValues download_tmp_values = {FALSE, FALSE, NULL, NULL, FALSE, FALSE, FALSE};
 
 /* structure temporaire pour le chargement d'un tiers/catégorie/imputation et sous-catégorie
  * sous-imputation */
@@ -3646,8 +3647,12 @@ static void gsb_file_load_start_element (GMarkupParseContext *context,
     {
         if (strcmp (element_name, "Grisbi"))
         {
-            dialogue_error (_("This is not a Grisbi file... Loading aborted."));
-            g_markup_parse_context_end_parse (context, NULL);
+			if (!download_tmp_values.already_failed)
+			{
+				dialogue_error (_("This is not a Grisbi file... Loading aborted."));
+				g_markup_parse_context_end_parse (context, NULL);
+				download_tmp_values.already_failed = TRUE;
+			}
 
 			return;
         }
@@ -4014,6 +4019,7 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 							NULL,
 						NULL);
 		download_tmp_values.download_ok = FALSE;
+		download_tmp_values.already_failed = FALSE;
 
 		if (! g_markup_parse_context_parse (context,
 						file_content,
