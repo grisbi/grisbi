@@ -37,6 +37,7 @@ grisbi_helpdir = $(docdir)/fr
 
 grisbi_help_DATA = \
 	grisbi-manuel.css \
+	grisbi-manuel.pdf \
 	topic.dat     \
 	contents_motif.gif \
 	next_motif.gif \

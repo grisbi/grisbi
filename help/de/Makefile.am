@@ -8,6 +8,7 @@ grisbi_helpdir = $(docdir)/de
 
 grisbi_help_DATA = \
 	grisbi-manuel.css \
+	grisbi-manuel.pdf \
 	$(HTML_FILES)
 
 EXTRA_DIST =  $(grisbi_help_DATA)

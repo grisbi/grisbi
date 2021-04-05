@@ -2,6 +2,7 @@
 <gresources>
 	<gresource prefix="/org/gtk/grisbi">
 		<file>images/gsb-down-16.png</file>
+		<file>images/gsb-pdf.svg</file>
 		<file>images/gsb-up-16.png</file>
 		<file>images/gtk-eye-not-looking.svg</file>
 		<file>images/gtk-eye-looking.svg</file>

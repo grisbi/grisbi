@@ -69,8 +69,11 @@ struct _PrefsPageDiversPrivate
     GtkWidget *			grid_generalities;
 	GtkWidget *			button_reset_prefs_window;
 	GtkWidget *			entry_web_browser;
+	GtkWidget *			hbox_display_pdf;
 	GtkWidget *			label_prefs_settings;
 	GtkWidget *			notebook_divers;
+	GtkWidget *			radiobutton_display_html;
+	GtkWidget *			radiobutton_display_pdf;
 
 	/* scheduler */
 	GtkWidget *         vbox_launch_scheduler;
@@ -104,6 +107,29 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageDivers, prefs_page_divers, GTK_TYPE_BOX)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean prefs_page_divers_radiobutton_help_press_event (GtkWidget *button,
+																GdkEvent  *event,
+																GrisbiAppConf *a_conf)
+{
+	gint button_number;
+
+	button_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "pointer"));
+	if (button_number == 1)
+		a_conf->display_help = 0;
+	else
+		a_conf->display_help = 1;
+
+	return FALSE;
+}
 /**
  *
  *
@@ -574,6 +600,7 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 												 GrisbiPrefs *win)
 {
 	GtkWidget *head_page;
+	GtkWidget *image;
     GtkWidget *vbox_button;
     GtkWidget *combo;
 	gchar *config_file;
@@ -596,6 +623,16 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 	/* page generalities */
     /* set the variables for programs */
 	gsb_automem_entry_new_from_ui (priv->entry_web_browser, &a_conf->browser_command, NULL, NULL);
+
+	/* set help display */
+	image = gtk_image_new_from_resource ("/org/gtk/grisbi/images/gsb-pdf.svg");
+	gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
+	gtk_container_add (GTK_CONTAINER (priv->hbox_display_pdf), image);
+	gtk_box_reorder_child (GTK_BOX (priv->hbox_display_pdf), image, 0);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_display_pdf), a_conf->display_help);
+	g_object_set_data (G_OBJECT (priv->radiobutton_display_html), "pointer", GINT_TO_POINTER (1));
+	g_object_set_data (G_OBJECT (priv->radiobutton_display_pdf), "pointer", GINT_TO_POINTER (2));
 
 	/* set config file */
 	config_file = g_strconcat (_("File: "), gsb_dirs_get_grisbirc_filename (), NULL);
@@ -679,6 +716,16 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 
 
 	/* Connect signal */
+	/* callback select help display */
+	g_signal_connect (G_OBJECT (priv->radiobutton_display_html),
+					  "button-press-event",
+					  G_CALLBACK (prefs_page_divers_radiobutton_help_press_event),
+					  a_conf);
+	g_signal_connect (G_OBJECT (priv->radiobutton_display_pdf),
+					  "button-press-event",
+					  G_CALLBACK (prefs_page_divers_radiobutton_help_press_event),
+					  a_conf);
+
     /* callback for spinbutton_nb_days_before_scheduled */
     g_signal_connect (priv->spinbutton_nb_days_before_scheduled,
 					  "value-changed",
@@ -789,6 +836,10 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, button_reset_prefs_window);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, entry_web_browser);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, label_prefs_settings);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_display_pdf);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_display_html);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_display_pdf);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, vbox_launch_scheduler);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_launch_scheduler_set_default_account);

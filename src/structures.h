@@ -230,8 +230,9 @@ struct _GrisbiAppConf
 	guint		remove_backup_months;						/* Number of months before removing backup files */
 
 /* display part */
-    gint        display_window_title;                       /* selection du titre principal de grisbi 1,2 ou 3*/
+	gint		display_help;								/* affiche l'aide dans le navigateur ou dans le visonneur pdf */
     gint		display_toolbar;                            /* Display mode of toolbar: GtkToolbarStyle */
+    gint        display_window_title;                       /* selection du titre principal de grisbi 1,2 ou 3*/
     gboolean    formulaire_toujours_affiche;                /* TRUE formulaire toujours affiché */
     gboolean    group_partial_balance_under_accounts;       /* TRUE = in home page group the partial balance with accounts */
     gboolean    show_headings_bar;                          /* Show headings bar or not. */

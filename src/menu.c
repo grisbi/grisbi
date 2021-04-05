@@ -113,22 +113,24 @@ static gboolean gsb_menu_help_manual (void)
 {
     gchar *lang = _("en");
     gchar *string;
+	GrisbiAppConf *a_conf;
 
-    string = g_build_filename (gsb_dirs_get_help_dir (), lang, "manual.html", NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
-    if (g_file_test (string,
-		      G_FILE_TEST_EXISTS))
+	if (a_conf->display_help)
+		string = g_build_filename (gsb_dirs_get_help_dir (), lang, "manual.pdf", NULL);
+	else
+    	string = g_build_filename (gsb_dirs_get_help_dir (), lang, "manual.html", NULL);
+
+	if (!g_file_test (string, G_FILE_TEST_EXISTS))
     {
-	lance_navigateur_web (string);
-	g_free (string);
+		gchar *str_to_free;
+
+		str_to_free = string;
+		string = gsb_string_remplace_string (str_to_free, "manual.", "grisbi-manuel.");
+		g_free (str_to_free);
     }
-    else
-    {
-	g_free (string);
-	string = g_build_filename (gsb_dirs_get_help_dir (), lang, "grisbi-manuel.html", NULL);
 	lance_navigateur_web (string);
-	g_free (string);
-    }
 
     return FALSE;
 }
