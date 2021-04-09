@@ -9,6 +9,7 @@
 		<file preprocess="xml-stripblanks">etats/etats_page_accounts.ui</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_budget.ui</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_category.ui</file>
+		<file preprocess="xml-stripblanks">etats/etats_page_payee.ui</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_period.ui</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_transfer.ui</file>
 		<file preprocess="xml-stripblanks">ui/bet_graph.ui</file>
