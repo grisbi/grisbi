@@ -53,9 +53,6 @@ static const gchar *etats_prefs_classement_operations[] =
 /* mémorisation du togglebutton utilisé servira à remplacer son label */
 GtkToggleButton *prev_togglebutton = NULL;
 
-/* variables utilisées pour la gestion des tiers*/
-GtkTreePath *tiers_selected = NULL;
-
 /* gint last_page */
 static gint last_page;
 
@@ -68,7 +65,6 @@ static GtkWidget *	etats_prefs_onglet_divers_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_mode_paiement_create_page 			(gint page);
 static GtkWidget *	etats_prefs_onglet_montants_create_page 				(gint page);
 static GtkWidget *	etats_prefs_onglet_textes_create_page 					(gint page);
-static GtkWidget *	etats_prefs_onglet_tiers_create_page 					(gint page);
 static GtkWidget *	etats_prefs_onglet_data_grouping_create_page 			(gint page);
 static GtkWidget *	etats_prefs_onglet_data_separation_create_page 			(gint page);
 static GtkWidget *	etats_prefs_onglet_affichage_generalites_create_page 	(gint page);

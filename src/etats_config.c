@@ -40,6 +40,7 @@
 #include "etats_page_accounts.h"
 #include "etats_page_budget.h"
 #include "etats_page_category.h"
+#include "etats_page_payee.h"
 #include "etats_page_period.h"
 #include "etats_page_transfer.h"
 #include "grisbi_app.h"
@@ -189,122 +190,6 @@ static void etats_config_combo_lien_nombre_2_changed ( GtkComboBox *combo,
     else
         gtk_widget_set_sensitive ( widget, TRUE );
 }
-
-/*ONGLET_TIERS*/
-/**
- * Initialise les informations de l'onglet tiers
- *
- * \param report_number
- *
- * \return
- */
-static void etats_config_initialise_onglet_tiers ( gint report_number )
-{
-    gint active;
-
-    active = gsb_data_report_get_payee_detail_used ( report_number );
-    etats_prefs_button_toggle_set_actif ( "bouton_detaille_tiers_etat", active );
-
-    if ( active )
-    {
-        etats_prefs_tree_view_select_rows_from_list (
-                                gsb_data_report_get_payee_numbers_list ( report_number ),
-                                "treeview_tiers",
-                                1 );
-
-        if ( g_slist_length ( gsb_data_report_get_payee_numbers_list ( report_number ) ) )
-            utils_togglebutton_set_label_position_unselect (
-                                etats_prefs_widget_get_widget_by_name (
-                                "togglebutton_select_all_tiers", NULL ),
-                                NULL,
-                                etats_prefs_widget_get_widget_by_name ( "treeview_tiers", NULL ) );
-    }
-}
-
-
-/**
- * retourne la liste des tiers
- *
- * \param
- *
- * \return model
- * */
-GtkTreeModel *etats_config_onglet_get_liste_tiers ( void )
-{
-    GtkListStore *list_store;
-    GSList *list_tmp;
-
-    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
-
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ),
-                        0, GTK_SORT_ASCENDING );
-
-    /* on remplit la liste des tiers */
-    list_tmp = gsb_data_payee_get_payees_list ( );
-
-    while ( list_tmp )
-    {
-        GtkTreeIter iter;
-        gchar *name;
-        gint payee_number;
-
-        payee_number = gsb_data_payee_get_no_payee ( list_tmp -> data );
-
-        name = my_strdup ( gsb_data_payee_get_name ( payee_number, FALSE ) );
-
-        gtk_list_store_append ( list_store, &iter );
-        gtk_list_store_set ( list_store, &iter, 0, name, 1, payee_number, -1 );
-
-        if ( name )
-            g_free ( name );
-
-        list_tmp = list_tmp -> next;
-    }
-
-    return GTK_TREE_MODEL ( list_store );
-}
-
-
-/**
- * Récupère les informations de l'onglet tiers
- *
- * \param numéro d'état à mettre à jour
- *
- * \return
- */
-static void etats_config_recupere_info_onglet_tiers ( gint report_number )
-{
-    gint active;
-
-    active = etats_prefs_button_toggle_get_actif ( "bouton_detaille_tiers_etat" );
-    gsb_data_report_set_payee_detail_used ( report_number, active );
-    if ( active )
-    {
-        gsb_data_report_free_payee_numbers_list ( report_number );
-
-        if ( utils_tree_view_all_rows_are_selected ( GTK_TREE_VIEW (
-         etats_prefs_widget_get_widget_by_name ( "treeview_tiers", NULL ) ) ) )
-        {
-            gchar *text;
-            gchar *hint;
-
-            hint = g_strdup ( _("Performance issue.") );
-            text = g_strdup ( _("All payees have been selected.  Grisbi will run "
-                            "faster without the \"Detail payees used\" option activated.") );
-
-            dialogue_hint ( text, hint );
-            etats_prefs_button_toggle_set_actif ( "togglebutton_select_all_tiers", FALSE );
-            gsb_data_report_set_payee_detail_used ( report_number, FALSE );
-
-            g_free ( text );
-            g_free ( hint );
-        }
-        else
-            gsb_data_report_set_payee_numbers_list ( report_number,
-                            etats_prefs_tree_view_get_list_rows_selected ( "treeview_tiers" ) );
-    }
-}
-
 
 /*ONGLET_TEXTES*/
 /**
@@ -2639,7 +2524,7 @@ static gboolean etats_config_initialise_dialog_from_etat (GtkWidget *etats_prefs
     etats_page_accounts_initialise_onglet (etats_prefs, report_number);
 
     /* onglet tiers */
-    etats_config_initialise_onglet_tiers ( report_number );
+    etats_page_payee_initialise_onglet (etats_prefs, report_number);
 
     /* onglet Categories */
     etats_page_category_initialise_onglet (etats_prefs, report_number);
@@ -2704,7 +2589,7 @@ static gboolean etats_config_recupere_info_to_etat (GtkWidget *etats_prefs,
     etats_page_accounts_get_info (etats_prefs, report_number);
 
     /* onglet tiers */
-    etats_config_recupere_info_onglet_tiers ( report_number );
+    etats_page_payee_get_info (etats_prefs, report_number);
 
     /* onglet Categories */
     etats_page_category_get_info (etats_prefs, report_number);
