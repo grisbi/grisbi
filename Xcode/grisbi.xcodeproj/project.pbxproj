@@ -40,6 +40,7 @@
 		0055052F260BA7D60008ED75 /* etats_page_accounts.c in Sources */ = {isa = PBXBuildFile; fileRef = 00550529260BA7D60008ED75 /* etats_page_accounts.c */; };
 		00550530260BA7D60008ED75 /* etats_page_transfer.c in Sources */ = {isa = PBXBuildFile; fileRef = 0055052C260BA7D60008ED75 /* etats_page_transfer.c */; };
 		00550534260BA7FA0008ED75 /* widget_list_accounts.c in Sources */ = {isa = PBXBuildFile; fileRef = 00550531260BA7FA0008ED75 /* widget_list_accounts.c */; };
+		005948AA2621EC6D00FAB953 /* etats_page_payee.c in Sources */ = {isa = PBXBuildFile; fileRef = 005948A62621EC6C00FAB953 /* etats_page_payee.c */; };
 		005BC3401F6C1943006DB25E /* prefs_page_display_adr.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */; };
 		005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */; };
 		0069D0C02498C36600C4BDAB /* widget_css_rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 0069D0BD2498C36600C4BDAB /* widget_css_rules.c */; };
@@ -303,6 +304,9 @@
 		00550531260BA7FA0008ED75 /* widget_list_accounts.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_list_accounts.c; sourceTree = "<group>"; };
 		00550532260BA7FA0008ED75 /* widget_list_accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_list_accounts.h; sourceTree = "<group>"; };
 		00550533260BA7FA0008ED75 /* widget_list_accounts.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_list_accounts.ui; sourceTree = "<group>"; };
+		005948A62621EC6C00FAB953 /* etats_page_payee.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = etats_page_payee.c; path = etats/etats_page_payee.c; sourceTree = "<group>"; };
+		005948A82621EC6D00FAB953 /* etats_page_payee.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = etats_page_payee.ui; path = etats/etats_page_payee.ui; sourceTree = "<group>"; };
+		005948A92621EC6D00FAB953 /* etats_page_payee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = etats_page_payee.h; path = etats/etats_page_payee.h; sourceTree = "<group>"; };
 		005BC33E1F6C1943006DB25E /* prefs_page_display_adr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_adr.h; path = prefs/prefs_page_display_adr.h; sourceTree = "<group>"; };
 		005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_adr.c; path = prefs/prefs_page_display_adr.c; sourceTree = "<group>"; };
 		005BC3411F6C196D006DB25E /* prefs_page_display_gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_gui.h; path = prefs/prefs_page_display_gui.h; sourceTree = "<group>"; };
@@ -1252,6 +1256,9 @@
 				007A1C6F261A1F98003B3311 /* etats_page_category.c */,
 				007A1C6E261A1F98003B3311 /* etats_page_category.h */,
 				007A1C71261A1F98003B3311 /* etats_page_category.ui */,
+				005948A62621EC6C00FAB953 /* etats_page_payee.c */,
+				005948A92621EC6D00FAB953 /* etats_page_payee.h */,
+				005948A82621EC6D00FAB953 /* etats_page_payee.ui */,
 				00E6346F25EFCAB600A3DD96 /* etats_page_period.c */,
 				00E6346E25EFCAB600A3DD96 /* etats_page_period.h */,
 				00E6347025EFCAB600A3DD96 /* etats_page_period.ui */,
@@ -1476,6 +1483,7 @@
 				006E68341DB3E7AD0038B1F0 /* bet_future.c in Sources */,
 				004BCAAE243DC571002999B6 /* prefs_page_fyear.c in Sources */,
 				006E68581DB3E7AD0038B1F0 /* gsb_assistant_file.c in Sources */,
+				005948AA2621EC6D00FAB953 /* etats_page_payee.c in Sources */,
 				00285A4B24197F15004828B4 /* prefs_page_display_form.c in Sources */,
 				006E688A1DB3E7AD0038B1F0 /* gsb_fyear.c in Sources */,
 				0055052F260BA7D60008ED75 /* etats_page_accounts.c in Sources */,
