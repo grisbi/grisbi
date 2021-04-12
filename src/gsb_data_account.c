@@ -330,7 +330,7 @@ static gboolean gsb_data_account_set_default_sort_values (gint account_number)
 		element_number = *(ptr + (i * CUSTOM_MODEL_VISIBLE_COLUMNS) + j);
 
 		/* by default the sorting element will be the first found for each column */
-	    if (!account->column_element_sort[j] && element_number && element_number != ELEMENT_BALANCE)
+	    if (!account->column_element_sort[j] && element_number)
 			account->column_element_sort[j] = element_number;
 	}
 
