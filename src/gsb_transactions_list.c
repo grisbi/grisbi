@@ -932,7 +932,7 @@ static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tre
 
     element_number = gsb_data_account_get_element_sort (account_number, new_column);
 
-    if (element_number == ELEMENT_BALANCE)
+    if (element_number == ELEMENT_BALANCE || element_number == 0)
         return FALSE;
 
     /* if we come here and the list was user custom sorted for reconcile,
@@ -1646,33 +1646,45 @@ static gboolean gsb_transactions_list_title_column_button_press (GtkWidget *butt
 
     column_number = GPOINTER_TO_INT (no_column);
 
-    switch (ev->button)
+    if (ev->button == 3)
     {
-		case 3:
-			/* we press the right button, show the popup */
-			active_sort = gsb_data_account_get_element_sort (gsb_gui_navigation_get_current_account (),
-															 column_number);
+		/* we press the right button, show the popup */
+		active_sort = gsb_data_account_get_element_sort (gsb_gui_navigation_get_current_account (),
+														 column_number);
 
-			/*     get the name of the labels of the columns and put them in a menu */
-			for (i=0 ; i<4 ; i++)
+		/* get the name of the labels of the columns and put them in a menu */
+		for (i=0 ; i<4 ; i++)
+		{
+			gchar *temp;
+
+			switch (tab_affichage_ope[i][column_number])
 			{
-				gchar *temp;
+				case 0:
+				temp = NULL;
+				break;
 
-				switch (tab_affichage_ope[i][column_number])
+				default:
+				temp = gsb_transactions_list_get_column_title (i,column_number);
+			}
+
+			if (temp)
+			{
+				if (strcmp (temp, _("Balance")) == 0)
 				{
-					case 0:
-					temp = NULL;
+					gsb_data_account_set_element_sort (gsb_gui_navigation_get_current_account (),
+													   column_number,
+													   ELEMENT_BALANCE);
+					menu = gtk_menu_new ();
+
+					/* Colonne balance on sort de la boucle */
 					break;
-
-					default:
-					temp = gsb_transactions_list_get_column_title (i,column_number);
 				}
-
-				if (temp && strcmp (temp, _("Balance")))
+				else
 				{
 					if (menu == NULL)
 					{
 						menu = gtk_menu_new ();
+
 						/* sort by line */
 						menu_item = gtk_menu_item_new_with_label (_("Sort list by: "));
 						gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
@@ -1706,76 +1718,77 @@ static gboolean gsb_transactions_list_title_column_button_press (GtkWidget *butt
 					gtk_widget_show (menu_item);
 				}
 			}
+		}
 
-			if (menu)
-			{
-				gfloat alignment;
+		if (menu)
+		{
+			gfloat alignment;
 
-				menu_item = gtk_separator_menu_item_new ();
-				gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-				gtk_widget_show (menu_item);
+			menu_item = gtk_separator_menu_item_new ();
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+			gtk_widget_show (menu_item);
 
-				/* alignement */
-				alignment = gtk_tree_view_column_get_alignment (gtk_tree_view_get_column
-																(GTK_TREE_VIEW (transactions_tree_view),
-																 column_number));
-				menu_item = gtk_menu_item_new_with_label (_("alignment: "));
-				gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-				gtk_widget_show (menu_item);
+			/* alignement */
+			alignment = gtk_tree_view_column_get_alignment (gtk_tree_view_get_column
+															(GTK_TREE_VIEW (transactions_tree_view),
+															 column_number));
+			menu_item = gtk_menu_item_new_with_label (_("alignment: "));
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+			gtk_widget_show (menu_item);
 
-				menu_item = gtk_separator_menu_item_new ();
-				gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-				gtk_widget_show (menu_item);
+			menu_item = gtk_separator_menu_item_new ();
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+			gtk_widget_show (menu_item);
 
-				menu_item = gtk_radio_menu_item_new_with_label (NULL, _("LEFT"));
-				gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-				if (alignment == COLUMN_LEFT)
-					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-				g_object_set_data (G_OBJECT (menu_item),
-								   "alignment",
-								   GINT_TO_POINTER (GTK_JUSTIFY_LEFT));
-				g_signal_connect (G_OBJECT(menu_item),
-								  "activate",
-								  G_CALLBACK (gsb_transactions_list_change_alignment),
-								  no_column);
-				gtk_widget_show (menu_item);
+			menu_item = gtk_radio_menu_item_new_with_label (NULL, _("LEFT"));
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+			if (alignment == COLUMN_LEFT)
+				gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+			g_object_set_data (G_OBJECT (menu_item),
+							   "alignment",
+							   GINT_TO_POINTER (GTK_JUSTIFY_LEFT));
+			g_signal_connect (G_OBJECT(menu_item),
+							  "activate",
+							  G_CALLBACK (gsb_transactions_list_change_alignment),
+							  no_column);
+			gtk_widget_show (menu_item);
 
-				menu_item = gtk_radio_menu_item_new_with_label_from_widget (GTK_RADIO_MENU_ITEM
-																			(menu_item),
-																			_("CENTER"));
-				gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-				if (alignment == COLUMN_CENTER)
-					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-				g_object_set_data (G_OBJECT (menu_item),
-								   "alignment",
-								   GINT_TO_POINTER (GTK_JUSTIFY_CENTER));
-				g_signal_connect (G_OBJECT(menu_item),
-								  "activate",
-								  G_CALLBACK (gsb_transactions_list_change_alignment),
-								  no_column);
-				gtk_widget_show (menu_item);
+			menu_item = gtk_radio_menu_item_new_with_label_from_widget (GTK_RADIO_MENU_ITEM
+																		(menu_item),
+																		_("CENTER"));
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+			if (alignment == COLUMN_CENTER)
+				gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+			g_object_set_data (G_OBJECT (menu_item),
+							   "alignment",
+							   GINT_TO_POINTER (GTK_JUSTIFY_CENTER));
+			g_signal_connect (G_OBJECT(menu_item),
+							  "activate",
+							  G_CALLBACK (gsb_transactions_list_change_alignment),
+							  no_column);
+			gtk_widget_show (menu_item);
 
-				menu_item = gtk_radio_menu_item_new_with_label_from_widget (GTK_RADIO_MENU_ITEM
-																			(menu_item),
-																			_("RIGHT"));
-				gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-				if (alignment == COLUMN_RIGHT)
-					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-				g_object_set_data (G_OBJECT (menu_item),
-								   "alignment",
-								   GINT_TO_POINTER (GTK_JUSTIFY_RIGHT));
-				g_signal_connect (G_OBJECT(menu_item),
-								  "activate",
-								  G_CALLBACK (gsb_transactions_list_change_alignment),
-								  no_column);
-				gtk_widget_show (menu_item);
-				gtk_widget_show (menu);
+			menu_item = gtk_radio_menu_item_new_with_label_from_widget (GTK_RADIO_MENU_ITEM
+																		(menu_item),
+																		_("RIGHT"));
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+			if (alignment == COLUMN_RIGHT)
+				gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+			g_object_set_data (G_OBJECT (menu_item),
+							   "alignment",
+							   GINT_TO_POINTER (GTK_JUSTIFY_RIGHT));
+			g_signal_connect (G_OBJECT(menu_item),
+							  "activate",
+							  G_CALLBACK (gsb_transactions_list_change_alignment),
+							  no_column);
+			gtk_widget_show (menu_item);
+			gtk_widget_show (menu);
 
-				gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
-			}
-			break;
+			gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+		}
     }
-    return FALSE;
+
+	return FALSE;
 }
 
 /**
