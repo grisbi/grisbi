@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-05 10:00+0200\n"
-"PO-Revision-Date: 2021-02-13 12:22+0100\n"
+"PO-Revision-Date: 2021-04-14 20:48+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.2\n"
+"X-Generator: Lokalize 20.12.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/etats/etats_page_accounts.ui.h:1 ../src/ui/etats_prefs.ui.h:74
@@ -67,14 +67,12 @@ msgid "Title"
 msgstr "Bezeichnungen"
 
 #: ../src/etats/etats_page_budget.ui.h:1
-#, fuzzy
 msgid "Detail budget allocations"
 msgstr "Buchungen nach Gruppen auswählen"
 
 #: ../src/etats/etats_page_budget.ui.h:2
-#, fuzzy
 msgid "Select budget allocations to include: "
-msgstr "Kategorien für den Bericht auswählen"
+msgstr "Gruppen für den Bericht auswählen:"
 
 #: ../src/etats/etats_page_category.ui.h:1
 msgid "Detail categories"
@@ -1349,9 +1347,8 @@ msgid "(Reset window dimensions of preferences)"
 msgstr "(setzt die Größe vom Dialog Einstellungen zurück)"
 
 #: ../src/ui/prefs_page_divers.ui.h:11
-#, fuzzy
 msgid "Help display"
-msgstr "Daten Anzeige"
+msgstr "Hilfe Anzeige"
 
 #. append group page "Generalities"
 #: ../src/ui/prefs_page_divers.ui.h:12
@@ -5071,7 +5068,7 @@ msgid "Hide reconciliation names and amounts"
 msgstr "Namen und Beträge von Abstimmungen"
 
 #: ../src/file_obfuscate.c:566
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Please press the 'Close' button to obfuscate your file\n"
 "\n"
@@ -5090,12 +5087,10 @@ msgstr ""
 "Die anonymisierte Datei erhält den Namen %s und wird im Verzeichnis der "
 "Grisbi Datei erstellt.\n"
 "\n"
-"Bitte prüfen Sie ob der Fehler auch mit der anonymisierten Datei noch "
+"Bitte prüfen Sie ob der Fehler mit der anonymisierten Datei weiterhin"
 "reproduzierbar ist und\n"
-"senden Sie die anonymisierte Datei mit einer Beschreibung vom Fehler an "
-"bugsreports@listes.grisbi.org\n"
-"oder erstellen Sie einen Fehlerbericht mit Mantis: http://grisbi.tuxfamily."
-"org/mantis/main_page.php.\n"
+"erstellen Sie dann einen Fehlerbericht mit Mantis:"
+" https://www.grisbi.org/bugsreports/\n"
 "\n"
 "Die anonymisierte Datei wird in Textform abgespeichert, Sie können den "
 "Inhalt jederzeit mit einem Texteditor prüfen.\n"
@@ -5629,24 +5624,20 @@ msgid "<b>Actions in transaction list :</b>"
 msgstr "<b>Aktionen für Buchungsliste :</b>"
 
 #: ../src/grisbi_app.c:1496
-#, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Command>p, <Command>F12\n"
-msgstr "Buchung verrechnen\t-> Strg + P, F12\n"
+msgstr "Buchung verrechnen\t\t-> <Command>p, <Command>F12\n"
 
 #: ../src/grisbi_app.c:1497
-#, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Command>r\n"
-msgstr "Buchung abstimmen\t-> Strg + R\n"
+msgstr "Buchung abstimmen\t\t-> <Command>r\n"
 
 #: ../src/grisbi_app.c:1499
-#, fuzzy
 msgid "(Un)Pointing a transaction\t\t-> <Ctrl>p, <Ctrl>F12\n"
-msgstr "Buchung verrechnen\t-> Strg + P, F12\n"
+msgstr "Buchung verrechnen\t\t-> <Ctrl>p, <Ctrl>F12\n"
 
 #: ../src/grisbi_app.c:1500
-#, fuzzy
 msgid "(Un)Reconcile a transaction\t\t-> <Ctrl>r\n"
-msgstr "Buchung abstimmen\t-> Strg + R\n"
+msgstr "Buchung abstimmen\t\t-> <Ctrl>r\n"
 
 #: ../src/grisbi_conf.c:1155
 #, c-format
@@ -8333,11 +8324,11 @@ msgstr "Venezuela"
 
 #: ../src/gsb_data_currency.c:246
 msgid "World"
-msgstr ""
+msgstr "Welt"
 
 #: ../src/gsb_data_currency.c:246
 msgid "bitcoin"
-msgstr ""
+msgstr "Bitcoin"
 
 #: ../src/gsb_data_currency.c:950
 #, c-format
