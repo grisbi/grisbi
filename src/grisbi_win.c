@@ -96,7 +96,6 @@ struct _GrisbiWinPrivate
 
     /* page d'accueil affichée si pas de fichier chargé */
 	GtkWidget *			no_file_frame;
-	GtkWidget *			no_file_sw;
 	GtkWidget *			no_file_grid;
 	GtkWidget *			bouton_nouveau;
 	GtkWidget *			bouton_ouvrir;
@@ -669,8 +668,6 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	gtk_widget_set_hexpand (priv->no_file_grid, TRUE);
 	gtk_widget_set_vexpand (priv->no_file_grid, TRUE);
 
-	gtk_container_add (GTK_CONTAINER (priv->no_file_sw), priv->no_file_grid);
-
 	/* set bouton nouveau */
 	priv->bouton_nouveau = utils_buttons_button_new_from_image ("gsb-new-file-24.png");
 	gtk_button_set_label (GTK_BUTTON (priv->bouton_nouveau), _("New"));
@@ -932,7 +929,6 @@ static void grisbi_win_class_init (GrisbiWinClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, stack_box);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_frame);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_sw);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_grid);
 
     /* signaux */
