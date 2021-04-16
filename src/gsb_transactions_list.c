@@ -1814,7 +1814,9 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
 
     if (allocation->width == current_tree_view_width)
     {
-        /* size of the tree view didn't change, but we received an allocated signal
+		gint somme = 0;
+
+		/* size of the tree view didn't change, but we received an allocated signal
          * it happens several times, and especially when we change the columns,
          * so we update the colums */
 
@@ -1822,10 +1824,15 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
         if (gtk_tree_view_column_get_width (transactions_tree_view_columns[0]) == 1)
             return;
 
-        for (i = 0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS; i++)
+        for (i = 0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS -1; i++)
+		{
             transaction_col_width[i] = (gtk_tree_view_column_get_width (
                         transactions_tree_view_columns[i]) * 100) / allocation->width + 1;
 
+			somme+= transaction_col_width[i];
+		}
+
+		transaction_col_width[i] = 100 - somme;
         return;
     }
 
@@ -4585,6 +4592,7 @@ void gsb_transactions_list_init_tab_align_col_treeview (const gchar *description
 void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description)
 {
     gchar **pointeur_char;
+	gint somme = 0; 			/* calcul du % de la dernière colonne */
     gint i;
 
     if (description == NULL)
@@ -4593,12 +4601,25 @@ void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description
 	}
 
     /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-    pointeur_char = g_strsplit (description, "-", 7);
-
-	for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+    pointeur_char = g_strsplit (description, "-", 0);
+	if (g_strv_length (pointeur_char) != CUSTOM_MODEL_VISIBLE_COLUMNS)
 	{
-		transaction_col_width[i] = utils_str_atoi (pointeur_char[i]);
+		/* defaut value for width of columns */
+		for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
+			transaction_col_width[i] = transaction_col_width_init[i];
+
+		return;
 	}
+
+	for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS -1 ; i++)
+	{
+		if (strlen ((const gchar *) pointeur_char[i]) == 0)
+			transaction_col_width[i] = transaction_col_width_init[i];
+		else
+			transaction_col_width[i] = utils_str_atoi (pointeur_char[i]);
+		somme+= transaction_col_width[i];
+	}
+	transaction_col_width[i] = 100 - somme;
 	g_strfreev (pointeur_char);
 }
 
