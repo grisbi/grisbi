@@ -1310,12 +1310,15 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
 											  gpointer null)
 {
     gint i;
+	//~ devel_debug_int (allocation->width);
 
 	if (gsb_gui_navigation_get_current_page () != GSB_SCHEDULER_PAGE)
 		return;
 
 	if (allocation->width == scheduler_current_tree_view_width)
     {
+		gint somme = 0;
+
         /* size of the tree view didn't change, but we received an allocated signal
          * it happens several times, and especially when we change the columns,
          * so we update the colums */
@@ -1325,17 +1328,18 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
         if (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
             return;
 
-        for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS; i++)
+        for (i=0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS -1; i++)
         {
-            if (gtk_tree_view_column_get_width (scheduler_list_column[i]))
+			if (gtk_tree_view_column_get_visible (scheduler_list_column[i]))
 			{
-				if (gtk_tree_view_column_get_visible (scheduler_list_column[i]))
-					scheduler_col_width[i] = (gtk_tree_view_column_get_width
-											  (scheduler_list_column[i]) * 100) / allocation->width + 1;
+				scheduler_col_width[i] = (gtk_tree_view_column_get_width (
+										  scheduler_list_column[i]) * 100) / allocation->width + 1;
+				somme+= scheduler_col_width[i];
 			}
-        }
+		}
+		scheduler_col_width[i] = 100 - somme;
 
-        return;
+		return;
     }
 
     /* the size of the tree view changed, we keep the ration between the columns,
@@ -1348,7 +1352,7 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
         gint width;
 
         width = (scheduler_col_width[i] * (allocation->width))/ 100;
-        if (width > 0)
+        if (width > 0 && gtk_tree_view_column_get_visible (scheduler_list_column[i]))
             gtk_tree_view_column_set_fixed_width (scheduler_list_column[i], width);
     }
 
@@ -3073,21 +3077,56 @@ GSList *gsb_scheduler_list_get_scheduled_transactions_to_take (void)
  **/
 void gsb_scheduler_list_init_tab_width_col_treeview (const gchar *description)
 {
-    gchar **pointeur_char;
     gint i;
 
-    if (description == NULL)
-    {
-        description = scheduler_col_width_init;
+	if (description && strlen (description))
+	{
+		gchar **pointeur_char;
+		gint somme = 0; 			/* calcul du % de la dernière colonne */
+
+		/* the transactions columns are xx-xx-xx-xx and we want to set in scheduler_col_width[1-2-3...] */
+		pointeur_char = g_strsplit (description, "-", 0);
+		if (g_strv_length (pointeur_char) != SCHEDULER_COL_VISIBLE_COLUMNS)
+		{
+			/* defaut value for width of columns */
+			for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
+				scheduler_col_width[i] = scheduler_col_width_init[i];
+			g_strfreev (pointeur_char);
+
+			return;
+		}
+
+		for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS -1 ; i++)
+		{
+			if (strlen ((const gchar *) pointeur_char[i]) == 0)
+				scheduler_col_width[i] = scheduler_col_width_init[i];
+			else
+				scheduler_col_width[i] = utils_str_atoi (pointeur_char[i]);
+
+			somme+= scheduler_col_width[i];
+		}
+		scheduler_col_width[i] = 100 - somme;
+		g_strfreev (pointeur_char);
+
+		/* si scheduler_col_width[i] est < scheduler_col_width_init[i] on reinitialise la largeur des colonnes */
+		if (scheduler_col_width[i] < scheduler_col_width_init[i])
+		{
+			/* defaut value for width of columns */
+			for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS; i++)
+			{
+				scheduler_col_width[i] = scheduler_col_width_init[i];
+			}
+		}
 	}
-
-    /* the transactions columns are xx-xx-xx-xx and we want to set in scheduler_col_width[1-2-3...] */
-    pointeur_char = g_strsplit (description, "-", 7);
-
-	for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
-		scheduler_col_width[i] = utils_str_atoi (pointeur_char[i]);
-	g_strfreev (pointeur_char);
+	else
+	{
+		for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS; i++)
+		{
+			scheduler_col_width[i] = scheduler_col_width_init[i];
+		}
+	}
 }
+
 /**
  * retourne une chaine formatée des largeurs de colonnes du treeview prévisions
  *
