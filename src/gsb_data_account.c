@@ -2750,7 +2750,6 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 			image = gsb_data_account_get_account_icon_image ( current_account );
 			gtk_button_set_image ( GTK_BUTTON ( button ), image );
 			gsb_gui_navigation_update_account ( current_account );
-			g_object_unref (G_OBJECT (pixbuf));
         }
 
         gsb_file_set_modified ( TRUE );
