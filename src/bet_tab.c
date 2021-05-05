@@ -1505,7 +1505,9 @@ static void bet_array_list_size_allocate (GtkWidget *tree_view,
 
 	if (allocation->width == bet_array_current_tree_view_width)
     {
-        /* size of the tree view didn't change, but we received an allocated signal
+		gint somme = 0; /* calcul du % de la dernière colonne */
+
+		/* size of the tree view didn't change, but we received an allocated signal
          * it happens several times, and especially when we change the columns,
          * so we update the colums */
 
@@ -1513,11 +1515,13 @@ static void bet_array_list_size_allocate (GtkWidget *tree_view,
         if (gtk_tree_view_column_get_width (bet_array_tree_view_columns[0]) == 1)
             return;
 
-        for (i = 0 ; i < BET_ARRAY_COLUMNS; i++)
+        for (i = 0 ; i < BET_ARRAY_COLUMNS -1; i++)
         {
             bet_array_col_width[i] = (gtk_tree_view_column_get_width
 									  (bet_array_tree_view_columns[i]) * 100) / allocation->width + 1;
+			somme+= bet_array_col_width[i];
         }
+		bet_array_col_width[i] = 100 - somme;
 
         return;
     }
@@ -3215,15 +3219,42 @@ void bet_array_init_largeur_col_treeview (const gchar* description)
 
 	if (description && strlen (description))
 	{
+		gint somme = 0; /* calcul du % de la dernière colonne */
 		gchar **pointeur_char;
 
 		/* the bet_array columns are xx-xx-xx-xx-xx and we want to set in bet_array_col_width[1-2-3...] */
-		pointeur_char = g_strsplit (description, "-", 5);
+		pointeur_char = g_strsplit (description, "-", 0);
+		if (g_strv_length (pointeur_char) != BET_ARRAY_COLUMNS)
+		{
+			/* defaut value for width of columns */
+			for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
+				bet_array_col_width[i] = bet_array_col_width_init[i];
 
-		for (i = 0; i < BET_ARRAY_COLUMNS; i++ )
-			bet_array_col_width[i] = utils_str_atoi ( pointeur_char[i] );
+			g_strfreev (pointeur_char);
 
-		g_strfreev ( pointeur_char );
+			return;
+		}
+
+		for (i = 0; i < BET_ARRAY_COLUMNS -1; i++ )
+		{
+			if (strlen ((const gchar *) pointeur_char[i]) == 0)
+				bet_array_col_width[i] = bet_array_col_width_init[i];
+			else
+				bet_array_col_width[i] = utils_str_atoi (pointeur_char[i]);
+			somme+= bet_array_col_width[i];
+        }
+		bet_array_col_width[i] = 100 - somme;
+		g_strfreev (pointeur_char);
+
+		/* si bet_array_col_width[6] est < bet_array_col_width_init[6] on reinitialise la largeur des colonnes */
+		if (bet_array_col_width[i] < bet_array_col_width_init[i])
+		{
+			/* defaut value for width of columns */
+			for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
+				bet_array_col_width[i] = bet_array_col_width_init[i];
+
+			return;
+		}
     }
 	else
 	{
