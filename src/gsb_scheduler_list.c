@@ -73,7 +73,7 @@ GSList *scheduled_transactions_to_take;
 GSList *scheduled_transactions_taken;
 
 /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
-static const gchar *scheduler_col_width_init = "10-12-36-12-12-12-12";
+static gint scheduler_col_width_init[SCHEDULER_COL_VISIBLE_COLUMNS] = {10, 12, 36, 12, 12, 24, 12};
 
 /* used to save and restore the width of the scheduled list */
 static gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
@@ -3147,6 +3147,18 @@ void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
 		gtk_tree_selection_select_path (selection, path);
 	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_scheduler_list_set_current_tree_view_width (gint new_tree_view_width)
+{
+	scheduler_current_tree_view_width = new_tree_view_width;
 }
 
 /**
