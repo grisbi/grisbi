@@ -52,6 +52,7 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -329,24 +330,23 @@ GtkWidget *gsb_account_create_combo_list ( GCallback func,
 
 	list_tmp = gsb_data_account_get_list_accounts ();
 
-	while ( list_tmp )
+	while (list_tmp)
 	{
 		gint account_number;
+		gchar *tmp_str;
 		GtkTreeIter iter;
 
-		account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+		account_number = gsb_data_account_get_no_account (list_tmp->data);
 
-		if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
-						  || include_closed ) )
+		if (account_number >= 0 && (!gsb_data_account_get_closed_account (account_number) || include_closed))
 		{
-			gtk_list_store_append ( GTK_LIST_STORE (store), &iter );
-			gtk_list_store_set ( store,
-					 &iter,
-					 0, gsb_data_account_get_name (account_number),
-					 1, account_number,
-					 -1 );
+			tmp_str = gsb_string_truncate (gsb_data_account_get_name (account_number));
+			gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+			gtk_list_store_set (store, &iter, 0, tmp_str, 1, account_number, -1);
+
+			g_free (tmp_str);
 		}
-		list_tmp = list_tmp -> next;
+		list_tmp = list_tmp->next;
 	}
 
     gtk_combo_box_set_model (GTK_COMBO_BOX (combobox), GTK_TREE_MODEL (store));
@@ -355,16 +355,14 @@ GtkWidget *gsb_account_create_combo_list ( GCallback func,
     gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox), 0 );
 
     if (func)
-		g_signal_connect ( G_OBJECT (combobox),
+		g_signal_connect (G_OBJECT (combobox),
 						  "changed",
 						  G_CALLBACK(func),
-						  data );
+						  data);
 
     renderer = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer,
-				    "text", 0,
-				    NULL);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer, "text", 0, NULL);
 
     return combobox;
 }
@@ -396,28 +394,23 @@ gboolean gsb_account_update_combo_list ( GtkWidget *combo_box,
 
     list_tmp = gsb_data_account_get_list_accounts ();
 
-    while ( list_tmp )
+    while (list_tmp)
     {
         gint account_number;
+		gchar *tmp_str;
         GtkTreeIter iter;
 
-        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+        account_number = gsb_data_account_get_no_account (list_tmp->data);
 
-        if ( account_number >= 0
-         &&
-         ( !gsb_data_account_get_closed_account ( account_number )
-           ||
-           include_closed
-         ) )
+        if (account_number >= 0 && (!gsb_data_account_get_closed_account (account_number) || include_closed))
         {
-            gtk_list_store_append ( GTK_LIST_STORE ( store ), &iter );
-            gtk_list_store_set ( store,
-                        &iter,
-                        0, gsb_data_account_get_name ( account_number ),
-                        1, account_number,
-                        -1 );
+			tmp_str = gsb_string_truncate (gsb_data_account_get_name (account_number));
+			gtk_list_store_append (GTK_LIST_STORE (store), &iter);
+			gtk_list_store_set (store, &iter, 0, tmp_str, 1, account_number, -1);
+
+			g_free (tmp_str);
         }
-        list_tmp = list_tmp -> next;
+        list_tmp = list_tmp->next;
     }
 
     g_signal_handlers_unblock_by_func ( G_OBJECT ( combo_box ),
