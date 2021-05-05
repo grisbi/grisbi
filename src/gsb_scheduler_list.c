@@ -3,8 +3,8 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
-/*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          2008-2021 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -1966,6 +1966,7 @@ GtkWidget *gsb_scheduler_list_create_list (void)
 
     /* we create and set the tree_view in the page */
     tree_view = gsb_scheduler_list_create_tree_view ();
+	gtk_widget_set_margin_end (tree_view, MARGIN_END);
     gsb_scheduler_list_set_tree_view (tree_view);
     gtk_container_add (GTK_CONTAINER (scrolled_window), tree_view);
 
