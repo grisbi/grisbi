@@ -4084,6 +4084,7 @@ gboolean gsb_file_load_open_file (const gchar *filename )
     gchar *file_content;
     gchar *tmp_file_content;
     gulong length;
+	gboolean changed;
 	GrisbiAppConf *a_conf;
 	GrisbiWinEtat *w_etat;
 
@@ -4251,14 +4252,14 @@ gboolean gsb_file_load_open_file (const gchar *filename )
 		gsb_assistant_archive_run ( TRUE );
 
 	/* check and remove duplicate currencies */
-	gboolean changed = gsb_data_currency_check_and_remove_duplicate (TRUE);
-	do
+	changed = gsb_data_currency_check_and_remove_duplicate (TRUE);
+	while (changed)
 	{
 		/* force update file */
 		gsb_file_set_modified (TRUE);
 
 		changed = gsb_data_currency_check_and_remove_duplicate (FALSE);
-	} while (changed);
+	};
 
     /* if we opened an archive, we say it here */
     if ( w_etat->is_archive )
