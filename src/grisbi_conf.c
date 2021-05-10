@@ -203,6 +203,7 @@ gboolean grisbi_conf_load_app_config (void)
 	gchar *tmp_path;
 	gchar *tmp_str;
     gint i;
+	gint tmp_number;
 	ConditionalMsg *warning;
 	GrisbiAppConf *a_conf;
 
@@ -371,10 +372,16 @@ gboolean grisbi_conf_load_app_config (void)
     }
 	grisbi_app_set_recent_files_array (recent_array);
 
-	a_conf->nb_max_derniers_fichiers_ouverts = g_key_file_get_integer (config,
-																	   "File",
-																	   "nb-max-derniers-fichiers-ouverts",
-																	   NULL);
+	tmp_number = g_key_file_get_integer (config,
+									     "File",
+									     "nb-max-derniers-fichiers-ouverts",
+									     NULL);
+
+	/* reinitialise nb_max_derniers_fichiers_ouverts si tmp_number = 0 */
+	if (tmp_number == 0)
+		tmp_number = 3;
+	a_conf->nb_max_derniers_fichiers_ouverts = tmp_number;
+
 	a_conf->sauvegarde_auto = g_key_file_get_boolean (config,
 													  "File",
 													  "sauvegarde-auto",
