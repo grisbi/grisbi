@@ -409,6 +409,66 @@ static void gsb_scheduler_list_popup_scheduled_context_menu (GtkWidget *tree_vie
 }
 
 /**
+ * called when the selection of the list change
+ *
+ * \param selection
+ * \param null not used
+ *
+ * \return FALSE
+ **/
+static void gsb_scheduler_list_select_line (GtkWidget *tree_view,
+											GtkTreePath *path)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+	gint virtual_transaction;
+    gint tmp_number = 0;
+    gint account_number;
+	GrisbiAppConf *a_conf;
+
+	devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	/* Récupération des données de la ligne sélectionnée */
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    gtk_tree_model_get_iter (model, &iter, path);
+    gtk_tree_model_get (model,
+						&iter,
+						SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
+						SCHEDULER_COL_NB_TRANSACTION_NUMBER, &tmp_number,
+						-1);
+
+	if (virtual_transaction)
+		tmp_number = 0;
+
+	/* protect last_scheduled_number because when refill the list, set selection to 0 and so last_scheduled_number... */
+	last_scheduled_number = tmp_number;
+
+    /* if a_conf->show_transaction_selected_in_form => edit the scheduled transaction */
+    if (tmp_number != 0 && a_conf->show_transaction_selected_in_form)
+            gsb_scheduler_list_edit_transaction (tmp_number);
+    else if (tmp_number == 0)
+    {
+        gsb_form_scheduler_clean ();
+        account_number = gsb_data_scheduled_get_account_number (tmp_number);
+        gsb_form_clean (account_number);
+    }
+
+    /* sensitive/unsensitive the button execute */
+    gtk_widget_set_sensitive (scheduler_button_execute,
+							  (tmp_number > 0)
+							  && !gsb_data_scheduled_get_mother_scheduled_number (tmp_number));
+
+    /* sensitive/unsensitive the button edit */
+    gtk_widget_set_sensitive (scheduler_button_edit, (tmp_number > 0));
+
+    /* sensitive/unsensitive the button delete */
+    gtk_widget_set_sensitive (scheduler_button_delete, (tmp_number > 0));
+
+    gsb_menu_set_menus_select_scheduled_sensitive (tmp_number > 0);
+}
+
+/**
  * called when we press a button on the list
  *
  * \param tree_view
@@ -419,17 +479,15 @@ static void gsb_scheduler_list_popup_scheduled_context_menu (GtkWidget *tree_vie
 static gboolean gsb_scheduler_list_button_press (GtkWidget *tree_view,
 												 GdkEventButton *ev)
 {
-	/* show the popup */
 	if (ev->button == RIGHT_BUTTON)
 	{
         GtkTreePath *path = NULL;
 
+		/* show the popup */
         if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view ), ev->x, ev->y, &path, NULL, NULL, NULL))
         {
             gsb_scheduler_list_popup_scheduled_context_menu (tree_view, path);
             gtk_tree_path_free (path);
-
-            return FALSE;
         }
 	}
 
@@ -443,6 +501,18 @@ static gboolean gsb_scheduler_list_button_press (GtkWidget *tree_view,
         if (current_scheduled_number)
             gsb_scheduler_list_edit_transaction (current_scheduled_number);
     }
+	else if (ev->button == LEFT_BUTTON)
+	{
+        GtkTreePath *path = NULL;
+
+		/* select line */
+        if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view ), ev->x, ev->y, &path, NULL, NULL, NULL))
+        {
+            gsb_scheduler_list_select_line (tree_view, path);
+            gtk_tree_path_free (path);
+        }
+	}
+
     return FALSE;
 }
 
@@ -1347,7 +1417,7 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
      * it will take the end of the width alone */
     scheduler_current_tree_view_width = allocation->width;
 
-    for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS -1 ; i++)
+	for (i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS -1 ; i++)
     {
         gint width;
 
@@ -1694,55 +1764,6 @@ static void gsb_scheduler_list_remove_orphan_list (GSList *orphan_scheduled,
 }
 
 /**
- * called when the selection of the list change
- *
- * \param selection
- * \param null not used
- *
- * \return FALSE
- **/
-static gboolean gsb_scheduler_list_selection_changed (GtkTreeSelection *selection,
-													  GrisbiAppConf *a_conf)
-{
-    gint tmp_number = 0;
-    gint account_number;
-
-    /* wanted to set that function in gsb_scheduler_list_button_press but g_signal_connect_after
-     * seems not to work in that case... */
-
-    /* protect last_scheduled_number because when refill the list, set selection to 0 and so last_scheduled_number... */
-    tmp_number = gsb_scheduler_list_get_current_scheduled_number ();
-
-    if (tmp_number)
-        last_scheduled_number = tmp_number;
-
-    /* if a_conf->show_transaction_selected_in_form => edit the scheduled transaction */
-    if (tmp_number != 0 && a_conf->show_transaction_selected_in_form)
-            gsb_scheduler_list_edit_transaction (tmp_number);
-    else if (tmp_number == 0)
-    {
-        gsb_form_scheduler_clean ();
-        account_number = gsb_data_scheduled_get_account_number (tmp_number);
-        gsb_form_clean (account_number);
-    }
-
-    /* sensitive/unsensitive the button execute */
-    gtk_widget_set_sensitive (scheduler_button_execute,
-							  (tmp_number > 0)
-							  && !gsb_data_scheduled_get_mother_scheduled_number (tmp_number));
-
-    /* sensitive/unsensitive the button edit */
-    gtk_widget_set_sensitive (scheduler_button_edit, (tmp_number > 0));
-
-    /* sensitive/unsensitive the button delete */
-    gtk_widget_set_sensitive (scheduler_button_delete, (tmp_number > 0));
-
-    gsb_menu_set_menus_select_scheduled_sensitive (tmp_number > 0);
-
-    return FALSE;
-}
-
-/**
  * set the text red if the variance is non zero
  *
  * \param
@@ -1943,10 +1964,8 @@ GtkWidget *gsb_scheduler_list_create_list (void)
     GtkWidget *tree_view;
     GtkWidget *frame;
 	GtkTreeModel *tree_model;
-	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
-	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
     /* first, a vbox */
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
@@ -1988,12 +2007,7 @@ GtkWidget *gsb_scheduler_list_create_list (void)
     /* begin by hiding the notes */
     gsb_scheduler_list_show_notes (scheduler_display_hide_notes);
 
-    g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view))),
-                      "changed",
-                      G_CALLBACK (gsb_scheduler_list_selection_changed),
-                      a_conf);
-
-    gtk_widget_show_all (vbox);
+	gtk_widget_show_all (vbox);
 
     return vbox;
 }
@@ -3167,25 +3181,11 @@ gchar *gsb_scheduler_list_get_largeur_col_treeview_to_string (void)
  **/
 void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
 {
-	GrisbiAppConf *a_conf;
-
-	a_conf = grisbi_app_get_a_conf ();
 	gsb_scheduler_list_fill_list (tree_view);
 	gsb_scheduler_list_set_background_color (tree_view);
 
-	if (a_conf->last_selected_scheduler)
-	{
-		gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
-	}
-	else
-	{
-		GtkTreeSelection *selection;
-		GtkTreePath *path;
+	gsb_scheduler_list_select (last_scheduled_number);
 
-		path = gtk_tree_path_new_first ();
-		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-		gtk_tree_selection_select_path (selection, path);
-	}
 }
 
 /**
@@ -3198,6 +3198,45 @@ void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
 void gsb_scheduler_list_set_current_tree_view_width (gint new_tree_view_width)
 {
 	scheduler_current_tree_view_width = new_tree_view_width;
+}
+
+/**
+ * selectionne le premier ou le dernier item de la liste
+ *
+ * \param gboolean 	option a_conf->last_selected_scheduler
+ *
+ * \return
+ **/
+void gsb_scheduler_list_set_last_scheduled_number (gboolean last_selected_scheduler)
+{
+	if (last_selected_scheduler)
+	{
+			last_scheduled_number = -1;
+	}
+	else
+	{
+		GtkWidget *tree_view;
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		gint virtual_transaction;
+		gint tmp_number = 0;
+
+		tree_view = gsb_scheduler_list_get_tree_view ();
+
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+		if (!gtk_tree_model_get_iter_first (model, &iter))
+		{
+			gsb_scheduler_list_fill_list (tree_view);
+			gtk_tree_model_get_iter_first (model, &iter);
+		}
+		gtk_tree_model_get (model,
+							&iter,
+							SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
+							SCHEDULER_COL_NB_TRANSACTION_NUMBER, &tmp_number,
+							-1);
+
+		last_scheduled_number = tmp_number;
+	}
 }
 
 /**
