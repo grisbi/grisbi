@@ -634,10 +634,16 @@ gboolean gsb_form_scheduler_clean ( void )
 			break;
 
 		case SCHEDULED_FORM_AUTO:
-		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
 		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
 		    gtk_widget_set_sensitive ( widget, FALSE );
+		    break;
+
+		case SCHEDULED_FORM_FREQUENCY_BUTTON:
+			g_signal_handlers_block_by_func (widget, gsb_form_scheduler_frequency_button_changed, NULL);
+			gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
+			gtk_widget_set_sensitive ( widget, FALSE );
+			g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_frequency_button_changed, NULL);
 		    break;
 
 		case SCHEDULED_FORM_LIMIT_DATE:
