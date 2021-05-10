@@ -255,6 +255,7 @@ void init_variables (void)
     gsb_form_scheduler_free_list ();
 
     /* divers */
+	etat.affichage_commentaire_echeancier = 0;	/* RAZ option utile si chargement d'un deuxième fichier */
     etat.get_fyear_by_value_date = 0;           /* By default use transaction-date */
 
     /* remove the timeout if necessary */
