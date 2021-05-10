@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2009-2020 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2009-2021 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -207,7 +207,7 @@ void init_variables (void)
     run.reconcile_new_date = NULL;
 
     gsb_transactions_list_set_current_tree_view_width (0);
-    scheduler_current_tree_view_width = 0;
+	gsb_scheduler_list_set_current_tree_view_width (0);
 
 	/* initialisations des tableaux de la liste des opérations */
     gsb_transactions_list_init_tab_affichage_ope (NULL);

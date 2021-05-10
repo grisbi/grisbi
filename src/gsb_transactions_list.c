@@ -86,7 +86,7 @@ static GtkWidget *transaction_toolbar;	/* Barre d'outils */
 static GtkWidget *menu_import_rules;	/* this button is showed or hidden if account have or no some rules */
 
 /* the width of each column */
-static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";	/* valeurs par défaut */
+static gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 30, 12, 12, 12, 12};	/* valeurs par défaut */
 static gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* the alignment tab of each column */
@@ -4591,36 +4591,54 @@ void gsb_transactions_list_init_tab_align_col_treeview (const gchar *description
  **/
 void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description)
 {
-    gchar **pointeur_char;
-	gint somme = 0; 			/* calcul du % de la dernière colonne */
     gint i;
 
-    if (description == NULL)
-    {
-        description = transaction_col_width_init;
-	}
-
-    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-    pointeur_char = g_strsplit (description, "-", 0);
-	if (g_strv_length (pointeur_char) != CUSTOM_MODEL_VISIBLE_COLUMNS)
+	if (description && strlen (description))
 	{
-		/* defaut value for width of columns */
-		for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
-			transaction_col_width[i] = transaction_col_width_init[i];
+		gchar **pointeur_char;
+		gint somme = 0; 			/* calcul du % de la dernière colonne */
 
-		return;
+		/* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
+		pointeur_char = g_strsplit (description, "-", 0);
+		if (g_strv_length (pointeur_char) != CUSTOM_MODEL_VISIBLE_COLUMNS)
+		{
+			/* defaut value for width of columns */
+			for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
+				transaction_col_width[i] = transaction_col_width_init[i];
+			g_strfreev (pointeur_char);
+
+			return;
+		}
+
+		for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS -1 ; i++)
+		{
+			if (strlen ((const gchar *) pointeur_char[i]) == 0)
+				transaction_col_width[i] = transaction_col_width_init[i];
+			else
+				transaction_col_width[i] = utils_str_atoi (pointeur_char[i]);
+
+			somme+= transaction_col_width[i];
+		}
+		transaction_col_width[i] = 100 - somme;
+		g_strfreev (pointeur_char);
+
+		/* si transaction_col_width[i] est < transaction_col_width_init[i] on reinitialise la largeur des colonnes */
+		if (transaction_col_width[i] < transaction_col_width_init[i])
+		{
+			/* defaut value for width of columns */
+			for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS; i++)
+			{
+				transaction_col_width[i] = transaction_col_width_init[i];
+			}
+		}
 	}
-
-	for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS -1 ; i++)
+	else
 	{
-		if (strlen ((const gchar *) pointeur_char[i]) == 0)
+		for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS; i++)
+		{
 			transaction_col_width[i] = transaction_col_width_init[i];
-		else
-			transaction_col_width[i] = utils_str_atoi (pointeur_char[i]);
-		somme+= transaction_col_width[i];
+		}
 	}
-	transaction_col_width[i] = 100 - somme;
-	g_strfreev (pointeur_char);
 }
 
 /**

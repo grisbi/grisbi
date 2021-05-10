@@ -88,9 +88,11 @@ gboolean 	gsb_scheduler_list_redraw 									(void);
 gboolean 	gsb_scheduler_list_remove_transaction_from_list 			(gint scheduled_number);
 gboolean 	gsb_scheduler_list_select 									(gint scheduled_number);
 gboolean 	gsb_scheduler_list_set_background_color 					(GtkWidget *tree_view);
+void		gsb_scheduler_list_set_current_tree_view_width				(gint new_tree_view_width);
 gboolean 	gsb_scheduler_list_set_largeur_col 							(void);
 gboolean 	gsb_scheduler_list_update_transaction_in_list 				(gint scheduled_number);
 void		gsb_scheduler_list_update_tree_view							(GtkWidget *tree_view);
+void		gsb_scheduler_list_set_last_scheduled_number				(gboolean last_selected_scheduler);
 /* END_DECLARATION */
 
 #endif

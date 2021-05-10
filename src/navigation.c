@@ -1271,9 +1271,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			title = g_strdup(_("Scheduled transactions"));
 
 			/* what to be done if switch to that page */
-			/* update the list (can do that because short list, so very fast) */
-			gsb_scheduler_list_update_tree_view (gsb_scheduler_list_get_tree_view ());
-
 			/* set the form */
 			grisbi_win_set_form_expander_visible (TRUE, FALSE );
 			gsb_form_scheduler_clean ();
@@ -1288,6 +1285,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 			/* show menu InitwidthCol */
 			gsb_menu_gui_sensitive_win_menu_item ( "reset-width-col", TRUE );
+
+			/* set last_selected_scheduler option */
+			gsb_scheduler_list_set_last_scheduled_number (a_conf->last_selected_scheduler);
+
 			break;
 
 		case GSB_PAYEES_PAGE:
@@ -1371,8 +1372,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
         grisbi_win_headings_update_title ( title );
         g_free ( title );
     }
-    if (clear_suffix)
-        grisbi_win_headings_update_suffix ( "" );
+	if (clear_suffix)
+		grisbi_win_headings_update_suffix ( "" );
 
     return FALSE;
 }

@@ -2587,36 +2587,16 @@ void gsb_data_account_change_account_icon (GtkWidget *button,
 			gsb_gui_navigation_update_account (current_account);
         }
         else
-        {
+{
     		GdkPixbuf *pixbuf;
-			GrisbiWinEtat *w_etat;
 
-			w_etat = grisbi_win_get_w_etat ();
-			if (w_etat->use_icons_file_dir)
-			{
-				gchar *tmp_name;
+			gsb_data_account_set_name_icon ( current_account, new_icon );
+            pixbuf = gsb_select_icon_new_account_pixbuf_from_file (new_icon);
+            gsb_data_account_set_account_icon_pixbuf ( current_account, pixbuf );
 
-				tmp_name = gsb_select_icon_set_icon_in_user_icons_dir (new_icon);
-
-				if (tmp_name)
-				{
-					g_free (new_icon);
-					new_icon = tmp_name;
-				}
-				else
-				{
-					/* traite erreur */
-
-				}
-			}
-			gsb_data_account_set_name_icon (current_account, new_icon);
-			pixbuf = gsb_select_icon_new_account_pixbuf_from_file (new_icon);
-			gsb_data_account_set_account_icon_pixbuf (current_account, pixbuf);
-
-			image = gsb_data_account_get_account_icon_image (current_account);
-			gtk_button_set_image (GTK_BUTTON (button), image);
-			gsb_gui_navigation_update_account (current_account);
-			g_object_unref (G_OBJECT (pixbuf));
+			image = gsb_data_account_get_account_icon_image ( current_account );
+			gtk_button_set_image ( GTK_BUTTON ( button ), image );
+			gsb_gui_navigation_update_account ( current_account );
         }
 
         gsb_file_set_modified (TRUE);

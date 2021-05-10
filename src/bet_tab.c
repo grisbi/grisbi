@@ -3211,11 +3211,11 @@ gchar *bet_array_get_largeur_col_treeview_to_string	(void)
  **/
 void bet_array_init_largeur_col_treeview (const gchar* description)
 {
-	gint somme = 0; /* calcul du % de la dernière colonne */
 	gint i = 0;
 
 	if (description && strlen (description))
 	{
+		gint somme = 0; /* calcul du % de la dernière colonne */
 		gchar **pointeur_char;
 
 		/* the bet_array columns are xx-xx-xx-xx-xx and we want to set in bet_array_col_width[1-2-3...] */
@@ -3226,6 +3226,8 @@ void bet_array_init_largeur_col_treeview (const gchar* description)
 			for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
 				bet_array_col_width[i] = bet_array_col_width_init[i];
 
+			g_strfreev (pointeur_char);
+
 			return;
 		}
 
@@ -3234,11 +3236,21 @@ void bet_array_init_largeur_col_treeview (const gchar* description)
 			if (strlen ((const gchar *) pointeur_char[i]) == 0)
 				bet_array_col_width[i] = bet_array_col_width_init[i];
 			else
-				bet_array_col_width[i] = utils_str_atoi ( pointeur_char[i] );
+				bet_array_col_width[i] = utils_str_atoi (pointeur_char[i]);
 			somme+= bet_array_col_width[i];
         }
 		bet_array_col_width[i] = 100 - somme;
-		g_strfreev ( pointeur_char );
+		g_strfreev (pointeur_char);
+
+		/* si bet_array_col_width[6] est < bet_array_col_width_init[6] on reinitialise la largeur des colonnes */
+		if (bet_array_col_width[i] < bet_array_col_width_init[i])
+		{
+			/* defaut value for width of columns */
+			for (i = 0 ; i < BET_ARRAY_COLUMNS ; i++)
+				bet_array_col_width[i] = bet_array_col_width_init[i];
+
+			return;
+		}
     }
 	else
 	{
