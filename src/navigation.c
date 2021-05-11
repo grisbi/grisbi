@@ -1375,7 +1375,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	if (clear_suffix)
 		grisbi_win_headings_update_suffix ( "" );
 
-	printf ("fin de fonction : gsb_gui_navigation_select_line\n");
     return FALSE;
 }
 

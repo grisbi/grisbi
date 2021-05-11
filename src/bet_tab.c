@@ -1917,6 +1917,7 @@ static GtkWidget *bet_array_create_tree_view (GtkWidget *container)
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ();
+	gtk_widget_set_margin_end (tree_view, MARGIN_END);
     g_object_set_data (G_OBJECT (grisbi_win_get_account_page ()), "bet_estimate_treeview", tree_view);
     g_object_set_data (G_OBJECT (tree_view), "origin_data_model",
                         GINT_TO_POINTER (SPP_ESTIMATE_TREE_ORIGIN_DATA));

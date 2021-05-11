@@ -69,51 +69,51 @@
 
 /*START_GLOBAL*/
 /* lists of number of scheduled transactions taken or to be taken */
-GSList *scheduled_transactions_to_take;
-GSList *scheduled_transactions_taken;
-
-/* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
-static gint scheduler_col_width_init[SCHEDULER_COL_VISIBLE_COLUMNS] = {10, 12, 36, 12, 12, 24, 12};
-
-/* used to save and restore the width of the scheduled list */
-static gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
-gint scheduler_current_tree_view_width = 0;
+GSList *				scheduled_transactions_to_take;
+GSList *				scheduled_transactions_taken;
 /*END_GLOBAL*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
 /*START_STATIC*/
+/* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
+static gint scheduler_col_width_init[SCHEDULER_COL_VISIBLE_COLUMNS] = {10, 12, 36, 12, 12, 24, 12};
+
+/* used to save and restore the width of the scheduled list */
+static gint					scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
+static gint					scheduler_current_tree_view_width = 0;
+
 /* set the tree view and models as static, we can access to them
  * by the functions gsb_scheduler_list_get_tree_view...
  * don't call them directly */
-static GtkWidget *tree_view_scheduler_list;
-static GtkTreeModel *tree_model_scheduler_list;
-static GtkTreeModelSort *tree_model_sort_scheduler_list;
-static GtkSortType sort_type;
-static GtkTreeViewColumn *scheduler_list_column[SCHEDULER_COL_VISIBLE_COLUMNS];
-static gint last_scheduled_number;
+static GtkWidget *			tree_view_scheduler_list;
+static GtkTreeModel *		tree_model_scheduler_list;
+static GtkTreeModelSort *	tree_model_sort_scheduler_list;
+static GtkSortType			sort_type;
+static GtkTreeViewColumn *	scheduler_list_column[SCHEDULER_COL_VISIBLE_COLUMNS];
+static gint					last_scheduled_number;
 
 /* toolbar */
-static GtkWidget *scheduler_toolbar;
+static GtkWidget *			scheduler_toolbar;
 
 /* Used to display/hide comments in scheduler list */
-static GtkWidget *scheduler_display_hide_notes = NULL;
+static GtkWidget *			scheduler_display_hide_notes = NULL;
 
 /* here are the 3 buttons on the scheduler toolbar
  * which can been unsensitive or sensitive */
-static GtkWidget *scheduler_button_execute = NULL;
-static GtkWidget *scheduler_button_delete = NULL;
-static GtkWidget *scheduler_button_edit = NULL;
+static GtkWidget *			scheduler_button_execute = NULL;
+static GtkWidget *			scheduler_button_delete = NULL;
+static GtkWidget *			scheduler_button_edit = NULL;
 
 /* popup view menu */
-static const gchar *periodicity_names[] = { N_("Unique view"), N_("Week view"), N_("Month view"),
-            N_("Two months view"), N_("Quarter view"),
-            N_("Year view"), N_("Custom view"), NULL, };
+static const gchar *		periodicity_names[] = {N_("Unique view"), N_("Week view"), N_("Month view"),
+												   N_("Two months view"), N_("Quarter view"),
+												   N_("Year view"), N_("Custom view"), NULL,};
 
-static gboolean view_menu_block_cb = FALSE;
+static gboolean				view_menu_block_cb = FALSE;
 
-static const gchar *j_m_a_names[] = { N_("days"), N_("weeks"), N_("months"), N_("years"), NULL };
+static const gchar *		j_m_a_names[] = {N_("days"), N_("weeks"), N_("months"), N_("years"), NULL};
 /*END_STATIC*/
 
 /******************************************************************************/
