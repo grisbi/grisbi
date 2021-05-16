@@ -13,12 +13,14 @@ libetatspages_la_SOURCES = \
 	etats_page_category.c \
 	etats_page_payee.c \
 	etats_page_period.c \
+	etats_page_text.c \
 	etats_page_transfer.c \
 	etats_page_accounts.h \
 	etats_page_budget.h \
 	etats_page_category.h \
 	etats_page_payee.h \
 	etats_page_period.h \
+	etats_page_text.h \
 	etats_page_transfer.h
 
 libetatspages_la_LIBADD= $(LIBETATSPAGES_LIBS)
@@ -35,5 +37,6 @@ EXTRA_DIST = \
 	etats_page_category.ui \
 	etats_page_payee.ui \
 	etats_page_period.ui \
+	etats_page_text.ui \
 	etats_page_transfer.ui
 
