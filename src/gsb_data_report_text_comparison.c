@@ -44,7 +44,7 @@
 
 /** \struct
  * describe a report text comparison
- * */
+ **/
 
 typedef struct _TextComparaison	TextComparaison;
 
@@ -56,7 +56,7 @@ struct _TextComparaison {
     /** @name saved values of the structure */
     gint 		link_to_last_text_comparison;	/**< -1=first comparison, 0=and, 1=or, 2=except */
     gint 		field;	/**<	0=payee, 1=the payee description(in payee page), 2=categ, 3=sub categ, 4=budget,
-						  5=sub budget, 6=note, 7=bank ref, 8=voucher, 9=chq, 10=statement */
+								5=sub budget, 6=note, 7=bank ref, 8=voucher, 9=chq, 10=statement */
 
     /** @name text comparison */
     gint 		operator;		/**< 0=contain, 1=don't contain, 2=begin with, 3=end with, 4=empty, 5=no empty */
@@ -72,32 +72,8 @@ struct _TextComparaison {
 
     /** @name dynamic values used for the gui */
 	gpointer	widget;
-    gpointer button_link;
-    gpointer button_field;
-
-    /** @name dynamic values for text comparison */
-    gpointer button_use_text;
-    gpointer hbox_text;
-    gpointer button_operator;
-    gpointer entry_text;
-
-    /** @name dynamic values for amount comparison */
-    gpointer button_use_number;
-    gpointer hbox_cheque;
-    gpointer button_first_comparison;
-    gpointer entry_first_amount;
-    gpointer button_link_first_to_second_part;
-    gpointer hbox_second_part;
-    gpointer button_second_comparison;
-    gpointer entry_second_amount;
 };
 
-
-/*START_STATIC*/
-static void _gsb_data_report_text_comparison_free ( TextComparaison* text_comparison );
-static TextComparaison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number );
-static gint gsb_data_report_text_comparison_max_number ( void );
-/*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
@@ -413,22 +389,21 @@ gint gsb_data_report_text_comparison_get_field (gint text_comparison_number)
  * \param field
  *
  * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_field ( gint text_comparison_number,
-						     gint field)
+ **/
+gboolean gsb_data_report_text_comparison_set_field (gint text_comparison_number,
+													gint field)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    text_comparison -> field = field;
+    text_comparison->field = field;
 
     return TRUE;
 }
-
 
 /**
  * get the operator
@@ -436,17 +411,17 @@ gboolean gsb_data_report_text_comparison_set_field ( gint text_comparison_number
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the operator of the text_comparison, -1 if problem
- * */
-gint gsb_data_report_text_comparison_get_operator ( gint text_comparison_number )
+ **/
+gint gsb_data_report_text_comparison_get_operator (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return 0;
+	if (!text_comparison)
+		return 0;
 
-    return text_comparison -> operator;
+    return text_comparison->operator;
 }
 
 /**
@@ -456,22 +431,21 @@ gint gsb_data_report_text_comparison_get_operator ( gint text_comparison_number 
  * \param operator
  *
  * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_operator ( gint text_comparison_number,
-							gint operator)
+ **/
+gboolean gsb_data_report_text_comparison_set_operator (gint text_comparison_number,
+													   gint operator)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    text_comparison -> operator = operator;
+    text_comparison->operator = operator;
 
     return TRUE;
 }
-
 
 /**
  * get the text
@@ -479,17 +453,17 @@ gboolean gsb_data_report_text_comparison_set_operator ( gint text_comparison_num
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the text of the text_comparison, -1 if problem
- * */
-gchar *gsb_data_report_text_comparison_get_text ( gint text_comparison_number )
+ **/
+gchar *gsb_data_report_text_comparison_get_text (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return NULL;
+	if (!text_comparison)
+		return NULL;
 
-    return text_comparison -> text;
+    return text_comparison->text;
 }
 
 /**
@@ -500,21 +474,21 @@ gchar *gsb_data_report_text_comparison_get_text ( gint text_comparison_number )
  * 		if the length is 0, set NULL
  *
  * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_text ( gint text_comparison_number,
-						    const gchar *text)
+ **/
+gboolean gsb_data_report_text_comparison_set_text (gint text_comparison_number,
+												   const gchar *text)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    if ( text && strlen (text))
-	text_comparison -> text = my_strdup (text);
+	if (text && strlen (text))
+		text_comparison->text = my_strdup (text);
     else
-	text_comparison -> text = NULL;
+		text_comparison->text = NULL;
 
     return TRUE;
 }
@@ -525,17 +499,17 @@ gboolean gsb_data_report_text_comparison_set_text ( gint text_comparison_number,
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the use_text of the text_comparison, -1 if problem
- * */
-gint gsb_data_report_text_comparison_get_use_text ( gint text_comparison_number )
+ **/
+gint gsb_data_report_text_comparison_get_use_text (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return 0;
+	if (!text_comparison)
+		return 0;
 
-    return text_comparison -> use_text;
+    return text_comparison->use_text;
 }
 
 /**
@@ -545,22 +519,21 @@ gint gsb_data_report_text_comparison_get_use_text ( gint text_comparison_number 
  * \param use_text
  *
  * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_use_text ( gint text_comparison_number,
-							gint use_text)
+ **/
+gboolean gsb_data_report_text_comparison_set_use_text (gint text_comparison_number,
+													   gint use_text)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    text_comparison -> use_text = use_text;
+    text_comparison->use_text = use_text;
 
     return TRUE;
 }
-
 
 /**
  * get the first_comparison
@@ -568,17 +541,17 @@ gboolean gsb_data_report_text_comparison_set_use_text ( gint text_comparison_num
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
- * */
-gint gsb_data_report_text_comparison_get_first_comparison ( gint text_comparison_number )
+ **/
+gint gsb_data_report_text_comparison_get_first_comparison (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return 0;
+	if (!text_comparison)
+		return 0;
 
-    return text_comparison -> first_comparison;
+    return text_comparison->first_comparison;
 }
 
 /**
@@ -588,22 +561,21 @@ gint gsb_data_report_text_comparison_get_first_comparison ( gint text_comparison
  * \param first_comparison
  *
  * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_first_comparison ( gint text_comparison_number,
-								gint first_comparison)
+ **/
+gboolean gsb_data_report_text_comparison_set_first_comparison (gint text_comparison_number,
+															   gint first_comparison)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    text_comparison -> first_comparison = first_comparison;
+    text_comparison->first_comparison = first_comparison;
 
     return TRUE;
 }
-
 
 /**
  * get the first_amount
@@ -611,17 +583,17 @@ gboolean gsb_data_report_text_comparison_set_first_comparison ( gint text_compar
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the first_amount of the text_comparison, -1 if problem
- * */
-gint gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_number )
+ **/
+gint gsb_data_report_text_comparison_get_first_amount (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return 0;
+	if (!text_comparison)
+		return 0;
 
-    return text_comparison -> first_amount;
+    return text_comparison->first_amount;
 }
 
 /**
@@ -631,22 +603,21 @@ gint gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_num
  * \param first_amount
  *
  * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_first_amount ( gint text_comparison_number,
-							    gint first_amount)
+ **/
+gboolean gsb_data_report_text_comparison_set_first_amount (gint text_comparison_number,
+														   gint first_amount)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    text_comparison -> first_amount = first_amount;
+    text_comparison->first_amount = first_amount;
 
     return TRUE;
 }
-
 
 /**
  * get the link_first_to_second_part
@@ -654,17 +625,17 @@ gboolean gsb_data_report_text_comparison_set_first_amount ( gint text_comparison
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
- * */
-gint gsb_data_report_text_comparison_get_link_first_to_second_part ( gint text_comparison_number )
+ **/
+gint gsb_data_report_text_comparison_get_link_first_to_second_part (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return 0;
+	if (!text_comparison)
+		return 0;
 
-    return text_comparison -> link_first_to_second_part;
+    return text_comparison->link_first_to_second_part;
 }
 
 /**
@@ -674,22 +645,21 @@ gint gsb_data_report_text_comparison_get_link_first_to_second_part ( gint text_c
  * \param link_first_to_second_part
  *
  * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_link_first_to_second_part ( gint text_comparison_number,
-									 gint link_first_to_second_part)
+ **/
+gboolean gsb_data_report_text_comparison_set_link_first_to_second_part (gint text_comparison_number,
+																		gint link_first_to_second_part)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    text_comparison -> link_first_to_second_part = link_first_to_second_part;
+    text_comparison->link_first_to_second_part = link_first_to_second_part;
 
     return TRUE;
 }
-
 
 /**
  * get the second_comparison
@@ -697,17 +667,17 @@ gboolean gsb_data_report_text_comparison_set_link_first_to_second_part ( gint te
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
- * */
-gint gsb_data_report_text_comparison_get_second_comparison ( gint text_comparison_number )
+ **/
+gint gsb_data_report_text_comparison_get_second_comparison (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return 0;
+	if (!text_comparison)
+		return 0;
 
-    return text_comparison -> second_comparison;
+    return text_comparison->second_comparison;
 }
 
 /**
@@ -717,22 +687,21 @@ gint gsb_data_report_text_comparison_get_second_comparison ( gint text_compariso
  * \param second_comparison
  *
  * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_second_comparison ( gint text_comparison_number,
-								 gint second_comparison)
+ **/
+gboolean gsb_data_report_text_comparison_set_second_comparison (gint text_comparison_number,
+																gint second_comparison)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    text_comparison -> second_comparison = second_comparison;
+    text_comparison->second_comparison = second_comparison;
 
     return TRUE;
 }
-
 
 /**
  * get the second_amount
@@ -740,17 +709,17 @@ gboolean gsb_data_report_text_comparison_set_second_comparison ( gint text_compa
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the second_amount of the text_comparison, -1 if problem
- * */
-gint gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_number )
+ **/
+gint gsb_data_report_text_comparison_get_second_amount (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return 0;
+	if (!text_comparison)
+		return 0;
 
-    return text_comparison -> second_amount;
+    return text_comparison->second_amount;
 }
 
 /**
@@ -762,664 +731,69 @@ gint gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_nu
  * \return TRUE if ok
  **/
 gboolean gsb_data_report_text_comparison_set_second_amount (gint text_comparison_number,
-							     gint second_amount)
+															gint second_amount)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
 	if (!text_comparison)
-	return FALSE;
+		return FALSE;
 
     text_comparison->second_amount = second_amount;
 
     return TRUE;
 }
 
-
 /**
- * get the vbox_line
  *
- * \param text_comparison_number the number of the text_comparison
  *
- * \return the  of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_vbox_line ( gint text_comparison_number )
+ * \param
+ *
+ * \return
+ **/
+gpointer gsb_data_report_text_comparison_get_widget (gint text_comparison_number)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return 0;
+	if (!text_comparison)
+		return 0;
 
-    return text_comparison -> vbox_line;
+    return text_comparison->widget;
 }
 
 /**
- * set the vbox_line
+ *	memorise le widget associé a text_comparison_number
  *
- * \param text_comparison_number number of the text_comparison
- * \param vbox_line
+ * \param 		text_comparison_number
+ * \param		widget
  *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_vbox_line ( gint text_comparison_number,
-							 gpointer vbox_line)
+ * \return TRUE or FALSE
+ **/
+gboolean gsb_data_report_text_comparison_set_widget (gint text_comparison_number,
+													 gpointer widget)
 {
     TextComparaison *text_comparison;
 
     text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
 
-    if ( !text_comparison )
-	return FALSE;
+	if (!text_comparison)
+		return FALSE;
 
-    text_comparison -> vbox_line = vbox_line;
+    text_comparison->widget = widget;
 
     return TRUE;
 }
 
 /**
- * get the button_link
  *
- * \param text_comparison_number the number of the text_comparison
  *
- * \return the  of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_button_link ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> button_link;
-}
-
-/**
- * set the button_link
+ * \param
  *
- * \param text_comparison_number number of the text_comparison
- * \param button_link
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_button_link ( gint text_comparison_number,
-							   gpointer button_link)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> button_link = button_link;
-
-    return TRUE;
-}
-
-
-
-/**
- * get the button_field
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the button_field of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_button_field ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> button_field;
-}
-
-/**
- * set the button_field
- *
- * \param text_comparison_number number of the text_comparison
- * \param button_field
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_button_field ( gint text_comparison_number,
-							    gpointer button_field)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> button_field = button_field;
-
-    return TRUE;
-}
-
-
-/**
- * get the button_use_text
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the button_use_text of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_button_use_text ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> button_use_text;
-}
-
-/**
- * set the button_use_text
- *
- * \param text_comparison_number number of the text_comparison
- * \param button_use_text
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_button_use_text ( gint text_comparison_number,
-							       gpointer button_use_text)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> button_use_text = button_use_text;
-
-    return TRUE;
-}
-
-
-/**
- * get the hbox_text
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the hbox_text of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_hbox_text ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> hbox_text;
-}
-
-/**
- * set the hbox_text
- *
- * \param text_comparison_number number of the text_comparison
- * \param hbox_text
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_hbox_text ( gint text_comparison_number,
-							 gpointer hbox_text)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> hbox_text = hbox_text;
-
-    return TRUE;
-}
-
-
-/**
- * get the button_operator
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the button_operator of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_button_operator ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> button_operator;
-}
-
-/**
- * set the button_operator
- *
- * \param text_comparison_number number of the text_comparison
- * \param button_operator
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_button_operator ( gint text_comparison_number,
-							       gpointer button_operator)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> button_operator = button_operator;
-
-    return TRUE;
-}
-
-
-/**
- * get the entry_text
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the entry_text of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_entry_text ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> entry_text;
-}
-
-/**
- * set the entry_text
- *
- * \param text_comparison_number number of the text_comparison
- * \param entry_text
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_entry_text ( gint text_comparison_number,
-							  gpointer entry_text)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> entry_text = entry_text;
-
-    return TRUE;
-}
-
-
-/**
- * get the button_use_number
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the button_use_number of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_button_use_number ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> button_use_number;
-}
-
-/**
- * set the button_use_number
- *
- * \param text_comparison_number number of the text_comparison
- * \param button_use_number
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_button_use_number ( gint text_comparison_number,
-								 gpointer button_use_number)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> button_use_number = button_use_number;
-
-    return TRUE;
-}
-
-
-/**
- * get the hbox_cheque
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the hbox_cheque of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_hbox_cheque ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> hbox_cheque;
-}
-
-/**
- * set the hbox_cheque
- *
- * \param text_comparison_number number of the text_comparison
- * \param hbox_cheque
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_hbox_cheque ( gint text_comparison_number,
-							   gpointer hbox_cheque)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> hbox_cheque = hbox_cheque;
-
-    return TRUE;
-}
-
-
-/**
- * get the button_first_comparison
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the  of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_button_first_comparison ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> button_first_comparison;
-}
-
-/**
- * set the button_first_comparison
- *
- * \param text_comparison_number number of the text_comparison
- * \param button_first_comparison
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_button_first_comparison ( gint text_comparison_number,
-								       gpointer button_first_comparison)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> button_first_comparison = button_first_comparison;
-
-    return TRUE;
-}
-
-/**
- * get the entry_first_amount
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the entry_first_amount of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_entry_first_amount ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> entry_first_amount;
-}
-
-/**
- * set the entry_first_amount
- *
- * \param text_comparison_number number of the text_comparison
- * \param entry_first_amount
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_entry_first_amount ( gint text_comparison_number,
-								  gpointer entry_first_amount)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> entry_first_amount = entry_first_amount;
-
-    return TRUE;
-}
-
-/**
- * get the button_link_first_to_second_part
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the  of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_button_link_first_to_second_part ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> button_link_first_to_second_part;
-}
-
-/**
- * set the button_link_first_to_second_part
- *
- * \param text_comparison_number number of the text_comparison
- * \param button_link_first_to_second_part
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_button_link_first_to_second_part ( gint text_comparison_number,
-										gpointer button_link_first_to_second_part)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> button_link_first_to_second_part = button_link_first_to_second_part;
-
-    return TRUE;
-}
-
-/**
- * get the hbox_second_part
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the  of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_hbox_second_part ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> hbox_second_part;
-}
-
-/**
- * set the hbox_second_part
- *
- * \param text_comparison_number number of the text_comparison
- * \param hbox_second_part
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_hbox_second_part ( gint text_comparison_number,
-								gpointer hbox_second_part)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> hbox_second_part = hbox_second_part;
-
-    return TRUE;
-}
-
-/**
- * get the button_second_comparison
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the  of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_button_second_comparison ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> button_second_comparison;
-}
-
-/**
- * set the button_second_comparison
- *
- * \param text_comparison_number number of the text_comparison
- * \param button_second_comparison
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_button_second_comparison ( gint text_comparison_number,
-									gpointer button_second_comparison)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> button_second_comparison = button_second_comparison;
-
-    return TRUE;
-}
-
-/**
- * get the entry_second_amount
- *
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the entry_second_amount of the text_comparison, -1 if problem
- * */
-gpointer gsb_data_report_text_comparison_get_entry_second_amount ( gint text_comparison_number )
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> entry_second_amount;
-}
-
-/**
- * set the entry_second_amount
- *
- * \param text_comparison_number number of the text_comparison
- * \param entry_second_amount
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_text_comparison_set_entry_second_amount ( gint text_comparison_number,
-								   gpointer entry_second_amount)
-{
-    TextComparaison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return FALSE;
-
-    text_comparison -> entry_second_amount = entry_second_amount;
-
-    return TRUE;
-}
-
-
-
-
-
-
-
-
+ * \return
+ **/
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
