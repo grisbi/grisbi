@@ -125,21 +125,12 @@ const gchar *nom_tiers_en_cours;
  * \return 			Continue ou retour vers paramètres (default)
  **/
 static gint etats_dialog_warning_report_too_big (gint report_number,
-												 guint nbre_opes)
+												 guint nbre_opes,
+												 guint nbre_max_opes)
 {
     GtkWidget *dialog;
     gchar *message = NULL;
     gint result;
-	gint show_report_transactions;
-	guint nbre_max_opes = 3000;
-
-	show_report_transactions = gsb_data_report_get_show_report_transactions (report_number);
-	if (show_report_transactions > 0)
-		nbre_max_opes = 3000;
-#ifndef G_OS_WIN32
-	else
-		nbre_max_opes = 10000;
-#endif /* G_OS_WIN32 */
 
 	message = g_strdup_printf (_("The number of transactions selected by the report is very "
 								 "important (%d) and > to %d.\n"
@@ -1752,7 +1743,10 @@ gboolean affichage_etat (gint report_number,
 					 gchar *filename)
 {
     GSList *liste_opes_selectionnees;
+	guint nbre_max_opes = 3000;
 	guint nbre_opes;
+	gint show_report_transactions;
+
 
 	devel_debug (NULL);
     if (!report_number)
@@ -1771,11 +1765,20 @@ gboolean affichage_etat (gint report_number,
     /* on va mettre l'adresse des opés sélectionnées dans une liste */
     liste_opes_selectionnees = recupere_opes_etat (report_number);
 	nbre_opes = g_slist_length (liste_opes_selectionnees);
-	if (nbre_opes > ETATS_MAX_OPES)
+
+	/* on regarde si il n'y a pas trop d'opérations */
+	show_report_transactions = gsb_data_report_get_show_report_transactions (report_number);
+	if (show_report_transactions > 0)
+		nbre_max_opes = 3000;
+#ifndef G_OS_WIN32
+	else
+		nbre_max_opes = 10000;
+#endif /* G_OS_WIN32 */
+	if (nbre_opes > nbre_max_opes)
 	{
 		gint result;
 
-		result = etats_dialog_warning_report_too_big (report_number, nbre_opes);
+		result = etats_dialog_warning_report_too_big (report_number, nbre_opes, nbre_max_opes);
 		if (result != GTK_RESPONSE_OK)		/*on continue */
 		{
 			result = etats_config_personnalisation_etat ();
