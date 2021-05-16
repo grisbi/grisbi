@@ -463,7 +463,7 @@ gboolean gsb_data_report_remove ( gint no_report )
 }
 
 
-/**
+/**gsb_data_report_text_comparison_get_widget
  * return the number of the report found by its name
  * that report is stored in the buffer
  *
