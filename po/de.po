@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-05 10:00+0200\n"
+"POT-Creation-Date: 2021-05-16 15:56+0200\n"
 "PO-Revision-Date: 2021-04-14 20:48+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -33,7 +33,7 @@ msgstr "Konten für den Bericht auswählen"
 #: ../src/etats/etats_page_accounts.ui.h:3
 #: ../src/etats/etats_page_budget.ui.h:3
 #: ../src/etats/etats_page_category.ui.h:3
-#: ../src/etats/etats_page_period.ui.h:9
+#: ../src/etats/etats_page_payee.ui.h:13 ../src/etats/etats_page_period.ui.h:9
 #: ../src/etats/etats_page_transfer.ui.h:6 ../src/ui/csv_template_rule.ui.h:15
 #: ../src/ui/prefs_page_accueil.ui.h:5 ../src/ui/prefs_page_archives.ui.h:11
 #: ../src/ui/prefs_page_bank.ui.h:3 ../src/ui/prefs_page_bet_account.ui.h:5
@@ -54,6 +54,7 @@ msgstr "Konten für den Bericht auswählen"
 #: ../src/ui/prefs_page_reconcile.ui.h:15
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:3
 #: ../src/widgets/widget_bank_details.ui.h:12
+#: ../src/widgets/widget_cmp_text.ui.h:34
 #: ../src/widgets/widget_css_rules.ui.h:1
 #: ../src/widgets/widget_currency_details.ui.h:6
 #: ../src/widgets/widget_currency_link.ui.h:4
@@ -81,6 +82,66 @@ msgstr "Buchungen nach Kategorien auswählen"
 #: ../src/etats/etats_page_category.ui.h:2
 msgid "Select categories to include: "
 msgstr "Kategorien für den Bericht auswählen"
+
+#: ../src/etats/etats_page_payee.ui.h:1
+msgid "Detail payees"
+msgstr "Buchungen nach Empfänger auswählen"
+
+#: ../src/etats/etats_page_payee.ui.h:2
+msgid "Select payees to include in this report: "
+msgstr "Empfänger für den Bericht auswählen"
+
+#: ../src/etats/etats_page_payee.ui.h:3 ../src/ui/etats_prefs.ui.h:76
+#: ../src/widgets/widget_list_accounts.ui.h:1
+#: ../src/widgets/widget_list_metatree.ui.h:1 ../src/export.c:422
+#: ../src/gsb_assistant.c:129 ../src/tiers_onglet.c:1383
+#: ../src/tiers_onglet.c:1401 ../src/utils_buttons.c:125
+#: ../src/widgets/widget_list_accounts.c:135
+#: ../src/widgets/widget_list_metatree.c:178
+msgid "Select all"
+msgstr "Alle auswählen"
+
+#: ../src/etats/etats_page_payee.ui.h:4
+msgid "<Ctrl> + left click of mouse to add to the selection"
+msgstr "<STRG> + Links Klick für Detailauswahl"
+
+#. Search
+#. Searching
+#: ../src/etats/etats_page_payee.ui.h:5 ../src/ui/grisbi_menu.ui.h:27
+#: ../src/ui/search_transaction.ui.h:1 ../src/etats_onglet.c:893
+#: ../src/etats_onglet.c:1123 ../src/etats_onglet.c:1357
+#: ../src/gsb_transactions_list.c:572
+msgid "Search"
+msgstr "Buchungen suchen"
+
+#: ../src/etats/etats_page_payee.ui.h:6 ../src/ui/etats_prefs.ui.h:77
+#: ../src/widgets/widget_list_accounts.ui.h:6
+msgid ""
+"<Ctrl> + left click of mouse\n"
+"to add at the selection"
+msgstr ""
+"<STRG> + Links Klick\n"
+"für Detailauswahl"
+
+#: ../src/etats/etats_page_payee.ui.h:8
+msgid "Navigation"
+msgstr "Anordnung"
+
+#: ../src/etats/etats_page_payee.ui.h:9
+msgid "First item"
+msgstr "Erstes Element"
+
+#: ../src/etats/etats_page_payee.ui.h:10
+msgid "Prévious"
+msgstr "Vorheriges Element"
+
+#: ../src/etats/etats_page_payee.ui.h:11
+msgid "Following"
+msgstr "Nachfolgendes Element"
+
+#: ../src/etats/etats_page_payee.ui.h:12
+msgid "Last item"
+msgstr "Letztes Element"
 
 #: ../src/etats/etats_page_period.ui.h:1
 msgid "Use dates ranges"
@@ -121,6 +182,10 @@ msgstr "Geschäftsjahr(e) auswählen"
 #: ../src/etats/etats_page_period.ui.h:8
 msgid "Use financial years"
 msgstr "Geschäftsjahre verwenden"
+
+#: ../src/etats/etats_page_text.ui.h:1 ../src/ui/etats_prefs.ui.h:81
+msgid "Select transactions according to content"
+msgstr "Buchungen nach Text auswählen"
 
 #: ../src/etats/etats_page_transfer.ui.h:1
 msgid "Do not include transfers"
@@ -349,11 +414,11 @@ msgstr "Zusätzliche Daten: "
 #. names of the data for transactions list
 #. 1
 #: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
-#: ../src/bet_finance_ui.c:1823 ../src/bet_future.c:531 ../src/bet_tab.c:1965
+#: ../src/bet_finance_ui.c:1823 ../src/bet_future.c:531 ../src/bet_tab.c:1969
 #: ../src/etats_affiche.c:2463 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1988
 #: ../src/gsb_form_widget.c:550 ../src/gsb_reconcile.c:214
-#: ../src/gsb_scheduler_list.c:849 ../src/gsb_transactions_list.c:110
+#: ../src/gsb_scheduler_list.c:919 ../src/gsb_transactions_list.c:110
 #: ../src/import.c:1875 ../src/import.c:4285 ../src/import_csv.c:72
 msgid "Date"
 msgstr "Datum"
@@ -434,27 +499,27 @@ msgstr "Datum"
 msgid "value date"
 msgstr "Valutadatum"
 
-#: ../src/ui/etats_prefs.ui.h:28 ../src/etats_config.c:101
+#: ../src/ui/etats_prefs.ui.h:28 ../src/widgets/widget_cmp_text.ui.h:5
 #: ../src/etats_prefs_private.h:41 ../src/meta_payee.c:80
 msgid "payee"
 msgstr "Empfänger"
 
-#: ../src/ui/etats_prefs.ui.h:29 ../src/etats_config.c:103
+#: ../src/ui/etats_prefs.ui.h:29 ../src/widgets/widget_cmp_text.ui.h:7
 #: ../src/etats_prefs_private.h:42 ../src/meta_categories.c:68
 msgid "category"
 msgstr "Kategorie"
 
-#: ../src/ui/etats_prefs.ui.h:30 ../src/etats_config.c:104
+#: ../src/ui/etats_prefs.ui.h:30 ../src/widgets/widget_cmp_text.ui.h:8
 #: ../src/meta_categories.c:69
 msgid "sub-category"
 msgstr "Unterkategorie"
 
-#: ../src/ui/etats_prefs.ui.h:31 ../src/etats_config.c:105
+#: ../src/ui/etats_prefs.ui.h:31 ../src/widgets/widget_cmp_text.ui.h:9
 #: ../src/etats_prefs_private.h:43 ../src/meta_budgetary.c:89
 msgid "budgetary line"
 msgstr "Gruppe"
 
-#: ../src/ui/etats_prefs.ui.h:32 ../src/etats_config.c:106
+#: ../src/ui/etats_prefs.ui.h:32 ../src/widgets/widget_cmp_text.ui.h:10
 #: ../src/meta_budgetary.c:90
 msgid "sub-budgetary line"
 msgstr "Untergruppe"
@@ -471,7 +536,7 @@ msgstr "Zahlungsweise"
 msgid "cheque/transfer number"
 msgstr "Schecknummer"
 
-#: ../src/ui/etats_prefs.ui.h:36 ../src/etats_config.c:109
+#: ../src/ui/etats_prefs.ui.h:36 ../src/widgets/widget_cmp_text.ui.h:13
 #: ../src/etats_prefs_private.h:47
 msgid "voucher"
 msgstr "Beleg"
@@ -480,12 +545,12 @@ msgstr "Beleg"
 msgid "financial year"
 msgstr "Geschäftsjahr"
 
-#: ../src/ui/etats_prefs.ui.h:38 ../src/etats_config.c:108
+#: ../src/ui/etats_prefs.ui.h:38 ../src/widgets/widget_cmp_text.ui.h:12
 #: ../src/etats_prefs_private.h:48
 msgid "bank reference"
 msgstr "Bank"
 
-#: ../src/ui/etats_prefs.ui.h:39 ../src/etats_config.c:111
+#: ../src/ui/etats_prefs.ui.h:39 ../src/widgets/widget_cmp_text.ui.h:15
 #: ../src/etats_prefs_private.h:49
 msgid "reconciliation reference"
 msgstr "Abstimmung Nr."
@@ -518,8 +583,8 @@ msgstr "Buchungen Aufruf"
 msgid "Make transactions clickable"
 msgstr "Buchungen sind aufrufbar"
 
-#: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:411
-#: ../src/grisbi_win.c:433 ../src/navigation.c:2076
+#: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:413
+#: ../src/grisbi_win.c:432 ../src/navigation.c:2077
 msgid "Accounts"
 msgstr "Konten"
 
@@ -533,10 +598,10 @@ msgstr "Eine Zwischensumme für jedes Konto anzeigen"
 
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:547
-#: ../src/etats_affiche.c:2484 ../src/etats_config.c:1779
-#: ../src/etats_prefs.c:416 ../src/export_csv.c:383 ../src/grisbi_win.c:470
+#: ../src/etats_affiche.c:2484 ../src/etats_config.c:972
+#: ../src/etats_prefs.c:418 ../src/export_csv.c:383 ../src/grisbi_win.c:469
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2011
-#: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:849
+#: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:919
 #: ../src/gsb_transactions_list.c:112 ../src/import.c:4292
 #: ../src/import_csv.c:74 ../src/meta_payee.c:79
 #: ../src/widgets/widget_loan.c:950 ../src/widgets/widget_transfer.c:917
@@ -555,8 +620,8 @@ msgstr "Eine Zwischensumme für jeden Empfänger anzeigen"
 
 #. set head page
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2033 ../src/bet_hist.c:2039
-#: ../src/categories_onglet.c:370 ../src/etats_prefs.c:421
-#: ../src/grisbi_win.c:480 ../src/navigation.c:2092
+#: ../src/categories_onglet.c:370 ../src/etats_prefs.c:423
+#: ../src/grisbi_win.c:479 ../src/navigation.c:2093
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
 #: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:359
@@ -587,9 +652,9 @@ msgstr "'Keine Unterkategorie' anzeigen wenn Daten nicht vorhanden sind"
 #. 8
 #. set head page
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2037
-#: ../src/etats_prefs.c:426 ../src/export_csv.c:404 ../src/grisbi_win.c:485
+#: ../src/etats_prefs.c:428 ../src/export_csv.c:404 ../src/grisbi_win.c:484
 #: ../src/import_csv.c:79 ../src/imputation_budgetaire.c:377
-#: ../src/navigation.c:2096 ../src/prefs/prefs_page_bet_account.c:158
+#: ../src/navigation.c:2097 ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
 #: ../src/prefs/prefs_page_bet_account.c:194 ../src/utils_widgets.c:362
 #: ../src/etats/etats_page_budget.c:90
@@ -656,23 +721,6 @@ msgstr "Keine Teilbuchungen von Splittbuchungen anzeigen"
 msgid "Select methods of payment to include: "
 msgstr "Zahlungsweisen für den Bericht auswählen"
 
-#: ../src/ui/etats_prefs.ui.h:76 ../src/widgets/widget_list_accounts.ui.h:1
-#: ../src/widgets/widget_list_metatree.ui.h:1 ../src/export.c:422
-#: ../src/gsb_assistant.c:129 ../src/tiers_onglet.c:1383
-#: ../src/tiers_onglet.c:1401 ../src/utils_buttons.c:125
-#: ../src/widgets/widget_list_accounts.c:135
-#: ../src/widgets/widget_list_metatree.c:178
-msgid "Select all"
-msgstr "Alle auswählen"
-
-#: ../src/ui/etats_prefs.ui.h:77 ../src/widgets/widget_list_accounts.ui.h:6
-msgid ""
-"<Ctrl> + left click of mouse\n"
-"to add at the selection"
-msgstr ""
-"<STRG> + Links Klick\n"
-"für Detailauswahl"
-
 #: ../src/ui/etats_prefs.ui.h:79
 msgid "Select the transactions by amount"
 msgstr "Buchungen nach Beträgen auswählen"
@@ -681,105 +729,60 @@ msgstr "Buchungen nach Beträgen auswählen"
 msgid "Exclude the transactions with a null amount"
 msgstr "Buchungen mit einem Betrag von 0 nicht berücksichtigen"
 
-#: ../src/ui/etats_prefs.ui.h:81
-msgid "Select transactions according to content"
-msgstr "Buchungen nach Text auswählen"
-
 #: ../src/ui/etats_prefs.ui.h:82
-msgid "Detail payees"
-msgstr "Buchungen nach Empfänger auswählen"
-
-#: ../src/ui/etats_prefs.ui.h:83
-msgid "Select payees to include in this report: "
-msgstr "Empfänger für den Bericht auswählen"
-
-#: ../src/ui/etats_prefs.ui.h:84
-msgid "<Ctrl> + left click of mouse to add to the selection"
-msgstr "<STRG> + Links Klick für Detailauswahl"
-
-#. Search
-#. Searching
-#: ../src/ui/etats_prefs.ui.h:85 ../src/ui/grisbi_menu.ui.h:27
-#: ../src/ui/search_transaction.ui.h:1 ../src/etats_onglet.c:893
-#: ../src/etats_onglet.c:1123 ../src/etats_onglet.c:1357
-#: ../src/gsb_transactions_list.c:572
-msgid "Search"
-msgstr "Buchungen suchen"
-
-#: ../src/ui/etats_prefs.ui.h:86
-msgid "Navigation"
-msgstr "Anordnung"
-
-#: ../src/ui/etats_prefs.ui.h:87
-msgid "First item"
-msgstr "Erstes Element"
-
-#: ../src/ui/etats_prefs.ui.h:88
-msgid "Prévious"
-msgstr "Vorheriges Element"
-
-#: ../src/ui/etats_prefs.ui.h:89
-msgid "Following"
-msgstr "Nachfolgendes Element"
-
-#: ../src/ui/etats_prefs.ui.h:90
-msgid "Last item"
-msgstr "Letztes Element"
-
-#: ../src/ui/etats_prefs.ui.h:91
 msgid "Group transactions"
 msgstr "Buchungen gruppieren"
 
-#: ../src/ui/etats_prefs.ui.h:92
+#: ../src/ui/etats_prefs.ui.h:83
 msgid "Group transactions by account"
 msgstr "Gruppierung nach Konto"
 
-#: ../src/ui/etats_prefs.ui.h:93
+#: ../src/ui/etats_prefs.ui.h:84
 msgid "Group transactions by payee"
 msgstr "Gruppierung nach Empfänger"
 
-#: ../src/ui/etats_prefs.ui.h:94
+#: ../src/ui/etats_prefs.ui.h:85
 msgid "Group transactions by category"
 msgstr "Gruppierung nach Kategorie"
 
-#: ../src/ui/etats_prefs.ui.h:95
+#: ../src/ui/etats_prefs.ui.h:86
 msgid "Group transactions by budgetary line"
 msgstr "Gruppierung nach Gruppe"
 
-#: ../src/ui/etats_prefs.ui.h:96
+#: ../src/ui/etats_prefs.ui.h:87
 msgid "Group level organisation"
 msgstr "Gruppierung Hierarchie"
 
-#: ../src/ui/etats_prefs.ui.h:97 ../src/etats_prefs.c:459
-#: ../src/etats_prefs.c:1729
+#: ../src/ui/etats_prefs.ui.h:88 ../src/etats_prefs.c:461
+#: ../src/etats_prefs.c:1186
 msgid "Data separation"
 msgstr "Daten Trennung"
 
-#: ../src/ui/etats_prefs.ui.h:98
+#: ../src/ui/etats_prefs.ui.h:89
 msgid "Split incomes and outgoings"
 msgstr "nach Einnahmen und Ausgaben"
 
-#: ../src/ui/etats_prefs.ui.h:99
+#: ../src/ui/etats_prefs.ui.h:90
 msgid "Split by financial year"
 msgstr "nach Geschäftsjahr"
 
-#: ../src/ui/etats_prefs.ui.h:100
+#: ../src/ui/etats_prefs.ui.h:91
 msgid "Split by period"
 msgstr "nach Zeitspanne"
 
-#: ../src/ui/etats_prefs.ui.h:101
+#: ../src/ui/etats_prefs.ui.h:92
 msgid "Separation by period"
 msgstr "Trennung nach Zeitspanne"
 
-#: ../src/ui/etats_prefs.ui.h:102
+#: ../src/ui/etats_prefs.ui.h:93
 msgid "Separation by time period: "
 msgstr "Zeitspanne: "
 
-#: ../src/ui/etats_prefs.ui.h:103
+#: ../src/ui/etats_prefs.ui.h:94
 msgid "Beginning of week: "
 msgstr "Wochenanfang: "
 
-#: ../src/ui/etats_prefs.ui.h:104
+#: ../src/ui/etats_prefs.ui.h:95
 msgid "title"
 msgstr "Bezeichnungen"
 
@@ -808,7 +811,7 @@ msgid "New account file"
 msgstr "Neu"
 
 #: ../src/ui/grisbi_menu.ui.h:7 ../src/grisbi_app.c:114 ../src/grisbi_app.c:131
-#: ../src/grisbi_win.c:688 ../src/grisbi_win.c:1671
+#: ../src/grisbi_win.c:685 ../src/grisbi_win.c:1667
 msgid "Open"
 msgstr "Öffnen"
 
@@ -876,7 +879,7 @@ msgstr "Buchung bearbeiten"
 #. new transaction button
 #: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:119
 #: ../src/grisbi_app.c:136 ../src/gsb_scheduler_list.c:352
-#: ../src/gsb_transactions_list.c:501 ../src/gsb_transactions_list.c:2485
+#: ../src/gsb_transactions_list.c:501 ../src/gsb_transactions_list.c:2505
 msgid "New transaction"
 msgstr "Buchung erstellen"
 
@@ -899,7 +902,7 @@ msgid "Convert to scheduled transaction"
 msgstr "Buchung regelmäßig ausführen"
 
 #: ../src/ui/grisbi_menu.ui.h:28 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/navigation.c:2246
+#: ../src/grisbi_app.c:137 ../src/navigation.c:2247
 msgid "New account"
 msgstr "Konto erstellen"
 
@@ -912,7 +915,7 @@ msgstr "Konto löschen"
 #. View button
 #. Change view mode button
 #: ../src/ui/grisbi_menu.ui.h:30 ../src/categories_onglet.c:621
-#: ../src/gsb_scheduler_list.c:1135 ../src/gsb_transactions_list.c:2530
+#: ../src/gsb_scheduler_list.c:1205 ../src/gsb_transactions_list.c:2550
 #: ../src/imputation_budgetaire.c:670 ../src/tiers_onglet.c:558
 msgid "View"
 msgstr "Ansicht"
@@ -927,7 +930,7 @@ msgid "Show reconciled"
 msgstr "Abgestimmte Buchungen anzeigen"
 
 #: ../src/ui/grisbi_menu.ui.h:33 ../src/grisbi_app.c:122
-#: ../src/grisbi_app.c:139 ../src/gsb_transactions_list.c:2443
+#: ../src/grisbi_app.c:139 ../src/gsb_transactions_list.c:2463
 msgid "Show lines archives"
 msgstr "Erstellte Archive anzeigen"
 
@@ -994,7 +997,7 @@ msgstr "Daten exportieren"
 #. Properties button
 #. edit button
 #: ../src/ui/grisbi_menu.ui.h:48 ../src/categories_onglet.c:609
-#: ../src/gsb_scheduler_list.c:1103 ../src/gsb_transactions_list.c:2503
+#: ../src/gsb_scheduler_list.c:1173 ../src/gsb_transactions_list.c:2523
 #: ../src/imputation_budgetaire.c:658 ../src/tiers_onglet.c:546
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -1352,8 +1355,8 @@ msgstr "Hilfe Anzeige"
 
 #. append group page "Generalities"
 #: ../src/ui/prefs_page_divers.ui.h:12
-#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:467
-#: ../src/etats_prefs.c:1787 ../src/grisbi_prefs.c:379
+#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:469
+#: ../src/etats_prefs.c:1244 ../src/grisbi_prefs.c:379
 msgid "Generalities"
 msgstr "Allgemein"
 
@@ -1415,8 +1418,8 @@ msgstr "Buchung in Übersicht"
 msgid "(This change will take effect on the next restart)"
 msgstr "(Diese Änderung wird nach dem nächsten Neustart wirksam)"
 
-#: ../src/ui/prefs_page_divers.ui.h:29 ../src/grisbi_win.c:465
-#: ../src/navigation.c:2080
+#: ../src/ui/prefs_page_divers.ui.h:29 ../src/grisbi_win.c:464
+#: ../src/navigation.c:2081
 msgid "Scheduler"
 msgstr "Planer"
 
@@ -1651,7 +1654,7 @@ msgstr "Anfang: "
 msgid "End: "
 msgstr "Ende: "
 
-#: ../src/ui/prefs_page_metatree.ui.h:1 ../src/etats_prefs.c:1988
+#: ../src/ui/prefs_page_metatree.ui.h:1 ../src/etats_prefs.c:1445
 msgid "Totals currencies"
 msgstr "Währungen"
 
@@ -1789,7 +1792,7 @@ msgid "Neutral"
 msgstr "Neutral"
 
 #: ../src/ui/prefs_page_payment_method.ui.h:10 ../src/bet_future.c:552
-#: ../src/bet_tab.c:1999 ../src/categories_onglet.c:778 ../src/export_csv.c:389
+#: ../src/bet_tab.c:2003 ../src/categories_onglet.c:778 ../src/export_csv.c:389
 #: ../src/gsb_form.c:2017 ../src/gsb_form_widget.c:554
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:83
 #: ../src/imputation_budgetaire.c:824
@@ -1800,7 +1803,7 @@ msgstr "Ausgaben"
 
 #. 11
 #: ../src/ui/prefs_page_payment_method.ui.h:11 ../src/bet_future.c:557
-#: ../src/bet_tab.c:2017 ../src/categories_onglet.c:778 ../src/export_csv.c:386
+#: ../src/bet_tab.c:2021 ../src/categories_onglet.c:778 ../src/export_csv.c:386
 #: ../src/gsb_form.c:2023 ../src/gsb_form_widget.c:558
 #: ../src/gsb_transactions_list.c:115 ../src/import_csv.c:82
 #: ../src/imputation_budgetaire.c:824
@@ -1976,10 +1979,114 @@ msgstr "Fax: "
 #: ../src/widgets/widget_bank_details.ui.h:11 ../src/bet_future.c:574
 #: ../src/etats_affiche.c:2505 ../src/export_csv.c:401 ../src/gsb_form.c:2044
 #: ../src/gsb_form_widget.c:586 ../src/gsb_scheduler_list.c:271
-#: ../src/gsb_scheduler_list.c:850 ../src/gsb_scheduler_list.c:1114
+#: ../src/gsb_scheduler_list.c:920 ../src/gsb_scheduler_list.c:1184
 #: ../src/gsb_transactions_list.c:124 ../src/import_csv.c:75
 msgid "Notes"
 msgstr "Notizen"
+
+#: ../src/widgets/widget_cmp_text.ui.h:1 ../src/etats_config.c:101
+#: ../src/etats_config.c:109
+msgid "and"
+msgstr "und"
+
+#: ../src/widgets/widget_cmp_text.ui.h:2 ../src/etats_config.c:102
+#: ../src/etats_config.c:110
+msgid "or"
+msgstr "oder"
+
+#: ../src/widgets/widget_cmp_text.ui.h:3 ../src/etats_config.c:103
+#: ../src/etats_config.c:111
+msgid "except"
+msgstr "ausgenommen"
+
+#: ../src/widgets/widget_cmp_text.ui.h:4
+msgid "Transactions whose "
+msgstr "Buchungen mit einem-/einer"
+
+#: ../src/widgets/widget_cmp_text.ui.h:6
+msgid "payee information"
+msgstr "Empfänger Informationen"
+
+#: ../src/widgets/widget_cmp_text.ui.h:11 ../src/etats_prefs_private.h:44
+msgid "note"
+msgstr "Notiz"
+
+#: ../src/widgets/widget_cmp_text.ui.h:14
+msgid "cheque number"
+msgstr "Schecknummer"
+
+#: ../src/widgets/widget_cmp_text.ui.h:16
+msgid "contains"
+msgstr "enthält"
+
+#: ../src/widgets/widget_cmp_text.ui.h:17
+msgid "doesn't contain"
+msgstr "nicht enthält"
+
+#: ../src/widgets/widget_cmp_text.ui.h:18
+msgid "begins with"
+msgstr "beginnt mit"
+
+#: ../src/widgets/widget_cmp_text.ui.h:19
+msgid "ends with"
+msgstr "endet mit"
+
+#: ../src/widgets/widget_cmp_text.ui.h:20
+msgid "is empty"
+msgstr "leer ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:21
+msgid "isn't empty"
+msgstr "nicht leer ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:22
+msgid "is "
+msgstr "welche"
+
+#: ../src/widgets/widget_cmp_text.ui.h:23 ../src/etats_config.c:118
+msgid "equal"
+msgstr "gleich ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:24 ../src/etats_config.c:119
+msgid "less than"
+msgstr "ungleich ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:25 ../src/etats_config.c:120
+msgid "less than or equal"
+msgstr "kleiner-/gleich ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:26 ../src/etats_config.c:121
+msgid "greater than"
+msgstr "größer ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:27 ../src/etats_config.c:122
+msgid "greater than or equal"
+msgstr "größer-/gleich ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:28 ../src/etats_config.c:123
+msgid "different from"
+msgstr "ungleich ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:29
+msgid "the biggest"
+msgstr "die größte ist"
+
+#: ../src/widgets/widget_cmp_text.ui.h:30 ../src/etats_config.c:1182
+#: ../src/etats_support.c:68
+msgid "at"
+msgstr "um"
+
+#: ../src/widgets/widget_cmp_text.ui.h:31 ../src/etats_config.c:112
+msgid "stop"
+msgstr "stopp"
+
+#: ../src/widgets/widget_cmp_text.ui.h:32 ../src/etats_config.c:484
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: ../src/widgets/widget_cmp_text.ui.h:33 ../src/etats_config.c:495
+msgid "Remove"
+msgstr "Entfernen"
 
 #: ../src/widgets/widget_css_rules.ui.h:2
 msgid "Text height of status bar: "
@@ -1993,7 +2100,7 @@ msgstr "Startseite"
 msgid "Transactions list"
 msgstr "Buchungsübersicht Zellen"
 
-#: ../src/widgets/widget_css_rules.ui.h:5 ../src/grisbi_win.c:442
+#: ../src/widgets/widget_css_rules.ui.h:5 ../src/grisbi_win.c:441
 msgid "Forecast"
 msgstr "Prognose"
 
@@ -2303,8 +2410,8 @@ msgstr "Die geplante Buchung in der Prognose ersetzen"
 msgid "Allows you to select the working day following the date entered"
 msgstr "Auswahl für Werktag"
 
-#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1499
-#: ../src/grisbi_win.c:1548
+#: ../share/grisbi.desktop.in.h:1 ../src/grisbi_win.c:1495
+#: ../src/grisbi_win.c:1544
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -2553,7 +2660,7 @@ msgstr "Kreditrechner anzeigen"
 
 #. Print list
 #: ../src/bet_finance_ui.c:891 ../src/bet_finance_ui.c:2089
-#: ../src/bet_hist.c:1892 ../src/bet_tab.c:1431 ../src/bet_tab.c:2089
+#: ../src/bet_hist.c:1892 ../src/bet_tab.c:1431 ../src/bet_tab.c:2093
 msgid "Print the array"
 msgstr "Auflistung Drucken"
 
@@ -2658,8 +2765,8 @@ msgid " of capital"
 msgstr " vom Kapital"
 
 #. titre de la page
-#: ../src/bet_finance_ui.c:1446 ../src/grisbi_win.c:475
-#: ../src/navigation.c:1306 ../src/navigation.c:2088
+#: ../src/bet_finance_ui.c:1446 ../src/grisbi_win.c:474
+#: ../src/navigation.c:1307 ../src/navigation.c:2089
 msgid "Credits simulator"
 msgstr "Kreditrechner"
 
@@ -2701,13 +2808,13 @@ msgstr "Kreditrechner"
 
 #. création du bouton print
 #. print button
-#: ../src/bet_finance_ui.c:2088 ../src/bet_hist.c:1891 ../src/bet_tab.c:2088
-#: ../src/etats_onglet.c:578 ../src/gsb_transactions_list.c:2521
+#: ../src/bet_finance_ui.c:2088 ../src/bet_hist.c:1891 ../src/bet_tab.c:2092
+#: ../src/etats_onglet.c:578 ../src/gsb_transactions_list.c:2541
 msgid "Print"
 msgstr "Drucken"
 
 #. Export button
-#: ../src/bet_finance_ui.c:2097 ../src/bet_hist.c:1900 ../src/bet_tab.c:2097
+#: ../src/bet_finance_ui.c:2097 ../src/bet_hist.c:1900 ../src/bet_tab.c:2101
 #: ../src/categories_onglet.c:588 ../src/etats_onglet.c:568 ../src/export.c:503
 #: ../src/imputation_budgetaire.c:636
 msgid "Export"
@@ -2718,26 +2825,26 @@ msgid " months "
 msgstr " Monate "
 
 #: ../src/bet_future.c:315 ../src/bet_future.c:1059
-#: ../src/gsb_form_scheduler.c:143 ../src/gsb_form_scheduler.c:874
-#: ../src/gsb_scheduler_list.c:1507
+#: ../src/gsb_form_scheduler.c:143 ../src/gsb_form_scheduler.c:880
+#: ../src/gsb_scheduler_list.c:1581
 msgid "Once"
 msgstr "einmal"
 
 #: ../src/bet_future.c:325 ../src/bet_future.c:1060
-#: ../src/gsb_form_scheduler.c:144 ../src/gsb_form_scheduler.c:884
+#: ../src/gsb_form_scheduler.c:144 ../src/gsb_form_scheduler.c:890
 #: ../src/etats/etats_page_period.c:94
 msgid "Custom"
 msgstr "benutzerdefiniert"
 
 #: ../src/bet_future.c:494 ../src/bet_future.c:1084
-#: ../src/gsb_form_scheduler.c:194 ../src/gsb_form_scheduler.c:646
-#: ../src/gsb_form_scheduler.c:833 ../src/gsb_form_scheduler.c:1095
+#: ../src/gsb_form_scheduler.c:194 ../src/gsb_form_scheduler.c:652
+#: ../src/gsb_form_scheduler.c:839 ../src/gsb_form_scheduler.c:1101
 msgid "Limit date"
 msgstr "Fälligkeitstermin"
 
 #: ../src/bet_future.c:497 ../src/bet_future.c:1108
-#: ../src/gsb_form_scheduler.c:207 ../src/gsb_form_scheduler.c:653
-#: ../src/gsb_form_scheduler.c:839
+#: ../src/gsb_form_scheduler.c:207 ../src/gsb_form_scheduler.c:659
+#: ../src/gsb_form_scheduler.c:845
 msgid "Own frequency"
 msgstr "eigene Frequenz"
 
@@ -2750,7 +2857,7 @@ msgid "Categories : Sub-categories"
 msgstr "Kategorien : Unterkategorien"
 
 #: ../src/bet_future.c:569 ../src/bet_hist.c:1587 ../src/etats_affiche.c:2498
-#: ../src/etats_config.c:1771 ../src/gsb_form.c:2038
+#: ../src/etats_config.c:964 ../src/gsb_form.c:2038
 #: ../src/gsb_form_widget.c:582 ../src/gsb_transactions_list.c:113
 #: ../src/imputation_budgetaire.c:183 ../src/meta_budgetary.c:88
 #: ../src/utils_widgets.c:109 ../src/widgets/widget_loan.c:1079
@@ -2773,27 +2880,27 @@ msgid "Choose the method of payment"
 msgstr "Zahlungsweise auswählen"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1507
+#: ../src/gsb_scheduler_list.c:1581
 msgid "Weekly"
 msgstr "wöchentlich"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1507 ../src/widgets/widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1581 ../src/widgets/widget_loan.c:866
 msgid "Monthly"
 msgstr "monatlich"
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1508
+#: ../src/gsb_scheduler_list.c:1582
 msgid "Bimonthly"
 msgstr "zweimonatlich"
 
 #: ../src/bet_future.c:1060 ../src/gsb_form_scheduler.c:144
-#: ../src/gsb_scheduler_list.c:1508 ../src/widgets/widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1582 ../src/widgets/widget_loan.c:866
 msgid "Quarterly"
 msgstr "vierteljährlich"
 
 #: ../src/bet_future.c:1060 ../src/gsb_form_scheduler.c:144
-#: ../src/gsb_scheduler_list.c:1508 ../src/widgets/widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1582 ../src/widgets/widget_loan.c:866
 msgid "Yearly"
 msgstr "jährlich"
 
@@ -2814,7 +2921,7 @@ msgid "Years"
 msgstr "Jahre"
 
 #: ../src/bet_future.c:1076 ../src/gsb_form_scheduler.c:176
-#: ../src/gsb_scheduler_list.c:850
+#: ../src/gsb_scheduler_list.c:920
 msgid "Frequency"
 msgstr "Frequenz"
 
@@ -3091,7 +3198,7 @@ msgstr "Auswählen"
 #. name of the div sous-div column
 #. 6
 #: ../src/bet_hist.c:513 ../src/bet_hist.c:1594 ../src/categories_onglet.c:180
-#: ../src/etats_affiche.c:2491 ../src/etats_config.c:1767
+#: ../src/etats_affiche.c:2491 ../src/etats_config.c:960
 #: ../src/export_csv.c:395 ../src/gsb_transactions_list.c:121
 #: ../src/import_csv.c:77 ../src/meta_categories.c:67 ../src/utils_widgets.c:96
 msgid "Category"
@@ -3100,8 +3207,8 @@ msgstr "Kategorie"
 #. on ajoute le montant
 #. 10
 #: ../src/bet_hist.c:534 ../src/categories_onglet.c:201
-#: ../src/etats_affiche.c:2546 ../src/etats_prefs.c:1129
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:850
+#: ../src/etats_affiche.c:2546 ../src/etats_prefs.c:586
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:920
 #: ../src/gsb_transactions_list.c:117 ../src/import.c:4299
 #: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:204
 #: ../src/tiers_onglet.c:735
@@ -3173,7 +3280,7 @@ msgstr " (überschritten)"
 msgid " (yet to receive)"
 msgstr " (erwartet)"
 
-#: ../src/bet_tab.c:376 ../src/bet_tab.c:2098
+#: ../src/bet_tab.c:376 ../src/bet_tab.c:2102
 msgid "Export the array of forecast"
 msgstr "Auflistung Exportieren"
 
@@ -3197,8 +3304,8 @@ msgstr "Keine Kategorie"
 msgid "No budgetary line"
 msgstr "Keine Gruppe"
 
-#: ../src/bet_tab.c:1033 ../src/bet_tab.c:1038 ../src/bet_tab.c:2314
-#: ../src/bet_tab.c:2326 ../src/bet_tab.c:2531
+#: ../src/bet_tab.c:1033 ../src/bet_tab.c:1038 ../src/bet_tab.c:2318
+#: ../src/bet_tab.c:2330 ../src/bet_tab.c:2535
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -3254,53 +3361,53 @@ msgstr "Saldo von Ausgabenkonto mit verzögerten Buchungen übernehmen"
 msgid "Reset data"
 msgstr "Daten zurücksetzen"
 
-#: ../src/bet_tab.c:1568
+#: ../src/bet_tab.c:1572
 msgid "Balance at "
 msgstr "Saldo am "
 
 #. on ajoute maintenant la frame pour la description
-#: ../src/bet_tab.c:1982 ../src/etats_onglet.c:861
+#: ../src/bet_tab.c:1986 ../src/etats_onglet.c:861
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../src/bet_tab.c:2036 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
-#: ../src/gsb_transactions_list.c:116 ../src/gsb_transactions_list.c:1671
+#: ../src/bet_tab.c:2040 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
+#: ../src/gsb_transactions_list.c:116 ../src/gsb_transactions_list.c:1672
 msgid "Balance"
 msgstr "Saldo"
 
-#: ../src/bet_tab.c:2107 ../src/gsb_scheduler_list.c:1125
+#: ../src/bet_tab.c:2111 ../src/gsb_scheduler_list.c:1195
 msgid "Execute"
 msgstr "Ausführen"
 
-#: ../src/bet_tab.c:2108
+#: ../src/bet_tab.c:2112
 msgid "Execute the balance of a deferred debit account"
 msgstr "Saldo von Ausgabenkonto mit verzögerten Buchungen übernehmen"
 
 #. set the titles of tabs module budget
-#: ../src/bet_tab.c:2774
+#: ../src/bet_tab.c:2778
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Voraussichtlicher Saldo für das Konto '%s' vom %s bis %s"
 
-#: ../src/bet_tab.c:2795
+#: ../src/bet_tab.c:2799
 msgid "balance beginning of period"
 msgstr "Saldo Anfangsperiode"
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:2909
+#: ../src/bet_tab.c:2913
 msgid "Start date: "
 msgstr "Beginndatum: "
 
-#: ../src/bet_tab.c:2926 ../src/gsb_form.c:1790
+#: ../src/bet_tab.c:2930 ../src/gsb_form.c:1790
 msgid "Auto"
 msgstr "automatisch"
 
-#: ../src/bet_tab.c:2929
+#: ../src/bet_tab.c:2933
 msgid "Check the box to automatically change start date"
 msgstr "Für eine automatische Änderung vom Beginndatum auswählen"
 
-#: ../src/categories_onglet.c:190 ../src/etats_config.c:1775
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:849
+#: ../src/categories_onglet.c:190 ../src/etats_config.c:968
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:919
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1144
 #: ../src/prefs/prefs_page_payment_method.c:1210
 #: ../src/prefs/prefs_page_reconcile.c:350 ../src/tiers_onglet.c:724
@@ -3388,7 +3495,7 @@ msgstr "Eine neue Unterkategorie erstellen"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:579 ../src/etats_onglet.c:559
-#: ../src/grisbi_prefs.c:395 ../src/grisbi_win.c:700 ../src/import.c:1827
+#: ../src/grisbi_prefs.c:395 ../src/grisbi_win.c:697 ../src/import.c:1827
 #: ../src/imputation_budgetaire.c:625 ../src/prefs/prefs_page_import.c:88
 #: ../src/utils_files.c:766
 msgid "Import"
@@ -3407,17 +3514,17 @@ msgstr "Kategorien (*.cgsb) exportieren"
 #. Delete button
 #. delete button
 #: ../src/categories_onglet.c:597 ../src/etats_onglet.c:587
-#: ../src/gsb_scheduler_list.c:1092 ../src/gsb_transactions_list.c:2494
+#: ../src/gsb_scheduler_list.c:1162 ../src/gsb_transactions_list.c:2514
 #: ../src/imputation_budgetaire.c:646 ../src/tiers_onglet.c:534
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../src/categories_onglet.c:601 ../src/navigation.c:2327
+#: ../src/categories_onglet.c:601 ../src/navigation.c:2328
 msgid "Delete selected category"
 msgstr "Die ausgewählte Kategorie löschen"
 
 #: ../src/categories_onglet.c:613 ../src/categories_onglet.c:1108
-#: ../src/navigation.c:2340
+#: ../src/navigation.c:2341
 msgid "Edit selected category"
 msgstr "Die ausgewählte Kategorie bearbeiten"
 
@@ -3434,7 +3541,7 @@ msgstr "Einfach"
 msgid "Subcategory view"
 msgstr "Unterkategorien"
 
-#: ../src/categories_onglet.c:673 ../src/gsb_transactions_list.c:2402
+#: ../src/categories_onglet.c:673 ../src/gsb_transactions_list.c:2422
 #: ../src/imputation_budgetaire.c:722 ../src/tiers_onglet.c:465
 msgid "Complete view"
 msgstr "Vollständig"
@@ -3699,7 +3806,7 @@ msgid "Do not show this message again"
 msgstr "Diese Meldung nicht mehr anzeigen"
 
 #: ../src/dialog.c:277 ../src/dialog.c:646 ../src/dialog.c:698
-#: ../src/gsb_scheduler_list.c:2899
+#: ../src/gsb_scheduler_list.c:2918
 msgid "Keep this choice and no longer see this message?"
 msgstr "Auswahl beibehalten und mit Meldung nicht mehr anzeigen?"
 
@@ -4017,13 +4124,13 @@ msgid "Result without financial year: "
 msgstr "Ergebnis ohne Geschäftsjahr "
 
 #: ../src/etats_affiche.c:1410 ../src/gsb_data_transaction.c:2832
-#: ../src/gsb_scheduler_list.c:1456
+#: ../src/gsb_scheduler_list.c:1530
 #, c-format
 msgid "Transfer to %s"
 msgstr "Umbuchen nach %s"
 
 #: ../src/etats_affiche.c:1412 ../src/gsb_data_transaction.c:2835
-#: ../src/gsb_scheduler_list.c:1461
+#: ../src/gsb_scheduler_list.c:1535
 #, c-format
 msgid "Transfer from %s"
 msgstr "Umbuchen von %s"
@@ -4136,8 +4243,8 @@ msgid "Financial year"
 msgstr "Geschäftsjahr"
 
 #. On récupère le nom de la page
-#: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:441
-#: ../src/etats_prefs.c:1220 ../src/grisbi_prefs.c:516
+#: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:443
+#: ../src/etats_prefs.c:677 ../src/grisbi_prefs.c:516
 #: ../src/prefs/prefs_page_payment_method.c:1285
 msgid "Payment methods"
 msgstr "Zahlungsweisen"
@@ -4184,148 +4291,38 @@ msgstr "Fortsetzen"
 msgid "Return to settings"
 msgstr "Einstellungen anzeigen"
 
-#: ../src/etats_config.c:102
-msgid "payee information"
-msgstr "Empfänger Informationen"
-
-#: ../src/etats_config.c:107 ../src/etats_prefs_private.h:44
-msgid "note"
-msgstr "Notiz"
-
-#: ../src/etats_config.c:110
-msgid "cheque number"
-msgstr "Schecknummer"
-
-#: ../src/etats_config.c:117
-msgid "contains"
-msgstr "enthält"
-
-#: ../src/etats_config.c:118
-msgid "doesn't contain"
-msgstr "nicht enthält"
-
-#: ../src/etats_config.c:119
-msgid "begins with"
-msgstr "beginnt mit"
-
-#: ../src/etats_config.c:120
-msgid "ends with"
-msgstr "endet mit"
-
-#: ../src/etats_config.c:121
-msgid "is empty"
-msgstr "leer ist"
-
-#: ../src/etats_config.c:122
-msgid "isn't empty"
-msgstr "nicht leer ist"
-
-#: ../src/etats_config.c:128 ../src/etats_config.c:148
-msgid "and"
-msgstr "und"
-
-#: ../src/etats_config.c:129 ../src/etats_config.c:149
-msgid "or"
-msgstr "oder"
-
-#: ../src/etats_config.c:130 ../src/etats_config.c:150
-msgid "except"
-msgstr "ausgenommen"
-
-#: ../src/etats_config.c:136 ../src/etats_config.c:157
-msgid "equal"
-msgstr "gleich ist"
-
-#: ../src/etats_config.c:137 ../src/etats_config.c:158
-msgid "less than"
-msgstr "ungleich ist"
-
-#: ../src/etats_config.c:138 ../src/etats_config.c:159
-msgid "less than or equal"
-msgstr "kleiner-/gleich ist"
-
-#: ../src/etats_config.c:139 ../src/etats_config.c:160
-msgid "greater than"
-msgstr "größer ist"
-
-#: ../src/etats_config.c:140 ../src/etats_config.c:161
-msgid "greater than or equal"
-msgstr "größer-/gleich ist"
-
-#: ../src/etats_config.c:141 ../src/etats_config.c:162
-msgid "different from"
-msgstr "ungleich ist"
-
-#: ../src/etats_config.c:142
-msgid "the biggest"
-msgstr "die größte ist"
-
-#: ../src/etats_config.c:151
-msgid "stop"
-msgstr "stopp"
-
-#: ../src/etats_config.c:163
+#: ../src/etats_config.c:124
 msgid "null"
 msgstr "leer ist"
 
-#: ../src/etats_config.c:164
+#: ../src/etats_config.c:125
 msgid "not null"
 msgstr "nicht leer ist"
 
-#: ../src/etats_config.c:165
+#: ../src/etats_config.c:126
 msgid "positive"
 msgstr "positiv ist"
 
-#: ../src/etats_config.c:166
+#: ../src/etats_config.c:127
 msgid "negative"
 msgstr "negativ ist"
 
-#: ../src/etats_config.c:291 ../src/etats_config.c:1478
-#: ../src/etats/etats_page_budget.c:218 ../src/etats/etats_page_category.c:216
+#: ../src/etats_config.c:198
+msgid "Transactions with an amount of"
+msgstr "Buchungen mit einem Betrag welcher"
+
+#: ../src/etats_config.c:206 ../src/etats_config.c:236
+msgid "to"
+msgstr "wie"
+
+#: ../src/etats_config.c:671 ../src/etats/etats_page_budget.c:218
+#: ../src/etats/etats_page_category.c:216 ../src/etats/etats_page_payee.c:816
 #: ../src/etats/etats_page_period.c:569
 #: ../src/widgets/widget_list_accounts.c:410
 msgid "Performance issue."
 msgstr "Performance Problem."
 
-#: ../src/etats_config.c:292
-msgid ""
-"All payees have been selected.  Grisbi will run faster without the \"Detail "
-"payees used\" option activated."
-msgstr ""
-"Es wurden alle Empfänger ausgewählt.\n"
-"Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
-
-#: ../src/etats_config.c:401
-msgid "Transactions whose "
-msgstr "Buchungen mit einem-/einer"
-
-#: ../src/etats_config.c:486
-msgid "is "
-msgstr "welche"
-
-#: ../src/etats_config.c:494 ../src/etats_config.c:1013
-#: ../src/etats_config.c:1043
-msgid "to"
-msgstr "wie"
-
-#: ../src/etats_config.c:526 ../src/etats_config.c:1989
-#: ../src/etats_support.c:68
-msgid "at"
-msgstr "um"
-
-#: ../src/etats_config.c:855 ../src/etats_config.c:1291
-msgid "Add"
-msgstr "Hinzufügen"
-
-#: ../src/etats_config.c:866 ../src/etats_config.c:1302
-msgid "Remove"
-msgstr "Entfernen"
-
-#: ../src/etats_config.c:1005
-msgid "Transactions with an amount of"
-msgstr "Buchungen mit einem Betrag welcher"
-
-#: ../src/etats_config.c:1479
+#: ../src/etats_config.c:672
 msgid ""
 "All methods of payment have been selected.  Grisbi will run faster without "
 "the \"Detail methods of payment used\" option activated."
@@ -4333,7 +4330,7 @@ msgstr ""
 "Es wurden alle Zahlungsweisen ausgewählt.\n"
 "Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
 
-#: ../src/etats_config.c:2007 ../src/etats_support.c:68
+#: ../src/etats_config.c:1200 ../src/etats_support.c:68
 #: ../src/etats_support.c:70
 msgid "Edited"
 msgstr "Bearbeiten"
@@ -4480,7 +4477,7 @@ msgid "Create a pdf file of the report"
 msgstr "PDF Datei von Bericht erstellen"
 
 #. New report button
-#: ../src/etats_onglet.c:550 ../src/navigation.c:2424
+#: ../src/etats_onglet.c:550 ../src/navigation.c:2425
 msgid "New report"
 msgstr "Bericht erstellen"
 
@@ -4504,7 +4501,7 @@ msgstr "Den ausgewählten Bericht drucken"
 msgid "Delete selected report"
 msgstr "Den ausgewählten Bericht löschen"
 
-#: ../src/etats_onglet.c:597 ../src/grisbi_win.c:455
+#: ../src/etats_onglet.c:597 ../src/grisbi_win.c:454
 msgid "Properties"
 msgstr "Eigenschaften"
 
@@ -4586,8 +4583,8 @@ msgstr "Einnahmen und Ausgaben letzter Monat"
 msgid "Unknown report type, creation cancelled"
 msgstr "Unbekannte Berichtart, die Erstellung wurde abgebrochen"
 
-#: ../src/etats_onglet.c:1197 ../src/grisbi_win.c:490 ../src/navigation.c:1342
-#: ../src/navigation.c:2100
+#: ../src/etats_onglet.c:1197 ../src/grisbi_win.c:489 ../src/navigation.c:1343
+#: ../src/navigation.c:2101
 msgid "Reports"
 msgstr "Berichte"
 
@@ -4605,7 +4602,8 @@ msgstr ""
 msgid "Searching"
 msgstr "Suchkriterium"
 
-#: ../src/etats_prefs.c:54 ../src/widgets/widget_list_accounts.c:59
+#: ../src/etats_prefs.c:56 ../src/etats/etats_page_payee.c:61
+#: ../src/widgets/widget_list_accounts.c:59
 msgid ""
 "Command-click\n"
 "to add to the selection"
@@ -4614,77 +4612,67 @@ msgstr ""
 "zum Hinzufügen zur Auswahl"
 
 #. append group page
-#: ../src/etats_prefs.c:397
+#: ../src/etats_prefs.c:399
 msgid "Data selection"
 msgstr "Daten Auswahl"
 
-#: ../src/etats_prefs.c:401
+#: ../src/etats_prefs.c:403
 msgid "Dates"
 msgstr "Datum"
 
 #. set head page
-#: ../src/etats_prefs.c:406 ../src/etats/etats_page_transfer.c:158
+#: ../src/etats_prefs.c:408 ../src/etats/etats_page_transfer.c:158
 msgid "Transfers"
 msgstr "Umbuchungen"
 
-#: ../src/etats_prefs.c:431
+#: ../src/etats_prefs.c:433
 msgid "Texts"
 msgstr "Texte"
 
-#: ../src/etats_prefs.c:436
+#: ../src/etats_prefs.c:438
 msgid "Amounts"
 msgstr "Beträge"
 
-#: ../src/etats_prefs.c:446 ../src/etats_prefs.c:1318
+#: ../src/etats_prefs.c:448 ../src/etats_prefs.c:775
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
 #. remplissage de l'onglet d'organisation
-#: ../src/etats_prefs.c:450
+#: ../src/etats_prefs.c:452
 msgid "Data organization"
 msgstr "Daten Zusammenstellung"
 
-#: ../src/etats_prefs.c:454 ../src/etats_prefs.c:1685
+#: ../src/etats_prefs.c:456 ../src/etats_prefs.c:1142
 msgid "Data grouping"
 msgstr "Daten Gruppierung"
 
 #. remplissage de l'onglet d'affichage
-#: ../src/etats_prefs.c:463
+#: ../src/etats_prefs.c:465
 msgid "Data display"
 msgstr "Daten Anzeige"
 
-#: ../src/etats_prefs.c:472 ../src/etats_prefs.c:1814
+#: ../src/etats_prefs.c:474 ../src/etats_prefs.c:1271
 msgid "Titles"
 msgstr "Bezeichnungen"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:477 ../src/export_csv.c:359 ../src/grisbi_prefs.c:438
-#: ../src/grisbi_win.c:437
+#: ../src/etats_prefs.c:479 ../src/export_csv.c:359 ../src/grisbi_prefs.c:438
+#: ../src/grisbi_win.c:436
 msgid "Transactions"
 msgstr "Buchungen"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:482 ../src/grisbi_prefs.c:494 ../src/gsb_currency.c:952
+#: ../src/etats_prefs.c:484 ../src/grisbi_prefs.c:494 ../src/gsb_currency.c:952
 #: ../src/prefs/prefs_page_currency.c:715
 msgid "Currencies"
 msgstr "Währungen"
 
-#. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_prefs.c:979 ../src/navigation.c:2084 ../src/tiers_onglet.c:714
-#: ../src/tiers_onglet.c:953
-msgid "Payees"
-msgstr "Empfänger"
-
-#: ../src/etats_prefs.c:1089
-msgid "Transaction content"
-msgstr "Buchung Text"
-
-#: ../src/etats_prefs.c:1915
+#: ../src/etats_prefs.c:1372
 msgid "Transactions display"
 msgstr "Buchungen auflisten"
 
-#: ../src/etats_prefs.c:2027
+#: ../src/etats_prefs.c:1484
 msgid "Report properties"
 msgstr "Bericht bearbeiten - Grisbi"
 
@@ -5087,10 +5075,10 @@ msgstr ""
 "Die anonymisierte Datei erhält den Namen %s und wird im Verzeichnis der "
 "Grisbi Datei erstellt.\n"
 "\n"
-"Bitte prüfen Sie ob der Fehler mit der anonymisierten Datei weiterhin"
-"reproduzierbar ist und\n"
-"erstellen Sie dann einen Fehlerbericht mit Mantis:"
-" https://www.grisbi.org/bugsreports/\n"
+"Bitte prüfen Sie ob der Fehler mit der anonymisierten Datei "
+"weiterhinreproduzierbar ist und\n"
+"erstellen Sie dann einen Fehlerbericht mit Mantis: https://www.grisbi.org/"
+"bugsreports/\n"
 "\n"
 "Die anonymisierte Datei wird in Textform abgespeichert, Sie können den "
 "Inhalt jederzeit mit einem Texteditor prüfen.\n"
@@ -5639,7 +5627,7 @@ msgstr "Buchung verrechnen\t\t-> <Ctrl>p, <Ctrl>F12\n"
 msgid "(Un)Reconcile a transaction\t\t-> <Ctrl>r\n"
 msgstr "Buchung abstimmen\t\t-> <Ctrl>r\n"
 
-#: ../src/grisbi_conf.c:1155
+#: ../src/grisbi_conf.c:1162
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Die Datei kann nicht gespeichert werden '%s': %s"
@@ -5659,7 +5647,7 @@ msgstr "Archive"
 msgid "Various settings"
 msgstr "Allgemeines"
 
-#: ../src/grisbi_prefs.c:405 ../src/grisbi_win.c:423
+#: ../src/grisbi_prefs.c:405 ../src/grisbi_win.c:422
 msgid "Main page"
 msgstr "Startseite"
 
@@ -5769,63 +5757,63 @@ msgstr "Konten Einstellungen"
 msgid "Preferences stop"
 msgstr "Einstellungen Ende"
 
-#: ../src/grisbi_win.c:386
+#: ../src/grisbi_win.c:385
 msgid "Transaction/Scheduled _form"
 msgstr "Buchungsformular"
 
-#: ../src/grisbi_win.c:446
+#: ../src/grisbi_win.c:445
 msgid "Historical data"
 msgstr "Daten Historie"
 
-#: ../src/grisbi_win.c:451
+#: ../src/grisbi_win.c:450
 msgid "Amortization array"
 msgstr "Tilgungsplan"
 
-#: ../src/grisbi_win.c:676
+#: ../src/grisbi_win.c:673
 msgid "New"
 msgstr "Neu"
 
-#: ../src/grisbi_win.c:678
+#: ../src/grisbi_win.c:675
 msgid "Create a new account file"
 msgstr "Eine neue Datei erstellen"
 
-#: ../src/grisbi_win.c:690
+#: ../src/grisbi_win.c:687
 msgid "Open an existing account file"
 msgstr "Eine vorhandene Datei öffnen"
 
-#: ../src/grisbi_win.c:702
+#: ../src/grisbi_win.c:699
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "Daten importieren"
 
-#: ../src/grisbi_win.c:1374
+#: ../src/grisbi_win.c:1370
 msgid "Unnamed account"
 msgstr "Konto ohne Namen"
 
-#: ../src/grisbi_win.c:1396 ../src/gsb_transactions_list.c:549
+#: ../src/grisbi_win.c:1392 ../src/gsb_transactions_list.c:549
 msgid "Move transaction to another account"
 msgstr "Buchung verschieben nach"
 
-#: ../src/grisbi_win.c:1555 ../src/gsb_file.c:396 ../src/gsb_file.c:427
+#: ../src/grisbi_win.c:1551 ../src/gsb_file.c:396 ../src/gsb_file.c:427
 msgid "unnamed"
 msgstr "Unbenannt"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:1854
+#: ../src/grisbi_win.c:1850
 msgid "Creating main window"
 msgstr "Hauptfenster erstellen"
 
-#: ../src/grisbi_win.c:1866
+#: ../src/grisbi_win.c:1862
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
 msgstr "Das Modell für die Liste konnte nicht erstellt werden..."
 
-#: ../src/gsb_account.c:177
+#: ../src/gsb_account.c:178
 #, c-format
 msgid "Delete account \"%s\"?"
 msgstr "Das Konto \"%s\" löschen?"
 
-#: ../src/gsb_account.c:180
+#: ../src/gsb_account.c:181
 msgid ""
 "This will irreversibly remove this account and all operations that were "
 "previously contained.  There is no undo for this. Usually it's a better way "
@@ -6940,7 +6928,7 @@ msgstr ""
 "no_column = %d\n"
 
 #. Avertissement avant renommage du compte
-#: ../src/gsb_data_account.c:3767
+#: ../src/gsb_data_account.c:3747
 #, c-format
 msgid ""
 "The account \"%s\" has the number 0 which creates a bug in certain "
@@ -6949,7 +6937,7 @@ msgstr ""
 "Das Konto \"%s\" hat die Nummer 0, diese Nummer kann in einigen Fällen einen "
 "Fehler verursachen. Die Nummerierung wird auf \"%d\" geändert."
 
-#: ../src/gsb_data_account.c:3772
+#: ../src/gsb_data_account.c:3752
 msgid "Rename account \"0\""
 msgstr "Konto \"0\" umbenennen"
 
@@ -8443,7 +8431,7 @@ msgstr "Kein Empfänger definiert"
 #. on récupère le nom de l'état
 #: ../src/gsb_data_payee.c:612 ../src/gsb_form.c:1021 ../src/gtk_combofix.c:389
 #: ../src/gtk_combofix.c:590 ../src/gtk_combofix.c:2355
-#: ../src/gtk_combofix.c:2478 ../src/navigation.c:1340
+#: ../src/gtk_combofix.c:2478 ../src/navigation.c:1341
 msgid "Report"
 msgstr "Bericht"
 
@@ -8948,7 +8936,7 @@ msgstr ""
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi Datei... der Ladevorgang wird abgebrochen."
 
-#: ../src/gsb_file_load.c:3947 ../src/gsb_file_save.c:1903
+#: ../src/gsb_file_load.c:3946 ../src/gsb_file_save.c:1903
 #: ../src/utils_prefs.c:759
 #, c-format
 msgid ""
@@ -8958,17 +8946,17 @@ msgstr ""
 "Diese Version von Grisbi unterstützt keine Verschlüsselung.\n"
 "Bitte rekompilieren Sie Grisbi mit OpenSSL Unterstützung."
 
-#: ../src/gsb_file_load.c:3950
+#: ../src/gsb_file_load.c:3949
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
 
-#: ../src/gsb_file_load.c:3967
+#: ../src/gsb_file_load.c:3966
 #, c-format
 msgid "'%s' is not a valid UTF8 file"
 msgstr "'%s' ist keine gültige UTF-8 Datei"
 
-#: ../src/gsb_file_load.c:3970
+#: ../src/gsb_file_load.c:3969
 #, c-format
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
@@ -8977,15 +8965,15 @@ msgstr ""
 "Bitte Auswählen ob die Datei korrigiert oder ob eine andere Datei geöffnet "
 "werden soll.\n"
 
-#: ../src/gsb_file_load.c:3976
+#: ../src/gsb_file_load.c:3975
 msgid "Load another file"
 msgstr "Andere Datei öffnen"
 
-#: ../src/gsb_file_load.c:3977
+#: ../src/gsb_file_load.c:3976
 msgid "Correct the file"
 msgstr "Datei korrigieren"
 
-#: ../src/gsb_file_load.c:4077
+#: ../src/gsb_file_load.c:4074
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -8996,11 +8984,11 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: ../src/gsb_file_load.c:4081
+#: ../src/gsb_file_load.c:4078
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
-#: ../src/gsb_file_load.c:4091
+#: ../src/gsb_file_load.c:4088
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -9015,13 +9003,13 @@ msgstr ""
 "Die Symbole und Farben müssen neu angepasst werden, die Verschlüsselung kann "
 "nicht weiterverwendet werden."
 
-#: ../src/gsb_file_load.c:4097
+#: ../src/gsb_file_load.c:4094
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr "Grisbi Datei aus einer Vorversion öffnen"
 
 #. the first time we come here, we check if it's a Grisbi file
-#: ../src/gsb_file_load.c:4524
+#: ../src/gsb_file_load.c:4521
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -9304,7 +9292,7 @@ msgid "Transfer : Deleted account"
 msgstr "Umbuchung : geschlossenes Konto"
 
 #: ../src/gsb_form.c:1792 ../src/gsb_form_scheduler.c:142
-#: ../src/gsb_scheduler_list.c:1521
+#: ../src/gsb_scheduler_list.c:1595
 msgid "Manual"
 msgstr "manuell"
 
@@ -9332,7 +9320,7 @@ msgstr "Barzahlung"
 msgid "No payee selected for this report."
 msgstr "Für den Bericht wurden keine Empfänger ausgewählt."
 
-#: ../src/gsb_form_scheduler.c:142 ../src/gsb_scheduler_list.c:1519
+#: ../src/gsb_form_scheduler.c:142 ../src/gsb_scheduler_list.c:1593
 msgid "Automatic"
 msgstr "automatisch"
 
@@ -9344,12 +9332,12 @@ msgstr "Konto auswählen - Grisbi"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Automatische/manuell geplante Buchung"
 
-#: ../src/gsb_form_scheduler.c:1251
+#: ../src/gsb_form_scheduler.c:1257
 #, c-format
 msgid "Keep the %d"
 msgstr "%d behalten"
 
-#: ../src/gsb_form_scheduler.c:1252
+#: ../src/gsb_form_scheduler.c:1258
 #, c-format
 msgid ""
 "Do you want to keep the \"%d\" as the date or to force the last day of the "
@@ -9360,11 +9348,11 @@ msgstr ""
 "letzte Datum vom Monat geändert werden?\n"
 "\n"
 
-#: ../src/gsb_form_scheduler.c:1257
+#: ../src/gsb_form_scheduler.c:1263
 msgid "This is the last day of the month"
 msgstr "Letzter Buchungstag im Monat"
 
-#: ../src/gsb_form_scheduler.c:1261
+#: ../src/gsb_form_scheduler.c:1267
 msgid "Force the last day of the month"
 msgstr "Letzten Buchungstag im Monat verwenden"
 
@@ -9681,7 +9669,7 @@ msgstr "Geplante Buchungen"
 msgid "Frequency/Mode"
 msgstr "Frequenz / Art"
 
-#: ../src/gsb_scheduler_list.c:279 ../src/gsb_scheduler_list.c:1116
+#: ../src/gsb_scheduler_list.c:279 ../src/gsb_scheduler_list.c:1186
 msgid "Display the notes of scheduled transactions"
 msgstr "Spalte Notizen anzeigen"
 
@@ -9703,56 +9691,56 @@ msgstr "Frequenz / Art anzeigen"
 msgid "Execute transaction"
 msgstr "Buchung ausführen"
 
-#: ../src/gsb_scheduler_list.c:850
+#: ../src/gsb_scheduler_list.c:920
 msgid "Mode"
 msgstr "Art"
 
 #. new scheduled button
-#: ../src/gsb_scheduler_list.c:1081
+#: ../src/gsb_scheduler_list.c:1151
 msgid "New scheduled"
 msgstr "Geplante Buchung erstellen"
 
-#: ../src/gsb_scheduler_list.c:1083
+#: ../src/gsb_scheduler_list.c:1153
 msgid "Prepare form to create a new scheduled transaction"
 msgstr "Eine neue Buchung erstellen"
 
-#: ../src/gsb_scheduler_list.c:1095
+#: ../src/gsb_scheduler_list.c:1165
 msgid "Delete selected scheduled transaction"
 msgstr "Die ausgewählte Buchung löschen"
 
-#: ../src/gsb_scheduler_list.c:1105
+#: ../src/gsb_scheduler_list.c:1175
 msgid "Edit selected transaction"
 msgstr "Die ausgewählte Buchung bearbeiten"
 
-#: ../src/gsb_scheduler_list.c:1127
+#: ../src/gsb_scheduler_list.c:1197
 msgid "Execute current scheduled transaction"
 msgstr "Die ausgewählte Buchung ausführen"
 
-#: ../src/gsb_scheduler_list.c:1137
+#: ../src/gsb_scheduler_list.c:1207
 msgid "Change display mode of scheduled transaction list"
 msgstr "Die Darstellung ändern"
 
-#: ../src/gsb_scheduler_list.c:1484
+#: ../src/gsb_scheduler_list.c:1558
 #, c-format
 msgid "%d days"
 msgstr "%d Tage"
 
-#: ../src/gsb_scheduler_list.c:1489
+#: ../src/gsb_scheduler_list.c:1563
 #, c-format
 msgid "%d weeks"
 msgstr "%d Wochen"
 
-#: ../src/gsb_scheduler_list.c:1494
+#: ../src/gsb_scheduler_list.c:1568
 #, c-format
 msgid "%d months"
 msgstr "%d Monate"
 
-#: ../src/gsb_scheduler_list.c:1499
+#: ../src/gsb_scheduler_list.c:1573
 #, c-format
 msgid "%d years"
 msgstr "%d Jahre"
 
-#: ../src/gsb_scheduler_list.c:1661
+#: ../src/gsb_scheduler_list.c:1735
 #, c-format
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
@@ -9772,17 +9760,17 @@ msgstr ""
 "\n"
 "Sollen die betroffenen Einträge entfernt werden?"
 
-#: ../src/gsb_scheduler_list.c:1667 ../src/gsb_transactions_list.c:2141
+#: ../src/gsb_scheduler_list.c:1741 ../src/gsb_transactions_list.c:2161
 msgid "Remove orphan children"
 msgstr "Verwaiste Unterelemente löschen"
 
-#: ../src/gsb_scheduler_list.c:1850 ../src/transaction_list.c:175
+#: ../src/gsb_scheduler_list.c:1875 ../src/transaction_list.c:175
 #: ../src/transaction_list.c:488 ../src/transaction_list.c:1398
 #, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "Gesamt : %s (variiert : %s)"
 
-#: ../src/gsb_scheduler_list.c:2365
+#: ../src/gsb_scheduler_list.c:2384
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -9797,7 +9785,7 @@ msgstr ""
 "wird..."
 
 #. ask all the time for a child
-#: ../src/gsb_scheduler_list.c:2804
+#: ../src/gsb_scheduler_list.c:2823
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -9806,13 +9794,13 @@ msgstr "Soll die geplante Teilbuchung mit dem Empfänger '%s' gelöscht werden?"
 
 #. for a normal scheduled, ask only if no frequency, else, it will
 #. * have another dialog to delete the occurence or the transaction
-#: ../src/gsb_scheduler_list.c:2821
+#: ../src/gsb_scheduler_list.c:2840
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Soll die geplante Buchung mit dem Empfänger '%s' gelöscht werden?"
 
-#: ../src/gsb_scheduler_list.c:2875
+#: ../src/gsb_scheduler_list.c:2894
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -9824,15 +9812,15 @@ msgstr ""
 "\n"
 "%s : %s [%s %s]"
 
-#: ../src/gsb_scheduler_list.c:2889
+#: ../src/gsb_scheduler_list.c:2908
 msgid "Delete this scheduled transaction?"
 msgstr "Geplante Buchung löschen"
 
-#: ../src/gsb_scheduler_list.c:2893
+#: ../src/gsb_scheduler_list.c:2912
 msgid "All the occurrences"
 msgstr "Gesamte Buchung"
 
-#: ../src/gsb_scheduler_list.c:2894
+#: ../src/gsb_scheduler_list.c:2913
 msgid "Only this one"
 msgstr "Nur diese Buchung"
 
@@ -9965,7 +9953,7 @@ msgstr ""
 "Soll der Vorgang fortgesetzt werden?"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:1577 ../src/gsb_transactions_list.c:3054
+#: ../src/gsb_transactions_list.c:1577 ../src/gsb_transactions_list.c:3074
 msgid "R"
 msgstr "A"
 
@@ -9989,31 +9977,31 @@ msgid "Marking a transaction as R"
 msgstr "Eine Buchung als verrechnet markieren"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:1677
+#: ../src/gsb_transactions_list.c:1689
 msgid "Sort list by: "
 msgstr "Spalte sortieren nach: "
 
-#: ../src/gsb_transactions_list.c:1722
+#: ../src/gsb_transactions_list.c:1735
 msgid "alignment: "
 msgstr "Ausrichtung: "
 
-#: ../src/gsb_transactions_list.c:1730
+#: ../src/gsb_transactions_list.c:1743
 msgid "LEFT"
 msgstr "Links"
 
-#: ../src/gsb_transactions_list.c:1745
+#: ../src/gsb_transactions_list.c:1758
 msgid "CENTER"
 msgstr "Zentriert"
 
-#: ../src/gsb_transactions_list.c:1760
+#: ../src/gsb_transactions_list.c:1773
 msgid "RIGHT"
 msgstr "Rechts"
 
-#: ../src/gsb_transactions_list.c:2076
+#: ../src/gsb_transactions_list.c:2096
 msgid "Do you really want to delete this file import rule?"
 msgstr "Soll die Importregel gelöscht werden?"
 
-#: ../src/gsb_transactions_list.c:2135
+#: ../src/gsb_transactions_list.c:2155
 #, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -10033,90 +10021,90 @@ msgstr ""
 "\n"
 "Sollen die betroffenen Einträge entfernt werden?"
 
-#: ../src/gsb_transactions_list.c:2313
+#: ../src/gsb_transactions_list.c:2333
 msgid "Edit the rule"
 msgstr "Regel bearbeiten"
 
-#: ../src/gsb_transactions_list.c:2321
+#: ../src/gsb_transactions_list.c:2341
 msgid "Remove the rule"
 msgstr "Regel entfernen"
 
-#: ../src/gsb_transactions_list.c:2384
+#: ../src/gsb_transactions_list.c:2404
 msgid "Simple view"
 msgstr "Einzeilig"
 
-#: ../src/gsb_transactions_list.c:2390
+#: ../src/gsb_transactions_list.c:2410
 msgid "Two lines view"
 msgstr "Zweizeilig"
 
-#: ../src/gsb_transactions_list.c:2396
+#: ../src/gsb_transactions_list.c:2416
 msgid "Three lines view"
 msgstr "Dreizeilig"
 
-#: ../src/gsb_transactions_list.c:2429
+#: ../src/gsb_transactions_list.c:2449
 msgid "Show reconciled transactions"
 msgstr "Abgestimmte Buchungen anzeigen"
 
-#: ../src/gsb_transactions_list.c:2486
+#: ../src/gsb_transactions_list.c:2506
 msgid "Blank the form to create a new transaction"
 msgstr "Eine neue Buchung erstellen"
 
-#: ../src/gsb_transactions_list.c:2495
+#: ../src/gsb_transactions_list.c:2515
 msgid "Delete selected transaction"
 msgstr "Die ausgewählte Buchung löschen"
 
-#: ../src/gsb_transactions_list.c:2504
+#: ../src/gsb_transactions_list.c:2524
 msgid "Edit current transaction"
 msgstr "Die ausgewählte Buchung bearbeiten"
 
 #. reconcile button
-#: ../src/gsb_transactions_list.c:2512
+#: ../src/gsb_transactions_list.c:2532
 msgid "Reconcile"
 msgstr "Abstimmen"
 
-#: ../src/gsb_transactions_list.c:2513
+#: ../src/gsb_transactions_list.c:2533
 msgid "Start account reconciliation"
 msgstr "Das Konto abstimmen"
 
-#: ../src/gsb_transactions_list.c:2522
+#: ../src/gsb_transactions_list.c:2542
 msgid "Print the transactions list"
 msgstr "Buchungen drucken"
 
-#: ../src/gsb_transactions_list.c:2531
+#: ../src/gsb_transactions_list.c:2551
 msgid "Change display mode of the list"
 msgstr "Die Darstellung ändern"
 
 #. select the rule
-#: ../src/gsb_transactions_list.c:2539
+#: ../src/gsb_transactions_list.c:2559
 msgid "Import rules"
 msgstr "Import Regeln"
 
-#: ../src/gsb_transactions_list.c:2540
+#: ../src/gsb_transactions_list.c:2560
 msgid "Quick file import by rules"
 msgstr "Import basierend auf Regeln"
 
 #. archive button
-#: ../src/gsb_transactions_list.c:2555
+#: ../src/gsb_transactions_list.c:2575
 msgid "Recreates archive"
 msgstr "Archiv anzeigen"
 
-#: ../src/gsb_transactions_list.c:2557
+#: ../src/gsb_transactions_list.c:2577
 msgid "Recreates the line of the archive and hiding the transactions"
 msgstr "Anzeige von Zeile mit Archiv und Ausblendung von Buchungen aus Archiv"
 
-#: ../src/gsb_transactions_list.c:3046
+#: ../src/gsb_transactions_list.c:3066
 msgid "P"
 msgstr "V"
 
-#: ../src/gsb_transactions_list.c:3050
+#: ../src/gsb_transactions_list.c:3070
 msgid "T"
 msgstr "T"
 
-#: ../src/gsb_transactions_list.c:3472
+#: ../src/gsb_transactions_list.c:3492
 msgid "Impossible to delete an archived transaction."
 msgstr "Die archivierte Buchung konnte nicht gelöscht werden."
 
-#: ../src/gsb_transactions_list.c:3481
+#: ../src/gsb_transactions_list.c:3501
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -10128,18 +10116,18 @@ msgstr ""
 "\"unabgestimmt\" sein. Sie können die die Abstimmung für die ausgewählte "
 "Buchung mit STRG+R aufheben."
 
-#: ../src/gsb_transactions_list.c:3497
+#: ../src/gsb_transactions_list.c:3517
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr "Soll die Teilbuchung mit dem Empfänger '%s' gelöscht werden?"
 
-#: ../src/gsb_transactions_list.c:3506
+#: ../src/gsb_transactions_list.c:3526
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr "Soll die Buchung mit dem Empfänger '%s' gelöscht werden?"
 
-#: ../src/gsb_transactions_list.c:4214 ../src/gsb_transactions_list.c:4329
+#: ../src/gsb_transactions_list.c:4234 ../src/gsb_transactions_list.c:4349
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -10152,7 +10140,7 @@ msgstr ""
 "\n"
 "Die Nummern der betroffenen untergeordneten Einträge sind : \n"
 
-#: ../src/gsb_transactions_list.c:4246 ../src/gsb_transactions_list.c:4355
+#: ../src/gsb_transactions_list.c:4266 ../src/gsb_transactions_list.c:4375
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -10867,12 +10855,12 @@ msgstr "Gruppen (*.igsb) importieren"
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Gruppen (*.igsb) exportieren"
 
-#: ../src/imputation_budgetaire.c:650 ../src/navigation.c:2379
+#: ../src/imputation_budgetaire.c:650 ../src/navigation.c:2380
 msgid "Delete selected budgetary line"
 msgstr "Die ausgewählte Gruppe löschen"
 
 #: ../src/imputation_budgetaire.c:662 ../src/imputation_budgetaire.c:1150
-#: ../src/navigation.c:2392
+#: ../src/navigation.c:2393
 msgid "Edit selected budgetary line"
 msgstr "Die ausgewählte Gruppe bearbeiten"
 
@@ -10965,7 +10953,7 @@ msgid "No sub-category"
 msgstr "Keine Unterkategorie"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:284 ../src/navigation.c:2320
+#: ../src/meta_categories.c:284 ../src/navigation.c:2321
 msgid "New category"
 msgstr "Kategorie erstellen"
 
@@ -10989,7 +10977,7 @@ msgstr "Kein Teil-Empfänger"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:371 ../src/navigation.c:2268 ../src/tiers_onglet.c:525
+#: ../src/meta_payee.c:371 ../src/navigation.c:2269 ../src/tiers_onglet.c:525
 msgid "New payee"
 msgstr "Empfänger erstellen"
 
@@ -11221,49 +11209,56 @@ msgstr "Letzte Abstimmung: -"
 msgid "closed"
 msgstr "Geschlossen"
 
-#: ../src/navigation.c:2258
+#. on fixe le titre et le suffixe de la barre d'information
+#. set head page
+#: ../src/navigation.c:2085 ../src/tiers_onglet.c:714 ../src/tiers_onglet.c:953
+#: ../src/etats/etats_page_payee.c:623
+msgid "Payees"
+msgstr "Empfänger"
+
+#: ../src/navigation.c:2259
 msgid "Remove this account"
 msgstr "Konto löschen"
 
-#: ../src/navigation.c:2275 ../src/tiers_onglet.c:538
+#: ../src/navigation.c:2276 ../src/tiers_onglet.c:538
 msgid "Delete selected payee"
 msgstr "Den ausgewählten Empfänger löschen"
 
-#: ../src/navigation.c:2288 ../src/tiers_onglet.c:550
+#: ../src/navigation.c:2289 ../src/tiers_onglet.c:550
 msgid "Edit selected payee"
 msgstr "Den ausgewählten Empfänger bearbeiten"
 
 #. Manage payees button
-#: ../src/navigation.c:2304 ../src/tiers_onglet.c:567
+#: ../src/navigation.c:2305 ../src/tiers_onglet.c:567
 msgid "Manage payees"
 msgstr "Empfänger verwalten"
 
 #. Remove unused payees button
-#: ../src/navigation.c:2311 ../src/tiers_onglet.c:576
+#: ../src/navigation.c:2312 ../src/tiers_onglet.c:576
 msgid "Remove unused payees"
 msgstr "Verwaiste löschen"
 
-#: ../src/navigation.c:2356
+#: ../src/navigation.c:2357
 msgid "Import a file of categories (.cgsb)"
 msgstr "Kategorien (*.cgsb) importieren"
 
-#: ../src/navigation.c:2363
+#: ../src/navigation.c:2364
 msgid "Export the list of categories (.cgsb)"
 msgstr "Kategorien (*.cgsb) exportieren"
 
-#: ../src/navigation.c:2372
+#: ../src/navigation.c:2373
 msgid "New budgetary line"
 msgstr "Gruppe erstellen"
 
-#: ../src/navigation.c:2408
+#: ../src/navigation.c:2409
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "Gruppen (*.igsb) importieren"
 
-#: ../src/navigation.c:2415
+#: ../src/navigation.c:2416
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "Gruppen (*.igsb) exportieren"
 
-#: ../src/navigation.c:2435
+#: ../src/navigation.c:2436
 msgid "Remove this report"
 msgstr "Den ausgewählten Bericht löschen"
 
@@ -12935,6 +12930,14 @@ msgstr ""
 "Es wurden alle Kategorien ausgewählt.\n"
 "Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
 
+#: ../src/etats/etats_page_payee.c:817
+msgid ""
+"All payees have been selected.  Grisbi will run faster without the \"Detail "
+"payees used\" option activated."
+msgstr ""
+"Es wurden alle Empfänger ausgewählt.\n"
+"Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
+
 #: ../src/etats/etats_page_period.c:93
 msgid "All"
 msgstr "alle"
@@ -13013,6 +13016,11 @@ msgstr "Ungültiges Beginndatum '%s'"
 #, c-format
 msgid "Invalid final date '%s'"
 msgstr "Ungültiges Enddatum '%s'"
+
+#. set head page
+#: ../src/etats/etats_page_text.c:294
+msgid "Transaction content"
+msgstr "Buchung Text"
 
 #: ../src/widgets/widget_css_rules.c:270
 #, c-format
