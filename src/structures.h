@@ -27,8 +27,6 @@
 #define ETAT_WWW_BROWSER        "xdg-open"          /* définit le browser par défaut */
 #endif
 
-#define ETATS_MAX_OPES			3000				/* Nombre d'opérations sélectionnées avant avertissement */
-
 /* Nbre de messages de delete et de warnings */
 #define NBRE_MSG_WARNINGS		9
 #define NBRE_MSG_DELETE			7
