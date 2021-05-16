@@ -75,7 +75,7 @@ msgstr "Détailler les imputations budgétaires utilisées"
 
 #: ../src/etats/etats_page_budget.ui.h:2
 msgid "Select budget allocations to include: "
-msgstr "Sélectionner les catégories à inclure dans l'état : "
+msgstr "Sélectionner les imputations budgétaires à inclure dans l'état : "
 
 #: ../src/etats/etats_page_category.ui.h:1
 msgid "Detail categories"
