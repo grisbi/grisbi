@@ -2,6 +2,7 @@
 
 AM_CPPFLAGS = -I$(top_srcdir) \
 			  -I$(top_srcdir)/src \
+			  -I$(top_srcdir)/src/etats \
 			  -I$(top_srcdir)/src/prefs \
 			  $(GLIB_CFLAGS) $(GTK_CFLAGS) $(LIBWIDGETS_CFLAGS)
 
@@ -10,6 +11,8 @@ noinst_LTLIBRARIES = libwidgets.la
 libwidgets_la_SOURCES = \
 	widget_bank_details.c \
 	widget_bank_details.h \
+	widget_cmp_text.c \
+	widget_cmp_text.h \
 	widget_css_rules.c \
 	widget_css_rules.h \
 	widget_currency_details.c \
@@ -41,6 +44,7 @@ MAINTAINERCLEANFILES = \
 	
 EXTRA_DIST = \
 	widget_bank_details.ui \
+	widget_cmp_text.ui \
 	widget_css_rules.ui \
 	widget_currency_details.ui \
 	widget_currency_link.ui \
