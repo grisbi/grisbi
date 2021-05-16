@@ -39,6 +39,7 @@
 #include "etats_page_category.h"
 #include "etats_page_payee.h"
 #include "etats_page_period.h"
+#include "etats_page_text.h"
 #include "etats_page_transfer.h"
 #include "grisbi_app.h"
 #include "structures.h"
@@ -427,9 +428,9 @@ static void etats_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model
     utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Budgetary lines"), BUDGET_PAGE_TYPE);
     page++;
 
-    /* append page Texts */
-    widget = etats_prefs_onglet_textes_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Texts"), page);
+    /* append page Text */
+    widget = GTK_WIDGET (etats_page_text_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Texts"), TEXT_PAGE_TYPE);
     page++;
 
     /* append page Amounts */
@@ -564,46 +565,6 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view (EtatsPrefs *prefs)
 
 
     return tree_view;
-}
-
-/*RIGHT_PANEL : ONGLET_TEXTES*/
-/**
- * Création de l'onglet recherche de textes
- *
- * \param gint page
- *
- * \return
- **/
-static GtkWidget *etats_prefs_onglet_textes_create_page (gint page)
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-    GtkWidget *button;
-
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "onglet_etat_texte"));
-
-    vbox = new_vbox_with_title_and_icon (_("Transaction content"), "gsb-text-32.png");
-
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
-
-    /* on met la connection pour changer le style de la ligne du panneau de gauche */
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "bouton_utilise_texte"));
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
-                        GINT_TO_POINTER (page));
-
-    /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "vbox_generale_textes_etat"));
-
-    gtk_widget_show_all (vbox_onglet);
-
-    /* on retourne la vbox */
-    return vbox_onglet;
 }
 
 /*RIGHT_PANEL : ONGLET_MONTANTS*/

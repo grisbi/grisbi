@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.2 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkBox" id="affichage_etat_devises">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkBox" id="hbox_devise_general_etat">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child>
           <object class="GtkLabel" id="label34">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="label" translatable="yes">General totals currency: </property>
           </object>
@@ -37,11 +37,11 @@
     <child>
       <object class="GtkBox" id="hbox_devise_tiers_etat">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child>
           <object class="GtkLabel" id="label35">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="label" translatable="yes">Payees currency: </property>
           </object>
@@ -64,11 +64,11 @@
     <child>
       <object class="GtkBox" id="hbox_devise_categ_etat">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child>
           <object class="GtkLabel" id="label36">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="label" translatable="yes">Categories currency: </property>
           </object>
@@ -91,11 +91,11 @@
     <child>
       <object class="GtkBox" id="hbox_devise_ib_etat">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child>
           <object class="GtkLabel" id="label37">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="label" translatable="yes">Budgetary lines currency: </property>
           </object>
@@ -118,11 +118,11 @@
     <child>
       <object class="GtkBox" id="hbox_devise_montant_etat">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child>
           <object class="GtkLabel" id="label38">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="label" translatable="yes">Amount comparison currency: </property>
           </object>
@@ -145,21 +145,21 @@
   </object>
   <object class="GtkBox" id="affichage_etat_generalites">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="hexpand">True</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox7">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="hexpand">True</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title7">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Report name</property>
@@ -176,12 +176,12 @@
         <child>
           <object class="GtkBox" id="hbox15">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="hexpand">True</property>
             <child>
               <object class="GtkLabel" id="label23">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -194,7 +194,7 @@
             <child>
               <object class="GtkBox" id="paddingbox2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="hexpand">True</property>
                 <property name="orientation">vertical</property>
@@ -202,13 +202,13 @@
                 <child>
                   <object class="GtkBox" id="hbox17">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label25">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Name: </property>
                       </object>
                       <packing>
@@ -220,11 +220,11 @@
                     <child>
                       <object class="GtkEntry" id="entree_nom_etat">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can-focus">True</property>
                         <property name="hexpand">True</property>
-                        <property name="invisible_char">●</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
+                        <property name="invisible-char">●</property>
+                        <property name="primary-icon-activatable">False</property>
+                        <property name="secondary-icon-activatable">False</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -242,15 +242,15 @@
                 <child>
                   <object class="GtkBox" id="hbox_compl_name">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">5</property>
                     <child>
                       <object class="GtkCheckButton" id="check_button_compl_name">
                         <property name="label" translatable="yes">Add a complementary data: </property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="draw-indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -265,12 +265,12 @@
                       <object class="GtkBox" id="hbox_combo_compl_name">
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkComboBoxText" id="combo_box_compl_name_function">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="active">0</property>
                             <items>
                               <item translatable="yes">Date</item>
@@ -286,7 +286,7 @@
                         <child>
                           <object class="GtkComboBoxText" id="combo_box_compl_name_position">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="active">0</property>
                             <items>
                               <item translatable="yes">Start</item>
@@ -303,7 +303,7 @@
                         <child>
                           <object class="GtkLabel" id="label28">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">of title</property>
                           </object>
                           <packing>
@@ -329,13 +329,13 @@
                 <child>
                   <object class="GtkTextView" id="textview_compl_name">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="editable">False</property>
-                    <property name="wrap_mode">word</property>
+                    <property name="wrap-mode">word</property>
                     <property name="justification">center</property>
-                    <property name="cursor_visible">False</property>
-                    <property name="accepts_tab">False</property>
-                    <property name="input_purpose">alpha</property>
+                    <property name="cursor-visible">False</property>
+                    <property name="accepts-tab">False</property>
+                    <property name="input-purpose">alpha</property>
                     <property name="monospace">True</property>
                   </object>
                   <packing>
@@ -368,13 +368,13 @@
     <child>
       <object class="GtkBox" id="vbox_paddingbox12">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title12">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Others options</property>
@@ -391,11 +391,11 @@
         <child>
           <object class="GtkBox" id="hbox2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label24">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -408,7 +408,7 @@
             <child>
               <object class="GtkBox" id="paddingbox4">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
@@ -416,13 +416,13 @@
                   <object class="GtkBox" id="hbox_select_dates">
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Selection of transactions by:</property>
-                        <property name="track_visited_links">False</property>
+                        <property name="track-visited-links">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -435,10 +435,10 @@
                       <object class="GtkRadioButton" id="button_sel_date">
                         <property name="label" translatable="yes">Date</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -450,9 +450,9 @@
                       <object class="GtkRadioButton" id="button_sel_value_date">
                         <property name="label" translatable="yes">Value date</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">button_sel_date</property>
                       </object>
                       <packing>
@@ -472,10 +472,10 @@
                   <object class="GtkCheckButton" id="bouton_ignore_archives">
                     <property name="label" translatable="yes">Ignore the archived transactions</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -487,10 +487,10 @@
                   <object class="GtkCheckButton" id="bouton_afficher_nb_opes">
                     <property name="label" translatable="yes">Display the number of transactions with the totals</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -502,10 +502,10 @@
                   <object class="GtkCheckButton" id="bouton_inclure_dans_tiers">
                     <property name="label" translatable="yes">Consider the payees of this report as a multiple payee</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -537,7 +537,7 @@
     <child>
       <object class="GtkLabel" id="label39">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="halign">start</property>
         <property name="label" translatable="yes">Hint: if you create a transaction with a report as payee,
 Grisbi will automatically create transactions for all payees from the report</property>
@@ -555,17 +555,17 @@ Grisbi will automatically create transactions for all payees from the report</pr
   </object>
   <object class="GtkBox" id="affichage_etat_operations">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkCheckButton" id="bouton_afficher_opes">
         <property name="label" translatable="yes">Display transactions</property>
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
         <property name="halign">start</property>
-        <property name="draw_indicator">True</property>
+        <property name="draw-indicator">True</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -578,21 +578,21 @@ Grisbi will automatically create transactions for all payees from the report</pr
       <object class="GtkBox" id="vbox_show_transactions">
         <property name="visible">True</property>
         <property name="sensitive">False</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="vbox_paddingbox2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel" id="title2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
-                <property name="margin_left">10</property>
+                <property name="margin-left">10</property>
                 <property name="label" translatable="yes">Include following information</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
@@ -607,11 +607,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="hbox22">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkLabel" id="label19">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="label">    </property>
                   </object>
@@ -624,85 +624,86 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <child>
                   <object class="GtkBox" id="paddingbox9">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <child>
+                      <!-- n-columns=3 n-rows=5 -->
                       <object class="GtkGrid" id="grid1">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="row_spacing">5</property>
-                        <property name="column_spacing">5</property>
-                        <property name="column_homogeneous">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="row-spacing">5</property>
+                        <property name="column-spacing">5</property>
+                        <property name="column-homogeneous">True</property>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_no_ope">
                             <property name="label" translatable="yes">transaction number</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_date_opes">
                             <property name="label" translatable="yes">date</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">0</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_value_date_opes">
                             <property name="label" translatable="yes">value date</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="top_attach">0</property>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">0</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_tiers_opes">
                             <property name="label" translatable="yes">payee</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_categ_opes">
                             <property name="label" translatable="yes">category</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">1</property>
                           </packing>
                         </child>
                         <child>
@@ -710,28 +711,28 @@ Grisbi will automatically create transactions for all payees from the report</pr
                             <property name="label" translatable="yes">sub-category</property>
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="top_attach">1</property>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">1</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_ib_opes">
                             <property name="label" translatable="yes">budgetary line</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
                           </packing>
                         </child>
                         <child>
@@ -739,112 +740,112 @@ Grisbi will automatically create transactions for all payees from the report</pr
                             <property name="label" translatable="yes">sub-budgetary line</property>
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">2</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_notes_opes">
                             <property name="label" translatable="yes">notes</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="top_attach">2</property>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">2</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_type_ope">
                             <property name="label" translatable="yes">method of payment</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">3</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">3</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_no_cheque">
                             <property name="label" translatable="yes">cheque/transfer number</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">3</property>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">3</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_pc_opes">
                             <property name="label" translatable="yes">voucher</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="top_attach">3</property>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">3</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_exo_opes">
                             <property name="label" translatable="yes">financial year</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">4</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">4</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_infobd_opes">
                             <property name="label" translatable="yes">bank reference</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">4</property>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">4</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="bouton_afficher_no_rappr">
                             <property name="label" translatable="yes">reconciliation reference</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="top_attach">4</property>
+                            <property name="left-attach">2</property>
+                            <property name="top-attach">4</property>
                           </packing>
                         </child>
                       </object>
@@ -878,13 +879,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="vbox_paddingbox3">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel" id="title3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
                 <property name="label" translatable="yes">Columns</property>
@@ -901,11 +902,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="hbox11">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkLabel" id="label20">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="label">    </property>
                   </object>
@@ -918,7 +919,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <child>
                   <object class="GtkBox" id="paddingbox10">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
@@ -926,9 +927,9 @@ Grisbi will automatically create transactions for all payees from the report</pr
                       <object class="GtkCheckButton" id="bouton_afficher_titres_colonnes">
                         <property name="label" translatable="yes">Display column titles</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="draw-indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -941,11 +942,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
                         <property name="label" translatable="yes">every section</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
                         <property name="halign">start</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -958,11 +959,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
                         <property name="label" translatable="yes">at the top of the report</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
                         <property name="halign">start</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">bouton_titre_changement</property>
                       </object>
                       <packing>
@@ -995,13 +996,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="vbox_paddingbox18">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel" id="title18">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
                 <property name="label" translatable="yes">Sort transactions by</property>
@@ -1018,11 +1019,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="hbox8">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkLabel" id="label42">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="label">    </property>
                   </object>
@@ -1035,14 +1036,14 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <child>
                   <object class="GtkBox" id="paddingbox11">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <child>
                       <object class="GtkComboBox" id="bouton_choix_classement_ope_etat">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="active">0</property>
                       </object>
                       <packing>
@@ -1076,13 +1077,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="vbox_paddingbox19">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel" id="title19">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
                 <property name="label" translatable="yes">Clickable transactions</property>
@@ -1099,11 +1100,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="hbox12">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkLabel" id="label43">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="label">    </property>
                   </object>
@@ -1116,7 +1117,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <child>
                   <object class="GtkBox" id="paddingbox12">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
@@ -1124,10 +1125,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                       <object class="GtkCheckButton" id="bouton_rendre_ope_clickables">
                         <property name="label" translatable="yes">Make transactions clickable</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
                         <property name="halign">start</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1166,7 +1167,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
   </object>
   <object class="GtkBox" id="affichage_etat_titles">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
@@ -1175,13 +1176,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
     <child>
       <object class="GtkBox" id="vbox_paddingbox8">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title8">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Accounts</property>
@@ -1198,11 +1199,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="hbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label30">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -1215,7 +1216,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="paddingbox_etat_titles1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
@@ -1223,10 +1224,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_afficher_noms_comptes">
                     <property name="label" translatable="yes">Display account name</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1238,10 +1239,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_affiche_sous_total_compte">
                     <property name="label" translatable="yes">Display a sub-total for each account</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1273,13 +1274,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
     <child>
       <object class="GtkBox" id="vbox_paddingbox9">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title9">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Payee</property>
@@ -1296,11 +1297,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="hbox3">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label31">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -1313,7 +1314,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="paddingbox6">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
@@ -1321,10 +1322,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_afficher_noms_tiers">
                     <property name="label" translatable="yes">Display payee's name</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1336,10 +1337,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_affiche_sous_total_tiers">
                     <property name="label" translatable="yes">Display a sub-total for each payee</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1371,13 +1372,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
     <child>
       <object class="GtkBox" id="vbox_paddingbox10">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title10">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Categories</property>
@@ -1394,11 +1395,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="hbox25">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label32">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -1411,7 +1412,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="paddingbox7">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
@@ -1419,10 +1420,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_afficher_noms_categ">
                     <property name="label" translatable="yes">Display categories</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1434,10 +1435,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_affiche_sous_total_categ">
                     <property name="label" translatable="yes">Display a sub-total for each category</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1449,10 +1450,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_afficher_sous_categ">
                     <property name="label" translatable="yes">Display sub-categories</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1464,10 +1465,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_affiche_sous_total_sous_categ">
                     <property name="label" translatable="yes">Display a sub-total for each sub-category</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1479,10 +1480,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_afficher_pas_de_sous_categ">
                     <property name="label" translatable="yes">Display «No sub-category» if none</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1514,13 +1515,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
     <child>
       <object class="GtkBox" id="vbox_paddingbox11">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title11">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Budgetary lines</property>
@@ -1537,11 +1538,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="hbox26">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label33">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -1554,7 +1555,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="paddingbox8">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
@@ -1562,10 +1563,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_afficher_noms_ib">
                     <property name="label" translatable="yes">Display the (sub-)budget line name</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1577,10 +1578,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_affiche_sous_total_ib">
                     <property name="label" translatable="yes">Display a sub-total for each budgetary line</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1592,10 +1593,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_afficher_sous_ib">
                     <property name="label" translatable="yes">Display sub-budget lines</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1607,10 +1608,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_affiche_sous_total_sous_ib">
                     <property name="label" translatable="yes">Display a sub-total for each sub-budget line</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1622,10 +1623,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_afficher_pas_de_sous_ib">
                     <property name="label" translatable="yes">Display «No sub-budgetary line» if none</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1657,29 +1658,29 @@ Grisbi will automatically create transactions for all payees from the report</pr
   </object>
   <object class="GtkPaned" id="dialog_hpaned">
     <property name="visible">True</property>
-    <property name="can_focus">True</property>
+    <property name="can-focus">True</property>
     <child>
       <object class="GtkBox" id="vbox10">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkScrolledWindow" id="sw_dialog">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">never</property>
-            <property name="shadow_type">in</property>
+            <property name="can-focus">True</property>
+            <property name="hscrollbar-policy">never</property>
+            <property name="shadow-type">in</property>
             <child>
               <object class="GtkTreeView" id="treeview_left_panel">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="can_default">True</property>
+                <property name="can-focus">True</property>
+                <property name="can-default">True</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <property name="headers_visible">False</property>
+                <property name="headers-visible">False</property>
                 <property name="reorderable">True</property>
-                <property name="enable_search">False</property>
-                <property name="fixed_height_mode">True</property>
+                <property name="enable-search">False</property>
+                <property name="fixed-height-mode">True</property>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection"/>
                 </child>
@@ -1701,8 +1702,8 @@ Grisbi will automatically create transactions for all payees from the report</pr
     <child>
       <object class="GtkNotebook" id="notebook_etats_prefs">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="show_tabs">False</property>
+        <property name="can-focus">False</property>
+        <property name="show-tabs">False</property>
       </object>
       <packing>
         <property name="resize">True</property>
@@ -1712,19 +1713,19 @@ Grisbi will automatically create transactions for all payees from the report</pr
   </object>
   <object class="GtkBox" id="onglet_etat_divers">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox6">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title6">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Selecting Transactions</property>
@@ -1741,11 +1742,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="hbox18">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label9">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -1758,24 +1759,24 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="paddingbox_etat_divers1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkBox" id="vbox_select_transactions_buttons">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkRadioButton" id="radiobutton_marked_all">
                         <property name="label" translatable="yes">All transactions</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
                         <property name="halign">start</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1787,11 +1788,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
                       <object class="GtkRadioButton" id="radiobutton_marked_No_R">
                         <property name="label" translatable="yes">Unreconciled transactions</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
                         <property name="halign">start</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">radiobutton_marked_all</property>
                       </object>
                       <packing>
@@ -1803,17 +1804,17 @@ Grisbi will automatically create transactions for all payees from the report</pr
                     <child>
                       <object class="GtkBox" id="vbox6">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkRadioButton" id="radiobutton_marked">
                             <property name="label" translatable="yes">Marked transactions</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
                             <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                             <property name="group">radiobutton_marked_all</property>
                           </object>
                           <packing>
@@ -1825,11 +1826,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
                         <child>
                           <object class="GtkBox" id="hbox4">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <child>
                               <object class="GtkLabel" id="label12">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label">    </property>
                               </object>
                               <packing>
@@ -1841,24 +1842,24 @@ Grisbi will automatically create transactions for all payees from the report</pr
                             <child>
                               <object class="GtkAspectFrame" id="aspectframe1">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label_xalign">0</property>
-                                <property name="shadow_type">none</property>
-                                <property name="xalign">0.070000000298023224</property>
+                                <property name="can-focus">False</property>
+                                <property name="label-xalign">0</property>
+                                <property name="shadow-type">none</property>
+                                <property name="xalign">0.07000000029802322</property>
                                 <child>
                                   <object class="GtkBox" id="vbox_marked_buttons">
                                     <property name="visible">True</property>
                                     <property name="sensitive">False</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkCheckButton" id="checkbutton_marked_P">
                                         <property name="label" translatable="yes">Pointing transactions</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
                                         <property name="halign">start</property>
-                                        <property name="draw_indicator">True</property>
+                                        <property name="draw-indicator">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1870,10 +1871,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                                       <object class="GtkCheckButton" id="checkbutton_marked_T">
                                         <property name="label" translatable="yes">Tele-transmitted transactions</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
                                         <property name="halign">start</property>
-                                        <property name="draw_indicator">True</property>
+                                        <property name="draw-indicator">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1885,11 +1886,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
                                       <object class="GtkCheckButton" id="checkbutton_marked_R">
                                         <property name="label" translatable="yes">Reconciled transactions</property>
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
                                         <property name="halign">start</property>
                                         <property name="active">True</property>
-                                        <property name="draw_indicator">True</property>
+                                        <property name="draw-indicator">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1952,13 +1953,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
     <child>
       <object class="GtkBox" id="vbox_paddingbox13">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title13">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Split of transactions detail</property>
@@ -1975,11 +1976,11 @@ Grisbi will automatically create transactions for all payees from the report</pr
         <child>
           <object class="GtkBox" id="hbox19">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label10">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -1992,7 +1993,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
             <child>
               <object class="GtkBox" id="paddingbox3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
@@ -2000,10 +2001,10 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   <object class="GtkCheckButton" id="bouton_pas_detailler_ventilation">
                     <property name="label" translatable="yes">Do not detail split of transactions</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -2035,17 +2036,17 @@ Grisbi will automatically create transactions for all payees from the report</pr
   </object>
   <object class="GtkBox" id="onglet_etat_mode_paiement">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkCheckButton" id="bouton_detaille_mode_paiement_etat">
         <property name="label" translatable="yes">Select transactions only for given accounts</property>
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
         <property name="halign">start</property>
-        <property name="draw_indicator">True</property>
+        <property name="draw-indicator">True</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -2058,13 +2059,13 @@ Grisbi will automatically create transactions for all payees from the report</pr
       <object class="GtkBox" id="vbox_mode_paiement_etat">
         <property name="visible">True</property>
         <property name="sensitive">False</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="label13">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="label" translatable="yes">Select methods of payment to include: </property>
           </object>
@@ -2075,20 +2076,21 @@ Grisbi will automatically create transactions for all payees from the report</pr
           </packing>
         </child>
         <child>
+          <!-- n-columns=3 n-rows=10 -->
           <object class="GtkGrid" id="grid_mode_paiement_etat">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="column_spacing">5</property>
-            <property name="column_homogeneous">True</property>
+            <property name="can-focus">False</property>
+            <property name="column-spacing">5</property>
+            <property name="column-homogeneous">True</property>
             <child>
               <object class="GtkScrolledWindow" id="sw_mode_paiement">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="shadow_type">in</property>
+                <property name="can-focus">True</property>
+                <property name="shadow-type">in</property>
                 <child>
                   <object class="GtkTreeView" id="treeview_mode_paiement">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
                     <child internal-child="selection">
@@ -2098,8 +2100,8 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 </child>
               </object>
               <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
                 <property name="height">10</property>
               </packing>
             </child>
@@ -2107,22 +2109,22 @@ Grisbi will automatically create transactions for all payees from the report</pr
               <object class="GtkToggleButton" id="togglebutton_select_all_mode_paiement">
                 <property name="label" translatable="yes">Select all</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
                 <property name="valign">center</property>
-                <property name="draw_indicator">True</property>
+                <property name="draw-indicator">True</property>
               </object>
               <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="label_modes_search_help">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="valign">center</property>
-                <property name="margin_top">100</property>
+                <property name="margin-top">100</property>
                 <property name="label" translatable="yes">&lt;Ctrl&gt; + left click of mouse
 to add at the selection</property>
                 <property name="justify">center</property>
@@ -2132,9 +2134,39 @@ to add at the selection</property>
                 </attributes>
               </object>
               <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">9</property>
+                <property name="left-attach">1</property>
+                <property name="top-attach">9</property>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -2177,15 +2209,15 @@ to add at the selection</property>
   </object>
   <object class="GtkBox" id="onglet_etat_montant">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkCheckButton" id="bouton_utilise_montant">
         <property name="label" translatable="yes">Select the transactions by amount</property>
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="draw-indicator">True</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -2198,22 +2230,22 @@ to add at the selection</property>
       <object class="GtkBox" id="vbox_generale_montants_etat">
         <property name="visible">True</property>
         <property name="sensitive">False</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkScrolledWindow" id="sw_montant">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="shadow_type">in</property>
+            <property name="can-focus">True</property>
+            <property name="shadow-type">in</property>
             <child>
               <object class="GtkViewport" id="viewport2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="vexpand">True</property>
                 <child>
                   <object class="GtkBox" id="liste_montants_etat">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <placeholder/>
@@ -2246,10 +2278,10 @@ to add at the selection</property>
       <object class="GtkCheckButton" id="bouton_exclure_ope_nulles_etat">
         <property name="label" translatable="yes">Exclude the transactions with a null amount</property>
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
         <property name="halign">start</property>
-        <property name="draw_indicator">True</property>
+        <property name="draw-indicator">True</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -2259,94 +2291,22 @@ to add at the selection</property>
       </packing>
     </child>
   </object>
-  <object class="GtkBox" id="onglet_etat_texte">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <object class="GtkCheckButton" id="bouton_utilise_texte">
-        <property name="label" translatable="yes">Select transactions according to content</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="halign">start</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="padding">5</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkBox" id="vbox_generale_textes_etat">
-        <property name="visible">True</property>
-        <property name="sensitive">False</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkScrolledWindow" id="sw_texte">
-            <property name="height_request">-1</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkViewport" id="viewport1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="vexpand">True</property>
-                <child>
-                  <object class="GtkBox" id="liste_textes_etat">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
   <object class="GtkBox" id="page_data_grouping">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="valign">start</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox4">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title16">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Group transactions</property>
@@ -2363,11 +2323,11 @@ to add at the selection</property>
         <child>
           <object class="GtkBox" id="hbox13">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label40">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -2380,17 +2340,17 @@ to add at the selection</property>
             <child>
               <object class="GtkBox" id="paddingbox_data_grouping1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkCheckButton" id="bouton_regroupe_ope_compte_etat">
                     <property name="label" translatable="yes">Group transactions by account</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2402,10 +2362,10 @@ to add at the selection</property>
                   <object class="GtkCheckButton" id="bouton_utilise_tiers_etat">
                     <property name="label" translatable="yes">Group transactions by payee</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2417,10 +2377,10 @@ to add at the selection</property>
                   <object class="GtkCheckButton" id="bouton_group_by_categ">
                     <property name="label" translatable="yes">Group transactions by category</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2432,10 +2392,10 @@ to add at the selection</property>
                   <object class="GtkCheckButton" id="bouton_utilise_ib_etat">
                     <property name="label" translatable="yes">Group transactions by budgetary line</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2467,13 +2427,13 @@ to add at the selection</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox16">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title4">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Group level organisation</property>
@@ -2490,11 +2450,11 @@ to add at the selection</property>
         <child>
           <object class="GtkBox" id="hbox14">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label21">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -2505,22 +2465,23 @@ to add at the selection</property>
               </packing>
             </child>
             <child>
+              <!-- n-columns=3 n-rows=10 -->
               <object class="GtkGrid" id="paddingbox_data_grouping2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="column_spacing">5</property>
+                <property name="can-focus">False</property>
+                <property name="column-spacing">5</property>
                 <child>
                   <object class="GtkScrolledWindow" id="sw_data_grouping">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="shadow_type">in</property>
+                    <property name="can-focus">True</property>
+                    <property name="shadow-type">in</property>
                     <child>
                       <object class="GtkTreeView" id="treeview_data_grouping">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can-focus">True</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
-                        <property name="headers_visible">False</property>
+                        <property name="headers-visible">False</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection"/>
                         </child>
@@ -2528,8 +2489,8 @@ to add at the selection</property>
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
                     <property name="height">10</property>
                   </packing>
                 </child>
@@ -2538,15 +2499,15 @@ to add at the selection</property>
                     <property name="label">gtk-go-up</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
                     <property name="valign">center</property>
                     <property name="hexpand">True</property>
-                    <property name="use_stock">True</property>
+                    <property name="use-stock">True</property>
                   </object>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">0</property>
                   </packing>
                 </child>
                 <child>
@@ -2554,16 +2515,46 @@ to add at the selection</property>
                     <property name="label">gtk-go-down</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
                     <property name="valign">center</property>
                     <property name="hexpand">True</property>
-                    <property name="use_stock">True</property>
+                    <property name="use-stock">True</property>
                   </object>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">1</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>
@@ -2613,19 +2604,19 @@ to add at the selection</property>
   </object>
   <object class="GtkBox" id="page_data_separation">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox5">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title5">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Data separation</property>
@@ -2642,11 +2633,11 @@ to add at the selection</property>
         <child>
           <object class="GtkBox" id="hbox23">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label22">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -2659,7 +2650,7 @@ to add at the selection</property>
             <child>
               <object class="GtkBox" id="paddingbox_data_separation1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
@@ -2667,10 +2658,10 @@ to add at the selection</property>
                   <object class="GtkCheckButton" id="bouton_separer_revenus_depenses">
                     <property name="label" translatable="yes">Split incomes and outgoings</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2682,10 +2673,10 @@ to add at the selection</property>
                   <object class="GtkCheckButton" id="bouton_separe_exo_etat">
                     <property name="label" translatable="yes">Split by financial year</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2697,10 +2688,10 @@ to add at the selection</property>
                   <object class="GtkCheckButton" id="bouton_separe_plages_etat">
                     <property name="label" translatable="yes">Split by period</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -2732,13 +2723,13 @@ to add at the selection</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox17">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="title17">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="valign">center</property>
             <property name="label" translatable="yes">Separation by period</property>
@@ -2755,11 +2746,11 @@ to add at the selection</property>
         <child>
           <object class="GtkBox" id="hbox24">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label41">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -2772,65 +2763,81 @@ to add at the selection</property>
             <child>
               <object class="GtkBox" id="paddingbox_data_separation2">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
+                  <!-- n-columns=3 n-rows=3 -->
                   <object class="GtkGrid" id="grid2">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="row_spacing">5</property>
-                    <property name="column_spacing">5</property>
+                    <property name="can-focus">False</property>
+                    <property name="row-spacing">5</property>
+                    <property name="column-spacing">5</property>
                     <child>
                       <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Separation by time period: </property>
-                        <property name="single_line_mode">True</property>
+                        <property name="single-line-mode">True</property>
                       </object>
                       <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">0</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Beginning of week: </property>
-                        <property name="single_line_mode">True</property>
+                        <property name="single-line-mode">True</property>
                       </object>
                       <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkComboBox" id="bouton_type_separe_plages_etat">
-                        <property name="width_request">100</property>
+                        <property name="width-request">100</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="active">0</property>
                       </object>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">0</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkComboBox" id="bouton_debut_semaine">
-                        <property name="width_request">100</property>
+                        <property name="width-request">100</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="active">0</property>
                       </object>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">1</property>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">1</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>
@@ -2865,13 +2872,13 @@ to add at the selection</property>
   <object class="GtkSizeGroup" id="sizegroup_data_separation"/>
   <object class="GtkBox" id="vbox_paddingbox1">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkLabel" id="title1">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="halign">start</property>
         <property name="valign">center</property>
         <property name="label" translatable="yes">title</property>
@@ -2888,11 +2895,11 @@ to add at the selection</property>
     <child>
       <object class="GtkBox" id="hbox0">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <child>
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="label">    </property>
           </object>
@@ -2905,7 +2912,7 @@ to add at the selection</property>
         <child>
           <object class="GtkBox" id="paddingbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
