@@ -1,6 +1,7 @@
 Makefile
 Makefile.in*
 .intltool-merge-cache
+.intltool-merge-cache.lock
 POTFILES
 *.mo
 *.gmo
