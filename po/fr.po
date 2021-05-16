@@ -676,7 +676,7 @@ msgid ""
 "<Ctrl> + left click of mouse\n"
 "to add at the selection"
 msgstr ""
-"<Ctrl> + click gauche de la souris\n"
+"<Ctrl> + clic gauche de la souris\n"
 "pour ajouter à la sélection"
 
 #: ../src/ui/etats_prefs.ui.h:79
@@ -701,7 +701,7 @@ msgstr "Sélectionner les tiers à inclure dans l'état : "
 
 #: ../src/ui/etats_prefs.ui.h:84
 msgid "<Ctrl> + left click of mouse to add to the selection"
-msgstr "<Ctrl> + click gauche de la souris pour ajouter à la sélection"
+msgstr "<Ctrl> + clic gauche de la souris pour ajouter à la sélection"
 
 #. Search
 #. Searching
@@ -2072,7 +2072,7 @@ msgid ""
 "Right click to select the sort column.\n"
 "Sort by default country name."
 msgstr ""
-"Click droit pour sélectionner la colonne de tri.\n"
+"Clic droit pour sélectionner la colonne de tri.\n"
 "Tri par nom de pays par défaut."
 
 #: ../src/widgets/widget_currency_popup.ui.h:4
@@ -4202,7 +4202,7 @@ msgstr "Continuer"
 
 #: ../src/etats_calculs.c:159
 msgid "Return to settings"
-msgstr "Retour au paramétrage"
+msgstr "Revenir au paramétrage"
 
 #: ../src/etats_config.c:102
 msgid "payee information"
@@ -4630,7 +4630,7 @@ msgid ""
 "Command-click\n"
 "to add to the selection"
 msgstr ""
-"Command-click\n"
+"Command-clic\n"
 "pour ajouter à la sélection"
 
 #. append group page
