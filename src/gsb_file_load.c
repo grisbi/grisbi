@@ -4061,8 +4061,6 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 
 	/* check and remove duplicate currencies */
 	changed = gsb_data_currency_check_and_remove_duplicate (TRUE);
-	/* check and remove duplicate currencies */
-	changed = gsb_data_currency_check_and_remove_duplicate (TRUE);
 	while (changed)
 	{
 		/* force update file */
