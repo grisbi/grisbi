@@ -69,8 +69,8 @@ struct _PrefsPagePaymentMethodPrivate
 
 	GtkWidget *			button_payment_add;
 	GtkWidget *			button_payment_collapse;
-	GtkWidget *				button_collapse_all;
-	GtkWidget *				button_expand_all;
+	GtkWidget *			button_collapse_all;
+	GtkWidget *			button_expand_all;
 	GtkWidget *			button_payment_remove;
 	GtkWidget *			checkbutton_payment_auto;
 	GtkWidget *			checkbutton_payment_entry;
@@ -229,12 +229,9 @@ static void prefs_page_payment_method_init_switch_dialog (PrefsPagePaymentMethod
  *
  * \return
  **/
-static void prefs_page_payment_method_sensitive_widgets (PrefsPagePaymentMethod *page,
+static void prefs_page_payment_method_sensitive_widgets (PrefsPagePaymentMethodPrivate *priv,
                                                          gboolean sensitive)
 {
-	PrefsPagePaymentMethodPrivate *priv;
-
-	priv = prefs_page_payment_method_get_instance_private (page);
 	gtk_widget_set_sensitive (priv->button_payment_remove, sensitive);
 	gtk_widget_set_sensitive (priv->checkbutton_payment_auto, sensitive);
     gtk_widget_set_sensitive (priv->checkbutton_payment_entry, sensitive);
@@ -252,11 +249,8 @@ static void prefs_page_payment_method_sensitive_widgets (PrefsPagePaymentMethod 
  * \return
  **/
 static void prefs_page_payment_method_set_collapse_mode (GtkWidget *button,
-                                                         PrefsPagePaymentMethod *page)
+                                                         PrefsPagePaymentMethodPrivate *priv)
 {
-	PrefsPagePaymentMethodPrivate *priv;
-
-	priv = prefs_page_payment_method_get_instance_private (page);
 	if (gtk_widget_get_no_show_all (priv->button_expand_all))
 	{
 		gtk_widget_set_no_show_all (priv->button_expand_all, FALSE);
@@ -317,14 +311,12 @@ static void prefs_page_payment_method_button_collapse_expand_clicked (GtkToggleB
  * \return
  **/
 static void prefs_page_payment_method_row_selected (GtkTreeSelection *selection,
-                                                    PrefsPagePaymentMethod *page)
+                                                    PrefsPagePaymentMethodPrivate *priv)
 {
 	GtkTreeModel *model;
     GtkTreeIter iter;
     gboolean good;
-	PrefsPagePaymentMethodPrivate *priv;
 
-	priv = prefs_page_payment_method_get_instance_private (page);
     good = gtk_tree_selection_get_selected (selection, &model, &iter);
     if (good)
     {
@@ -364,9 +356,9 @@ static void prefs_page_payment_method_row_selected (GtkTreeSelection *selection,
 			gsb_autofunc_checkbutton_set_value (priv->checkbutton_payment_entry, FALSE, 0);
 			gsb_autofunc_checkbutton_set_value (priv->checkbutton_payment_auto, FALSE, 0);
 			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_payment_type), 0);
-			prefs_page_payment_method_set_collapse_mode (priv->button_payment_collapse, page);
+			prefs_page_payment_method_set_collapse_mode (priv->button_payment_collapse, priv);
 
-			prefs_page_payment_method_sensitive_widgets (page, FALSE);
+			prefs_page_payment_method_sensitive_widgets (priv, FALSE);
 		}
 	}
 	else
@@ -378,7 +370,7 @@ static void prefs_page_payment_method_row_selected (GtkTreeSelection *selection,
 		gsb_autofunc_checkbutton_set_value (priv->checkbutton_payment_auto, FALSE, 0);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_payment_type), 0);
 
-		prefs_page_payment_method_sensitive_widgets (page, FALSE);
+		prefs_page_payment_method_sensitive_widgets (priv, FALSE);
     }
 }
 
@@ -731,7 +723,7 @@ static void prefs_page_payment_method_number_changed (GtkWidget *spin_button,
  * \returns TRUE on success, which means gtk_tree_model_foreach() will
  *          stop browsing the tree.  FALSE otherwise.
  **/
-static void prefs_page_payment_method_changed_select (GtkWidget *tree_view,
+static void prefs_page_payment_method_select_changed (GtkWidget *tree_view,
                                                       GtkTreeModel *model,
                                                       GtkTreePath *origin_path,
                                                       gint payment_number)
@@ -896,7 +888,7 @@ static void prefs_page_payment_method_sign_changed (GtkWidget *combo,
 											   G_CALLBACK (prefs_page_payment_method_row_selected),
 											   priv->treeview_payment);
 			/* sélectionne le nouveau moyen de paiement */
-			prefs_page_payment_method_changed_select (priv->treeview_payment, model, origin_path, payment_number);
+			prefs_page_payment_method_select_changed (priv->treeview_payment, model, origin_path, payment_number);
 
             /* need to clear and fill the reconciliation tree becaus if it was a neutral changing to credit/debit
              * and neutral was split... */
@@ -1052,16 +1044,14 @@ static void prefs_page_payment_method_add_clicked (GtkWidget *button,
  *
  * \return FALSE
  **/
-static void prefs_page_payment_method_auto_button_toggled (GtkToggleButton *button,
-                                                           PrefsPagePaymentMethod *page)
+static void prefs_page_payment_method_button_auto_toggled (GtkToggleButton *button,
+                                                           PrefsPagePaymentMethodPrivate *priv)
 {
 	GtkTreeModel *model;
     GtkTreeSelection *selection;
     gboolean good;
     GtkTreeIter iter;
-	PrefsPagePaymentMethodPrivate *priv;
 
-	priv = prefs_page_payment_method_get_instance_private (page);
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_payment));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
@@ -1256,13 +1246,13 @@ static void prefs_page_payment_method_setup_tree_view (PrefsPagePaymentMethod *p
 	gtk_tree_path_free (path);
 
 	/* unsensitive details */
-	prefs_page_payment_method_sensitive_widgets (page, FALSE);
+	prefs_page_payment_method_sensitive_widgets (priv, FALSE);
 
 	/* set signals */
 	g_signal_connect (selection,
 					  "changed",
 					  G_CALLBACK (prefs_page_payment_method_row_selected),
-					  page);
+					  priv);
 }
 
 /**
