@@ -1290,12 +1290,12 @@ GtkWidget *gsb_autofunc_spin_new (gint value,
     return spin_button;
 }
 
-GtkWidget *gsb_autofunc_spin_new_from_ui (GtkWidget *spin_button,
-										  gint value,
-										  GCallback hook,
-										  gpointer data,
-										  GCallback default_func,
-										  gint number_for_func)
+void gsb_autofunc_spin_new_from_ui (GtkWidget *spin_button,
+									gint value,
+									GCallback hook,
+									gpointer data,
+									GCallback default_func,
+									gint number_for_func)
 {
 
     /* set range and fill the spin button */
@@ -1320,7 +1320,6 @@ GtkWidget *gsb_autofunc_spin_new_from_ui (GtkWidget *spin_button,
 																	 "value-changed",
 																	 G_CALLBACK (hook),
 																	 data)));
-    return spin_button;
 }
 
 /**

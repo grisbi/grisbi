@@ -93,7 +93,7 @@ GtkWidget *	gsb_autofunc_spin_new 						(gint value,
 														 gpointer data,
 														 GCallback default_func,
 														 gint number_for_func);
-GtkWidget *	gsb_autofunc_spin_new_from_ui 				(GtkWidget *spin_button,
+void		gsb_autofunc_spin_new_from_ui 				(GtkWidget *spin_button,
 					                                     gint value,
 														 GCallback hook,
 														 gpointer data,
