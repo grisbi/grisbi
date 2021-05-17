@@ -330,7 +330,10 @@ static void prefs_page_payment_method_row_selected (GtkTreeSelection *selection,
 
 		if (payment_number)
 		{
-			prefs_page_payment_method_sensitive_widgets (page, TRUE);
+			gint show_entry;
+
+			show_entry = gsb_data_payment_get_show_entry (payment_number);
+			prefs_page_payment_method_sensitive_widgets (priv, TRUE);
 
 			/* Filling entries */
 			gsb_autofunc_entry_set_value (priv->entry_payment_name,
@@ -339,14 +342,15 @@ static void prefs_page_payment_method_row_selected (GtkTreeSelection *selection,
 			gsb_autofunc_spin_set_value (priv->spinbutton_payment_number,
 			                             gsb_data_payment_get_last_number_to_int (payment_number),
 			                             payment_number);
-			gsb_autofunc_checkbutton_set_value (priv->checkbutton_payment_entry,
-			                                    gsb_data_payment_get_show_entry (payment_number),
-			                                    payment_number);
+			gsb_autofunc_checkbutton_set_value (priv->checkbutton_payment_entry, show_entry, payment_number);
 			gsb_autofunc_checkbutton_set_value (priv->checkbutton_payment_auto,
 			                                    gsb_data_payment_get_automatic_numbering (payment_number),
 			                                    payment_number);
 			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_payment_type),
 			                         gsb_data_payment_get_sign (payment_number));
+
+			gtk_widget_set_sensitive (priv->checkbutton_payment_auto, show_entry);
+
 		}
 		else
 		{
@@ -1160,6 +1164,54 @@ static void prefs_page_payment_method_remove_clicked (GtkWidget *button,
 }
 
 /**
+ * Callback called when show entry  is activated or
+ * deactivated for current payment method.  It activates or
+ * deactivates the automatic numbering button
+ *
+ * \param button the checkbutton which send the signal
+ * \param priv
+ *
+ * \return FALSE
+ */
+static gboolean prefs_page_payment_method_show_entry_toggled (GtkWidget *checkbutton,
+															  PrefsPagePaymentMethodPrivate *priv)
+{
+    GtkTreeSelection * selection;
+    gboolean good;
+    GtkTreeIter iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_payment));
+    good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+    if (good)
+    {
+		GtkTreeModel *model;
+		gint payment_number;
+
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_payment));
+		gtk_tree_model_get (GTK_TREE_MODEL(model),
+							&iter,
+							PAYMENT_METHOD_NUMBER_COLUMN, &payment_number,
+							-1);
+		if (payment_number)
+		{
+			gboolean activ;
+
+			activ = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
+			if (activ)
+				gtk_widget_set_sensitive (priv->checkbutton_payment_auto, TRUE);
+			else
+			{
+				if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_payment_auto)))
+					gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_payment_auto), FALSE);
+				gtk_widget_set_sensitive (priv->checkbutton_payment_auto, FALSE);
+			}
+		}
+    }
+    return FALSE;
+}
+
+/**
  * Init the tree_view for the payment method list
  *
  * \param page
@@ -1287,6 +1339,15 @@ static void prefs_page_payment_method_setup_page (PrefsPagePaymentMethod *page,
                                     G_CALLBACK (gsb_data_payment_set_name),
                                     0);
 
+	/* Need entry field */
+	gsb_autofunc_checkbutton_new_from_ui (priv->checkbutton_payment_entry,
+										  _("Need entry field"),
+										  FALSE,
+										  G_CALLBACK (prefs_page_payment_method_show_entry_toggled),
+										  priv,
+										  G_CALLBACK (gsb_data_payment_set_show_entry),
+										  0 );
+
     /* Automatic numbering */
     gsb_autofunc_spin_new_from_ui (priv->spinbutton_payment_number,
                                    0,
@@ -1294,6 +1355,15 @@ static void prefs_page_payment_method_setup_page (PrefsPagePaymentMethod *page,
 								   priv->treeview_payment,
 								   G_CALLBACK (gsb_data_payment_set_last_number_from_int),
                         		   0);
+
+    /* Activate numbering */
+	gsb_autofunc_checkbutton_new_from_ui (priv->checkbutton_payment_auto,
+										  _("Activate"),
+										  FALSE,
+										  G_CALLBACK (prefs_page_payment_method_button_auto_toggled),
+										  priv,
+										  G_CALLBACK (gsb_data_payment_set_automatic_numbering),
+										  0);
 
 	/* We set menu to "Neutral" as a default*/
 	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_payment_type), 0);
@@ -1325,10 +1395,6 @@ static void prefs_page_payment_method_setup_page (PrefsPagePaymentMethod *page,
 					  page);
 
 	/* Connect signal checkbutton payment auto*/
-    g_signal_connect (G_OBJECT (priv->checkbutton_payment_auto),
-                      "toggled",
-                      G_CALLBACK (prefs_page_payment_method_auto_button_toggled),
-                      page);
     g_signal_connect_after (G_OBJECT (priv->checkbutton_payment_auto),
                             "toggled",
                             G_CALLBACK (gsb_data_payment_set_last_number_from_int),
