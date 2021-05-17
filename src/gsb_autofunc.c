@@ -381,6 +381,58 @@ GtkWidget *gsb_autofunc_checkbutton_new (const gchar *label,
     return button;
 }
 
+/*
+ * creates a new checkbox from ui file associated to a value in a grisbi structure
+ * for each change, will call the corresponding given function : gsb_data_... (number, gboolean)
+ * ie the target function must be :
+ * 	(default_func) (gint number_for_func,
+ * 			 gboolean yes/no)
+ * ex : gsb_data_fyear_set_form_show (fyear_number, showed_in_form)
+ *
+ * \param label the text associated to the checkbox
+ * \param value a boolean for the state of the checkbox
+ * \param hook an optional function to execute as a handler if the
+ * 	button is modified.
+ * 	hook should be :
+ * 		gboolean hook (GtkWidget *button,
+ * 				gpointer data)
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func (number, gboolean)) or NULL
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ *
+ * \return a new GtkCheckButton
+ * */
+void gsb_autofunc_checkbutton_new_from_ui (GtkWidget *button,
+										   const gchar *label,
+										   gboolean value,
+										   GCallback hook,
+										   gpointer data,
+										   GCallback default_func,
+										   gint number_for_func)
+{
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), value);
+
+    /* set the default func :
+     * the func will be send to gsb_autofunc_checkbutton_changed by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data (G_OBJECT (button), "number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+		g_object_set_data (G_OBJECT (button),
+						   "changed",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(button),
+																	 "toggled",
+																	 ((GCallback) gsb_autofunc_checkbutton_changed),
+																	 default_func)));
+    if (hook)
+		g_object_set_data (G_OBJECT (button),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(button),
+																	 "toggled",
+																	 ((GCallback) hook),
+																	 data)));
+}
+
 /**
  * set the value in a gsb_editable_checkbutton
  * a value is in 2 parts :
