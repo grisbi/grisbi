@@ -11,6 +11,8 @@ noinst_LTLIBRARIES = libwidgets.la
 libwidgets_la_SOURCES = \
 	widget_bank_details.c \
 	widget_bank_details.h \
+	widget_cmp_amount.c \
+	widget_cmp_amount.h \
 	widget_cmp_text.c \
 	widget_cmp_text.h \
 	widget_css_rules.c \
@@ -44,6 +46,7 @@ MAINTAINERCLEANFILES = \
 	
 EXTRA_DIST = \
 	widget_bank_details.ui \
+	widget_cmp_amount.ui \
 	widget_cmp_text.ui \
 	widget_css_rules.ui \
 	widget_currency_details.ui \
