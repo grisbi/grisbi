@@ -38,7 +38,6 @@
 
 /*START_INCLUDE*/
 #include "etats_page_text.h"
-#include "dialog.h"
 #include "etats_config.h"
 #include "etats_prefs.h"
 #include "gsb_data_report.h"
@@ -47,11 +46,10 @@
 #include "navigation.h"
 #include "structures.h"
 #include "utils.h"
-#include "utils_buttons.h"
 #include "utils_prefs.h"
+#include "utils_widgets.h"
 #include "widget_cmp_text.h"
 #include "erreur.h"
-
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -76,7 +74,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (EtatsPageText, etats_page_text, GTK_TYPE_BOX)
  * ajoute une ligne de recherche de texte à la liste des lignes de recherche de texte
  *
  * \param last_text_comparison_number
- * \param priv
+ * \param report_number
+ * \param page
  *
  * \return
  */
@@ -110,7 +109,7 @@ static void etats_page_text_ajoute_ligne_liste_comparaisons (gint last_text_comp
 	if (position == 1)
 	{
 		widget = gsb_data_report_text_comparison_get_widget (last_text_comparison_number);
-		widget_cmp_text_show_remove_button (widget, TRUE);
+		widget_cmp_text_show_button_remove (widget, TRUE);
 	}
 
 	/* on commence par créer une structure vide */
@@ -119,8 +118,8 @@ static void etats_page_text_ajoute_ligne_liste_comparaisons (gint last_text_comp
 
 	/* on crée la row et affiche les boutons Ajouter et Enlever */
 	widget = GTK_WIDGET (widget_cmp_text_new (GTK_WIDGET (page), text_comparison_number, first_cmp_line));
-	widget_cmp_text_show_add_button (widget, TRUE);
-	widget_cmp_text_show_remove_button (widget, TRUE);
+	widget_cmp_text_show_button_add (widget, TRUE);
+	widget_cmp_text_show_button_remove (widget, TRUE);
 	gtk_box_pack_start (GTK_BOX (priv->vbox_rows_text), widget, FALSE, FALSE, 0);
 	gsb_data_report_text_comparison_set_widget (text_comparison_number, widget);
 
@@ -133,6 +132,71 @@ static void etats_page_text_ajoute_ligne_liste_comparaisons (gint last_text_comp
 
 	/* on met la row à sa place dans la liste */
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_rows_text), widget, position);
+}
+
+/**
+ * Supprime une ligne de comparaison de texte
+ *
+ * \param last_text_comparison_number
+ * \param report_number
+ * \param page
+ *
+ * \return
+ */
+static void etats_page_text_retire_ligne_liste_comparaisons (gint last_text_comparison_number,
+															 gint report_number,
+															 EtatsPageText *page)
+{
+	gboolean remove_first_line = FALSE;
+
+	/* il faut qu'il y ai plus d'une row affichée */
+	if (g_slist_length (gsb_data_report_get_text_comparison_list (report_number)) < 2)
+		return;
+
+	/* on commence par supprimer la row dans la liste */
+	gtk_widget_destroy (gsb_data_report_text_comparison_get_widget (last_text_comparison_number));
+
+	/* si la structure qu'on retire est la 1ère, on vire le widget de lien */
+	if (!g_slist_index (gsb_data_report_get_text_comparison_list (report_number),
+						GINT_TO_POINTER (last_text_comparison_number)))
+	{
+		remove_first_line = TRUE;
+	}
+
+	/* et on retire la struct de la sliste */
+	gsb_data_report_set_text_comparison_list (report_number,
+											  g_slist_remove (gsb_data_report_get_text_comparison_list
+															  (report_number),
+															  GINT_TO_POINTER (last_text_comparison_number)));
+
+	/* si c'est la première ligne qui a été supprimée on cache button_link */
+	if (remove_first_line)
+	{
+		gint text_comparison_number;
+		GtkWidget *widget;
+		text_comparison_number = GPOINTER_TO_INT (g_slist_nth_data (gsb_data_report_get_text_comparison_list
+																	(report_number), 0));
+		widget = gsb_data_report_text_comparison_get_widget (text_comparison_number);
+		widget_cmp_text_hide_button_link (widget);
+
+		/*si il ne reste qu'une ligne on cache le bouton remove */
+		if (g_slist_length (gsb_data_report_get_text_comparison_list (report_number)) == 1)
+			widget_cmp_text_show_button_remove (widget, FALSE);
+
+		return;
+	}
+
+	/*si il ne reste qu'une ligne on cache le bouton remove */
+	if (g_slist_length (gsb_data_report_get_text_comparison_list (report_number)) == 1)
+	{
+		gint text_comparison_number;
+		GtkWidget *widget;
+
+		text_comparison_number = GPOINTER_TO_INT (g_slist_nth_data (gsb_data_report_get_text_comparison_list
+																	(report_number), 0));
+		widget = gsb_data_report_text_comparison_get_widget (text_comparison_number);
+		widget_cmp_text_show_button_remove (widget, FALSE);
+	}
 }
 
 /**
@@ -153,7 +217,7 @@ static void etats_page_text_gtk_callback (GtkWidget *widget,
  * remplit la liste des comparaisons de texte
  *
  * \param report_number
- * \param priv
+ * \param page
  *
  * \return
  */
@@ -202,7 +266,7 @@ static void etats_page_text_remplit_liste_comparaisons (gint report_number,
 		widget_cmp_text_init_data (widget, text_comparison_number);
 
 		if (nbre_ligne > 1 && num_ligne == 1)
-			widget_cmp_text_show_remove_button (widget, TRUE);
+			widget_cmp_text_show_button_remove (widget, TRUE);
 
 		first_cmp_line = FALSE;
 		num_ligne ++;
@@ -212,70 +276,9 @@ static void etats_page_text_remplit_liste_comparaisons (gint report_number,
 }
 
 /**
- * Supprime une ligne de comparaison de texte
- *
- * \param last_text_comparison_number
- *
- * \return
- */
-static void etats_page_text_retire_ligne_liste_comparaisons (gint last_text_comparison_number,
-															 gint report_number,
-															 EtatsPageText *page)
-{
-	gboolean remove_first_line = FALSE;
-
-	/* il faut qu'il y ai plus d'une row affichée */
-	if (g_slist_length (gsb_data_report_get_text_comparison_list (report_number)) < 2)
-		return;
-
-	/* on commence par supprimer la row dans la liste */
-	gtk_widget_destroy (gsb_data_report_text_comparison_get_widget (last_text_comparison_number));
-
-	/* si la structure qu'on retire est la 1ère, on vire le widget de lien */
-	if (!g_slist_index (gsb_data_report_get_text_comparison_list (report_number),
-						GINT_TO_POINTER (last_text_comparison_number)))
-	{
-		remove_first_line = TRUE;
-	}
-
-	/* et on retire la struct de la sliste */
-	gsb_data_report_set_text_comparison_list (report_number,
-											  g_slist_remove (gsb_data_report_get_text_comparison_list (report_number),
-															  GINT_TO_POINTER (last_text_comparison_number)));
-
-	/* si c'est la première ligne qui a été supprimée on cache button_link */
-	if (remove_first_line)
-	{
-		gint text_comparison_number;
-		GtkWidget *widget;
-		text_comparison_number = GPOINTER_TO_INT (g_slist_nth_data (gsb_data_report_get_text_comparison_list
-																	(report_number), 0));
-		widget = gsb_data_report_text_comparison_get_widget (text_comparison_number);
-		widget_cmp_text_hide_button_link (widget);
-
-		/*si il ne reste qu'une ligne on cache le bouton remove */
-		if (g_slist_length (gsb_data_report_get_text_comparison_list (report_number)) == 1)
-			widget_cmp_text_show_remove_button (widget, FALSE);
-
-		return;
-	}
-
-	/*si il ne reste qu'une ligne on cache le bouton remove */
-	if (g_slist_length (gsb_data_report_get_text_comparison_list (report_number)) == 1)
-	{
-		gint text_comparison_number;
-		GtkWidget *widget;
-
-		text_comparison_number = GPOINTER_TO_INT (g_slist_nth_data (gsb_data_report_get_text_comparison_list
-																	(report_number), 0));
-		widget = gsb_data_report_text_comparison_get_widget (text_comparison_number);
-		widget_cmp_text_show_remove_button (widget, FALSE);
-	}
-}
-
-/**
  * Création de la page de gestion des text
  *
+ * \param
  * \param
  *
  * \return
@@ -362,7 +365,7 @@ EtatsPageText *etats_page_text_new (GtkWidget *etats_prefs)
  *
  * \return
  **/
-void etats_page_text_get_info (GtkWidget *etats_prefs,
+void etats_page_text_get_data (GtkWidget *etats_prefs,
 							   gint report_number)
 {
 	GSList *comparison_list;
@@ -390,7 +393,7 @@ void etats_page_text_get_info (GtkWidget *etats_prefs,
 
 		text_comparison_number = GPOINTER_TO_INT (comparison_list->data);
 		widget = GTK_WIDGET (gsb_data_report_text_comparison_get_widget (text_comparison_number));
-		widget_cmp_text_get_info (widget, text_comparison_number);
+		widget_cmp_text_get_data (widget, text_comparison_number);
 
 		comparison_list = comparison_list->next;
 	}
@@ -404,8 +407,8 @@ void etats_page_text_get_info (GtkWidget *etats_prefs,
  *
  * \return
  **/
-void etats_page_text_initialise_onglet (GtkWidget *etats_prefs,
-										gint report_number)
+void etats_page_text_init_data (GtkWidget *etats_prefs,
+								gint report_number)
 {
 	gint active;
 	EtatsPageText *page;
@@ -426,6 +429,7 @@ void etats_page_text_initialise_onglet (GtkWidget *etats_prefs,
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
@@ -445,6 +449,7 @@ gboolean etats_page_text_line_add (gint text_comparison_number,
 /**
  *
  *
+ * \param
  * \param
  *
  * \return

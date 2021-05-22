@@ -5,7 +5,7 @@
 #include <glib.h>
 
 /*START_INCLUDE*/
-#include "grisbi_prefs.h"
+//~ #include "grisbi_prefs.h"
 /*END_INCLUDE*/
 
 G_BEGIN_DECLS
@@ -32,9 +32,9 @@ struct _EtatsPageTextClass
 GType				etats_page_text_get_type		(void) G_GNUC_CONST;
 
 EtatsPageText *		etats_page_text_new					(GtkWidget *etats_prefs);
-void				etats_page_text_get_info			(GtkWidget *etats_prefs,
+void				etats_page_text_get_data			(GtkWidget *etats_prefs,
 														 gint report_number);
-void				etats_page_text_initialise_onglet	(GtkWidget *etats_prefs,
+void				etats_page_text_init_data			(GtkWidget *etats_prefs,
 														 gint report_number);
 gboolean			etats_page_text_line_add			(gint text_comparison_number,
 														 GtkWidget *page);

@@ -94,16 +94,6 @@ enum ButtonsPosition
 	NUMBER_LINE,
 };
 
-enum ButtonsVisibility
-{
-	NOT_VISIBLES,
-	ADDING_VISIBLE,
-	ADDING_HIDDEN,
-	REMOVE_VISIBLE,
-	REMOVE_HIDDEN,
-	ALL_VISIBLES
-};
-
 G_DEFINE_TYPE_WITH_PRIVATE (WidgetCmpText, widget_cmp_text, GTK_TYPE_BOX)
 /******************************************************************************/
 /* Private functions                                                          */
@@ -254,20 +244,17 @@ static void widget_cmp_text_combo_type_text_changed (GtkComboBox *combo,
 	if (priv->field_type_text < 8 &&  field_type_text < 8)
 	{
 		priv->field_type_text = field_type_text;
-		printf ("priv->field_type_text < 8 &&  field_type_text < 8\n");
 
 		return;
 	}
 	else if (priv->field_type_text > 7 &&  field_type_text > 7)
 	{
 		priv->field_type_text = field_type_text;
-		printf ("priv->field_type_text > 7 &&  field_type_text > 7\n");
 
 		return;
 	}
 	else if (priv->field_type_text < 8 && field_type_text >= 8) /* recherche de nombre */
 	{
-		printf ("priv->field_type_text < 8 && field_type_text >= 8\n");
 		priv->field_type_text = field_type_text;
 		gtk_widget_hide (priv->hbox_use_text);
 		gtk_widget_show (priv->vbox_use_number);
@@ -278,7 +265,6 @@ static void widget_cmp_text_combo_type_text_changed (GtkComboBox *combo,
 	}
 	else  /* priv->field_type_text >= 8 && field_type_text < 8 : recherche de texte */
 	{
-		printf ("priv->field_type_text >= 8 && field_type_text < 8\n");
 		priv->field_type_text = field_type_text;
 		gtk_widget_show (priv->hbox_use_text);
 		gtk_widget_hide (priv->vbox_use_number);
@@ -293,6 +279,10 @@ static void widget_cmp_text_combo_type_text_changed (GtkComboBox *combo,
  * Création du widget de gestion des cmp_text
  *
  * \param
+ * \param
+ * \param
+ * \param
+ *
  * \return
  **/
 static void widget_cmp_text_setup_widget (WidgetCmpText *widget,
@@ -300,25 +290,14 @@ static void widget_cmp_text_setup_widget (WidgetCmpText *widget,
 										  gint text_cmp_number,
 										  gboolean first_cmp_line)
 {
-	GtkWidget *image;
 	WidgetCmpTextPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = widget_cmp_text_get_instance_private (widget);
 
-	/* on ajoute et decore les bouton "Ajouter" et "Enlever" */
-	image = gtk_image_new_from_resource ("/org/gtk/grisbi/images/gtk-add-16.png");
-	gtk_button_set_image (GTK_BUTTON (priv->button_add_line), image);
-	gtk_button_set_always_show_image (GTK_BUTTON (priv->button_add_line), TRUE);
-
-	image = gtk_image_new_from_resource ("/org/gtk/grisbi/images/gtk-remove-16.png");
-	gtk_button_set_image (GTK_BUTTON (priv->button_remove_line), image);
-	gtk_button_set_always_show_image (GTK_BUTTON (priv->button_remove_line), TRUE);
-
+	/* on ajoute les bouton "Ajouter" et "Enlever" */
 	gtk_box_pack_start (GTK_BOX (priv->hbox_use_text), priv->hbox_buttons_line, FALSE, FALSE, 0);
-
-
 
 	/* select widgets */
 	if (first_cmp_line)
@@ -329,6 +308,9 @@ static void widget_cmp_text_setup_widget (WidgetCmpText *widget,
 
 		/* on cache le bouton "Enlever" */
 		gtk_widget_hide (priv->button_remove_line);
+
+		/* on cache le separateur de ligne */
+		gtk_widget_hide (priv->separator_line);
 	}
 
 	/* memorise le numero de comparaison */
@@ -342,9 +324,6 @@ static void widget_cmp_text_setup_widget (WidgetCmpText *widget,
 
 	/* on cache la deuxième ligne de la recherche numerique */
 	gtk_widget_hide (priv->vbox_use_number);
-
-	/* on cache le separateur de ligne */
-	gtk_widget_hide (priv->separator_line);
 
 	/* on attache aux boutons add et remove le numero de comparaison */
 	g_object_set_data (G_OBJECT (priv->button_add_line),
@@ -423,9 +402,9 @@ static void widget_cmp_text_class_init (WidgetCmpTextClass *klass)
 												  WidgetCmpText,
 												  button_first_comparison);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
-												  WidgetCmpText, button_link_first_to_second_part);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
-												  WidgetCmpText, entry_first_amount);
+												  WidgetCmpText,
+												  button_link_first_to_second_part);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCmpText, entry_first_amount);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCmpText, hbox_second_part);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
@@ -433,11 +412,11 @@ static void widget_cmp_text_class_init (WidgetCmpTextClass *klass)
 												  button_second_comparison);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCmpText, entry_second_amount);
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCmpText, separator_line);
-
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCmpText, hbox_buttons_line);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCmpText, button_add_line);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCmpText, button_remove_line);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetCmpText, separator_line);
 }
 
 /******************************************************************************/
@@ -446,6 +425,8 @@ static void widget_cmp_text_class_init (WidgetCmpTextClass *klass)
 /**
  *
  *
+ * \param
+ * \param
  * \param
  *
  * \return
@@ -467,11 +448,10 @@ WidgetCmpText *widget_cmp_text_new (GtkWidget *page,
  *
  * \param
  * \param
- * \param
  *
  * \return
  **/
-gboolean widget_cmp_text_get_info (GtkWidget *widget,
+gboolean widget_cmp_text_get_data (GtkWidget *widget,
 								   gint text_cmp_number)
 {
 	const gchar *tmp_str;
@@ -517,12 +497,12 @@ gboolean widget_cmp_text_get_info (GtkWidget *widget,
 		index = gtk_combo_box_get_active (GTK_COMBO_BOX (priv->button_link_first_to_second_part));
 		gsb_data_report_text_comparison_set_link_first_to_second_part (text_cmp_number, index);
 
-        gsb_data_report_text_comparison_set_first_comparison (text_cmp_number,
+		gsb_data_report_text_comparison_set_first_comparison (text_cmp_number,
 															  gtk_combo_box_get_active
 															  (GTK_COMBO_BOX (priv->button_first_comparison)));
 
 		tmp_str = gtk_entry_get_text (GTK_ENTRY (priv->entry_first_amount));
-        gsb_data_report_text_comparison_set_first_amount (text_cmp_number, utils_str_atoi (tmp_str));
+		gsb_data_report_text_comparison_set_first_amount (text_cmp_number, utils_str_atoi (tmp_str));
 
 		if (index < 3)	/* on traite deux lignes */
 		{
@@ -533,6 +513,7 @@ gboolean widget_cmp_text_get_info (GtkWidget *widget,
 			tmp_str = gtk_entry_get_text (GTK_ENTRY (priv->entry_second_amount));
 			gsb_data_report_text_comparison_set_second_amount (text_cmp_number, utils_str_atoi (tmp_str));
 		}
+
 		/* pour compatibilité avec ancienne version */
 		gsb_data_report_text_comparison_set_use_text (text_cmp_number, FALSE);
 	}
@@ -543,7 +524,6 @@ gboolean widget_cmp_text_get_info (GtkWidget *widget,
 /**
  *
  *
- * \param
  * \param
  * \param
  *
@@ -583,6 +563,8 @@ void widget_cmp_text_init_data (GtkWidget *widget,
 		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->button_first_comparison),
 												 gsb_data_report_text_comparison_get_first_comparison
 												 (text_cmp_number));
+
+		/* set first entry */
 		tmp_str = utils_str_itoa (gsb_data_report_text_comparison_get_first_amount (text_cmp_number));
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_first_amount), tmp_str);
 		g_free (tmp_str);
@@ -601,7 +583,6 @@ void widget_cmp_text_init_data (GtkWidget *widget,
 			gtk_entry_set_text (GTK_ENTRY (priv->entry_second_amount), tmp_str);
 			g_free (tmp_str);
 		}
-
 	}
 }
 
@@ -609,10 +590,11 @@ void widget_cmp_text_init_data (GtkWidget *widget,
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
-void widget_cmp_text_show_add_button (GtkWidget *widget,
+void widget_cmp_text_show_button_add (GtkWidget *widget,
 									  gboolean show)
 {
 	WidgetCmpTextPrivate *priv;
@@ -630,10 +612,11 @@ void widget_cmp_text_show_add_button (GtkWidget *widget,
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
-void widget_cmp_text_show_remove_button (GtkWidget *widget,
+void widget_cmp_text_show_button_remove (GtkWidget *widget,
 										 gboolean show)
 {
 	WidgetCmpTextPrivate *priv;
@@ -663,6 +646,9 @@ void widget_cmp_text_hide_button_link (GtkWidget *widget)
 
 	gtk_widget_hide (priv->button_link);
 	priv->hide_button_link = TRUE;
+
+	if (gtk_widget_is_visible (priv->separator_line))
+		gtk_widget_hide (priv->separator_line);
 }
 
 /**

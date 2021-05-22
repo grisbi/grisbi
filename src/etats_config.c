@@ -1841,7 +1841,7 @@ static gboolean etats_config_initialise_dialog_from_etat (GtkWidget *etats_prefs
     etats_page_budget_initialise_onglet (etats_prefs, report_number);
 
     /* onglet Textes */
-	etats_page_text_initialise_onglet (etats_prefs, report_number);
+	etats_page_text_init_data (etats_prefs, report_number);
 
 	/* onglet Montants */
     etats_config_initialise_onglet_montants ( report_number );
@@ -1906,8 +1906,7 @@ static gboolean etats_config_recupere_info_to_etat (GtkWidget *etats_prefs,
     etats_page_budget_get_info (etats_prefs, report_number);
 
     /* onglet Textes */
-    //~ etats_config_recupere_info_onglet_textes ( report_number );
-    etats_page_text_get_info (etats_prefs, report_number);
+    etats_page_text_get_data (etats_prefs, report_number);
 
     /* onglet Montants */
     etats_config_recupere_info_onglet_montants ( report_number );

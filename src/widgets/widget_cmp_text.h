@@ -5,7 +5,6 @@
 #include <glib.h>
 
 /*START_INCLUDE*/
-#include "grisbi_prefs.h"
 /*END_INCLUDE*/
 
 G_BEGIN_DECLS
@@ -20,12 +19,12 @@ typedef struct _WidgetCmpTextClass			WidgetCmpTextClass;
 
 struct _WidgetCmpText
 {
-    GtkBox parent;
+	GtkBox parent;
 };
 
 struct _WidgetCmpTextClass
 {
-    GtkBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 /* START_DECLARATION */
@@ -34,14 +33,14 @@ GType				widget_cmp_text_get_type		(void) G_GNUC_CONST;
 WidgetCmpText *		widget_cmp_text_new						(GtkWidget *page,
 															 gint text_cmp_number,
 															 gboolean first_cmp_line);
+gboolean			widget_cmp_text_get_data				(GtkWidget *widget,
+															 gint text_cmp_number);
 void				widget_cmp_text_init_data				(GtkWidget *widget,
 															 gint text_cmp_number);
-gboolean			widget_cmp_text_get_info				(GtkWidget *widget,
-															 gint text_cmp_number);
-void				widget_cmp_text_show_add_button			(GtkWidget *widget,
+void				widget_cmp_text_show_button_add			(GtkWidget *widget,
 															 gboolean show);
 void				widget_cmp_text_hide_button_link		(GtkWidget *widget);
-void				widget_cmp_text_show_remove_button		(GtkWidget *widget,
+void				widget_cmp_text_show_button_remove		(GtkWidget *widget,
 															 gboolean show);
 /* END_DECLARATION */
 
