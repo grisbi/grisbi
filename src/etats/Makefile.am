@@ -9,6 +9,7 @@ noinst_LTLIBRARIES = libetatspages.la
 
 libetatspages_la_SOURCES = \
 	etats_page_accounts.c \
+	etats_page_amount.c \
 	etats_page_budget.c \
 	etats_page_category.c \
 	etats_page_payee.c \
@@ -16,6 +17,7 @@ libetatspages_la_SOURCES = \
 	etats_page_text.c \
 	etats_page_transfer.c \
 	etats_page_accounts.h \
+	etats_page_amount.h \
 	etats_page_budget.h \
 	etats_page_category.h \
 	etats_page_payee.h \
@@ -33,6 +35,7 @@ MAINTAINERCLEANFILES = \
 	
 EXTRA_DIST = \
 	etats_page_accounts.ui \
+	etats_page_amount.ui \
 	etats_page_budget.ui\
 	etats_page_category.ui \
 	etats_page_payee.ui \
