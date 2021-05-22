@@ -21,6 +21,7 @@ gint 		gsb_data_report_amount_comparison_get_link_first_to_second_part 		(gint a
 gint 		gsb_data_report_amount_comparison_get_link_to_last_amount_comparison 	(gint amount_comparison_number);
 GsbReal 	gsb_data_report_amount_comparison_get_second_amount 					(gint amount_comparison_number);
 gint 		gsb_data_report_amount_comparison_get_second_comparison 				(gint amount_comparison_number);
+gpointer	gsb_data_report_amount_comparison_get_widget							(gint amount_comparison_number);
 gboolean 	gsb_data_report_amount_comparison_init_variables 						(void);
 gint 		gsb_data_report_amount_comparison_new 									(gint number);
 gboolean 	gsb_data_report_amount_comparison_remove 								(gint amount_comparison_number);
@@ -54,5 +55,7 @@ gboolean 	gsb_data_report_amount_comparison_set_second_amount 					(gint amount_
 																					 GsbReal second_amount);
 gboolean 	gsb_data_report_amount_comparison_set_second_comparison 				(gint amount_comparison_number,
 																					 gint second_comparison);
+gboolean	gsb_data_report_amount_comparison_set_widget							(gint amount_comparison_number,
+																					 gpointer widget);
 /* END_DECLARATION */
 #endif

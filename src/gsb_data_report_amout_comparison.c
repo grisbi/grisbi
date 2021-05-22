@@ -60,6 +60,7 @@ struct _AmountComparaison {
     GsbReal second_amount;
 
     /** @name dynamic values used for the gui */
+	gpointer widget;
     gpointer hbox_line;
     gpointer button_link;
     gpointer button_first_comparison;
@@ -909,6 +910,56 @@ gboolean gsb_data_report_amount_comparison_set_entry_second_amount ( gint amount
     return TRUE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gpointer gsb_data_report_amount_comparison_get_widget (gint amount_comparison_number)
+{
+	AmountComparaison *amount_comparison;
+
+	amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
+
+	if ( !amount_comparison )
+		return 0;
+
+    return amount_comparison->widget;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_report_amount_comparison_set_widget (gint amount_comparison_number,
+														gpointer widget)
+{
+	AmountComparaison *amount_comparison;
+
+	amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
+
+	if ( !amount_comparison )
+		return FALSE;
+
+	amount_comparison->widget = widget;
+
+    return TRUE;
+}
 
 
-
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
