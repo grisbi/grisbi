@@ -8,6 +8,9 @@
 
 
 /* START_DECLARATION */
+/*COMMON_FUNCTIONS*/
+void			utils_widget_gtk_callback					(GtkWidget *widget,
+															 gpointer null);
 /* DURATION WIDGET */
 GtkWidget *		utils_widget_get_duration_widget 			(gint origin);
 gboolean 		utils_widget_duration_button_released 		(GtkWidget *togglebutton,

@@ -131,6 +131,20 @@ static gboolean utils_widget_origin_data_clicked (GtkWidget *togglebutton,
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+/*COMMON_FUNCTIONS*//**
+ * fixes error [-Werror=cast-function-type]
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void utils_widget_gtk_callback (GtkWidget *widget,
+								gpointer null)
+{
+	gtk_widget_destroy (widget);
+}
+
 /* DURATION WIDGET */
 /**
  * create the widget

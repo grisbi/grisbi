@@ -200,20 +200,6 @@ static void etats_page_text_retire_ligne_liste_comparaisons (gint last_text_comp
 }
 
 /**
- * fixes error [-Werror=cast-function-type]
- *
- * \param
- * \param
- *
- * \return
- **/
-static void etats_page_text_gtk_callback (GtkWidget *widget,
-										  gpointer null)
-{
-	gtk_widget_destroy (widget);
-}
-
-/**
  * remplit la liste des comparaisons de texte
  *
  * \param report_number
@@ -235,7 +221,7 @@ static void etats_page_text_remplit_liste_comparaisons (gint report_number,
 
 	/* on commence par effacer les anciennes lignes */
 	gtk_container_foreach (GTK_CONTAINER (priv->vbox_rows_text),
-						   (GtkCallback) etats_page_text_gtk_callback,
+						   (GtkCallback) utils_widget_gtk_callback,
 						   NULL);
 
 	tmp_list = gsb_data_report_get_text_comparison_list (report_number);
