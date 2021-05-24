@@ -101,27 +101,6 @@ enum ReconciliationColumns
 /* Private functions                                                          */
 /******************************************************************************/
 /**
- *
- *
- * \param
- *
- * \return
- **/
-static void prefs_page_reconcile_setup_button_collapse_row (GtkWidget *button)
-{
-	GtkWidget *image;
-    gchar *filename;
-
-    filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-up-16.png", NULL);
-	image = gtk_image_new_from_file (filename);
-	g_free (filename);
-
-	gtk_button_set_image (GTK_BUTTON (button), image);
-	gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
-	gtk_widget_set_sensitive (button, FALSE);
-}
-
-/**
  * sensitive unsensitive details of reconcile
  *
  * \param
@@ -681,7 +660,7 @@ static void prefs_page_reconcile_setup_page (PrefsPageReconcile *page)
 
 	/* set unsensitive details */
 	prefs_page_reconcile_sensitive_details (page, FALSE);
-	prefs_page_reconcile_setup_button_collapse_row (priv->button_collapse_row);
+	gtk_widget_set_sensitive (priv->button_collapse_row, FALSE);
 
     /* Connect signal */
     g_signal_connect (G_OBJECT (priv->radiobutton_end_date_2),

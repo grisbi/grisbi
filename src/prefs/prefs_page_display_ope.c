@@ -391,7 +391,6 @@ static void prefs_page_display_ope_create_buttons_table (PrefsPageDisplayOpe *pa
             priv->tab_list_buttons[current_number] = gtk_toggle_button_new_with_label (changed_string);
             gtk_widget_set_size_request (priv->tab_list_buttons[current_number], button_width, -1);
             gtk_widget_set_name (priv->tab_list_buttons[current_number], "list_config_buttons");
-            utils_widget_set_padding (priv->tab_list_buttons[current_number], 2, 2);
 			gtk_widget_set_hexpand (priv->tab_list_buttons[current_number], TRUE);
             g_object_set_data (G_OBJECT (priv->tab_list_buttons[current_number]),
 							   "element_number",

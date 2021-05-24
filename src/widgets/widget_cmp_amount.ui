@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.20"/>
+  <requires lib="gtk+" version="3.22"/>
   <object class="GtkBox" id="hbox_paddingbox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -86,13 +86,13 @@
   <object class="GtkImage" id="image_add">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="resource">/org/gtk/grisbi/images/gtk-add-16.png</property>
+    <property name="icon-name">list-add</property>
   </object>
   <object class="GtkImage" id="image_remove">
     <property name="visible">True</property>
     <property name="sensitive">False</property>
     <property name="can-focus">False</property>
-    <property name="resource">/org/gtk/grisbi/images/gtk-remove-16.png</property>
+    <property name="icon-name">list-remove</property>
   </object>
   <template class="WidgetCmpAmount" parent="GtkBox">
     <property name="visible">True</property>

@@ -1341,7 +1341,7 @@ static void prefs_page_payment_method_setup_page (PrefsPagePaymentMethod *page,
 
 	/* Need entry field */
 	gsb_autofunc_checkbutton_new_from_ui (priv->checkbutton_payment_entry,
-										  _("Need entry field"),
+										  _("Add an entry for a number"),
 										  FALSE,
 										  G_CALLBACK (prefs_page_payment_method_show_entry_toggled),
 										  priv,

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.12"/>
-  <object class="GtkSizeGroup"/>
+  <requires lib="gtk+" version="3.22"/>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">100</property>
     <property name="step-increment">1</property>
@@ -53,6 +52,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="row-spacing">5</property>
+                        <property name="column-spacing">5</property>
                         <child>
                           <object class="GtkScrolledWindow" id="sw_payment">
                             <property name="visible">True</property>
@@ -78,12 +78,10 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_payment_add">
-                            <property name="label">gtk-add</property>
+                            <property name="label" translatable="yes">Add</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
-                            <property name="margin-right">3</property>
-                            <property name="use-stock">True</property>
                             <property name="always-show-image">True</property>
                           </object>
                           <packing>
@@ -93,13 +91,10 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_payment_remove">
-                            <property name="label">gtk-remove</property>
+                            <property name="label" translatable="yes">Remove</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
-                            <property name="margin-left">2</property>
-                            <property name="margin-right">3</property>
-                            <property name="use-stock">True</property>
                             <property name="always-show-image">True</property>
                           </object>
                           <packing>
@@ -139,8 +134,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
-                            <property name="margin-right">3</property>
-                            <property name="label" translatable="yes">Name: </property>
+                            <property name="label" translatable="yes">Name:</property>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
@@ -152,8 +146,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
-                            <property name="margin-right">3</property>
-                            <property name="label" translatable="yes">Automatic numbering: </property>
+                            <property name="label" translatable="yes">Automatic numbering:</property>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
@@ -165,8 +158,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
-                            <property name="margin-right">3</property>
-                            <property name="label" translatable="yes">Type: </property>
+                            <property name="label" translatable="yes">Type:</property>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
@@ -177,8 +169,6 @@
                           <object class="GtkEntry" id="entry_payment_name">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="margin-left">2</property>
-                            <property name="margin-right">3</property>
                           </object>
                           <packing>
                             <property name="left-attach">2</property>
@@ -190,7 +180,6 @@
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
-                            <property name="margin-left">2</property>
                             <property name="draw-indicator">True</property>
                             <child>
                               <object class="GtkLabel" id="label_payment_number">
@@ -213,7 +202,6 @@
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="margin-left">2</property>
                             <property name="draw-indicator">True</property>
                           </object>
                           <packing>
@@ -225,8 +213,6 @@
                           <object class="GtkSpinButton" id="spinbutton_payment_number">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="margin-left">2</property>
-                            <property name="margin-right">3</property>
                             <property name="text" translatable="yes">0</property>
                             <property name="adjustment">adjustment1</property>
                           </object>
@@ -239,8 +225,6 @@
                           <object class="GtkComboBoxText" id="combo_payment_type">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="margin-left">2</property>
-                            <property name="margin-right">3</property>
                             <items>
                               <item translatable="yes">Neutral</item>
                               <item translatable="yes">Debit</item>
@@ -257,7 +241,6 @@
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
-                            <property name="margin-left">2</property>
                             <property name="active">True</property>
                             <child>
                               <object class="GtkBox">
@@ -271,28 +254,15 @@
                                     <property name="halign">center</property>
                                     <property name="spacing">5</property>
                                     <child>
-                                      <object class="GtkImage">
+                                      <object class="GtkLabel" id="label7">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="resource">/org/gtk/grisbi/images/gsb-down-16.png</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="margin-left">2</property>
                                         <property name="label" translatable="yes">Expand all</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">1</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -309,19 +279,7 @@
                                     <property name="halign">center</property>
                                     <property name="spacing">5</property>
                                     <child>
-                                      <object class="GtkImage">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="resource">/org/gtk/grisbi/images/gsb-up-16.png</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel">
+                                      <object class="GtkLabel" id="label8">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">Collapse all</property>
@@ -329,7 +287,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">1</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -416,11 +374,10 @@
             <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="button1">
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="yes">Cancel</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="use-stock">True</property>
                 <property name="always-show-image">True</property>
               </object>
               <packing>
@@ -431,11 +388,10 @@
             </child>
             <child>
               <object class="GtkButton" id="button2">
-                <property name="label">gtk-apply</property>
+                <property name="label" translatable="yes">Add</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="use-stock">True</property>
                 <property name="always-show-image">True</property>
               </object>
               <packing>
@@ -482,7 +438,7 @@
                               <object class="GtkImage">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="stock">gtk-execute</property>
+                                <property name="icon-name">applications-system</property>
                                 <property name="icon_size">6</property>
                               </object>
                               <packing>
@@ -672,86 +628,5 @@
       <action-widget response="-6">button1</action-widget>
       <action-widget response="-5">button2</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkEntryCompletion" id="entrycompletion1"/>
-  <object class="GtkBox" id="hbox_paddingbox">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="margin-bottom">5</property>
-    <child>
-      <object class="GtkBox" id="vbox_paddingbox">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkLabel" id="Title">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="halign">start</property>
-            <property name="label">Title</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <child>
-              <object class="GtkLabel" id="label">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label">    </property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="box_">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">5</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="padding">5</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
   </object>
 </interface>
