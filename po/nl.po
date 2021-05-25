@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-16 15:56+0200\n"
+"POT-Creation-Date: 2021-05-25 19:29+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -20,40 +20,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: ../src/etats/etats_page_accounts.ui.h:1 ../src/ui/etats_prefs.ui.h:74
-msgid "Select transactions only for given accounts"
-msgstr "Gebruik rekeningen"
-
-#: ../src/etats/etats_page_accounts.ui.h:2
+#: ../src/etats/etats_page_amount.ui.h:1 ../src/etats/etats_page_text.ui.h:1
 #, fuzzy
-msgid "Select the accounts included in the report: "
-msgstr "Kies een of meer rekeningen voor in het rapport :"
+msgid "Select transactions according to content"
+msgstr "Gebruik een transactie aan de hand van de tekst"
 
+#: ../src/etats/etats_page_amount.ui.h:2
+msgid "Exclude the transactions with a null amount"
+msgstr "Exclusief de transacties waar het bedrag nul van is "
+
+#: ../src/etats/etats_page_amount.ui.h:3
 #: ../src/etats/etats_page_accounts.ui.h:3
 #: ../src/etats/etats_page_budget.ui.h:3
 #: ../src/etats/etats_page_category.ui.h:3
 #: ../src/etats/etats_page_payee.ui.h:13 ../src/etats/etats_page_period.ui.h:9
 #: ../src/etats/etats_page_transfer.ui.h:6 ../src/ui/csv_template_rule.ui.h:15
-#: ../src/ui/prefs_page_accueil.ui.h:5 ../src/ui/prefs_page_archives.ui.h:11
-#: ../src/ui/prefs_page_bank.ui.h:3 ../src/ui/prefs_page_bet_account.ui.h:5
-#: ../src/ui/prefs_page_currency.ui.h:4
-#: ../src/ui/prefs_page_currency_link.ui.h:2
-#: ../src/ui/prefs_page_display_adr.ui.h:9
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
-#: ../src/ui/prefs_page_display_form.ui.h:5
-#: ../src/ui/prefs_page_display_gui.ui.h:15
-#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:37
-#: ../src/ui/prefs_page_files.ui.h:23
-#: ../src/ui/prefs_page_form_completion.ui.h:14
-#: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
-#: ../src/ui/prefs_page_import.ui.h:1 ../src/ui/prefs_page_metatree.ui.h:14
-#: ../src/ui/prefs_page_msg_delete.ui.h:2
-#: ../src/ui/prefs_page_msg_warning.ui.h:4
-#: ../src/ui/prefs_page_options_ope.ui.h:12
-#: ../src/ui/prefs_page_reconcile.ui.h:15
-#: ../src/ui/prefs_page_reconcile_sort.ui.h:3
 #: ../src/widgets/widget_bank_details.ui.h:12
-#: ../src/widgets/widget_cmp_text.ui.h:34
+#: ../src/widgets/widget_cmp_amount.ui.h:1
+#: ../src/widgets/widget_cmp_text.ui.h:32
 #: ../src/widgets/widget_css_rules.ui.h:1
 #: ../src/widgets/widget_currency_details.ui.h:6
 #: ../src/widgets/widget_currency_link.ui.h:4
@@ -66,6 +50,15 @@ msgstr "Kies een of meer rekeningen voor in het rapport :"
 #, fuzzy
 msgid "Title"
 msgstr "Titels"
+
+#: ../src/etats/etats_page_accounts.ui.h:1 ../src/ui/etats_prefs.ui.h:74
+msgid "Select transactions only for given accounts"
+msgstr "Gebruik rekeningen"
+
+#: ../src/etats/etats_page_accounts.ui.h:2
+#, fuzzy
+msgid "Select the accounts included in the report: "
+msgstr "Kies een of meer rekeningen voor in het rapport :"
 
 #: ../src/etats/etats_page_budget.ui.h:1
 #, fuzzy
@@ -194,11 +187,6 @@ msgstr "Kies een of meer jaren"
 msgid "Use financial years"
 msgstr "Gebruik financiële jaren"
 
-#: ../src/etats/etats_page_text.ui.h:1 ../src/ui/etats_prefs.ui.h:81
-#, fuzzy
-msgid "Select transactions according to content"
-msgstr "Gebruik een transactie aan de hand van de tekst"
-
 #: ../src/etats/etats_page_transfer.ui.h:1
 msgid "Do not include transfers"
 msgstr "Zonder overschrijvingen"
@@ -308,7 +296,8 @@ msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:21 ../src/ui/prefs_page_divers.ui.h:2
 #: ../src/ui/prefs_page_files.ui.h:15
-#: ../src/ui/prefs_page_payment_method.ui.h:8 ../src/widgets/widget_loan.ui.h:8
+#: ../src/ui/prefs_page_payment_method.ui.h:10
+#: ../src/widgets/widget_loan.ui.h:8
 msgid "0"
 msgstr ""
 
@@ -439,8 +428,7 @@ msgstr "Rapport naam"
 #. Partial balance name
 #. Name entry
 #: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:10
-#: ../src/ui/prefs_page_fyear.ui.h:6 ../src/ui/prefs_page_payment_method.ui.h:3
-#: ../src/widgets/widget_bank_details.ui.h:2
+#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/widgets/widget_bank_details.ui.h:2
 #: ../src/widgets/widget_currency_details.ui.h:1
 #: ../src/gsb_data_partial_balance.c:1787 ../src/tiers_onglet.c:213
 #, fuzzy
@@ -639,7 +627,7 @@ msgstr "Alle transacties"
 msgid "Make transactions clickable"
 msgstr "Maak de transacties klikbaar"
 
-#: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:413
+#: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:414
 #: ../src/grisbi_win.c:432 ../src/navigation.c:2077
 msgid "Accounts"
 msgstr "Rekeningen"
@@ -654,8 +642,8 @@ msgstr "Toon het sub-totaal van alle rekeningen"
 
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:547
-#: ../src/etats_affiche.c:2484 ../src/etats_config.c:972
-#: ../src/etats_prefs.c:418 ../src/export_csv.c:383 ../src/grisbi_win.c:469
+#: ../src/etats_affiche.c:2484 ../src/etats_config.c:453
+#: ../src/etats_prefs.c:419 ../src/export_csv.c:383 ../src/grisbi_win.c:469
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2011
 #: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:919
 #: ../src/gsb_transactions_list.c:112 ../src/import.c:4292
@@ -679,11 +667,11 @@ msgstr "Toon het sub-totaal van elke begunstigde"
 
 #. set head page
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2033 ../src/bet_hist.c:2039
-#: ../src/categories_onglet.c:370 ../src/etats_prefs.c:423
+#: ../src/categories_onglet.c:370 ../src/etats_prefs.c:424
 #: ../src/grisbi_win.c:479 ../src/navigation.c:2093
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
-#: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:359
+#: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:373
 #: ../src/etats/etats_page_category.c:88
 msgid "Categories"
 msgstr "Categorieën"
@@ -714,11 +702,11 @@ msgstr "Toon \" Geen sub-categorie \" zien als er geen zijn"
 #. 8
 #. set head page
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2037
-#: ../src/etats_prefs.c:428 ../src/export_csv.c:404 ../src/grisbi_win.c:484
+#: ../src/etats_prefs.c:429 ../src/export_csv.c:404 ../src/grisbi_win.c:484
 #: ../src/import_csv.c:79 ../src/imputation_budgetaire.c:377
 #: ../src/navigation.c:2097 ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
-#: ../src/prefs/prefs_page_bet_account.c:194 ../src/utils_widgets.c:362
+#: ../src/prefs/prefs_page_bet_account.c:194 ../src/utils_widgets.c:376
 #: ../src/etats/etats_page_budget.c:90
 msgid "Budgetary lines"
 msgstr "Budgetregels"
@@ -794,73 +782,65 @@ msgid "Select methods of payment to include: "
 msgstr "Kies een of meer betaalmethode voor in het rapport :"
 
 #: ../src/ui/etats_prefs.ui.h:79
-msgid "Select the transactions by amount"
-msgstr "Gebruik de transacties aan de hand van een bedrag"
-
-#: ../src/ui/etats_prefs.ui.h:80
-msgid "Exclude the transactions with a null amount"
-msgstr "Exclusief de transacties waar het bedrag nul van is "
-
-#: ../src/ui/etats_prefs.ui.h:82
 #, fuzzy
 msgid "Group transactions"
 msgstr "Markeer transacties"
 
-#: ../src/ui/etats_prefs.ui.h:83
+#: ../src/ui/etats_prefs.ui.h:80
 msgid "Group transactions by account"
 msgstr "Groepeer transacties volgens rekening"
 
-#: ../src/ui/etats_prefs.ui.h:84
+#: ../src/ui/etats_prefs.ui.h:81
 #, fuzzy
 msgid "Group transactions by payee"
 msgstr "Groepeer transacties volgens categorie"
 
-#: ../src/ui/etats_prefs.ui.h:85
+#: ../src/ui/etats_prefs.ui.h:82
 msgid "Group transactions by category"
 msgstr "Groepeer transacties volgens categorie"
 
-#: ../src/ui/etats_prefs.ui.h:86
+#: ../src/ui/etats_prefs.ui.h:83
 msgid "Group transactions by budgetary line"
 msgstr "Groepeer transacties volgens budgetregel"
 
-#: ../src/ui/etats_prefs.ui.h:87
+#: ../src/ui/etats_prefs.ui.h:84
 msgid "Group level organisation"
 msgstr "Groepsniveau organisatie"
 
-#: ../src/ui/etats_prefs.ui.h:88 ../src/etats_prefs.c:461
-#: ../src/etats_prefs.c:1186
+#: ../src/ui/etats_prefs.ui.h:85 ../src/etats_prefs.c:462
+#: ../src/etats_prefs.c:1147
 #, fuzzy
 msgid "Data separation"
 msgstr "Selecteer data"
 
-#: ../src/ui/etats_prefs.ui.h:89
+#: ../src/ui/etats_prefs.ui.h:86
 msgid "Split incomes and outgoings"
 msgstr "Splits binnenkomend en uitgaand"
 
-#: ../src/ui/etats_prefs.ui.h:90
+#: ../src/ui/etats_prefs.ui.h:87
 msgid "Split by financial year"
 msgstr "Splits volgens financieel jaar"
 
-#: ../src/ui/etats_prefs.ui.h:91
+#: ../src/ui/etats_prefs.ui.h:88
 msgid "Split by period"
 msgstr "Splits volgens periode"
 
-#: ../src/ui/etats_prefs.ui.h:92
+#: ../src/ui/etats_prefs.ui.h:89
 #, fuzzy
 msgid "Separation by period"
 msgstr "Splits volgens periode"
 
-#: ../src/ui/etats_prefs.ui.h:93
+#: ../src/ui/etats_prefs.ui.h:90
 #, fuzzy
 msgid "Separation by time period: "
 msgstr "Splits volgens periode:"
 
-#: ../src/ui/etats_prefs.ui.h:94
+#: ../src/ui/etats_prefs.ui.h:91
 #, fuzzy
 msgid "Beginning of week: "
 msgstr "Begin saldo:"
 
-#: ../src/ui/etats_prefs.ui.h:95
+#: ../src/ui/etats_prefs.ui.h:92
 #, fuzzy
 msgid "title"
 msgstr "Titels"
@@ -955,8 +935,8 @@ msgstr "Nieuw bestand"
 msgid "Debug mode"
 msgstr "Debug bestand"
 
-#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/ui/grisbi_prefs.ui.h:2
+#: ../src/grisbi_app.c:118 ../src/grisbi_app.c:135
 #, fuzzy
 msgid "Close"
 msgstr "Sluiten"
@@ -1111,9 +1091,10 @@ msgstr "Rekeningen naar QIF bestanden..."
 #. edit button
 #. Properties button
 #. edit button
-#: ../src/ui/grisbi_menu.ui.h:48 ../src/categories_onglet.c:609
-#: ../src/gsb_scheduler_list.c:1173 ../src/gsb_transactions_list.c:2523
-#: ../src/imputation_budgetaire.c:658 ../src/tiers_onglet.c:546
+#: ../src/ui/grisbi_menu.ui.h:48 ../src/ui/prefs_page_accueil.ui.h:6
+#: ../src/categories_onglet.c:609 ../src/gsb_scheduler_list.c:1173
+#: ../src/gsb_transactions_list.c:2523 ../src/imputation_budgetaire.c:658
+#: ../src/tiers_onglet.c:546
 msgid "Edit"
 msgstr "Bewerken"
 
@@ -1126,18 +1107,18 @@ msgstr ""
 msgid "Grisbi preferences"
 msgstr "Voorkeuren"
 
-#: ../src/ui/grisbi_prefs.ui.h:2
+#: ../src/ui/grisbi_prefs.ui.h:3
 msgid "This state will be kept for the duration of this session"
 msgstr ""
 
-#: ../src/ui/grisbi_prefs.ui.h:3 ../src/ui/prefs_page_payment_method.ui.h:12
+#: ../src/ui/grisbi_prefs.ui.h:4 ../src/ui/prefs_page_payment_method.ui.h:14
 #: ../src/widgets/widget_list_metatree.ui.h:3
 #, fuzzy
 msgid "Expand all"
 msgstr "Selecteer data"
 
-#: ../src/ui/grisbi_prefs.ui.h:4 ../src/ui/prefs_page_payment_method.ui.h:13
-#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
+#: ../src/ui/grisbi_prefs.ui.h:5 ../src/ui/prefs_page_payment_method.ui.h:15
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:4
 #: ../src/widgets/widget_list_metatree.ui.h:4
 msgid "Collapse all"
 msgstr ""
@@ -1167,7 +1148,25 @@ msgstr "Verplaats de transactie naar een andere rekening"
 msgid "Place the partial balance  under its accounts if it's possible"
 msgstr "Selecteer bankrekeningen:"
 
-#: ../src/ui/prefs_page_accueil.ui.h:6
+#: ../src/ui/prefs_page_accueil.ui.h:5 ../src/ui/prefs_page_bank.ui.h:2
+#: ../src/ui/prefs_page_currency.ui.h:2
+#: ../src/ui/prefs_page_currency_link.ui.h:2 ../src/ui/prefs_page_fyear.ui.h:3
+#: ../src/ui/prefs_page_payment_method.ui.h:2
+#: ../src/widgets/widget_cmp_amount.ui.h:18
+#: ../src/widgets/widget_cmp_text.ui.h:33
+msgid "Add"
+msgstr "Toevoegen"
+
+#: ../src/ui/prefs_page_accueil.ui.h:7 ../src/ui/prefs_page_bank.ui.h:3
+#: ../src/ui/prefs_page_currency.ui.h:3
+#: ../src/ui/prefs_page_currency_link.ui.h:3
+#: ../src/ui/prefs_page_payment_method.ui.h:3
+#: ../src/widgets/widget_cmp_amount.ui.h:19
+#: ../src/widgets/widget_cmp_text.ui.h:34
+msgid "Remove"
+msgstr "Verwijder"
+
+#: ../src/ui/prefs_page_accueil.ui.h:8
 msgid "Pluriel de final"
 msgstr ""
 
@@ -1220,7 +1219,7 @@ msgstr "Ingevoerde banken"
 
 # voorkeuren scherm > bank; dit is een kop opschrift waar onder vallen naam,
 # adres, telefoon ed van de bank.
-#: ../src/ui/prefs_page_bank.ui.h:2
+#: ../src/ui/prefs_page_bank.ui.h:4
 msgid "Bank details"
 msgstr "Bank gegevens"
 
@@ -1246,17 +1245,17 @@ msgstr "de budgetregel"
 msgid "Account with deferred debit card"
 msgstr "Creditcard"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:6
+#: ../src/ui/prefs_page_bet_account.ui.h:5
 #, fuzzy
 msgid "Data for the forecast"
 msgstr "aan de bovenkant van het rapport"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:7
+#: ../src/ui/prefs_page_bet_account.ui.h:6
 #, fuzzy
 msgid "Sources of historical data"
 msgstr "Start datum"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:8
+#: ../src/ui/prefs_page_bet_account.ui.h:7
 #, fuzzy
 msgid "Credit Data"
 msgstr "Creditcard"
@@ -1298,11 +1297,17 @@ msgstr "Verplaats de transactie naar een andere rekening"
 msgid "Known currencies"
 msgstr "Bekende valuta"
 
-#: ../src/ui/prefs_page_currency.ui.h:2 ../src/gsb_currency.c:1309
+#: ../src/ui/prefs_page_currency.ui.h:4 ../src/gsb_currency.c:1309
 msgid "Add a currency"
 msgstr "Voeg een valuta toe"
 
-#: ../src/ui/prefs_page_currency.ui.h:3
+#: ../src/ui/prefs_page_currency.ui.h:5
+#: ../src/ui/prefs_page_payment_method.ui.h:17
+#, fuzzy
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: ../src/ui/prefs_page_currency.ui.h:6
 #, fuzzy
 msgid "World currencies"
 msgstr "Gebruikte valuta"
@@ -1410,60 +1415,56 @@ msgid "Resolution screen"
 msgstr "Controle referentie"
 
 #: ../src/ui/prefs_page_display_gui.ui.h:2
-msgid "Use a low resolution screen (Close and reopen preferences)"
-msgstr ""
-
-#: ../src/ui/prefs_page_display_gui.ui.h:3
 #, fuzzy
 msgid "Headings bar"
 msgstr "Toon de informatie van"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:4
+#: ../src/ui/prefs_page_display_gui.ui.h:3
 #, fuzzy
 msgid "Display headings bar"
 msgstr "Toon de informatie van"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:5
+#: ../src/ui/prefs_page_display_gui.ui.h:4
 msgid "Navigation pane"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:6
+#: ../src/ui/prefs_page_display_gui.ui.h:5
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:7
+#: ../src/ui/prefs_page_display_gui.ui.h:6
 msgid "Toolbars"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:8
+#: ../src/ui/prefs_page_display_gui.ui.h:7
 #, fuzzy
 msgid "Display toolbar buttons as"
 msgstr "Toon transacties"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:9
+#: ../src/ui/prefs_page_display_gui.ui.h:8
 #, fuzzy
 msgid " : "
 msgstr "Bestand : "
 
-#: ../src/ui/prefs_page_display_gui.ui.h:10
+#: ../src/ui/prefs_page_display_gui.ui.h:9
 #, fuzzy
 msgid "Icons only"
 msgstr "Inkomsten"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:11
+#: ../src/ui/prefs_page_display_gui.ui.h:10
 #, fuzzy
 msgid "Text only"
 msgstr "Tekst"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:12
+#: ../src/ui/prefs_page_display_gui.ui.h:11
 msgid "Text below items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:13
+#: ../src/ui/prefs_page_display_gui.ui.h:12
 msgid "Text beside items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:14
+#: ../src/ui/prefs_page_display_gui.ui.h:13
 msgid "Shortcuts"
 msgstr ""
 
@@ -1525,8 +1526,8 @@ msgstr "Toon data"
 # tablad header raport bewerken>toon data>algemeen
 #. append group page "Generalities"
 #: ../src/ui/prefs_page_divers.ui.h:12
-#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:469
-#: ../src/etats_prefs.c:1244 ../src/grisbi_prefs.c:379
+#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:470
+#: ../src/etats_prefs.c:1205 ../src/grisbi_prefs.c:379
 msgid "Generalities"
 msgstr "Algemeen"
 
@@ -1837,47 +1838,47 @@ msgstr "Verwijder begunstigde"
 # voorkeuren scherm > finacnieel jaar ; als dit te langs is wordt het
 # voorkeurenscherm tegroot, als er 2 regels van gemaakt worden wordt de knop
 # er groot.
-#: ../src/ui/prefs_page_fyear.ui.h:3
+#: ../src/ui/prefs_page_fyear.ui.h:4
 #, fuzzy
 msgid "Associate operations without financial years"
 msgstr "Koppel transacties zonder financieel jaar"
 
-#: ../src/ui/prefs_page_fyear.ui.h:4
+#: ../src/ui/prefs_page_fyear.ui.h:5
 msgid "Financial year details"
 msgstr "Financieel jaar details"
 
-#: ../src/ui/prefs_page_fyear.ui.h:5
+#: ../src/ui/prefs_page_fyear.ui.h:6
 #, fuzzy
 msgid "Activate financial year in transaction form"
 msgstr "Toepassen in formulier"
 
-#: ../src/ui/prefs_page_fyear.ui.h:7
+#: ../src/ui/prefs_page_fyear.ui.h:8
 #, fuzzy
 msgid "Start: "
 msgstr "Start:"
 
-#: ../src/ui/prefs_page_fyear.ui.h:8
+#: ../src/ui/prefs_page_fyear.ui.h:9
 #, fuzzy
 msgid "End: "
 msgstr "Eind"
 
-#: ../src/ui/prefs_page_metatree.ui.h:1 ../src/etats_prefs.c:1445
+#: ../src/ui/prefs_page_metatree.ui.h:1 ../src/etats_prefs.c:1406
 msgid "Totals currencies"
 msgstr "Gebruikte valuta"
 
 #: ../src/ui/prefs_page_metatree.ui.h:2
 #, fuzzy
-msgid "Currency for payees tree: "
+msgid "Currency for payees tree:"
 msgstr "Boom voor valuta categorie:"
 
 #: ../src/ui/prefs_page_metatree.ui.h:3
 #, fuzzy
-msgid "Currency for categories tree: "
+msgid "Currency for categories tree:"
 msgstr "Boom voor valuta categorie:"
 
 #: ../src/ui/prefs_page_metatree.ui.h:4
 #, fuzzy
-msgid "Currency for budgetary lines tree: "
+msgid "Currency for budgetary lines tree:"
 msgstr "Boom voor valuta budgetregels:"
 
 #: ../src/ui/prefs_page_metatree.ui.h:5
@@ -1940,15 +1941,15 @@ msgid "Display modes"
 msgstr "Volgorde van weergave"
 
 #: ../src/ui/prefs_page_options_ope.ui.h:2
-msgid "In one line visible, show the line: "
+msgid "In one line visible, show the line:"
 msgstr ""
 
 #: ../src/ui/prefs_page_options_ope.ui.h:3
-msgid "In two lines visibles, show the lines: "
+msgid "In two lines visibles, show the lines:"
 msgstr ""
 
 #: ../src/ui/prefs_page_options_ope.ui.h:4
-msgid "In three lines visibles, show the lines: "
+msgid "In three lines visibles, show the lines:"
 msgstr ""
 
 #: ../src/ui/prefs_page_options_ope.ui.h:5
@@ -1988,66 +1989,72 @@ msgstr "Bekende methodes van betaling"
 
 # voorkeurschermmennu > Bron > betaalmethode
 #  Kop tekst
-#: ../src/ui/prefs_page_payment_method.ui.h:2
+#: ../src/ui/prefs_page_payment_method.ui.h:4
 msgid "Payment method details"
 msgstr "Details van betaling methodes"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:4
-#, fuzzy
-msgid "Automatic numbering: "
-msgstr "Automatische nummering:"
-
 #: ../src/ui/prefs_page_payment_method.ui.h:5
 #, fuzzy
-msgid "Type: "
-msgstr "Soort:"
+msgid "Name:"
+msgstr "Naam:"
 
 #: ../src/ui/prefs_page_payment_method.ui.h:6
+#, fuzzy
+msgid "Automatic numbering:"
+msgstr "Automatische nummering:"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:7
+#, fuzzy
+msgid "Type:"
+msgstr "Soort:"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:8
 #, fuzzy
 msgid "Add a number"
 msgstr "Sub-categorie toevoegen"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:7
+#: ../src/ui/prefs_page_payment_method.ui.h:9
+#: ../src/prefs/prefs_page_payment_method.c:1361
 msgid "Activate"
 msgstr "Activeer"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:9
+#: ../src/ui/prefs_page_payment_method.ui.h:11
 msgid "Neutral"
 msgstr "Neutraal"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:10 ../src/bet_future.c:552
+#: ../src/ui/prefs_page_payment_method.ui.h:12 ../src/bet_future.c:552
 #: ../src/bet_tab.c:2003 ../src/categories_onglet.c:778 ../src/export_csv.c:389
 #: ../src/gsb_form.c:2017 ../src/gsb_form_widget.c:554
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:83
 #: ../src/imputation_budgetaire.c:824
-#: ../src/prefs/prefs_page_payment_method.c:507
-#: ../src/prefs/prefs_page_payment_method.c:968
+#: ../src/prefs/prefs_page_payment_method.c:503
+#: ../src/prefs/prefs_page_payment_method.c:964
 msgid "Debit"
 msgstr "Debet(af)"
 
 #. 11
-#: ../src/ui/prefs_page_payment_method.ui.h:11 ../src/bet_future.c:557
+#: ../src/ui/prefs_page_payment_method.ui.h:13 ../src/bet_future.c:557
 #: ../src/bet_tab.c:2021 ../src/categories_onglet.c:778 ../src/export_csv.c:386
 #: ../src/gsb_form.c:2023 ../src/gsb_form_widget.c:558
 #: ../src/gsb_transactions_list.c:115 ../src/import_csv.c:82
 #: ../src/imputation_budgetaire.c:824
-#: ../src/prefs/prefs_page_payment_method.c:521
-#: ../src/prefs/prefs_page_payment_method.c:964
+#: ../src/prefs/prefs_page_payment_method.c:517
+#: ../src/prefs/prefs_page_payment_method.c:960
 msgid "Credit"
 msgstr "Credit(bij)"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:16
 msgid "Delete a payment method"
 msgstr "Verwijder een betalingsmethod"
 
 # voorkeurschermmennu > Bron > betaalmethode
 #  Kop tekst
-#: ../src/ui/prefs_page_payment_method.ui.h:15
+#: ../src/ui/prefs_page_payment_method.ui.h:18
 #, fuzzy
 msgid "Payment method is used by transactions"
 msgstr "Details van betaling methodes"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:16
+#: ../src/ui/prefs_page_payment_method.ui.h:19
 #, fuzzy
 msgid ""
 "Some transactions still use that payment method. As deletion of this method "
@@ -2058,14 +2065,14 @@ msgstr ""
 "transacties dienen eerst aan een andere betaal methode te worden gekoppeld "
 "omdat deze verwijdering niet ongedaan te maken is."
 
-#: ../src/ui/prefs_page_payment_method.ui.h:17
+#: ../src/ui/prefs_page_payment_method.ui.h:20
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
 "have no new one."
 msgstr ""
 
-#: ../src/ui/prefs_page_payment_method.ui.h:18
+#: ../src/ui/prefs_page_payment_method.ui.h:21
 #, fuzzy
 msgid "Associate transactions with: "
 msgstr "Koppel de transacties aan:"
@@ -2139,6 +2146,14 @@ msgstr ""
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:1
 msgid "Reconciliation: sort transactions"
 msgstr "Gecontroleerd: Sorteer transacties"
+
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
+msgid "Go up"
+msgstr ""
+
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:3
+msgid "Go down"
+msgstr ""
 
 #: ../src/ui/search_transaction.ui.h:2
 #, fuzzy
@@ -2237,20 +2252,81 @@ msgstr "Fax"
 msgid "Notes"
 msgstr "Aantekeningen"
 
-#: ../src/widgets/widget_cmp_text.ui.h:1 ../src/etats_config.c:101
-#: ../src/etats_config.c:109
+#: ../src/widgets/widget_cmp_amount.ui.h:2
+#: ../src/widgets/widget_cmp_text.ui.h:1
 msgid "and"
 msgstr "en"
 
-#: ../src/widgets/widget_cmp_text.ui.h:2 ../src/etats_config.c:102
-#: ../src/etats_config.c:110
+#: ../src/widgets/widget_cmp_amount.ui.h:3
+#: ../src/widgets/widget_cmp_text.ui.h:2
 msgid "or"
 msgstr "of"
 
-#: ../src/widgets/widget_cmp_text.ui.h:3 ../src/etats_config.c:103
-#: ../src/etats_config.c:111
+#: ../src/widgets/widget_cmp_amount.ui.h:4
+#: ../src/widgets/widget_cmp_text.ui.h:3
 msgid "except"
 msgstr "uitgezonderd"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:5
+msgid "Transactions with an amount of"
+msgstr "Transacties met een bedrag van "
+
+#: ../src/widgets/widget_cmp_amount.ui.h:6
+#: ../src/widgets/widget_cmp_text.ui.h:23
+msgid "equal"
+msgstr "gelijk aan"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:7
+#: ../src/widgets/widget_cmp_text.ui.h:24
+msgid "less than"
+msgstr "minder dan"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:8
+#: ../src/widgets/widget_cmp_text.ui.h:25
+msgid "less than or equal"
+msgstr "minder dan of gelijk aan"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:9
+#: ../src/widgets/widget_cmp_text.ui.h:26
+msgid "greater than"
+msgstr "groter dan"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:10
+#: ../src/widgets/widget_cmp_text.ui.h:27
+msgid "greater than or equal"
+msgstr "groter dan of gelijk aan"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:11
+#: ../src/widgets/widget_cmp_text.ui.h:28
+msgid "different from"
+msgstr "verschilt van"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:12
+msgid "null"
+msgstr "nul"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:13
+msgid "not null"
+msgstr "niet nul"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:14
+msgid "positive"
+msgstr "positief"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:15
+msgid "negative"
+msgstr "negatief"
+
+# anders kloppen de regels niet in het nederlands
+# zie raport bewerken>bedrag
+#: ../src/widgets/widget_cmp_amount.ui.h:16
+msgid "to"
+msgstr " "
+
+#: ../src/widgets/widget_cmp_amount.ui.h:17
+#: ../src/widgets/widget_cmp_text.ui.h:31
+msgid "stop"
+msgstr "stop"
 
 #: ../src/widgets/widget_cmp_text.ui.h:4
 #, fuzzy
@@ -2300,51 +2376,15 @@ msgstr "is niet leeg"
 msgid "is "
 msgstr "is"
 
-#: ../src/widgets/widget_cmp_text.ui.h:23 ../src/etats_config.c:118
-msgid "equal"
-msgstr "gelijk aan"
-
-#: ../src/widgets/widget_cmp_text.ui.h:24 ../src/etats_config.c:119
-msgid "less than"
-msgstr "minder dan"
-
-#: ../src/widgets/widget_cmp_text.ui.h:25 ../src/etats_config.c:120
-msgid "less than or equal"
-msgstr "minder dan of gelijk aan"
-
-#: ../src/widgets/widget_cmp_text.ui.h:26 ../src/etats_config.c:121
-msgid "greater than"
-msgstr "groter dan"
-
-#: ../src/widgets/widget_cmp_text.ui.h:27 ../src/etats_config.c:122
-msgid "greater than or equal"
-msgstr "groter dan of gelijk aan"
-
-#: ../src/widgets/widget_cmp_text.ui.h:28 ../src/etats_config.c:123
-msgid "different from"
-msgstr "verschilt van"
-
 #: ../src/widgets/widget_cmp_text.ui.h:29
 msgid "the biggest"
 msgstr "de grootste"
 
-#: ../src/widgets/widget_cmp_text.ui.h:30 ../src/etats_config.c:1182
+#: ../src/widgets/widget_cmp_text.ui.h:30 ../src/etats_config.c:663
 #: ../src/etats_support.c:68
 #, fuzzy
 msgid "at"
 msgstr "Datum"
-
-#: ../src/widgets/widget_cmp_text.ui.h:31 ../src/etats_config.c:112
-msgid "stop"
-msgstr "stop"
-
-#: ../src/widgets/widget_cmp_text.ui.h:32 ../src/etats_config.c:484
-msgid "Add"
-msgstr "Toevoegen"
-
-#: ../src/widgets/widget_cmp_text.ui.h:33 ../src/etats_config.c:495
-msgid "Remove"
-msgstr "Verwijder"
 
 #: ../src/widgets/widget_css_rules.ui.h:2
 msgid "Text height of status bar: "
@@ -2559,7 +2599,7 @@ msgstr ""
 #. partie mensuelle
 #: ../src/widgets/widget_loan.ui.h:5 ../src/bet_finance_ui.c:994
 #: ../src/bet_finance_ui.c:1493 ../src/bet_finance_ui.c:1749
-#: ../src/utils_widgets.c:167
+#: ../src/utils_widgets.c:181
 #, fuzzy
 msgid "Duration: "
 msgstr "Vertaling:"
@@ -3163,7 +3203,7 @@ msgid "Categories : Sub-categories"
 msgstr "Categorieën : Sub-categorieën"
 
 #: ../src/bet_future.c:569 ../src/bet_hist.c:1587 ../src/etats_affiche.c:2498
-#: ../src/etats_config.c:964 ../src/gsb_form.c:2038
+#: ../src/etats_config.c:445 ../src/gsb_form.c:2038
 #: ../src/gsb_form_widget.c:582 ../src/gsb_transactions_list.c:113
 #: ../src/imputation_budgetaire.c:183 ../src/meta_budgetary.c:88
 #: ../src/utils_widgets.c:109 ../src/widgets/widget_loan.c:1079
@@ -3236,7 +3276,7 @@ msgstr "Regelmaat"
 #: ../src/bet_future.c:1101 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:1142 ../src/prefs/prefs_page_archives.c:483
-#: ../src/prefs/prefs_page_reconcile.c:350
+#: ../src/prefs/prefs_page_reconcile.c:329
 msgid "Final date"
 msgstr "Eind datum"
 
@@ -3518,7 +3558,7 @@ msgstr "Selecteer alles"
 #. name of the div sous-div column
 #. 6
 #: ../src/bet_hist.c:513 ../src/bet_hist.c:1594 ../src/categories_onglet.c:180
-#: ../src/etats_affiche.c:2491 ../src/etats_config.c:960
+#: ../src/etats_affiche.c:2491 ../src/etats_config.c:441
 #: ../src/export_csv.c:395 ../src/gsb_transactions_list.c:121
 #: ../src/import_csv.c:77 ../src/meta_categories.c:67 ../src/utils_widgets.c:96
 msgid "Category"
@@ -3526,12 +3566,13 @@ msgstr "Categorie"
 
 #. on ajoute le montant
 #. 10
+#. set head page
 #: ../src/bet_hist.c:534 ../src/categories_onglet.c:201
-#: ../src/etats_affiche.c:2546 ../src/etats_prefs.c:586
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:920
-#: ../src/gsb_transactions_list.c:117 ../src/import.c:4299
-#: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:204
-#: ../src/tiers_onglet.c:735
+#: ../src/etats_affiche.c:2546 ../src/gsb_assistant_reconcile_config.c:597
+#: ../src/gsb_scheduler_list.c:920 ../src/gsb_transactions_list.c:117
+#: ../src/import.c:4299 ../src/import_csv.c:81
+#: ../src/imputation_budgetaire.c:204 ../src/tiers_onglet.c:735
+#: ../src/etats/etats_page_amount.c:287
 msgid "Amount"
 msgstr "Bedrag"
 
@@ -3748,11 +3789,11 @@ msgstr "Automatisch"
 msgid "Check the box to automatically change start date"
 msgstr ""
 
-#: ../src/categories_onglet.c:190 ../src/etats_config.c:968
+#: ../src/categories_onglet.c:190 ../src/etats_config.c:449
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:919
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1144
-#: ../src/prefs/prefs_page_payment_method.c:1210
-#: ../src/prefs/prefs_page_reconcile.c:350 ../src/tiers_onglet.c:724
+#: ../src/prefs/prefs_page_payment_method.c:1252
+#: ../src/prefs/prefs_page_reconcile.c:329 ../src/tiers_onglet.c:724
 msgid "Account"
 msgstr "Rekening"
 
@@ -4620,9 +4661,9 @@ msgid "Financial year"
 msgstr "Financieel jaar"
 
 #. On récupère le nom de la page
-#: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:443
-#: ../src/etats_prefs.c:677 ../src/grisbi_prefs.c:516
-#: ../src/prefs/prefs_page_payment_method.c:1285
+#: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:444
+#: ../src/etats_prefs.c:638 ../src/grisbi_prefs.c:516
+#: ../src/prefs/prefs_page_payment_method.c:1327
 msgid "Payment methods"
 msgstr "Betaalmethodes"
 
@@ -4644,7 +4685,7 @@ msgstr "Bank referenties"
 msgid "Statement"
 msgstr "Overzicht"
 
-#: ../src/etats_calculs.c:144
+#: ../src/etats_calculs.c:135
 #, c-format
 msgid ""
 "The number of transactions selected by the report is very important (%d) and "
@@ -4653,50 +4694,24 @@ msgid ""
 "At this point you can continue or return to setting"
 msgstr ""
 
-#: ../src/etats_calculs.c:158
+#: ../src/etats_calculs.c:149
 #, fuzzy
 msgid "Continue"
 msgstr "Contact"
 
-#: ../src/etats_calculs.c:159
+#: ../src/etats_calculs.c:150
 #, fuzzy
 msgid "Return to settings"
 msgstr "Exporteer categorieën"
 
-#: ../src/etats_config.c:124
-msgid "null"
-msgstr "nul"
-
-#: ../src/etats_config.c:125
-msgid "not null"
-msgstr "niet nul"
-
-#: ../src/etats_config.c:126
-msgid "positive"
-msgstr "positief"
-
-#: ../src/etats_config.c:127
-msgid "negative"
-msgstr "negatief"
-
-#: ../src/etats_config.c:198
-msgid "Transactions with an amount of"
-msgstr "Transacties met een bedrag van "
-
-# anders kloppen de regels niet in het nederlands
-# zie raport bewerken>bedrag
-#: ../src/etats_config.c:206 ../src/etats_config.c:236
-msgid "to"
-msgstr " "
-
-#: ../src/etats_config.c:671 ../src/etats/etats_page_budget.c:218
+#: ../src/etats_config.c:152 ../src/etats/etats_page_budget.c:218
 #: ../src/etats/etats_page_category.c:216 ../src/etats/etats_page_payee.c:816
 #: ../src/etats/etats_page_period.c:569
 #: ../src/widgets/widget_list_accounts.c:410
 msgid "Performance issue."
 msgstr ""
 
-#: ../src/etats_config.c:672
+#: ../src/etats_config.c:153
 #, fuzzy
 msgid ""
 "All methods of payment have been selected.  Grisbi will run faster without "
@@ -4705,7 +4720,7 @@ msgstr ""
 "Alle betaalmethodes zijn geselecteerd. Grisbi zal sneller zijn\n"
 "zonder de optie \"Gedetailleerde betaal methode gebruiken\" te gebruiken."
 
-#: ../src/etats_config.c:1200 ../src/etats_support.c:68
+#: ../src/etats_config.c:681 ../src/etats_support.c:68
 #: ../src/etats_support.c:70
 #, fuzzy
 msgid "Edited"
@@ -4998,7 +5013,7 @@ msgstr ""
 msgid "Searching"
 msgstr "Zoeken"
 
-#: ../src/etats_prefs.c:56 ../src/etats/etats_page_payee.c:61
+#: ../src/etats_prefs.c:57 ../src/etats/etats_page_payee.c:61
 #: ../src/widgets/widget_list_accounts.c:59
 msgid ""
 "Command-click\n"
@@ -5006,70 +5021,70 @@ msgid ""
 msgstr ""
 
 #. append group page
-#: ../src/etats_prefs.c:399
+#: ../src/etats_prefs.c:400
 msgid "Data selection"
 msgstr "Selecteer data"
 
-#: ../src/etats_prefs.c:403
+#: ../src/etats_prefs.c:404
 msgid "Dates"
 msgstr "Data"
 
 #. set head page
-#: ../src/etats_prefs.c:408 ../src/etats/etats_page_transfer.c:158
+#: ../src/etats_prefs.c:409 ../src/etats/etats_page_transfer.c:158
 msgid "Transfers"
 msgstr "Overschrijvingen"
 
-#: ../src/etats_prefs.c:433
+#: ../src/etats_prefs.c:434
 msgid "Texts"
 msgstr "Tekst"
 
-#: ../src/etats_prefs.c:438
+#: ../src/etats_prefs.c:439
 msgid "Amounts"
 msgstr "Bedragen"
 
-#: ../src/etats_prefs.c:448 ../src/etats_prefs.c:775
+#: ../src/etats_prefs.c:449 ../src/etats_prefs.c:736
 #, fuzzy
 msgid "Miscellaneous"
 msgstr "Overige : Giften"
 
 #. remplissage de l'onglet d'organisation
-#: ../src/etats_prefs.c:452
+#: ../src/etats_prefs.c:453
 #, fuzzy
 msgid "Data organization"
 msgstr "Groepen sorteren"
 
-#: ../src/etats_prefs.c:456 ../src/etats_prefs.c:1142
+#: ../src/etats_prefs.c:457 ../src/etats_prefs.c:1103
 msgid "Data grouping"
 msgstr ""
 
 #. remplissage de l'onglet d'affichage
-#: ../src/etats_prefs.c:465
+#: ../src/etats_prefs.c:466
 msgid "Data display"
 msgstr "Toon data"
 
-#: ../src/etats_prefs.c:474 ../src/etats_prefs.c:1271
+#: ../src/etats_prefs.c:475 ../src/etats_prefs.c:1232
 msgid "Titles"
 msgstr "Titels"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:479 ../src/export_csv.c:359 ../src/grisbi_prefs.c:438
+#: ../src/etats_prefs.c:480 ../src/export_csv.c:359 ../src/grisbi_prefs.c:438
 #: ../src/grisbi_win.c:436
 msgid "Transactions"
 msgstr "Boekingen"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:484 ../src/grisbi_prefs.c:494 ../src/gsb_currency.c:952
+#: ../src/etats_prefs.c:485 ../src/grisbi_prefs.c:494 ../src/gsb_currency.c:952
 #: ../src/prefs/prefs_page_currency.c:715
 msgid "Currencies"
 msgstr "Valuta's"
 
-#: ../src/etats_prefs.c:1372
+#: ../src/etats_prefs.c:1333
 #, fuzzy
 msgid "Transactions display"
 msgstr "Transactielijst"
 
-#: ../src/etats_prefs.c:1484
+#: ../src/etats_prefs.c:1445
 #, fuzzy
 msgid "Report properties"
 msgstr "Valuta eigenschappen"
@@ -6089,7 +6104,7 @@ msgid "List behavior"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_display_ope.c:691
 msgid "Transactions list cells"
 msgstr "Cellen transactielijst"
 
@@ -6101,7 +6116,7 @@ msgstr "Berichten & Waarschuwingen"
 
 #. On récupère le nom de la page
 #: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:334
-#: ../src/prefs/prefs_page_reconcile.c:624
+#: ../src/prefs/prefs_page_reconcile.c:603
 msgid "Reconciliation"
 msgstr "Controleer"
 
@@ -6113,7 +6128,7 @@ msgstr "Controleer"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_form.c:899
+#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_form.c:898
 msgid "Transaction form"
 msgstr "Transactie formulier"
 
@@ -10232,7 +10247,7 @@ msgid ""
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1142 ../src/prefs/prefs_page_reconcile.c:350
+#: ../src/gsb_transactions_list.c:1142 ../src/prefs/prefs_page_reconcile.c:329
 #, fuzzy
 msgid "Init date"
 msgstr "Start datum"
@@ -12035,32 +12050,32 @@ msgid ""
 "columns to add the elements."
 msgstr ""
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 1"
 msgstr "Kol1"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 2"
 msgstr "Kol2"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 3"
 msgstr "Kol3"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 4"
 msgstr "Kol4"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 5"
 msgstr "Kol5"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 6"
 msgstr "Kol6"
@@ -12374,30 +12389,35 @@ msgid ""
 msgstr ""
 
 #. create the new method of payment
-#: ../src/prefs/prefs_page_payment_method.c:1007
+#: ../src/prefs/prefs_page_payment_method.c:1003
 msgid "New payment method"
 msgstr "Nieuwe betalingsmethode"
 
-#: ../src/prefs/prefs_page_payment_method.c:1224
+#: ../src/prefs/prefs_page_payment_method.c:1266
 msgid "Default"
 msgstr "Standaard"
 
-#: ../src/prefs/prefs_page_payment_method.c:1241
+#: ../src/prefs/prefs_page_payment_method.c:1283
 msgid "Numbering"
 msgstr "Nummering"
 
-#: ../src/prefs/prefs_page_reconcile.c:350
+#: ../src/prefs/prefs_page_payment_method.c:1344
+#, fuzzy
+msgid "Add an entry for a number"
+msgstr "Sub-categorie toevoegen"
+
+#: ../src/prefs/prefs_page_reconcile.c:329
 #, fuzzy
 msgid "Init balance"
 msgstr "Begin saldo"
 
-#: ../src/prefs/prefs_page_reconcile.c:350
+#: ../src/prefs/prefs_page_reconcile.c:329
 msgid "Final balance"
 msgstr "Eindsaldo"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/prefs/prefs_page_reconcile.c:572
+#: ../src/prefs/prefs_page_reconcile.c:551
 #, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -12407,7 +12427,7 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../src/prefs/prefs_page_reconcile.c:578
+#: ../src/prefs/prefs_page_reconcile.c:557
 #, fuzzy
 msgid "Delete reconciliation"
 msgstr "Nieuwe rekening maken"
@@ -13146,7 +13166,7 @@ msgstr ""
 msgid "Could not encrypt file"
 msgstr "Postscript bestand"
 
-#: ../src/utils_widgets.c:401
+#: ../src/utils_widgets.c:415
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Kies een financieel jaar"
@@ -13264,7 +13284,7 @@ msgid "Invalid final date '%s'"
 msgstr "afwijkende eind datum ongeldige"
 
 #. set head page
-#: ../src/etats/etats_page_text.c:294
+#: ../src/etats/etats_page_text.c:282
 #, fuzzy
 msgid "Transaction content"
 msgstr "Onderdelen transactielijst"
@@ -13438,6 +13458,14 @@ msgstr "Begin saldo"
 #: ../src/widgets/widget_transfer.c:937
 msgid "One of the two fields is recommended"
 msgstr ""
+
+# bewerken>voorkeuren>transactie formulier
+#, fuzzy
+#~ msgid "Need entry field"
+#~ msgstr "volgend veld"
+
+#~ msgid "Select the transactions by amount"
+#~ msgstr "Gebruik de transacties aan de hand van een bedrag"
 
 #, fuzzy
 #~ msgid "Select the budgetary lines to include in the report: "
@@ -13712,11 +13740,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Manage import associations"
 #~ msgstr "Gebruik categorieën."
-
-# bewerken>voorkeuren>transactie formulier
-#, fuzzy
-#~ msgid "Need entry field"
-#~ msgstr "volgend veld"
 
 #~ msgid "Currency details"
 #~ msgstr "Valuta details"

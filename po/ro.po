@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-16 15:56+0200\n"
+"POT-Creation-Date: 2021-05-25 19:29+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -48,40 +48,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9\n"
 
-#: ../src/etats/etats_page_accounts.ui.h:1 ../src/ui/etats_prefs.ui.h:74
-msgid "Select transactions only for given accounts"
-msgstr "Selecţionaţi operaţiile numai pe anumite conturi"
-
-#: ../src/etats/etats_page_accounts.ui.h:2
+#: ../src/etats/etats_page_amount.ui.h:1 ../src/etats/etats_page_text.ui.h:1
 #, fuzzy
-msgid "Select the accounts included in the report: "
-msgstr "Selecţionaţi conturile a include în stare:"
+msgid "Select transactions according to content"
+msgstr "Selecţionaţi operaţiile prin raport ale textului"
 
+#: ../src/etats/etats_page_amount.ui.h:2
+msgid "Exclude the transactions with a null amount"
+msgstr "Excludeţi operaţiile a căror sume este nul"
+
+#: ../src/etats/etats_page_amount.ui.h:3
 #: ../src/etats/etats_page_accounts.ui.h:3
 #: ../src/etats/etats_page_budget.ui.h:3
 #: ../src/etats/etats_page_category.ui.h:3
 #: ../src/etats/etats_page_payee.ui.h:13 ../src/etats/etats_page_period.ui.h:9
 #: ../src/etats/etats_page_transfer.ui.h:6 ../src/ui/csv_template_rule.ui.h:15
-#: ../src/ui/prefs_page_accueil.ui.h:5 ../src/ui/prefs_page_archives.ui.h:11
-#: ../src/ui/prefs_page_bank.ui.h:3 ../src/ui/prefs_page_bet_account.ui.h:5
-#: ../src/ui/prefs_page_currency.ui.h:4
-#: ../src/ui/prefs_page_currency_link.ui.h:2
-#: ../src/ui/prefs_page_display_adr.ui.h:9
-#: ../src/ui/prefs_page_display_fonts.ui.h:10
-#: ../src/ui/prefs_page_display_form.ui.h:5
-#: ../src/ui/prefs_page_display_gui.ui.h:15
-#: ../src/ui/prefs_page_display_ope.ui.h:3 ../src/ui/prefs_page_divers.ui.h:37
-#: ../src/ui/prefs_page_files.ui.h:23
-#: ../src/ui/prefs_page_form_completion.ui.h:14
-#: ../src/ui/prefs_page_form_options.ui.h:9 ../src/ui/prefs_page_fyear.ui.h:9
-#: ../src/ui/prefs_page_import.ui.h:1 ../src/ui/prefs_page_metatree.ui.h:14
-#: ../src/ui/prefs_page_msg_delete.ui.h:2
-#: ../src/ui/prefs_page_msg_warning.ui.h:4
-#: ../src/ui/prefs_page_options_ope.ui.h:12
-#: ../src/ui/prefs_page_reconcile.ui.h:15
-#: ../src/ui/prefs_page_reconcile_sort.ui.h:3
 #: ../src/widgets/widget_bank_details.ui.h:12
-#: ../src/widgets/widget_cmp_text.ui.h:34
+#: ../src/widgets/widget_cmp_amount.ui.h:1
+#: ../src/widgets/widget_cmp_text.ui.h:32
 #: ../src/widgets/widget_css_rules.ui.h:1
 #: ../src/widgets/widget_currency_details.ui.h:6
 #: ../src/widgets/widget_currency_link.ui.h:4
@@ -94,6 +78,15 @@ msgstr "Selecţionaţi conturile a include în stare:"
 #, fuzzy
 msgid "Title"
 msgstr "Titluri"
+
+#: ../src/etats/etats_page_accounts.ui.h:1 ../src/ui/etats_prefs.ui.h:74
+msgid "Select transactions only for given accounts"
+msgstr "Selecţionaţi operaţiile numai pe anumite conturi"
+
+#: ../src/etats/etats_page_accounts.ui.h:2
+#, fuzzy
+msgid "Select the accounts included in the report: "
+msgstr "Selecţionaţi conturile a include în stare:"
 
 #: ../src/etats/etats_page_budget.ui.h:1
 #, fuzzy
@@ -220,11 +213,6 @@ msgstr "Detailaţi exerciţiile utilizate"
 msgid "Use financial years"
 msgstr "Utilizaţi exerciţiile"
 
-#: ../src/etats/etats_page_text.ui.h:1 ../src/ui/etats_prefs.ui.h:81
-#, fuzzy
-msgid "Select transactions according to content"
-msgstr "Selecţionaţi operaţiile prin raport ale textului"
-
 #: ../src/etats/etats_page_transfer.ui.h:1
 msgid "Do not include transfers"
 msgstr "Nu includeţi viramentele"
@@ -332,7 +320,8 @@ msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:21 ../src/ui/prefs_page_divers.ui.h:2
 #: ../src/ui/prefs_page_files.ui.h:15
-#: ../src/ui/prefs_page_payment_method.ui.h:8 ../src/widgets/widget_loan.ui.h:8
+#: ../src/ui/prefs_page_payment_method.ui.h:10
+#: ../src/widgets/widget_loan.ui.h:8
 msgid "0"
 msgstr ""
 
@@ -459,8 +448,7 @@ msgstr "Numele de stare"
 #. Partial balance name
 #. Name entry
 #: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:10
-#: ../src/ui/prefs_page_fyear.ui.h:6 ../src/ui/prefs_page_payment_method.ui.h:3
-#: ../src/widgets/widget_bank_details.ui.h:2
+#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/widgets/widget_bank_details.ui.h:2
 #: ../src/widgets/widget_currency_details.ui.h:1
 #: ../src/gsb_data_partial_balance.c:1787 ../src/tiers_onglet.c:213
 #, fuzzy
@@ -661,7 +649,7 @@ msgstr "Toate operaţiile"
 msgid "Make transactions clickable"
 msgstr "A face operaţiunile interactive"
 
-#: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:413
+#: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:414
 #: ../src/grisbi_win.c:432 ../src/navigation.c:2077
 msgid "Accounts"
 msgstr "Conturi"
@@ -676,8 +664,8 @@ msgstr "Afişa un sub-total cu ocazia schimbării de cont"
 
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:547
-#: ../src/etats_affiche.c:2484 ../src/etats_config.c:972
-#: ../src/etats_prefs.c:418 ../src/export_csv.c:383 ../src/grisbi_win.c:469
+#: ../src/etats_affiche.c:2484 ../src/etats_config.c:453
+#: ../src/etats_prefs.c:419 ../src/export_csv.c:383 ../src/grisbi_win.c:469
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2011
 #: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:919
 #: ../src/gsb_transactions_list.c:112 ../src/import.c:4292
@@ -701,11 +689,11 @@ msgstr "Afişa un sub-total cu ocazia schimbării de terţ"
 
 #. set head page
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2033 ../src/bet_hist.c:2039
-#: ../src/categories_onglet.c:370 ../src/etats_prefs.c:423
+#: ../src/categories_onglet.c:370 ../src/etats_prefs.c:424
 #: ../src/grisbi_win.c:479 ../src/navigation.c:2093
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
-#: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:359
+#: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:373
 #: ../src/etats/etats_page_category.c:88
 msgid "Categories"
 msgstr "Categorii"
@@ -735,11 +723,11 @@ msgstr "Afişa « Nu este sub-categorie » dacă absentă"
 #. 8
 #. set head page
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2037
-#: ../src/etats_prefs.c:428 ../src/export_csv.c:404 ../src/grisbi_win.c:484
+#: ../src/etats_prefs.c:429 ../src/export_csv.c:404 ../src/grisbi_win.c:484
 #: ../src/import_csv.c:79 ../src/imputation_budgetaire.c:377
 #: ../src/navigation.c:2097 ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
-#: ../src/prefs/prefs_page_bet_account.c:194 ../src/utils_widgets.c:362
+#: ../src/prefs/prefs_page_bet_account.c:194 ../src/utils_widgets.c:376
 #: ../src/etats/etats_page_budget.c:90
 msgid "Budgetary lines"
 msgstr "Imputaţii bugetare"
@@ -815,73 +803,65 @@ msgid "Select methods of payment to include: "
 msgstr "Selecţionaţi operaţiunile în funcţie de modurile de plată:"
 
 #: ../src/ui/etats_prefs.ui.h:79
-msgid "Select the transactions by amount"
-msgstr "Selecţionaţi operaţiile după sume"
-
-#: ../src/ui/etats_prefs.ui.h:80
-msgid "Exclude the transactions with a null amount"
-msgstr "Excludeţi operaţiile a căror sume este nul"
-
-#: ../src/ui/etats_prefs.ui.h:82
 #, fuzzy
 msgid "Group transactions"
 msgstr "Marcaţi operaţiunile"
 
-#: ../src/ui/etats_prefs.ui.h:83
+#: ../src/ui/etats_prefs.ui.h:80
 msgid "Group transactions by account"
 msgstr "Regrupaţi operaţiile pe cont"
 
-#: ../src/ui/etats_prefs.ui.h:84
+#: ../src/ui/etats_prefs.ui.h:81
 #, fuzzy
 msgid "Group transactions by payee"
 msgstr "Regrupaţi operaţiile pe categorie"
 
-#: ../src/ui/etats_prefs.ui.h:85
+#: ../src/ui/etats_prefs.ui.h:82
 msgid "Group transactions by category"
 msgstr "Regrupaţi operaţiile pe categorie"
 
-#: ../src/ui/etats_prefs.ui.h:86
+#: ../src/ui/etats_prefs.ui.h:83
 msgid "Group transactions by budgetary line"
 msgstr "Regrupaţi operaţiunile prin imputaţie bugetară"
 
-#: ../src/ui/etats_prefs.ui.h:87
+#: ../src/ui/etats_prefs.ui.h:84
 msgid "Group level organisation"
 msgstr "Organizarea de niveluri de regrupare"
 
-#: ../src/ui/etats_prefs.ui.h:88 ../src/etats_prefs.c:461
-#: ../src/etats_prefs.c:1186
+#: ../src/ui/etats_prefs.ui.h:85 ../src/etats_prefs.c:462
+#: ../src/etats_prefs.c:1147
 #, fuzzy
 msgid "Data separation"
 msgstr "Selecţia datelor"
 
-#: ../src/ui/etats_prefs.ui.h:89
+#: ../src/ui/etats_prefs.ui.h:86
 msgid "Split incomes and outgoings"
 msgstr "Separaţi veniturile şi cheltuelile"
 
-#: ../src/ui/etats_prefs.ui.h:90
+#: ../src/ui/etats_prefs.ui.h:87
 msgid "Split by financial year"
 msgstr "Separaţi rezultatele pe exerciţiu"
 
-#: ../src/ui/etats_prefs.ui.h:91
+#: ../src/ui/etats_prefs.ui.h:88
 msgid "Split by period"
 msgstr "Separaţi rezultatele pe perioadă"
 
-#: ../src/ui/etats_prefs.ui.h:92
+#: ../src/ui/etats_prefs.ui.h:89
 #, fuzzy
 msgid "Separation by period"
 msgstr "Separaţi rezultatele pe perioadă"
 
-#: ../src/ui/etats_prefs.ui.h:93
+#: ../src/ui/etats_prefs.ui.h:90
 #, fuzzy
 msgid "Separation by time period: "
 msgstr "Separaţi rezultatele pe perioadă:"
 
-#: ../src/ui/etats_prefs.ui.h:94
+#: ../src/ui/etats_prefs.ui.h:91
 #, fuzzy
 msgid "Beginning of week: "
 msgstr "Sold iniţial:"
 
-#: ../src/ui/etats_prefs.ui.h:95
+#: ../src/ui/etats_prefs.ui.h:92
 #, fuzzy
 msgid "title"
 msgstr "Titluri"
@@ -976,8 +956,8 @@ msgstr "Nou fişier de cont"
 msgid "Debug mode"
 msgstr "Debogaţi fişierul"
 
-#: ../src/ui/grisbi_menu.ui.h:19 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/ui/grisbi_prefs.ui.h:2
+#: ../src/grisbi_app.c:118 ../src/grisbi_app.c:135
 #, fuzzy
 msgid "Close"
 msgstr "Închide"
@@ -1132,9 +1112,10 @@ msgstr "Conturi spre un fişier QIF ..."
 #. edit button
 #. Properties button
 #. edit button
-#: ../src/ui/grisbi_menu.ui.h:48 ../src/categories_onglet.c:609
-#: ../src/gsb_scheduler_list.c:1173 ../src/gsb_transactions_list.c:2523
-#: ../src/imputation_budgetaire.c:658 ../src/tiers_onglet.c:546
+#: ../src/ui/grisbi_menu.ui.h:48 ../src/ui/prefs_page_accueil.ui.h:6
+#: ../src/categories_onglet.c:609 ../src/gsb_scheduler_list.c:1173
+#: ../src/gsb_transactions_list.c:2523 ../src/imputation_budgetaire.c:658
+#: ../src/tiers_onglet.c:546
 msgid "Edit"
 msgstr "Editare"
 
@@ -1147,18 +1128,18 @@ msgstr ""
 msgid "Grisbi preferences"
 msgstr "Preferinţe"
 
-#: ../src/ui/grisbi_prefs.ui.h:2
+#: ../src/ui/grisbi_prefs.ui.h:3
 msgid "This state will be kept for the duration of this session"
 msgstr ""
 
-#: ../src/ui/grisbi_prefs.ui.h:3 ../src/ui/prefs_page_payment_method.ui.h:12
+#: ../src/ui/grisbi_prefs.ui.h:4 ../src/ui/prefs_page_payment_method.ui.h:14
 #: ../src/widgets/widget_list_metatree.ui.h:3
 #, fuzzy
 msgid "Expand all"
 msgstr "Selecţia datelor"
 
-#: ../src/ui/grisbi_prefs.ui.h:4 ../src/ui/prefs_page_payment_method.ui.h:13
-#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
+#: ../src/ui/grisbi_prefs.ui.h:5 ../src/ui/prefs_page_payment_method.ui.h:15
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:4
 #: ../src/widgets/widget_list_metatree.ui.h:4
 msgid "Collapse all"
 msgstr ""
@@ -1188,7 +1169,25 @@ msgstr "Deplasaţi operaţiunea spre un alt cont"
 msgid "Place the partial balance  under its accounts if it's possible"
 msgstr "Selecţionaţi conturile bancare:"
 
-#: ../src/ui/prefs_page_accueil.ui.h:6
+#: ../src/ui/prefs_page_accueil.ui.h:5 ../src/ui/prefs_page_bank.ui.h:2
+#: ../src/ui/prefs_page_currency.ui.h:2
+#: ../src/ui/prefs_page_currency_link.ui.h:2 ../src/ui/prefs_page_fyear.ui.h:3
+#: ../src/ui/prefs_page_payment_method.ui.h:2
+#: ../src/widgets/widget_cmp_amount.ui.h:18
+#: ../src/widgets/widget_cmp_text.ui.h:33
+msgid "Add"
+msgstr "Adăuga"
+
+#: ../src/ui/prefs_page_accueil.ui.h:7 ../src/ui/prefs_page_bank.ui.h:3
+#: ../src/ui/prefs_page_currency.ui.h:3
+#: ../src/ui/prefs_page_currency_link.ui.h:3
+#: ../src/ui/prefs_page_payment_method.ui.h:3
+#: ../src/widgets/widget_cmp_amount.ui.h:19
+#: ../src/widgets/widget_cmp_text.ui.h:34
+msgid "Remove"
+msgstr "Retrage"
+
+#: ../src/ui/prefs_page_accueil.ui.h:8
 msgid "Pluriel de final"
 msgstr ""
 
@@ -1239,7 +1238,7 @@ msgstr "Excludeţi operaţiile care nu sunt viramente"
 msgid "Known banks"
 msgstr "Bănci cunoscute"
 
-#: ../src/ui/prefs_page_bank.ui.h:2
+#: ../src/ui/prefs_page_bank.ui.h:4
 msgid "Bank details"
 msgstr "Amănunte despre bancă"
 
@@ -1265,17 +1264,17 @@ msgstr "Imputaţie bugetară"
 msgid "Account with deferred debit card"
 msgstr "Cartă de credit"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:6
+#: ../src/ui/prefs_page_bet_account.ui.h:5
 #, fuzzy
 msgid "Data for the forecast"
 msgstr "în sus de stare"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:7
+#: ../src/ui/prefs_page_bet_account.ui.h:6
 #, fuzzy
 msgid "Sources of historical data"
 msgstr "Dată iniţială"
 
-#: ../src/ui/prefs_page_bet_account.ui.h:8
+#: ../src/ui/prefs_page_bet_account.ui.h:7
 #, fuzzy
 msgid "Credit Data"
 msgstr "Cartă de credit"
@@ -1317,11 +1316,17 @@ msgstr "Deplasaţi operaţiunea spre un alt cont"
 msgid "Known currencies"
 msgstr "Devize cunoscute"
 
-#: ../src/ui/prefs_page_currency.ui.h:2 ../src/gsb_currency.c:1309
+#: ../src/ui/prefs_page_currency.ui.h:4 ../src/gsb_currency.c:1309
 msgid "Add a currency"
 msgstr "Ajuta o devizā"
 
-#: ../src/ui/prefs_page_currency.ui.h:3
+#: ../src/ui/prefs_page_currency.ui.h:5
+#: ../src/ui/prefs_page_payment_method.ui.h:17
+#, fuzzy
+msgid "Cancel"
+msgstr "Anulare"
+
+#: ../src/ui/prefs_page_currency.ui.h:6
 #, fuzzy
 msgid "World currencies"
 msgstr "Devize de totaluri"
@@ -1429,60 +1434,56 @@ msgid "Resolution screen"
 msgstr "Nr de apropiere"
 
 #: ../src/ui/prefs_page_display_gui.ui.h:2
-msgid "Use a low resolution screen (Close and reopen preferences)"
-msgstr ""
-
-#: ../src/ui/prefs_page_display_gui.ui.h:3
 #, fuzzy
 msgid "Headings bar"
 msgstr "Afişaţi informaţiile despre"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:4
+#: ../src/ui/prefs_page_display_gui.ui.h:3
 #, fuzzy
 msgid "Display headings bar"
 msgstr "Afişaţi informaţiile despre"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:5
+#: ../src/ui/prefs_page_display_gui.ui.h:4
 msgid "Navigation pane"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:6
+#: ../src/ui/prefs_page_display_gui.ui.h:5
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:7
+#: ../src/ui/prefs_page_display_gui.ui.h:6
 msgid "Toolbars"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:8
+#: ../src/ui/prefs_page_display_gui.ui.h:7
 #, fuzzy
 msgid "Display toolbar buttons as"
 msgstr "Afişarea tranzacţiilor"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:9
+#: ../src/ui/prefs_page_display_gui.ui.h:8
 #, fuzzy
 msgid " : "
 msgstr "Fişier :"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:10
+#: ../src/ui/prefs_page_display_gui.ui.h:9
 #, fuzzy
 msgid "Icons only"
 msgstr "Revenituri"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:11
+#: ../src/ui/prefs_page_display_gui.ui.h:10
 #, fuzzy
 msgid "Text only"
 msgstr "Texturi"
 
-#: ../src/ui/prefs_page_display_gui.ui.h:12
+#: ../src/ui/prefs_page_display_gui.ui.h:11
 msgid "Text below items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:13
+#: ../src/ui/prefs_page_display_gui.ui.h:12
 msgid "Text beside items"
 msgstr ""
 
-#: ../src/ui/prefs_page_display_gui.ui.h:14
+#: ../src/ui/prefs_page_display_gui.ui.h:13
 msgid "Shortcuts"
 msgstr ""
 
@@ -1541,8 +1542,8 @@ msgstr "Afişarea datelor"
 
 #. append group page "Generalities"
 #: ../src/ui/prefs_page_divers.ui.h:12
-#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:469
-#: ../src/etats_prefs.c:1244 ../src/grisbi_prefs.c:379
+#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:470
+#: ../src/etats_prefs.c:1205 ../src/grisbi_prefs.c:379
 msgid "Generalities"
 msgstr "Generalităţi"
 
@@ -1844,47 +1845,47 @@ msgstr "Exerciţii definite"
 msgid "Sort the exercises by descending name"
 msgstr "Suprimarea unui terţ"
 
-#: ../src/ui/prefs_page_fyear.ui.h:3
+#: ../src/ui/prefs_page_fyear.ui.h:4
 #, fuzzy
 msgid "Associate operations without financial years"
 msgstr "Asocia operaţiile făra exerciţiu"
 
-#: ../src/ui/prefs_page_fyear.ui.h:4
+#: ../src/ui/prefs_page_fyear.ui.h:5
 msgid "Financial year details"
 msgstr "Detalii despre exerciţiu"
 
-#: ../src/ui/prefs_page_fyear.ui.h:5
+#: ../src/ui/prefs_page_fyear.ui.h:6
 #, fuzzy
 msgid "Activate financial year in transaction form"
 msgstr "A activa în formularul de sezie de operaţii"
 
-#: ../src/ui/prefs_page_fyear.ui.h:7
+#: ../src/ui/prefs_page_fyear.ui.h:8
 #, fuzzy
 msgid "Start: "
 msgstr "Început:"
 
-#: ../src/ui/prefs_page_fyear.ui.h:8
+#: ../src/ui/prefs_page_fyear.ui.h:9
 #, fuzzy
 msgid "End: "
 msgstr "Sfârşit"
 
-#: ../src/ui/prefs_page_metatree.ui.h:1 ../src/etats_prefs.c:1445
+#: ../src/ui/prefs_page_metatree.ui.h:1 ../src/etats_prefs.c:1406
 msgid "Totals currencies"
 msgstr "Devize de totaluri"
 
 #: ../src/ui/prefs_page_metatree.ui.h:2
 #, fuzzy
-msgid "Currency for payees tree: "
+msgid "Currency for payees tree:"
 msgstr "Devize pentru arborele de categorii:"
 
 #: ../src/ui/prefs_page_metatree.ui.h:3
 #, fuzzy
-msgid "Currency for categories tree: "
+msgid "Currency for categories tree:"
 msgstr "Devize pentru arborele de categorii:"
 
 #: ../src/ui/prefs_page_metatree.ui.h:4
 #, fuzzy
-msgid "Currency for budgetary lines tree: "
+msgid "Currency for budgetary lines tree:"
 msgstr "Devize pentru arborele de imputaţii bugetare:"
 
 #: ../src/ui/prefs_page_metatree.ui.h:5
@@ -1947,15 +1948,15 @@ msgid "Display modes"
 msgstr "Mode de afişare"
 
 #: ../src/ui/prefs_page_options_ope.ui.h:2
-msgid "In one line visible, show the line: "
+msgid "In one line visible, show the line:"
 msgstr ""
 
 #: ../src/ui/prefs_page_options_ope.ui.h:3
-msgid "In two lines visibles, show the lines: "
+msgid "In two lines visibles, show the lines:"
 msgstr ""
 
 #: ../src/ui/prefs_page_options_ope.ui.h:4
-msgid "In three lines visibles, show the lines: "
+msgid "In three lines visibles, show the lines:"
 msgstr ""
 
 #: ../src/ui/prefs_page_options_ope.ui.h:5
@@ -1993,64 +1994,70 @@ msgstr "A reţine caracteristicile de afişare separat pentru fie care cont"
 msgid "Known payment methods"
 msgstr "Moduri de plată definite"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:2
+#: ../src/ui/prefs_page_payment_method.ui.h:4
 msgid "Payment method details"
 msgstr "Detalii asupra modului de plată"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:4
-#, fuzzy
-msgid "Automatic numbering: "
-msgstr "Numerotare automatică:"
-
 #: ../src/ui/prefs_page_payment_method.ui.h:5
 #, fuzzy
-msgid "Type: "
-msgstr "Tip:"
+msgid "Name:"
+msgstr "Nume:"
 
 #: ../src/ui/prefs_page_payment_method.ui.h:6
+#, fuzzy
+msgid "Automatic numbering:"
+msgstr "Numerotare automatică:"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:7
+#, fuzzy
+msgid "Type:"
+msgstr "Tip:"
+
+#: ../src/ui/prefs_page_payment_method.ui.h:8
 #, fuzzy
 msgid "Add a number"
 msgstr "Adăuga o sub categorie"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:7
+#: ../src/ui/prefs_page_payment_method.ui.h:9
+#: ../src/prefs/prefs_page_payment_method.c:1361
 msgid "Activate"
 msgstr "A activa"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:9
+#: ../src/ui/prefs_page_payment_method.ui.h:11
 msgid "Neutral"
 msgstr "Neutru"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:10 ../src/bet_future.c:552
+#: ../src/ui/prefs_page_payment_method.ui.h:12 ../src/bet_future.c:552
 #: ../src/bet_tab.c:2003 ../src/categories_onglet.c:778 ../src/export_csv.c:389
 #: ../src/gsb_form.c:2017 ../src/gsb_form_widget.c:554
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:83
 #: ../src/imputation_budgetaire.c:824
-#: ../src/prefs/prefs_page_payment_method.c:507
-#: ../src/prefs/prefs_page_payment_method.c:968
+#: ../src/prefs/prefs_page_payment_method.c:503
+#: ../src/prefs/prefs_page_payment_method.c:964
 msgid "Debit"
 msgstr "Debit"
 
 #. 11
-#: ../src/ui/prefs_page_payment_method.ui.h:11 ../src/bet_future.c:557
+#: ../src/ui/prefs_page_payment_method.ui.h:13 ../src/bet_future.c:557
 #: ../src/bet_tab.c:2021 ../src/categories_onglet.c:778 ../src/export_csv.c:386
 #: ../src/gsb_form.c:2023 ../src/gsb_form_widget.c:558
 #: ../src/gsb_transactions_list.c:115 ../src/import_csv.c:82
 #: ../src/imputation_budgetaire.c:824
-#: ../src/prefs/prefs_page_payment_method.c:521
-#: ../src/prefs/prefs_page_payment_method.c:964
+#: ../src/prefs/prefs_page_payment_method.c:517
+#: ../src/prefs/prefs_page_payment_method.c:960
 msgid "Credit"
 msgstr "Credit"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:14
+#: ../src/ui/prefs_page_payment_method.ui.h:16
 msgid "Delete a payment method"
 msgstr "Ştergerea unui mod de plată"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:15
+#: ../src/ui/prefs_page_payment_method.ui.h:18
 #, fuzzy
 msgid "Payment method is used by transactions"
 msgstr "Detalii asupra modului de plată"
 
-#: ../src/ui/prefs_page_payment_method.ui.h:16
+#: ../src/ui/prefs_page_payment_method.ui.h:19
 #, fuzzy
 msgid ""
 "Some transactions still use that payment method. As deletion of this method "
@@ -2060,14 +2067,14 @@ msgstr ""
 "Operaţiunile sunt încă afectate de acest mod de plată.Această suprimare "
 "fiind ireversibilă, aceste operaţiuni vor fi asociate la un alt mod de plată."
 
-#: ../src/ui/prefs_page_payment_method.ui.h:17
+#: ../src/ui/prefs_page_payment_method.ui.h:20
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
 "have no new one."
 msgstr ""
 
-#: ../src/ui/prefs_page_payment_method.ui.h:18
+#: ../src/ui/prefs_page_payment_method.ui.h:21
 #, fuzzy
 msgid "Associate transactions with: "
 msgstr "Asocia aceste operaţiuni cu:"
@@ -2140,6 +2147,14 @@ msgstr ""
 #: ../src/ui/prefs_page_reconcile_sort.ui.h:1
 msgid "Reconciliation: sort transactions"
 msgstr "Apropiere : tri de operaţii"
+
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
+msgid "Go up"
+msgstr ""
+
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:3
+msgid "Go down"
+msgstr ""
 
 #: ../src/ui/search_transaction.ui.h:2
 #, fuzzy
@@ -2238,20 +2253,79 @@ msgstr "Telecopior"
 msgid "Notes"
 msgstr "Observaţii"
 
-#: ../src/widgets/widget_cmp_text.ui.h:1 ../src/etats_config.c:101
-#: ../src/etats_config.c:109
+#: ../src/widgets/widget_cmp_amount.ui.h:2
+#: ../src/widgets/widget_cmp_text.ui.h:1
 msgid "and"
 msgstr "şi"
 
-#: ../src/widgets/widget_cmp_text.ui.h:2 ../src/etats_config.c:102
-#: ../src/etats_config.c:110
+#: ../src/widgets/widget_cmp_amount.ui.h:3
+#: ../src/widgets/widget_cmp_text.ui.h:2
 msgid "or"
 msgstr "s'au"
 
-#: ../src/widgets/widget_cmp_text.ui.h:3 ../src/etats_config.c:103
-#: ../src/etats_config.c:111
+#: ../src/widgets/widget_cmp_amount.ui.h:4
+#: ../src/widgets/widget_cmp_text.ui.h:3
 msgid "except"
 msgstr "fără"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:5
+msgid "Transactions with an amount of"
+msgstr "Operaţiile în care suma este nulă"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:6
+#: ../src/widgets/widget_cmp_text.ui.h:23
+msgid "equal"
+msgstr "egal"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:7
+#: ../src/widgets/widget_cmp_text.ui.h:24
+msgid "less than"
+msgstr "inferior"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:8
+#: ../src/widgets/widget_cmp_text.ui.h:25
+msgid "less than or equal"
+msgstr "inferior s'au egal"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:9
+#: ../src/widgets/widget_cmp_text.ui.h:26
+msgid "greater than"
+msgstr "superior"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:10
+#: ../src/widgets/widget_cmp_text.ui.h:27
+msgid "greater than or equal"
+msgstr "superior s'au egal"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:11
+#: ../src/widgets/widget_cmp_text.ui.h:28
+msgid "different from"
+msgstr "diferit de"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:12
+msgid "null"
+msgstr "nul"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:13
+msgid "not null"
+msgstr "nu nul"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:14
+msgid "positive"
+msgstr "pozitiv"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:15
+msgid "negative"
+msgstr "negativ"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:16
+msgid "to"
+msgstr "la"
+
+#: ../src/widgets/widget_cmp_amount.ui.h:17
+#: ../src/widgets/widget_cmp_text.ui.h:31
+msgid "stop"
+msgstr "stop"
 
 #: ../src/widgets/widget_cmp_text.ui.h:4
 #, fuzzy
@@ -2301,51 +2375,15 @@ msgstr "nu este vid"
 msgid "is "
 msgstr "sunt"
 
-#: ../src/widgets/widget_cmp_text.ui.h:23 ../src/etats_config.c:118
-msgid "equal"
-msgstr "egal"
-
-#: ../src/widgets/widget_cmp_text.ui.h:24 ../src/etats_config.c:119
-msgid "less than"
-msgstr "inferior"
-
-#: ../src/widgets/widget_cmp_text.ui.h:25 ../src/etats_config.c:120
-msgid "less than or equal"
-msgstr "inferior s'au egal"
-
-#: ../src/widgets/widget_cmp_text.ui.h:26 ../src/etats_config.c:121
-msgid "greater than"
-msgstr "superior"
-
-#: ../src/widgets/widget_cmp_text.ui.h:27 ../src/etats_config.c:122
-msgid "greater than or equal"
-msgstr "superior s'au egal"
-
-#: ../src/widgets/widget_cmp_text.ui.h:28 ../src/etats_config.c:123
-msgid "different from"
-msgstr "diferit de"
-
 #: ../src/widgets/widget_cmp_text.ui.h:29
 msgid "the biggest"
 msgstr "cel mai mare"
 
-#: ../src/widgets/widget_cmp_text.ui.h:30 ../src/etats_config.c:1182
+#: ../src/widgets/widget_cmp_text.ui.h:30 ../src/etats_config.c:663
 #: ../src/etats_support.c:68
 #, fuzzy
 msgid "at"
 msgstr "Data"
-
-#: ../src/widgets/widget_cmp_text.ui.h:31 ../src/etats_config.c:112
-msgid "stop"
-msgstr "stop"
-
-#: ../src/widgets/widget_cmp_text.ui.h:32 ../src/etats_config.c:484
-msgid "Add"
-msgstr "Adăuga"
-
-#: ../src/widgets/widget_cmp_text.ui.h:33 ../src/etats_config.c:495
-msgid "Remove"
-msgstr "Retrage"
 
 #: ../src/widgets/widget_css_rules.ui.h:2
 msgid "Text height of status bar: "
@@ -2560,7 +2598,7 @@ msgstr ""
 #. partie mensuelle
 #: ../src/widgets/widget_loan.ui.h:5 ../src/bet_finance_ui.c:994
 #: ../src/bet_finance_ui.c:1493 ../src/bet_finance_ui.c:1749
-#: ../src/utils_widgets.c:167
+#: ../src/utils_widgets.c:181
 #, fuzzy
 msgid "Duration: "
 msgstr "Traducere:"
@@ -3160,7 +3198,7 @@ msgid "Categories : Sub-categories"
 msgstr "Categorii : Sub-categorii"
 
 #: ../src/bet_future.c:569 ../src/bet_hist.c:1587 ../src/etats_affiche.c:2498
-#: ../src/etats_config.c:964 ../src/gsb_form.c:2038
+#: ../src/etats_config.c:445 ../src/gsb_form.c:2038
 #: ../src/gsb_form_widget.c:582 ../src/gsb_transactions_list.c:113
 #: ../src/imputation_budgetaire.c:183 ../src/meta_budgetary.c:88
 #: ../src/utils_widgets.c:109 ../src/widgets/widget_loan.c:1079
@@ -3233,7 +3271,7 @@ msgstr "Frecvenţă"
 #: ../src/bet_future.c:1101 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
 #: ../src/gsb_transactions_list.c:1142 ../src/prefs/prefs_page_archives.c:483
-#: ../src/prefs/prefs_page_reconcile.c:350
+#: ../src/prefs/prefs_page_reconcile.c:329
 msgid "Final date"
 msgstr ".Dată finală"
 
@@ -3514,7 +3552,7 @@ msgstr "Selecţionaţi totul"
 #. name of the div sous-div column
 #. 6
 #: ../src/bet_hist.c:513 ../src/bet_hist.c:1594 ../src/categories_onglet.c:180
-#: ../src/etats_affiche.c:2491 ../src/etats_config.c:960
+#: ../src/etats_affiche.c:2491 ../src/etats_config.c:441
 #: ../src/export_csv.c:395 ../src/gsb_transactions_list.c:121
 #: ../src/import_csv.c:77 ../src/meta_categories.c:67 ../src/utils_widgets.c:96
 msgid "Category"
@@ -3522,12 +3560,13 @@ msgstr "Categorie"
 
 #. on ajoute le montant
 #. 10
+#. set head page
 #: ../src/bet_hist.c:534 ../src/categories_onglet.c:201
-#: ../src/etats_affiche.c:2546 ../src/etats_prefs.c:586
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:920
-#: ../src/gsb_transactions_list.c:117 ../src/import.c:4299
-#: ../src/import_csv.c:81 ../src/imputation_budgetaire.c:204
-#: ../src/tiers_onglet.c:735
+#: ../src/etats_affiche.c:2546 ../src/gsb_assistant_reconcile_config.c:597
+#: ../src/gsb_scheduler_list.c:920 ../src/gsb_transactions_list.c:117
+#: ../src/import.c:4299 ../src/import_csv.c:81
+#: ../src/imputation_budgetaire.c:204 ../src/tiers_onglet.c:735
+#: ../src/etats/etats_page_amount.c:287
 msgid "Amount"
 msgstr "Sumă totală"
 
@@ -3745,11 +3784,11 @@ msgstr "Automatic"
 msgid "Check the box to automatically change start date"
 msgstr ""
 
-#: ../src/categories_onglet.c:190 ../src/etats_config.c:968
+#: ../src/categories_onglet.c:190 ../src/etats_config.c:449
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:919
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1144
-#: ../src/prefs/prefs_page_payment_method.c:1210
-#: ../src/prefs/prefs_page_reconcile.c:350 ../src/tiers_onglet.c:724
+#: ../src/prefs/prefs_page_payment_method.c:1252
+#: ../src/prefs/prefs_page_reconcile.c:329 ../src/tiers_onglet.c:724
 msgid "Account"
 msgstr "Cont"
 
@@ -4611,9 +4650,9 @@ msgid "Financial year"
 msgstr "Exerciţiu  "
 
 #. On récupère le nom de la page
-#: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:443
-#: ../src/etats_prefs.c:677 ../src/grisbi_prefs.c:516
-#: ../src/prefs/prefs_page_payment_method.c:1285
+#: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:444
+#: ../src/etats_prefs.c:638 ../src/grisbi_prefs.c:516
+#: ../src/prefs/prefs_page_payment_method.c:1327
 msgid "Payment methods"
 msgstr "Moduri de plată"
 
@@ -4635,7 +4674,7 @@ msgstr "Informaţie bancă/ghişet"
 msgid "Statement"
 msgstr "Extras"
 
-#: ../src/etats_calculs.c:144
+#: ../src/etats_calculs.c:135
 #, c-format
 msgid ""
 "The number of transactions selected by the report is very important (%d) and "
@@ -4644,48 +4683,24 @@ msgid ""
 "At this point you can continue or return to setting"
 msgstr ""
 
-#: ../src/etats_calculs.c:158
+#: ../src/etats_calculs.c:149
 #, fuzzy
 msgid "Continue"
 msgstr "Corespondent"
 
-#: ../src/etats_calculs.c:159
+#: ../src/etats_calculs.c:150
 #, fuzzy
 msgid "Return to settings"
 msgstr "Exportaţi categoriile."
 
-#: ../src/etats_config.c:124
-msgid "null"
-msgstr "nul"
-
-#: ../src/etats_config.c:125
-msgid "not null"
-msgstr "nu nul"
-
-#: ../src/etats_config.c:126
-msgid "positive"
-msgstr "pozitiv"
-
-#: ../src/etats_config.c:127
-msgid "negative"
-msgstr "negativ"
-
-#: ../src/etats_config.c:198
-msgid "Transactions with an amount of"
-msgstr "Operaţiile în care suma este nulă"
-
-#: ../src/etats_config.c:206 ../src/etats_config.c:236
-msgid "to"
-msgstr "la"
-
-#: ../src/etats_config.c:671 ../src/etats/etats_page_budget.c:218
+#: ../src/etats_config.c:152 ../src/etats/etats_page_budget.c:218
 #: ../src/etats/etats_page_category.c:216 ../src/etats/etats_page_payee.c:816
 #: ../src/etats/etats_page_period.c:569
 #: ../src/widgets/widget_list_accounts.c:410
 msgid "Performance issue."
 msgstr ""
 
-#: ../src/etats_config.c:672
+#: ../src/etats_config.c:153
 #, fuzzy
 msgid ""
 "All methods of payment have been selected.  Grisbi will run faster without "
@@ -4695,7 +4710,7 @@ msgstr ""
 "retrăgând opţiunea « Selecţionaţi operaţiile în funcţie de modurile de "
 "plată. »"
 
-#: ../src/etats_config.c:1200 ../src/etats_support.c:68
+#: ../src/etats_config.c:681 ../src/etats_support.c:68
 #: ../src/etats_support.c:70
 #, fuzzy
 msgid "Edited"
@@ -4989,7 +5004,7 @@ msgstr ""
 msgid "Searching"
 msgstr "Căutare"
 
-#: ../src/etats_prefs.c:56 ../src/etats/etats_page_payee.c:61
+#: ../src/etats_prefs.c:57 ../src/etats/etats_page_payee.c:61
 #: ../src/widgets/widget_list_accounts.c:59
 msgid ""
 "Command-click\n"
@@ -4997,70 +5012,70 @@ msgid ""
 msgstr ""
 
 #. append group page
-#: ../src/etats_prefs.c:399
+#: ../src/etats_prefs.c:400
 msgid "Data selection"
 msgstr "Selecţia datelor"
 
-#: ../src/etats_prefs.c:403
+#: ../src/etats_prefs.c:404
 msgid "Dates"
 msgstr "Date"
 
 #. set head page
-#: ../src/etats_prefs.c:408 ../src/etats/etats_page_transfer.c:158
+#: ../src/etats_prefs.c:409 ../src/etats/etats_page_transfer.c:158
 msgid "Transfers"
 msgstr "Viramente"
 
-#: ../src/etats_prefs.c:433
+#: ../src/etats_prefs.c:434
 msgid "Texts"
 msgstr "Texturi"
 
-#: ../src/etats_prefs.c:438
+#: ../src/etats_prefs.c:439
 msgid "Amounts"
 msgstr "Sumă totală"
 
-#: ../src/etats_prefs.c:448 ../src/etats_prefs.c:775
+#: ../src/etats_prefs.c:449 ../src/etats_prefs.c:736
 #, fuzzy
 msgid "Miscellaneous"
 msgstr "Cheltueli diverse : Cadouri"
 
 #. remplissage de l'onglet d'organisation
-#: ../src/etats_prefs.c:452
+#: ../src/etats_prefs.c:453
 #, fuzzy
 msgid "Data organization"
 msgstr "Organizaţia datelor"
 
-#: ../src/etats_prefs.c:456 ../src/etats_prefs.c:1142
+#: ../src/etats_prefs.c:457 ../src/etats_prefs.c:1103
 msgid "Data grouping"
 msgstr ""
 
 #. remplissage de l'onglet d'affichage
-#: ../src/etats_prefs.c:465
+#: ../src/etats_prefs.c:466
 msgid "Data display"
 msgstr "Afişarea datelor"
 
-#: ../src/etats_prefs.c:474 ../src/etats_prefs.c:1271
+#: ../src/etats_prefs.c:475 ../src/etats_prefs.c:1232
 msgid "Titles"
 msgstr "Titluri"
 
 #. append group page "Transactions"
-#: ../src/etats_prefs.c:479 ../src/export_csv.c:359 ../src/grisbi_prefs.c:438
+#: ../src/etats_prefs.c:480 ../src/export_csv.c:359 ../src/grisbi_prefs.c:438
 #: ../src/grisbi_win.c:436
 msgid "Transactions"
 msgstr "Tranzacţiuni"
 
 #. echange line label
 #. On récupère le nom de la page
-#: ../src/etats_prefs.c:484 ../src/grisbi_prefs.c:494 ../src/gsb_currency.c:952
+#: ../src/etats_prefs.c:485 ../src/grisbi_prefs.c:494 ../src/gsb_currency.c:952
 #: ../src/prefs/prefs_page_currency.c:715
 msgid "Currencies"
 msgstr "Devize"
 
-#: ../src/etats_prefs.c:1372
+#: ../src/etats_prefs.c:1333
 #, fuzzy
 msgid "Transactions display"
 msgstr "Liste de tranzacţii"
 
-#: ../src/etats_prefs.c:1484
+#: ../src/etats_prefs.c:1445
 #, fuzzy
 msgid "Report properties"
 msgstr "Proprietăţi a devizei"
@@ -6075,7 +6090,7 @@ msgid "List behavior"
 msgstr ""
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_display_ope.c:692
+#: ../src/grisbi_prefs.c:447 ../src/prefs/prefs_page_display_ope.c:691
 msgid "Transactions list cells"
 msgstr "Celule de la lista de tranzacţiuni"
 
@@ -6087,7 +6102,7 @@ msgstr "Mesaje şi alarme"
 
 #. On récupère le nom de la page
 #: ../src/grisbi_prefs.c:459 ../src/gsb_assistant_first.c:334
-#: ../src/prefs/prefs_page_reconcile.c:624
+#: ../src/prefs/prefs_page_reconcile.c:603
 msgid "Reconciliation"
 msgstr "Apropiere"
 
@@ -6099,7 +6114,7 @@ msgstr "Apropiere"
 
 #. append group page "Transaction form"
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_form.c:899
+#: ../src/grisbi_prefs.c:471 ../src/prefs/prefs_page_display_form.c:898
 msgid "Transaction form"
 msgstr "Formular de tranzacţie"
 
@@ -10193,7 +10208,7 @@ msgid ""
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1142 ../src/prefs/prefs_page_reconcile.c:350
+#: ../src/gsb_transactions_list.c:1142 ../src/prefs/prefs_page_reconcile.c:329
 #, fuzzy
 msgid "Init date"
 msgstr "Dată iniţială"
@@ -11979,32 +11994,32 @@ msgid ""
 "columns to add the elements."
 msgstr ""
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 1"
 msgstr "Col1"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 2"
 msgstr "Col2"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 3"
 msgstr "Col3"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 4"
 msgstr "Col4"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 5"
 msgstr "Col5"
 
-#: ../src/prefs/prefs_page_display_form.c:816
+#: ../src/prefs/prefs_page_display_form.c:815
 #, fuzzy
 msgid "Col 6"
 msgstr "Col6"
@@ -12308,30 +12323,35 @@ msgid ""
 msgstr ""
 
 #. create the new method of payment
-#: ../src/prefs/prefs_page_payment_method.c:1007
+#: ../src/prefs/prefs_page_payment_method.c:1003
 msgid "New payment method"
 msgstr "Nou mod de plată"
 
-#: ../src/prefs/prefs_page_payment_method.c:1224
+#: ../src/prefs/prefs_page_payment_method.c:1266
 msgid "Default"
 msgstr "Configuraţie de bază"
 
-#: ../src/prefs/prefs_page_payment_method.c:1241
+#: ../src/prefs/prefs_page_payment_method.c:1283
 msgid "Numbering"
 msgstr "Numerotare"
 
-#: ../src/prefs/prefs_page_reconcile.c:350
+#: ../src/prefs/prefs_page_payment_method.c:1344
+#, fuzzy
+msgid "Add an entry for a number"
+msgstr "Adăuga o sub categorie"
+
+#: ../src/prefs/prefs_page_reconcile.c:329
 #, fuzzy
 msgid "Init balance"
 msgstr "Sold iniţial"
 
-#: ../src/prefs/prefs_page_reconcile.c:350
+#: ../src/prefs/prefs_page_reconcile.c:329
 msgid "Final balance"
 msgstr "Sold final"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/prefs/prefs_page_reconcile.c:572
+#: ../src/prefs/prefs_page_reconcile.c:551
 #, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -12341,7 +12361,7 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../src/prefs/prefs_page_reconcile.c:578
+#: ../src/prefs/prefs_page_reconcile.c:557
 #, fuzzy
 msgid "Delete reconciliation"
 msgstr "Creaţi un nou cont"
@@ -13075,7 +13095,7 @@ msgstr ""
 msgid "Could not encrypt file"
 msgstr "Fişier Postscript"
 
-#: ../src/utils_widgets.c:401
+#: ../src/utils_widgets.c:415
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Alegerea exerciţiului"
@@ -13193,7 +13213,7 @@ msgid "Invalid final date '%s'"
 msgstr "Sfârşitul l datelor personalizate ne validată"
 
 #. set head page
-#: ../src/etats/etats_page_text.c:294
+#: ../src/etats/etats_page_text.c:282
 #, fuzzy
 msgid "Transaction content"
 msgstr "Conţinutul listei de tranzacţiuni"
@@ -13366,6 +13386,13 @@ msgstr "Sold iniţial"
 #: ../src/widgets/widget_transfer.c:937
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Need entry field"
+#~ msgstr "selecţionează următorul câmp"
+
+#~ msgid "Select the transactions by amount"
+#~ msgstr "Selecţionaţi operaţiile după sume"
 
 #, fuzzy
 #~ msgid "Select the budgetary lines to include in the report: "
@@ -13629,10 +13656,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Manage import associations"
 #~ msgstr "Detailaţi categoriile utilizate"
-
-#, fuzzy
-#~ msgid "Need entry field"
-#~ msgstr "selecţionează următorul câmp"
 
 #~ msgid "Currency details"
 #~ msgstr "Detalii a devizei"
