@@ -193,6 +193,8 @@
 		009F38592652BAC20082ED78 /* etats_page_text.c in Sources */ = {isa = PBXBuildFile; fileRef = 009F38562652BAC20082ED78 /* etats_page_text.c */; };
 		00A496AB245DC91900CB598C /* prefs_page_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496A9245DC91900CB598C /* prefs_page_currency_link.c */; };
 		00A496AF245DC94400CB598C /* widget_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496AD245DC94300CB598C /* widget_currency_link.c */; };
+		00A8F72B2673B3C2007E6D1A /* etats_page_amount.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A8F72A2673B3C2007E6D1A /* etats_page_amount.c */; };
+		00A8F72F2673B3DA007E6D1A /* widget_cmp_amount.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A8F72E2673B3DA007E6D1A /* widget_cmp_amount.c */; };
 		00AAC22C245B743800993764 /* gsb_currency_popup.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC22A245B743800993764 /* gsb_currency_popup.c */; };
 		00AAC22F245B744F00993764 /* utils_widgets.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC22D245B744F00993764 /* utils_widgets.c */; };
 		00AAC232245B74E000993764 /* prefs_page_currency.c in Sources */ = {isa = PBXBuildFile; fileRef = 00AAC231245B74E000993764 /* prefs_page_currency.c */; };
@@ -624,6 +626,12 @@
 		00A496AC245DC94300CB598C /* widget_currency_link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_currency_link.h; sourceTree = "<group>"; };
 		00A496AD245DC94300CB598C /* widget_currency_link.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_currency_link.c; sourceTree = "<group>"; };
 		00A496AE245DC94400CB598C /* widget_currency_link.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_currency_link.ui; sourceTree = "<group>"; };
+		00A8F7282673B3C2007E6D1A /* etats_page_amount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = etats_page_amount.h; path = etats/etats_page_amount.h; sourceTree = "<group>"; };
+		00A8F7292673B3C2007E6D1A /* etats_page_amount.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = etats_page_amount.ui; path = etats/etats_page_amount.ui; sourceTree = "<group>"; };
+		00A8F72A2673B3C2007E6D1A /* etats_page_amount.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = etats_page_amount.c; path = etats/etats_page_amount.c; sourceTree = "<group>"; };
+		00A8F72C2673B3D9007E6D1A /* widget_cmp_amount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_cmp_amount.h; sourceTree = "<group>"; };
+		00A8F72D2673B3DA007E6D1A /* widget_cmp_amount.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_cmp_amount.ui; sourceTree = "<group>"; };
+		00A8F72E2673B3DA007E6D1A /* widget_cmp_amount.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_cmp_amount.c; sourceTree = "<group>"; };
 		00AAC22A245B743800993764 /* gsb_currency_popup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gsb_currency_popup.c; sourceTree = "<group>"; };
 		00AAC22B245B743800993764 /* gsb_currency_popup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsb_currency_popup.h; sourceTree = "<group>"; };
 		00AAC22D245B744F00993764 /* utils_widgets.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_widgets.c; sourceTree = "<group>"; };
@@ -738,6 +746,9 @@
 				000B8594244C787E00EE28BD /* widget_bank_details.c */,
 				000B8595244C787E00EE28BD /* widget_bank_details.h */,
 				000B8596244C787E00EE28BD /* widget_bank_details.ui */,
+				00A8F72E2673B3DA007E6D1A /* widget_cmp_amount.c */,
+				00A8F72C2673B3D9007E6D1A /* widget_cmp_amount.h */,
+				00A8F72D2673B3DA007E6D1A /* widget_cmp_amount.ui */,
 				009F38542652BAA10082ED78 /* widget_cmp_text.c */,
 				009F38522652BAA10082ED78 /* widget_cmp_text.h */,
 				009F38532652BAA10082ED78 /* widget_cmp_text.ui */,
@@ -1261,6 +1272,9 @@
 				00550529260BA7D60008ED75 /* etats_page_accounts.c */,
 				0055052B260BA7D60008ED75 /* etats_page_accounts.h */,
 				0055052A260BA7D60008ED75 /* etats_page_accounts.ui */,
+				00A8F72A2673B3C2007E6D1A /* etats_page_amount.c */,
+				00A8F7282673B3C2007E6D1A /* etats_page_amount.h */,
+				00A8F7292673B3C2007E6D1A /* etats_page_amount.ui */,
 				007A1C70261A1F98003B3311 /* etats_page_budget.c */,
 				007A1C72261A1F98003B3311 /* etats_page_budget.h */,
 				007A1C73261A1F98003B3311 /* etats_page_budget.ui */,
@@ -1441,6 +1455,7 @@
 				006E68981DB3E7AD0038B1F0 /* gsb_select_icon.c in Sources */,
 				00EA61021F915CBA00569C19 /* grisbi_resources.c in Sources */,
 				006E688D1DB3E7AD0038B1F0 /* gsb_payment_method.c in Sources */,
+				00A8F72B2673B3C2007E6D1A /* etats_page_amount.c in Sources */,
 				00A496AB245DC91900CB598C /* prefs_page_currency_link.c in Sources */,
 				006E68B71DB3E7AD0038B1F0 /* utils_files.c in Sources */,
 				003AC2371F49E06D007DA275 /* prefs_page_files.c in Sources */,
@@ -1492,6 +1507,7 @@
 				006E68381DB3E7AD0038B1F0 /* categories_onglet.c in Sources */,
 				006E68521DB3E7AD0038B1F0 /* gsb_account_property.c in Sources */,
 				006E683F1DB3E7AD0038B1F0 /* etats_calculs.c in Sources */,
+				00A8F72F2673B3DA007E6D1A /* widget_cmp_amount.c in Sources */,
 				007A1C74261A1F98003B3311 /* etats_page_category.c in Sources */,
 				006E68331DB3E7AD0038B1F0 /* bet_finance_ui.c in Sources */,
 				006E68341DB3E7AD0038B1F0 /* bet_future.c in Sources */,
