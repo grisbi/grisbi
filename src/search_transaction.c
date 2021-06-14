@@ -1031,7 +1031,7 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 
 	devel_debug_int (transaction_number);
 	priv = search_transaction_get_instance_private (dialog);
-	priv->account_number = gsb_data_transaction_get_account_number (transaction_number);
+	priv->account_number = gsb_gui_navigation_get_current_account ();
 
 	/* set currency */
 	currency = gsb_data_account_get_currency (priv->account_number);
