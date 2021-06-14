@@ -31,7 +31,7 @@
             <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="button_search">
-                <property name="label">Find</property>
+                <property name="label" translatable="yes">Find</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can-focus">True</property>
