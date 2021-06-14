@@ -2074,7 +2074,7 @@ gboolean gsb_scheduler_list_execute_transaction (gint scheduled_number)
  *
  * \para tree_view
  *
- * \return FALSE
+ * \return TRUE or FALSE
  **/
 gboolean gsb_scheduler_list_fill_list (GtkWidget *tree_view)
 {
@@ -2125,7 +2125,7 @@ gboolean gsb_scheduler_list_fill_list (GtkWidget *tree_view)
                         SCHEDULER_COL_NB_TRANSACTION_NUMBER, gsb_data_scheduled_new_white_line (0),
                         -1);
 
-    return FALSE;
+    return TRUE;
 }
 
 /**
@@ -3218,8 +3218,10 @@ void gsb_scheduler_list_set_last_scheduled_number (gboolean last_selected_schedu
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 		if (!gtk_tree_model_get_iter_first (model, &iter))
 		{
-			gsb_scheduler_list_fill_list (tree_view);
-			gtk_tree_model_get_iter_first (model, &iter);
+			if (!gsb_scheduler_list_fill_list (tree_view))
+				return;
+			else
+				gtk_tree_model_get_iter_first (model, &iter);
 		}
 		gtk_tree_model_get (model,
 							&iter,
