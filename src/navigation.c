@@ -63,6 +63,7 @@
 #include "metatree.h"
 #include "mouse.h"
 #include "structures.h"
+#include "search_transaction.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -185,6 +186,47 @@ static GtkTargetEntry row_targets[] = {{(gchar*)"GTK_TREE_MODEL_ROW", GTK_TARGET
 /******************************************************************************/
 /* Private functions                                                            */
 /******************************************************************************/
+/**
+ * gère le clavier sur la liste des opés
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean gsb_gui_navigation_key_press (GtkWidget *widget,
+											  GdkEventKey *ev)
+{
+	switch (ev->keyval)
+    {
+		case GDK_KEY_F:         /* touche F*/
+		case GDK_KEY_f:         /* touche f */
+			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
+			{
+    			gint account_number;
+				gint page_number;
+    			gint transaction_number;
+
+				page_number = gsb_gui_navigation_get_current_page ();
+				if (page_number == GSB_ACCOUNT_PAGE)
+				{
+					account_number = gsb_gui_navigation_get_current_account ();
+					transaction_number = gsb_data_account_get_current_transaction_number (account_number);
+					gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
+				}
+				else if (page_number == GSB_REPORTS_PAGE)
+				{
+					etats_onglet_create_search_report ();
+				}
+
+				return TRUE;
+			}
+			break;
+	}
+
+	return FALSE;
+}
+
 /**
  *
  *
@@ -398,6 +440,12 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 		                "row-expanded",
 		                G_CALLBACK ( gsb_gui_navigation_activate_expander ),
 		                GINT_TO_POINTER ( 1 ) );
+
+	/* check the keys on the list */
+    g_signal_connect (G_OBJECT (navigation_tree_view),
+		              "key-press-event",
+		              G_CALLBACK (gsb_gui_navigation_key_press),
+		              NULL);
 
     gtk_widget_show_all (grid);
     gtk_widget_hide ( scheduler_calendar );
