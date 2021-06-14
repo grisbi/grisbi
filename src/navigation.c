@@ -357,6 +357,9 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 
+	/* disable searching searching */
+	gtk_tree_view_set_search_column (GTK_TREE_VIEW (navigation_tree_view), -1);
+
     /* crée les pages dans le panneau de gauche */
     tmp_queue = gsb_gui_navigation_get_pages_list ( );
 
