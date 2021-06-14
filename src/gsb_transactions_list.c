@@ -413,31 +413,6 @@ static gboolean gsb_transactions_list_move_transaction_to_account_from_sub_menu 
 }
 
 /**
- *
- *
- * \param menu_item
- * \param null
- *
- * \return FALSE
- **/
-static gboolean gsb_transactions_list_search (GtkWidget *menu_item,
-											  gint *transaction_number)
-{
-	SearchTransaction *search;
-	GrisbiWin *win;
-	gint result;
-
-	win = grisbi_app_get_active_window (NULL);
-	search = search_transaction_new (win, transaction_number);
-	gtk_window_present (GTK_WINDOW (search));
-	gtk_widget_show_all (GTK_WIDGET (search));
-	result = gtk_dialog_run (GTK_DIALOG (search));
-	search_transaction_dialog_response (GTK_DIALOG (search), result);
-
-	return FALSE;
-}
-
-/**
  * Pop up a menu with several actions to apply to current transaction.
  *
  * \param
@@ -1870,7 +1845,7 @@ static gboolean gsb_transactions_list_key_press (GtkWidget *widget,
 
     account_number = gsb_gui_navigation_get_current_account ();
 
-    switch (ev->keyval)
+	switch (ev->keyval)
     {
 		case GDK_KEY_Return :   /* entrée */
 		case GDK_KEY_KP_Enter :
@@ -4954,6 +4929,31 @@ void gsb_transactions_list_set_current_tree_view_width (gint new_tree_view_width
 {
 	current_tree_view_width = new_tree_view_width;
 }
+/**
+ *
+ *
+ * \param menu_item
+ * \param transaction number
+ *
+ * \return FALSE
+ **/
+gboolean gsb_transactions_list_search (GtkWidget *menu_item,
+									   gint *transaction_number)
+{
+	SearchTransaction *search;
+	GrisbiWin *win;
+	gint result;
+
+	win = grisbi_app_get_active_window (NULL);
+	search = search_transaction_new (win, transaction_number);
+	gtk_window_present (GTK_WINDOW (search));
+	gtk_widget_show_all (GTK_WIDGET (search));
+	result = gtk_dialog_run (GTK_DIALOG (search));
+	search_transaction_dialog_response (GTK_DIALOG (search), result);
+
+	return FALSE;
+}
+
 /**
  *
  *

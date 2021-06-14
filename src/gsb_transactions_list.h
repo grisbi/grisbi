@@ -83,6 +83,8 @@ void		gsb_transactions_list_update_tree_view						(gint account_number,
 																		 gboolean keep_selected_transaction);
 void		gsb_transactions_list_mise_a_jour_affichage_r				(gboolean show_r);
 gboolean	gsb_transactions_list_select_new_transaction				(void);
+gboolean	gsb_transactions_list_search								(GtkWidget *menu_item,
+																		 gint *transaction_number);
 void		gsb_transactions_list_remove_transaction					(void);
 void		gsb_transactions_list_update_titres_tree_view				(void);
 /* END_DECLARATION */
