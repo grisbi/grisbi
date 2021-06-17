@@ -318,7 +318,7 @@ static void prefs_page_bank_setup_tree_view (PrefsPageBank *page)
 		gtk_tree_view_column_set_alignment (column, alignment[i]);
 
 		gtk_tree_view_column_pack_start (column, cell, TRUE);
-		gtk_tree_view_column_set_title (column, titles[i]);
+		gtk_tree_view_column_set_title (column, gettext (titles[i]));
 		gtk_tree_view_column_set_attributes (column,
 											 cell,
 											 "text", i,
