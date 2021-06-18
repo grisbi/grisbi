@@ -341,7 +341,7 @@ static void prefs_page_payment_method_row_selected (GtkTreeSelection *selection,
 			gint show_entry;
 
 			show_entry = gsb_data_payment_get_show_entry (payment_number);
-			prefs_page_payment_method_sensitive_widgets (priv, TRUE);
+			prefs_page_payment_method_sensitive_widgets (page, TRUE);
 
 			/* Filling entries */
 			gsb_autofunc_entry_set_value (priv->entry_payment_name,
@@ -1370,7 +1370,7 @@ static void prefs_page_payment_method_setup_page (PrefsPagePaymentMethod *page,
 	gsb_autofunc_checkbutton_new_from_ui (priv->checkbutton_payment_auto,
 										  _("Activate"),
 										  FALSE,
-										  G_CALLBACK (prefs_page_payment_method_button_auto_toggled),
+										  G_CALLBACK (prefs_page_payment_method_auto_button_toggled),
 										  priv,
 										  G_CALLBACK (gsb_data_payment_set_automatic_numbering),
 										  0);
