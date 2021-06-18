@@ -2374,6 +2374,7 @@ static void bet_array_refresh_scheduled_data (GtkTreeModel *tab_model,
         while (date != NULL && g_date_valid (date))
         {
 			GDate *tmp_date = NULL;
+			GDate *limit_date = NULL;
 
             if (g_date_compare (date, date_max) > 0)
 			{
@@ -2387,6 +2388,15 @@ static void bet_array_refresh_scheduled_data (GtkTreeModel *tab_model,
 				g_date_free (tmp_date);
                 continue;
             }
+			limit_date = gsb_data_scheduled_get_limit_date (scheduled_number);
+			if (limit_date && g_date_valid (limit_date))
+			{
+				if (g_date_compare (date, limit_date) > 0)
+				{
+					g_date_free (date);
+					break;
+				}
+			}
             if (date == NULL || g_date_valid (date) == FALSE)
 			{
 				if (date)
