@@ -30,6 +30,7 @@
 GtkWidget *	bet_array_create_page (void);
 void 		bet_array_create_transaction_from_transfert 	(TransfertData *transfert);
 gchar *		bet_array_get_largeur_col_treeview_to_string	(void);
+GtkWidget *	bet_array_get_toolbar							(void);
 void		bet_array_init_largeur_col_treeview				(const gchar* description);
 void 		bet_array_list_add_new_hist_line 				(GtkTreeModel *tab_model,
 															 GtkTreeModel *model,
