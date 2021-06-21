@@ -35,6 +35,7 @@
 #include "bet_graph.h"
 #include "bet_data.h"
 #include "bet_hist.h"
+#include "bet_tab.h"
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
@@ -108,7 +109,6 @@ struct _BetGraphButtonStruct
     GCallback				callback;			/* fonction de callback */
     gboolean 				is_visible;			/* TRUE si le bouton est visible dans la barre d'outils */
     gint 					origin_tab;			/* BET_ONGLETS_PREV ou BET_ONGLETS_HIST */
-    GtkWidget *				toolbar;
     GtkToolItem *			button;
     GtkWidget *				tree_view;
     BetGraphPrefsStruct *	prefs;				/* préférences pour le graphique */
@@ -1577,6 +1577,7 @@ static gboolean bet_graph_notebook_change_page (GtkNotebook *notebook,
 static void bet_graph_popup_choix_graph_activate (GtkMenuItem *menuitem,
 												  BetGraphButtonStruct *self)
 {
+	GtkWidget *toolbar;
     GtkToolItem *item;
     gchar *tmp_str;
     gint nbre_elemnts;
@@ -1587,32 +1588,34 @@ static void bet_graph_popup_choix_graph_activate (GtkMenuItem *menuitem,
     /* on définit l'origine du bouton */
     if (self->origin_tab == BET_ONGLETS_PREV)
     {
+		toolbar = bet_array_get_toolbar ();
         tmp_str = g_strdup ("forecast_graph");
-        nbre_elemnts = gtk_toolbar_get_n_items (GTK_TOOLBAR (self->toolbar)) -1;
+        nbre_elemnts = gtk_toolbar_get_n_items (GTK_TOOLBAR (toolbar)) -1;
     }
     else
     {
+		toolbar = bet_historical_get_toolbar ();
         tmp_str = g_strdup ("historical_graph");
-        nbre_elemnts = gtk_toolbar_get_n_items (GTK_TOOLBAR (self->toolbar)) -1;
+        nbre_elemnts = gtk_toolbar_get_n_items (GTK_TOOLBAR (toolbar)) -1;
     }
 
     /* on change le type de graphique */
     prefs->type_graph = !prefs->type_graph;
 
-    item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (self->toolbar), nbre_elemnts);
+    item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (toolbar), nbre_elemnts);
     if (item)
-        gtk_container_remove (GTK_CONTAINER (self->toolbar), GTK_WIDGET (item));
+        gtk_container_remove (GTK_CONTAINER (toolbar), GTK_WIDGET (item));
 
-    item = bet_graph_button_menu_new (self->toolbar,
+    item = bet_graph_button_menu_new (toolbar,
                         tmp_str,
                         G_CALLBACK (self->callback),
                         self->tree_view);
 
     g_free (tmp_str);
 
-    gtk_toolbar_insert (GTK_TOOLBAR (self->toolbar), item, -1);
+    gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
-    gtk_widget_show_all (self->toolbar);
+    gtk_widget_show_all (toolbar);
 
     /* on lance le graphique */
     g_signal_emit_by_name(item, "clicked", self->tree_view, NULL);
@@ -1922,7 +1925,6 @@ GtkToolItem *bet_graph_button_menu_new (GtkWidget *toolbar,
     self->filename = g_strdup ("gsb-graph-histo-24.png");
     self->service_id = g_strdup ("GogBarColPlot");
     self->callback = callback;
-    self->toolbar = toolbar;
     self->tree_view = tree_view;
     self->origin_tab = origin_tab;
     self->prefs = prefs;
@@ -1949,7 +1951,6 @@ GtkToolItem *bet_graph_button_menu_new (GtkWidget *toolbar,
     self->filename = g_strdup ("gsb-graph-line-24.png");
     self->service_id = g_strdup ("GogLinePlot");
     self->callback = callback;
-    self->toolbar = toolbar;
     self->tree_view = tree_view;
     self->origin_tab = origin_tab;
     self->prefs = prefs;

@@ -3477,6 +3477,18 @@ void bet_array_update_toolbar (gint toolbar_style)
  *
  * \return
  **/
+GtkWidget *bet_array_get_toolbar (void)
+{
+	return bet_array_toolbar;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

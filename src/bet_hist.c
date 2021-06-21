@@ -2078,6 +2078,18 @@ GtkTreeModel *bet_historical_get_bet_fyear_model_filter (void)
  *
  * \return
  **/
+GtkWidget *bet_historical_get_toolbar (void)
+{
+	return bet_historical_toolbar;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
