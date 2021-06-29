@@ -273,7 +273,7 @@ static gboolean gsb_scheduler_list_show_notes (GtkWidget *item)
 
         if (etat.affichage_commentaire_echeancier)
             gtk_widget_set_tooltip_text (GTK_WIDGET (item),
-										 ("Display the frequency and mode of scheduled transactions"));
+										 _("Display the frequency and mode of scheduled transactions"));
         else
             gtk_widget_set_tooltip_text (GTK_WIDGET (item),
 										 _("Display the notes of scheduled transactions"));
