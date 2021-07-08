@@ -1088,7 +1088,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
 		string_to_free1 = utils_str_dtostr (s_loan->capital, flotting_point, TRUE);
 		string_to_free2 = utils_str_dtostr (s_loan->fees, flotting_point, TRUE);
-		string_to_free3 = utils_str_dtostr (s_loan->annual_rate, flotting_point, TRUE);
+		string_to_free3 = utils_str_dtostr (s_loan->annual_rate, BET_TAUX_DIGITS, TRUE);
 		string_to_free4 = utils_str_dtostr (s_loan->first_capital, flotting_point, TRUE);
 		string_to_free5 = utils_str_dtostr (s_loan->first_interests, flotting_point, TRUE);
 		string_to_free6 = utils_str_dtostr (s_loan->other_echeance_amount, flotting_point, TRUE);
