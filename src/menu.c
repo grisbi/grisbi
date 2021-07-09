@@ -806,10 +806,23 @@ void grisbi_cmd_search_acc (GSimpleAction *action,
 							GVariant *parameter,
 							gpointer app)
 {
-	devel_debug (NULL);
+	gint account_number;
+	gint page_number;
+	gint transaction_number;
 
-	gsb_gui_navigation_select_reports_page ();
-	etats_onglet_create_search_report ();
+	devel_debug (NULL);
+	page_number = gsb_gui_navigation_get_current_page ();
+	if (page_number == GSB_ACCOUNT_PAGE)
+	{
+		account_number = gsb_gui_navigation_get_current_account ();
+		transaction_number = gsb_data_account_get_current_transaction_number (account_number);
+		gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
+	}
+	else
+	{
+		gsb_gui_navigation_select_reports_page ();
+		etats_onglet_create_search_report ();
+	}
 }
 
 /* VIEW MENU */
