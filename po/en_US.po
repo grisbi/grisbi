@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-29 18:19+0200\n"
+"POT-Creation-Date: 2021-07-14 10:17+0200\n"
 "PO-Revision-Date: 2018-01-08 16:35+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: \n"
@@ -82,8 +82,8 @@ msgstr ""
 #: ../src/etats/etats_page_payee.ui.h:3 ../src/ui/etats_prefs.ui.h:76
 #: ../src/widgets/widget_list_accounts.ui.h:1
 #: ../src/widgets/widget_list_metatree.ui.h:1 ../src/export.c:422
-#: ../src/gsb_assistant.c:129 ../src/tiers_onglet.c:1526
-#: ../src/tiers_onglet.c:1544 ../src/utils_buttons.c:125
+#: ../src/gsb_assistant.c:129 ../src/tiers_onglet.c:1383
+#: ../src/tiers_onglet.c:1401 ../src/utils_buttons.c:125
 #: ../src/widgets/widget_list_accounts.c:135
 #: ../src/widgets/widget_list_metatree.c:178
 msgid "Select all"
@@ -384,7 +384,7 @@ msgstr ""
 #: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:10
 #: ../src/ui/prefs_page_fyear.ui.h:7 ../src/widgets/widget_bank_details.ui.h:2
 #: ../src/widgets/widget_currency_details.ui.h:1
-#: ../src/gsb_data_partial_balance.c:1787 ../src/tiers_onglet.c:251
+#: ../src/gsb_data_partial_balance.c:1787 ../src/tiers_onglet.c:213
 msgid "Name: "
 msgstr ""
 
@@ -564,7 +564,7 @@ msgid "Make transactions clickable"
 msgstr ""
 
 #: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:414
-#: ../src/grisbi_win.c:432 ../src/navigation.c:2150
+#: ../src/grisbi_win.c:432 ../src/navigation.c:2128
 msgid "Accounts"
 msgstr ""
 
@@ -601,7 +601,7 @@ msgstr ""
 #. set head page
 #: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2033 ../src/bet_hist.c:2039
 #: ../src/categories_onglet.c:370 ../src/etats_prefs.c:424
-#: ../src/grisbi_win.c:479 ../src/navigation.c:2166
+#: ../src/grisbi_win.c:479 ../src/navigation.c:2144
 #: ../src/prefs/prefs_page_bet_account.c:157
 #: ../src/prefs/prefs_page_bet_account.c:176
 #: ../src/prefs/prefs_page_bet_account.c:193 ../src/utils_widgets.c:373
@@ -634,7 +634,7 @@ msgstr ""
 #: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2037
 #: ../src/etats_prefs.c:429 ../src/export_csv.c:404 ../src/grisbi_win.c:484
 #: ../src/import_csv.c:79 ../src/imputation_budgetaire.c:377
-#: ../src/navigation.c:2170 ../src/prefs/prefs_page_bet_account.c:158
+#: ../src/navigation.c:2148 ../src/prefs/prefs_page_bet_account.c:158
 #: ../src/prefs/prefs_page_bet_account.c:177
 #: ../src/prefs/prefs_page_bet_account.c:194 ../src/utils_widgets.c:376
 #: ../src/etats/etats_page_budget.c:90
@@ -874,7 +874,7 @@ msgid "Convert to scheduled transaction"
 msgstr ""
 
 #: ../src/ui/grisbi_menu.ui.h:28 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/navigation.c:2320
+#: ../src/grisbi_app.c:137 ../src/navigation.c:2298
 msgid "New account"
 msgstr ""
 
@@ -888,7 +888,7 @@ msgstr ""
 #. Change view mode button
 #: ../src/ui/grisbi_menu.ui.h:30 ../src/categories_onglet.c:621
 #: ../src/gsb_scheduler_list.c:1205 ../src/gsb_transactions_list.c:2525
-#: ../src/imputation_budgetaire.c:670 ../src/tiers_onglet.c:596
+#: ../src/imputation_budgetaire.c:670 ../src/tiers_onglet.c:558
 msgid "View"
 msgstr ""
 
@@ -971,7 +971,7 @@ msgstr ""
 #: ../src/ui/grisbi_menu.ui.h:48 ../src/ui/prefs_page_accueil.ui.h:6
 #: ../src/categories_onglet.c:609 ../src/gsb_scheduler_list.c:1173
 #: ../src/gsb_transactions_list.c:2498 ../src/imputation_budgetaire.c:658
-#: ../src/tiers_onglet.c:584
+#: ../src/tiers_onglet.c:546
 msgid "Edit"
 msgstr ""
 
@@ -1250,50 +1250,54 @@ msgid "Resolution screen"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:2
-msgid "Headings bar"
+msgid "Use a low resolution screen (Close and reopen preferences)"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:3
-msgid "Display headings bar"
+msgid "Headings bar"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:4
-msgid "Navigation pane"
+msgid "Display headings bar"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:5
-msgid "Add mouse scrolling support on the navigation pane"
+msgid "Navigation pane"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:6
-msgid "Toolbars"
+msgid "Add mouse scrolling support on the navigation pane"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:7
-msgid "Display toolbar buttons as"
+msgid "Toolbars"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:8
-msgid " : "
+msgid "Display toolbar buttons as"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:9
-msgid "Icons only"
+msgid " : "
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:10
-msgid "Text only"
+msgid "Icons only"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:11
-msgid "Text below items"
+msgid "Text only"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:12
-msgid "Text beside items"
+msgid "Text below items"
 msgstr ""
 
 #: ../src/ui/prefs_page_display_gui.ui.h:13
+msgid "Text beside items"
+msgstr ""
+
+#: ../src/ui/prefs_page_display_gui.ui.h:14
 msgid "Shortcuts"
 msgstr ""
 
@@ -1404,7 +1408,7 @@ msgid "(This change will take effect on the next restart)"
 msgstr ""
 
 #: ../src/ui/prefs_page_divers.ui.h:29 ../src/grisbi_win.c:464
-#: ../src/navigation.c:2154
+#: ../src/navigation.c:2132
 msgid "Scheduler"
 msgstr ""
 
@@ -1435,7 +1439,7 @@ msgstr ""
 
 #. set options
 #: ../src/ui/prefs_page_divers.ui.h:36 ../src/bet_graph.c:1340
-#: ../src/tiers_onglet.c:1399
+#: ../src/tiers_onglet.c:1256
 msgid "Options"
 msgstr ""
 
@@ -1920,8 +1924,8 @@ msgstr ""
 
 #. others options for search
 #: ../src/ui/search_transaction.ui.h:10
-#: ../src/widgets/widget_import_asso.ui.h:8 ../src/tiers_onglet.c:287
-#: ../src/tiers_onglet.c:1411
+#: ../src/widgets/widget_import_asso.ui.h:8 ../src/tiers_onglet.c:249
+#: ../src/tiers_onglet.c:1268
 msgid "Ignoring case sensitive"
 msgstr ""
 
@@ -2206,7 +2210,7 @@ msgid "Payee name: "
 msgstr ""
 
 #. search string
-#: ../src/widgets/widget_import_asso.ui.h:6 ../src/tiers_onglet.c:277
+#: ../src/widgets/widget_import_asso.ui.h:6 ../src/tiers_onglet.c:239
 msgid "Search string: "
 msgstr ""
 
@@ -2214,8 +2218,8 @@ msgstr ""
 msgid "Rule"
 msgstr ""
 
-#: ../src/widgets/widget_import_asso.ui.h:9 ../src/tiers_onglet.c:291
-#: ../src/tiers_onglet.c:1416
+#: ../src/widgets/widget_import_asso.ui.h:9 ../src/tiers_onglet.c:253
+#: ../src/tiers_onglet.c:1273
 msgid "Use the regular expressions"
 msgstr ""
 
@@ -2235,7 +2239,7 @@ msgstr ""
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: ../src/widgets/widget_import_files.ui.h:5 ../src/tiers_onglet.c:1400
+#: ../src/widgets/widget_import_files.ui.h:5 ../src/tiers_onglet.c:1257
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
@@ -2754,7 +2758,7 @@ msgstr ""
 
 #. titre de la page
 #: ../src/bet_finance_ui.c:1446 ../src/grisbi_win.c:474
-#: ../src/navigation.c:1380 ../src/navigation.c:2162
+#: ../src/navigation.c:1358 ../src/navigation.c:2140
 msgid "Credits simulator"
 msgstr ""
 
@@ -3164,7 +3168,7 @@ msgid ""
 "a positive number for a credit"
 msgstr ""
 
-#: ../src/bet_hist.c:501 ../src/tiers_onglet.c:1659 ../src/utils_buttons.c:151
+#: ../src/bet_hist.c:501 ../src/tiers_onglet.c:1516 ../src/utils_buttons.c:151
 #: ../src/utils_buttons.c:153
 msgid "Select"
 msgstr ""
@@ -3185,7 +3189,7 @@ msgstr ""
 #: ../src/etats_affiche.c:2546 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_scheduler_list.c:920 ../src/gsb_transactions_list.c:117
 #: ../src/import.c:4299 ../src/import_csv.c:81
-#: ../src/imputation_budgetaire.c:204 ../src/tiers_onglet.c:834
+#: ../src/imputation_budgetaire.c:204 ../src/tiers_onglet.c:735
 #: ../src/etats/etats_page_amount.c:287
 msgid "Amount"
 msgstr ""
@@ -3383,9 +3387,9 @@ msgstr ""
 
 #: ../src/categories_onglet.c:190 ../src/etats_config.c:449
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:919
-#: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1203
+#: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1195
 #: ../src/prefs/prefs_page_payment_method.c:1252
-#: ../src/prefs/prefs_page_reconcile.c:329 ../src/tiers_onglet.c:823
+#: ../src/prefs/prefs_page_reconcile.c:329 ../src/tiers_onglet.c:724
 msgid "Account"
 msgstr ""
 
@@ -3478,20 +3482,20 @@ msgstr ""
 #. delete button
 #: ../src/categories_onglet.c:597 ../src/etats_onglet.c:587
 #: ../src/gsb_scheduler_list.c:1162 ../src/gsb_transactions_list.c:2489
-#: ../src/imputation_budgetaire.c:646 ../src/tiers_onglet.c:572
+#: ../src/imputation_budgetaire.c:646 ../src/tiers_onglet.c:534
 msgid "Delete"
 msgstr ""
 
-#: ../src/categories_onglet.c:601 ../src/navigation.c:2401
+#: ../src/categories_onglet.c:601 ../src/navigation.c:2379
 msgid "Delete selected category"
 msgstr ""
 
 #: ../src/categories_onglet.c:613 ../src/categories_onglet.c:1108
-#: ../src/navigation.c:2414
+#: ../src/navigation.c:2392
 msgid "Edit selected category"
 msgstr ""
 
-#: ../src/categories_onglet.c:622 ../src/tiers_onglet.c:597
+#: ../src/categories_onglet.c:622 ../src/tiers_onglet.c:559
 msgid "Change view mode"
 msgstr ""
 
@@ -3505,13 +3509,13 @@ msgid "Subcategory view"
 msgstr ""
 
 #: ../src/categories_onglet.c:673 ../src/gsb_transactions_list.c:2397
-#: ../src/imputation_budgetaire.c:722 ../src/tiers_onglet.c:503
+#: ../src/imputation_budgetaire.c:722 ../src/tiers_onglet.c:465
 msgid "Complete view"
 msgstr ""
 
 #: ../src/categories_onglet.c:718 ../src/categories_onglet.c:722
 #: ../src/imputation_budgetaire.c:763 ../src/imputation_budgetaire.c:768
-#: ../src/tiers_onglet.c:226
+#: ../src/tiers_onglet.c:188
 #, c-format
 msgid "Properties for %s"
 msgstr ""
@@ -4345,7 +4349,7 @@ msgid "Create a pdf file of the report"
 msgstr ""
 
 #. New report button
-#: ../src/etats_onglet.c:550 ../src/navigation.c:2498
+#: ../src/etats_onglet.c:550 ../src/navigation.c:2476
 msgid "New report"
 msgstr ""
 
@@ -4449,8 +4453,8 @@ msgstr ""
 msgid "Unknown report type, creation cancelled"
 msgstr ""
 
-#: ../src/etats_onglet.c:1197 ../src/grisbi_win.c:489 ../src/navigation.c:1416
-#: ../src/navigation.c:2174
+#: ../src/etats_onglet.c:1197 ../src/grisbi_win.c:489 ../src/navigation.c:1394
+#: ../src/navigation.c:2152
 msgid "Reports"
 msgstr ""
 
@@ -4684,8 +4688,8 @@ msgid "Quote the dates"
 msgstr ""
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/export.c:417 ../src/import.c:3172 ../src/tiers_onglet.c:1528
-#: ../src/tiers_onglet.c:1709 ../src/utils_buttons.c:120
+#: ../src/export.c:417 ../src/import.c:3172 ../src/tiers_onglet.c:1385
+#: ../src/tiers_onglet.c:1566 ../src/utils_buttons.c:120
 #: ../src/widgets/widget_list_accounts.c:133
 #: ../src/widgets/widget_list_metatree.c:176
 msgid "Unselect all"
@@ -6138,7 +6142,7 @@ msgstr ""
 
 #: ../src/gsb_assistant_file.c:328 ../src/gsb_assistant_file.c:333
 #: ../src/gsb_assistant_file.c:334 ../src/gsb_assistant_file.c:622
-#: ../src/navigation.c:1285
+#: ../src/navigation.c:1272
 msgid "My accounts"
 msgstr ""
 
@@ -8037,7 +8041,7 @@ msgstr ""
 #. on récupère le nom de l'état
 #: ../src/gsb_data_payee.c:612 ../src/gsb_form.c:1021 ../src/gtk_combofix.c:389
 #: ../src/gtk_combofix.c:590 ../src/gtk_combofix.c:2355
-#: ../src/gtk_combofix.c:2478 ../src/navigation.c:1414
+#: ../src/gtk_combofix.c:2478 ../src/navigation.c:1392
 msgid "Report"
 msgstr ""
 
@@ -9114,7 +9118,7 @@ msgstr ""
 msgid "Show transactions for the next: "
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:214 ../src/navigation.c:1335
+#: ../src/gsb_scheduler_list.c:214 ../src/navigation.c:1322
 msgid "Scheduled transactions"
 msgstr ""
 
@@ -10161,12 +10165,12 @@ msgstr ""
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr ""
 
-#: ../src/imputation_budgetaire.c:650 ../src/navigation.c:2453
+#: ../src/imputation_budgetaire.c:650 ../src/navigation.c:2431
 msgid "Delete selected budgetary line"
 msgstr ""
 
 #: ../src/imputation_budgetaire.c:662 ../src/imputation_budgetaire.c:1150
-#: ../src/navigation.c:2466
+#: ../src/navigation.c:2444
 msgid "Edit selected budgetary line"
 msgstr ""
 
@@ -10254,7 +10258,7 @@ msgid "No sub-category"
 msgstr ""
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:284 ../src/navigation.c:2394
+#: ../src/meta_categories.c:284 ../src/navigation.c:2372
 msgid "New category"
 msgstr ""
 
@@ -10278,7 +10282,7 @@ msgstr ""
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:371 ../src/navigation.c:2342 ../src/tiers_onglet.c:563
+#: ../src/meta_payee.c:371 ../src/navigation.c:2320 ../src/tiers_onglet.c:525
 msgid "New payee"
 msgstr ""
 
@@ -10459,83 +10463,83 @@ msgstr ""
 msgid "WARNING"
 msgstr ""
 
-#: ../src/navigation.c:1121
+#: ../src/navigation.c:1113
 msgid ""
 "This account cannot be negative.\n"
 "\n"
 "You must make positive the balance of this account before you can use it."
 msgstr ""
 
-#: ../src/navigation.c:1155
+#: ../src/navigation.c:1147
 msgid "Pointed balance: "
 msgstr ""
 
-#: ../src/navigation.c:1157
+#: ../src/navigation.c:1149
 msgid "Reconciled balance: "
 msgstr ""
 
-#: ../src/navigation.c:1167
+#: ../src/navigation.c:1159
 msgid "Last statement: "
 msgstr ""
 
-#: ../src/navigation.c:1178 ../src/navigation.c:1186
+#: ../src/navigation.c:1170 ../src/navigation.c:1178
 msgid "Last statement: none"
 msgstr ""
 
-#: ../src/navigation.c:1209
+#: ../src/navigation.c:1201
 msgid "closed"
 msgstr ""
 
 #. on fixe le titre et le suffixe de la barre d'information
 #. set head page
-#: ../src/navigation.c:2158 ../src/tiers_onglet.c:813
-#: ../src/tiers_onglet.c:1065 ../src/etats/etats_page_payee.c:623
+#: ../src/navigation.c:2136 ../src/tiers_onglet.c:714 ../src/tiers_onglet.c:953
+#: ../src/etats/etats_page_payee.c:623
 msgid "Payees"
 msgstr ""
 
-#: ../src/navigation.c:2332
+#: ../src/navigation.c:2310
 msgid "Remove this account"
 msgstr ""
 
-#: ../src/navigation.c:2349 ../src/tiers_onglet.c:576
+#: ../src/navigation.c:2327 ../src/tiers_onglet.c:538
 msgid "Delete selected payee"
 msgstr ""
 
-#: ../src/navigation.c:2362 ../src/tiers_onglet.c:588
+#: ../src/navigation.c:2340 ../src/tiers_onglet.c:550
 msgid "Edit selected payee"
 msgstr ""
 
 #. Manage payees button
-#: ../src/navigation.c:2378 ../src/tiers_onglet.c:605
+#: ../src/navigation.c:2356 ../src/tiers_onglet.c:567
 msgid "Manage payees"
 msgstr ""
 
 #. Remove unused payees button
-#: ../src/navigation.c:2385 ../src/tiers_onglet.c:614
+#: ../src/navigation.c:2363 ../src/tiers_onglet.c:576
 msgid "Remove unused payees"
 msgstr ""
 
-#: ../src/navigation.c:2430
+#: ../src/navigation.c:2408
 msgid "Import a file of categories (.cgsb)"
 msgstr ""
 
-#: ../src/navigation.c:2437
+#: ../src/navigation.c:2415
 msgid "Export the list of categories (.cgsb)"
 msgstr ""
 
-#: ../src/navigation.c:2446
+#: ../src/navigation.c:2424
 msgid "New budgetary line"
 msgstr ""
 
-#: ../src/navigation.c:2482
+#: ../src/navigation.c:2460
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr ""
 
-#: ../src/navigation.c:2489
+#: ../src/navigation.c:2467
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr ""
 
-#: ../src/navigation.c:2509
+#: ../src/navigation.c:2487
 msgid "Remove this report"
 msgstr ""
 
@@ -11459,43 +11463,43 @@ msgid "Choose another account"
 msgstr ""
 
 #. Description entry
-#: ../src/tiers_onglet.c:263
+#: ../src/tiers_onglet.c:225
 msgid "Description: "
 msgstr ""
 
-#: ../src/tiers_onglet.c:324
+#: ../src/tiers_onglet.c:286
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
 
-#: ../src/tiers_onglet.c:328
+#: ../src/tiers_onglet.c:290
 msgid "Payee already exists"
 msgstr ""
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:495
+#: ../src/tiers_onglet.c:457
 msgid "Payee view"
 msgstr ""
 
-#: ../src/tiers_onglet.c:517 ../src/tiers_onglet.c:526
+#: ../src/tiers_onglet.c:479 ../src/tiers_onglet.c:488
 msgid "Display unused payees"
 msgstr ""
 
-#: ../src/tiers_onglet.c:564
+#: ../src/tiers_onglet.c:526
 msgid "Create a new payee"
 msgstr ""
 
-#: ../src/tiers_onglet.c:606 ../src/tiers_onglet.c:2018
+#: ../src/tiers_onglet.c:568 ../src/tiers_onglet.c:1875
 msgid "Manage the payees"
 msgstr ""
 
-#: ../src/tiers_onglet.c:615 ../src/tiers_onglet.c:936
+#: ../src/tiers_onglet.c:577 ../src/tiers_onglet.c:824
 msgid "Remove orphan payees"
 msgstr ""
 
-#: ../src/tiers_onglet.c:933
+#: ../src/tiers_onglet.c:821
 msgid ""
 "This will remove all the payees which are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -11504,29 +11508,29 @@ msgid ""
 "Are you sure you want to do that?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:948
+#: ../src/tiers_onglet.c:836
 #, c-format
 msgid "Removed %d payees."
 msgstr ""
 
-#: ../src/tiers_onglet.c:954
+#: ../src/tiers_onglet.c:842
 msgid "There is no payee to remove."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1282
+#: ../src/tiers_onglet.c:1139
 msgid "You must choose a payee for searching."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1286
+#: ../src/tiers_onglet.c:1143
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 
 #. get rule
-#: ../src/tiers_onglet.c:1335
+#: ../src/tiers_onglet.c:1192
 msgid "Choose a payee"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1337
+#: ../src/tiers_onglet.c:1194
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -11537,59 +11541,59 @@ msgid ""
 msgstr ""
 
 #. get new payee
-#: ../src/tiers_onglet.c:1368
+#: ../src/tiers_onglet.c:1225
 msgid "Enter the new payee"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1372
+#: ../src/tiers_onglet.c:1229
 msgid "Enter the name of the new payee: "
 msgstr ""
 
-#: ../src/tiers_onglet.c:1406
+#: ../src/tiers_onglet.c:1263
 msgid "Save the payees in the notes"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1593
+#: ../src/tiers_onglet.c:1450
 msgid "List of payees who will be modified"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1622
+#: ../src/tiers_onglet.c:1479
 msgid "Do you want replace the current rule?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1667
+#: ../src/tiers_onglet.c:1524
 msgid "Payee number"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1676 ../src/widgets/widget_import_asso.c:679
+#: ../src/tiers_onglet.c:1533 ../src/widgets/widget_import_asso.c:679
 msgid "Payee name"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1691
+#: ../src/tiers_onglet.c:1548
 msgid "Total number of payees: "
 msgstr ""
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1700
+#: ../src/tiers_onglet.c:1557
 msgid "Number of selected payees: "
 msgstr ""
 
-#: ../src/tiers_onglet.c:1798
+#: ../src/tiers_onglet.c:1655
 #, c-format
 msgid "Payee sought: %s"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1804
+#: ../src/tiers_onglet.c:1661
 #, c-format
 msgid "New payee: %s"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1826
+#: ../src/tiers_onglet.c:1683
 #, c-format
 msgid "Current rule: %s"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1910
+#: ../src/tiers_onglet.c:1767
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -11597,7 +11601,7 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1917
+#: ../src/tiers_onglet.c:1774
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -11605,7 +11609,7 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1960
+#: ../src/tiers_onglet.c:1817
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -11613,7 +11617,7 @@ msgid ""
 "If you answer YES, the existing note will be replaced by %s."
 msgstr ""
 
-#: ../src/tiers_onglet.c:2019
+#: ../src/tiers_onglet.c:1876
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -11622,16 +11626,16 @@ msgid ""
 "It is better to make a backup of your Grisbi file if you have not yet done."
 msgstr ""
 
-#: ../src/tiers_onglet.c:2120
+#: ../src/tiers_onglet.c:1977
 msgid "Warning you will crush the existing note."
 msgstr ""
 
-#: ../src/tiers_onglet.c:2164
+#: ../src/tiers_onglet.c:2021
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:2168
+#: ../src/tiers_onglet.c:2025
 #, c-format
 msgid ""
 "%d payees were replaced with a new one.\n"
@@ -11639,7 +11643,7 @@ msgid ""
 "%d unaffected payees were removed in addition"
 msgstr ""
 
-#: ../src/tiers_onglet.c:2175
+#: ../src/tiers_onglet.c:2032
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr ""

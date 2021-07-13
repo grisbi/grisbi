@@ -62,6 +62,8 @@
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkCheckButton" id="checkbutton_low_definition_screen">
+                            <property name="label" translatable="yes">Use a low resolution screen (Close and reopen preferences)</property>
+                            <property name="name">label_gsetting_option</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
