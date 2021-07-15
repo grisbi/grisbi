@@ -254,6 +254,10 @@ static void gtk_combofix_completion_insert_new_item (GtkComboFix *combofix,
 			g_free (tmp_str);
 		}
 		while (gtk_tree_model_iter_next (store, &iter));
+
+		/* si on est là c'est qu'on est à la fin de la liste on ajoute le texte */
+		gtk_list_store_append (GTK_LIST_STORE (store), &new_iter);
+		gtk_list_store_set (GTK_LIST_STORE (store), &new_iter, 0, text, -1);
 	}
 	else
 	{
