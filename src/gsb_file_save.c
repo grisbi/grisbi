@@ -2105,6 +2105,7 @@ gulong gsb_file_save_budgetary_part (gulong iterator,
 												  budget_number,
 												  sub_budget_number,
 												  tmp_str);
+			g_free (tmp_str);
 
 			/* append the new string to the file content and take the new iterator */
 			iterator = gsb_file_save_append_part (iterator,
