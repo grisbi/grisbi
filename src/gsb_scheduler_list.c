@@ -1400,6 +1400,7 @@ static void gsb_scheduler_list_size_allocate (GtkWidget *tree_view,
 			}
 		}
 		scheduler_col_width[i] = 100 - somme;
+		gsb_file_set_modified (TRUE);
 
 		return;
     }
@@ -3109,7 +3110,8 @@ void gsb_scheduler_list_init_tab_width_col_treeview (const gchar *description)
 			else
 				scheduler_col_width[i] = utils_str_atoi (pointeur_char[i]);
 
-			somme+= scheduler_col_width[i];
+			if (i != 5)
+				somme+= scheduler_col_width[i];
 		}
 		scheduler_col_width[i] = 100 - somme;
 		g_strfreev (pointeur_char);
