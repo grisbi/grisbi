@@ -2209,8 +2209,7 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                 else if (!strcmp (attribute_names[i], "Scheduler_column_width"))
                 {
                     /* initialise la réinitialisation des colonnes */
-                    etat.scheduler_column_width = my_strdup (attribute_values[i]);
-                    gsb_scheduler_list_init_tab_width_col_treeview (etat.scheduler_column_width);
+                    gsb_scheduler_list_init_tab_width_col_treeview (attribute_values[i]);
                 }
 
                 else if (!strcmp (attribute_names[i], "Scheduler_view"))
@@ -2261,8 +2260,7 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                 else if (!strcmp (attribute_names[i], "Transaction_column_width"))
                 {
                     /* initialise la réinitialisation des colonnes */
-                    etat.transaction_column_width = my_strdup (attribute_values[i]);
-                    gsb_transactions_list_init_tab_width_col_treeview (etat.transaction_column_width);
+                    gsb_transactions_list_init_tab_width_col_treeview (attribute_values[i]);
                 }
 
                 else if (!strcmp (attribute_names[i], "Transaction_column_align"))

@@ -205,10 +205,6 @@ struct _GrisbiWinEtat
     gint		bet_index_duree;
     gdouble		bet_frais;
     gint		bet_type_taux;
-
-    /* largeur des colonnes */
-    gchar *		transaction_column_width;
-    gchar *		scheduler_column_width;
 };
 
 /* structure conf variables configured by gsettings or grisbi.conf */

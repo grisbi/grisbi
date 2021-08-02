@@ -240,17 +240,6 @@ void init_variables (void)
     gsb_transactions_list_init_tab_width_col_treeview (NULL);
     gsb_scheduler_list_init_tab_width_col_treeview (NULL);
 
-    if (etat.transaction_column_width && strlen (etat.transaction_column_width))
-    {
-        g_free (etat.transaction_column_width);
-        etat.transaction_column_width = NULL;
-   }
-    if (etat.scheduler_column_width && strlen (etat.scheduler_column_width))
-    {
-        g_free (etat.scheduler_column_width);
-        etat.scheduler_column_width = NULL;
-   }
-
     gsb_gui_navigation_init_tree_view ();
 
     /* free the form */
