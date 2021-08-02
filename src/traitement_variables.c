@@ -325,7 +325,7 @@ void free_variables (void)
 	if (etat.csv_separator)
 		g_free (etat.csv_separator);
 
-	/* raz variables of etat and w_etat */
+	/* raz variables of etat */
 	if (etat.name_logo && strlen (etat.name_logo))
 		g_free (etat.name_logo);
 
@@ -335,7 +335,7 @@ void free_variables (void)
     if (run.reconcile_new_date)
         g_date_free (run.reconcile_new_date);
 
-    /* initializes the variables for the estimate balance module */
+    /* free the variables for the estimate balance module */
     bet_data_free_variables ();
     bet_future_initialise_dialog (FALSE);
     bet_array_init_largeur_col_treeview (NULL);
