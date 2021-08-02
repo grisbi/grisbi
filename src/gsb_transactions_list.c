@@ -1829,6 +1829,8 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
 		}
 
 		transaction_col_width[i] = 100 - somme;
+		gsb_file_set_modified (TRUE);
+
         return;
     }
 
