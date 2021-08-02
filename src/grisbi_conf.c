@@ -444,12 +444,11 @@ gboolean grisbi_conf_load_app_config (void)
 									 "General",
 									 "current-theme",
 									 NULL);
-	if (tmp_str == NULL || strlen (tmp_str) == 0)
+	if (tmp_str && strlen (tmp_str) > 0)
     {
-        a_conf->current_theme = g_strdup ("null");
-    }
-    else
-    {
+		if (a_conf->current_theme)
+			g_free (a_conf->current_theme);
+
         a_conf->current_theme = g_strdup (tmp_str);
         g_free (tmp_str);
     }
