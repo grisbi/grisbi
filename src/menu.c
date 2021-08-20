@@ -418,12 +418,14 @@ void grisbi_cmd_file_open_direct_menu (GSimpleAction *action,
 
 	if (tmp_str)
 	{
+		w_run->file_load_from_no_file_page = TRUE;
 		if (gsb_file_open_file (tmp_str))
 		{
 			if (!w_run->file_is_loading)
 			{
 				gsb_gui_navigation_select_line (NULL, NULL);
 				w_run->file_is_loading = TRUE;
+				w_run->file_load_from_no_file_page = FALSE;
 			}
 			utils_files_append_name_to_recent_array (tmp_str);
 		}

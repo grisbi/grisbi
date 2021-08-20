@@ -56,6 +56,7 @@
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
 #include "menu.h"
+#include "mouse.h"
 #include "navigation.h"
 #include "tiers_onglet.h"
 #include "structures.h"
@@ -639,6 +640,35 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
 
 /* NO_FILE_PAGE */
 /**
+ * called for a key-press-event on the account_button
+ *
+ * \param button
+ * \param ev
+ * \param filename
+ *
+ * \return FALSE or TRUE, depends if need to block the signal
+ **/
+static gboolean grisbi_win_account_button_press_event (GtkWidget *button,
+													   GdkEventButton *ev,
+													   const gchar *filename)
+{
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    if (w_run->file_load_from_no_file_page)
+		return TRUE;
+
+	if (ev->button == LEFT_BUTTON)
+	{
+		w_run->file_load_from_no_file_page = TRUE;
+
+		return FALSE;
+	}
+	else
+		return TRUE;
+}
+
+/**
  * page d'accueil si on ne charge pas un fichier automatiquement
  *
  * \param
@@ -736,6 +766,11 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 			target_value = g_strdup_printf ("%d", i+1);
 			gtk_actionable_set_action_target_value (GTK_ACTIONABLE (bouton), g_variant_new_string (target_value));
 			gtk_actionable_set_action_name (GTK_ACTIONABLE (bouton), "win.direct-open-file");
+
+			g_signal_connect (bouton,
+							  "button-press-event",
+							  G_CALLBACK (grisbi_win_account_button_press_event),
+							  recent_files_array[i]);
 
 			g_free (target_value);
 
@@ -1677,6 +1712,11 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 			target_value = g_strdup_printf ("%d", i+1);
 			gtk_actionable_set_action_target_value (GTK_ACTIONABLE (bouton), g_variant_new_string (target_value));
 			gtk_actionable_set_action_name (GTK_ACTIONABLE (bouton), "win.direct-open-file");
+
+			g_signal_connect (bouton,
+							  "button-press-event",
+							  G_CALLBACK (grisbi_win_account_button_press_event),
+							  recent_files_array[i]);
 
 			g_free (target_value);
 		}

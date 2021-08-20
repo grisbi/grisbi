@@ -344,6 +344,7 @@ struct _GrisbiWinRun
     time_t		file_modification;
     gboolean	file_is_saving;
     gboolean	file_is_loading;
+	gboolean	file_load_from_no_file_page;				/* Used to avoid double clicking on a file button */
     gboolean	menu_save;
 
     /* reconciliation */

@@ -360,25 +360,23 @@ gboolean grisbi_conf_load_app_config (void)
 																			  "File",
 																			  "max-transactions-before-warn-archival",
 																			  NULL);
+
+	/* set list of files */
 	recent_array = g_key_file_get_string_list (config,
 											   "File",
 											   "names-last-files",
-                        			 		   NULL,
+											   NULL,
 											   NULL);
 	if (recent_array)
 	{
-        a_conf->nb_derniers_fichiers_ouverts = g_strv_length (recent_array);
-        if (a_conf->nb_derniers_fichiers_ouverts > 0)
-        {
-			if (a_conf->nb_derniers_fichiers_ouverts > a_conf->nb_max_derniers_fichiers_ouverts)
-			{
-				a_conf->nb_derniers_fichiers_ouverts = a_conf->nb_max_derniers_fichiers_ouverts;
-			}
-
-            a_conf->last_open_file = my_strdup (recent_array[0]);
-        }
-    }
-	grisbi_app_set_recent_files_array (recent_array);
+		a_conf->nb_derniers_fichiers_ouverts = g_strv_length (recent_array);
+		if (a_conf->nb_derniers_fichiers_ouverts > 0)
+			a_conf->last_open_file = my_strdup (recent_array[0]);
+		else
+			recent_array = NULL;
+	}
+	else
+		a_conf->nb_derniers_fichiers_ouverts = 0;
 
 	tmp_number = g_key_file_get_integer (config,
 									     "File",
@@ -389,6 +387,14 @@ gboolean grisbi_conf_load_app_config (void)
 	if (tmp_number == 0)
 		tmp_number = 3;
 	a_conf->nb_max_derniers_fichiers_ouverts = tmp_number;
+
+	if (a_conf->nb_derniers_fichiers_ouverts > a_conf->nb_max_derniers_fichiers_ouverts)
+	{
+		a_conf->nb_derniers_fichiers_ouverts = a_conf->nb_max_derniers_fichiers_ouverts;
+		if (recent_array)
+			recent_array[a_conf->nb_derniers_fichiers_ouverts] = NULL;
+	}
+	grisbi_app_set_recent_files_array (recent_array);
 
 	a_conf->sauvegarde_auto = g_key_file_get_boolean (config,
 													  "File",
