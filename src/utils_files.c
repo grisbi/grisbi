@@ -373,91 +373,74 @@ static void utils_files_go_charmap_sel_changed (GtkWidget *go_charmap_sel,
 void utils_files_append_name_to_recent_array (const gchar *filename)
 {
 	gchar **recent_array;
-    gchar *dernier;
-    gint position;
-    gint i;
+	gchar **new_recent_array;
+	gint position = 0;
+	gint i;
 	GrisbiAppConf *a_conf;
 
 	if (!filename)
 		return;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-    if (a_conf->nb_max_derniers_fichiers_ouverts == 0)
-        return;
+	if (a_conf->nb_max_derniers_fichiers_ouverts == 0)
+		return;
 
-    if (a_conf->nb_derniers_fichiers_ouverts < 0)
+	if (a_conf->nb_derniers_fichiers_ouverts < 0)
 	{
-        a_conf->nb_derniers_fichiers_ouverts = 0;
+		a_conf->nb_derniers_fichiers_ouverts = 0;
 	}
 
 	recent_array = grisbi_app_get_recent_files_array ();
-
-    /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts  */
-    position = 0;
-
-    if (a_conf->nb_derniers_fichiers_ouverts)
-    {
-        for (i = 0; i < a_conf->nb_derniers_fichiers_ouverts; i++)
-        {
-            if (!strcmp (filename, recent_array[i]))
-            {
-                /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
-                if (i == 0)
-                {
-                    return;
-                }
-                position = i;
-            }
-        }
-
-		if (position)
-        {
-            /* le fichier a été trouvé, on fait juste une rotation */
-            for (i = position; i > 0 ; i--)
-			{
-                recent_array[i] = recent_array[i-1];
-			}
-
-			recent_array[0] = my_strdup (filename);
-
-			grisbi_app_set_recent_files_array (recent_array);
-			grisbi_app_update_recent_files_menu ();
-
-            return;
-        }
-        /* le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
-
-        /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
-        /* on garde le ptit dernier dans le cas contraire */
-        dernier = recent_array[a_conf->nb_derniers_fichiers_ouverts-1];
-        for (i = a_conf->nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i--)
-		{
-            recent_array[i] = recent_array[i-1];
-		}
-    }
-    else
-	{
-        dernier = NULL;
-	}
-
-	/* on ajoute 1 nom de fichier */
-
-	if (a_conf->nb_derniers_fichiers_ouverts == 0)
+	if (recent_array == NULL)	/* a_conf->nb_derniers_fichiers_ouverts = 0 */
 	{
 		recent_array = g_malloc0 ((++a_conf->nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
+		recent_array[0] = my_strdup (filename);
+		grisbi_app_set_recent_files_array (recent_array);
+		grisbi_app_update_recent_files_menu ();
+
+		return;
 	}
-	else
+	/* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts  */
+	position = 0;
+	for (i = 0; i < a_conf->nb_derniers_fichiers_ouverts; i++)
 	{
-		recent_array = g_realloc (recent_array, (++a_conf->nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
+		if (!strcmp (filename, recent_array[i]))
+		{
+			/* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
+			if (i == 0)
+			{
+				return;
+			}
+			position = i;
+		}
 	}
 
-	if (a_conf->nb_derniers_fichiers_ouverts <= a_conf->nb_max_derniers_fichiers_ouverts)
-		recent_array[a_conf->nb_derniers_fichiers_ouverts-1] = dernier;
+	if (position)
+	{
+		/* le fichier a été trouvé, on fait juste une rotation */
+		for (i = position; i > 0 ; i--)
+		{
+			recent_array[i] = recent_array[i-1];
+		}
 
-	recent_array[a_conf->nb_derniers_fichiers_ouverts] = NULL;
+		recent_array[0] = my_strdup (filename);
+		grisbi_app_set_recent_files_array (recent_array);
+		grisbi_app_update_recent_files_menu ();
 
-    recent_array[0] = my_strdup (filename);
-	grisbi_app_set_recent_files_array (recent_array);
+		return;
+	}
+
+	/* le fichier est nouveau, on met le nouveau au debut et on ajoute les autres */
+	new_recent_array = g_malloc0 ((++a_conf->nb_derniers_fichiers_ouverts +1) * sizeof (gchar*));
+	new_recent_array[0] = my_strdup (filename);
+	for (i = 1; i < a_conf->nb_derniers_fichiers_ouverts ; i++)
+	{
+		if (i == a_conf->nb_max_derniers_fichiers_ouverts)
+			break;
+
+		new_recent_array[i] = recent_array[i-1];
+	}
+	grisbi_app_set_recent_files_array (new_recent_array);
 	grisbi_app_update_recent_files_menu ();
 }
 
