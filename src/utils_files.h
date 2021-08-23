@@ -20,6 +20,7 @@ gchar *		utils_files_get_ofx_charset 				(gchar *contents);
 gint 		utils_files_get_utf8_line_from_file			(FILE *fichier,
 														 gchar **string,
 														 const gchar *coding_system);
+void		utils_files_remove_name_to_recent_array		(const gchar *filename);
 gchar *		utils_files_safe_file_name 					(gchar *filename);
 gchar * 	utils_files_selection_get_last_directory	(GtkFileChooser *filesel,
 														 gboolean ended);

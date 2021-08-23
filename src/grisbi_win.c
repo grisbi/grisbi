@@ -50,6 +50,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_rgba.h"
 #include "gsb_scheduler_list.h"
@@ -64,6 +65,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_dates.h"
+#include "utils_files.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -640,6 +642,28 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
 
 /* NO_FILE_PAGE */
 /**
+ * suppression des boutons avant update de la vue
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void grisbi_win_no_file_page_remove_buttons (GtkWidget *button,
+													gpointer null)
+{
+	const gchar *data;
+
+	data = g_object_get_data (G_OBJECT (button), "button_fixed");
+
+	/* suppression des boutons avec data != "button_fixed" */
+	if (g_strcmp0 (data, "button_fixed"))
+	{
+		gtk_widget_destroy (button);
+	}
+}
+
+/**
  * called for a key-press-event on the account_button
  *
  * \param button
@@ -652,17 +676,31 @@ static gboolean grisbi_win_account_button_press_event (GtkWidget *button,
 													   GdkEventButton *ev,
 													   const gchar *filename)
 {
-	GrisbiWinRun *w_run;
-
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-    if (w_run->file_load_from_no_file_page)
-		return TRUE;
-
 	if (ev->button == LEFT_BUTTON)
-	{
-		w_run->file_load_from_no_file_page = TRUE;
-
 		return FALSE;
+	else if (ev->button == RIGHT_BUTTON)
+	{
+		GtkWidget *menu;
+		GtkWidget *menu_item;
+		menu = gtk_menu_new ();
+		menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete button")));
+		g_signal_connect_swapped (G_OBJECT(menu_item),
+						  "activate",
+						  G_CALLBACK(utils_files_remove_name_to_recent_array),
+						  g_strdup (filename));
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+
+		menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete file")));
+		g_signal_connect (G_OBJECT(menu_item),
+						  "activate",
+						  G_CALLBACK(gsb_file_remove_account_file),
+						  g_strdup (filename));
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+
+		gtk_widget_show_all (menu);
+		gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+
+		return TRUE;
 	}
 	else
 		return TRUE;
@@ -707,6 +745,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	gtk_widget_set_halign (priv->bouton_nouveau, GTK_ALIGN_CENTER);
 	gtk_widget_set_valign (priv->bouton_nouveau, GTK_ALIGN_CENTER);
 	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_nouveau), "win.new-acc-file");
+	g_object_set_data_full (G_OBJECT (priv->bouton_nouveau), "button_fixed", g_strdup ("button_fixed"), g_free);
 	gtk_grid_attach (GTK_GRID (priv->no_file_grid), priv->bouton_nouveau, 0,0,1,1);
 	gtk_widget_show (priv->bouton_nouveau);
 
@@ -719,6 +758,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	gtk_widget_set_halign (priv->bouton_ouvrir, GTK_ALIGN_CENTER);
 	gtk_widget_set_valign (priv->bouton_ouvrir, GTK_ALIGN_CENTER);
 	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_ouvrir), "win.open-file");
+	g_object_set_data_full (G_OBJECT (priv->bouton_ouvrir), "button_fixed", g_strdup ("button_fixed"), g_free);
 	gtk_grid_attach (GTK_GRID (priv->no_file_grid), priv->bouton_ouvrir, 1,0,1,1);
 	gtk_widget_show (priv->bouton_ouvrir);
 
@@ -731,7 +771,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	gtk_widget_set_halign (priv->bouton_importer, GTK_ALIGN_CENTER);
 	gtk_widget_set_valign (priv->bouton_importer, GTK_ALIGN_CENTER);
 	gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->bouton_importer), "win.import-file");
-
+	g_object_set_data_full (G_OBJECT (priv->bouton_importer), "button_fixed", g_strdup ("button_fixed"), g_free);
 	gtk_grid_attach (GTK_GRID (priv->no_file_grid), priv->bouton_importer, 2,0,1,1);
 	gtk_widget_show (priv->bouton_importer);
 
@@ -1672,14 +1712,15 @@ void grisbi_win_close_window (GtkWindow *win)
  **/
 void grisbi_win_no_file_page_update (GrisbiWin *win)
 {
+	GtkWidget *bouton;
 	gchar **recent_files_array;
 	gint i;
-    gint col = 0;
-    gint row = 1;
+	gint col = 0;
+	gint row = 1;
 	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
-    devel_debug (NULL);
+	devel_debug (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 	a_conf = grisbi_app_get_a_conf ();
 
@@ -1689,37 +1730,47 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 	}
 
 	recent_files_array = grisbi_app_get_recent_files_array ();
+	if (!a_conf->nb_derniers_fichiers_ouverts)
+	{
+		bouton = gtk_grid_get_child_at (GTK_GRID (priv->no_file_grid), col, row);
+		if (bouton)
+			gtk_widget_destroy (bouton);
+
+		return;
+	}
+
+	/* Suppression des boutons */
+	gtk_container_foreach (GTK_CONTAINER (priv->no_file_grid),
+						   (GtkCallback) grisbi_win_no_file_page_remove_buttons,
+						   NULL);
+
+	/* ajout des boutons restants */
 	for (i = 0; i < a_conf->nb_derniers_fichiers_ouverts; i++)
 	{
-		GtkWidget *bouton;
-        gchar *tmp_str;
+		gchar *tmp_str;
 		gchar *target_value;
 		gchar *basename;
 
-		bouton = gtk_grid_get_child_at (GTK_GRID (priv->no_file_grid), col, row);
-		if (bouton == NULL)
-		{
-			bouton = utils_buttons_button_new_from_stock ("gtk-open", _("Open"));
-			gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
-			gtk_widget_set_size_request (bouton, 150, 150);
-			gtk_widget_set_halign (bouton, GTK_ALIGN_CENTER);
-			gtk_widget_set_valign (bouton, GTK_ALIGN_CENTER);
+		bouton = utils_buttons_button_new_from_stock ("gtk-open", _("Open"));
+		gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
+		gtk_widget_set_size_request (bouton, 150, 150);
+		gtk_widget_set_halign (bouton, GTK_ALIGN_CENTER);
+		gtk_widget_set_valign (bouton, GTK_ALIGN_CENTER);
 
-			gtk_grid_attach (GTK_GRID (priv->no_file_grid), bouton, col,row,1,1);
-			gtk_widget_show (bouton);
+		gtk_grid_attach (GTK_GRID (priv->no_file_grid), bouton, col,row,1,1);
+		gtk_widget_show (bouton);
 
-			/* set action */
-			target_value = g_strdup_printf ("%d", i+1);
-			gtk_actionable_set_action_target_value (GTK_ACTIONABLE (bouton), g_variant_new_string (target_value));
-			gtk_actionable_set_action_name (GTK_ACTIONABLE (bouton), "win.direct-open-file");
+		/* set action */
+		target_value = g_strdup_printf ("%d", i+1);
+		gtk_actionable_set_action_target_value (GTK_ACTIONABLE (bouton), g_variant_new_string (target_value));
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (bouton), "win.direct-open-file");
 
-			g_signal_connect (bouton,
-							  "button-press-event",
-							  G_CALLBACK (grisbi_win_account_button_press_event),
-							  recent_files_array[i]);
+		g_signal_connect (bouton,
+						  "button-press-event",
+						  G_CALLBACK (grisbi_win_account_button_press_event),
+						  recent_files_array[i]);
 
-			g_free (target_value);
-		}
+		g_free (target_value);
 
 		basename = g_path_get_basename (recent_files_array[i]);
 		tmp_str = utils_str_break_filename (basename, GSB_NBRE_CHAR_TRUNC);

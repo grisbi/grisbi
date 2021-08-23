@@ -1343,6 +1343,34 @@ gboolean gsb_file_quit (void)
  *
  * \return
  **/
+void gsb_file_remove_account_file (GtkWidget *menu_item,
+								   const gchar *filename)
+{
+	gchar *tmp_str;
+	gint result;
+
+	devel_debug (filename);
+
+	tmp_str = g_strdup_printf (_("Are you sure you want to remove this accounts file \"%s\"?\n"),
+							   filename);
+	result = dialogue_yes_no (tmp_str, _("Confirmation of accounts file removal"), GTK_RESPONSE_NO);
+
+	if (result)
+	{
+		utils_files_remove_name_to_recent_array (filename);
+		g_remove (filename);
+	}
+
+	g_free (tmp_str);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

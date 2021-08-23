@@ -5,7 +5,7 @@
 /*          2003-2007 Benjamin Drieu(bdrieu@april.org)                        */
 /*          2003-2004 Alain Portal(aportal@univ-montp2.fr)                    */
 /*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -442,6 +442,58 @@ void utils_files_append_name_to_recent_array (const gchar *filename)
 	}
 	grisbi_app_set_recent_files_array (new_recent_array);
 	grisbi_app_update_recent_files_menu ();
+}
+
+/**
+ * remove a name in recent_array tab
+ *
+ * \param
+ *
+ * \return
+ **/
+void utils_files_remove_name_to_recent_array (const gchar *filename)
+{
+	gchar **recent_array;
+	gchar **new_recent_array;
+	gint i = 0;
+	gint j = 0;
+	GrisbiAppConf *a_conf;
+
+	devel_debug (filename);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	recent_array = grisbi_app_get_recent_files_array ();
+
+	if (a_conf->nb_derniers_fichiers_ouverts == 1)
+	{
+		g_free (recent_array[0]);
+		g_free (recent_array);
+		grisbi_app_set_recent_files_array (NULL);
+		a_conf->nb_derniers_fichiers_ouverts = 0;
+		grisbi_app_update_recent_files_menu ();
+		grisbi_win_no_file_page_update (grisbi_app_get_active_window (NULL));
+
+		return;
+	}
+
+	/* on cree un nouveau tableau sans le fichier a supprimer */
+	new_recent_array = g_malloc0 ((a_conf->nb_derniers_fichiers_ouverts) * sizeof (gchar*));
+	for (i = 0; i < a_conf->nb_derniers_fichiers_ouverts; i++)
+	{
+		if (!strcmp (filename, recent_array[i]))
+		{
+			g_free (recent_array[i]);
+		}
+		else
+		{
+			new_recent_array[j] = recent_array[i];
+			j++;
+		}
+	}
+	new_recent_array[j] = NULL;
+	a_conf->nb_derniers_fichiers_ouverts = g_strv_length (new_recent_array);
+	grisbi_app_set_recent_files_array (new_recent_array);
+	grisbi_app_update_recent_files_menu ();
+	grisbi_win_no_file_page_update (grisbi_app_get_active_window (NULL));
 }
 
 /*
