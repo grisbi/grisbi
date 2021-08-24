@@ -1125,13 +1125,12 @@ void gsb_data_categorie_free_name_list ( GSList *liste )
         GSList *tmp_list;
 
 		tmp_list = liste->data;
-		if (i < 2)
-			liste = liste->next;
+		liste = liste->next;
 
-        g_slist_free_full (tmp_list, (GDestroyNotify) g_free);
+		g_slist_free_full (g_steal_pointer (&tmp_list), (GDestroyNotify) g_free);
     }
 
-    g_slist_free ( liste );
+	g_slist_free (g_steal_pointer (&liste));
 }
 
 
