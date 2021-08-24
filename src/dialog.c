@@ -519,6 +519,7 @@ gboolean dialogue_yes_no (const gchar *text,
 {
     GtkWidget *dialog;
     const gchar *primary_text;
+	gchar *tmp_str;
     gint response;
 
     primary_text = hint ? hint : text;
@@ -527,12 +528,16 @@ gboolean dialogue_yes_no (const gchar *text,
 									 GTK_MESSAGE_QUESTION,
 									 GTK_BUTTONS_YES_NO,
 									 NULL);
-    gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), dialogue_make_hint (primary_text, NULL));
+
+	tmp_str = dialogue_make_hint (primary_text, NULL);
+	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), tmp_str);
 
     if (hint)
         gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text);
 
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), default_answer);
+
+	g_free (tmp_str);
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
 
