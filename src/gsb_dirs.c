@@ -39,6 +39,7 @@ static gchar *help_dir;
 static gchar *locale_dir;
 static gchar *pixmaps_dir;
 static gchar *categories_dir;
+static gchar *grisbirc_filename;
 static gchar *themes_dir;
 static gchar *ui_dir;
 static gchar *user_config_dir;
@@ -62,6 +63,7 @@ void gsb_dirs_init (char* gsb_bin_path)
 	gchar *grisbi_dir;
     gchar *local_ui_dir;
     GDir *local_ui_handle;
+    gchar *filename;
 
     /* Get the grisbi executable directory as it may be useful when running dev instances */
     grisbi_dir = g_path_get_dirname (gsb_bin_path);
@@ -157,6 +159,11 @@ void gsb_dirs_init (char* gsb_bin_path)
 		else
 			g_free (local_ui_dir);
 	}
+
+/* init grisbi_rc_filename */
+	filename = g_strconcat (PACKAGE, ".conf", NULL);
+	grisbirc_filename = g_build_filename (user_config_dir, filename, NULL);
+	g_free (filename);
 }
 
 /**
@@ -177,6 +184,8 @@ void gsb_dirs_shutdown (void)
     g_free (user_data_dir);
     g_free (user_default_dir);
     g_free (user_icons_dir);
+
+	g_free (grisbirc_filename);
 }
 
 /**
@@ -329,18 +338,11 @@ const gchar *gsb_dirs_get_themes_dir (void)
  *
  * \param
  *
- * \return must be freed
+ * \return
  **/
 const gchar *gsb_dirs_get_grisbirc_filename (void)
 {
-    gchar *filename;
-	gchar *grisbirc_filename;
-
-    filename = g_strconcat (PACKAGE, ".conf", NULL);
-    grisbirc_filename = g_build_filename (user_config_dir, filename, NULL);
-    g_free (filename);
-
-    return grisbirc_filename;
+	return grisbirc_filename;
 }
 
 /**
