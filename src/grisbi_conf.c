@@ -175,7 +175,7 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
 	/* settings_scheduled */
     a_conf->balances_with_scheduled = TRUE;
     a_conf->execute_scheduled_of_month = FALSE;
-	a_conf->last_selected_scheduler = TRUE;
+	a_conf->select_scheduled_in_list = TRUE;
     a_conf->nb_days_before_scheduled = 0;
     a_conf->scheduler_fixed_day = 1;
     a_conf->scheduler_set_fixed_day = FALSE;
@@ -690,9 +690,9 @@ gboolean grisbi_conf_load_app_config (void)
 							"Scheduled",
                         	"execute-scheduled-of-month",
                         	NULL);
-	a_conf->last_selected_scheduler = g_key_file_get_boolean (config,
+	a_conf->select_scheduled_in_list = g_key_file_get_boolean (config,
 							"Scheduled",
-							"last-selected-scheduler",
+							"select-scheduled-in-list",
 							NULL);
     a_conf->nb_days_before_scheduled = g_key_file_get_integer  (config,
 							"Scheduled",
@@ -1138,8 +1138,8 @@ gboolean grisbi_conf_save_app_config (void)
                         	a_conf->execute_scheduled_of_month);
     g_key_file_set_boolean (config,
 							"Scheduled",
-							"last-selected-scheduler",
-							a_conf->last_selected_scheduler);
+							"select-scheduled-in-list",
+							a_conf->select_scheduled_in_list);
 
     g_key_file_set_integer  (config,
 							"Scheduled",
