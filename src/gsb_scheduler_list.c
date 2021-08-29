@@ -94,6 +94,9 @@ static GtkSortType			sort_type;
 static GtkTreeViewColumn *	scheduler_list_column[SCHEDULER_COL_VISIBLE_COLUMNS];
 static gint					last_scheduled_number;
 
+/* première ope planifiee de la liste */
+static gint					first_scheduler_list_number = -1;
+
 /* toolbar */
 static GtkWidget *			scheduler_toolbar;
 
@@ -241,8 +244,11 @@ static gboolean gsb_scheduler_list_edit_transaction_by_pointer (gint *scheduled_
 	gint number;
 
 	number = GPOINTER_TO_INT (scheduled_number);
-    devel_debug_int (number);
-    gsb_scheduler_list_edit_transaction (number);
+	devel_debug_int (number);
+
+	if (number == -1)
+		gsb_scheduler_list_select (-1);
+	gsb_scheduler_list_edit_transaction (number);
 
 	return FALSE;
 }
@@ -2029,20 +2035,6 @@ GtkWidget *gsb_scheduler_list_get_tree_view (void)
     return tree_view_scheduler_list;
 }
 
-
-/**
- * return the content of the last_scheduled_number variable
- * that variable is filled when changing the selection of a scheduled transaction
- *
- * \param
- *
- * \return a gint
- **/
-gint gsb_scheduler_list_get_last_scheduled_number (void)
-{
-    return last_scheduled_number;
-}
-
 /**
  * called to execute a sheduled transaction, either by the button on the toolbar,
  * either by click on the first page
@@ -2083,6 +2075,7 @@ gboolean gsb_scheduler_list_fill_list (GtkWidget *tree_view)
     GDate *end_date;
     GtkTreeIter iter;
     GSList *orphan_scheduled = NULL;
+	GrisbiAppConf *a_conf;
 
     devel_debug (NULL);
 
@@ -2126,7 +2119,23 @@ gboolean gsb_scheduler_list_fill_list (GtkWidget *tree_view)
                         SCHEDULER_COL_NB_TRANSACTION_NUMBER, gsb_data_scheduled_new_white_line (0),
                         -1);
 
-    return TRUE;
+	/* get first scheduled of the list */
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	if (!a_conf->select_scheduled_in_list)
+	{
+		GtkWidget *tree_view;
+		GtkTreeModel *model;
+
+		tree_view = gsb_scheduler_list_get_tree_view ();
+
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+		gtk_tree_model_get_iter_first (model, &iter);
+		gtk_tree_model_get (model,
+							&iter,
+							SCHEDULER_COL_NB_TRANSACTION_NUMBER, &first_scheduler_list_number,
+							-1);
+	}
+	return TRUE;
 }
 
 /**
@@ -2761,9 +2770,18 @@ gboolean gsb_scheduler_list_edit_transaction (gint scheduled_number)
 {
     devel_debug_int (scheduled_number);
     if (scheduled_number == 0)
-        gsb_form_fill_by_transaction (gsb_scheduler_list_get_current_scheduled_number (), FALSE, TRUE);
+	{
+		gint tmp_number;
+
+		tmp_number = gsb_scheduler_list_get_current_scheduled_number ();
+        gsb_form_fill_by_transaction (tmp_number, FALSE, TRUE);
+		last_scheduled_number = tmp_number;
+	}
     else
+	{
         gsb_form_fill_by_transaction (scheduled_number, FALSE, TRUE);
+		last_scheduled_number = scheduled_number;
+	}
 
     return FALSE;
 }
@@ -3175,8 +3193,16 @@ gchar *gsb_scheduler_list_get_largeur_col_treeview_to_string (void)
  **/
 void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
 {
+	GrisbiAppConf *a_conf;
+
+	devel_debug (NULL);
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
 	gsb_scheduler_list_fill_list (tree_view);
 	gsb_scheduler_list_set_background_color (tree_view);
+
+	if (!a_conf->select_scheduled_in_list && last_scheduled_number == -1)
+		last_scheduled_number = first_scheduler_list_number;
 
 	gsb_scheduler_list_select (last_scheduled_number);
 
@@ -3192,47 +3218,6 @@ void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
 void gsb_scheduler_list_set_current_tree_view_width (gint new_tree_view_width)
 {
 	scheduler_current_tree_view_width = new_tree_view_width;
-}
-
-/**
- * selectionne le premier ou le dernier item de la liste
- *
- * \param gboolean 	option a_conf->last_selected_scheduler
- *
- * \return
- **/
-void gsb_scheduler_list_set_last_scheduled_number (gboolean last_selected_scheduler)
-{
-	if (last_selected_scheduler)
-	{
-			last_scheduled_number = -1;
-	}
-	else
-	{
-		GtkWidget *tree_view;
-		GtkTreeModel *model;
-		GtkTreeIter iter;
-		gint virtual_transaction;
-		gint tmp_number = 0;
-
-		tree_view = gsb_scheduler_list_get_tree_view ();
-
-		model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-		if (!gtk_tree_model_get_iter_first (model, &iter))
-		{
-			if (!gsb_scheduler_list_fill_list (tree_view))
-				return;
-			else
-				gtk_tree_model_get_iter_first (model, &iter);
-		}
-		gtk_tree_model_get (model,
-							&iter,
-							SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
-							SCHEDULER_COL_NB_TRANSACTION_NUMBER, &tmp_number,
-							-1);
-
-		last_scheduled_number = tmp_number;
-	}
 }
 
 /**

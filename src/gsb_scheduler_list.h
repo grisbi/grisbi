@@ -77,7 +77,6 @@ void 		gsb_scheduler_list_free_variables 							(void);
 gint 		gsb_scheduler_list_get_current_scheduled_number 			(void);
 GDate *		gsb_scheduler_list_get_end_date_scheduled_showed 			(void);
 gchar *		gsb_scheduler_list_get_largeur_col_treeview_to_string		(void);
-gint 		gsb_scheduler_list_get_last_scheduled_number 				(void);
 GSList *	gsb_scheduler_list_get_scheduled_transactions_taken			(void);
 GSList *	gsb_scheduler_list_get_scheduled_transactions_to_take		(void);
 GtkWidget *	gsb_scheduler_list_get_toolbar 								(void);
@@ -92,7 +91,6 @@ void		gsb_scheduler_list_set_current_tree_view_width				(gint new_tree_view_widt
 gboolean 	gsb_scheduler_list_set_largeur_col 							(void);
 gboolean 	gsb_scheduler_list_update_transaction_in_list 				(gint scheduled_number);
 void		gsb_scheduler_list_update_tree_view							(GtkWidget *tree_view);
-void		gsb_scheduler_list_set_last_scheduled_number				(gboolean last_selected_scheduler);
 /* END_DECLARATION */
 
 #endif
