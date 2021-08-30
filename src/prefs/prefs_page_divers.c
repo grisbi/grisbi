@@ -81,8 +81,8 @@ struct _PrefsPageDiversPrivate
 	GtkWidget *			hbox_launch_scheduler_nb_days_before_scheduled;
 	GtkWidget *         hbox_launch_scheduler_set_fixed_date;
 	GtkWidget *         hbox_launch_scheduler_set_fixed_day;
-	GtkWidget *			radiobutton_first_selected_scheduler;
-	GtkWidget *			radiobutton_last_selected_scheduler;
+	GtkWidget *			radiobutton_select_first_scheduled;
+	GtkWidget *			radiobutton_select_last_scheduled;
     GtkWidget *         spinbutton_nb_days_before_scheduled;
 	GtkWidget *         spinbutton_scheduler_fixed_day;
 
@@ -552,14 +552,14 @@ static gboolean prefs_page_divers_radiobutton_first_last_press_event (GtkWidget 
 																	  GdkEvent  *event,
 																	  GrisbiAppConf *a_conf)
 {
-	devel_debug (NULL);
+	//~ devel_debug (NULL);
 	gint button_number;
 
 	button_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "pointer"));
 	if (button_number == 1)
-		a_conf->last_selected_scheduler = FALSE;
+		a_conf->select_scheduled_in_list = FALSE;
 	else
-		a_conf->last_selected_scheduler = TRUE;
+		a_conf->select_scheduled_in_list = TRUE;
 
 	return FALSE;
 }
@@ -677,10 +677,10 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 		gtk_widget_set_sensitive (GTK_WIDGET (priv->spinbutton_scheduler_fixed_day), FALSE);
 
 	/* select first or last scheduler transaction */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_last_selected_scheduler),
-													 a_conf->last_selected_scheduler);
-	g_object_set_data (G_OBJECT (priv->radiobutton_first_selected_scheduler), "pointer", GINT_TO_POINTER (1));
-	g_object_set_data (G_OBJECT (priv->radiobutton_last_selected_scheduler), "pointer", GINT_TO_POINTER (2));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_select_last_scheduled),
+													 a_conf->select_scheduled_in_list);
+	g_object_set_data (G_OBJECT (priv->radiobutton_select_first_scheduled), "pointer", GINT_TO_POINTER (1));
+	g_object_set_data (G_OBJECT (priv->radiobutton_select_last_scheduled), "pointer", GINT_TO_POINTER (2));
 
 
 	/* Connect signal */
@@ -730,11 +730,11 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 					  NULL);
 
 	/* set callback to select first or last scheduler transaction */
-	g_signal_connect (G_OBJECT (priv->radiobutton_first_selected_scheduler),
+	g_signal_connect (G_OBJECT (priv->radiobutton_select_first_scheduled),
 					  "button-press-event",
 					  G_CALLBACK (prefs_page_divers_radiobutton_first_last_press_event),
 					  a_conf);
-	g_signal_connect (G_OBJECT (priv->radiobutton_last_selected_scheduler),
+	g_signal_connect (G_OBJECT (priv->radiobutton_select_last_scheduled),
 					  "button-press-event",
 					  G_CALLBACK (prefs_page_divers_radiobutton_first_last_press_event),
 					  a_conf);
@@ -805,8 +805,8 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_scheduler_fixed_day);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, hbox_launch_scheduler_nb_days_before_scheduled);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, spinbutton_nb_days_before_scheduled);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_first_selected_scheduler);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_last_selected_scheduler);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_select_first_scheduled);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, radiobutton_select_last_scheduled);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, box_choose_date_format);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, combo_choose_language);
