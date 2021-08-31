@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 m4_define(grisbi_major_version, 2)
 m4_define(grisbi_minor_version, 0)
-m4_define(grisbi_micro_version, 4)
+m4_define(grisbi_micro_version, 5)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
 m4_pattern_allow([AM_PROG_AR])
