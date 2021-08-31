@@ -1204,6 +1204,17 @@ static  void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Initial_balance" ))
                 {
+					if (g_strcmp0 (attribute_values[i], "###ERR###") == 0)
+					{
+						gchar *tmp_str;
+
+						tmp_str = g_strdup_printf (_("The initial account balance \"%s\" is in error."
+													 " Please correct it."),
+												   gsb_data_account_get_name (account_number));
+
+						dialogue_error_hint (tmp_str, _("Initial balance error"));
+						g_free (tmp_str);
+					}
                     gsb_data_account_set_init_balance ( account_number,
                             gsb_real_safe_real_from_string (attribute_values[i]));
                 }

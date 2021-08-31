@@ -1211,11 +1211,15 @@ void gsb_autofunc_real_set (GtkWidget *entry,
         g_signal_handler_block (G_OBJECT (entry), changed);
 
     changed_hook = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (entry), "changed-hook"));
-    if (changed_hook > 0)
-        g_signal_handler_block (G_OBJECT (entry), changed_hook);
+	if (changed_hook > 0)
+		g_signal_handler_block (G_OBJECT (entry), changed_hook);
 
     /* Fill in value */
-    string = utils_real_get_string (real);
+	/* fix bug 2149 si le nombre est en erreur on renvoie error_real et non null_real */
+	if (real.mantissa == G_MININT64)
+		string = g_strdup (ERROR_REAL_STRING);
+	else
+		string = utils_real_get_string (real);
     gtk_entry_set_text (GTK_ENTRY (entry), string);
     g_free (string);
 

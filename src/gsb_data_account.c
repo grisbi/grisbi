@@ -909,11 +909,14 @@ GsbReal gsb_data_account_get_init_balance ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if ( !account )
-	return null_real;
+	if ( !account )
+		return null_real;
 
-    return gsb_real_adjust_exponent ( account -> init_balance,
-				      floating_point );
+	/* fix bug 2149 si le nombre est en erreur on renvoie error_real et non null_real */
+	if (account->init_balance.mantissa == G_MININT64)
+		return account -> init_balance;
+	else
+		return gsb_real_adjust_exponent (account->init_balance, floating_point);
 }
 
 
@@ -1085,10 +1088,19 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances ( gint account_nu
 
     floating_point = gsb_data_currency_get_floating_point (account -> currency);
 
-    current_balance = gsb_real_adjust_exponent ( account -> init_balance,
-						 floating_point );
-    marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
-						floating_point );
+		/* fix bug 2149 si le nombre est en erreur on renvoie error_real et non null_real */
+	if (account->init_balance.mantissa == G_MININT64)
+	{
+		account->current_balance = account->init_balance;
+		account->marked_balance = account->init_balance;
+
+		return account->current_balance;
+	}
+	else
+	{
+		current_balance = gsb_real_adjust_exponent (account->init_balance, floating_point);
+		marked_balance = gsb_real_adjust_exponent (account->init_balance, floating_point);
+	}
 
     date_jour = gdate_today ( );
 
