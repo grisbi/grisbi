@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-26 08:23+0200\n"
+"POT-Creation-Date: 2021-09-01 11:31+0200\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -399,7 +399,7 @@ msgstr ""
 #: ../src/etats_affiche.c:2463 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1988
 #: ../src/gsb_form_widget.c:550 ../src/gsb_reconcile.c:214
-#: ../src/gsb_scheduler_list.c:919 ../src/gsb_transactions_list.c:110
+#: ../src/gsb_scheduler_list.c:925 ../src/gsb_transactions_list.c:110
 #: ../src/import.c:1875 ../src/import.c:4285 ../src/import_csv.c:72
 msgid "Date"
 msgstr ""
@@ -580,7 +580,7 @@ msgstr ""
 #: ../src/etats_affiche.c:2484 ../src/etats_config.c:453
 #: ../src/etats_prefs.c:419 ../src/export_csv.c:383 ../src/grisbi_win.c:472
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2011
-#: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:919
+#: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:925
 #: ../src/gsb_transactions_list.c:112 ../src/import.c:4292
 #: ../src/import_csv.c:74 ../src/meta_payee.c:79
 #: ../src/widgets/widget_loan.c:950 ../src/widgets/widget_transfer.c:917
@@ -843,14 +843,14 @@ msgid "E_dit"
 msgstr ""
 
 #. Edit transaction
-#: ../src/ui/grisbi_menu.ui.h:21 ../src/gsb_scheduler_list.c:326
+#: ../src/ui/grisbi_menu.ui.h:21 ../src/gsb_scheduler_list.c:332
 #: ../src/gsb_transactions_list.c:463
 msgid "Edit transaction"
 msgstr ""
 
 #. new transaction button
 #: ../src/ui/grisbi_menu.ui.h:22 ../src/grisbi_app.c:119
-#: ../src/grisbi_app.c:136 ../src/gsb_scheduler_list.c:352
+#: ../src/grisbi_app.c:136 ../src/gsb_scheduler_list.c:358
 #: ../src/gsb_transactions_list.c:476 ../src/gsb_transactions_list.c:2482
 msgid "New transaction"
 msgstr ""
@@ -865,7 +865,7 @@ msgid "Use selected transaction as a template"
 msgstr ""
 
 #. Clone transaction
-#: ../src/ui/grisbi_menu.ui.h:25 ../src/gsb_scheduler_list.c:337
+#: ../src/ui/grisbi_menu.ui.h:25 ../src/gsb_scheduler_list.c:343
 #: ../src/gsb_transactions_list.c:503
 msgid "Clone transaction"
 msgstr ""
@@ -889,7 +889,7 @@ msgstr "Clôture des comptes de passifs"
 #. View button
 #. Change view mode button
 #: ../src/ui/grisbi_menu.ui.h:30 ../src/categories_onglet.c:621
-#: ../src/gsb_scheduler_list.c:1205 ../src/gsb_transactions_list.c:2527
+#: ../src/gsb_scheduler_list.c:1211 ../src/gsb_transactions_list.c:2527
 #: ../src/imputation_budgetaire.c:670 ../src/tiers_onglet.c:558
 msgid "View"
 msgstr ""
@@ -972,7 +972,7 @@ msgstr ""
 #. Properties button
 #. edit button
 #: ../src/ui/grisbi_menu.ui.h:48 ../src/ui/prefs_page_accueil.ui.h:6
-#: ../src/categories_onglet.c:609 ../src/gsb_scheduler_list.c:1173
+#: ../src/categories_onglet.c:609 ../src/gsb_scheduler_list.c:1179
 #: ../src/gsb_transactions_list.c:2500 ../src/imputation_budgetaire.c:658
 #: ../src/tiers_onglet.c:546
 msgid "Edit"
@@ -1512,7 +1512,7 @@ msgid "Remove backup files older than "
 msgstr ""
 
 #: ../src/ui/prefs_page_files.ui.h:18 ../src/widgets/widget_loan.ui.h:2
-#: ../src/bet_finance_ui.c:280 ../src/gsb_scheduler_list.c:116
+#: ../src/bet_finance_ui.c:280 ../src/gsb_scheduler_list.c:119
 msgid "months"
 msgstr ""
 
@@ -1987,8 +1987,8 @@ msgstr ""
 #. 4
 #: ../src/widgets/widget_bank_details.ui.h:11 ../src/bet_future.c:574
 #: ../src/etats_affiche.c:2505 ../src/export_csv.c:401 ../src/gsb_form.c:2044
-#: ../src/gsb_form_widget.c:586 ../src/gsb_scheduler_list.c:271
-#: ../src/gsb_scheduler_list.c:920 ../src/gsb_scheduler_list.c:1184
+#: ../src/gsb_form_widget.c:586 ../src/gsb_scheduler_list.c:277
+#: ../src/gsb_scheduler_list.c:926 ../src/gsb_scheduler_list.c:1190
 #: ../src/gsb_transactions_list.c:124 ../src/import_csv.c:75
 msgid "Notes"
 msgstr ""
@@ -2455,147 +2455,147 @@ msgstr ""
 msgid " in %s"
 msgstr ""
 
-#: ../src/accueil.c:530
+#: ../src/accueil.c:535
 msgid "Partial balance: "
 msgstr ""
 
-#: ../src/accueil.c:532
+#: ../src/accueil.c:537
 msgid "Partial balances: "
 msgstr ""
 
-#: ../src/accueil.c:539 ../src/accueil.c:899
+#: ../src/accueil.c:544 ../src/accueil.c:904
 msgid "Reconciled balance"
 msgstr ""
 
-#: ../src/accueil.c:543 ../src/accueil.c:905
+#: ../src/accueil.c:548 ../src/accueil.c:910
 msgid "Current balance"
 msgstr ""
 
-#: ../src/accueil.c:592
+#: ../src/accueil.c:597
 msgid "Global balance: "
 msgstr ""
 
-#: ../src/accueil.c:596
+#: ../src/accueil.c:601
 msgid "Global balances: "
 msgstr ""
 
-#: ../src/accueil.c:1065
+#: ../src/accueil.c:1070
 #, c-format
 msgid "Accounts balance in %s at %s"
 msgstr ""
 
-#: ../src/accueil.c:1069
+#: ../src/accueil.c:1074
 #, c-format
 msgid "Accounts balance in %s"
 msgstr ""
 
-#: ../src/accueil.c:1105
+#: ../src/accueil.c:1110
 #, c-format
 msgid "Liabilities accounts balance in %s at %s"
 msgstr ""
 
-#: ../src/accueil.c:1109
+#: ../src/accueil.c:1114
 #, fuzzy, c-format
 msgid "Liabilities accounts balance in %s"
 msgstr "Clôture des comptes de passifs"
 
-#: ../src/accueil.c:1145
+#: ../src/accueil.c:1150
 #, c-format
 msgid "Assets accounts balance in %s at %s"
 msgstr ""
 
-#: ../src/accueil.c:1149
+#: ../src/accueil.c:1154
 #, c-format
 msgid "Assets accounts balance in %s"
 msgstr ""
 
-#: ../src/accueil.c:1177 ../src/gsb_data_partial_balance.c:215
+#: ../src/accueil.c:1182 ../src/gsb_data_partial_balance.c:215
 msgid "Additional balance"
 msgstr ""
 
-#: ../src/accueil.c:1179
+#: ../src/accueil.c:1184
 msgid "Additional balances"
 msgstr ""
 
-#: ../src/accueil.c:1182 ../src/bet_finance_ui.c:2402
+#: ../src/accueil.c:1187 ../src/bet_finance_ui.c:2402
 msgid " at "
 msgstr ""
 
 #. Create the dialog
-#: ../src/accueil.c:1227
+#: ../src/accueil.c:1232
 msgid "Enter a scheduled transaction"
 msgstr ""
 
-#: ../src/accueil.c:1391 ../src/accueil.c:1520 ../src/accueil.c:2104
+#: ../src/accueil.c:1396 ../src/accueil.c:1525 ../src/accueil.c:2109
 #, c-format
 msgid "%s credited on %s"
 msgstr ""
 
-#: ../src/accueil.c:1404 ../src/accueil.c:1533 ../src/accueil.c:2108
+#: ../src/accueil.c:1409 ../src/accueil.c:1538 ../src/accueil.c:2113
 #, c-format
 msgid "%s debited on %s"
 msgstr ""
 
 #. mise en place de la partie fin des comptes passif
-#: ../src/accueil.c:1802
+#: ../src/accueil.c:1807
 msgid "Closed liabilities accounts"
 msgstr "Clôture des comptes de passifs"
 
 #. mise en place de la partie des échéances manuelles (non affiché)
 #. sera mis à jour automatiquement si nécessaire
-#: ../src/accueil.c:1810
+#: ../src/accueil.c:1815
 msgid "Run out manual scheduled transactions"
 msgstr ""
 
 #. mise en place de la partie des échéances auto  (non affiché)
 #. sera mis à jour automatiquement si nécessaire
-#: ../src/accueil.c:1818
+#: ../src/accueil.c:1823
 msgid "Automatic scheduled transactions entered"
 msgstr ""
 
 #. partie des fin d'échéances
-#: ../src/accueil.c:1825
+#: ../src/accueil.c:1830
 msgid "Closed scheduled transactions"
 msgstr ""
 
 #. partie des soldes minimaux autorisés
-#: ../src/accueil.c:1832
+#: ../src/accueil.c:1837
 msgid "Accounts under authorized balance"
 msgstr ""
 
 #. partie des soldes minimaux voulus
-#: ../src/accueil.c:1839
+#: ../src/accueil.c:1844
 msgid "Accounts under desired balance"
 msgstr ""
 
-#: ../src/accueil.c:1953
+#: ../src/accueil.c:1958
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr ""
 
-#: ../src/accueil.c:1957
+#: ../src/accueil.c:1962
 msgid ""
 "accounts with the balance under desired and authorised minimal:\n"
 "\n"
 msgstr ""
 
-#: ../src/accueil.c:1988
+#: ../src/accueil.c:1993
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr ""
 
-#: ../src/accueil.c:1998
+#: ../src/accueil.c:2003
 msgid ""
 "accounts with the balance under authorised minimal:\n"
 "\n"
 msgstr ""
 
-#: ../src/accueil.c:2029
+#: ../src/accueil.c:2034
 #, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr ""
 
-#: ../src/accueil.c:2039
+#: ../src/accueil.c:2044
 msgid ""
 "accounts with the balance under desired minimal:\n"
 "\n"
@@ -2625,7 +2625,7 @@ msgstr ""
 msgid "year"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:593 ../src/gsb_scheduler_list.c:116
+#: ../src/bet_finance_ui.c:593 ../src/gsb_scheduler_list.c:119
 msgid "years"
 msgstr ""
 
@@ -2830,7 +2830,7 @@ msgstr ""
 
 #: ../src/bet_future.c:315 ../src/bet_future.c:1059
 #: ../src/gsb_form_scheduler.c:143 ../src/gsb_form_scheduler.c:880
-#: ../src/gsb_scheduler_list.c:1582
+#: ../src/gsb_scheduler_list.c:1588
 msgid "Once"
 msgstr ""
 
@@ -2884,27 +2884,27 @@ msgid "Choose the method of payment"
 msgstr ""
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1582
+#: ../src/gsb_scheduler_list.c:1588
 msgid "Weekly"
 msgstr ""
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1582 ../src/widgets/widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1588 ../src/widgets/widget_loan.c:866
 msgid "Monthly"
 msgstr ""
 
 #: ../src/bet_future.c:1059 ../src/gsb_form_scheduler.c:143
-#: ../src/gsb_scheduler_list.c:1583
+#: ../src/gsb_scheduler_list.c:1589
 msgid "Bimonthly"
 msgstr ""
 
 #: ../src/bet_future.c:1060 ../src/gsb_form_scheduler.c:144
-#: ../src/gsb_scheduler_list.c:1583 ../src/widgets/widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1589 ../src/widgets/widget_loan.c:866
 msgid "Quarterly"
 msgstr ""
 
 #: ../src/bet_future.c:1060 ../src/gsb_form_scheduler.c:144
-#: ../src/gsb_scheduler_list.c:1583 ../src/widgets/widget_loan.c:866
+#: ../src/gsb_scheduler_list.c:1589 ../src/widgets/widget_loan.c:866
 msgid "Yearly"
 msgstr ""
 
@@ -2925,7 +2925,7 @@ msgid "Years"
 msgstr ""
 
 #: ../src/bet_future.c:1076 ../src/gsb_form_scheduler.c:176
-#: ../src/gsb_scheduler_list.c:920
+#: ../src/gsb_scheduler_list.c:926
 msgid "Frequency"
 msgstr ""
 
@@ -3199,7 +3199,7 @@ msgstr ""
 #. set head page
 #: ../src/bet_hist.c:534 ../src/categories_onglet.c:201
 #: ../src/etats_affiche.c:2546 ../src/gsb_assistant_reconcile_config.c:597
-#: ../src/gsb_scheduler_list.c:920 ../src/gsb_transactions_list.c:117
+#: ../src/gsb_scheduler_list.c:926 ../src/gsb_transactions_list.c:117
 #: ../src/import.c:4299 ../src/import_csv.c:81
 #: ../src/imputation_budgetaire.c:204 ../src/tiers_onglet.c:735
 #: ../src/etats/etats_page_amount.c:287
@@ -3367,7 +3367,7 @@ msgstr ""
 msgid "Balance"
 msgstr ""
 
-#: ../src/bet_tab.c:2111 ../src/gsb_scheduler_list.c:1195
+#: ../src/bet_tab.c:2111 ../src/gsb_scheduler_list.c:1201
 msgid "Execute"
 msgstr ""
 
@@ -3399,7 +3399,7 @@ msgid "Check the box to automatically change start date"
 msgstr ""
 
 #: ../src/categories_onglet.c:190 ../src/etats_config.c:449
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:919
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:925
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1195
 #: ../src/prefs/prefs_page_payment_method.c:1252
 #: ../src/prefs/prefs_page_reconcile.c:329 ../src/tiers_onglet.c:724
@@ -3494,7 +3494,7 @@ msgstr ""
 #. Delete button
 #. delete button
 #: ../src/categories_onglet.c:597 ../src/etats_onglet.c:587
-#: ../src/gsb_scheduler_list.c:1162 ../src/gsb_transactions_list.c:2491
+#: ../src/gsb_scheduler_list.c:1168 ../src/gsb_transactions_list.c:2491
 #: ../src/imputation_budgetaire.c:646 ../src/tiers_onglet.c:534
 msgid "Delete"
 msgstr ""
@@ -3762,7 +3762,7 @@ msgid "Do not show this message again"
 msgstr ""
 
 #: ../src/dialog.c:277 ../src/dialog.c:651 ../src/dialog.c:703
-#: ../src/gsb_scheduler_list.c:2919
+#: ../src/gsb_scheduler_list.c:2937
 msgid "Keep this choice and no longer see this message?"
 msgstr ""
 
@@ -4069,13 +4069,13 @@ msgid "Result without financial year: "
 msgstr ""
 
 #: ../src/etats_affiche.c:1410 ../src/gsb_data_transaction.c:2832
-#: ../src/gsb_scheduler_list.c:1531
+#: ../src/gsb_scheduler_list.c:1537
 #, c-format
 msgid "Transfer to %s"
 msgstr ""
 
 #: ../src/etats_affiche.c:1412 ../src/gsb_data_transaction.c:2835
-#: ../src/gsb_scheduler_list.c:1536
+#: ../src/gsb_scheduler_list.c:1542
 #, c-format
 msgid "Transfer from %s"
 msgstr ""
@@ -6561,7 +6561,7 @@ msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used !
 #. I add the devel_debug to print it. Is it OK to do that ?
-#: ../src/gsb_data_account.c:1309
+#: ../src/gsb_data_account.c:1330
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6570,7 +6570,7 @@ msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used.
 #. I add the devel_debug function to print it. Is it OK ?
-#: ../src/gsb_data_account.c:1347
+#: ../src/gsb_data_account.c:1368
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -6578,14 +6578,14 @@ msgid ""
 msgstr ""
 
 #. Avertissement avant renommage du compte
-#: ../src/gsb_data_account.c:3747
+#: ../src/gsb_data_account.c:3768
 #, c-format
 msgid ""
 "The account \"%s\" has the number 0 which creates a bug in certain "
 "situations. It will be renumbered and will have the number \"%d\"."
 msgstr ""
 
-#: ../src/gsb_data_account.c:3752
+#: ../src/gsb_data_account.c:3773
 #, fuzzy
 msgid "Rename account \"0\""
 msgstr "Clôture des comptes de passifs"
@@ -8332,19 +8332,19 @@ msgid ""
 "manipulation."
 msgstr ""
 
-#: ../src/gsb_file.c:266 ../src/gsb_file_load.c:533
+#: ../src/gsb_file.c:266 ../src/gsb_file_load.c:542
 #: ../src/gsb_file_others.c:463 ../src/gsb_file_others.c:607
 #: ../src/gsb_file_others.c:794 ../src/gsb_file_others.c:854
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr ""
 
-#: ../src/gsb_file.c:268 ../src/gsb_file_load.c:535
+#: ../src/gsb_file.c:268 ../src/gsb_file_load.c:544
 msgid "File does not exist"
 msgstr ""
 
 #: ../src/gsb_file.c:270 ../src/gsb_file.c:284 ../src/gsb_file.c:931
-#: ../src/gsb_file_load.c:537
+#: ../src/gsb_file_load.c:546
 #, c-format
 msgid "Error loading file '%s'"
 msgstr ""
@@ -8500,11 +8500,20 @@ msgstr ""
 msgid "Confirmation of accounts file removal"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3650
+#: ../src/gsb_file_load.c:415
+#, c-format
+msgid "The initial account balance \"%s\" is in error. Please correct it."
+msgstr ""
+
+#: ../src/gsb_file_load.c:419
+msgid "Initial balance error"
+msgstr ""
+
+#: ../src/gsb_file_load.c:3659
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3944 ../src/gsb_file_save.c:1903
+#: ../src/gsb_file_load.c:3953 ../src/gsb_file_save.c:1903
 #: ../src/utils_prefs.c:759
 #, c-format
 msgid ""
@@ -8512,32 +8521,32 @@ msgid ""
 "Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr ""
 
-#: ../src/gsb_file_load.c:3947
+#: ../src/gsb_file_load.c:3956
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3964
+#: ../src/gsb_file_load.c:3973
 #, c-format
 msgid "'%s' is not a valid UTF8 file"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3967
+#: ../src/gsb_file_load.c:3976
 #, c-format
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
 "the file choice.\n"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3973
+#: ../src/gsb_file_load.c:3982
 msgid "Load another file"
 msgstr ""
 
-#: ../src/gsb_file_load.c:3974
+#: ../src/gsb_file_load.c:3983
 msgid "Correct the file"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4072
+#: ../src/gsb_file_load.c:4081
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -8545,11 +8554,11 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4076
+#: ../src/gsb_file_load.c:4085
 msgid "Grisbi archive opened"
 msgstr ""
 
-#: ../src/gsb_file_load.c:4086
+#: ../src/gsb_file_load.c:4095
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -8558,13 +8567,13 @@ msgid ""
 "You will have to re-customize the icons and colors."
 msgstr ""
 
-#: ../src/gsb_file_load.c:4092
+#: ../src/gsb_file_load.c:4101
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 
 #. the first time we come here, we check if it's a Grisbi file
-#: ../src/gsb_file_load.c:4519
+#: ../src/gsb_file_load.c:4528
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -8814,7 +8823,7 @@ msgid "Transfer : Deleted account"
 msgstr ""
 
 #: ../src/gsb_form.c:1792 ../src/gsb_form_scheduler.c:142
-#: ../src/gsb_scheduler_list.c:1596
+#: ../src/gsb_scheduler_list.c:1602
 msgid "Manual"
 msgstr ""
 
@@ -8842,7 +8851,7 @@ msgstr ""
 msgid "No payee selected for this report."
 msgstr ""
 
-#: ../src/gsb_form_scheduler.c:142 ../src/gsb_scheduler_list.c:1594
+#: ../src/gsb_form_scheduler.c:142 ../src/gsb_scheduler_list.c:1600
 msgid "Automatic"
 msgstr ""
 
@@ -9127,139 +9136,139 @@ msgid "Not available"
 msgstr ""
 
 #. popup view menu
-#: ../src/gsb_scheduler_list.c:110
+#: ../src/gsb_scheduler_list.c:113
 msgid "Unique view"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:110
+#: ../src/gsb_scheduler_list.c:113
 msgid "Week view"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:110
+#: ../src/gsb_scheduler_list.c:113
 msgid "Month view"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:111
+#: ../src/gsb_scheduler_list.c:114
 msgid "Two months view"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:111
+#: ../src/gsb_scheduler_list.c:114
 msgid "Quarter view"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:112
+#: ../src/gsb_scheduler_list.c:115
 msgid "Year view"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:112
+#: ../src/gsb_scheduler_list.c:115
 msgid "Custom view"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:116
+#: ../src/gsb_scheduler_list.c:119
 msgid "days"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:116
+#: ../src/gsb_scheduler_list.c:119
 msgid "weeks"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:140
+#: ../src/gsb_scheduler_list.c:143
 msgid "Show scheduled transactions"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:153
+#: ../src/gsb_scheduler_list.c:156
 msgid "Scheduler frequency"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:160
+#: ../src/gsb_scheduler_list.c:163
 msgid "Show transactions for the next: "
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:214 ../src/navigation.c:1322
+#: ../src/gsb_scheduler_list.c:217 ../src/navigation.c:1322
 msgid "Scheduled transactions"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:269
+#: ../src/gsb_scheduler_list.c:275
 msgid "Frequency/Mode"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:276
+#: ../src/gsb_scheduler_list.c:282
 #, fuzzy
 msgid "Display the frequency and mode of scheduled transactions"
 msgstr "Clôture des comptes de passifs"
 
-#: ../src/gsb_scheduler_list.c:279 ../src/gsb_scheduler_list.c:1186
+#: ../src/gsb_scheduler_list.c:285 ../src/gsb_scheduler_list.c:1192
 msgid "Display the notes of scheduled transactions"
 msgstr ""
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:360 ../src/gsb_transactions_list.c:484
+#: ../src/gsb_scheduler_list.c:366 ../src/gsb_transactions_list.c:484
 msgid "Delete transaction"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:376
+#: ../src/gsb_scheduler_list.c:382
 msgid "Displays notes"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:379
+#: ../src/gsb_scheduler_list.c:385
 msgid "Displays Frequency/Mode"
 msgstr ""
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:391
+#: ../src/gsb_scheduler_list.c:397
 msgid "Execute transaction"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:920
+#: ../src/gsb_scheduler_list.c:926
 msgid "Mode"
 msgstr ""
 
 #. new scheduled button
-#: ../src/gsb_scheduler_list.c:1151
+#: ../src/gsb_scheduler_list.c:1157
 msgid "New scheduled"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1153
+#: ../src/gsb_scheduler_list.c:1159
 msgid "Prepare form to create a new scheduled transaction"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1165
+#: ../src/gsb_scheduler_list.c:1171
 msgid "Delete selected scheduled transaction"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1175
+#: ../src/gsb_scheduler_list.c:1181
 msgid "Edit selected transaction"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1197
+#: ../src/gsb_scheduler_list.c:1203
 msgid "Execute current scheduled transaction"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1207
+#: ../src/gsb_scheduler_list.c:1213
 msgid "Change display mode of scheduled transaction list"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1559
+#: ../src/gsb_scheduler_list.c:1565
 #, c-format
 msgid "%d days"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1564
+#: ../src/gsb_scheduler_list.c:1570
 #, c-format
 msgid "%d weeks"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1569
+#: ../src/gsb_scheduler_list.c:1575
 #, c-format
 msgid "%d months"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1574
+#: ../src/gsb_scheduler_list.c:1580
 #, c-format
 msgid "%d years"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1736
+#: ../src/gsb_scheduler_list.c:1742
 #, c-format
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
@@ -9271,17 +9280,17 @@ msgid ""
 "Do you want to delete it?"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1742 ../src/gsb_transactions_list.c:2138
+#: ../src/gsb_scheduler_list.c:1748 ../src/gsb_transactions_list.c:2138
 msgid "Remove orphan children"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1876 ../src/transaction_list.c:175
+#: ../src/gsb_scheduler_list.c:1882 ../src/transaction_list.c:175
 #: ../src/transaction_list.c:488 ../src/transaction_list.c:1398
 #, c-format
 msgid "Total: %s (variance : %s)"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:2385
+#: ../src/gsb_scheduler_list.c:2394
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -9291,7 +9300,7 @@ msgid ""
 msgstr ""
 
 #. ask all the time for a child
-#: ../src/gsb_scheduler_list.c:2824
+#: ../src/gsb_scheduler_list.c:2842
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -9300,13 +9309,13 @@ msgstr ""
 
 #. for a normal scheduled, ask only if no frequency, else, it will
 #. * have another dialog to delete the occurence or the transaction
-#: ../src/gsb_scheduler_list.c:2841
+#: ../src/gsb_scheduler_list.c:2859
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:2895
+#: ../src/gsb_scheduler_list.c:2913
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -9315,15 +9324,15 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:2909
+#: ../src/gsb_scheduler_list.c:2927
 msgid "Delete this scheduled transaction?"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:2913
+#: ../src/gsb_scheduler_list.c:2931
 msgid "All the occurrences"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:2914
+#: ../src/gsb_scheduler_list.c:2932
 msgid "Only this one"
 msgstr ""
 

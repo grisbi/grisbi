@@ -345,6 +345,7 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     GtkWidget *pLabel;
     GtkStyleContext* context;
 	gchar *tmp_str;
+	GsbReal current_balance;
 
     /* Première colonne : elle contient le nom du compte */
     tmp_str = g_strconcat (gsb_data_account_get_name (account_number), " : ", NULL);
@@ -427,9 +428,13 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
     gtk_widget_show (pLabel);
 
     /* Troisième colonne : elle contient le solde courant du compte */
-    tmp_str = utils_real_get_string_with_currency (gsb_data_account_get_current_balance (account_number),
-												   gsb_data_account_get_currency (account_number),
-												   TRUE);
+	current_balance = gsb_data_account_get_current_balance (account_number);
+	if (current_balance.mantissa == G_MININT64)
+		tmp_str =  g_strdup (ERROR_REAL_STRING);
+	else
+		tmp_str = utils_real_get_string_with_currency (current_balance,
+													   gsb_data_account_get_currency (account_number),
+													   TRUE);
     pLabel = gtk_label_new (tmp_str);
     g_free (tmp_str);
     utils_labels_set_alignment (GTK_LABEL (pLabel), MISC_RIGHT, MISC_VERT_CENTER);
