@@ -1167,60 +1167,54 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 			    META_TREE_NO_DIV_COLUMN, &no_division,
 			    META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			    META_TREE_POINTER_COLUMN, &transaction_number,
-			    -1);
+						   -1);
 
-	/* We do not jump to a transaction if a division is specified */
-	if ( transaction_number && !no_division && !no_sub_division )
-	{
-        GtkTreePath *tmp_path;
-        gint account_number;
-        gint archive_number;
+		/* We do not jump to a transaction if a division is specified */
+		if ( transaction_number && !no_division && !no_sub_division )
+		{
+			gint account_number;
+			gint archive_number;
 
-        account_number = gsb_data_transaction_get_account_number ( transaction_number );
-        if ( gsb_data_account_exists ( account_number ) == FALSE )
-        {
-            gchar *tmp_str;
+			account_number = gsb_data_transaction_get_account_number (transaction_number);
+			if (gsb_data_account_exists (account_number) == FALSE)
+			{
+				gchar *tmp_str;
 
-            tmp_str = g_strdup_printf ( _("The selected operation belongs to the account N°%d\n"
-                        "that no longer exists.\n"
-                        "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
-                        "happened to your current file."),
-                        account_number );
-            dialogue_error_hint ( tmp_str, _("The account no longer exists") );
-            g_free ( tmp_str );
+				tmp_str = g_strdup_printf (_("The selected operation belongs to the account N°%d\n"
+											 "that no longer exists.\n"
+											 "Please contact the Grisbi's team on "
+											 "devel@listes.grisbi.org to find what "
+											 "happened to your current file."),
+										   account_number);
+				dialogue_error_hint (tmp_str, _("The account no longer exists"));
+				g_free (tmp_str);
 
-            return FALSE;
-        }
+				return FALSE;
+			}
 
-        archive_number = gsb_data_transaction_get_archive_number ( transaction_number );
+			gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, account_number, 0);
 
-        /* If transaction is an archive return */
-        if ( archive_number )
-        {
-		    gsb_transactions_list_add_transactions_from_archive (archive_number, account_number, FALSE );
-        }
-	    /* If transaction is reconciled, show reconciled transactions. */
-	    if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
-         &&
-		 gsb_data_account_get_r ( account_number ) == FALSE )
-	    {
-            gsb_transactions_list_mise_a_jour_affichage_r ( TRUE );
-	    }
+			archive_number = gsb_data_transaction_get_archive_number ( transaction_number );
 
-	    gsb_gui_navigation_change_account ( account_number );
-	    gsb_account_property_fill_page ();
-	    grisbi_win_general_notebook_set_page ( GSB_ACCOUNT_PAGE );
-	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
-					       gsb_data_transaction_get_account_number (transaction_number),
-					       0);
+			/* If transaction is an archive return */
+			if ( archive_number )
+			{
+				gsb_transactions_list_add_transactions_from_archive (archive_number, account_number, FALSE );
+			}
 
-        /* move selected iter */
-        tmp_path = gtk_tree_model_get_path ( model, &iter );
-        gtk_tree_view_scroll_to_cell ( treeview, tmp_path, NULL, FALSE, 0.0, 0.0 );
-        gtk_tree_path_free (tmp_path);
+			/* If transaction is reconciled, show reconciled transactions. */
+			if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
+				&& gsb_data_account_get_r (account_number) == FALSE)
+			{
+				gsb_transactions_list_mise_a_jour_affichage_r (TRUE);
+			}
 
-	    transaction_list_select ( transaction_number );
-	}
+			/* select the transaction number */
+			gsb_gui_navigation_update_account_label (account_number);
+			gsb_account_property_fill_page ();
+
+			transaction_list_select (transaction_number);
+		}
     }
 
     return FALSE;
