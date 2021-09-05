@@ -40,7 +40,7 @@
 /*START_INCLUDE*/
 #include "gsb_account_property.h"
 #include "dialog.h"
-#include "grisbi_win.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_autofunc.h"
 #include "gsb_bank.h"
@@ -733,14 +733,17 @@ GSList *gsb_account_property_create_combobox_list ( void )
 gboolean gsb_account_property_changed ( GtkWidget *widget,
                         gint *p_origin  )
 {
-    gint origin = GPOINTER_TO_INT (p_origin);
+	GtkWidget *image;
+    gint origin;
     gint account_number;
-    GtkWidget *image;
+	gboolean state;
+	GrisbiAppConf *a_conf;
 
     account_number = gsb_gui_navigation_get_current_account ();
-    if ( account_number == -1)
-        return FALSE;
+	if ( account_number == -1)
+		return FALSE;
 
+	origin = GPOINTER_TO_INT (p_origin);
     switch (origin)
     {
     case PROPERTY_NAME:
@@ -748,8 +751,25 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
         gsb_gui_navigation_update_account ( account_number );
         break;
     case PROPERTY_CLOSED_ACCOUNT:
-        gsb_gui_navigation_update_account ( account_number );
-        grisbi_win_menu_move_to_acc_update  ( FALSE );
+		a_conf = grisbi_app_get_a_conf ();
+		state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+		if (state)
+		{
+			if (a_conf->show_closed_accounts)
+				gsb_gui_navigation_update_account (account_number);
+			else
+				gsb_gui_navigation_remove_account (account_number);
+			grisbi_win_menu_move_to_acc_update  (FALSE);
+		}
+		else
+		{
+			if (a_conf->show_closed_accounts)
+				gsb_gui_navigation_update_account (account_number);
+			else
+				gsb_gui_navigation_add_account (account_number, TRUE);
+			grisbi_win_menu_move_to_acc_delete ();
+			grisbi_win_menu_move_to_acc_new ();
+		}
 
         /* update the name of accounts in form */
         gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
