@@ -1140,10 +1140,8 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances (gint account_num
         return null_real;
 
     floating_point = gsb_data_currency_get_floating_point (account->currency);
-    current_balance = gsb_real_adjust_exponent (account->init_balance, floating_point);
-    marked_balance = gsb_real_adjust_exponent (account->init_balance, floating_point);
 
-		/* fix bug 2149 si le nombre est en erreur on renvoie error_real et non null_real */
+	/* fix bug 2149 si le nombre est en erreur on renvoie error_real et non null_real */
 	if (account->init_balance.mantissa == G_MININT64)
 	{
 		account->current_balance = account->init_balance;
