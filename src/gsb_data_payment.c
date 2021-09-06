@@ -673,14 +673,24 @@ const gchar *gsb_data_payment_get_last_number ( gint payment_number )
 gboolean gsb_data_payment_set_last_number ( gint payment_number,
 					    const gchar *last_number )
 {
+	gint old_number;
+	gint new_number;
     struct_payment *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
-    if (!payment)
-	return FALSE;
+	if (!payment)
+		return FALSE;
 
-    payment -> last_number = my_strdup ( last_number );
+	if (payment->last_number == NULL)
+		old_number = 0;
+	else
+		old_number = atoi (payment->last_number);
+
+	new_number = atoi (last_number);
+
+	if (new_number > old_number)
+		payment->last_number = my_strdup (last_number);
 
     return TRUE;
 }
