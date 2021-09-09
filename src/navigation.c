@@ -1467,6 +1467,10 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
         gtk_tree_path_free (path);
     }
 
+	/* adding account in list if it's closed */
+	if (gsb_data_account_get_closed_account (account_number))
+		gsb_gui_navigation_add_account (account_number, TRUE);
+
     if (gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter ))
         gsb_gui_navigation_set_selection_branch (selection, &iter, page, account_number, report_number);
 

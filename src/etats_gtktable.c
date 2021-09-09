@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "etats_gtktable.h"
 #include "gsb_data_account.h"
+#include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "menu.h"
@@ -285,44 +286,47 @@ gint gtktable_finish ( void )
 
 void gtktable_click_sur_ope_etat ( gint transaction_number )
 {
-    gint archive_number;
-    gint account_number;
-
-    account_number = gsb_data_transaction_get_account_number (transaction_number);
-
-    /* if it's an archived transaction, open the archive */
-    archive_number = gsb_data_transaction_get_archive_number (transaction_number);
-    if (archive_number)
+    if (transaction_number)
     {
-	/* re-filter the tree view because if we go directly into the report
-	 * and the model was never filtered, we have a nice crash */
-	transaction_list_filter (account_number);
-	gsb_transactions_list_restore_archive (archive_number, FALSE);
-    }
+		gint account_number;
+		gint archive_number;
+		gint mother_transaction;
+		gint report_number;
 
-    if ( transaction_number )
-    {
-	gint mother_transaction;
+		account_number = gsb_data_transaction_get_account_number (transaction_number);
 
-	/* go on the good account */
-	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, account_number, -1);
+		/* go on the good account */
+		gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, account_number, -1);
 
-	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
-	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
-	     &&
-	     !gsb_data_account_get_r ( account_number ) )
-    {
-        gsb_data_account_set_r ( account_number, TRUE );
-        gsb_menu_update_view_menu ( account_number );
-        gsb_transactions_list_mise_a_jour_affichage_r ( TRUE );
-    }
+		/* if it's an archived transaction, open the archive */
+		archive_number = gsb_data_transaction_get_archive_number (transaction_number);
+		if (archive_number)
+		{
+			/* re-filter the tree view because if we go directly into the report
+			 * and the model was never filtered, we have a nice crash */
+			transaction_list_filter (account_number);
+			gsb_transactions_list_restore_archive (archive_number, FALSE);
+		}
 
-	/* if it's a child, open the mother */
-	mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
-	if (mother_transaction)
-	    gsb_transactions_list_switch_expander (mother_transaction);
+		/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
+		if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
+			 &&
+			 !gsb_data_account_get_r ( account_number ) )
+		{
+			gsb_data_account_set_r ( account_number, TRUE );
+			gsb_menu_update_view_menu ( account_number );
+			gsb_transactions_list_mise_a_jour_affichage_r ( TRUE );
+		}
 
-	transaction_list_select ( transaction_number );
+		/* if it's a child, open the mother */
+		report_number = gsb_gui_navigation_get_current_report ();
+		if (!gsb_data_report_get_not_detail_split (report_number))
+		{
+			mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
+			if (mother_transaction)
+				gsb_transactions_list_switch_expander (mother_transaction);
+		}
+		transaction_list_select (transaction_number);
     }
 }
 

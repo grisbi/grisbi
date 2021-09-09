@@ -1192,17 +1192,18 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 				return FALSE;
 			}
 
+			/* go on the good account */
 			gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, account_number, 0);
 
+			/* if transaction is an archive unarchive the transactions  */
 			archive_number = gsb_data_transaction_get_archive_number ( transaction_number );
-
-			/* If transaction is an archive return */
 			if ( archive_number )
 			{
+				transaction_list_filter (account_number);
 				gsb_transactions_list_add_transactions_from_archive (archive_number, account_number, FALSE );
 			}
 
-			/* If transaction is reconciled, show reconciled transactions. */
+			/* if transaction is reconciled, show reconciled transactions. */
 			if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 				&& gsb_data_account_get_r (account_number) == FALSE)
 			{
