@@ -1689,16 +1689,18 @@ void bet_historical_g_signal_block_tree_view ( void )
     GtkWidget *account_page;
     GtkTreeView *tree_view;
     gpointer cell;
-    GtkTreeModel *tree_model;
 
     account_page = grisbi_win_get_account_page ();
     hist_block_signal = TRUE;
     tree_view = g_object_get_data ( G_OBJECT ( account_page ), "hist_tree_view" );
-    tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
-    cell = g_object_get_data ( G_OBJECT ( account_page ), "toggle_cell" );
-    g_signal_handlers_block_by_func ( cell, bet_historical_div_toggle_clicked, tree_model );
-    g_signal_handlers_block_by_func ( tree_view, bet_historical_button_press, NULL );
+	/* set unsensitive toggle_cell and edited_cell */
+	cell = g_object_get_data ( G_OBJECT ( account_page ), "toggle_cell" );
+	gtk_cell_renderer_set_sensitive (GTK_CELL_RENDERER (cell), FALSE);
+	cell = g_object_get_data ( G_OBJECT ( account_page ), "edited_cell");
+	gtk_cell_renderer_set_sensitive (GTK_CELL_RENDERER (cell), FALSE);
+
+	g_signal_handlers_block_by_func ( tree_view, bet_historical_button_press, NULL );
 }
 
 
@@ -1713,7 +1715,6 @@ void bet_historical_g_signal_unblock_tree_view ( void )
     GtkWidget *account_page;
     GtkTreeView *tree_view;
     gpointer cell;
-    GtkTreeModel *tree_model;
 
     if ( hist_block_signal == FALSE )
         return;
@@ -1721,11 +1722,14 @@ void bet_historical_g_signal_unblock_tree_view ( void )
 
     hist_block_signal = FALSE;
     tree_view = g_object_get_data ( G_OBJECT ( account_page ), "hist_tree_view" );
-    tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
-    cell = g_object_get_data ( G_OBJECT ( account_page ), "toggle_cell" );
 
-    g_signal_handlers_unblock_by_func ( cell, bet_historical_div_toggle_clicked, tree_model );
-    g_signal_handlers_unblock_by_func ( tree_view, bet_historical_button_press, NULL );
+	/* set sensitive toggle_cell and edited_cell */
+	cell = g_object_get_data ( G_OBJECT ( account_page ), "toggle_cell" );
+	gtk_cell_renderer_set_sensitive (GTK_CELL_RENDERER (cell), TRUE);
+	cell = g_object_get_data ( G_OBJECT ( account_page ), "edited_cell");
+	gtk_cell_renderer_set_sensitive (GTK_CELL_RENDERER (cell), TRUE);
+
+	g_signal_handlers_unblock_by_func ( tree_view, bet_historical_button_press, NULL );
 }
 
 
