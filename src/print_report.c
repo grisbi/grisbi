@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "print_report.h"
 #include "dialog.h"
+#include "etats_gtktable.h"
 #include "grisbi_app.h"
 #include "gsb_data_print_config.h"
 #include "gsb_file.h"
@@ -48,10 +49,10 @@
 
 
 /*START_STATIC*/
+static GtkWidget *	table_etat = NULL;
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *	table_etat;
 extern gint 		nb_colonnes;
 extern gint 		nb_lignes;
 /*END_EXTERN*/
@@ -539,6 +540,8 @@ static gboolean print_config_show_config_apply (GtkPrintOperation *operation,
 gboolean print_report (GtkWidget *button,
                        gpointer null)
 {
+	table_etat = etats_gtktable_get_table_etat ();
+
     if (!table_etat)
     {
 		dialogue_error_hint (_("Please select a report before trying to print it."),

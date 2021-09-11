@@ -60,7 +60,7 @@ static gint gtktable_finish ( void );
 static gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename );
 /*END_STATIC*/
 
-GtkWidget *table_etat = NULL;
+static GtkWidget *table_etat = NULL;
 
 struct EtatAffichage gtktable_affichage = {
     gtktable_initialise,
@@ -344,6 +344,19 @@ void etats_gtktable_free_table_etat (void)
 	{
 		table_etat = NULL;
 	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ *
+ */
+GtkWidget *etats_gtktable_get_table_etat (void)
+{
+	return table_etat;
 }
 
 /* Local Variables: */
