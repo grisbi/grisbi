@@ -222,7 +222,7 @@ gboolean 					bet_data_search_div_hist 					(gint account_number,
 gboolean 					bet_data_remove_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-HistData *					struct_initialise_hist_data 					(void);
+HistData *					bet_data_hist_struct_init 					(void);
 void 						struct_free_hist_data						(HistData *shd);
 
 /* TRANSFERT_DATA */

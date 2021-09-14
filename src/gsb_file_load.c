@@ -1108,7 +1108,7 @@ static void gsb_file_load_bet_historical_part (const gchar **attribute_names,
     return;
 
     /* create the structure */
-    shd = struct_initialise_hist_data ();
+    shd = bet_data_hist_struct_init ();
 
     do
     {
@@ -1160,7 +1160,7 @@ static void gsb_file_load_bet_historical_part (const gchar **attribute_names,
         sub_div_nb = utils_str_atoi (attribute_values[i]);
         if (sub_div_nb > 0)
         {
-            sub_shd = struct_initialise_hist_data ();
+            sub_shd = bet_data_hist_struct_init ();
             sub_shd->div_number = sub_div_nb;
             i++;
             continue;

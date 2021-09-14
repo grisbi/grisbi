@@ -391,7 +391,7 @@ static gboolean bet_data_hist_update_data (HistData *shd,
 	}
 	else
 	{
-		tmp_shd = struct_initialise_hist_data ();
+		tmp_shd = bet_data_hist_struct_init ();
 		tmp_shd->div_number = sub_div;
 		tmp_shd->account_nb = gsb_data_transaction_get_account_number (transaction_number);
 		bet_data_hist_update_data (tmp_shd, transaction_number, -1, type_de_transaction, amount);
@@ -1424,7 +1424,7 @@ gboolean bet_data_hist_add_div (gint account_number,
 			{
 				HistData *sub_shd;
 
-				sub_shd = struct_initialise_hist_data ();
+				sub_shd = bet_data_hist_struct_init ();
 				if (!sub_shd)
 				{
 					dialogue_error_memory ();
@@ -1444,7 +1444,7 @@ gboolean bet_data_hist_add_div (gint account_number,
 	}
 	else
 	{
-		shd = struct_initialise_hist_data ();
+		shd = bet_data_hist_struct_init ();
 		if (!shd)
 		{
 			dialogue_error_memory ();
@@ -1457,7 +1457,7 @@ gboolean bet_data_hist_add_div (gint account_number,
 		{
 			HistData *sub_shd;
 
-			sub_shd = struct_initialise_hist_data ();
+			sub_shd = bet_data_hist_struct_init ();
 			if (!sub_shd)
 			{
 				dialogue_error_memory ();
@@ -1725,7 +1725,7 @@ gboolean bet_data_populate_div (gint transaction_number,
 	}
 	else
 	{
-		shd = struct_initialise_hist_data ();
+		shd = bet_data_hist_struct_init ();
 		shd->div_number = div;
 		shd->account_nb = gsb_data_transaction_get_account_number (transaction_number);
 		bet_data_hist_update_data (shd, transaction_number, sub_div, type_de_transaction, amount);
@@ -1833,7 +1833,7 @@ void struct_free_hist_data (HistData *shd)
  *
  * \return
  **/
-HistData *struct_initialise_hist_data (void)
+HistData *bet_data_hist_struct_init (void)
 {
 	HistData *shd;
 
