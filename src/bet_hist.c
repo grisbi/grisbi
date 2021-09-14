@@ -237,7 +237,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
         {
             /* printf ("avant - account_number = %d, div = %d, sub_div = %d\n",
                         account_number, div, sub_div); */
-            bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
+            bet_data_hist_div_add ( account_number, div_number, sub_div_nb );
             bet_data_set_div_amount ( account_number, div_number, sub_div_nb,
                         utils_real_get_from_string ( str_amount ) );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
@@ -389,7 +389,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         str_amount = utils_real_get_string ( number );
 
         if ( bet_data_hist_div_search ( account_number, div_number, sub_div_nb ) == FALSE )
-            bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
+            bet_data_hist_div_add ( account_number, div_number, sub_div_nb );
 
         bet_data_set_div_edited  ( account_number, div_number, sub_div_nb, TRUE );
         bet_data_set_div_amount ( account_number, div_number, sub_div_nb, number );
@@ -1207,7 +1207,7 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
                         -1 );
 
             retained = utils_real_get_from_string ( str_amount );
-            bet_data_hist_add_div ( account_nb, div_number, sub_div_nb );
+            bet_data_hist_div_add ( account_nb, div_number, sub_div_nb );
             bet_data_set_div_amount ( account_nb, div_number, sub_div_nb,
                         utils_real_get_from_string ( str_amount ) );
             str_retained = utils_real_get_string_with_currency ( retained,
@@ -1510,7 +1510,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
     tmp_str = utils_real_get_string_with_currency ( amount, currency_number, TRUE );
     /* printf ("div = %d sub_div_nb = %d tmp_str = %s\n", div_number, sub_div_nb, tmp_str); */
     if ( bet_data_hist_div_search ( account_number, div_number, sub_div_nb ) == FALSE )
-        bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
+        bet_data_hist_div_add ( account_number, div_number, sub_div_nb );
 
     bet_data_set_div_edited  ( account_number, div_number, sub_div_nb, TRUE );
     bet_data_set_div_amount ( account_number, div_number, sub_div_nb, amount );

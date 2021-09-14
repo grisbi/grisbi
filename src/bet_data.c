@@ -1401,7 +1401,7 @@ gboolean bet_data_future_remove_lines (gint account_number,
  *
  * \return
  **/
-gboolean bet_data_hist_add_div (gint account_number,
+gboolean bet_data_hist_div_add (gint account_number,
 						gint div_number,
 						gint sub_div_nb)
 {
