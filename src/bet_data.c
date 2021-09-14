@@ -1648,7 +1648,7 @@ gboolean bet_data_set_div_edited (gint account_nb,
  *
  * \return
  **/
-void bet_data_insert_div_hist (HistData *shd, HistData *sub_shd)
+void bet_data_hist_div_insert (HistData *shd, HistData *sub_shd)
 {
 	gchar *key;
 	gchar *sub_key;

@@ -1191,7 +1191,7 @@ static void gsb_file_load_bet_historical_part (const gchar **attribute_names,
 
     while (attribute_names[i]);
 
-    bet_data_insert_div_hist (shd, sub_shd);
+    bet_data_hist_div_insert (shd, sub_shd);
 }
 
 /**

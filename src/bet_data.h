@@ -213,7 +213,7 @@ GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,
 gboolean 					bet_data_hist_get_div_edited 				(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-void 						bet_data_hist_insert_div 					(HistData *shd,
+void 						bet_data_hist_div_insert 					(HistData *shd,
 																		 HistData *sub_shd);
 gboolean 					bet_data_hist_div_remove 					(gint account_number,
 																		 gint div_number,
