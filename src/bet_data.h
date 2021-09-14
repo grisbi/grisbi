@@ -204,10 +204,10 @@ gboolean 					bet_data_future_set_lines_from_file 		(FuturData *scheduled);
 FuturData *					struct_initialise_bet_future 				(void);
 
 /* HISTORIQUE_DATA */
-gboolean 					bet_data_hist_add_div 						(gint account_number,
+GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,
 																		 gint div_number,
 																		 gint sub_div_nb);
-GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,
+gboolean 					bet_data_hist_get_div_edited 				(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
 gboolean 					bet_data_hist_div_add 						(gint account_number,
@@ -218,10 +218,10 @@ void 						bet_data_hist_div_insert 					(HistData *shd,
 gboolean 					bet_data_hist_div_remove 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-void 						bet_data_hist_reset_all_amounts 			(gint account_number);
 gboolean 					bet_data_hist_div_search 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
+void 						bet_data_hist_reset_all_amounts 			(gint account_number);
 HistData *					bet_data_hist_struct_init 					(void);
 void 						bet_data_hist_struct_free						(HistData *shd);
 

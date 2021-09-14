@@ -1402,8 +1402,8 @@ gboolean bet_data_future_remove_lines (gint account_number,
  * \return
  **/
 gboolean bet_data_hist_div_add (gint account_number,
-						gint div_number,
-						gint sub_div_nb)
+								gint div_number,
+								gint sub_div_nb)
 {
 	gchar *key = NULL;
 	gchar *sub_key = NULL;
@@ -1483,7 +1483,9 @@ gboolean bet_data_hist_div_add (gint account_number,
  *
  * \return
  **/
-GsbReal bet_data_hist_get_div_amount (gint account_nb, gint div_number, gint sub_div_nb)
+GsbReal bet_data_hist_get_div_amount (gint account_nb,
+									  gint div_number,
+									  gint sub_div_nb)
 {
 	gchar *key;
 	HistData *shd;
@@ -1526,9 +1528,9 @@ GsbReal bet_data_hist_get_div_amount (gint account_nb, gint div_number, gint sub
  * \return
  **/
 gboolean bet_data_set_div_amount (gint account_nb,
-						gint div_number,
-						gint sub_div_nb,
-						GsbReal amount)
+								  gint div_number,
+								  gint sub_div_nb,
+								  GsbReal amount)
 {
 	gchar *key;
 	HistData *shd;
@@ -1566,8 +1568,8 @@ gboolean bet_data_set_div_amount (gint account_nb,
  * \return
  **/
 gboolean bet_data_hist_get_div_edited (gint account_number,
-								  gint div_number,
-								  gint sub_div_nb)
+									   gint div_number,
+									   gint sub_div_nb)
 {
 	gchar *key;
 	gint origin;
@@ -1645,10 +1647,12 @@ gboolean bet_data_set_div_edited (gint account_nb,
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
-void bet_data_hist_div_insert (HistData *shd, HistData *sub_shd)
+void bet_data_hist_div_insert (HistData *shd,
+							   HistData *sub_shd)
 {
 	gchar *key;
 	gchar *sub_key;
@@ -1686,14 +1690,18 @@ void bet_data_hist_div_insert (HistData *shd, HistData *sub_shd)
  * par appel à bet_data_hist_update_data ()
  *
  * \param
+ * \param
+ * \param
+ * \param
+ * \param
  *
  * \return
 **/
 gboolean bet_data_populate_div (gint transaction_number,
-						gboolean is_transaction,
-						GHashTable  *list_div,
-						gint type_de_transaction,
-						TransactionCurrentFyear *tcf)
+								gboolean is_transaction,
+								GHashTable  *list_div,
+								gint type_de_transaction,
+								TransactionCurrentFyear *tcf)
 {
 	gint div = 0;
 	gint sub_div = 0;
@@ -1740,11 +1748,14 @@ gboolean bet_data_populate_div (gint transaction_number,
  *
  *
  * \param
+ * \param
+ * \param
  *
  * \return
  **/
-
-gboolean bet_data_hist_div_remove (gint account_number, gint div_number, gint sub_div_nb)
+gboolean bet_data_hist_div_remove (gint account_number,
+								   gint div_number,
+								   gint sub_div_nb)
 {
 	gchar *key;
 	char *sub_key;
@@ -1774,10 +1785,14 @@ gboolean bet_data_hist_div_remove (gint account_number, gint div_number, gint su
  * return TRUE si la division et sous division existe.
  *
  * \param
+ * \param
+ * \param
  *
  * \return
  **/
-gboolean bet_data_hist_div_search (gint account_number, gint div_number, gint sub_div_nb)
+gboolean bet_data_hist_div_search (gint account_number,
+								   gint div_number,
+								   gint sub_div_nb)
 {
 	gchar *key;
 	gchar *sub_key;
@@ -1816,8 +1831,8 @@ gboolean bet_data_hist_div_search (gint account_number, gint div_number, gint su
  **/
 void bet_data_hist_struct_free (HistData *shd)
 {
-		if (shd->sbr)
-			struct_free_bet_range (shd->sbr);
+	if (shd->sbr)
+		struct_free_bet_range (shd->sbr);
 
 	if (shd->sub_div_list)
 		g_hash_table_remove_all (shd->sub_div_list);
@@ -1852,13 +1867,13 @@ HistData *bet_data_hist_struct_init (void)
 	return shd;
 }
 
-
 /**
  * retourne la date max d'interrogation pour les prévisions
  *
+ * \param
  *
- *
- * */
+ * \return
+ **/
 GDate *bet_data_array_get_date_max (gint account_number)
 {
 	GDate *date_min;
@@ -1887,13 +1902,13 @@ GDate *bet_data_array_get_date_max (gint account_number)
 	return date_max;
 }
 
-
 /**
  * modify futures data lines
  *
+ * \param
  *
- *
- * */
+ * \return
+ **/
 gboolean bet_data_future_modify_lines (FuturData *sfd)
 {
 	gchar *key;
@@ -1906,8 +1921,6 @@ gboolean bet_data_future_modify_lines (FuturData *sfd)
 
 	return TRUE;
 }
-
-
 
 /* TRANSFERT_DATA */
 /**
@@ -1929,7 +1942,6 @@ TransfertData *struct_initialise_bet_transfert (void)
 	return std;
 }
 
-
 /**
  *
  *
@@ -1947,7 +1959,6 @@ void struct_free_bet_transfert (TransfertData *std)
 	g_free (std);
 }
 
-
 /**
  *
  *
@@ -1960,13 +1971,13 @@ GHashTable *bet_data_transfert_get_list (void)
 	return bet_transfert_list;
 }
 
-
 /**
  * add line in the bet_transfer_list
  *
+ * \param
  *
- *
- * */
+ * \return
+ **/
 gboolean bet_data_transfert_add_line (TransfertData *std)
 {
 	gchar *key;
@@ -1983,15 +1994,16 @@ gboolean bet_data_transfert_add_line (TransfertData *std)
 	return TRUE;
 }
 
-
 /**
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
-gboolean bet_data_transfert_remove_line (gint account_number, gint number)
+gboolean bet_data_transfert_remove_line (gint account_number,
+										 gint number)
 {
 	GHashTableIter iter;
 	gpointer key, value;
@@ -2019,7 +2031,6 @@ gboolean bet_data_transfert_remove_line (gint account_number, gint number)
 	return FALSE;
 }
 
-
 /**
  *
  *
@@ -2041,13 +2052,13 @@ gboolean bet_data_transfert_set_line_from_file (TransfertData *std)
 	return TRUE;
 }
 
-
 /**
  * modify transfert line
  *
+ * \param
  *
- *
- * */
+ * \return
+ **/
 gboolean bet_data_transfert_modify_line (TransfertData *std)
 {
 	gchar *key;
@@ -2061,14 +2072,13 @@ gboolean bet_data_transfert_modify_line (TransfertData *std)
 	return TRUE;
 }
 
-
 /**
  * crée la ou les transactions de remise à zéro des comptes cartes concernés
  *
  * \param struct transfert
  *
  * \return
- * */
+ **/
 static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 {
 	gint transaction_number;
@@ -2089,15 +2099,15 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 
 		/* set the currency */
 		gsb_data_transaction_set_currency_number (transaction_number,
-						gsb_data_account_get_currency (std->replace_account));
+												  gsb_data_account_get_currency (std->replace_account));
 
 		/* set the payement mode */
 		if (amount.mantissa < 0)
 			gsb_data_transaction_set_method_of_payment_number (transaction_number,
-						gsb_data_account_get_default_debit (std->replace_account));
+															   gsb_data_account_get_default_debit (std->replace_account));
 		else
 			gsb_data_transaction_set_method_of_payment_number (transaction_number,
-						gsb_data_account_get_default_credit (std->replace_account));
+															   gsb_data_account_get_default_credit (std->replace_account));
 
 		/* set the payee */
 		gsb_data_transaction_set_party_number (transaction_number, std->main_payee_number);
@@ -2108,7 +2118,7 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 			gsb_data_transaction_set_category_number (transaction_number, std->card_category_number);
 			if (std->card_sub_category_number)
 				gsb_data_transaction_set_sub_category_number (transaction_number,
-						std->card_sub_category_number);
+															  std->card_sub_category_number);
 		}
 
 		/* set the IB sub_IB */
@@ -2117,7 +2127,7 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 			gsb_data_transaction_set_budgetary_number (transaction_number, std->card_budgetary_number);
 			if (std->card_sub_category_number)
 				gsb_data_transaction_set_sub_budgetary_number (transaction_number,
-						std->card_sub_budgetary_number);
+															   std->card_sub_budgetary_number);
 		}
 
 		/* append the transaction in list */
@@ -2150,15 +2160,15 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 
 			/* set the currency */
 			gsb_data_transaction_set_currency_number (transaction_number,
-						gsb_data_account_get_currency (account_number));
+													  gsb_data_account_get_currency (account_number));
 
 			/* set the payement mode */
 			if (amount.mantissa < 0)
 				gsb_data_transaction_set_method_of_payment_number (transaction_number,
-						gsb_data_account_get_default_debit (account_number));
+																   gsb_data_account_get_default_debit (account_number));
 			else
 				gsb_data_transaction_set_method_of_payment_number (transaction_number,
-						gsb_data_account_get_default_credit (account_number));
+																   gsb_data_account_get_default_credit (account_number));
 
 			/* set the payee */
 			gsb_data_transaction_set_party_number (transaction_number, std->main_payee_number);
@@ -2169,7 +2179,7 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 				gsb_data_transaction_set_category_number (transaction_number, std->card_category_number);
 				if (std->card_sub_category_number)
 					gsb_data_transaction_set_sub_category_number (transaction_number,
-						std->card_sub_category_number);
+																  std->card_sub_category_number);
 			}
 
 			/* set the IB sub_IB */
@@ -2178,7 +2188,7 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 				gsb_data_transaction_set_budgetary_number (transaction_number, std->card_budgetary_number);
 				if (std->card_sub_category_number)
 					gsb_data_transaction_set_sub_budgetary_number (transaction_number,
-						std->card_sub_budgetary_number);
+																   std->card_sub_budgetary_number);
 			}
 
 			/* append the transaction in list */
@@ -2190,14 +2200,15 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 	g_date_free (date);
 }
 
-
 /**
  * update la date de la ligne transfert lorsque la date de bascule est dépassée
  *
  * \param struct transfert contenant les données
+ * \param
+ * \param
  *
  * \return
- * */
+ **/
 void bet_data_transfert_update_date_if_necessary (TransfertData *std,
 												  GDate *date_bascule,
 												  gboolean force)
@@ -2272,9 +2283,6 @@ void bet_data_transfert_update_date_if_necessary (TransfertData *std,
 	g_date_free (date_jour);
 }
 
-
-
-
 /**
  * Création effective de la transaction dans le compte qui comporte le suivi de la carte
  * à débit différé
@@ -2282,7 +2290,7 @@ void bet_data_transfert_update_date_if_necessary (TransfertData *std,
  * \param structure transfert
  *
  * \return
- * */
+ **/
 void bet_data_transfert_create_new_transaction (TransfertData *std)
 {
 	gint transaction_number;
@@ -2290,6 +2298,7 @@ void bet_data_transfert_create_new_transaction (TransfertData *std)
 	GsbReal amount;
 
 	date = gsb_date_copy (std->date_bascule);
+
 	/* on enlève 1 jour pour la date de l'opération de remise à 0 du compte */
 	g_date_subtract_days (date, 1);
 
@@ -2311,7 +2320,7 @@ void bet_data_transfert_create_new_transaction (TransfertData *std)
 
 	/* set the currency */
 	gsb_data_transaction_set_currency_number (transaction_number,
-						gsb_data_account_get_currency (std->account_number));
+											  gsb_data_account_get_currency (std->account_number));
 
 	/* set the payement mode */
 	gsb_data_transaction_set_method_of_payment_number (transaction_number, std->main_payment_number);
@@ -2341,14 +2350,13 @@ void bet_data_transfert_create_new_transaction (TransfertData *std)
 	g_date_free (date);
 }
 
-
 /**
  * initialise la structure
  *
  * \param
  *
  * \return
- * */
+ **/
 TransactionCurrentFyear *struct_initialise_transaction_current_fyear (void)
 {
 	TransactionCurrentFyear *self;
@@ -2361,14 +2369,13 @@ TransactionCurrentFyear *struct_initialise_transaction_current_fyear (void)
 	return self;
 }
 
-
 /**
  *
  *
  * \param
  *
  * \return
- * */
+ **/
 void struct_free_bet_transaction_current_fyear (TransactionCurrentFyear *self)
 {
 	if (self->date)
@@ -2377,14 +2384,13 @@ void struct_free_bet_transaction_current_fyear (TransactionCurrentFyear *self)
 	g_free (self);
 }
 
-
 /**
  * Sets to 0 all the amounts selected for historical data (ou "archival")
  *
  * \param account_number
  *
  * \return
- * */
+ **/
 void bet_data_hist_reset_all_amounts (gint account_number)
 {
 	GHashTableIter iter;
@@ -2418,7 +2424,6 @@ void bet_data_hist_reset_all_amounts (gint account_number)
 		}
 	}
 }
-
 
 /**
  *
