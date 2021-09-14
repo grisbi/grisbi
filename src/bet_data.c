@@ -829,7 +829,7 @@ gboolean bet_data_init_variables (void)
 	bet_hist_list = g_hash_table_new_full (g_str_hash,
 										   g_str_equal,
 										   (GDestroyNotify) g_free,
-										   (GDestroyNotify) struct_free_hist_data);
+										   (GDestroyNotify) bet_data_hist_struct_free);
 
 	if (bet_futur_list)
 		g_hash_table_destroy (bet_futur_list);
@@ -1461,7 +1461,7 @@ gboolean bet_data_hist_add_div (gint account_number,
 			if (!sub_shd)
 			{
 				dialogue_error_memory ();
-				struct_free_hist_data  (shd);
+				bet_data_hist_struct_free  (shd);
 				return FALSE;
 			}
 			sub_key = utils_str_itoa (sub_div_nb);
@@ -1667,7 +1667,7 @@ void bet_data_insert_div_hist (HistData *shd, HistData *sub_shd)
 			sub_key = utils_str_itoa (sub_shd->div_number);
 			g_hash_table_insert (tmp_shd->sub_div_list, sub_key, sub_shd);
 		}
-		struct_free_hist_data (shd);
+		bet_data_hist_struct_free (shd);
 	}
 	else
 	{
@@ -1814,7 +1814,7 @@ gboolean bet_data_search_div_hist (gint account_number, gint div_number, gint su
  *
  * \return
  **/
-void struct_free_hist_data (HistData *shd)
+void bet_data_hist_struct_free (HistData *shd)
 {
 		if (shd->sbr)
 			struct_free_bet_range (shd->sbr);
@@ -1845,7 +1845,7 @@ HistData *bet_data_hist_struct_init (void)
 	shd->sub_div_list = g_hash_table_new_full (g_str_hash,
 						g_str_equal,
 						(GDestroyNotify) g_free,
-						(GDestroyNotify) struct_free_hist_data);
+						(GDestroyNotify) bet_data_hist_struct_free);
 
 	shd->sbr = struct_initialise_bet_range ();
 

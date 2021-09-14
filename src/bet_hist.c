@@ -687,7 +687,7 @@ void bet_historical_populate_data ( gint account_number )
     list_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
-                        (GDestroyNotify) struct_free_hist_data);
+                        (GDestroyNotify) bet_data_hist_struct_free);
 
     /* on initialise ici la liste des transactions pour les graphiques mensuels */
     if ( list_trans_hist )
