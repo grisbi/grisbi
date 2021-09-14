@@ -219,7 +219,6 @@ void 						bet_data_insert_div_hist 					(HistData *shd,
 gboolean 					bet_data_search_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-void 						bet_data_synchronise_hist_div_list 			(GHashTable  *list_div);
 gboolean 					bet_data_remove_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
