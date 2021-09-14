@@ -2299,7 +2299,7 @@ static void bet_array_refresh_scheduled_data (GtkTreeModel *tab_model,
 
         if (div_number > 0
          &&
-         bet_data_search_div_hist (account_number, div_number, 0)
+         bet_data_hist_div_search (account_number, div_number, 0)
          &&
          bet_array_sort_scheduled_transactions (div_number, sub_div_nb, tab_model))
             continue;
@@ -2513,7 +2513,7 @@ static void bet_array_refresh_transactions_data (GtkTreeModel *tab_model,
         sub_div_nb = bet_data_get_sub_div_nb (transaction_number, TRUE);
         if (div_number > 0
          &&
-         bet_data_search_div_hist (account_number, div_number, 0))
+         bet_data_hist_div_search (account_number, div_number, 0))
         {
             if (g_date_get_month (date) == g_date_get_month (date_jour_1))
                 bet_array_adjust_hist_amount (div_number, sub_div_nb, amount, tab_model);

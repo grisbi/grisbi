@@ -1777,7 +1777,7 @@ gboolean bet_data_hist_div_remove (gint account_number, gint div_number, gint su
  *
  * \return
  **/
-gboolean bet_data_search_div_hist (gint account_number, gint div_number, gint sub_div_nb)
+gboolean bet_data_hist_div_search (gint account_number, gint div_number, gint sub_div_nb)
 {
 	gchar *key;
 	gchar *sub_key;

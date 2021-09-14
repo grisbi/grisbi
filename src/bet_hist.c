@@ -388,7 +388,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         tmp_str = utils_real_get_string_with_currency ( number, currency_number, TRUE );
         str_amount = utils_real_get_string ( number );
 
-        if ( bet_data_search_div_hist ( account_number, div_number, sub_div_nb ) == FALSE )
+        if ( bet_data_hist_div_search ( account_number, div_number, sub_div_nb ) == FALSE )
             bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
 
         bet_data_set_div_edited  ( account_number, div_number, sub_div_nb, TRUE );
@@ -845,7 +845,7 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_EDITED_COLUMN, edited,
                         -1);
 
-    if ( bet_data_search_div_hist ( account_nb, div_number, 0 )
+    if ( bet_data_hist_div_search ( account_nb, div_number, 0 )
      &&
      ( bet_data_hist_get_div_edited ( account_nb, div_number, 0 )
       ||
@@ -924,7 +924,7 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_EDITED_COLUMN, edited,
                         -1);
 
-        if ( bet_data_search_div_hist ( account_nb, div_number, sub_shd -> div_number ) )
+        if ( bet_data_hist_div_search ( account_nb, div_number, sub_shd -> div_number ) )
         {
             GtkTreePath *path;
 
@@ -1509,7 +1509,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
 
     tmp_str = utils_real_get_string_with_currency ( amount, currency_number, TRUE );
     /* printf ("div = %d sub_div_nb = %d tmp_str = %s\n", div_number, sub_div_nb, tmp_str); */
-    if ( bet_data_search_div_hist ( account_number, div_number, sub_div_nb ) == FALSE )
+    if ( bet_data_hist_div_search ( account_number, div_number, sub_div_nb ) == FALSE )
         bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
 
     bet_data_set_div_edited  ( account_number, div_number, sub_div_nb, TRUE );
