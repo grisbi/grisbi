@@ -687,11 +687,11 @@ void bet_historical_populate_data ( gint account_number )
     list_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
-                        (GDestroyNotify) struct_free_bet_historical );
+                        (GDestroyNotify) struct_free_hist_data);
 
     /* on initialise ici la liste des transactions pour les graphiques mensuels */
     if ( list_trans_hist )
-        g_hash_table_remove_all ( list_trans_hist );
+        g_hash_table_remove_all (list_trans_hist);
 
     list_trans_hist = g_hash_table_new_full ( g_str_hash,
                                     g_str_equal,
@@ -781,8 +781,8 @@ void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data )
 {
-    HistList *sh = (HistList*) value;
-    BetRange *sbr = sh -> sbr;
+    HistData *shd = (HistData*) value;
+    BetRange *sbr = shd -> sbr;
     GtkTreeView *tree_view = ( GtkTreeView * ) user_data;
     GtkTreeModel *model;
     GtkTreeIter parent;
@@ -810,9 +810,9 @@ void bet_historical_populate_div_model ( gpointer key,
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-    div_number = sh -> div;
+    div_number = shd -> div_number;
     div_name = bet_data_get_div_name ( div_number, 0, NULL );
-    account_nb = sh -> account_nb;
+    account_nb = shd -> account_nb;
     kind = gsb_data_account_get_kind ( account_nb );
     if ( kind == GSB_TYPE_CASH && w_etat->bet_cash_account_option == 0 )
         edited = FALSE;
@@ -849,7 +849,7 @@ void bet_historical_populate_div_model ( gpointer key,
      &&
      ( bet_data_get_div_edited ( account_nb, div_number, 0 )
       ||
-      g_hash_table_size ( sh -> list_sub_div ) < 1 ) )
+      g_hash_table_size ( shd -> sub_div_list ) < 1 ) )
     {
         retained = bet_data_hist_get_div_amount ( account_nb, div_number, 0 );
         g_free ( str_amount );
@@ -871,22 +871,22 @@ void bet_historical_populate_div_model ( gpointer key,
     g_free ( str_amount );
     g_free ( str_current_fyear );
 
-    if ( ( nbre_sub_div = g_hash_table_size ( sh -> list_sub_div ) ) < 1 )
+    if ( ( nbre_sub_div = g_hash_table_size ( shd -> sub_div_list ) ) < 1 )
         return;
 
-    g_hash_table_iter_init ( &iter, sh -> list_sub_div );
+    g_hash_table_iter_init ( &iter, shd -> sub_div_list );
     while ( g_hash_table_iter_next ( &iter, &sub_key, &sub_value ) )
     {
-        HistList *sub_sh = (HistList* ) sub_value;
-        BetRange *sub_sbr = sub_sh -> sbr;
+        HistData *sub_shd = (HistData* ) sub_value;
+        BetRange *sub_sbr = sub_shd -> sbr;
         GtkTreeIter fils;
         gchar **tab_str = NULL;
 
-        if ( nbre_sub_div == 1 && sub_sh -> div == 0 )
+        if ( nbre_sub_div == 1 && sub_shd -> div_number == 0 )
             return;
 
-        div_name = bet_data_get_div_name ( div_number, sub_sh -> div, NULL );
-/*         printf ("division = %d sub_div = %d div_name = %s\n", div_number, sub_sh -> div, div_name);  */
+        div_name = bet_data_get_div_name ( div_number, sub_shd -> div_number, NULL );
+/*         printf ("division = %d sub_div = %d div_name = %s\n", div_number, sub_shd -> div_number, div_name);  */
         if ( div_name && g_utf8_strrchr ( div_name, -1, ':' ) )
         {
             tab_str = g_strsplit ( div_name, ":", 2 );
@@ -920,18 +920,18 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
                         SPP_HISTORICAL_ACCOUNT_NUMBER, account_nb,
                         SPP_HISTORICAL_DIV_NUMBER, div_number,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, sub_sh -> div,
+                        SPP_HISTORICAL_SUB_DIV_NUMBER, sub_shd -> div_number,
                         SPP_HISTORICAL_EDITED_COLUMN, edited,
                         -1);
 
-        if ( bet_data_search_div_hist ( account_nb, div_number, sub_sh -> div ) )
+        if ( bet_data_search_div_hist ( account_nb, div_number, sub_shd -> div_number ) )
         {
             GtkTreePath *path;
 
-            if ( bet_data_get_div_edited ( account_nb, div_number, sub_sh -> div ) )
+            if ( bet_data_get_div_edited ( account_nb, div_number, sub_shd -> div_number ) )
             {
-                /* printf ("account_nb = %d div_number = %d sub_sh -> div = %d\n", account_nb, div_number, sub_sh -> div ); */
-                retained = bet_data_hist_get_div_amount ( account_nb, div_number, sub_sh -> div );
+                /* printf ("account_nb = %d div_number = %d sub_shd -> div = %d\n", account_nb, div_number, sub_shd -> div ); */
+                retained = bet_data_hist_get_div_amount ( account_nb, div_number, sub_shd -> div_number );
                 g_free ( str_amount );
                 str_amount = utils_real_get_string ( retained );
                 str_retained = utils_real_get_string_with_currency ( retained, currency_number, TRUE );
@@ -944,7 +944,7 @@ void bet_historical_populate_div_model ( gpointer key,
             }
             else
             {
-                bet_data_set_div_amount ( account_nb, div_number, sub_sh -> div, average );
+                bet_data_set_div_amount ( account_nb, div_number, sub_shd -> div_number, average );
                 str_retained = g_strdup ( str_average );
                 edited = TRUE;
             }

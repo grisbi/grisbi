@@ -12,7 +12,6 @@
 #define PREV_MONTH_MAX	 		60.0
 
 typedef struct _BetRange					BetRange;
-typedef struct _HistList					HistList;
 typedef struct _HistData					HistData;
 typedef struct _FutureData					FuturData;
 typedef struct _TransfertData				TransfertData;
@@ -25,15 +24,6 @@ struct _BetRange
 	GsbReal 		current_balance;
 };
 
-/* utilisée pour gérer la liste des données historiques dans la vue historique */
-struct _HistList
-{
-	gint 			div;
-	gint 			account_nb;
-	BetRange *		sbr;
-	GHashTable *	list_sub_div;
-};
-
 /* utilisée pour gérer la liste des données historiques dans le tableau des prévisions */
 struct _HistData
 {
@@ -42,6 +32,7 @@ struct _HistData
 	gint 			origin;
 	gboolean 		div_edited;
 	GHashTable *	sub_div_list;
+	BetRange *		sbr;			/* ajout pour fusionner avec HistList */
 	GsbReal 		amount;
 };
 
@@ -232,8 +223,8 @@ void 						bet_data_synchronise_hist_div_list 			(GHashTable  *list_div);
 gboolean 					bet_data_remove_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-HistData *					struct_initialise_hist_div 					(void);
-void 						struct_free_bet_historical 					(HistList *sh);
+HistData *					struct_initialise_hist_data 					(void);
+void 						struct_free_hist_data						(HistData *shd);
 
 /* TRANSFERT_DATA */
 gboolean 					bet_data_transfert_add_line 				(TransfertData *transfert);
