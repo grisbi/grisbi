@@ -17,15 +17,15 @@ typedef struct _FutureData					FuturData;
 typedef struct _TransfertData				TransfertData;
 typedef struct _TransactionCurrentFyear		TransactionCurrentFyear;
 
-struct _BetRange
+struct _BetRange					/* sbr */
 {
 	gboolean 		first_pass;
 	GsbReal 		current_fyear;
 	GsbReal 		current_balance;
 };
 
-/* utilisée pour gérer la liste des données historiques dans le tableau des prévisions */
-struct _HistData
+/* utilisée pour gérer la liste des données historiques  */
+struct _HistData					/* shd */
 {
 	gint 			account_nb;
 	gint 			div_number;
@@ -37,7 +37,7 @@ struct _HistData
 };
 
 /* utilisée pour créer des pseudos opérations planifiées dans le tableau des prévisions */
-struct _FutureData
+struct _FutureData					/* sbr */
 {
 	gint 			number;
 	gint 			account_number;
@@ -63,7 +63,7 @@ struct _FutureData
 };
 
 /* utilisée pour gérer les comptes à débit différé dans le tableau des prévisions */
-struct _TransfertData
+struct _TransfertData				/* std */
 {
 	gint 			number;
 	gint 			account_number;				/* numéro du compte principal concerné */
