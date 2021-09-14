@@ -1565,7 +1565,7 @@ gboolean bet_data_set_div_amount (gint account_nb,
  *
  * \return
  **/
-gboolean bet_data_get_div_edited (gint account_number,
+gboolean bet_data_hist_get_div_edited (gint account_number,
 								  gint div_number,
 								  gint sub_div_nb)
 {

@@ -143,9 +143,6 @@ enum BetHistoricalTreeColumns {
 
 /* START_DECLARATION */
 void 						bet_data_free_variables 					(void);
-gboolean 					bet_data_get_div_edited 					(gint account_number,
-																		 gint div_number,
-																		 gint sub_div_nb);
 gchar *						bet_data_get_div_name 						(gint div_num,
 																		 gint sub_div,
 																		 const gchar *return_value_error);
@@ -211,6 +208,9 @@ gboolean 					bet_data_hist_add_div 						(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
 GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,
+																		 gint div_number,
+																		 gint sub_div_nb);
+gboolean 					bet_data_hist_get_div_edited 				(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
 void 						bet_data_hist_reset_all_amounts 			(gint account_number);

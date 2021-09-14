@@ -847,7 +847,7 @@ void bet_historical_populate_div_model ( gpointer key,
 
     if ( bet_data_search_div_hist ( account_nb, div_number, 0 )
      &&
-     ( bet_data_get_div_edited ( account_nb, div_number, 0 )
+     ( bet_data_hist_get_div_edited ( account_nb, div_number, 0 )
       ||
       g_hash_table_size ( shd -> sub_div_list ) < 1 ) )
     {
@@ -928,7 +928,7 @@ void bet_historical_populate_div_model ( gpointer key,
         {
             GtkTreePath *path;
 
-            if ( bet_data_get_div_edited ( account_nb, div_number, sub_shd -> div_number ) )
+            if ( bet_data_hist_get_div_edited ( account_nb, div_number, sub_shd -> div_number ) )
             {
                 /* printf ("account_nb = %d div_number = %d sub_shd -> div = %d\n", account_nb, div_number, sub_shd -> div ); */
                 retained = bet_data_hist_get_div_amount ( account_nb, div_number, sub_shd -> div_number );
@@ -1341,7 +1341,7 @@ void bet_historical_row_expanded_event ( GtkTreeView *tree_view,
                         SPP_HISTORICAL_DIV_NUMBER, &div_number,
                         -1 );
 
-    if ( bet_data_get_div_edited ( account_nb, div_number, 0 ) == TRUE )
+    if ( bet_data_hist_get_div_edited ( account_nb, div_number, 0 ) == TRUE )
     {
         gtk_tree_view_collapse_row ( tree_view, path );
         gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), iter );
