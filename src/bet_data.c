@@ -368,11 +368,11 @@ static void struct_free_hist_div (HistData *shd)
  *
  *
  * */
-static BetHist *struct_initialise_bet_historical (void)
+static HistList *struct_initialise_bet_historical (void)
 {
-	BetHist	*sh;
+	HistList	*sh;
 
-	sh = g_malloc0 (sizeof (BetHist));
+	sh = g_malloc0 (sizeof (HistList));
 	sh->sbr = struct_initialise_bet_range ();
 	sh->list_sub_div = g_hash_table_new_full (g_str_hash,
 											  g_str_equal,
@@ -393,7 +393,7 @@ static BetHist *struct_initialise_bet_historical (void)
  *
  * \return
  **/
-static gboolean bet_data_update_div (BetHist *sh,
+static gboolean bet_data_update_div (HistList *sh,
 									 gint transaction_number,
 									 gint sub_div,
 									 gint type_de_transaction,
@@ -401,7 +401,7 @@ static gboolean bet_data_update_div (BetHist *sh,
 {
 	BetRange *sbr = (BetRange*) sh->sbr;
 	gchar *key;
-	BetHist *tmp_sh = NULL;
+	HistList *tmp_sh = NULL;
 
 	switch (type_de_transaction)
 	{
@@ -1732,7 +1732,7 @@ gboolean bet_data_populate_div (gint transaction_number,
 	gint div = 0;
 	gint sub_div = 0;
 	gchar *key;
-	BetHist *sh = NULL;
+	HistList *sh = NULL;
 	GsbReal amount;
 
 	div = ptr_div (transaction_number, is_transaction);
@@ -1853,7 +1853,7 @@ void bet_data_synchronise_hist_div_list (GHashTable  *list_div)
 {
 	GHashTableIter iter;
 	gpointer key, value;
-	BetHist *sh = NULL;
+	HistList *sh = NULL;
 
 	g_hash_table_iter_init (&iter, bet_hist_div_list);
 	while (g_hash_table_iter_next (&iter, &key, &value))
@@ -1895,7 +1895,7 @@ void bet_data_synchronise_hist_div_list (GHashTable  *list_div)
  *
  *
  **/
-void struct_free_bet_historical (BetHist *sh)
+void struct_free_bet_historical (HistList *sh)
 {
 
 	if (sh->sbr)

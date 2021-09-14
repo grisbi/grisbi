@@ -12,7 +12,7 @@
 #define PREV_MONTH_MAX	 		60.0
 
 typedef struct _BetRange					BetRange;
-typedef struct _BetHist						BetHist;
+typedef struct _HistList					HistList;
 typedef struct _HistData					HistData;
 typedef struct _FutureData					FuturData;
 typedef struct _TransfertData				TransfertData;
@@ -26,7 +26,7 @@ struct _BetRange
 };
 
 /* utilisée pour gérer la liste des données historiques dans la vue historique */
-struct _BetHist
+struct _HistList
 {
 	gint 			div;
 	gint 			account_nb;
@@ -233,7 +233,7 @@ gboolean 					bet_data_remove_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
 HistData *					struct_initialise_hist_div 					(void);
-void 						struct_free_bet_historical 					(BetHist *sh);
+void 						struct_free_bet_historical 					(HistList *sh);
 
 /* TRANSFERT_DATA */
 gboolean 					bet_data_transfert_add_line 				(TransfertData *transfert);
