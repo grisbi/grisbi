@@ -1099,8 +1099,8 @@ static void gsb_file_load_bet_graph_part (const gchar **attribute_names,
 static void gsb_file_load_bet_historical_part (const gchar **attribute_names,
 											   const gchar **attribute_values)
 {
-    HistDiv *shd;
-    HistDiv *sub_shd = NULL;
+    HistData *shd;
+    HistData *sub_shd = NULL;
     gint i=0;
     gint sub_div_nb;
 

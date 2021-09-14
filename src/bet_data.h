@@ -13,7 +13,7 @@
 
 typedef struct _BetRange					BetRange;
 typedef struct _BetHist						BetHist;
-typedef struct _HistDiv						HistDiv;
+typedef struct _HistData					HistData;
 typedef struct _FutureData					FuturData;
 typedef struct _TransfertData				TransfertData;
 typedef struct _TransactionCurrentFyear		TransactionCurrentFyear;
@@ -35,7 +35,7 @@ struct _BetHist
 };
 
 /* utilisée pour gérer la liste des données historiques dans le tableau des prévisions */
-struct _HistDiv
+struct _HistData
 {
 	gint 			account_nb;
 	gint 			div_number;
@@ -45,7 +45,7 @@ struct _HistDiv
 	GsbReal 		amount;
 };
 
-/* utilisée pour créer des pseudos opérations planifiées dans le module budgétaire */
+/* utilisée pour créer des pseudos opérations planifiées dans le tableau des prévisions */
 struct _FutureData
 {
 	gint 			number;
@@ -71,7 +71,7 @@ struct _FutureData
 	gint			mother_row;					/* if frequency > 0 */
 };
 
-/* utilisée pour gérer les comptes à débit différé */
+/* utilisée pour gérer les comptes à débit différé dans le tableau des prévisions */
 struct _TransfertData
 {
 	gint 			number;
@@ -223,8 +223,8 @@ GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,
 																		 gint div_number,
 																		 gint sub_div_nb);
 void 						bet_data_hist_reset_all_amounts 			(gint account_number);
-void 						bet_data_insert_div_hist 					(HistDiv *shd,
-																		 HistDiv *sub_shd);
+void 						bet_data_insert_div_hist 					(HistData *shd,
+																		 HistData *sub_shd);
 gboolean 					bet_data_search_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
@@ -232,7 +232,7 @@ void 						bet_data_synchronise_hist_div_list 			(GHashTable  *list_div);
 gboolean 					bet_data_remove_div_hist 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-HistDiv *					struct_initialise_hist_div 					(void);
+HistData *					struct_initialise_hist_div 					(void);
 void 						struct_free_bet_historical 					(BetHist *sh);
 
 /* TRANSFERT_DATA */

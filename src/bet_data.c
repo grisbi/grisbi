@@ -339,7 +339,7 @@ static void bet_data_hist_set_account_number (gpointer key,
 											  gpointer value,
 											  gpointer user_data)
 {
-	HistDiv *shd = (HistDiv *) value;
+	HistData *shd = (HistData *) value;
 
 	if (shd->account_nb == 0)
 		shd->account_nb = GPOINTER_TO_INT (user_data);
@@ -352,7 +352,7 @@ static void bet_data_hist_set_account_number (gpointer key,
  *
  * \return
  **/
-static void struct_free_hist_div (HistDiv *shd)
+static void struct_free_hist_div (HistData *shd)
 {
 	if (shd->sub_div_list)
 		g_hash_table_remove_all (shd->sub_div_list);
@@ -521,7 +521,7 @@ GPtrArray *bet_data_get_strings_to_save (void)
 		g_hash_table_iter_init (&iter, bet_hist_div_list);
 		while (g_hash_table_iter_next (&iter, &key, &value))
 		{
-			HistDiv *shd = (HistDiv*) value;
+			HistData *shd = (HistData*) value;
 
 			if (g_hash_table_size (shd->sub_div_list) == 0)
 			{
@@ -551,7 +551,7 @@ GPtrArray *bet_data_get_strings_to_save (void)
 				g_hash_table_iter_init (&new_iter, shd->sub_div_list);
 				while (g_hash_table_iter_next (&new_iter, &key, &value))
 				{
-					HistDiv *sub_shd = (HistDiv*) value;
+					HistData *sub_shd = (HistData*) value;
 					gchar *str_to_free_1;
 					gchar *str_to_free_2;
 					gint floating_point;
@@ -902,7 +902,7 @@ gboolean bet_data_remove_all_bet_data (gint account_number)
 	g_hash_table_iter_init (&iter, tmp_list);
 	while (g_hash_table_iter_next (&iter, &key, &value))
 	{
-		HistDiv *shd = (HistDiv *) value;
+		HistData *shd = (HistData *) value;
 
 		if (account_number != shd->account_nb)
 			continue;
@@ -1441,7 +1441,7 @@ gboolean bet_data_hist_add_div (gint account_number,
 {
 	gchar *key = NULL;
 	gchar *sub_key = NULL;
-	HistDiv *shd;
+	HistData *shd;
 
 	key = bet_data_get_key (account_number, div_number);
 
@@ -1456,7 +1456,7 @@ gboolean bet_data_hist_add_div (gint account_number,
 			sub_key = utils_str_itoa (sub_div_nb);
 			if (!g_hash_table_lookup (shd->sub_div_list, sub_key))
 			{
-				HistDiv *sub_shd;
+				HistData *sub_shd;
 
 				sub_shd = struct_initialise_hist_div ();
 				if (!sub_shd)
@@ -1489,7 +1489,7 @@ gboolean bet_data_hist_add_div (gint account_number,
 		shd->div_number = div_number;
 		if (sub_div_nb > 0)
 		{
-			HistDiv *sub_shd;
+			HistData *sub_shd;
 
 			sub_shd = struct_initialise_hist_div ();
 			if (!sub_shd)
@@ -1520,7 +1520,7 @@ gboolean bet_data_hist_add_div (gint account_number,
 GsbReal bet_data_hist_get_div_amount (gint account_nb, gint div_number, gint sub_div_nb)
 {
 	gchar *key;
-	HistDiv *shd;
+	HistData *shd;
 	GsbReal amount;
 
 	key = bet_data_get_key (account_nb, div_number);
@@ -1532,7 +1532,7 @@ GsbReal bet_data_hist_get_div_amount (gint account_nb, gint div_number, gint sub
 		else
 		{
 			gchar *sub_key;
-			HistDiv *sub_shd;
+			HistData *sub_shd;
 
 			sub_key = utils_str_itoa (sub_div_nb);
 			if ((sub_shd = g_hash_table_lookup (shd->sub_div_list, sub_key)))
@@ -1565,7 +1565,7 @@ gboolean bet_data_set_div_amount (gint account_nb,
 						GsbReal amount)
 {
 	gchar *key;
-	HistDiv *shd;
+	HistData *shd;
 
 	key = bet_data_get_key (account_nb, div_number);
 
@@ -1576,7 +1576,7 @@ gboolean bet_data_set_div_amount (gint account_nb,
 		else
 		{
 			gchar *sub_key;
-			HistDiv *sub_shd;
+			HistData *sub_shd;
 
 			sub_key = utils_str_itoa (sub_div_nb);
 			if ((sub_shd = g_hash_table_lookup (shd->sub_div_list, sub_key)))
@@ -1605,7 +1605,7 @@ gboolean bet_data_get_div_edited (gint account_number,
 {
 	gchar *key;
 	gint origin;
-	HistDiv *shd;
+	HistData *shd;
 	gboolean edited;
 
 	key = bet_data_get_key (account_number, div_number);
@@ -1620,7 +1620,7 @@ gboolean bet_data_get_div_edited (gint account_number,
 		else
 		{
 			gchar *sub_key;
-			HistDiv *sub_shd;
+			HistData *sub_shd;
 
 			sub_key = utils_str_itoa (sub_div_nb);
 			if ((sub_shd = g_hash_table_lookup (shd->sub_div_list, sub_key)))
@@ -1650,7 +1650,7 @@ gboolean bet_data_set_div_edited (gint account_nb,
 								  gboolean edited)
 {
 	gchar *key;
-	HistDiv *shd;
+	HistData *shd;
 
 	key = bet_data_get_key (account_nb, div_number);
 
@@ -1661,7 +1661,7 @@ gboolean bet_data_set_div_edited (gint account_nb,
 		else
 		{
 			gchar *sub_key;
-			HistDiv *sub_shd;
+			HistData *sub_shd;
 
 			sub_key = utils_str_itoa (sub_div_nb);
 			if ((sub_shd = g_hash_table_lookup (shd->sub_div_list, sub_key)))
@@ -1682,11 +1682,11 @@ gboolean bet_data_set_div_edited (gint account_nb,
  *
  * \return
  **/
-void bet_data_insert_div_hist (HistDiv *shd, HistDiv *sub_shd)
+void bet_data_insert_div_hist (HistData *shd, HistData *sub_shd)
 {
 	gchar *key;
 	gchar *sub_key;
-	HistDiv *tmp_shd;
+	HistData *tmp_shd;
 
 	key = bet_data_get_key (shd->account_nb, shd->div_number);
 
@@ -1782,7 +1782,7 @@ gboolean bet_data_remove_div_hist (gint account_number, gint div_number, gint su
 {
 	gchar *key;
 	char *sub_key;
-	HistDiv *shd;
+	HistData *shd;
 	gboolean return_val = FALSE;
 
 	key = bet_data_get_key (account_number, div_number);
@@ -1816,7 +1816,7 @@ gboolean bet_data_search_div_hist (gint account_number, gint div_number, gint su
 	gchar *key;
 	gchar *sub_key;
 	gint origin;
-	HistDiv *shd;
+	HistData *shd;
 	gboolean return_val = FALSE;
 
 	key = bet_data_get_key (account_number, div_number);
@@ -1858,7 +1858,7 @@ void bet_data_synchronise_hist_div_list (GHashTable  *list_div)
 	g_hash_table_iter_init (&iter, bet_hist_div_list);
 	while (g_hash_table_iter_next (&iter, &key, &value))
 	{
-		HistDiv *shd = (HistDiv*) value;
+		HistData *shd = (HistData*) value;
 		GHashTableIter new_iter;
 
 		sh = g_hash_table_lookup (list_div, utils_str_itoa (shd->div_number));
@@ -1869,7 +1869,7 @@ void bet_data_synchronise_hist_div_list (GHashTable  *list_div)
 			g_hash_table_iter_init (&new_iter, shd->sub_div_list);
 			while (g_hash_table_iter_next (&new_iter, &key, &value))
 			{
-				HistDiv *sub_shd = (HistDiv*) value;
+				HistData *sub_shd = (HistData*) value;
 
 				if (!g_hash_table_lookup (sh->list_sub_div, utils_str_itoa (
 				 sub_shd->div_number)))
@@ -1914,11 +1914,11 @@ void struct_free_bet_historical (BetHist *sh)
  *
  * \return
  **/
-HistDiv *struct_initialise_hist_div (void)
+HistData *struct_initialise_hist_div (void)
 {
-	HistDiv *shd;
+	HistData *shd;
 
-	shd = g_malloc0 (sizeof (HistDiv));
+	shd = g_malloc0 (sizeof (HistData));
 	shd->account_nb = 0;
 	shd->div_number = 0;
 	shd->div_edited = FALSE;
@@ -2475,7 +2475,7 @@ void bet_data_hist_reset_all_amounts (gint account_number)
 	g_hash_table_iter_init (&iter, bet_hist_div_list);
 	while (g_hash_table_iter_next (&iter, &key, &value))
 	{
-		HistDiv *shd = (HistDiv*) value;
+		HistData *shd = (HistData*) value;
 
 		if (g_hash_table_size (shd->sub_div_list) == 0)
 		{
@@ -2489,7 +2489,7 @@ void bet_data_hist_reset_all_amounts (gint account_number)
 			g_hash_table_iter_init (&new_iter, shd->sub_div_list);
 			while (g_hash_table_iter_next (&new_iter, &key, &value))
 			{
-				HistDiv *sub_shd = (HistDiv*) value;
+				HistData *sub_shd = (HistData*) value;
 
 				if (sub_shd->div_edited)
 					bet_data_set_div_amount (account_number, shd->div_number, sub_shd->div_number, null_real);
