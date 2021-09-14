@@ -213,13 +213,13 @@ GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,
 gboolean 					bet_data_hist_get_div_edited 				(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-void 						bet_data_hist_reset_all_amounts 			(gint account_number);
-void 						bet_data_insert_div_hist 					(HistData *shd,
+void 						bet_data_hist_insert_div 					(HistData *shd,
 																		 HistData *sub_shd);
-gboolean 					bet_data_search_div_hist 					(gint account_number,
+gboolean 					bet_data_hist_div_remove 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-gboolean 					bet_data_remove_div_hist 					(gint account_number,
+void 						bet_data_hist_reset_all_amounts 			(gint account_number);
+gboolean 					bet_data_hist_div_search 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
 HistData *					bet_data_hist_struct_init 					(void);

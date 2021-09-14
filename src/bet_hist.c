@@ -251,7 +251,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
         }
         else
         {
-            bet_data_remove_div_hist ( account_number, div_number, sub_div_nb );
+            bet_data_hist_div_remove ( account_number, div_number, sub_div_nb );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
                         SPP_HISTORICAL_SELECT_COLUMN, FALSE,
                         SPP_HISTORICAL_RETAINED_COLUMN, "",
@@ -1262,7 +1262,7 @@ gboolean bet_historical_set_empty_sub_div ( GtkTreeModel *model, GtkTreeIter *pa
                         SPP_HISTORICAL_DIV_NUMBER, &div_number,
                         SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div_nb,
                         -1 );
-            bet_data_remove_div_hist ( account_nb, div_number, sub_div_nb );
+            bet_data_hist_div_remove ( account_nb, div_number, sub_div_nb );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &fils_iter,
                         SPP_HISTORICAL_SELECT_COLUMN, FALSE,
                         SPP_HISTORICAL_RETAINED_COLUMN, "",

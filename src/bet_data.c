@@ -1744,7 +1744,7 @@ gboolean bet_data_populate_div (gint transaction_number,
  * \return
  **/
 
-gboolean bet_data_remove_div_hist (gint account_number, gint div_number, gint sub_div_nb)
+gboolean bet_data_hist_div_remove (gint account_number, gint div_number, gint sub_div_nb)
 {
 	gchar *key;
 	char *sub_key;

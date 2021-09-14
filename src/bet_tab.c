@@ -894,7 +894,7 @@ static void bet_array_list_delete_menu (GtkWidget *menu_item,
         gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
                         SPP_ESTIMATE_TREE_SUB_DIV_COLUMN, &sub_div_nb,
                         -1);
-        bet_data_remove_div_hist (account_number, number, sub_div_nb);
+        bet_data_hist_div_remove (account_number, number, sub_div_nb);
         gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 
         gsb_data_account_set_bet_maj (account_number, BET_MAJ_HISTORICAL);
