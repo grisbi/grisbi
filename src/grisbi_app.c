@@ -373,6 +373,11 @@ static void grisbi_app_quit (GSimpleAction *action,
 	if (run.menu_save)
 		return;
 
+	/* Do not exit while the preferences dialog is open.
+	 * Otherwise we get a crash when the dialog is closed. */
+	if (run.menu_prefs)
+		return;
+
     /* Remove all windows registered in the application */
     while ((l = gtk_application_get_windows (GTK_APPLICATION (app))))
     {

@@ -376,6 +376,7 @@ struct _GrisbiWinRun
 	gboolean	prefs_expand_tree;							/* memorise le choix du bouton expand collapse du treeview des preferences */
 	guint		prefs_import_tab;							/* mémorise l'onglet import sélectionné */
 	gchar *		prefs_selected_row;							/* memorise l'onglet selectionné du treeview des preferences */
+    gboolean	menu_prefs;
 
 	/* Reports */
 	gboolean	no_show_prefs;								/* si VRAI = ne pas montrer les préférences de l'état */
