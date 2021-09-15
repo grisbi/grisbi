@@ -1124,7 +1124,7 @@ void bet_data_variables_free (void)
  *
  * \return FALSE
  **/
-gboolean bet_data_init_variables (void)
+gboolean bet_data_variables_init (void)
 {
 	if (bet_hist_list)
 		g_hash_table_destroy (bet_hist_list);

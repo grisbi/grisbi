@@ -158,7 +158,6 @@ gchar *						bet_data_get_str_amount_in_account_currency	(GsbReal amount,
 GPtrArray *					bet_data_get_strings_to_save 				(void);
 gint 						bet_data_get_sub_div_nb 					(gint transaction_number,
 																		 gboolean is_transaction);
-gboolean 					bet_data_init_variables 					(void);
 gboolean 					bet_data_remove_all_bet_data 				(gint account_number);
 void						bet_data_renum_account_number_0				(gint new_account_number);
 void 						bet_data_select_bet_pages 					(gint account_number);
@@ -179,6 +178,7 @@ void 						bet_data_update_bet_module 					(gint account_number,
 void 						struct_free_bet_transaction_current_fyear 	(TransactionCurrentFyear *self);
 TransactionCurrentFyear *	struct_initialise_transaction_current_fyear (void);
 void 						bet_data_variables_free 					(void);
+gboolean 					bet_data_variables_init 					(void);
 
 /* ARRAY_DATA */
 GDate *						bet_data_array_get_date_max 				(gint account_number);

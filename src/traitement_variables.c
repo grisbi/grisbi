@@ -259,7 +259,7 @@ void init_variables (void)
 
     /* initializes the variables for the estimate balance module */
     /* création de la liste des données à utiliser dans le tableau de résultats */
-    bet_data_init_variables ();
+    bet_data_variables_init ();
     /* initialisation des boites de dialogue */
     bet_future_initialise_dialog (TRUE);
     etat.bet_debut_period = 1;
