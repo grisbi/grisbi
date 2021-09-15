@@ -847,41 +847,6 @@ gint bet_data_get_sub_div_nb (gint transaction_number,
 }
 
 /**
- * used when we init all the global variables
- *
- * \param
- *
- * \return FALSE
- **/
-gboolean bet_data_init_variables (void)
-{
-	if (bet_hist_list)
-		g_hash_table_destroy (bet_hist_list);
-	bet_hist_list = g_hash_table_new_full (g_str_hash,
-										   g_str_equal,
-										   (GDestroyNotify) g_free,
-										   (GDestroyNotify) bet_data_hist_struct_free);
-
-	if (bet_futur_list)
-		g_hash_table_destroy (bet_futur_list);
-	bet_futur_list = g_hash_table_new_full (g_str_hash,
-											 g_str_equal,
-											 (GDestroyNotify) g_free,
-											 (GDestroyNotify) bet_data_future_struct_free);
-	futur_number = 0;
-
-	if (bet_transfert_list)
-		g_hash_table_destroy (bet_transfert_list);
-	bet_transfert_list = g_hash_table_new_full (g_str_hash,
-												g_str_equal,
-												(GDestroyNotify) g_free,
-												(GDestroyNotify) struct_free_bet_transfert);
-	transfert_number = 0;
-
-	return FALSE;
-}
-
-/**
  * supprime toutes les données du module pour le compte passé en paramètre.
  *
  * \param
@@ -1142,7 +1107,7 @@ void bet_data_update_bet_module (gint account_number,
  *
  * \return
  **/
-void bet_data_free_variables (void)
+void bet_data_variables_free (void)
 {
 	if (bet_hist_list)
 		g_hash_table_destroy (bet_hist_list);
@@ -1150,6 +1115,41 @@ void bet_data_free_variables (void)
 		g_hash_table_destroy (bet_futur_list);
 	if (bet_transfert_list)
 		g_hash_table_destroy (bet_transfert_list);
+}
+
+/**
+ * used when we init all the global variables
+ *
+ * \param
+ *
+ * \return FALSE
+ **/
+gboolean bet_data_init_variables (void)
+{
+	if (bet_hist_list)
+		g_hash_table_destroy (bet_hist_list);
+	bet_hist_list = g_hash_table_new_full (g_str_hash,
+										   g_str_equal,
+										   (GDestroyNotify) g_free,
+										   (GDestroyNotify) bet_data_hist_struct_free);
+
+	if (bet_futur_list)
+		g_hash_table_destroy (bet_futur_list);
+	bet_futur_list = g_hash_table_new_full (g_str_hash,
+											 g_str_equal,
+											 (GDestroyNotify) g_free,
+											 (GDestroyNotify) bet_data_future_struct_free);
+	futur_number = 0;
+
+	if (bet_transfert_list)
+		g_hash_table_destroy (bet_transfert_list);
+	bet_transfert_list = g_hash_table_new_full (g_str_hash,
+												g_str_equal,
+												(GDestroyNotify) g_free,
+												(GDestroyNotify) struct_free_bet_transfert);
+	transfert_number = 0;
+
+	return FALSE;
 }
 
 /* ARRAY_DATA */

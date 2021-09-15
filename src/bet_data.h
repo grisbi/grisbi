@@ -144,7 +144,6 @@ enum BetHistoricalTreeColumns {
 /* START_DECLARATION */
 void						bet_data_bet_range_struct_free				(BetRange *sbr);
 BetRange *					bet_data_bet_range_struct_init 				(void);
-void 						bet_data_free_variables 					(void);
 gchar *						bet_data_get_div_name 						(gint div_num,
 																		 gint sub_div,
 																		 const gchar *return_value_error);
@@ -179,6 +178,7 @@ void 						bet_data_update_bet_module 					(gint account_number,
 
 void 						struct_free_bet_transaction_current_fyear 	(TransactionCurrentFyear *self);
 TransactionCurrentFyear *	struct_initialise_transaction_current_fyear (void);
+void 						bet_data_variables_free 					(void);
 
 /* ARRAY_DATA */
 GDate *						bet_data_array_get_date_max 				(gint account_number);

@@ -336,7 +336,7 @@ void free_variables (void)
         g_date_free (run.reconcile_new_date);
 
     /* free the variables for the estimate balance module */
-    bet_data_free_variables ();
+    bet_data_variables_free ();
     bet_future_initialise_dialog (FALSE);
     bet_array_init_largeur_col_treeview (NULL);
 	bet_data_loan_delete_all_loans ();
