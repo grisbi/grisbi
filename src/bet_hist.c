@@ -731,7 +731,7 @@ void bet_historical_populate_data ( gint account_number )
         /* on détermine le type de transaction pour l'affichage */
         type_de_transaction = bet_historical_get_type_transaction ( date, start_current_fyear, date_max );
 
-        tcf = struct_initialise_transaction_current_fyear ();
+        tcf = bet_data_struct_transaction_current_fyear_init ();
         tcf->transaction_number = transaction_number;
         tcf->date = gsb_date_copy ( date );
         tcf->type_de_transaction = type_de_transaction;

@@ -2372,7 +2372,7 @@ void bet_data_transfert_create_new_transaction (TransfertData *std)
  *
  * \return
  **/
-TransactionCurrentFyear *struct_initialise_transaction_current_fyear (void)
+TransactionCurrentFyear *bet_data_struct_transaction_current_fyear_init (void)
 {
 	TransactionCurrentFyear *self;
 
