@@ -312,7 +312,7 @@ static void bet_data_future_set_max_number (gint number)
  *
  * \return
  **/
-static void struct_free_bet_future (FuturData *sfd)
+static void bet_data_future_struct_free (FuturData *sfd)
 {
 	if (sfd->date)
 		g_date_free (sfd->date);
@@ -836,7 +836,7 @@ gboolean bet_data_init_variables (void)
 	bet_futur_list = g_hash_table_new_full (g_str_hash,
 											 g_str_equal,
 											 (GDestroyNotify) g_free,
-											 (GDestroyNotify) struct_free_bet_future);
+											 (GDestroyNotify) bet_data_future_struct_free);
 	futur_number = 0;
 
 	if (bet_transfert_list)
@@ -1194,7 +1194,7 @@ gboolean bet_data_future_add_lines (FuturData *sfd)
 			if (mother_row == futur_number)
 			{
 				if (new_sfd)
-					struct_free_bet_future (new_sfd);
+					bet_data_future_struct_free (new_sfd);
 				new_sfd = sfd;
 			}
 			else
