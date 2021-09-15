@@ -2868,7 +2868,7 @@ static void bet_array_refresh_estimate_tab (gint account_number)
 							bet_array_update_average_column,
 							tmp_range);
 
-	struct_free_bet_range (tmp_range);
+	bet_data_bet_range_struct_free (tmp_range);
     bet_array_list_set_background_color (tree_view);
     bet_array_list_select_path (tree_view, path);
     gtk_tree_path_free (path);

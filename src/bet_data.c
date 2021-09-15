@@ -426,6 +426,18 @@ static void bet_data_transfert_set_account_number (gpointer key,
 /******************************************************************************/
 /**
  *
+ *
+ * \param
+ *
+ * \return
+ **/
+void bet_data_bet_range_struct_free (BetRange *sbr)
+{
+	g_free (sbr);
+}
+
+/**
+ *
  * \param
  * \param
  * \param
@@ -1129,18 +1141,6 @@ void bet_data_free_variables (void)
  *
  * \return
  **/
-void struct_free_bet_range (BetRange *sbr)
-{
-	g_free (sbr);
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
 BetRange *struct_initialise_bet_range (void)
 {
 	BetRange	*sbr;
@@ -1832,7 +1832,7 @@ gboolean bet_data_hist_div_search (gint account_number,
 void bet_data_hist_struct_free (HistData *shd)
 {
 	if (shd->sbr)
-		struct_free_bet_range (shd->sbr);
+		bet_data_bet_range_struct_free (shd->sbr);
 
 	if (shd->sub_div_list)
 		g_hash_table_remove_all (shd->sub_div_list);
