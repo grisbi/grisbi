@@ -142,103 +142,103 @@ enum BetHistoricalTreeColumns {
 
 
 /* START_DECLARATION */
-void						bet_data_bet_range_struct_free				(BetRange *sbr);
-BetRange *					bet_data_bet_range_struct_init 				(void);
-gchar *						bet_data_get_div_name 						(gint div_num,
+void						bet_data_bet_range_struct_free					(BetRange *sbr);
+BetRange *					bet_data_bet_range_struct_init 					(void);
+gchar *						bet_data_get_div_name 							(gint div_num,
 																		 gint sub_div,
 																		 const gchar *return_value_error);
-gint 						bet_data_get_div_number 					(gint transaction_number,
+gint 						bet_data_get_div_number 						(gint transaction_number,
 																		 gboolean is_transaction);
-gint 						bet_data_get_div_type 						(gint div_number);
-gint 						bet_data_get_selected_currency 				(void);
-gchar *						bet_data_get_str_amount_in_account_currency	(GsbReal amount,
+gint 						bet_data_get_div_type 							(gint div_number);
+gint 						bet_data_get_selected_currency 					(void);
+gchar *						bet_data_get_str_amount_in_account_currency		(GsbReal amount,
 																		 gint account_number,
 																		 gint line_number,
 																		 gint origin);
-GPtrArray *					bet_data_get_strings_to_save 				(void);
-gint 						bet_data_get_sub_div_nb 					(gint transaction_number,
+GPtrArray *					bet_data_get_strings_to_save 					(void);
+gint 						bet_data_get_sub_div_nb 						(gint transaction_number,
 																		 gboolean is_transaction);
-gboolean 					bet_data_remove_all_bet_data 				(gint account_number);
-void						bet_data_renum_account_number_0				(gint new_account_number);
-void 						bet_data_select_bet_pages 					(gint account_number);
-gboolean 					bet_data_set_div_amount 					(gint account_nb,
+gboolean 					bet_data_remove_all_bet_data 					(gint account_number);
+void						bet_data_renum_account_number_0					(gint new_account_number);
+void 						bet_data_select_bet_pages 						(gint account_number);
+gboolean 					bet_data_set_div_amount 						(gint account_nb,
 																		 gint div_number,
 																		 gint sub_div_nb,
 																		 GsbReal amount);
-gboolean 					bet_data_set_div_edited 					(gint account_nb,
+gboolean 					bet_data_set_div_edited 						(gint account_nb,
 																		 gint div_number,
 																		 gint sub_div_nb,
 																		 gboolean edited);
-gboolean 					bet_data_set_div_ptr 						(gint type_div);
-void 						bet_data_set_maj 							(gint account_number,
+gboolean 					bet_data_set_div_ptr 							(gint type_div);
+void 						bet_data_set_maj 								(gint account_number,
 																		 gint type_maj);
-void 						bet_data_update_bet_module 					(gint account_number,
+void 						bet_data_update_bet_module 						(gint account_number,
 																		 gint page);
 
 void 						bet_data_struct_transaction_current_fyear_free 	(TransactionCurrentFyear *self);
 TransactionCurrentFyear *	bet_data_struct_transaction_current_fyear_init	(void);
-void 						bet_data_variables_free 					(void);
-gboolean 					bet_data_variables_init 					(void);
+void 						bet_data_variables_free 						(void);
+gboolean 					bet_data_variables_init 						(void);
 
 /* ARRAY_DATA */
-GDate *						bet_data_array_get_date_max 				(gint account_number);
+GDate *						bet_data_array_get_date_max 					(gint account_number);
 
 /* FUTURE_DATA */
-gboolean 					bet_data_future_add_lines 					(FuturData *scheduled);
-GHashTable *				bet_data_future_get_list 					(void);
-FuturData *					bet_data_future_get_struct 					(gint account_number,
+gboolean 					bet_data_future_add_lines 						(FuturData *scheduled);
+GHashTable *				bet_data_future_get_list 						(void);
+FuturData *					bet_data_future_get_struct 						(gint account_number,
 																		 gint number);
-gboolean 					bet_data_future_modify_lines 				(FuturData *scheduled);
-gboolean 					bet_data_future_remove_line 				(gint account_number,
+gboolean 					bet_data_future_modify_lines 					(FuturData *scheduled);
+gboolean 					bet_data_future_remove_line 					(gint account_number,
 																		 gint number,
 																		 gboolean maj);
-gboolean 					bet_data_future_remove_lines 				(gint account_number,
+gboolean 					bet_data_future_remove_lines 					(gint account_number,
 																		 gint number,
 																		 gint mother_row);
-gboolean 					bet_data_future_set_lines_from_file 		(FuturData *scheduled);
-FuturData *					bet_data_future_struct_init 				(void);
+gboolean 					bet_data_future_set_lines_from_file 			(FuturData *scheduled);
+FuturData *					bet_data_future_struct_init 					(void);
 
 /* HISTORIQUE_DATA */
-GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,
+GsbReal 					bet_data_hist_get_div_amount 					(gint account_nb,
 																		 gint div_number,
 																		 gint sub_div_nb);
-gboolean 					bet_data_hist_get_div_edited 				(gint account_number,
+gboolean 					bet_data_hist_get_div_edited 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-gboolean 					bet_data_hist_div_add 						(gint account_number,
+gboolean 					bet_data_hist_div_add 							(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-void 						bet_data_hist_div_insert 					(HistData *shd,
+void 						bet_data_hist_div_insert 						(HistData *shd,
 																		 HistData *sub_shd);
-gboolean 					bet_data_hist_div_populate 					(gint transaction_number,
+gboolean 					bet_data_hist_div_populate 						(gint transaction_number,
 																		 gboolean is_transaction,
 																		 GHashTable  *list_div,
 																		 gint type_de_transaction,
 																		 TransactionCurrentFyear *tcf);
-gboolean 					bet_data_hist_div_remove 					(gint account_number,
+gboolean 					bet_data_hist_div_remove 						(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-gboolean 					bet_data_hist_div_search 					(gint account_number,
+gboolean 					bet_data_hist_div_search 						(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);
-void 						bet_data_hist_reset_all_amounts 			(gint account_number);
-HistData *					bet_data_hist_struct_init 					(void);
+void 						bet_data_hist_reset_all_amounts 				(gint account_number);
+HistData *					bet_data_hist_struct_init 						(void);
 void 						bet_data_hist_struct_free						(HistData *shd);
 
 /* TRANSFERT_DATA */
-gboolean 					bet_data_transfert_add_line 				(TransfertData *transfert);
-void 						bet_data_transfert_create_new_transaction 	(TransfertData *transfert);
-TransfertData *				bet_data_transfert_get_struct_from_number	(gint number);
-GHashTable *				bet_data_transfert_get_list 				(void);
-gboolean 					bet_data_transfert_modify_line 				(TransfertData *transfert);
-gboolean 					bet_data_transfert_remove_line 				(gint account_number,
+gboolean 					bet_data_transfert_add_line 					(TransfertData *transfert);
+void 						bet_data_transfert_create_new_transaction 		(TransfertData *transfert);
+TransfertData *				bet_data_transfert_get_struct_from_number		(gint number);
+GHashTable *				bet_data_transfert_get_list 					(void);
+gboolean 					bet_data_transfert_modify_line 					(TransfertData *transfert);
+gboolean 					bet_data_transfert_remove_line 					(gint account_number,
 																		 gint number);
-gboolean 					bet_data_transfert_set_line_from_file 		(TransfertData *transfert);
-void 						bet_data_transfert_update_date_if_necessary	(TransfertData *transfert,
+gboolean 					bet_data_transfert_set_line_from_file 			(TransfertData *transfert);
+void 						bet_data_transfert_update_date_if_necessary		(TransfertData *transfert,
 												  						 GDate *date_bascule,
 																		 gboolean force);
-void						struct_free_bet_transfert					(TransfertData *transfert);
-TransfertData *				struct_initialise_bet_transfert 			(void);
+void						struct_free_bet_transfert						(TransfertData *transfert);
+TransfertData *				struct_initialise_bet_transfert 				(void);
 /* END_DECLARATION */
 
 

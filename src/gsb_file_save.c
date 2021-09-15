@@ -215,71 +215,70 @@ static gulong gsb_file_save_account_part (gulong iterator,
 
 		/* now we can fill the file content */
 		string_to_free1 = g_markup_printf_escaped ("\t<Account\n"
-														"\t\tName=\"%s\"\n"
-														"\t\tId=\"%s\"\n"
-														"\t\tNumber=\"%d\"\n"
-														"\t\tOwner=\"%s\"\n"
-														"\t\tKind=\"%d\"\n"
-														"\t\tCurrency=\"%d\"\n"
-														"\t\tPath_icon=\"%s\"\n"
-														"\t\tBank=\"%d\"\n"
-														"\t\tBank_branch_code=\"%s\"\n"
-														"\t\tBank_account_number=\"%s\"\n"
-														"\t\tKey=\"%s\"\n"
-														"\t\tBank_account_IBAN=\"%s\"\n"
-														"\t\tInitial_balance=\"%s\"\n"
-														"\t\tMinimum_wanted_balance=\"%s\"\n"
-														"\t\tMinimum_authorised_balance=\"%s\"\n"
-														"\t\tClosed_account=\"%d\"\n"
-														"\t\tShow_marked=\"%d\"\n"
-														"\t\tShow_archives_lines=\"%d\"\n"
-														"\t\tLines_per_transaction=\"%d\"\n"
-														"\t\tComment=\"%s\"\n"
-														"\t\tOwner_address=\"%s\"\n"
-														"\t\tDefault_debit_method=\"%d\"\n"
-														"\t\tDefault_credit_method=\"%d\"\n"
-														"\t\tSort_by_method=\"%d\"\n"
-														"\t\tNeutrals_inside_method=\"%d\"\n"
-														"\t\tSort_order=\"%s\"\n"
-														"\t\tAscending_sort=\"%d\"\n"
-														"\t\tColumn_sort=\"%d\"\n"
-														"\t\tSorting_kind_column=\"%s\"\n"
-														"\t\tBet_use_budget=\"%d\"",
-														my_safe_null_str(gsb_data_account_get_name (account_number)),
-														my_safe_null_str(gsb_data_account_get_id (account_number)),
-														account_number,
-														my_safe_null_str(gsb_data_account_get_holder_name
-																		 (account_number)),
-														kind,
-														gsb_data_account_get_currency (account_number),
-														my_safe_null_str (icon_name),
-														gsb_data_account_get_bank (account_number),
-														my_safe_null_str (gsb_data_account_get_bank_branch_code
-																		  (account_number)),
-														my_safe_null_str (gsb_data_account_get_bank_account_number
-																		  (account_number)),
-														my_safe_null_str (gsb_data_account_get_bank_account_key
-																		  (account_number)),
-														my_safe_null_str (gsb_data_account_get_bank_account_iban
-																		  (account_number)),
-														my_safe_null_str (init_balance),
-														my_safe_null_str (mini_wanted),
-														my_safe_null_str (mini_auto),
-														gsb_data_account_get_closed_account (account_number),
-														gsb_data_account_get_r (account_number),
-														gsb_data_account_get_l (account_number),
-														gsb_data_account_get_nb_rows (account_number),
-														my_safe_null_str(tmp_str),
-														my_safe_null_str (owner_str),
-														gsb_data_account_get_default_debit (account_number),
-														gsb_data_account_get_default_credit (account_number),
-														gsb_data_account_get_reconcile_sort_type (account_number),
-														gsb_data_account_get_split_neutral_payment (account_number),
-														my_safe_null_str(sort_list),
-														gsb_data_account_get_sort_type (account_number),
-														gsb_data_account_get_sort_column (account_number),
-														my_safe_null_str(sort_kind_column),
-														gsb_data_account_get_bet_use_budget (account_number));
+												   "\t\tName=\"%s\"\n"
+												   "\t\tId=\"%s\"\n"
+												   "\t\tNumber=\"%d\"\n"
+												   "\t\tOwner=\"%s\"\n"
+												   "\t\tKind=\"%d\"\n"
+												   "\t\tCurrency=\"%d\"\n"
+												   "\t\tPath_icon=\"%s\"\n"
+												   "\t\tBank=\"%d\"\n"
+												   "\t\tBank_branch_code=\"%s\"\n"
+												   "\t\tBank_account_number=\"%s\"\n"
+												   "\t\tKey=\"%s\"\n"
+												   "\t\tBank_account_IBAN=\"%s\"\n"
+												   "\t\tInitial_balance=\"%s\"\n"
+												   "\t\tMinimum_wanted_balance=\"%s\"\n"
+												   "\t\tMinimum_authorised_balance=\"%s\"\n"
+												   "\t\tClosed_account=\"%d\"\n"
+												   "\t\tShow_marked=\"%d\"\n"
+												   "\t\tShow_archives_lines=\"%d\"\n"
+												   "\t\tLines_per_transaction=\"%d\"\n"
+												   "\t\tComment=\"%s\"\n"
+												   "\t\tOwner_address=\"%s\"\n"
+												   "\t\tDefault_debit_method=\"%d\"\n"
+												   "\t\tDefault_credit_method=\"%d\"\n"
+												   "\t\tSort_by_method=\"%d\"\n"
+												   "\t\tNeutrals_inside_method=\"%d\"\n"
+												   "\t\tSort_order=\"%s\"\n"
+												   "\t\tAscending_sort=\"%d\"\n"
+												   "\t\tColumn_sort=\"%d\"\n"
+												   "\t\tSorting_kind_column=\"%s\"\n"
+												   "\t\tBet_use_budget=\"%d\"",
+												   my_safe_null_str(gsb_data_account_get_name (account_number)),
+												   my_safe_null_str(gsb_data_account_get_id (account_number)),
+												   account_number,
+												   my_safe_null_str(gsb_data_account_get_holder_name (account_number)),
+												   kind,
+												   gsb_data_account_get_currency (account_number),
+												   my_safe_null_str (icon_name),
+												   gsb_data_account_get_bank (account_number),
+												   my_safe_null_str (gsb_data_account_get_bank_branch_code
+																	 (account_number)),
+												   my_safe_null_str (gsb_data_account_get_bank_account_number
+																	 (account_number)),
+												   my_safe_null_str (gsb_data_account_get_bank_account_key
+																	 (account_number)),
+												   my_safe_null_str (gsb_data_account_get_bank_account_iban
+																	 (account_number)),
+												   my_safe_null_str (init_balance),
+												   my_safe_null_str (mini_wanted),
+												   my_safe_null_str (mini_auto),
+												   gsb_data_account_get_closed_account (account_number),
+												   gsb_data_account_get_r (account_number),
+												   gsb_data_account_get_l (account_number),
+												   gsb_data_account_get_nb_rows (account_number),
+												   my_safe_null_str(tmp_str),
+												   my_safe_null_str (owner_str),
+												   gsb_data_account_get_default_debit (account_number),
+												   gsb_data_account_get_default_credit (account_number),
+												   gsb_data_account_get_reconcile_sort_type (account_number),
+												   gsb_data_account_get_split_neutral_payment (account_number),
+												   my_safe_null_str(sort_list),
+												   gsb_data_account_get_sort_type (account_number),
+												   gsb_data_account_get_sort_column (account_number),
+												   my_safe_null_str(sort_kind_column),
+												   gsb_data_account_get_bet_use_budget (account_number));
 
 		if (gsb_data_account_get_bet_use_budget (account_number) > 0)
 		{
