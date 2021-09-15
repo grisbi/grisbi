@@ -598,7 +598,7 @@ static void bet_array_list_update_balance (GtkTreeModel *model)
 							-1);
         current_balance = utils_real_get_from_string (str_current_balance);
 
-        tmp_range = struct_initialise_bet_range ();
+        tmp_range = bet_data_bet_range_struct_init ();
         tmp_range->first_pass = TRUE;
         tmp_range->current_balance = current_balance;
 
@@ -2746,7 +2746,7 @@ static void bet_array_refresh_estimate_tab (gint account_number)
     devel_debug (NULL);
     account_page = grisbi_win_get_account_page ();
 
-    tmp_range = struct_initialise_bet_range ();
+    tmp_range = bet_data_bet_range_struct_init ();
 
     /* calculate date_min, date_max and first_day_current_month with user choice */
     date_min = gsb_data_account_get_bet_start_date (account_number);

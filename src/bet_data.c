@@ -438,6 +438,25 @@ void bet_data_bet_range_struct_free (BetRange *sbr)
 
 /**
  *
+ *
+ * \param
+ *
+ * \return
+ **/
+BetRange *bet_data_bet_range_struct_init (void)
+{
+	BetRange	*sbr;
+
+	sbr = g_malloc0 (sizeof (BetRange));
+	sbr->first_pass = TRUE;
+	sbr->current_fyear = null_real;
+	sbr->current_balance = null_real;
+
+	return sbr;
+}
+
+/**
+ *
  * \param
  * \param
  * \param
@@ -1134,25 +1153,6 @@ void bet_data_free_variables (void)
 }
 
 /* ARRAY_DATA */
-/**
- *
- *
- * \param
- *
- * \return
- **/
-BetRange *struct_initialise_bet_range (void)
-{
-	BetRange	*sbr;
-
-	sbr = g_malloc0 (sizeof (BetRange));
-	sbr->first_pass = TRUE;
-	sbr->current_fyear = null_real;
-	sbr->current_balance = null_real;
-
-	return sbr;
-}
-
 /* FUTURE_DATA */
 /**
  * add lines creates in the bet_futur_list
@@ -1862,7 +1862,7 @@ HistData *bet_data_hist_struct_init (void)
 						(GDestroyNotify) g_free,
 						(GDestroyNotify) bet_data_hist_struct_free);
 
-	shd->sbr = struct_initialise_bet_range ();
+	shd->sbr = bet_data_bet_range_struct_init ();
 
 	return shd;
 }
