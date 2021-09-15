@@ -881,7 +881,7 @@ static void gsb_file_load_bet_future_data_part (const gchar **attribute_names,
     if (!attribute_names[i])
     return;
 
-    scheduled = struct_initialise_bet_future ();
+    scheduled = bet_data_future_struct_init ();
 
     if (!scheduled)
     {

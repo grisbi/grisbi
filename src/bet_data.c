@@ -130,7 +130,7 @@ static FuturData *bet_data_future_copy_struct (FuturData *sfd)
 {
 	FuturData *new_sfd;
 
-	new_sfd = struct_initialise_bet_future ();
+	new_sfd = bet_data_future_struct_init ();
 
 	if (!new_sfd)
 	{
@@ -1155,27 +1155,6 @@ BetRange *struct_initialise_bet_range (void)
 
 /* FUTURE_DATA */
 /**
- *
- *
- * \param
- *
- * \return
- **/
-FuturData *struct_initialise_bet_future (void)
-{
-	FuturData *sfd;
-
-	sfd = g_malloc0 (sizeof (FuturData));
-
-	sfd->date = NULL;
-	sfd->amount = null_real;
-	sfd->notes = NULL;
-	sfd->limit_date = NULL;
-
-	return sfd;
-}
-
-/**
  * add lines creates in the bet_futur_list
  *
   * \param
@@ -1391,6 +1370,27 @@ gboolean bet_data_future_remove_lines (gint account_number,
 	gsb_file_set_modified (TRUE);
 
 	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+FuturData *bet_data_future_struct_init (void)
+{
+	FuturData *sfd;
+
+	sfd = g_malloc0 (sizeof (FuturData));
+
+	sfd->date = NULL;
+	sfd->amount = null_real;
+	sfd->notes = NULL;
+	sfd->limit_date = NULL;
+
+	return sfd;
 }
 
 /* HISTORIQUE_DATA */

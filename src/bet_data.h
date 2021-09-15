@@ -196,7 +196,7 @@ gboolean 					bet_data_future_remove_lines 				(gint account_number,
 																		 gint number,
 																		 gint mother_row);
 gboolean 					bet_data_future_set_lines_from_file 		(FuturData *scheduled);
-FuturData *					struct_initialise_bet_future 				(void);
+FuturData *					bet_data_future_struct_init 				(void);
 
 /* HISTORIQUE_DATA */
 GsbReal 					bet_data_hist_get_div_amount 				(gint account_nb,

@@ -1902,7 +1902,7 @@ dialog_return:
     {
         FuturData *scheduled;
 
-        scheduled = struct_initialise_bet_future ();
+        scheduled = bet_data_future_struct_init ();
 
         if (!scheduled)
         {
@@ -1965,7 +1965,7 @@ dialog_return:
     {
         FuturData *scheduled;
 
-        scheduled = struct_initialise_bet_future ();
+        scheduled = bet_data_future_struct_init ();
 
         if (!scheduled)
         {
