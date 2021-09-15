@@ -377,18 +377,16 @@ static void widget_import_asso_add_button_clicked (GtkWidget *button,
 													   WidgetImportAsso *page)
 {
 	gchar *hint;
-	gchar *tmp_markup_str;
 	WidgetImportAssoPrivate *priv;
 
 	devel_debug (NULL);
 	priv = widget_import_asso_get_instance_private (page);
 
 	hint = g_strdup (_("You are creating a new payee with a rule"));
-	tmp_markup_str = g_markup_printf_escaped ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint);
 	if (dialogue_yes_no (_("If you continue, you will use the payee management module to create "
 						   "a new third party and its rule.\n"
 						   "Continue anyway?"),
-						 tmp_markup_str,
+						 hint,
 						 GTK_RESPONSE_YES))
 	{
 		GtkTreeModel *model;
@@ -415,7 +413,6 @@ static void widget_import_asso_add_button_clicked (GtkWidget *button,
 		widget_import_asso_select_row (priv->treeview_import_asso, model, payee_number);
 	}
 	g_free (hint);
-	g_free (tmp_markup_str);
 }
 
 /**
