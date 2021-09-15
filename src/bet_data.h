@@ -158,11 +158,6 @@ GPtrArray *					bet_data_get_strings_to_save 				(void);
 gint 						bet_data_get_sub_div_nb 					(gint transaction_number,
 																		 gboolean is_transaction);
 gboolean 					bet_data_init_variables 					(void);
-gboolean 					bet_data_populate_div 						(gint transaction_number,
-																		 gboolean is_transaction,
-																		 GHashTable  *list_div,
-																		 gint type_de_transaction,
-																		 TransactionCurrentFyear *tcf);
 gboolean 					bet_data_remove_all_bet_data 				(gint account_number);
 void						bet_data_renum_account_number_0				(gint new_account_number);
 void 						bet_data_select_bet_pages 					(gint account_number);
@@ -215,6 +210,11 @@ gboolean 					bet_data_hist_div_add 						(gint account_number,
 																		 gint sub_div_nb);
 void 						bet_data_hist_div_insert 					(HistData *shd,
 																		 HistData *sub_shd);
+gboolean 					bet_data_hist_div_populate 					(gint transaction_number,
+																		 gboolean is_transaction,
+																		 GHashTable  *list_div,
+																		 gint type_de_transaction,
+																		 TransactionCurrentFyear *tcf);
 gboolean 					bet_data_hist_div_remove 					(gint account_number,
 																		 gint div_number,
 																		 gint sub_div_nb);

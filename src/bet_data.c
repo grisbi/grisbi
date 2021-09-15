@@ -1697,11 +1697,11 @@ void bet_data_hist_div_insert (HistData *shd,
  *
  * \return
 **/
-gboolean bet_data_populate_div (gint transaction_number,
-								gboolean is_transaction,
-								GHashTable  *list_div,
-								gint type_de_transaction,
-								TransactionCurrentFyear *tcf)
+gboolean bet_data_hist_div_populate (gint transaction_number,
+									 gboolean is_transaction,
+									 GHashTable  *list_div,
+									 gint type_de_transaction,
+									 TransactionCurrentFyear *tcf)
 {
 	gint div = 0;
 	gint sub_div = 0;

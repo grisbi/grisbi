@@ -737,7 +737,7 @@ void bet_historical_populate_data ( gint account_number )
         tcf->type_de_transaction = type_de_transaction;
 
         g_hash_table_insert ( list_trans_hist, utils_str_itoa ( transaction_number ), tcf );
-        bet_data_populate_div ( transaction_number, TRUE, list_div, type_de_transaction, tcf );
+        bet_data_hist_div_populate ( transaction_number, TRUE, list_div, type_de_transaction, tcf );
     }
 
     bet_historical_affiche_div ( list_div, tree_view );
