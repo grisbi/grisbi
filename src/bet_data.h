@@ -175,7 +175,7 @@ void 						bet_data_set_maj 							(gint account_number,
 void 						bet_data_update_bet_module 					(gint account_number,
 																		 gint page);
 
-void 						struct_free_bet_transaction_current_fyear 	(TransactionCurrentFyear *self);
+void 						bet_data_struct_transaction_current_fyear_free 	(TransactionCurrentFyear *self);
 TransactionCurrentFyear *	struct_initialise_transaction_current_fyear (void);
 void 						bet_data_variables_free 					(void);
 gboolean 					bet_data_variables_init 					(void);

@@ -1050,6 +1050,21 @@ gboolean bet_data_set_div_ptr (gint type_div)
 	return FALSE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void bet_data_struct_transaction_current_fyear_free (TransactionCurrentFyear *self)
+{
+	if (self->date)
+		g_date_free (self->date);
+
+	g_free (self);
+}
+
 /*
  * Met à jour les données à afficher dans les différentes vues du module
  *
@@ -2367,21 +2382,6 @@ TransactionCurrentFyear *struct_initialise_transaction_current_fyear (void)
 	self->amount = null_real;
 
 	return self;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-void struct_free_bet_transaction_current_fyear (TransactionCurrentFyear *self)
-{
-	if (self->date)
-		g_date_free (self->date);
-
-	g_free (self);
 }
 
 /**

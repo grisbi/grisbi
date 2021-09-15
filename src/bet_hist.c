@@ -696,7 +696,7 @@ void bet_historical_populate_data ( gint account_number )
     list_trans_hist = g_hash_table_new_full ( g_str_hash,
                                     g_str_equal,
                                     (GDestroyNotify) g_free,
-                                    (GDestroyNotify) struct_free_bet_transaction_current_fyear );
+                                    (GDestroyNotify) bet_data_struct_transaction_current_fyear_free );
 
     /* search transactions of the account  */
     tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
