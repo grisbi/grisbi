@@ -68,7 +68,7 @@ struct _TransfertData				/* std */
 	gint 			number;
 	gint 			account_number;				/* numéro du compte principal concerné */
 	gint 			type;						/* type de compte carte : 0 = account 1 = partial balance */
-	gint			replace_account;		   	/* Account number or partial balance number */
+	gint			card_account_number;		/* Account number or partial balance number */
 	gint 			replace_transaction;	   	/* remplace la transaction plannifiée dans le compte principal */
 	gint 			direct_debit;			  	/* si = 1 création de la transaction dans le compte principal */
 	GDate *			date_debit;					/* date de l'opération du compte principal */

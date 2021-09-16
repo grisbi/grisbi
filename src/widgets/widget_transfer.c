@@ -444,7 +444,7 @@ static void widget_transfert_select_account_in_treeview (GtkWidget *tree_view,
 
 		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 2, &tmp_number, 3, &type_de_compte, -1);
 
-		if (transfert->type == type_de_compte && tmp_number == transfert->replace_account)
+		if (transfert->type == type_de_compte && tmp_number == transfert->card_account_number)
 		{
 			gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
 			break;
@@ -1472,7 +1472,7 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 	{
 		gsb_payment_method_create_combo_list (priv->combo_card_payment,
 											  GSB_PAYMENT_CREDIT,
-											  transfert->replace_account,
+											  transfert->card_account_number,
 											  0,
 											  FALSE);
 		gtk_widget_set_tooltip_text (GTK_WIDGET (priv->combo_card_payment), _("Choose the method of payment"));
@@ -1697,7 +1697,7 @@ TransfertData *widget_transfer_take_data (GtkWidget *dialog,
 						BET_TRANSFER_ACCOUNT, &replace_account,
 						BET_TRANSFERT_PARTIAL, &type,
 						-1);
-	transfert->replace_account = replace_account;
+	transfert->card_account_number = replace_account;
 	transfert->type = type;
 
 	/* Account with deferred debit card */

@@ -1086,10 +1086,10 @@ static gchar *bet_array_list_get_description (gint account_number,
 
         if (transfert->type == 0)
             desc = g_strdup_printf (_("Balance of account: %s"),
-                        gsb_data_account_get_name (transfert->replace_account));
+                        gsb_data_account_get_name (transfert->card_account_number));
         else
             desc = g_strdup_printf (_("Partial balance: %s"),
-                        gsb_data_partial_balance_get_name (transfert->replace_account));
+                        gsb_data_partial_balance_get_name (transfert->card_account_number));
     }
 
     return desc;
@@ -2651,19 +2651,19 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
 			continue;
 		}
 
-        str_description = bet_array_list_get_description (transfert->replace_account,
+        str_description = bet_array_list_get_description (transfert->card_account_number,
 														  SPP_ORIGIN_ACCOUNT,
 														  value);
 
         if (transfert->type == 0)
         {
-            amount = gsb_data_account_get_current_balance (transfert->replace_account);
-            replace_currency = gsb_data_account_get_currency (transfert->replace_account);
+            amount = gsb_data_account_get_current_balance (transfert->card_account_number);
+            replace_currency = gsb_data_account_get_currency (transfert->card_account_number);
         }
         else
         {
-            amount = gsb_data_partial_balance_get_current_amount (transfert->replace_account);
-            replace_currency = gsb_data_partial_balance_get_currency (transfert->replace_account);
+            amount = gsb_data_partial_balance_get_current_amount (transfert->card_account_number);
+            replace_currency = gsb_data_partial_balance_get_currency (transfert->card_account_number);
         }
 
         str_amount = bet_data_get_str_amount_in_account_currency (amount,
@@ -2671,7 +2671,7 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
                         replace_currency,
                         SPP_ORIGIN_ACCOUNT);
 
-        currency_number = gsb_data_account_get_currency (transfert->replace_account);
+        currency_number = gsb_data_account_get_currency (transfert->card_account_number);
         if (amount.mantissa < 0)
             str_debit = utils_real_get_string_with_currency (gsb_real_abs (amount), currency_number, TRUE);
         else
@@ -3047,11 +3047,11 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
                     {
                         if (transfert->type == 0)
                         {
-                            amount = gsb_data_account_get_balance_at_date (transfert->replace_account, date_bascule);
+                            amount = gsb_data_account_get_balance_at_date (transfert->card_account_number, date_bascule);
                         }
                         else
                         {
-                            amount = gsb_data_partial_balance_get_balance_at_date (transfert->replace_account, date_bascule);
+                            amount = gsb_data_partial_balance_get_balance_at_date (transfert->card_account_number, date_bascule);
                         }
                         gsb_data_transaction_set_amount (transaction_number, amount);
                         gsb_data_transaction_set_date (transaction_number, transfert->date_debit);
@@ -3074,11 +3074,11 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
                     {
                         if (transfert->type == 0)
                         {
-                            amount = gsb_data_account_get_balance_at_date (transfert->replace_account, date_bascule);
+                            amount = gsb_data_account_get_balance_at_date (transfert->card_account_number, date_bascule);
                         }
                         else
                         {
-                            amount = gsb_data_partial_balance_get_balance_at_date (transfert->replace_account, date_bascule);
+                            amount = gsb_data_partial_balance_get_balance_at_date (transfert->card_account_number, date_bascule);
                         }
                         gsb_data_transaction_set_amount (transaction_number, amount);
                         gsb_data_transaction_set_date (transaction_number, transfert->date_debit);

@@ -1449,22 +1449,22 @@ void bet_utils_get_payment_data (GtkWidget *widget,
 								 gpointer *value)
 {
     gint payment_number;
-    TransfertData *sd = (TransfertData *) value;
+    TransfertData *std = (TransfertData *) value;
 
     payment_number = gsb_payment_method_get_selected_number (widget);
     if (payment_number > 0)
     {
 		if (struct_type == 1)
-        	sd->main_payment_number = payment_number;
+        	std->main_payment_number = payment_number;
 		else
-			sd->card_payment_number = payment_number;
+			std->card_payment_number = payment_number;
     }
     else
     {
 		if (struct_type == 1)
-        	sd->main_payment_number = gsb_data_account_get_default_debit (sd->account_number);
+        	std->main_payment_number = gsb_data_account_get_default_debit (std->account_number);
 		else
-			sd->card_payment_number = gsb_data_account_get_default_credit (sd->replace_account);
+			std->card_payment_number = gsb_data_account_get_default_credit (std->card_account_number);
     }
 }
 
@@ -2143,10 +2143,10 @@ dialog_return:
     if (result == GTK_RESPONSE_OK)
     {
         gchar *tmp_str;
-        TransfertData *transfert;
+        TransfertData *std;
 
-		transfert = widget_transfer_take_data (transfer_dialog, account_number, number);
-        if (!transfert)
+		std = widget_transfer_take_data (transfer_dialog, account_number, number);
+        if (!std)
         {
             tmp_str = g_strdup (_("Error: a date is not present or a field is in error."));
             dialogue_warning_hint (tmp_str, _("One field is not filled in"));
@@ -2155,7 +2155,7 @@ dialog_return:
         }
         else
         {
-            bet_data_transfert_modify_line (transfert);
+            bet_data_transfert_modify_line (std);
         }
 
         gsb_data_account_set_bet_maj (account_number, BET_MAJ_ESTIMATE);
@@ -2165,13 +2165,13 @@ dialog_return:
 	{
 		gchar *msg;
 		const gchar *tmp_str;
-		TransfertData *transfert;
+		TransfertData *std;
 
-		transfert = bet_data_transfert_get_struct_from_number (number);
-		if (transfert->type == 0)
-			tmp_str = gsb_data_account_get_name ( transfert->replace_account );
+		std = bet_data_transfert_get_struct_from_number (number);
+		if (std->type == 0)
+			tmp_str = gsb_data_account_get_name ( std->card_account_number );
 		else
-			tmp_str = gsb_data_partial_balance_get_name ( transfert->replace_account );
+			tmp_str = gsb_data_partial_balance_get_name ( std->card_account_number );
 
 		msg = g_strdup_printf (_("Warning: You are about to delete the deferred debit card: \"%s\"\n"
 								 "Are you sure?"),

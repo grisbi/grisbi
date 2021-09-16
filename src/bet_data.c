@@ -738,7 +738,7 @@ GPtrArray *bet_data_get_strings_to_save (void)
 											   std->number,
 											   std->account_number,
 											   std->type,
-											   std->replace_account,
+											   std->card_account_number,
 											   std->replace_transaction,
 											   std->direct_debit,
 											   my_safe_null_str (date_debit),
@@ -2107,22 +2107,22 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 	/* replace_account is an account */
 	if (std->type == 0)
 	{
-		amount = gsb_data_account_get_balance_at_date (std->replace_account, date);
-		transaction_number = gsb_data_transaction_new_transaction (std->replace_account);
+		amount = gsb_data_account_get_balance_at_date (std->card_account_number, date);
+		transaction_number = gsb_data_transaction_new_transaction (std->card_account_number);
 		gsb_data_transaction_set_date (transaction_number, date);
 		gsb_data_transaction_set_amount (transaction_number, gsb_real_opposite (amount));
 
 		/* set the currency */
 		gsb_data_transaction_set_currency_number (transaction_number,
-												  gsb_data_account_get_currency (std->replace_account));
+												  gsb_data_account_get_currency (std->card_account_number));
 
 		/* set the payement mode */
 		if (amount.mantissa < 0)
 			gsb_data_transaction_set_method_of_payment_number (transaction_number,
-															   gsb_data_account_get_default_debit (std->replace_account));
+															   gsb_data_account_get_default_debit (std->card_account_number));
 		else
 			gsb_data_transaction_set_method_of_payment_number (transaction_number,
-															   gsb_data_account_get_default_credit (std->replace_account));
+															   gsb_data_account_get_default_credit (std->card_account_number));
 
 		/* set the payee */
 		gsb_data_transaction_set_party_number (transaction_number, std->main_payee_number);
@@ -2154,10 +2154,10 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 		gchar **tab;
 		gint i;
 
-		tab = g_strsplit (gsb_data_partial_balance_get_liste_cptes (std->replace_account), ";", 0);
+		tab = g_strsplit (gsb_data_partial_balance_get_liste_cptes (std->card_account_number), ";", 0);
 
 		/* on calcule la balance de tous les comptes du pseudo compte */
-		balances = gsb_data_partial_balance_calculate_balances_at_date (std->replace_account, date);
+		balances = gsb_data_partial_balance_calculate_balances_at_date (std->card_account_number, date);
 
 		for (i = 0; tab[i]; i++)
 		{
@@ -2242,9 +2242,9 @@ void bet_data_transfert_update_date_if_necessary (TransfertData *std,
 		const gchar *tmp_str;
 
 		if (std->type == 0)
-			tmp_str = gsb_data_account_get_name (std->replace_account);
+			tmp_str = gsb_data_account_get_name (std->card_account_number);
 		else
-			tmp_str = gsb_data_partial_balance_get_name (std->replace_account);
+			tmp_str = gsb_data_partial_balance_get_name (std->card_account_number);
 
 		msg = g_strdup_printf (
 						_("Warning: the start date of the period of deferred debit card account (%s) "
@@ -2325,11 +2325,11 @@ void bet_data_transfert_create_new_transaction (TransfertData *std)
 	/* set the amount soit celui du compte carte soit celui du solde partiel */
 	if (std->type == 0)
 	{
-		amount = gsb_data_account_get_balance_at_date (std->replace_account, date);
+		amount = gsb_data_account_get_balance_at_date (std->card_account_number, date);
 	}
 	else
 	{
-		amount = gsb_data_partial_balance_get_balance_at_date (std->replace_account, date);
+		amount = gsb_data_partial_balance_get_balance_at_date (std->card_account_number, date);
 	}
 	gsb_data_transaction_set_amount (transaction_number, amount);
 
