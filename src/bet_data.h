@@ -66,7 +66,7 @@ struct _FutureData					/* sbr */
 struct _TransfertData				/* std */
 {
 	gint 			number;
-	gint 			account_number;				/* numéro du compte principal concerné */
+	gint 			main_account_number;		/* numéro du compte principal concerné */
 	gint 			type;						/* type de compte carte : 0 = account 1 = partial balance */
 	gint			card_account_number;		/* Account number or partial balance number */
 	gint 			replace_transaction;	   	/* remplace la transaction plannifiée dans le compte principal */

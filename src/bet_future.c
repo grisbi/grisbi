@@ -1462,7 +1462,7 @@ void bet_utils_get_payment_data (GtkWidget *widget,
     else
     {
 		if (struct_type == 1)
-        	std->main_payment_number = gsb_data_account_get_default_debit (std->account_number);
+        	std->main_payment_number = gsb_data_account_get_default_debit (std->main_account_number);
 		else
 			std->card_payment_number = gsb_data_account_get_default_credit (std->card_account_number);
     }

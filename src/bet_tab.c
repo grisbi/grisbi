@@ -1844,7 +1844,7 @@ static void bet_array_list_execute_balance_deferred_debit_account (GtkWidget *me
     {
         TransfertData *transfert = (TransfertData *) value;
 
-        if (account_number != transfert->account_number)
+        if (account_number != transfert->main_account_number)
             continue;
 
 		if (transfert->date_bascule)
@@ -1880,7 +1880,7 @@ static void bet_array_list_replace_transactions_by_transfert (GtkTreeModel *tab_
     {
         TransfertData *transfert = (TransfertData *) value;
 
-        if (account_number != transfert->account_number)
+        if (account_number != transfert->main_account_number)
             continue;
 
         if ( transfert->replace_transaction)
@@ -2622,7 +2622,7 @@ static gboolean bet_array_refresh_transfert_data (GtkTreeModel *tab_model,
         GsbReal amount;
         TransfertData *transfert = (TransfertData *) value;
 
-        if (account_number != transfert->account_number)
+        if (account_number != transfert->main_account_number)
             continue;
 
 		/* set date_bascule */
@@ -3020,7 +3020,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
             tmp_list = tmp_list->next;
 
             account_number =  gsb_data_transaction_get_account_number (transaction_number);
-            if (account_number != transfert->account_number)
+            if (account_number != transfert->main_account_number)
                 continue;
 
             date = gsb_data_transaction_get_value_date_or_date (transaction_number);
@@ -3056,7 +3056,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
                         gsb_data_transaction_set_amount (transaction_number, amount);
                         gsb_data_transaction_set_date (transaction_number, transfert->date_debit);
                         gsb_transactions_list_update_transaction (transaction_number);
-                        gsb_transactions_list_update_tree_view (transfert->account_number, FALSE);
+                        gsb_transactions_list_update_tree_view (transfert->main_account_number, FALSE);
                         find = TRUE;
                         break;
                     }
@@ -3083,7 +3083,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
                         gsb_data_transaction_set_amount (transaction_number, amount);
                         gsb_data_transaction_set_date (transaction_number, transfert->date_debit);
                         gsb_transactions_list_update_transaction (transaction_number);
-                        gsb_transactions_list_update_tree_view (transfert->account_number, FALSE);
+                        gsb_transactions_list_update_tree_view (transfert->main_account_number, FALSE);
                         find = TRUE;
                         break;
                     }
@@ -3115,7 +3115,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
             tmp_list = tmp_list->next;
 
             account_number = gsb_data_scheduled_get_account_number (scheduled_number);
-            if (account_number != transfert->account_number)
+            if (account_number != transfert->main_account_number)
                 continue;
 
             date = gsb_data_scheduled_get_date (scheduled_number);

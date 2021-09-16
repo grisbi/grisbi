@@ -417,8 +417,8 @@ static void bet_data_transfert_set_account_number (gpointer key,
 {
 	TransfertData *transfert = (TransfertData *) value;
 
-	if (transfert->account_number == 0)
-		transfert->account_number = GPOINTER_TO_INT (user_data);
+	if (transfert->main_account_number == 0)
+		transfert->main_account_number = GPOINTER_TO_INT (user_data);
 }
 
 /******************************************************************************/
@@ -728,7 +728,7 @@ GPtrArray *bet_data_get_strings_to_save (void)
 			/* set the dates */
 			date_debit = gsb_format_gdate_safe (std->date_debit);
 			date_bascule = gsb_format_gdate_safe (std->date_bascule);
-			tmp_str = g_markup_printf_escaped ("\t<Bet_std Nb=\"%d\" Ac=\"%d\" "
+			tmp_str = g_markup_printf_escaped ("\t<Bet_transfert Nb=\"%d\" Ac=\"%d\" "
 											   "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" "
 											   "Dt=\"%s\" MCbd=\"%d\" Pa=\"%d\" Pn=\"%d\" Ca=\"%d\" "
 											   "Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
@@ -736,7 +736,7 @@ GPtrArray *bet_data_get_strings_to_save (void)
 											   "CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" "
 											   "/>\n",
 											   std->number,
-											   std->account_number,
+											   std->main_account_number,
 											   std->type,
 											   std->card_account_number,
 											   std->replace_transaction,
@@ -918,7 +918,7 @@ gboolean bet_data_remove_all_bet_data (gint account_number)
 	{
 		TransfertData *std = (TransfertData *) value;
 
-		if (account_number != std->account_number)
+		if (account_number != std->main_account_number)
 			continue;
 
 		g_hash_table_iter_remove (&iter);
@@ -1999,7 +1999,7 @@ gboolean bet_data_transfert_add_line (TransfertData *std)
 
 	transfert_number ++;
 
-	key = bet_data_get_key (std->account_number, transfert_number);
+	key = bet_data_get_key (std->main_account_number, transfert_number);
 
 	std->number = transfert_number;
 	g_hash_table_insert (bet_transfert_list, key, std);
@@ -2028,7 +2028,7 @@ gboolean bet_data_transfert_remove_line (gint account_number,
 	{
 		TransfertData *std = (TransfertData *) value;
 
-		if (account_number != std->account_number
+		if (account_number != std->main_account_number
 		 ||
 		 number != std->number)
 			continue;
@@ -2057,7 +2057,7 @@ gboolean bet_data_transfert_set_line_from_file (TransfertData *std)
 {
 	gchar *key;
 
-	key = bet_data_get_key (std->account_number, std->number);
+	key = bet_data_get_key (std->main_account_number, std->number);
 
 	if (std->number >  transfert_number)
 		transfert_number = std->number;
@@ -2078,7 +2078,7 @@ gboolean bet_data_transfert_modify_line (TransfertData *std)
 {
 	gchar *key;
 
-	key = bet_data_get_key (std->account_number, std->number);
+	key = bet_data_get_key (std->main_account_number, std->number);
 
 	g_hash_table_replace (bet_transfert_list, key, std);
 
@@ -2291,7 +2291,7 @@ void bet_data_transfert_update_date_if_necessary (TransfertData *std,
 		g_date_add_months (tmp_date, 1);
 		std->date_bascule = tmp_date;
 
-		gsb_data_account_set_bet_maj (std->account_number, BET_MAJ_ESTIMATE);
+		gsb_data_account_set_bet_maj (std->main_account_number, BET_MAJ_ESTIMATE);
 		gsb_file_set_modified (TRUE);
 	}
 
@@ -2317,7 +2317,7 @@ void bet_data_transfert_create_new_transaction (TransfertData *std)
 	/* on enlève 1 jour pour la date de l'opération de remise à 0 du compte */
 	g_date_subtract_days (date, 1);
 
-	transaction_number = gsb_data_transaction_new_transaction (std->account_number);
+	transaction_number = gsb_data_transaction_new_transaction (std->main_account_number);
 
 	/* set the date */
 	gsb_data_transaction_set_date (transaction_number, std->date_debit);
@@ -2335,7 +2335,7 @@ void bet_data_transfert_create_new_transaction (TransfertData *std)
 
 	/* set the currency */
 	gsb_data_transaction_set_currency_number (transaction_number,
-											  gsb_data_account_get_currency (std->account_number));
+											  gsb_data_account_get_currency (std->main_account_number));
 
 	/* set the payement mode */
 	gsb_data_transaction_set_method_of_payment_number (transaction_number, std->main_payment_number);

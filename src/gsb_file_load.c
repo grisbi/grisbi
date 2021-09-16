@@ -1465,7 +1465,7 @@ static void gsb_file_load_bet_transfert_part (const gchar **attribute_names,
 
     if (!strcmp (attribute_names[i], "Ac"))
     {
-        transfert->account_number = utils_str_atoi (attribute_values[i]);
+        transfert->main_account_number = utils_str_atoi (attribute_values[i]);
         i++;
         continue;
     }

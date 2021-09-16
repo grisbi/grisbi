@@ -1689,7 +1689,7 @@ TransfertData *widget_transfer_take_data (GtkWidget *dialog,
 		return NULL;
 
 	transfert = struct_initialise_bet_transfert ();
-	transfert->account_number = account_number;
+	transfert->main_account_number = account_number;
 	transfert->number = number;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (model),
