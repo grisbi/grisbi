@@ -976,9 +976,6 @@ GsbReal gsb_data_account_get_init_balance (gint account_number,
     if (!account)
 		return null_real;
 
-	if ( !account )
-		return null_real;
-
 	/* fix bug 2149 si le nombre est en erreur on renvoie error_real et non null_real */
 	if (account->init_balance.mantissa == G_MININT64)
 		return account -> init_balance;
