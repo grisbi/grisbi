@@ -2129,11 +2129,13 @@ gboolean gsb_scheduler_list_fill_list (GtkWidget *tree_view)
 		tree_view = gsb_scheduler_list_get_tree_view ();
 
 		model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-		gtk_tree_model_get_iter_first (model, &iter);
-		gtk_tree_model_get (model,
-							&iter,
-							SCHEDULER_COL_NB_TRANSACTION_NUMBER, &first_scheduler_list_number,
-							-1);
+		if (gtk_tree_model_get_iter_first (model, &iter))
+			gtk_tree_model_get (model,
+								&iter,
+								SCHEDULER_COL_NB_TRANSACTION_NUMBER, &first_scheduler_list_number,
+								-1);
+		else
+			return  FALSE;
 	}
 	return TRUE;
 }
