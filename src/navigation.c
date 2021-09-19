@@ -240,7 +240,8 @@ static void gsb_gui_navigation_select_report (GtkTreeSelection *selection,
     GtkTreeIter iter;
 	GtkTreePath *path;
 
-	gtk_tree_selection_get_selected (selection, NULL, &iter);
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
+		return;
 	path = gtk_tree_model_get_path (model, &iter);
 	if (path)
 	{
