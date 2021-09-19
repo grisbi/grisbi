@@ -1523,9 +1523,11 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
 		{
 			GtkTreeIter child;
 
-			gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter );
-			gsb_gui_navigation_set_selection_branch ( selection, &child,
+			if (gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter ))
+			{
+				gsb_gui_navigation_set_selection_branch ( selection, &child,
 								  page, account_number, report_number);
+			}
 		}
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), iter ) );
