@@ -1100,9 +1100,9 @@ static void etats_config_recupere_info_onglet_affichage_operations ( gint report
 		is_actif = TRUE;
     gsb_data_report_set_show_report_date (report_number, detail_ope);
 
+	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_value_date_opes");
 	if (detail_ope && !is_actif)
 		is_actif = TRUE;
-	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_value_date_opes");
     gsb_data_report_set_show_report_value_date (report_number, detail_ope);
 
 	detail_ope = etats_prefs_button_toggle_get_actif ("bouton_afficher_tiers_opes");
