@@ -478,7 +478,7 @@ gboolean recuperation_donnees_ofx (GtkWidget *assistant,
 	ofx_filename = imported->name;
 	coding_system = imported->coding_system;
 
-	devel_print_str (imported->name);
+	devel_debug (imported->name);
 
 	ofx_context = libofx_get_new_context();
 	ofx_set_status_cb (ofx_context, ofx_proc_status_cb, NULL);
@@ -502,7 +502,7 @@ gboolean recuperation_donnees_ofx (GtkWidget *assistant,
 		account->real_filename = g_strdup (ofx_filename);
 		account->origine = g_strdup ("OFX");
 		gsb_import_register_account_error (account);
-		devel_print_str (account->nom_de_compte);
+		devel_debug (account->nom_de_compte);
 
 		return FALSE ;
 	}

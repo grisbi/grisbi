@@ -1983,7 +1983,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
 
             if (!strcmp (imported->type, format->name))
             {
-                devel_print_str (imported->type);
+				devel_debug (imported->type);
 				/* importation du fichier sélectionné */
                 format->import (assistant, imported);
 				if (imported->import_categories)
@@ -2028,7 +2028,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
             {
                 compte->nom_de_compte = _("Unnamed Imported account");
             }
-            devel_print_str (compte->nom_de_compte);
+            devel_debug (compte->nom_de_compte);
 
             tmp_str = g_strconcat ("• ", compte->nom_de_compte,
                             " (",
