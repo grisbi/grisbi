@@ -179,6 +179,11 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
     my_setenv("GI_TYPELIB_PATH", bundle_resources_typelib_dir);
     g_free(bundle_resources_typelib_dir);
 
+	// OFX
+	gchar *bundle_resources_ofx_dir = g_build_filename(bundle_resources_share_dir, "libofx/dtd", NULL);
+	my_setenv("OFX_DTD_PATH", bundle_resources_ofx_dir);
+	g_free(bundle_resources_ofx_dir);
+
     // PATH
     const gchar *path_current = g_getenv("PATH");
     gchar *path_bin_dir = g_build_path(":", bundle_resources_bin_dir, path_current, NULL);
