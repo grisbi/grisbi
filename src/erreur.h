@@ -22,7 +22,6 @@
 #define important_debug(x) debug_message_string("Important",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_IMPORTANT,FALSE)
 #define alert_debug(x) debug_message_string("Alert",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_ALERT,FALSE)
 #define DEBUG_WHERE_AM_I g_strdup_printf("%s line %05d",__FILE__,__LINE__)
-#define devel_print_str(x) debug_print_log_string("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x)
 
 /* START_DECLARATION */
 gboolean	debug_get_debug_mode			(void);
@@ -54,11 +53,6 @@ void 		debug_message_string 			(const gchar *prefixe,
 											 const gchar *message,
 											 gint level,
 											 gboolean force_debug_display);
-void 		debug_print_log_string 			(const gchar *prefixe,
-											 const gchar *file,
-											 gint line,
-											 const char *function,
-											 const gchar *msg);
 gboolean 	debug_start_log 				(void);
 void 		debug_finish_log 				(void);
 void 		debug_initialize_debugging 		(gint level);

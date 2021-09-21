@@ -655,44 +655,6 @@ void debug_finish_log ( void )
 /**
  *
  *
- *
- */
-void debug_print_log_string ( const gchar *prefixe,
-                        const gchar *file,
-                        gint line,
-                        const char *function,
-                        const gchar *msg )
-{
-    gchar *tmp_str;
-    gchar *message;
-
-    if ( debug_file == NULL )
-        return;
-
-    if ( msg && strlen ( msg ) )
-        message = g_strdup ( msg );
-    else
-        message = g_strdup ( "(null)" );
-
-    tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
-                        debug_get_debug_time ( ),
-                        (clock() + 0.0) / CLOCKS_PER_SEC,
-                        prefixe,
-                        file,
-                        line,
-                        function,
-                        message );
-
-    fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
-    fflush ( debug_file );
-
-    g_free ( tmp_str );
-    g_free ( message );
-}
-
-/**
- *
- *
  * \param
  *
  * \return
