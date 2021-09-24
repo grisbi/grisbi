@@ -280,6 +280,12 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
                     gsb_data_account_set_bet_hist_fyear (account_number, utils_str_atoi (attribute_values[i]));
                 }
 
+				else if (!strcmp (attribute_names[i], "Bet_hist_use_data_in_account"))
+                {
+                    gsb_data_account_set_bet_hist_use_data_in_account (account_number,
+																	   utils_str_atoi (attribute_values[i]));
+                }
+
                 else if (!strcmp (attribute_names[i], "Bet_capital"))
                 {
  					s_loan = bet_data_loan_struct_loan_init ();

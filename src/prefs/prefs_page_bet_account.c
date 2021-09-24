@@ -58,7 +58,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void prefs_page_bet_account_select_bank_card_toggle (GtkToggleButton *button,
+static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
 															PrefsPageBetAccount *page);
 /*END_STATIC*/
 
@@ -74,14 +74,19 @@ struct _PrefsPageBetAccountPrivate
 	GtkWidget *			notebook_bet_account;
 	GtkWidget *			combo_bet_account;
 	GtkWidget *			hbox_bet_select_account;
-    GtkWidget *			checkbutton_use_bet_module;
+	GtkWidget *			checkbutton_use_bet_module;
 	GtkWidget *			hbox_bet_credit_card;
-    GtkWidget *			checkbutton_bet_credit_card;
+	GtkWidget *			checkbutton_bet_credit_card;
 	GtkWidget *			vbox_bank_cash_account;
 	GtkWidget *			hbox_forecast_data;
 	GtkWidget *			vbox_forecast_data;
 	GtkWidget *			hbox_hist_data;
 	GtkWidget *			vbox_hist_data;
+	GtkWidget *			vbox_hist_card_account_use_data;
+	GtkWidget *			label_hist_card_account_use_data;
+	GtkWidget *			vbox_hist_main_account_use_data;
+	GtkWidget *			checkbutton_hist_main_account_use_data;
+	GtkWidget *			label_hist_main_account_use_data;
 	GtkWidget *			vbox_liabilities_account;
 	GtkWidget *			vbox_credit_data;
 	GtkWidget *			notebook_credit_data;
@@ -95,6 +100,33 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageBetAccount, prefs_page_bet_account, GTK_TYP
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_bet_account_set_label_bet_hist_main_account_use_data (gint number,
+																			 PrefsPageBetAccountPrivate *priv)
+{
+	gchar *tmp_str;
+
+	if (number == 1)
+		tmp_str = g_strdup (_("(These data are aggregated with those "
+							  "of a deferred debit card account)"));
+	else
+		tmp_str = g_strdup_printf (_("(These data are aggregated with those "
+									 "of %d deferred debit card accounts)"),
+								   number);
+
+	gtk_label_set_text (GTK_LABEL (priv->label_hist_main_account_use_data), tmp_str);
+	gtk_widget_show (priv->vbox_hist_main_account_use_data);
+
+	g_free (tmp_str);
+}
+
 /**
  * called for a change in automem_radiobutton3
  *
@@ -445,121 +477,6 @@ static void prefs_page_bet_account_show_hide_parameters (gint account_number,
 }
 
 /**
- * callback called when changing the account from the combo
- * re-fill the page with the account data
- *
- * \param button
- * \param
- *
- * \return FALSE
- **/
-static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
-												PrefsPageBetAccount *page)
-{
-    GtkWidget *account_page;
-    gint account_number;
-    gint bet_use_budget;
-    gint active;
-	KindAccount kind;
-	GrisbiWinEtat *w_etat;
-	PrefsPageBetAccountPrivate *priv;
-
-	priv = prefs_page_bet_account_get_instance_private (page);
-	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
-
-    account_number = gsb_account_get_combo_account_number (combo);
-	account_page = grisbi_win_get_account_page ();
-
-    /* on bloque l'appel aux fonctions de callback */
-    g_signal_handlers_block_by_func (G_OBJECT (combo),
-									 G_CALLBACK (prefs_page_bet_account_changed),
-									 page);
-    g_signal_handlers_block_by_func (G_OBJECT (priv->checkbutton_bet_credit_card),
-									 G_CALLBACK (prefs_page_bet_account_select_bank_card_toggle),
-									 page);
-
-	bet_use_budget = gsb_data_account_get_bet_use_budget (account_number);
-    switch (bet_use_budget)		/* -1 = pas de module possible 0 = non utilisé 1 = utilisé */
-    {
-        case -1:
-            gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, FALSE);
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
-            prefs_page_bet_account_show_hide_parameters (account_number, FALSE, page);
-            goto retour;
-            break;
-        case 0:
-            gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, TRUE);
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
-            prefs_page_bet_account_show_hide_parameters (account_number, FALSE, page);
-            goto retour;
-            break;
-        default:
-            gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, TRUE);
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), TRUE);
-            prefs_page_bet_account_show_hide_parameters (account_number, TRUE, page);
-            break;
-    }
-
-	kind = gsb_data_account_get_kind (account_number);
-    switch (kind)
-    {
-		case GSB_TYPE_BANK:
-            gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-            prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
-            prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
-			break;
-		case GSB_TYPE_CASH:
-			if (w_etat->bet_cash_account_option == 1)
-			{
-				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-				prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
-				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
-			}
-			else
-			{
-				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
-			}
-			break;
-		case GSB_TYPE_LIABILITIES:
-			gtk_widget_show (priv->hbox_bet_credit_card);
-			active = gsb_data_account_get_bet_credit_card (account_number);
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_bet_credit_card), active);
-			if (active)
-			{
-				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-				if (w_etat->bet_cash_account_option == 1)
-				{
-					prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
-				}
-				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
-			}
-			else
-			{
-				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 1);
-				prefs_page_bet_account_initialise_loan_data (account_number, page);
-			}
-			break;
-		case GSB_TYPE_BALANCE:
-		case GSB_TYPE_ASSET:
-        default:
-            gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-            break;
-    }
-
-retour:
-    /* on débloque les callbacks */
-	g_signal_handlers_unblock_by_func (G_OBJECT (combo),
-									   G_CALLBACK (prefs_page_bet_account_changed),
-									   page);
-	g_signal_handlers_unblock_by_func (G_OBJECT (priv->checkbutton_bet_credit_card),
-									   G_CALLBACK (prefs_page_bet_account_select_bank_card_toggle),
-									   page);
-    /* return */
-    return FALSE;
-}
-
-/**
  * callback checkbutton select_bank_card
  *
  * \param toggle button
@@ -588,6 +505,212 @@ static void prefs_page_bet_account_select_bank_card_toggle (GtkToggleButton *but
 
     if (gsb_gui_navigation_get_current_account () == account_number)
         bet_data_select_bet_pages (account_number);
+}
+
+/**
+ * callback checkbutton_bet_hist_use_data_in_account
+ *
+ * \param toggle button
+ * \param page
+ *
+ * \return
+ **/
+static void prefs_page_bet_account_use_data_in_account_toggle (GtkToggleButton *button,
+															   PrefsPageBetAccount *page)
+{
+	GHashTable *transfert_list;
+	GHashTableIter iter;
+	gpointer key, value;
+	gint account_number;
+	gint number = 0;
+	PrefsPageBetAccountPrivate *priv;
+	TransfertData *std;
+
+	priv = prefs_page_bet_account_get_instance_private (page);
+	devel_debug_int (gtk_toggle_button_get_active (button));
+
+	account_number = gsb_account_get_combo_account_number (priv->combo_bet_account);
+	printf ("account_number = %d\n", account_number);
+	transfert_list = bet_data_transfert_get_list ();
+	g_hash_table_iter_init (&iter, transfert_list);
+
+	if (gtk_toggle_button_get_active (button))
+	{
+		while (g_hash_table_iter_next (&iter, &key, &value))
+		{
+			std = (TransfertData *) value;
+
+			if (std->main_account_number == account_number)
+			{
+				number++;
+				gsb_data_account_set_bet_hist_use_data_in_account (std->card_account_number, 1);
+				gtk_widget_show (priv->vbox_hist_main_account_use_data);
+			}
+		}
+		gsb_data_account_set_bet_hist_use_data_in_account (account_number, number);
+		prefs_page_bet_account_set_label_bet_hist_main_account_use_data (number, priv);
+	}
+	else
+	{
+		gsb_data_account_set_bet_hist_use_data_in_account (account_number, 0);
+		while (g_hash_table_iter_next (&iter, &key, &value))
+		{
+			std = (TransfertData *) value;
+
+			if (std->main_account_number == account_number)
+			{
+				gsb_data_account_set_bet_hist_use_data_in_account (std->card_account_number, 0);
+				gtk_widget_hide (priv->vbox_hist_main_account_use_data);
+			}
+		}
+	}
+
+	gsb_data_account_set_bet_show_onglets (account_number);
+	prefs_page_bet_account_changed (priv->combo_bet_account, page);
+
+    gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
+    bet_data_update_bet_module (account_number, -1);
+
+	if (gsb_gui_navigation_get_current_account () == account_number)
+		bet_data_select_bet_pages (account_number);
+}
+
+/**
+ * callback called when changing the account from the combo
+ * re-fill the page with the account data
+ *
+ * \param button
+ * \param
+ *
+ * \return FALSE
+ **/
+static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
+												PrefsPageBetAccount *page)
+{
+    GtkWidget *account_page;
+    gint account_number;
+    gint bet_use_budget;
+    gint active;
+	gint number = 0;
+	KindAccount kind;
+	GrisbiWinEtat *w_etat;
+	PrefsPageBetAccountPrivate *priv;
+
+	priv = prefs_page_bet_account_get_instance_private (page);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+    account_number = gsb_account_get_combo_account_number (combo);
+	account_page = grisbi_win_get_account_page ();
+
+    /* on bloque l'appel aux fonctions de callback */
+    g_signal_handlers_block_by_func (G_OBJECT (combo),
+									 G_CALLBACK (prefs_page_bet_account_changed),
+									 page);
+    g_signal_handlers_block_by_func (G_OBJECT (priv->checkbutton_bet_credit_card),
+									 G_CALLBACK (prefs_page_bet_account_select_bank_card_toggle),
+									 page);
+    g_signal_handlers_block_by_func (G_OBJECT (priv->checkbutton_hist_main_account_use_data),
+									 G_CALLBACK (prefs_page_bet_account_use_data_in_account_toggle),
+									 page);
+
+	bet_use_budget = gsb_data_account_get_bet_use_budget (account_number);
+    switch (bet_use_budget)		/* -1 = pas de module possible 0 = non utilisé 1 = utilisé */
+    {
+        case -1:
+            gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, FALSE);
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
+            prefs_page_bet_account_show_hide_parameters (account_number, FALSE, page);
+            goto retour;
+            break;
+        case 0:
+            gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, TRUE);
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
+            prefs_page_bet_account_show_hide_parameters (account_number, FALSE, page);
+            goto retour;
+            break;
+        default:
+            gtk_widget_set_sensitive (priv->checkbutton_use_bet_module, TRUE);
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), TRUE);
+            prefs_page_bet_account_show_hide_parameters (account_number, TRUE, page);
+            break;
+    }
+
+	/* on cache les deux vbox pour l'aggregation des données historiques*/
+	gtk_widget_hide (priv->vbox_hist_card_account_use_data);
+	gtk_widget_hide (priv->vbox_hist_main_account_use_data);
+
+	kind = gsb_data_account_get_kind (account_number);
+    switch (kind)
+    {
+		case GSB_TYPE_BANK:
+            gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
+            prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
+            prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
+			gtk_widget_show (priv->vbox_hist_main_account_use_data);
+
+			/* init checkbutton_hist_main_account_use_data */
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_hist_main_account_use_data),
+										  gsb_data_account_get_bet_hist_use_data_in_account (account_number));
+			break;
+		case GSB_TYPE_CASH:
+			if (w_etat->bet_cash_account_option == 1)
+			{
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
+				prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
+				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
+			}
+			else
+			{
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
+				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
+			}
+			break;
+		case GSB_TYPE_LIABILITIES:
+			gtk_widget_show (priv->hbox_bet_credit_card);
+			active = gsb_data_account_get_bet_credit_card (account_number);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_bet_credit_card), active);
+			if (active)
+			{
+				/* affiche un label si données partagées dans le compte principal */
+				number = gsb_data_account_get_bet_hist_use_data_in_account (account_number);
+				if (number)
+				{
+					gtk_widget_show (priv->vbox_hist_card_account_use_data);
+				}
+
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
+				if (w_etat->bet_cash_account_option == 1)
+				{
+					prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
+				}
+				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
+			}
+			else
+			{
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 1);
+				prefs_page_bet_account_initialise_loan_data (account_number, page);
+			}
+			break;
+		case GSB_TYPE_BALANCE:
+		case GSB_TYPE_ASSET:
+        default:
+            gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
+            break;
+    }
+
+retour:
+    /* on débloque les callbacks */
+	g_signal_handlers_unblock_by_func (G_OBJECT (combo),
+									   G_CALLBACK (prefs_page_bet_account_changed),
+									   page);
+	g_signal_handlers_unblock_by_func (G_OBJECT (priv->checkbutton_bet_credit_card),
+									   G_CALLBACK (prefs_page_bet_account_select_bank_card_toggle),
+									   page);
+	g_signal_handlers_unblock_by_func (G_OBJECT (priv->checkbutton_hist_main_account_use_data),
+									   G_CALLBACK (prefs_page_bet_account_use_data_in_account_toggle),
+									   page);
+    /* return */
+    return FALSE;
 }
 
 /**
@@ -713,6 +836,7 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
     /* Sources of historical data */
 	widget = utils_widget_origin_data_new (account_page, SPP_ORIGIN_CONFIG);
 	gtk_box_pack_start (GTK_BOX (priv->vbox_hist_data), widget, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (priv->vbox_hist_data), widget, 0);
 
     /* Data for the account of type GSB_TYPE_LIABILITIES */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_bet_account), priv->vbox_liabilities_account, NULL);
@@ -762,6 +886,12 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 					  "toggled",
 					  G_CALLBACK (prefs_page_bet_account_select_bank_card_toggle),
 					  page);
+
+	/* set the signal checkbutton_bet_hist_use_data_in_account */
+    g_signal_connect (G_OBJECT (priv->checkbutton_hist_main_account_use_data),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_use_data_in_account_toggle),
+					  page);
 }
 
 /******************************************************************************/
@@ -801,6 +931,23 @@ static void prefs_page_bet_account_class_init (PrefsPageBetAccountClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_credit_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, notebook_credit_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_loan_data);
+
+	/* ajout pour gerer l'agregation des données dans le compte principal */
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  vbox_hist_card_account_use_data);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  label_hist_card_account_use_data);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  vbox_hist_main_account_use_data);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  checkbutton_hist_main_account_use_data);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  label_hist_main_account_use_data);
 }
 
 /******************************************************************************/

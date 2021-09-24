@@ -2459,6 +2459,34 @@ TransfertData *bet_data_transfert_get_struct_from_number (gint number)
  *
  * \return
  **/
+gint bet_data_transfert_get_main_account_from_card (gint card_account_number)
+{
+	GHashTableIter iter;
+	gpointer key;
+	gpointer value;
+	TransfertData *std = NULL;
+
+	g_hash_table_iter_init (&iter, bet_transfert_list);
+	while (g_hash_table_iter_next (&iter, &key, &value))
+	{
+		std = (TransfertData *) value;
+
+		if (card_account_number == std->card_account_number)
+		{
+			return std->main_account_number;
+		}
+	}
+
+	return 0;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

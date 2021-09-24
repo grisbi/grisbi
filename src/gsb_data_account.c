@@ -139,6 +139,8 @@ struct _AccountStruct {
     gint			bet_select_futur_label;			/* fixe le label pour les données futures */
     gint			bet_hist_data;					/* origine des données 0 = catégories 1 = IB */
     gint			bet_hist_fyear;					/* numéro d'exercice */
+	gint			bet_hist_use_data_in_account;	/* utilise les données historique du compte lié dans le compte principal */
+													/* compte lié = 0 ou 1, compte maitre = nbre de comptes concernés */
     gint			bet_maj;						/* MAJ du module estiamte balance */
     gdouble			bet_capital;					/* capital emprunté */
     gdouble			bet_taux_annuel;				/* taux d'interet annuel */
@@ -2982,6 +2984,45 @@ gboolean gsb_data_account_set_bet_hist_fyear (gint account_number,
 	    return FALSE;
 
     account->bet_hist_fyear = hist_fyear;
+
+    return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint gsb_data_account_get_bet_hist_use_data_in_account (gint account_number)
+{
+	AccountStruct *account;
+
+	account = gsb_data_account_get_structure (account_number);
+	if (!account)
+		return 0;
+
+	return account->bet_hist_use_data_in_account;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_account_set_bet_hist_use_data_in_account (gint account_number,
+															gint bet_hist_use_data_in_account)
+{
+	AccountStruct *account;
+	account = gsb_data_account_get_structure (account_number);
+	if (!account)
+		return FALSE;
+
+	account->bet_hist_use_data_in_account = bet_hist_use_data_in_account;
 
     return TRUE;
 }

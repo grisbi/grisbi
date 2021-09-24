@@ -1418,13 +1418,15 @@ static gint bet_hist_get_type_transaction (const GDate *date,
  **/
 static gboolean bet_hist_initializes_account_settings (gint account_number)
 {
+	GtkWidget *account_page;
 	GtkWidget *button = NULL;
 	GtkWidget *combo = NULL;
-	GtkWidget *account_page;
+	GtkWidget *label;
 	GtkTreeViewColumn *column;
 	gchar *title;
 	gint fyear_number;
 	gint origin_data;
+	gint use_data_number;
 	gpointer pointeur;
 
 	account_page = grisbi_win_get_account_page ();
@@ -1465,6 +1467,137 @@ static gboolean bet_hist_initializes_account_settings (gint account_number)
 									   G_CALLBACK (utils_widget_origin_fyear_clicked),
 									   pointeur);
 
+	/* set label_use_data if necessary */
+	label = g_object_get_data (G_OBJECT (grisbi_win_get_account_page ()), "bet_hist_label_use_data");
+	use_data_number = gsb_data_account_get_bet_hist_use_data_in_account (account_number);
+	if (use_data_number)
+	{
+		gchar *tmp_str;
+
+		if (use_data_number == 1)
+			tmp_str = g_strdup (_("(These data are aggregated with those "
+								  "of a deferred debit card account)"));
+		else
+			tmp_str = g_strdup_printf (_("(These data are aggregated with those "
+										 "of %d deferred debit card accounts)"),
+									   use_data_number);
+
+		gtk_label_set_text (GTK_LABEL (label), tmp_str);
+		gtk_widget_show (label);
+
+		g_free (tmp_str);
+	}
+	else
+		gtk_widget_hide (label);
+
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static GArray *bet_hist_get_cards_account_array_for_aggregate (gint account_number)
+{
+	GArray *garray;
+	GHashTable *transfert_list;
+	GHashTableIter iter;
+	gpointer key, value;
+	TransfertData *std;
+
+	garray = g_array_new (FALSE, FALSE, sizeof (TransfertData *));
+
+	transfert_list = bet_data_transfert_get_list ();
+	g_hash_table_iter_init (&iter, transfert_list);
+	while (g_hash_table_iter_next (&iter, &key, &value))
+	{
+		std = (TransfertData *) value;
+
+		if (gsb_data_account_get_bet_hist_use_data_in_account (std->card_account_number)
+			&& account_number == std->main_account_number)
+		{
+			g_array_append_val (garray, std);
+		}
+	}
+	std = g_array_index (garray, TransfertData *, 0);
+
+	return garray;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean bet_hist_valid_card_data_to_aggregate (gint tmp_account_number,
+													   gint transaction_number,
+													   GArray *garray)
+{
+	gint nbre_items;
+	gint i;
+
+	nbre_items = garray->len;
+	for (i = 0; i < nbre_items; i++)
+	{
+		gint div;
+		gint sub_div;
+		gint origin_data;
+		TransfertData *std;
+
+		std = g_array_index (garray, TransfertData *, i);
+		if (tmp_account_number == std->card_account_number)
+		{
+			origin_data = gsb_data_account_get_bet_hist_data (std->card_account_number);
+			if (!origin_data)
+			{
+				div = gsb_data_transaction_get_category_number (transaction_number);
+				sub_div = gsb_data_transaction_get_sub_category_number (transaction_number);
+				if (div == std->card_category_number && sub_div == std->card_sub_category_number)
+					return FALSE;
+				else
+					return TRUE;
+			}
+			else
+			{
+				div = gsb_data_transaction_get_budgetary_number (transaction_number);
+				sub_div = gsb_data_transaction_get_sub_budgetary_number (transaction_number);
+				if (div == std->card_budgetary_number && sub_div == std->card_sub_budgetary_number)
+					return FALSE;
+				else
+					return TRUE;
+			}
+		}
+		if (tmp_account_number == std->main_account_number)
+		{
+			origin_data = gsb_data_account_get_bet_hist_data (std->main_account_number);
+			if (!origin_data)
+			{
+				div = gsb_data_transaction_get_category_number (transaction_number);
+				sub_div = gsb_data_transaction_get_sub_category_number (transaction_number);
+				if (div == std->main_category_number && sub_div == std->main_sub_category_number)
+					return FALSE;
+				else
+					return TRUE;
+			}
+			else
+			{
+				div = gsb_data_transaction_get_budgetary_number (transaction_number);
+				sub_div = gsb_data_transaction_get_sub_budgetary_number (transaction_number);
+				if (div == std->main_budgetary_number && sub_div == std->main_sub_budgetary_number)
+					return FALSE;
+				else
+					return TRUE;
+			}
+		}
+	}
+
 	return FALSE;
 }
 
@@ -1484,6 +1617,7 @@ GtkWidget *bet_hist_create_page (void)
 	GtkWidget *frame;
 	GtkWidget *hbox;
 	GtkWidget *label_title;
+	GtkWidget *label_use_data;
 	GtkWidget *tree_view;
 	GtkWidget *account_page;
 
@@ -1500,7 +1634,7 @@ GtkWidget *bet_hist_create_page (void)
 	/* titre de la page */
 	label_title = gtk_label_new ("bet_hist_title");
 	gtk_widget_set_halign (label_title, GTK_ALIGN_CENTER);
-	gtk_box_pack_start (GTK_BOX (page), label_title, FALSE, FALSE, 5);
+	gtk_box_pack_start (GTK_BOX (page), label_title, FALSE, FALSE, 0);
 	g_object_set_data (G_OBJECT (grisbi_win_get_account_page ()), "bet_hist_title", label_title);
 
 	/* Choix des données sources */
@@ -1508,6 +1642,13 @@ GtkWidget *bet_hist_create_page (void)
 	gtk_widget_set_halign (hbox, GTK_ALIGN_CENTER);
 	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 5);
 	g_object_set_data (G_OBJECT (account_page), "bet_hist_data", hbox);
+
+	/* label pour la fusion des données des CB à débit différé */
+	label_use_data = gtk_label_new ("bet_hist_label_use_data");
+	gtk_widget_set_halign (label_use_data, GTK_ALIGN_CENTER);
+	gtk_label_set_selectable (GTK_LABEL (label_use_data), TRUE);
+	gtk_box_pack_start (GTK_BOX (page), label_use_data, FALSE, FALSE, 0);
+	g_object_set_data (G_OBJECT (grisbi_win_get_account_page ()), "bet_hist_label_use_data", label_use_data);
 
 	/* création de la liste des données */
 	tree_view = bet_hist_get_data_tree_view (page);
@@ -1539,6 +1680,7 @@ void bet_hist_populate_data (gint account_number)
 	GtkTreeModel *model;
 	GtkTreePath *path = NULL;
 	gint fyear_number;
+	GArray *garray = NULL;
 	GDate *date_jour;
 	GDate *date_min;
 	GDate *date_max;
@@ -1591,6 +1733,13 @@ void bet_hist_populate_data (gint account_number)
 											 (GDestroyNotify) g_free,
 											 (GDestroyNotify) bet_data_struct_transaction_current_fyear_free);
 
+	/* on traite la fusion des données des comptes CB à débit différé */
+	if (gsb_data_account_get_bet_hist_use_data_in_account (account_number)
+		&& gsb_data_account_get_kind (account_number) == GSB_TYPE_BANK)
+	{
+		garray = bet_hist_get_cards_account_array_for_aggregate (account_number);
+	}
+
 	/* search transactions of the account  */
 	tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 	while (tmp_list)
@@ -1605,9 +1754,16 @@ void bet_hist_populate_data (gint account_number)
 		tmp_list = tmp_list->next;
 
 		tmp_account_number =  gsb_data_transaction_get_account_number (transaction_number);
+		if (garray == NULL)
+		{
 		if (tmp_account_number != account_number)
 			continue;
-
+		}
+		else
+		{
+			if (!bet_hist_valid_card_data_to_aggregate (tmp_account_number, transaction_number, garray))
+				continue;
+		}
 		date = gsb_data_transaction_get_date (transaction_number);
 
 		/* ignore transaction which are before date_min */
@@ -1648,6 +1804,8 @@ void bet_hist_populate_data (gint account_number)
 	path = gtk_tree_path_new_first ();
 	bet_array_list_select_path (tree_view, path);
 	gtk_tree_path_free (path);
+	if (garray)
+		g_array_free (garray, FALSE);
 }
 
 /**

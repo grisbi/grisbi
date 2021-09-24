@@ -291,10 +291,13 @@ static gulong gsb_file_save_account_part (gulong iterator,
 				case BET_ONGLETS_HIST:
 					bet_str = g_markup_printf_escaped ("\t\tBet_credit_card=\"%d\"\n"
 													   "\t\tBet_SD=\"%d\"\n"
-													   "\t\tBet_Fi=\"%d\" />\n",
+													   "\t\tBet_Fi=\"%d\"\n"
+													   "\t\tBet_hist_use_data_in_account=\"%d\" />\n",
 													   gsb_data_account_get_bet_credit_card (account_number),
 													   gsb_data_account_get_bet_hist_data (account_number),
-													   gsb_data_account_get_bet_hist_fyear (account_number));
+													   gsb_data_account_get_bet_hist_fyear (account_number),
+													   gsb_data_account_get_bet_hist_use_data_in_account (account_number));
+
 					new_string = g_strconcat (string_to_free1, "\n", bet_str, NULL);
 					g_free (bet_str);
 					g_free (string_to_free1);
@@ -324,7 +327,8 @@ static gulong gsb_file_save_account_part (gulong iterator,
 													   "\t\tBet_select_scheduled_label=\"%d\"\n"
 													   "\t\tBet_select_futur_label=\"%d\"\n"
 													   "\t\tBet_SD=\"%d\"\n"
-													   "\t\tBet_Fi=\"%d\" />\n",
+													   "\t\tBet_Fi=\"%d\"\n"
+													   "\t\tBet_hist_use_data_in_account=\"%d\" />\n",
 													   gsb_data_account_get_bet_credit_card (account_number),
 													   my_safe_null_str (string_to_free2),
 													   gsb_data_account_get_bet_months (account_number),
@@ -337,7 +341,8 @@ static gulong gsb_file_save_account_part (gulong iterator,
 													   gsb_data_account_get_bet_select_label (account_number,
 																							  SPP_ORIGIN_FUTURE),
 													   gsb_data_account_get_bet_hist_data (account_number),
-													   gsb_data_account_get_bet_hist_fyear (account_number));
+													   gsb_data_account_get_bet_hist_fyear (account_number),
+													   gsb_data_account_get_bet_hist_use_data_in_account (account_number));
 					new_string = g_strconcat (string_to_free1, "\n", bet_str, NULL);
 					g_free (bet_str);
 					g_free (string_to_free1);

@@ -66,6 +66,7 @@ gboolean 		gsb_data_account_get_bet_auto_inc_month 				(gint account_number);
 gint 			gsb_data_account_get_bet_credit_card 					(gint account_number);
 gint 			gsb_data_account_get_bet_hist_data 						(gint account_number);
 gint 			gsb_data_account_get_bet_hist_fyear 					(gint account_number);
+gint 			gsb_data_account_get_bet_hist_use_data_in_account		(gint account_number);
 gboolean		gsb_data_account_get_bet_init_sch_with_loan				(gint account_number);
 gint 			gsb_data_account_get_bet_maj 							(gint account_number);
 gint 			gsb_data_account_get_bet_months 						(gint account_number);
@@ -150,6 +151,8 @@ gboolean 		gsb_data_account_set_bet_hist_data 						(gint account_number,
 																		 gint hist_data);
 gboolean 		gsb_data_account_set_bet_hist_fyear 					(gint account_number,
 																		 gint hist_fyear);
+gboolean 		gsb_data_account_set_bet_hist_use_data_in_account		(gint account_number,
+																		 gint hist_use_data_in_account);
 gboolean		gsb_data_account_set_bet_init_sch_with_loan				(gint account_number,
 																		 gboolean init_sch_with_loan);
 gboolean 		gsb_data_account_set_bet_maj 							(gint account_number,

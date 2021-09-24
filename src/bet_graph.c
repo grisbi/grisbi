@@ -321,7 +321,18 @@ static gboolean bet_graph_populate_sectors_by_sub_divisions (BetGraphDataStruct 
                         SPP_HISTORICAL_ACCOUNT_NUMBER, &account_number,
                         -1);
         if (account_number != self->account_number)
-            return FALSE;
+		{
+			if (gsb_data_account_get_bet_hist_use_data_in_account (account_number))
+			{
+				gint main_account_number;
+
+				main_account_number = bet_data_transfert_get_main_account_from_card (account_number);
+				if (main_account_number != self->account_number)
+					return FALSE;
+			}
+			else
+				return FALSE;
+		}
 
         do
         {
@@ -1369,7 +1380,18 @@ static gboolean bet_graph_populate_sectors_by_hist_data (BetGraphDataStruct *sel
                         SPP_HISTORICAL_ACCOUNT_NUMBER, &account_number,
                         -1);
         if (account_number != self->account_number)
-            return FALSE;
+		{
+			if (gsb_data_account_get_bet_hist_use_data_in_account (account_number))
+			{
+				gint main_account_number;
+
+				main_account_number = bet_data_transfert_get_main_account_from_card (account_number);
+				if (main_account_number != self->account_number)
+					return FALSE;
+			}
+			else
+				return FALSE;
+		}
 
         do
         {

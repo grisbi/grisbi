@@ -230,6 +230,7 @@ gboolean 					bet_data_transfert_add_line 					(TransfertData *transfert);
 void 						bet_data_transfert_create_new_transaction 		(TransfertData *transfert);
 TransfertData *				bet_data_transfert_get_struct_from_number		(gint number);
 GHashTable *				bet_data_transfert_get_list 					(void);
+gint						bet_data_transfert_get_main_account_from_card	(gint card_account);
 gboolean 					bet_data_transfert_modify_line 					(TransfertData *transfert);
 gboolean 					bet_data_transfert_remove_line 					(gint account_number,
 																		 gint number);
