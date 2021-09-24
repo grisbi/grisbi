@@ -5656,19 +5656,19 @@ msgstr "<b>Actions de la liste des opérations :</b>"
 
 #: ../src/grisbi_app.c:1496
 msgid "(Un)Pointing a transaction\t\t-> <Command>p, <Command>F12\n"
-msgstr "(Dé)Pointe une opération\t-> <Primary>p, <Primary>F12\n"
+msgstr "(Dé)Pointe une opération\t-> <Command>p, <Command>F12\n"
 
 #: ../src/grisbi_app.c:1497
 msgid "(Un)Reconcile a transaction\t\t-> <Command>r\n"
-msgstr "(Dé)Rapproche une opération\t-> <Primary>r\n"
+msgstr "(Dé)Rapproche une opération\t-> <Command>r\n"
 
 #: ../src/grisbi_app.c:1499
 msgid "(Un)Pointing a transaction\t\t-> <Ctrl>p, <Ctrl>F12\n"
-msgstr "(Dé)Pointe une opération\t-> <Primary>p, <Primary>F12\n"
+msgstr "(Dé)Pointe une opération\t-> <Ctrl>p, <Ctrl>F12\n"
 
 #: ../src/grisbi_app.c:1500
 msgid "(Un)Reconcile a transaction\t\t-> <Ctrl>r\n"
-msgstr "(Dé)Rapproche une opération\t-> <Primary>r\n"
+msgstr "(Dé)Rapproche une opération\t-> <Ctrl>r\n"
 
 #: ../src/grisbi_conf.c:1168
 #, c-format
