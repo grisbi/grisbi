@@ -1096,7 +1096,7 @@ static void gsb_file_load_bet_graph_part (const gchar **attribute_names,
  *
  * \return
  **/
-static void gsb_file_load_bet_historical_part (const gchar **attribute_names,
+static void gsb_file_load_bet_hist_part (const gchar **attribute_names,
 											   const gchar **attribute_values)
 {
     HistData *shd;
@@ -3736,7 +3736,7 @@ static void gsb_file_load_start_element (GMarkupParseContext *context,
 
             else if (!strcmp (element_name, "Bet_historical"))
             {
-                gsb_file_load_bet_historical_part (attribute_names, attribute_values);
+                gsb_file_load_bet_hist_part (attribute_names, attribute_values);
             }
 
             else if (!strcmp (element_name, "Bet_future"))

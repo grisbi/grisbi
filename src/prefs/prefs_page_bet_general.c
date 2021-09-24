@@ -97,7 +97,7 @@ static void prefs_page_bet_general_sensitive_account_parameters (gint account_nu
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
             gtk_widget_show_all ( widget );
-            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
+            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_hist" );
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
             gtk_widget_hide ( widget );
@@ -107,7 +107,7 @@ static void prefs_page_bet_general_sensitive_account_parameters (gint account_nu
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
             gtk_widget_hide ( widget );
-            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
+            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_hist" );
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
             gtk_widget_hide ( widget );
@@ -117,7 +117,7 @@ static void prefs_page_bet_general_sensitive_account_parameters (gint account_nu
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
             gtk_widget_hide ( widget );
-            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
+            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_hist" );
             gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
             gtk_widget_show_all ( widget );
@@ -129,7 +129,7 @@ static void prefs_page_bet_general_sensitive_account_parameters (gint account_nu
             gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
             gtk_widget_hide ( widget );
-            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
+            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_hist" );
             gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
             gtk_widget_hide ( widget );
@@ -142,7 +142,7 @@ static void prefs_page_bet_general_sensitive_account_parameters (gint account_nu
         gtk_widget_hide ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
         gtk_widget_hide ( widget );
-        widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
+        widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_hist" );
         gtk_widget_hide ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
         gtk_widget_hide ( widget );

@@ -20,7 +20,7 @@ void			utils_widget_duration_number_changed		(GtkWidget *spin_button,
 															 gpointer data);
 
 /* HISTORICAL_DATA WIDGET */
-GtkWidget *		utils_widget_get_historical_data_widget 	(GtkWidget *container,
+GtkWidget *		utils_widget_get_hist_data_widget			(GtkWidget *container,
 															 GtkWidget *notebook);
 /* ORIGIN_DATA WIDGET */
 GtkWidget *		utils_widget_origin_data_new				(GtkWidget *notebook,

@@ -977,7 +977,7 @@ void bet_data_select_bet_pages (gint account_number)
 			gtk_widget_show (page);
 			page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (account_page), GSB_FINANCE_PAGE);
 			gtk_widget_hide (page);
-			bet_historical_g_signal_unblock_tree_view ();
+			bet_hist_g_signal_unblock_tree_view ();
 			gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
 			if (current_page < GSB_PROPERTIES_PAGE
 			 &&
@@ -995,7 +995,7 @@ void bet_data_select_bet_pages (gint account_number)
 			gtk_widget_hide (page);
 			if (current_page == GSB_ESTIMATE_PAGE || current_page == GSB_FINANCE_PAGE)
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (account_page), GSB_TRANSACTIONS_PAGE);
-			bet_historical_g_signal_block_tree_view ();
+			bet_hist_g_signal_block_tree_view ();
 			gsb_data_account_set_bet_maj (account_number, BET_MAJ_HISTORICAL);
 			break;
 		case BET_ONGLETS_CAP:
@@ -1100,15 +1100,15 @@ void bet_data_update_bet_module (gint account_number,
 		case GSB_HISTORICAL_PAGE:
 			if (type_maj == BET_MAJ_ALL)
 			{
-				bet_historical_populate_data (account_number);
+				bet_hist_populate_data (account_number);
 				gsb_data_account_set_bet_maj (account_number, BET_MAJ_ESTIMATE);
 			}
 			else if (type_maj ==  BET_MAJ_HISTORICAL)
 			{
-				bet_historical_populate_data (account_number);
+				bet_hist_populate_data (account_number);
 				gsb_data_account_set_bet_maj (account_number, BET_MAJ_FALSE);
 			}
-			bet_historical_set_page_title (account_number);
+			bet_hist_set_page_title (account_number);
 			break;
 		default:
 			break;

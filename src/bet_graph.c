@@ -1594,8 +1594,8 @@ static void bet_graph_popup_choix_graph_activate (GtkMenuItem *menuitem,
     }
     else
     {
-		toolbar = bet_historical_get_toolbar ();
-        tmp_str = g_strdup ("historical_graph");
+		toolbar = bet_hist_get_toolbar ();
+        tmp_str = g_strdup ("hist_graph");
         nbre_elemnts = gtk_toolbar_get_n_items (GTK_TOOLBAR (toolbar)) -1;
     }
 
@@ -1671,7 +1671,7 @@ static void bet_graph_popup_choix_graph_menu (GtkWidget *button,
  *
  * \return TRUE or FALSE
  **/
-static gboolean bet_graph_populate_lines_by_historical_line (BetGraphDataStruct *self)
+static gboolean bet_graph_populate_lines_by_hist_line (BetGraphDataStruct *self)
 {
     GtkTreeSelection *selection;
     GtkTreeModel *model = NULL;
@@ -1710,7 +1710,7 @@ static gboolean bet_graph_populate_lines_by_historical_line (BetGraphDataStruct 
     fyear_number = gsb_data_account_get_bet_hist_fyear (self->account_number);
 
     /* on calcule les montants par mois en premier */
-    list_transactions = bet_historical_get_list_trans_current_fyear ();
+    list_transactions = bet_hist_get_list_trans_current_fyear ();
     if (g_hash_table_size (list_transactions) == 0)
         return FALSE;
 
@@ -1779,7 +1779,7 @@ static gboolean bet_graph_populate_lines_by_historical_line (BetGraphDataStruct 
     }
 
     /* On commence par le début de l'exercice courant puis on balaie les douze mois */
-    start_current_fyear = bet_historical_get_start_date_current_fyear ();
+    start_current_fyear = bet_hist_get_start_date_current_fyear ();
     date_month = g_date_get_month (start_current_fyear);
     today_month = g_date_get_month (gdate_today ());
 
@@ -1909,7 +1909,7 @@ GtkToolItem *bet_graph_button_menu_new (GtkWidget *toolbar,
         origin_tab = BET_ONGLETS_PREV;
         tooltip = g_strdup (_("Display the graph of forecast"));
     }
-    else if (strcmp (type_graph, "historical_graph") == 0)
+    else if (strcmp (type_graph, "hist_graph") == 0)
     {
         if (prefs_hist == NULL)
             prefs_hist = struct_initialise_bet_graph_prefs ();
@@ -2012,7 +2012,7 @@ gchar *bet_graph_get_configuration_string (gint origin_tab)
     else
     {
         prefs = prefs_hist;
-        tmp_str = "historical_prefs";
+        tmp_str = "hist_prefs";
     }
 
 	if (NULL == prefs)
@@ -2192,7 +2192,7 @@ void bet_graph_montly_graph_new (GtkWidget *button,
             self->is_legend = TRUE;
 
             /* set the titles */
-            start_current_fyear = bet_historical_get_start_date_current_fyear ();
+            start_current_fyear = bet_hist_get_start_date_current_fyear ();
             self->title_Y = g_strdup (gsb_data_fyear_get_name (fyear_number));
             self->title_Y2 = g_strdup_printf ("%d", g_date_get_year (start_current_fyear));
             title = g_strdup_printf (_("Amounts %s - %s for the account: '%s'"),
@@ -2254,7 +2254,7 @@ void bet_graph_montly_graph_new (GtkWidget *button,
                         self);
 
     /* populate data */
-    self->valid_data = bet_graph_populate_lines_by_historical_line (self);
+    self->valid_data = bet_graph_populate_lines_by_hist_line (self);
     if (!self->valid_data)
         return;
 

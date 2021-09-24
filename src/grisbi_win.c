@@ -444,7 +444,7 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
                         gtk_label_new (_("Forecast")));
 
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        bet_historical_create_page (),
+                        bet_hist_create_page (),
                         gtk_label_new (_("Historical data")));
 
     /* append the amortization page */
@@ -1898,7 +1898,7 @@ gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
         account_number = gsb_gui_navigation_get_current_account ();
         if (gsb_data_account_get_bet_maj (account_number))
             bet_data_update_bet_module (account_number, GSB_HISTORICAL_PAGE);
-        bet_historical_set_page_title (account_number);
+        bet_hist_set_page_title (account_number);
         break;
     case GSB_FINANCE_PAGE:
         grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -2470,7 +2470,7 @@ void grisbi_win_update_all_toolbars (void)
     gsb_gui_budgetary_lines_toolbar_set_style (toolbar_style);
     etats_onglet_reports_toolbar_set_style (toolbar_style);
     bet_array_update_toolbar (toolbar_style);
-    bet_historical_update_toolbar (toolbar_style);
+    bet_hist_update_toolbar (toolbar_style);
     bet_finance_ui_update_all_finance_toolbars (toolbar_style);
 }
 

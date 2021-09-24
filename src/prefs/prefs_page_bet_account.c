@@ -80,8 +80,8 @@ struct _PrefsPageBetAccountPrivate
 	GtkWidget *			vbox_bank_cash_account;
 	GtkWidget *			hbox_forecast_data;
 	GtkWidget *			vbox_forecast_data;
-	GtkWidget *			hbox_historical_data;
-	GtkWidget *			vbox_historical_data;
+	GtkWidget *			hbox_hist_data;
+	GtkWidget *			vbox_hist_data;
 	GtkWidget *			vbox_liabilities_account;
 	GtkWidget *			vbox_credit_data;
 	GtkWidget *			notebook_credit_data;
@@ -360,7 +360,8 @@ static void prefs_page_bet_account_initialise_loan_data (gint account_number,
 		tmp_list = tmp_list->next;
 	}
 }
-static void prefs_page_bet_account_initialise_select_historical_data (gint account_number,
+
+static void prefs_page_bet_account_initialise_select_hist_data (gint account_number,
                                                                       GtkWidget *notebook)
 {
     GtkWidget *widget;
@@ -379,7 +380,7 @@ static void prefs_page_bet_account_initialise_select_historical_data (gint accou
 
     param = gsb_data_account_get_bet_hist_fyear (account_number);
     widget = g_object_get_data (G_OBJECT (notebook), "bet_config_hist_fyear_combo");
-    bet_historical_set_fyear_from_combobox (widget, param);
+    bet_hist_set_fyear_from_combobox (widget, param);
 }
 
 /**
@@ -409,19 +410,19 @@ static void prefs_page_bet_account_show_hide_parameters (gint account_number,
 			case BET_ONGLETS_PREV:
 				gtk_widget_hide (priv->hbox_bet_credit_card);
 				gtk_widget_show (priv->hbox_forecast_data);
-				gtk_widget_show (priv->hbox_historical_data);
+				gtk_widget_show (priv->hbox_hist_data);
 				gtk_widget_hide (priv->vbox_liabilities_account);
 				break;
 			case BET_ONGLETS_HIST:
 				gtk_widget_hide (priv->hbox_bet_credit_card);
 				gtk_widget_hide (priv->hbox_forecast_data);
-				gtk_widget_show (priv->hbox_historical_data);
+				gtk_widget_show (priv->hbox_hist_data);
 				gtk_widget_hide (priv->vbox_liabilities_account);
 				break;
 			case BET_ONGLETS_CAP:
 				gtk_widget_show (priv->hbox_bet_credit_card);
 				gtk_widget_hide (priv->hbox_forecast_data);
-				gtk_widget_hide (priv->hbox_historical_data);
+				gtk_widget_hide (priv->hbox_hist_data);
 				gtk_widget_show (priv->vbox_liabilities_account);
 				break;
 			case BET_ONGLETS_SANS:
@@ -429,7 +430,7 @@ static void prefs_page_bet_account_show_hide_parameters (gint account_number,
 			default:
 				gtk_widget_hide (priv->hbox_bet_credit_card);
 				gtk_widget_hide (priv->hbox_forecast_data);
-				gtk_widget_hide (priv->hbox_historical_data);
+				gtk_widget_hide (priv->hbox_hist_data);
 				gtk_widget_hide (priv->vbox_liabilities_account);
 				break;
         }
@@ -438,7 +439,7 @@ static void prefs_page_bet_account_show_hide_parameters (gint account_number,
     {
         gtk_widget_hide (priv->hbox_bet_credit_card);
         gtk_widget_hide (priv->hbox_forecast_data);
-        gtk_widget_hide (priv->hbox_historical_data);
+        gtk_widget_hide (priv->hbox_hist_data);
         gtk_widget_hide (priv->vbox_liabilities_account);
     }
 }
@@ -505,19 +506,19 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
 		case GSB_TYPE_BANK:
             gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
             prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
-            prefs_page_bet_account_initialise_select_historical_data (account_number, account_page);
+            prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
 			break;
 		case GSB_TYPE_CASH:
 			if (w_etat->bet_cash_account_option == 1)
 			{
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
 				prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
-				prefs_page_bet_account_initialise_select_historical_data (account_number, account_page);
+				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
 			}
 			else
 			{
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_bet_account), 0);
-				prefs_page_bet_account_initialise_select_historical_data (account_number, account_page);
+				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
 			}
 			break;
 		case GSB_TYPE_LIABILITIES:
@@ -531,7 +532,7 @@ static gboolean prefs_page_bet_account_changed (GtkWidget *combo,
 				{
 					prefs_page_bet_account_initialise_duration_widget (account_number, account_page);
 				}
-				prefs_page_bet_account_initialise_select_historical_data (account_number, account_page);
+				prefs_page_bet_account_initialise_select_hist_data (account_number, account_page);
 			}
 			else
 			{
@@ -697,7 +698,7 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 	/* set the data for the checkbutton "Option for cash accounts" */
 	g_object_set_data (G_OBJECT (account_page), "bet_credit_card_hbox", priv->hbox_bet_credit_card);
 	g_object_set_data (G_OBJECT (account_page), "Data_for_forecast", priv->hbox_forecast_data);
-	g_object_set_data (G_OBJECT (account_page), "Data_for_historical", priv->hbox_historical_data);
+	g_object_set_data (G_OBJECT (account_page), "Data_for_hist", priv->hbox_hist_data);
 	g_object_set_data (G_OBJECT (account_page), "Data_for_credit", priv->vbox_liabilities_account);
 
     /* Data for the forecast */
@@ -711,7 +712,7 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 
     /* Sources of historical data */
 	widget = utils_widget_origin_data_new (account_page, SPP_ORIGIN_CONFIG);
-	gtk_box_pack_start (GTK_BOX (priv->vbox_historical_data), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->vbox_hist_data), widget, FALSE, FALSE, 0);
 
     /* Data for the account of type GSB_TYPE_LIABILITIES */
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_bet_account), priv->vbox_liabilities_account, NULL);
@@ -794,8 +795,8 @@ static void prefs_page_bet_account_class_init (PrefsPageBetAccountClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_bank_cash_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, hbox_forecast_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_forecast_data);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, hbox_historical_data);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_historical_data);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, hbox_hist_data);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_hist_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_liabilities_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_credit_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, notebook_credit_data);

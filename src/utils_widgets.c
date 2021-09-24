@@ -116,7 +116,7 @@ static gboolean utils_widget_origin_data_clicked (GtkWidget *togglebutton,
         }
     }
 
-    column = g_object_get_data (G_OBJECT (grisbi_win_get_account_page ()),  "historical_column_source");
+    column = g_object_get_data (G_OBJECT (grisbi_win_get_account_page ()),  "hist_column_source");
     gtk_tree_view_column_set_title (GTK_TREE_VIEW_COLUMN (column), title);
     g_free (title);
 
@@ -403,12 +403,12 @@ GtkWidget *utils_widget_origin_data_new (GtkWidget *notebook,
 
 
     /* création du sélecteur de périod */
-	if ((type == SPP_ORIGIN_HISTORICAL && bet_historical_fyear_create_combobox_store ())
+	if ((type == SPP_ORIGIN_HISTORICAL && bet_hist_fyear_create_combobox_store ())
 	    || type == SPP_ORIGIN_CONFIG)
 	{
 		GtkTreeModel *bet_fyear_model_filter;
 
-		bet_fyear_model_filter = bet_historical_get_bet_fyear_model_filter ();
+		bet_fyear_model_filter = bet_hist_get_bet_fyear_model_filter ();
 		widget = gsb_fyear_make_combobox_new (bet_fyear_model_filter, TRUE);
 		gtk_widget_set_name (GTK_WIDGET (widget), "bet_hist_fyear_combo");
 		gtk_widget_set_tooltip_text (GTK_WIDGET (widget),
@@ -428,7 +428,7 @@ GtkWidget *utils_widget_origin_data_new (GtkWidget *notebook,
 		g_object_set_data (G_OBJECT (widget), "pointer", pointeur);
 
         /* hide the present and futures financial years */
-        bet_historical_fyear_hide_present_futures_fyears ();
+        bet_hist_fyear_hide_present_futures_fyears ();
 
 		/* set the signal */
 		g_signal_connect (G_OBJECT (widget),
@@ -460,7 +460,7 @@ void utils_widget_origin_fyear_clicked (GtkWidget *combo,
 		account_number = gsb_gui_navigation_get_current_account ();
 
     gsb_data_account_set_bet_hist_fyear (account_number,
-                                         bet_historical_get_fyear_from_combobox (combo));
+                                         bet_hist_get_fyear_from_combobox (combo));
 
     gsb_file_set_modified (TRUE);
 

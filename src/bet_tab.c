@@ -495,7 +495,7 @@ static gboolean bet_array_initializes_account_settings (gint account_number)
                         			 G_CALLBACK (utils_widget_origin_fyear_clicked),
                         			 pointeur);
 
-    bet_historical_set_fyear_from_combobox (widget, param);
+    bet_hist_set_fyear_from_combobox (widget, param);
     g_signal_handlers_unblock_by_func (G_OBJECT (widget),
                         			   G_CALLBACK (utils_widget_origin_fyear_clicked),
                         			   pointeur);
@@ -2830,7 +2830,7 @@ static void bet_array_refresh_estimate_tab (gint account_number)
     g_free (str_amount);
 
     /* search data from the past */
-    bet_historical_refresh_data (tree_model, first_day_current_month, date_max);
+    bet_hist_refresh_data (tree_model, first_day_current_month, date_max);
 
     /* search data from the futur */
     bet_array_refresh_futur_data (tree_model, first_day_current_month, date_max);
@@ -3444,10 +3444,10 @@ void bet_array_update_estimate_tab (gint account_number, gint type_maj)
             bet_array_refresh_estimate_tab (account_number);
         break;
         case BET_MAJ_HISTORICAL:
-            bet_historical_populate_data (account_number);
+            bet_hist_populate_data (account_number);
         break;
         case BET_MAJ_ALL:
-            bet_historical_populate_data (account_number);
+            bet_hist_populate_data (account_number);
             bet_array_refresh_estimate_tab (account_number);
         break;
     }
