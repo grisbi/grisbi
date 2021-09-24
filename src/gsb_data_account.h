@@ -54,7 +54,7 @@ gint 			gsb_data_account_get_account_by_id 						(const gchar *account_id);
 GtkWidget *		gsb_data_account_get_account_icon_image 				(gint account_number);
 GdkPixbuf *		gsb_data_account_get_account_icon_pixbuf 				(gint account_number);
 GdkPixbuf *		gsb_data_account_get_account_standard_pixbuf 			(KindAccount account_kind);
-gint 			gsb_data_account_get_number_of_accounts 					(void);
+gint 			gsb_data_account_get_number_of_accounts 				(void);
 GsbReal 		gsb_data_account_get_balance_at_date 					(gint account_number,
 																		 GDate *date);
 gint 			gsb_data_account_get_bank 								(gint account_number);
