@@ -1534,32 +1534,10 @@ gboolean gsb_data_scheduled_remove_scheduled (gint scheduled_number)
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
-    if (!scheduled)
-        return FALSE;
+	if (!scheduled)
+		return FALSE;
 
-    if (scheduled->split_of_scheduled)
-    {
-        GSList *list_tmp;
-
-        list_tmp = gsb_data_scheduled_get_children (scheduled_number, FALSE);
-
-        while (list_tmp)
-        {
-            ScheduledStruct *scheduled_child;
-
-            scheduled_child = list_tmp->data;
-
-            if (scheduled_child)
-            {
-                scheduled_list = g_slist_remove (scheduled_list, scheduled_child);
-                _gsb_data_scheduled_free (scheduled_child);
-            }
-            list_tmp = list_tmp->next;
-        }
-    }
-
-    scheduled_list = g_slist_remove (scheduled_list, scheduled);
-
+	scheduled_list = g_slist_remove (scheduled_list, scheduled);
     _gsb_data_scheduled_free (scheduled);
 
     gsb_file_set_modified (TRUE);
@@ -1863,6 +1841,34 @@ gboolean gsb_data_scheduled_set_fixed_date (gint scheduled_number,
     scheduled->fixed_date = fixed_date;
 
     return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_scheduled_remove_child_scheduled (gint scheduled_number)
+{
+	GSList *list_tmp;
+
+	list_tmp = gsb_data_scheduled_get_children (scheduled_number, FALSE);
+
+	while (list_tmp)
+	{
+		ScheduledStruct *scheduled_child;
+
+		scheduled_child = list_tmp->data;
+
+		if (scheduled_child)
+		{
+			scheduled_list = g_slist_remove (scheduled_list, scheduled_child);
+			_gsb_data_scheduled_free (scheduled_child);
+		}
+		list_tmp = list_tmp->next;
+	}
 }
 
 /**

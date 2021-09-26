@@ -2964,6 +2964,10 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
             case 1:
             /* !!important to remove first from the list... */
             gsb_scheduler_list_remove_transaction_from_list (scheduled_number);
+			if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
+			{
+				gsb_data_scheduled_remove_child_scheduled (scheduled_number);
+			}
             gsb_data_scheduled_remove_scheduled (scheduled_number);
             break;
         }

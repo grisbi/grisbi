@@ -47,6 +47,7 @@ gboolean 	gsb_data_scheduled_is_transfer 								(gint scheduled_number);
 gint 		gsb_data_scheduled_new_scheduled 							(void);
 gint 		gsb_data_scheduled_new_scheduled_with_number 				(gint scheduled_number);
 gint 		gsb_data_scheduled_new_white_line 							(gint mother_scheduled_number);
+void		gsb_data_scheduled_remove_child_scheduled					(gint scheduled_number);
 gboolean 	gsb_data_scheduled_remove_scheduled 						(gint scheduled_number);
 gboolean 	gsb_data_scheduled_set_account_number 						(gint scheduled_number,
 																		 gint no_account);
