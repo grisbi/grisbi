@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_account.h"
+#include "bet_data.h"
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "grisbi_win.h"
@@ -251,6 +252,9 @@ gboolean gsb_account_delete ( void )
 
         list_tmp = list_tmp -> next;
     }
+
+	/* delete elements of the bet module */
+	bet_data_remove_all_bet_data (deleted_account);
 
 	/* delete the rules if necessary */
 	list_tmp = gsb_data_import_rule_get_from_account (deleted_account);

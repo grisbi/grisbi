@@ -87,6 +87,24 @@ static gint				transfert_number;
 /* Private functions                                                          */
 /******************************************************************************/
 /**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gint bet_data_get_current_bet_page (void)
+{
+	GtkWidget *account_page;
+	gint current_page;
+
+	account_page = grisbi_win_get_account_page ();
+	current_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (account_page));
+
+	return current_page;
+}
+
+/**
  * retourne la clef de recherche de la division passée en paramètre.
  *
  * \param
@@ -456,6 +474,7 @@ BetRange *bet_data_bet_range_struct_init (void)
 }
 
 /**
+ *
  *
  * \param
  * \param
@@ -2478,6 +2497,47 @@ gint bet_data_transfert_get_main_account_from_card (gint card_account_number)
 	}
 
 	return 0;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void bet_data_transfert_remove_line_from_card (gint card_account_number)
+{
+	GHashTableIter iter;
+	gpointer key;
+	gpointer value;
+	gint main_account_number = 0;
+
+	g_hash_table_iter_init (&iter, bet_transfert_list);
+	while (g_hash_table_iter_next (&iter, &key, &value))
+	{
+		gint number = 0;
+		TransfertData *std = NULL;
+
+		std = (TransfertData *) value;
+		if (card_account_number != std->card_account_number)
+			continue;
+
+		main_account_number = std->main_account_number;
+		number = gsb_data_account_get_bet_hist_use_data_in_account (main_account_number);
+		if (number > 0)
+			number--;
+		gsb_data_account_set_bet_hist_use_data_in_account (main_account_number, number);
+		g_hash_table_iter_remove (&iter);
+
+		break;
+	}
+    if (gsb_gui_navigation_get_current_account () == main_account_number
+		&& bet_data_get_current_bet_page () == GSB_ESTIMATE_PAGE)
+	{
+		gsb_data_account_set_bet_maj (main_account_number, BET_MAJ_ESTIMATE);
+		bet_data_update_bet_module (main_account_number, GSB_ESTIMATE_PAGE);
+	}
 }
 
 /**

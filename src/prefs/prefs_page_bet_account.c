@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "prefs_page_bet_account.h"
 #include "bet_data.h"
+#include "dialog.h"
 #include "gsb_data_account.h"
 #include "bet_data_finance.h"
 #include "bet_hist.h"
@@ -496,9 +497,34 @@ static void prefs_page_bet_account_select_bank_card_toggle (GtkToggleButton *but
     account_number = gsb_account_get_combo_account_number (priv->combo_bet_account);
 
 	if (gtk_toggle_button_get_active (button))
+	{
 		gsb_data_account_set_bet_credit_card (account_number, 1);
+	}
 	else
+	{
+		gchar *msg;
+
 		gsb_data_account_set_bet_credit_card (account_number, 0);
+		msg = g_strdup (_("Warning: You are about to delete this deferred debit card: \"%s\"\n"
+						  "Are you sure?"));;
+		if (dialogue_yes_no (msg, _("Confirmation of deletion of a deferred debit card"), GTK_RESPONSE_CANCEL))
+		{
+			bet_data_transfert_remove_line_from_card (account_number);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_use_bet_module), FALSE);
+		}
+		else
+		{
+			gsb_data_account_set_bet_credit_card (account_number, 1);
+			g_signal_handlers_block_by_func (G_OBJECT (button),
+											 G_CALLBACK (prefs_page_bet_account_select_bank_card_toggle),
+											 page);
+			gtk_toggle_button_set_active (button, TRUE);
+			g_signal_handlers_unblock_by_func (G_OBJECT (button),
+											   G_CALLBACK (prefs_page_bet_account_select_bank_card_toggle),
+											   page);
+		}
+		g_free (msg);
+	}
 
 	gsb_data_account_set_bet_show_onglets (account_number);
     prefs_page_bet_account_changed (priv->combo_bet_account, page);

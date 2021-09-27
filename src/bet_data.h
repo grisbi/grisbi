@@ -234,6 +234,7 @@ gint						bet_data_transfert_get_main_account_from_card	(gint card_account);
 gboolean 					bet_data_transfert_modify_line 					(TransfertData *transfert);
 gboolean 					bet_data_transfert_remove_line 					(gint account_number,
 																			 gint number);
+void 						bet_data_transfert_remove_line_from_card		(gint card_account_number);
 gboolean 					bet_data_transfert_set_line_from_file 			(TransfertData *transfert);
 void 						bet_data_transfert_update_date_if_necessary		(TransfertData *transfert,
 																			 GDate *date_bascule,
