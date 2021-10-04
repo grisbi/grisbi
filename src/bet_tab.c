@@ -1501,6 +1501,7 @@ static void bet_array_list_size_allocate (GtkWidget *tree_view,
 	if (allocation->width == bet_array_current_tree_view_width)
     {
 		gint somme = 0; /* calcul du % de la dernière colonne */
+		gint tmp_width;
 
 		/* size of the tree view didn't change, but we received an allocated signal
          * it happens several times, and especially when we change the columns,
@@ -1512,8 +1513,14 @@ static void bet_array_list_size_allocate (GtkWidget *tree_view,
 
         for (i = 0 ; i < BET_ARRAY_COLUMNS -1; i++)
         {
-            bet_array_col_width[i] = (gtk_tree_view_column_get_width
-									  (bet_array_tree_view_columns[i]) * 100) / allocation->width + 1;
+
+            tmp_width = (gtk_tree_view_column_get_width
+						 (bet_array_tree_view_columns[i]) * 100) / allocation->width + 1;
+			if (tmp_width != bet_array_col_width[i])
+			{
+				bet_array_col_width[i] = tmp_width;
+				gsb_file_set_modified (TRUE);
+			}
 			somme+= bet_array_col_width[i];
         }
 		bet_array_col_width[i] = 100 - somme;

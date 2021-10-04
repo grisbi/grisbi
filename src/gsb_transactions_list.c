@@ -1790,6 +1790,7 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
     if (allocation->width == current_tree_view_width)
     {
 		gint somme = 0;
+		gint tmp_width;
 
 		/* size of the tree view didn't change, but we received an allocated signal
          * it happens several times, and especially when we change the columns,
@@ -1801,14 +1802,19 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
 
         for (i = 0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS -1; i++)
 		{
-            transaction_col_width[i] = (gtk_tree_view_column_get_width (
-                        transactions_tree_view_columns[i]) * 100) / allocation->width + 1;
+			tmp_width = (gtk_tree_view_column_get_width
+						 (transactions_tree_view_columns[i]) * 100) / allocation->width + 1;
 
+			if (tmp_width != transaction_col_width[i])
+			{
+				transaction_col_width[i] = tmp_width;
+				gsb_file_set_modified (TRUE);
+			}
 			somme+= transaction_col_width[i];
 		}
 
 		transaction_col_width[i] = 100 - somme;
-		gsb_file_set_modified (TRUE);
+
 
         return;
     }
