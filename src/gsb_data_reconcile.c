@@ -788,6 +788,32 @@ void gsb_data_reconcile_renum_account_number_0 (gint new_account_number)
  *
  * \return
  **/
+void gsb_data_reconcile_remove_from_account (gint deleted_account)
+{
+	GList *tmp_list;
+
+	tmp_list = gsb_data_reconcile_get_reconcile_list ();
+	while (tmp_list)
+	{
+		ReconcileStruct *reconcile;
+
+		reconcile = tmp_list->data;
+		tmp_list = tmp_list->next;
+		if (reconcile->account_number == deleted_account)
+		{
+			reconcile_list = g_list_remove (reconcile_list, reconcile);
+			_gsb_data_reconcile_free (reconcile);
+		}
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

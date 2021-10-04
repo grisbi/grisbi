@@ -39,6 +39,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_import_rule.h"
 #include "gsb_data_payment.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
@@ -252,6 +253,9 @@ gboolean gsb_account_delete ( void )
 
         list_tmp = list_tmp -> next;
     }
+
+	/* delete reconciles */
+	gsb_data_reconcile_remove_from_account (deleted_account);
 
 	/* delete elements of the bet module */
 	bet_data_remove_all_bet_data (deleted_account);

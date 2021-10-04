@@ -24,6 +24,7 @@ gboolean 		gsb_data_reconcile_init_variables 			(void);
 gint 			gsb_data_reconcile_max_number 				(void);
 gint 			gsb_data_reconcile_new 						(const gchar *name);
 gboolean 		gsb_data_reconcile_remove 					(gint reconcile_number);
+void			gsb_data_reconcile_remove_from_account		(gint deleted_account);
 void 			gsb_data_reconcile_renum_account_number_0 	(gint new_account_number);
 gboolean 		gsb_data_reconcile_set_account 				(gint reconcile_number,
 															 gint account_number);
