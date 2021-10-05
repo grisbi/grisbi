@@ -53,6 +53,7 @@ void 			gsb_partial_balance_colorise_toggled 				(GtkCellRendererToggle *cell,
 GtkListStore *	gsb_partial_balance_create_model 					(void);
 void 			gsb_partial_balance_remove 							(GtkWidget *button,
 																	 GtkWidget *main_widget);
+void			gsb_partial_balance_remove_from_account				(gint deleted_account);
 void 			gsb_partial_balance_edit 							(GtkWidget *button,
 																	 GtkWidget *main_widget);
 void 			gsb_partial_balance_fill_model 						(GtkListStore *list_store);

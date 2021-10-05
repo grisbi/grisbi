@@ -38,6 +38,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_import_rule.h"
+#include "gsb_data_partial_balance.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_scheduled.h"
@@ -256,6 +257,9 @@ gboolean gsb_account_delete ( void )
 
 	/* delete reconciles */
 	gsb_data_reconcile_remove_from_account (deleted_account);
+
+	/* delete account in partial_balance */
+	gsb_partial_balance_remove_from_account (deleted_account);
 
 	/* delete elements of the bet module */
 	bet_data_remove_all_bet_data (deleted_account);

@@ -1659,6 +1659,64 @@ void gsb_data_partial_balance_renum_account_number_0 (gint account_number)
 	}
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_partial_balance_remove_from_account (gint deleted_account)
+{
+	GSList *tmp_list;
+	gchar *deleted_account_str;
+
+	deleted_account_str = utils_str_itoa (deleted_account);
+	tmp_list = partial_balance_list;
+	while (tmp_list)
+	{
+		gchar *liste_cptes;
+		struct_partial_balance *partial_balance;
+
+		partial_balance = tmp_list->data;
+		liste_cptes = partial_balance->liste_cptes;
+		if (g_strstr_len (liste_cptes, -1, deleted_account_str))
+		{
+			gchar **tab;
+			gint i;
+			gint nbre_elements = 0;
+
+			tab = g_strsplit (liste_cptes, ";", 0);
+			nbre_elements = g_strv_length (tab);
+			for ( i = 0; tab[i]; i++ )
+			{
+				gint account_nb;
+
+				account_nb = utils_str_atoi (tab[i]);
+				if (account_nb == deleted_account)
+				{
+					gchar *str_to_free_1 = NULL;
+					gchar *str_to_free_2;
+
+					if (i == 0)
+					{
+						str_to_free_1 = g_strconcat (tab[i], ";", NULL);
+					}
+					else
+					{
+						str_to_free_1 = g_strconcat (";", tab[i], NULL);
+					}
+					str_to_free_2 = partial_balance->liste_cptes;
+					partial_balance->liste_cptes = gsb_string_remplace_string (str_to_free_2, str_to_free_1, "");
+					nbre_elements--;
+				}
+
+			}
+		}
+		tmp_list = tmp_list->next;
+	}
+}
+
 /*********************************************************************************************/
 /*              Interface                                                                    */
 /*********************************************************************************************/
