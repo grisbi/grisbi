@@ -1625,7 +1625,6 @@ void gsb_data_partial_balance_renum_account_number_0 (gint account_number)
 
         partial_balance = tmp_list->data;
 		liste_cptes = partial_balance->liste_cptes;
-		printf ("liste_cptes = %s\n", liste_cptes);
 		if (g_strstr_len (liste_cptes, -1, "0"))
 		{
 			gchar **tab;
