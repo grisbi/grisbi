@@ -132,6 +132,7 @@ gint 		gsb_data_report_new 										(const gchar *name);
 gint 		gsb_data_report_new_with_number 							(gint number);
 void 		gsb_data_report_renum_account_number_0 						(gint new_account_number);
 gboolean 	gsb_data_report_remove 										(gint no_report);
+void		gsb_data_report_remove_from_account							(gint deleted_account);
 gboolean 	gsb_data_report_set_account_group_reports 					(gint report_number,
 																		 gint account_group_reports);
 gboolean 	gsb_data_report_set_account_numbers_list 					(gint report_number,

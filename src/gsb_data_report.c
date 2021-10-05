@@ -5047,6 +5047,42 @@ void gsb_data_report_set_search_report (gint report_number)
  *
  * \return
  **/
+void gsb_data_report_remove_from_account (gint deleted_account)
+{
+	GSList *tmp_report_list;
+
+	tmp_report_list = gsb_data_report_get_report_list ();
+	while (tmp_report_list)
+	{
+		gint report_number;
+
+		report_number = gsb_data_report_get_report_number (tmp_report_list->data);
+
+		if (gsb_data_report_get_account_use_chosen (report_number))
+		{
+			GSList *tmp_accounts_list;
+			gchar *ptr;
+
+			tmp_accounts_list = gsb_data_report_get_account_numbers_list (report_number);
+			ptr = GINT_TO_POINTER (deleted_account);
+			if (g_slist_find (tmp_accounts_list,ptr ))
+			{
+				tmp_accounts_list = g_slist_remove (tmp_accounts_list, ptr);
+				gsb_data_report_set_account_numbers_list (report_number, tmp_accounts_list);
+			}
+		}
+		tmp_report_list = tmp_report_list->next;
+	}
+
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

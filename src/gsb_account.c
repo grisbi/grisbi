@@ -41,6 +41,7 @@
 #include "gsb_data_partial_balance.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
+#include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
@@ -279,6 +280,9 @@ gboolean gsb_account_delete ( void )
 		}
 		g_slist_free (list_tmp);
 	}
+
+	/* delete account in reports */
+	gsb_data_report_remove_from_account (deleted_account);
 
     /* delete the account */
     gsb_data_account_delete ( deleted_account );
