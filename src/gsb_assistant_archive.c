@@ -281,9 +281,17 @@ static gboolean gsb_assistant_archive_update_labels (GtkWidget *assistant)
 			tmp_list = gsb_data_transaction_get_transactions_list ();
 			while (tmp_list)
 			{
+				gint transaction_marked;
 				gint transaction_number;
 
+				/* fix bug 2156 */
 				transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+				transaction_marked = gsb_data_transaction_get_marked_transaction (transaction_number);
+				if (transaction_marked !=OPERATION_RAPPROCHEE)
+				{
+					tmp_list = tmp_list->next;
+					continue;
+				}
 
 				if (g_date_compare (init_gdate, gsb_data_transaction_get_date (transaction_number)) <= 0
 					&& g_date_compare (final_gdate, gsb_data_transaction_get_date (transaction_number)) >= 0)
@@ -322,9 +330,17 @@ static gboolean gsb_assistant_archive_update_labels (GtkWidget *assistant)
 			tmp_list = gsb_data_transaction_get_transactions_list ();
 			while (tmp_list)
 			{
+				gint transaction_marked;
 				gint transaction_number;
 
+				/* fix bug 2156 */
 				transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+				transaction_marked = gsb_data_transaction_get_marked_transaction (transaction_number);
+				if (transaction_marked !=OPERATION_RAPPROCHEE)
+				{
+					tmp_list = tmp_list->next;
+					continue;
+				}
 
 				if (gsb_data_transaction_get_financial_year_number (transaction_number) == fyear_number)
 				{
@@ -364,7 +380,19 @@ static gboolean gsb_assistant_archive_update_labels (GtkWidget *assistant)
 			tmp_list = report_transactions_list;
 			while (tmp_list)
 			{
-				/* just call add_transaction_to_list, all the linked transactions will be taken */
+				gint transaction_marked;
+				gint transaction_number;
+
+				/* fix bug 2156 */
+				transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+				transaction_marked = gsb_data_transaction_get_marked_transaction (transaction_number);
+				if (transaction_marked !=OPERATION_RAPPROCHEE)
+				{
+					tmp_list = tmp_list->next;
+					continue;
+				}
+
+				/* after just call add_transaction_to_list, all the linked transactions will be taken */
 				gsb_assistant_archive_add_transaction_to_list (tmp_list->data);
 				tmp_list = tmp_list->next;
 			}
