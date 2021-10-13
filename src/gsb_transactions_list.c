@@ -2220,7 +2220,7 @@ static gboolean gsb_transactions_list_hide_transactions_in_archive_line (GtkWidg
 
     while (tmp_list)
     {
-        struct_store_archive *archive_store;
+        StoreArchive *archive_store;
 
         archive_store = tmp_list->data;
 

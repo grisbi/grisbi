@@ -11,7 +11,9 @@
  * \struct
  * Describe an archive store
  */
-typedef struct
+typedef struct _StoreArchive	StoreArchive;
+
+struct _StoreArchive
 {
     gint archive_store_number;
 
@@ -29,7 +31,7 @@ typedef struct
 
     /* les transactions archivées sont visibles dans la vue des opérations FALSE par défaut */
     gboolean transactions_visibles;
-} struct_store_archive;
+};
 
 
 
