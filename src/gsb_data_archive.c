@@ -46,8 +46,10 @@
  * \struct
  * Describe a archive
  */
-typedef struct
-{
+typedef struct _ArchiveStruct	ArchiveStruct;
+
+struct _ArchiveStruct
+ {
     gint archive_number;
     gchar *archive_name;
 
@@ -63,10 +65,10 @@ typedef struct
     /* if created by report, this is the title of
      * the report */
     gchar *report_title;
-} struct_archive;
+};
 
 /*START_STATIC*/
-static void _gsb_data_archive_free ( struct_archive* archive);
+static void _gsb_data_archive_free ( ArchiveStruct* archive);
 static gpointer gsb_data_archive_get_structure ( gint archive_number );
 static gint gsb_data_archive_max_number ( void );
 /*END_STATIC*/
@@ -74,11 +76,11 @@ static gint gsb_data_archive_max_number ( void );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** contains the g_slist of struct_archive */
+/** contains the g_slist of ArchiveStruct */
 static GSList *archive_list = NULL;
 
 /** a pointer to the last archive used (to increase the speed) */
-static struct_archive *archive_buffer;
+static ArchiveStruct *archive_buffer;
 
 
 /**
@@ -128,7 +130,7 @@ gpointer gsb_data_archive_get_structure ( gint archive_number )
 
     while ( tmp )
     {
-	struct_archive *archive;
+	ArchiveStruct *archive;
 
 	archive = tmp -> data;
 
@@ -166,7 +168,7 @@ GSList *gsb_data_archive_get_archives_list ( void )
  * */
 gint gsb_data_archive_get_no_archive ( gpointer archive_ptr )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     if ( !archive_ptr )
 	return 0;
@@ -193,7 +195,7 @@ gint gsb_data_archive_max_number ( void )
 
     while ( tmp )
     {
-	struct_archive *archive;
+	ArchiveStruct *archive;
 
 	archive = tmp -> data;
 
@@ -216,9 +218,9 @@ gint gsb_data_archive_max_number ( void )
  * */
 gint gsb_data_archive_new ( const gchar *name )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
-    archive = g_malloc0 ( sizeof ( struct_archive ));
+    archive = g_malloc0 ( sizeof ( ArchiveStruct ));
     if (!archive)
     {
     dialogue_error_memory ();
@@ -238,9 +240,9 @@ gint gsb_data_archive_new ( const gchar *name )
 }
 
 /**
- * This internal function is called to free the memory used by an struct_archive structure
+ * This internal function is called to free the memory used by an ArchiveStruct structure
  */
-static void _gsb_data_archive_free ( struct_archive* archive)
+static void _gsb_data_archive_free ( ArchiveStruct* archive)
 {
     if ( ! archive )
         return;
@@ -267,7 +269,7 @@ static void _gsb_data_archive_free ( struct_archive* archive)
  * */
 gboolean gsb_data_archive_remove ( gint archive_number )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
     GSList *tmp_list;
 
     archive = gsb_data_archive_get_structure ( archive_number );
@@ -311,7 +313,7 @@ gboolean gsb_data_archive_remove ( gint archive_number )
 gint gsb_data_archive_set_new_number ( gint archive_number,
                         gint new_no_archive )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -332,7 +334,7 @@ gint gsb_data_archive_set_new_number ( gint archive_number,
  * */
 const gchar *gsb_data_archive_get_name ( gint archive_number )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -355,7 +357,7 @@ const gchar *gsb_data_archive_get_name ( gint archive_number )
 gboolean gsb_data_archive_set_name ( gint archive_number,
                         const gchar *name )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -383,7 +385,7 @@ gboolean gsb_data_archive_set_name ( gint archive_number,
  * */
 GDate *gsb_data_archive_get_beginning_date ( gint archive_number )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -406,7 +408,7 @@ GDate *gsb_data_archive_get_beginning_date ( gint archive_number )
 gboolean gsb_data_archive_set_beginning_date ( gint archive_number,
                         const GDate *date )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -433,7 +435,7 @@ gboolean gsb_data_archive_set_beginning_date ( gint archive_number,
  * */
 GDate *gsb_data_archive_get_end_date ( gint archive_number )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -456,7 +458,7 @@ GDate *gsb_data_archive_get_end_date ( gint archive_number )
 gboolean gsb_data_archive_set_end_date ( gint archive_number,
                         const GDate *date )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -482,7 +484,7 @@ gboolean gsb_data_archive_set_end_date ( gint archive_number,
  * */
 gint gsb_data_archive_get_fyear ( gint archive_number )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -504,7 +506,7 @@ gint gsb_data_archive_get_fyear ( gint archive_number )
 gboolean gsb_data_archive_set_fyear ( gint archive_number,
                         gint fyear_number )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -526,7 +528,7 @@ gboolean gsb_data_archive_set_fyear ( gint archive_number,
  * */
 const gchar *gsb_data_archive_get_report_title ( gint archive_number )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -548,7 +550,7 @@ const gchar *gsb_data_archive_get_report_title ( gint archive_number )
 gboolean gsb_data_archive_set_report_title ( gint archive_number,
                         const gchar *report_title )
 {
-    struct_archive *archive;
+    ArchiveStruct *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
@@ -584,7 +586,7 @@ gint gsb_data_archive_get_from_date ( const GDate *date )
     tmp_list = archive_list;
     while (tmp_list)
     {
-	struct_archive *archive;
+	ArchiveStruct *archive;
 
 	archive = tmp_list -> data;
 
@@ -623,7 +625,7 @@ gint gsb_data_archive_get_from_fyear ( gint fyear_number )
     tmp_list = archive_list;
     while (tmp_list)
     {
-	struct_archive *archive;
+	ArchiveStruct *archive;
 
 	archive = tmp_list -> data;
 
