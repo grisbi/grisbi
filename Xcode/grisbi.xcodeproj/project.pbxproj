@@ -1733,7 +1733,6 @@
 					/usr/local/opt/glib/lib,
 					/usr/local/opt/cairo/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1774,7 +1773,6 @@
 					/usr/local/opt/glib/lib,
 					/usr/local/opt/cairo/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
