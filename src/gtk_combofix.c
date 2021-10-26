@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C)    2001-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2019 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          2009-2021 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -108,6 +108,27 @@ enum CombofixKeyDirection
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static void gtk_combofix_completion_no_match_selected (GtkEntryCompletion *completion,
+													   GtkComboFixPrivate *priv)
+{
+	devel_debug (NULL);
+	if (priv->force)
+	{
+		gint end_pos;
+
+		end_pos = gtk_editable_get_position (GTK_EDITABLE (priv->entry));
+		gtk_editable_delete_text (GTK_EDITABLE (priv->entry), end_pos-1, end_pos);
+
+	}
+}
+
 /**
  * positionne le bouton "Change" du formulaire si le compte destinataire
  * du transfert a une devise différente du compte de départ.
@@ -1958,6 +1979,18 @@ GtkWidget *gtk_combofix_new_with_properties (GSList *list,
 
 	gtk_combofix_set_list (combofix, list);
 	gtk_widget_set_size_request (GTK_WIDGET (combofix), COMBOFIX_MIN_WIDTH, -1);
+
+	/* fix_bug 2154 */
+	if (priv->type == METATREE_PAYEE && priv->force)
+	{
+		GtkEntryCompletion *completion;
+
+		completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
+	   g_signal_connect (G_OBJECT (completion),
+						 "no-matches",
+						 G_CALLBACK (gtk_combofix_completion_no_match_selected),
+						 priv);
+	}
 
 	return (GTK_WIDGET (combofix));
 }
