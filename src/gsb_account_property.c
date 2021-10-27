@@ -1335,9 +1335,9 @@ void gsb_account_property_iban_set_iban ( const gchar *iban )
 									 bank_list_combobox);
 
     gtk_editable_delete_text ( GTK_EDITABLE (detail_IBAN), 0, -1 );
-    if ( iban && strlen (iban) > 0 )
-        gtk_editable_insert_text ( GTK_EDITABLE (detail_IBAN),
-                            iban, -1, &position );
+	if ( iban && strlen (iban) > 0 )
+		gtk_editable_insert_text ( GTK_EDITABLE (detail_IBAN), iban, -1, &position );
+
 	g_signal_handlers_unblock_by_func (G_OBJECT (detail_IBAN),
 									   G_CALLBACK (gsb_account_property_iban_insert_text),
 									   bank_list_combobox);
