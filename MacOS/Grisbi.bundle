@@ -69,33 +69,33 @@
   </binary>
 
   <!-- goffice display plugins -->
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/plot_barcol/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/plot_barcol/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/plot_barcol/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/plot_barcol/*.xml</data>
 
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/plot_distrib/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/plot_distrib/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/plot_distrib/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/plot_distrib/*.xml</data>
 
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/plot_pie/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/plot_pie/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/plot_pie/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/plot_pie/*.xml</data>
 
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/plot_radar/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/plot_radar/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/plot_radar/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/plot_radar/*.xml</data>
 
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/plot_surface/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/plot_surface/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/plot_surface/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/plot_surface/*.xml</data>
   
 
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/plot_xy/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/plot_xy/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/plot_xy/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/plot_xy/*.xml</data>
 
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/reg_linear/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/reg_linear/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/reg_linear/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/reg_linear/*.xml</data>
 
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/reg_logfit/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/reg_logfit/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/reg_logfit/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/reg_logfit/*.xml</data>
 
-  <binary>${prefix}/lib/goffice/0.10.49/plugins/smoothing/*.so</binary>
-  <data>${prefix}/lib/goffice/0.10.49/plugins/smoothing/*.xml</data>
+  <binary>${prefix}/lib/goffice/0.10.51/plugins/smoothing/*.so</binary>
+  <data>${prefix}/lib/goffice/0.10.51/plugins/smoothing/*.xml</data>
 
   <translations name="gtk30">
     ${prefix}/share/locale
