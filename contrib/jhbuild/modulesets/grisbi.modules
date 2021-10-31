@@ -7,8 +7,8 @@
 
 	<repository type='tarball' name='ftp.gnu.org'
 		href="ftp://ftp.gnu.org/gnu/"/>
-	<repository type='tarball' name='ftp.gmplib.org'
-		href="ftp://ftp.gmplib.org/pub/"/>
+	<repository type='tarball' name='gmplib.org'
+		href="https://gmplib.org/download/gmp/"/>
 	<repository type='tarball' name='sourceforge'
 		href="http://downloads.sourceforge.net/"/>
 	<repository type='tarball' name='download.grisbi.org'
@@ -25,16 +25,30 @@
 	      href="git://github.com/"/>
 	<repository type="git" name="gnomegit"
 		href="https://gitlab.gnome.org/GNOME/" />
+	<repository type='tarball' name='www.hboehm.info'
+		href="https://www.hboehm.info/"/>
 	
+	<autotools id="bdw-gc" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s">
+		<branch repo="www.hboehm.info" module="gc/gc_source/gc-8.0.6.tar.gz" version="0.9.10"/>
+	</autotools>
+
+	<autotools id="libunistring" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s" autogenargs="--disable-static --enable-shared --disable-namespacing">
+		<branch repo="ftp.gnu.org" module="libunistring/libunistring-0.9.10.tar.gz" version="0.9.10"/>
+	</autotools>
+
+	<autotools id="libiconv" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s">
+		<branch repo="ftp.gnu.org" module="libiconv/libiconv-1.16.tar.gz" version="1.16"/>
+	</autotools>
+
 	<autotools id="gmp">
-		<branch repo="ftp.gmplib.org" module="gmp-6.2.1/gmp-6.2.1.tar.bz2" version="6.2.1"/>
+		<branch repo="gmplib.org" module="gmp-6.2.1.tar.xz" version="6.2.1"/>
 	</autotools>
 
 	<autotools id='readline' >
 		<branch repo="ftp.gnu.org" module="readline/readline-6.0.tar.gz" version="6.0"/>
 	</autotools>
 
-	<autotools id="OpenSP" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s" autogenargs="--disable-static --enable-shared --disable-doc-build --disable-nls">
+	<autotools id="OpenSP" autogen-sh="autoreconf" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s" autogenargs="--disable-static --enable-shared --disable-doc-build --disable-nls">
 		<branch repo="sourceforge" module="openjade/OpenSP-1.5.2.tar.gz" version='1.5.2'/>
 	</autotools>
 
@@ -72,6 +86,7 @@
 			<dep package='readline'/>
 			<dep package="gmp"/>
 			<dep package="libunistring"/>
+			<dep package="libiconv"/>
 			<dep package="bdw-gc"/>
 		</dependencies>
 	</autotools>
