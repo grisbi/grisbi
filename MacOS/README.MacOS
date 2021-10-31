@@ -21,10 +21,14 @@ Then use the following command lines:
 % jhbuild bootstrap-gtk-osx
 
 % # install meson tool
-% pip3 install meson --user
+% python3 -m pip install meson --user
+% you may have to add ~/Library/Python/3.8/bin in your PATH
 
 % # install ninja tool
 % https://ninja-build.org/
+
+% # install pygments
+% python3 -m pip install pygments --user
 
 % # install GTK3 env
 % jhbuild build meta-gtk-osx-gtk3
