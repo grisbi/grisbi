@@ -376,6 +376,23 @@ gboolean csv_import_parse_cheque (struct ImportTransaction *ope,
  *
  *
  */
+gboolean csv_import_parse_payment_method (struct ImportTransaction *ope,
+								  gchar *string)
+{
+    if (ope->payment_method)
+        g_free (ope->payment_method);
+
+    ope->payment_method = my_strdup (string);
+
+    return TRUE;
+}
+
+
+
+/**
+ *
+ *
+ */
 gboolean csv_import_parse_category (struct ImportTransaction *ope,
 									gchar *string)
 {

@@ -66,7 +66,7 @@ static gboolean csv_create_rule = FALSE;
 
 /** Contain configuration of CSV fields.  */
 /* NAME, ALIGNMENT, VALIDATE FUNCTION, PARSE FUNCTION, ALIAS */
-struct csv_field csv_fields[18] = {
+struct csv_field csv_fields[19] = {
 	{ N_("Unknown field"),  	0.0, NULL,			     		 NULL		     ,				"" },				/* 0 */
 	{ N_("Currency"),	    	0.0, csv_import_validate_string, csv_import_parse_currency, 	"" },				/* 1 */
 	{ N_("Date"),	    		0.0, csv_import_validate_date,   csv_import_parse_date, 		"" },				/* 2 */
@@ -84,6 +84,7 @@ struct csv_field csv_fields[18] = {
 	{ N_("Debit (negative)"),	0.0, csv_import_validate_amount, csv_import_parse_credit, 		"" },				/* 14 */
 	{ N_("C/R"),	    		0.0, csv_import_validate_string, csv_import_parse_p_r, 			"" },				/* 15 */
 	{ N_("Split"),	    		0.0, csv_import_validate_string, csv_import_parse_split, 		"" },				/* 16 */
+	{ N_("Payment method"),	    0.0, csv_import_validate_string, csv_import_parse_payment_method, 		"" },		/* 17 */
 	{ NULL, 0.0, NULL, NULL, NULL },
 };
 

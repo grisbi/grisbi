@@ -87,6 +87,8 @@ struct ImportTransaction
     gchar *notes;
     gchar *cheque;
 
+    gchar *payment_method;
+
     gchar *categ;
 	gchar *budget;
 

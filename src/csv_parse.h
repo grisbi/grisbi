@@ -36,6 +36,8 @@ gboolean 	csv_import_parse_value_date 	(struct ImportTransaction *ope,
 											 gchar *string);
 gboolean 	csv_import_parse_cheque 		(struct ImportTransaction *ope,
 											 gchar *string);
+gboolean 	csv_import_parse_payment_method (struct ImportTransaction *ope,
+											 gchar *string);
 gboolean 	csv_import_validate_amount 		(gchar *string);
 gboolean 	csv_import_validate_date 		(gchar *string);
 gboolean 	csv_import_validate_number 		(gchar *string);
