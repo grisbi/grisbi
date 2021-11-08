@@ -3930,12 +3930,30 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 		}
 
 		/* if no contra-transaction, that transaction becomes normal */
-		if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) == -1)
-		    /* the contra transaction is still -1, so no contra transaction found, unset that */
-		    gsb_data_transaction_set_contra_transaction_number (transaction_number_tmp,
-									 0);
-	    }
-	}
+        if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) == -1) {
+
+            gint contra_transaction_number = 0;
+            contra_transaction_number = gsb_data_transaction_new_transaction ( contra_account_number );
+
+            gsb_data_transaction_copy_transaction ( transaction_number_tmp,
+                                contra_transaction_number, 1 );
+
+            /* we have to change the amount by the opposite */
+            gsb_data_transaction_set_amount (contra_transaction_number,
+                             gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number_tmp)));
+            /* we have to check the change */
+            gsb_currency_check_for_change ( contra_transaction_number );
+
+            /* set the link between the transactions */
+            gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
+                                     contra_transaction_number);
+            gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
+                    transaction_number_tmp);
+
+            gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
+        }
+        }
+    }
 
 	tmp_list_transactions = tmp_list_transactions->next;
     }
