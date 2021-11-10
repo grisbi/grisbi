@@ -3929,7 +3929,6 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 		    tmp_list_transactions_2 = tmp_list_transactions_2->next;
 		}
 
-		/* if no contra-transaction, that transaction becomes normal */
         if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) == -1) {
 
             gint contra_transaction_number = 0;
@@ -3951,6 +3950,19 @@ static void gsb_import_cree_liens_virements_ope_import (void)
                     transaction_number_tmp);
 
             gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
+
+            gint payment_number = gsb_data_transaction_get_method_of_payment_number(transaction_number_tmp);
+
+            if (payment_number) {
+                gint target_payment_number = gsb_data_payment_get_number_by_name (
+                gsb_data_payment_get_name(payment_number),
+                    contra_account_number
+                );
+
+                if (target_payment_number) {
+                    gsb_data_transaction_set_method_of_payment_number (contra_transaction_number, target_payment_number);
+                }
+            }
         }
         }
     }
