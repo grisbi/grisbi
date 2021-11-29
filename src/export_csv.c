@@ -667,11 +667,14 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 				contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (pSplitTransaction);
 				if (contra_transaction_number > 0)
 				{
+					gint tmp_account_number;
+
 					/* c'est un virement */
 					CSV_CLEAR_FIELD (csv_field_categ);
 					csv_field_categ = my_strdup (_("Transfer"));
 
-					tmp_str = g_strconcat ("[", gsb_data_account_get_name (contra_transaction_number), "]", NULL);
+					tmp_account_number = gsb_data_transaction_get_account_number (contra_transaction_number);
+					tmp_str = g_strconcat ("[", gsb_data_account_get_name (tmp_account_number), "]", NULL);
 
 					/* TODO dOm : is it necessary to duplicate memory with my_strdup since it was already newly allocated memory ? */
 					CSV_CLEAR_FIELD (csv_field_sous_categ);
