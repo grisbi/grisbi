@@ -3862,36 +3862,42 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 		{
 			/* the name of the contra account is in the bank references with [and] */
 			gchar *contra_account_name;
-	    gint contra_account_number;
+			gint contra_account_number;
 
-	    contra_account_name = my_strdelimit (gsb_data_transaction_get_bank_references (transaction_number_tmp),
-						 "[]", "");
-	    contra_account_number = gsb_data_account_get_no_account_by_name (contra_account_name);
-	    g_free (contra_account_name);
+			contra_account_name = my_strdelimit (gsb_data_transaction_get_bank_references (transaction_number_tmp),
+												 "[]", "");
+			contra_account_number = gsb_data_account_get_no_account_by_name (contra_account_name);
 
-	    /* now we needn't the bank reference anymore */
-	    gsb_data_transaction_set_bank_references (transaction_number_tmp, NULL);
+			/* now we needn't the bank reference anymore */
+			gsb_data_transaction_set_bank_references (transaction_number_tmp, NULL);
 
-	    if (contra_account_number == -1)
-	    {
-		/* we have not found the contra-account */
-		gsb_data_transaction_set_contra_transaction_number (transaction_number_tmp,
-								     0);
-	    }
-	    else
-	    {
-		/* we have found the contra-account, we look for the contra-transaction */
-		GSList *tmp_list_transactions_2;
+			if (contra_account_number == -1)
+			{
+				gchar *tmp_str;
+
+				/* we have not found the contra-account */
+				gsb_data_transaction_set_contra_transaction_number (transaction_number_tmp, 0);
+				tmp_str = g_strdup_printf ( _("You have imported transaction of transfer to an "
+											  "inexistent account: '%s'"),
+										   contra_account_name);
+				dialogue_warning_hint (tmp_str, _("Transfer transaction in error"));
+				g_free (tmp_str);
+				g_free (contra_account_name);
+			}
+			else
+			{
+				/* we have found the contra-account, we look for the contra-transaction */
+				GSList *tmp_list_transactions_2;
 				gint transaction_account;
 
 				transaction_account = gsb_data_transaction_get_account_number (transaction_number_tmp);
-		tmp_list_transactions_2 = gsb_data_transaction_get_transactions_list ();
-		while (tmp_list_transactions_2)
-		{
-		    gint contra_transaction_number_tmp;
-		    gint contra_transaction_account;
+				tmp_list_transactions_2 = gsb_data_transaction_get_transactions_list ();
+				while (tmp_list_transactions_2)
+				{
+					gint contra_transaction_number_tmp;
+					gint contra_transaction_account;
 
-		    contra_transaction_number_tmp = gsb_data_transaction_get_transaction_number (tmp_list_transactions_2->data);
+					contra_transaction_number_tmp = gsb_data_transaction_get_transaction_number (tmp_list_transactions_2->data);
 					contra_transaction_account = gsb_data_transaction_get_account_number (contra_transaction_number_tmp);
 
 					if (contra_account_number == contra_transaction_account
@@ -3900,9 +3906,9 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 						/* we have found the contra transaction, set all the values */
 						gint payment_number;
 
-			gsb_data_transaction_set_contra_transaction_number (transaction_number_tmp,
-									     contra_transaction_number_tmp);
-			gsb_data_transaction_set_contra_transaction_number (contra_transaction_number_tmp,
+						gsb_data_transaction_set_contra_transaction_number (transaction_number_tmp,
+																			contra_transaction_number_tmp);
+						gsb_data_transaction_set_contra_transaction_number (contra_transaction_number_tmp,
 																			transaction_number_tmp);
 
 						/* unset the reference of the contra transaction */
@@ -3910,28 +3916,70 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 
 						/* try to set the good method of payment to transfer */
 						payment_number = gsb_data_payment_get_transfer_payment_number (transaction_account);
-			if (payment_number)
-			    gsb_data_transaction_set_method_of_payment_number (transaction_number_tmp, payment_number);
+						if (payment_number)
+							gsb_data_transaction_set_method_of_payment_number (transaction_number_tmp, payment_number);
 
-			payment_number = gsb_data_payment_get_transfer_payment_number (contra_transaction_account);
-			if (payment_number)
-			    gsb_data_transaction_set_method_of_payment_number (contra_transaction_number_tmp, payment_number);
-		    }
-		    tmp_list_transactions_2 = tmp_list_transactions_2->next;
+						payment_number = gsb_data_payment_get_transfer_payment_number (contra_transaction_account);
+						if (payment_number)
+							gsb_data_transaction_set_method_of_payment_number (contra_transaction_number_tmp, payment_number);
+					}
+					tmp_list_transactions_2 = tmp_list_transactions_2->next;
+				}
+
+				/* if no contra-transaction, that transaction becomes normal */
+				/* on retouve notre virement dans la deuxième liste */
+				if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) == -1)
+				{
+					gint contra_transaction_number = 0;
+					gint mother_number;
+					gint payment_number;
+
+					/* on crée une transaction dans le compte destinataire */
+					contra_transaction_number = gsb_data_transaction_new_transaction (contra_account_number);
+					gsb_data_transaction_copy_transaction (transaction_number_tmp, contra_transaction_number, TRUE);
+
+					/* fixe les données si le virement est une opération fille */
+					mother_number = gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp);
+					if (mother_number)
+					{
+						gint payee_number;
+
+						gsb_data_transaction_set_mother_transaction_number (contra_transaction_number, 0);
+						payee_number = gsb_data_transaction_get_party_number (mother_number);
+						gsb_data_transaction_set_party_number (contra_transaction_number, payee_number);
+
+					}
+
+					/* we have to change the amount by the opposite */
+					gsb_data_transaction_set_amount (contra_transaction_number,
+													 gsb_real_opposite (gsb_data_transaction_get_amount
+																		(transaction_number_tmp)));
+
+					/* we have to check the change */
+					gsb_currency_check_for_change (contra_transaction_number);
+
+					/* set default payment number of contra */
+					payment_number = gsb_data_payment_get_transfer_payment_number (contra_account_number);
+					if (payment_number)
+						gsb_data_transaction_set_method_of_payment_number (contra_transaction_number,
+																		   payment_number);
+
+					/* set the link between the transactions */
+					gsb_data_transaction_set_contra_transaction_number (transaction_number_tmp,
+																		contra_transaction_number);
+					gsb_data_transaction_set_contra_transaction_number (contra_transaction_number,
+																		transaction_number_tmp);
+
+					gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
+				}
+				g_free (contra_account_name);
+			}
 		}
 
-		/* if no contra-transaction, that transaction becomes normal */
-		if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) == -1)
-		    /* the contra transaction is still -1, so no contra transaction found, unset that */
-		    gsb_data_transaction_set_contra_transaction_number (transaction_number_tmp,
-									 0);
-	    }
-	}
-
-	tmp_list_transactions = tmp_list_transactions->next;
+		tmp_list_transactions = tmp_list_transactions->next;
     }
 
-    /* the transactions were already set in the list,
+	/* the transactions were already set in the list,
      * and the transfer was not written, we need to update the categories values
      * in the lists */
     transaction_list_update_element (ELEMENT_CATEGORY);

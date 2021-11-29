@@ -1654,6 +1654,28 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 								ope->ope_de_ventilation = 1;
 							}
 						}
+						else if (csv_fields_config[i] == 7)
+						{
+							if (field->parse (ope, list->data))
+							{
+								if (ope->categ && (strncmp (ope->categ, _("Transfer"), strlen (_("Transfer"))) == 0))
+								{
+									ope->transfert = TRUE;
+								}
+							}
+						}
+						else if (csv_fields_config[i] == 8)
+						{
+							if (ope->transfert == TRUE)
+							{
+								g_free (ope->categ);
+								ope->categ = g_strdup (list->data);
+							}
+							else if (!field->parse (ope, list->data))
+							{
+								/* g_print ("%s", "(failed)"); */
+							}
+						}
 						else if (!field->parse (ope, list->data))
 						{
 							/* g_print ("%s", "(failed)"); */
