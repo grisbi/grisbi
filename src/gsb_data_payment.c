@@ -45,7 +45,9 @@
  * \struct
  * Describe a method of payment
  */
-typedef struct
+typedef struct _PaymentStruct		PaymentStruct;
+
+struct _PaymentStruct
 {
     gint payment_number;
     gint account_number;
@@ -55,18 +57,18 @@ typedef struct
     gint show_entry;		/**< when select it in form, need to show an entry (for cheque number for example) or not */
     gint automatic_numbering;	/**< for cheque number for example */
     gchar *last_number;		/**< the last number of cheque used */
-} struct_payment;
+};
 
 
-/** contains the g_slist of struct_payment */
+/** contains the g_slist of PaymentStruct */
 static GSList *payment_list = NULL;
 
 /** a pointer to the last payment used (to increase the speed) */
-static struct_payment *payment_buffer;
+static PaymentStruct *payment_buffer;
 
 /*START_STATIC*/
-static void _gsb_data_payment_free ( struct_payment *payment );
-static struct_payment *gsb_data_payment_get_structure ( gint payment_number );
+static void _gsb_data_payment_free ( PaymentStruct *payment );
+static PaymentStruct *gsb_data_payment_get_structure ( gint payment_number );
 static gint gsb_data_payment_max_number ( void );
 /*END_STATIC*/
 
@@ -90,7 +92,7 @@ gboolean gsb_data_payment_init_variables ( void )
         GSList* tmp_list = payment_list;
         while ( tmp_list )
         {
-            struct_payment *payment;
+            PaymentStruct *payment;
             payment = tmp_list -> data;
             tmp_list = tmp_list -> next;
 	    _gsb_data_payment_free ( payment );
@@ -109,9 +111,9 @@ gboolean gsb_data_payment_init_variables ( void )
  *
  * \param payment_number number of payment
  *
- * \return the struct_payment corresponding to the payment_number or NULL
+ * \return the PaymentStruct corresponding to the payment_number or NULL
  * */
-struct_payment *gsb_data_payment_get_structure ( gint payment_number )
+PaymentStruct *gsb_data_payment_get_structure ( gint payment_number )
 {
     GSList *tmp;
 
@@ -128,7 +130,7 @@ struct_payment *gsb_data_payment_get_structure ( gint payment_number )
 
     while ( tmp )
     {
-	struct_payment *payment;
+	PaymentStruct *payment;
 
 	payment = tmp -> data;
 
@@ -175,7 +177,7 @@ GSList *gsb_data_payment_get_list_for_account ( gint account_number )
 
     while ( tmp_list )
     {
-	struct_payment *payment;
+	PaymentStruct *payment;
 
 	payment = tmp_list -> data;
 
@@ -199,7 +201,7 @@ GSList *gsb_data_payment_get_list_for_account ( gint account_number )
  * */
 gint gsb_data_payment_get_number ( gpointer payment_ptr )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     if ( !payment_ptr )
 	return 0;
@@ -228,7 +230,7 @@ gint gsb_data_payment_get_number_by_name ( const gchar *name,
 
     while ( tmp_list )
     {
-	struct_payment *payment;
+	PaymentStruct *payment;
 
 	payment = tmp_list -> data;
 
@@ -262,7 +264,7 @@ gint gsb_data_payment_max_number ( void )
 
     while ( tmp )
     {
-	struct_payment *payment;
+	PaymentStruct *payment;
 
 	payment = tmp -> data;
 
@@ -285,9 +287,9 @@ gint gsb_data_payment_max_number ( void )
  * */
 gint gsb_data_payment_new ( const gchar *name )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
-    payment = g_malloc0 ( sizeof ( struct_payment ));
+    payment = g_malloc0 ( sizeof ( PaymentStruct ));
     payment -> payment_number = gsb_data_payment_max_number () + 1;
 
     if (name)
@@ -304,9 +306,9 @@ gint gsb_data_payment_new ( const gchar *name )
 }
 
 /**
- * This internal function is called to free the memory used by a struct_payment structure
+ * This internal function is called to free the memory used by a PaymentStruct structure
  */
-static void _gsb_data_payment_free ( struct_payment *payment )
+static void _gsb_data_payment_free ( PaymentStruct *payment )
 {
     if ( ! payment )
         return;
@@ -330,7 +332,7 @@ static void _gsb_data_payment_free ( struct_payment *payment )
  * */
 gboolean gsb_data_payment_remove ( gint payment_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -359,7 +361,7 @@ gboolean gsb_data_payment_remove ( gint payment_number )
 gint gsb_data_payment_set_new_number ( gint payment_number,
 				       gint new_no_payment )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -380,7 +382,7 @@ gint gsb_data_payment_set_new_number ( gint payment_number,
  * */
 gint gsb_data_payment_get_account_number ( gint payment_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -402,7 +404,7 @@ gint gsb_data_payment_get_account_number ( gint payment_number )
 gboolean gsb_data_payment_set_account_number ( gint payment_number,
 					       gint account_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -424,7 +426,7 @@ gboolean gsb_data_payment_set_account_number ( gint payment_number,
  * */
 const gchar *gsb_data_payment_get_name ( gint payment_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -447,7 +449,7 @@ const gchar *gsb_data_payment_get_name ( gint payment_number )
 gboolean gsb_data_payment_set_name ( gint payment_number,
 				     const gchar *name )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -477,7 +479,7 @@ gboolean gsb_data_payment_set_name ( gint payment_number,
  * */
 gint gsb_data_payment_get_sign ( gint payment_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -499,7 +501,7 @@ gint gsb_data_payment_get_sign ( gint payment_number )
 gboolean gsb_data_payment_set_sign ( gint payment_number,
 				     gint sign )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -523,7 +525,7 @@ gboolean gsb_data_payment_set_sign ( gint payment_number,
  * */
 gint gsb_data_payment_get_show_entry ( gint payment_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -545,7 +547,7 @@ gint gsb_data_payment_get_show_entry ( gint payment_number )
 gboolean gsb_data_payment_set_show_entry ( gint payment_number,
 					   gint show_entry )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -571,7 +573,7 @@ gboolean gsb_data_payment_set_show_entry ( gint payment_number,
  * */
 gint gsb_data_payment_get_automatic_numbering ( gint payment_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -593,7 +595,7 @@ gint gsb_data_payment_get_automatic_numbering ( gint payment_number )
 gboolean gsb_data_payment_set_automatic_numbering ( gint payment_number,
 						    gint automatic_numbering )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -627,7 +629,7 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
     tmp_list = payment_list;
     while (tmp_list)
     {
-	struct_payment *payment;
+	PaymentStruct *payment;
 
 	payment = tmp_list -> data;
 	if ( payment -> account_number == account_number )
@@ -651,7 +653,7 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
  * */
 const gchar *gsb_data_payment_get_last_number ( gint payment_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -675,7 +677,7 @@ gboolean gsb_data_payment_set_last_number ( gint payment_number,
 {
 	gint old_number;
 	gint new_number;
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -792,7 +794,7 @@ devel_debug_int ( account_number);
 gint gsb_data_payment_get_similar ( gint origin_payment,
 				    gint target_account_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
     GSList *tmp_list;
 
     payment = gsb_data_payment_get_structure (origin_payment);
@@ -804,7 +806,7 @@ gint gsb_data_payment_get_similar ( gint origin_payment,
 
     while (tmp_list)
     {
-	struct_payment *tmp_payment;
+	PaymentStruct *tmp_payment;
 
 	tmp_payment = tmp_list -> data;
 
@@ -854,7 +856,7 @@ gchar *gsb_data_payment_incremente_last_number ( gint payment_number,
  * */
 gint gsb_data_payment_get_last_number_to_int ( gint payment_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
@@ -876,7 +878,7 @@ gint gsb_data_payment_get_last_number_to_int ( gint payment_number )
 gboolean gsb_data_payment_set_last_number_from_int ( gint payment_number,
 					    gint last_number )
 {
-    struct_payment *payment;
+    PaymentStruct *payment;
     const gchar *old_number = NULL;
     gchar *new_number;
     gchar *prefix = NULL;
@@ -933,7 +935,7 @@ gint gsb_data_payment_search_number_other_account_by_name ( gint payment_number,
 
     while ( tmp_list )
     {
-        struct_payment *payment;
+        PaymentStruct *payment;
 
         payment = tmp_list -> data;
 
