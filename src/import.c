@@ -3821,8 +3821,7 @@ static gboolean gsb_import_check_transaction_link (gint transaction_number,
 	return FALSE;
 
     /* check if the contra account name of the tested transaction is the account of the transaction */
-    contra_account_name = my_strdelimit (gsb_data_transaction_get_bank_references (tested_transaction),
-					 "[]", "");
+    contra_account_name = my_strdelimit (gsb_data_transaction_get_bank_references (tested_transaction), "[]", "");
     contra_account_number = gsb_data_account_get_no_account_by_name (contra_account_name);
     g_free (contra_account_name);
 
@@ -3848,21 +3847,21 @@ static gboolean gsb_import_check_transaction_link (gint transaction_number,
 static void gsb_import_cree_liens_virements_ope_import (void)
 {
     GSList *tmp_list_transactions;
-    tmp_list_transactions = gsb_data_transaction_get_transactions_list ();
 
+	tmp_list_transactions = gsb_data_transaction_get_transactions_list ();
     while (tmp_list_transactions)
     {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (tmp_list_transactions->data);
+		gint transaction_number_tmp;
 
-	/* if the contra transaction number is -1, it's a transfer,
-	 * in that case, the name of the contra account is in the bank_references */
-	if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp)== -1
-	     &&
-	     gsb_data_transaction_get_bank_references (transaction_number_tmp))
-	{
-	    /* the name of the contra account is in the bank references with [and] */
-	    gchar *contra_account_name;
+		transaction_number_tmp = gsb_data_transaction_get_transaction_number (tmp_list_transactions->data);
+
+		/* if the contra transaction number is -1, it's a transfer, */
+		/* in that case, the name of the contra account is in the bank_references */
+		if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp)== -1
+			 && gsb_data_transaction_get_bank_references (transaction_number_tmp))
+		{
+			/* the name of the contra account is in the bank references with [and] */
+			gchar *contra_account_name;
 	    gint contra_account_number;
 
 	    contra_account_name = my_strdelimit (gsb_data_transaction_get_bank_references (transaction_number_tmp),
@@ -3883,8 +3882,9 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 	    {
 		/* we have found the contra-account, we look for the contra-transaction */
 		GSList *tmp_list_transactions_2;
-		gint transaction_account = gsb_data_transaction_get_account_number (transaction_number_tmp);
+				gint transaction_account;
 
+				transaction_account = gsb_data_transaction_get_account_number (transaction_number_tmp);
 		tmp_list_transactions_2 = gsb_data_transaction_get_transactions_list ();
 		while (tmp_list_transactions_2)
 		{
@@ -3892,26 +3892,24 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 		    gint contra_transaction_account;
 
 		    contra_transaction_number_tmp = gsb_data_transaction_get_transaction_number (tmp_list_transactions_2->data);
-		    contra_transaction_account = gsb_data_transaction_get_account_number (contra_transaction_number_tmp);
+					contra_transaction_account = gsb_data_transaction_get_account_number (contra_transaction_number_tmp);
 
-		    if (contra_account_number == contra_transaction_account
-			&&
-			gsb_import_check_transaction_link (transaction_number_tmp, contra_transaction_number_tmp))
-		    {
-			/* we have found the contra transaction, set all the values */
-			gint payment_number;
+					if (contra_account_number == contra_transaction_account
+						&& gsb_import_check_transaction_link (transaction_number_tmp, contra_transaction_number_tmp))
+					{
+						/* we have found the contra transaction, set all the values */
+						gint payment_number;
 
 			gsb_data_transaction_set_contra_transaction_number (transaction_number_tmp,
 									     contra_transaction_number_tmp);
 			gsb_data_transaction_set_contra_transaction_number (contra_transaction_number_tmp,
-									     transaction_number_tmp);
+																			transaction_number_tmp);
 
-			/* unset the reference of the contra transaction */
-			gsb_data_transaction_set_bank_references (contra_transaction_number_tmp,
-								   NULL);
+						/* unset the reference of the contra transaction */
+						gsb_data_transaction_set_bank_references (contra_transaction_number_tmp, NULL);
 
-			/* try to set the good method of payment to transfer */
-			payment_number = gsb_data_payment_get_transfer_payment_number (transaction_account);
+						/* try to set the good method of payment to transfer */
+						payment_number = gsb_data_payment_get_transfer_payment_number (transaction_account);
 			if (payment_number)
 			    gsb_data_transaction_set_method_of_payment_number (transaction_number_tmp, payment_number);
 
@@ -3932,6 +3930,7 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 
 	tmp_list_transactions = tmp_list_transactions->next;
     }
+
     /* the transactions were already set in the list,
      * and the transfer was not written, we need to update the categories values
      * in the lists */
