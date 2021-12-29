@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.2 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="WidgetImportAsso" parent="GtkBox">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkBox" id="vbox_import_asso">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="hexpand">True</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="hbox_paddingbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_bottom">5</property>
+            <property name="can-focus">False</property>
+            <property name="margin-bottom">5</property>
             <child>
               <object class="GtkBox" id="vbox_paddingbox3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="Title3">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Import associations</property>
-                    <property name="track_visited_links">False</property>
+                    <property name="track-visited-links">False</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -43,11 +43,11 @@
                 <child>
                   <object class="GtkBox" id="box5">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label2">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="halign">start</property>
                         <property name="label">    </property>
                       </object>
@@ -60,13 +60,13 @@
                     <child>
                       <object class="GtkBox" id="box6">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkLabel" id="label7">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">This will associate a search string to a payee every time you import a file.
 For instance, all QIF labels containing 'Rent' could be associated with a specific payee representing your landlord.</property>
                             <property name="justify">fill</property>
@@ -81,14 +81,14 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                         <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow1">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="can-focus">True</property>
                             <property name="hexpand">True</property>
                             <property name="vexpand">True</property>
-                            <property name="shadow_type">in</property>
+                            <property name="shadow-type">in</property>
                             <child>
                               <object class="GtkTreeView" id="treeview_import_asso">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
+                                <property name="can-focus">True</property>
                                 <property name="hexpand">True</property>
                                 <property name="vexpand">True</property>
                                 <child internal-child="selection">
@@ -106,17 +106,16 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                         <child>
                           <object class="GtkBox" id="box4">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">5</property>
                             <property name="homogeneous">True</property>
                             <child>
                               <object class="GtkButton" id="button_import_asso_add">
-                                <property name="label">gtk-add</property>
+                                <property name="label" translatable="yes">Add</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="margin_bottom">5</property>
-                                <property name="use_stock">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
+                                <property name="margin-bottom">5</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -126,12 +125,11 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                             </child>
                             <child>
                               <object class="GtkButton" id="button_import_asso_remove">
-                                <property name="label">gtk-remove</property>
+                                <property name="label" translatable="yes">Remove</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="margin_bottom">5</property>
-                                <property name="use_stock">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
+                                <property name="margin-bottom">5</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -178,17 +176,17 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
         <child>
           <object class="GtkBox" id="hbox_paddingbox2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkBox" id="vbox_paddingbox4">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="Title4">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Details of associations</property>
                     <attributes>
@@ -204,11 +202,11 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                 <child>
                   <object class="GtkBox" id="box10">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label18">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="halign">start</property>
                         <property name="label">    </property>
                       </object>
@@ -221,51 +219,67 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                     <child>
                       <object class="GtkBox" id="box11">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
+                          <!-- n-columns=3 n-rows=3 -->
                           <object class="GtkGrid" id="grid_import_asso_details">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="row_spacing">5</property>
-                            <property name="column_spacing">5</property>
-                            <property name="row_homogeneous">True</property>
+                            <property name="row-spacing">5</property>
+                            <property name="column-spacing">5</property>
+                            <property name="row-homogeneous">True</property>
                             <child>
                               <object class="GtkLabel" id="label5">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="label" translatable="yes">Payee name: </property>
                               </object>
                               <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkLabel" id="label6">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="label" translatable="yes">Search string: </property>
                               </object>
                               <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">1</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkEntry" id="entry_import_asso_search_string">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="placeholder_text" translatable="yes">Rule</property>
+                                <property name="can-focus">True</property>
+                                <property name="placeholder-text" translatable="yes">Rule</property>
                               </object>
                               <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">1</property>
+                                <property name="left-attach">1</property>
+                                <property name="top-attach">1</property>
                               </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                             <child>
                               <placeholder/>
@@ -281,10 +295,10 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                           <object class="GtkCheckButton" id="checkbutton_import_asso_case_insensitive">
                             <property name="label" translatable="yes">Ignoring case sensitive</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -296,10 +310,10 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                           <object class="GtkCheckButton" id="checkbutton_import_asso_use_regex">
                             <property name="label" translatable="yes">Use the regular expressions</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">start</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -347,23 +361,23 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
   <object class="GtkAdjustment" id="adjustment">
     <property name="lower">1000</property>
     <property name="upper">999999</property>
-    <property name="step_increment">1000</property>
-    <property name="page_increment">10000</property>
+    <property name="step-increment">1000</property>
+    <property name="page-increment">10000</property>
   </object>
   <object class="GtkEntryCompletion" id="entrycompletion1"/>
   <object class="GtkBox" id="hbox_paddingbox">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="Title">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="label" translatable="yes">Title</property>
             <attributes>
               <attribute name="weight" value="bold"/>
@@ -378,11 +392,11 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
         <child>
           <object class="GtkBox" id="box2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label">    </property>
               </object>
@@ -395,7 +409,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
             <child>
               <object class="GtkBox" id="box3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
