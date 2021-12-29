@@ -84,7 +84,7 @@
                             <property name="column-homogeneous">True</property>
                             <child>
                               <object class="GtkButton" id="button_remove_col">
-                                <property name="label">Remove</property>
+                                <property name="label" translatable="yes">Remove</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">True</property>
@@ -107,7 +107,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="button_add_col">
-                                <property name="label">Add</property>
+                                <property name="label" translatable="yes">Add</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">True</property>
@@ -119,7 +119,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="button_remove_row">
-                                <property name="label">Remove</property>
+                                <property name="label" translatable="yes">Remove</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">True</property>
@@ -132,7 +132,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="button_add_row">
-                                <property name="label">Add</property>
+                                <property name="label" translatable="yes">Add</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">True</property>
