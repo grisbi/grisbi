@@ -1049,7 +1049,7 @@ msgstr "Ajouter"
 #: ../src/widgets/widget_cmp_amount.ui.h:19
 #: ../src/widgets/widget_cmp_text.ui.h:34
 msgid "Remove"
-msgstr "Retirer"
+msgstr "Enlever"
 
 #: ../src/ui/prefs_page_accueil.ui.h:8
 msgid "Pluriel de final"
