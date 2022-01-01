@@ -87,13 +87,19 @@ void transaction_list_sort (void)
 
     /* resort */
     if (custom_list -> user_sort_reconcile)
+	{
         g_qsort_with_data (custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_reconcile_list_sort_func,
                         custom_list);
-    else if ( transaction_list_sort_get_initial_sort ( ) && custom_list -> sort_order == GTK_SORT_ASCENDING )
+	}
+    else if (transaction_list_sort_get_initial_sort ()
+			 && run.equilibrage == 0
+			 && custom_list->sort_order == GTK_SORT_ASCENDING)
+	{
         return;
+	}
 	else
 	{
 		GrisbiAppConf *a_conf;
