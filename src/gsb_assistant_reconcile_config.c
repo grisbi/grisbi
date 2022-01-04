@@ -114,7 +114,7 @@ static GtkWidget *button_run_association = NULL;
 
 /* structure making the link between a transaction and the corresponding reconcile,
  * used for automatically association */
-struct association_transaction_reconcile
+struct ReconcileAssistantTransactionAssociation
 {
     gint transaction_number;
     gint reconcile_number;
@@ -196,7 +196,7 @@ GtkResponseType gsb_assistant_reconcile_config_run (GtkWidget *tree_view)
 
 	/* set treeview_reconcile */
 	treeview_reconcile = tree_view;
-	
+
     /* first, create the assistant */
     tmpstr = g_strdup_printf (_("Grisbi found %d marked transactions not associated with a reconciliation number, "
 						       "this can happen for old users of Grisbi or from a misuse of the Ctrl-R shortcut.\n\n"
@@ -922,9 +922,9 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
 								      gsb_data_transaction_get_account_number (transaction_number));
 	    if (reconcile_number)
 	    {
-		struct association_transaction_reconcile *association;
+		struct ReconcileAssistantTransactionAssociation *association;
 
-		association = g_malloc0 (sizeof (struct association_transaction_reconcile));
+		association = g_malloc0 (sizeof (struct ReconcileAssistantTransactionAssociation));
 		if (!association)
 		{
 		    dialogue_error_memory ();
@@ -983,7 +983,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
     tmp_list = list_association;
     while (tmp_list)
     {
-	struct association_transaction_reconcile *association;
+	struct ReconcileAssistantTransactionAssociation *association;
 
 	association = tmp_list -> data;
 
