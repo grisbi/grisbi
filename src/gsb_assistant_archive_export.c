@@ -61,7 +61,7 @@ enum archive_export_assistant_page
 };
 
 /** Columns for payment methods tree */
-enum archives_export_columns {
+enum ArchiveExportColumns {
     ARCHIVES_EXPORT_SELECT_COLUMN = 0,
     ARCHIVES_EXPORT_NAME_COLUMN,
     ARCHIVES_EXPORT_INIT_DATE,
