@@ -129,7 +129,7 @@ static GtkWidget *treeview_transactions_to_link = NULL;
 /* transitoire variable */
 static GtkWidget *treeview_reconcile = NULL;
 
-enum transactions_column {
+enum ReconcileAssistantTransactionColumns {
     TRANSACTION_DATE = 0,
     TRANSACTION_PAYEE,
     TRANSACTION_AMOUNT,
