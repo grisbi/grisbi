@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -52,7 +52,7 @@
 /*END_INCLUDE*/
 
 
-enum archive_export_assistant_page
+enum ArchiveExportAssistantPage
 {
     ARCHIVE_EXPORT_ASSISTANT_INTRO= 0,
     ARCHIVE_EXPORT_ASSISTANT_CHOOSE,
