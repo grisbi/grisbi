@@ -611,7 +611,7 @@ go_charmap_sel_get_encoding (GOCharmapSel *cs)
 	return encoding ? encoding : locale_encoding;
 }
 
-struct cb_find_entry {
+struct CbFindEntry {
 	const char *enc;
 	gboolean found;
 	int i;
@@ -619,7 +619,7 @@ struct cb_find_entry {
 };
 
 static void
-cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
+CbFindEntry (GtkMenuItem *w, struct CbFindEntry *cl)
 {
 	GtkWidget *sub;
 
@@ -631,7 +631,7 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 		GSList *tmp = cl->path = g_slist_prepend (cl->path, GINT_TO_POINTER (cl->i));
 		cl->i = 0;
 
-		gtk_container_foreach (GTK_CONTAINER (sub), (GtkCallback)cb_find_entry, cl);
+		gtk_container_foreach (GTK_CONTAINER (sub), (GtkCallback)CbFindEntry, cl);
 		if (cl->found)
 			return;
 
@@ -654,7 +654,7 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 gboolean
 go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 {
-	struct cb_find_entry cl;
+	struct CbFindEntry cl;
 	CharsetInfo const *ci;
 
 	g_return_val_if_fail (GO_IS_CHARMAP_SEL (cs), FALSE);
@@ -674,7 +674,7 @@ go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 	cl.path = NULL;
 
 	gtk_container_foreach (GTK_CONTAINER (cs->encodings_menu),
-			       (GtkCallback)cb_find_entry,
+			       (GtkCallback)CbFindEntry,
 			       &cl);
 	if (!cl.found)
 		return FALSE;
