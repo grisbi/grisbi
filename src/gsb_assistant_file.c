@@ -75,7 +75,7 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-enum file_assistant_page
+enum FileAssistantPage
 {
     FILE_ASSISTANT_INTRO= 0,
     FILE_ASSISTANT_PAGE_2,
