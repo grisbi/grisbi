@@ -86,8 +86,6 @@ struct _SubCategoryStruct
     GsbReal sub_category_balance;
 };
 
-
-
 /*START_STATIC*/
 static void _gsb_data_category_free ( CategoryStruct *category );
 static void _gsb_data_sub_category_free ( SubCategoryStruct *sub_category );
@@ -123,7 +121,13 @@ static SubCategoryStruct *sub_category_buffer;
  * the number of the empty category is 0 */
 static CategoryStruct *empty_category = NULL;
 
-
+/* used to choose the kind of categories list */
+enum CategoryChoiceValues {
+    CATEGORY_CHOICE_NONE = 0,
+    CATEGORY_CHOICE_DEFAULT,
+    CATEGORY_CHOICE_ASSOCIATION,
+    CATEGORY_CHOICE_LIBERAL
+};
 
 /**
  * set the categories global variables to NULL, usually when we init all the global variables

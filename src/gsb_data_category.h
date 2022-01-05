@@ -5,15 +5,6 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
-/* used to choose the kind of categories list */
-enum category_choice_values {
-    CATEGORY_CHOICE_NONE = 0,
-    CATEGORY_CHOICE_DEFAULT,
-    CATEGORY_CHOICE_ASSOCIATION,
-    CATEGORY_CHOICE_LIBERAL
-};
-
-
 /* START_DECLARATION */
 void 		gsb_data_category_add_transaction_to_category 		(gint transaction_number,
 																 gint category_id,
