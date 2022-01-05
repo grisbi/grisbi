@@ -60,7 +60,7 @@ static GtkTreeModel *bank_list_model = NULL;
 /*END_STATIC*/
 
 /* the model containing the list of the banks for the combobox */
-enum bank_combo_model_col
+enum BankComboColumns
 {
    BANK_NAME_COL = 0,
    BANK_NUMBER_COL
