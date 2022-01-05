@@ -7,14 +7,6 @@
 #include "import.h"
 /* END_INCLUDE_H */
 
-struct csv_field {
-    const gchar * 	name;
-    gfloat 		alignment;
-    gboolean 	(*validate) (gchar *);
-    gboolean 	(*parse) (struct ImportTransaction *, gchar *);
-    const gchar *		alias;
-};
-
 /* START_DECLARATION */
 gboolean 		csv_import_csv_account 				(GtkWidget *assistant,
 													 struct ImportFile *imported);

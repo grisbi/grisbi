@@ -64,9 +64,17 @@ static gint first_line_with_cols;
 /* data for rule */
 static gboolean csv_create_rule = FALSE;
 
+struct CsvField {
+    const gchar *	name;
+    gfloat			alignment;
+    gboolean		(*validate) (gchar *);
+    gboolean		(*parse) (struct ImportTransaction *, gchar *);
+    const gchar *	alias;
+};
+
 /** Contain configuration of CSV fields.  */
 /* NAME, ALIGNMENT, VALIDATE FUNCTION, PARSE FUNCTION, ALIAS */
-struct csv_field csv_fields[18] = {
+struct CsvField csv_fields[18] = {
 	{ N_("Unknown field"),  	0.0, NULL,			     		 NULL		     ,				"" },				/* 0 */
 	{ N_("Currency"),	    	0.0, csv_import_validate_string, csv_import_parse_currency, 	"" },				/* 1 */
 	{ N_("Date"),	    		0.0, csv_import_validate_date,   csv_import_parse_date, 		"" },				/* 2 */
@@ -1445,7 +1453,7 @@ gboolean csv_import_file_by_rule (gint rule,
 
         for (i = 0; csv_fields_config[i] != -1 && list ; i++)
         {
-            struct csv_field *field;
+            struct CsvField *field;
 
 			field = &csv_fields [csv_fields_config[i]];
 			if (field->parse)
@@ -1631,7 +1639,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 
         for (i = 0; csv_fields_config[i] != -1 && list ; i++)
         {
-            struct csv_field *field;
+            struct CsvField *field;
 
 			field = &csv_fields [csv_fields_config[i]];
 			if (field->parse)
