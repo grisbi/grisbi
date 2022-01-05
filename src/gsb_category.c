@@ -64,7 +64,11 @@ static void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, g
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
+enum BuiltinCategoryColumns {
+    BUILTIN_CATEGORY_MODEL_FILENAME,
+    BUILTIN_CATEGORY_MODEL_NAME,
+    BUILTIN_CATEGORY_MODEL_COLUMNS
+};
 
 /**
  * A handy GCompareFunc that compares two files depending on their

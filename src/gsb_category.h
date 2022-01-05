@@ -14,10 +14,5 @@ gboolean 	gsb_category_update_combofix 				(gboolean force);
 /* END_DECLARATION */
 
 
-enum builtin_category_model_columns_enum {
-    BUILTIN_CATEGORY_MODEL_FILENAME,
-    BUILTIN_CATEGORY_MODEL_NAME,
-    BUILTIN_CATEGORY_MODEL_COLUMNS
-};
 
 #endif
