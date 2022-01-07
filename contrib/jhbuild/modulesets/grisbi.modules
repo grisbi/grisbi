@@ -17,8 +17,6 @@
 		href="git://grisbi.git.sourceforge.net/gitroot/"/>
 	<repository type='git' name='libofx.git.sourceforge.net'
 		href="git://libofx.git.sourceforge.net/gitroot/"/>
-	<repository type="svn" name="bluefish-svn"
-		href="https://bluefish.svn.sourceforge.net/svnroot/"/>
 	<repository type='tarball' name='ftp.gnome.org'
 		href="ftp://ftp.gnome.org/pub/gnome/sources/"/>
 	<repository type="git" name="github"
