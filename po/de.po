@@ -6,20 +6,20 @@
 # Martin Stromberger <ma.stromberger@gmx.at>, 2007, 2008.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2013, 2018.
-# Martin Stromberger <mstromberger@aon.at>, 2018, 2019, 2020, 2021.
+# Martin Stromberger <mstromberger@aon.at>, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-29 09:50+0100\n"
-"PO-Revision-Date: 2021-07-05 20:38+0200\n"
+"PO-Revision-Date: 2022-01-23 11:58+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.04.2\n"
+"X-Generator: Lokalize 21.12.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/etats/etats_page_amount.ui.h:1 ../src/etats/etats_page_text.ui.h:1
@@ -1109,7 +1109,7 @@ msgstr "Prognose anzeigen"
 
 #: ../src/ui/prefs_page_bet_account.ui.h:4
 msgid "Account with deferred debit card"
-msgstr "Ausgabenkonto mit verzögerten Buchungen"
+msgstr "Kreditkartenkonto"
 
 #: ../src/ui/prefs_page_bet_account.ui.h:5
 msgid "Data for the forecast"
@@ -1120,19 +1120,18 @@ msgid "Sources of historical data"
 msgstr "Buchungen auswählen nach"
 
 #: ../src/ui/prefs_page_bet_account.ui.h:7
-#, fuzzy
 msgid "Use historical data of CB in the main account"
-msgstr "Buchungen einem Konto zuordnen"
+msgstr "Daten Historie von Kreditkartenkonto im Hauptkonto verwenden"
 
 #: ../src/ui/prefs_page_bet_account.ui.h:8
 msgid ""
 "(Aggregates the historical data of the main account and deferred debit card "
 "accounts) "
-msgstr ""
+msgstr "(Gesammelte Daten Historie von Hauptkonto und Kreditkartenkonto)"
 
 #: ../src/ui/prefs_page_bet_account.ui.h:9
 msgid "(These data are aggregated with those of main account)"
-msgstr ""
+msgstr "(Gesammelte Daten von Hauptkonto)"
 
 #: ../src/ui/prefs_page_bet_account.ui.h:10
 msgid "Credit Data"
@@ -2404,7 +2403,7 @@ msgstr "Spalten Restschuld und Monatliche Tilgung vertauschen"
 
 #: ../src/widgets/widget_transfer.ui.h:1
 msgid "Configuring a deferred debit account"
-msgstr "Ausgabenkonto mit verzögerten Buchungen konfigurieren"
+msgstr "Kreditkartenkonto konfigurieren"
 
 #: ../src/widgets/widget_transfer.ui.h:2
 msgid "List of accounts"
@@ -2412,7 +2411,7 @@ msgstr "Auflistung von Konten"
 
 #: ../src/widgets/widget_transfer.ui.h:3
 msgid "Deferred debit card"
-msgstr "Ausgabenkonto mit verzögerten Buchungen"
+msgstr "Kreditkartenkonto"
 
 #: ../src/widgets/widget_transfer.ui.h:4
 msgid "Order date: "
@@ -2648,7 +2647,7 @@ msgid ""
 "If you have yet to enter into transactions on behalf deferred debit card "
 "finish with \"No\" and update the account before you start."
 msgstr ""
-"Warnung: für das Ausgabenkonto mit verzögerten Buchungen (%s) ist das "
+"Warnung: für das Kreditkartenkonto (%s) ist das "
 "Beginndatum erreicht oder abgelaufen. Für dieses Konto müssen alle Buchungen "
 "erfasst sein, ansonsten erfolgt keine Berücksichtigung für die gewählte "
 "Zeitspanne.\n"
@@ -3026,8 +3025,7 @@ msgstr "Es wurden nicht alle Eingabefelder befüllt"
 
 #: ../src/bet_future.c:2032
 msgid "You must have at least one account with deferred debit card."
-msgstr ""
-"Es muss zumindest ein Ausgabenkonto mit verzögerten Buchungen vorhanden sein."
+msgstr "Es muss zumindest ein Kreditkartenkonto vorhanden sein."
 
 #: ../src/bet_future.c:2054 ../src/bet_future.c:2151
 msgid "Error: a date is not present or a field is in error."
@@ -3046,7 +3044,7 @@ msgid ""
 "There is an inconsistency in the balance of a deferred debit account.\n"
 "You should delete it and create another"
 msgstr ""
-"Es gibt Inkonsistenzen bei einem Ausgabenkonto mit verzögerten Buchungen.\n"
+"Es gibt Inkonsistenzen bei einem Kreditkartenkonto.\n"
 "Das entsprechende Konto sollte gelöscht und neu erstellt werden"
 
 #: ../src/bet_future.c:2133
@@ -3059,14 +3057,13 @@ msgid ""
 "Warning: You are about to delete the deferred debit card: \"%s\"\n"
 "Are you sure?"
 msgstr ""
-"Warnung: Sie sind dabei das Ausgabenkonto mit verzögerten Buchungen \"%s\" "
+"Warnung: Sie sind dabei das Kreditkartenkonto \"%s\" "
 "zu löschen.\n"
 "Soll dieser Vorgang fortgesetzt werden?"
 
 #: ../src/bet_future.c:2179 ../src/prefs/prefs_page_bet_account.c:510
 msgid "Confirmation of deletion of a deferred debit card"
-msgstr ""
-"Bestätigung für das Löschen von einem Ausgabenkonto mit verzögerten Buchungen"
+msgstr "Bestätigung für das Löschen von einem Kreditkartenkonto"
 
 #: ../src/bet_graph.c:151
 msgid "Jan"
@@ -3248,9 +3245,8 @@ msgid "Copy the average amount"
 msgstr "Den durchschnittlichen Betrag kopieren"
 
 #: ../src/bet_hist.c:857
-#, fuzzy
 msgid "Export the hist data"
-msgstr "Auflistung exportieren"
+msgstr "Daten Historie exportieren"
 
 #. sectors button
 #: ../src/bet_hist.c:955
@@ -3308,15 +3304,14 @@ msgid "Amount retained"
 msgstr "Vorgesehener Betrag"
 
 #: ../src/bet_hist.c:1478 ../src/prefs/prefs_page_bet_account.c:118
-#, fuzzy
 msgid "(These data are aggregated with those of a deferred debit card account)"
-msgstr "Saldo von Ausgabenkonto mit verzögerten Buchungen übernehmen"
+msgstr "(Gesammelte Daten von Kreditkartenkonto)"
 
 #: ../src/bet_hist.c:1481 ../src/prefs/prefs_page_bet_account.c:121
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(These data are aggregated with those of %d deferred debit card accounts)"
-msgstr "Saldo von Ausgabenkonto mit verzögerten Buchungen übernehmen"
+msgstr "(Gesammelte Daten von %d Kreditkartenkonten)"
 
 #. devel_debug (NULL);
 #. the fyear list store, contains 3 columns :
@@ -3423,7 +3418,7 @@ msgstr "Buchung regelmäßig ausführen"
 
 #: ../src/bet_tab.c:1398
 msgid "Insert the balance of a deferred debit account"
-msgstr "Saldo von Ausgabenkonto mit verzögerten Buchungen übernehmen"
+msgstr "Saldo von Kreditkartenkonto übernehmen"
 
 #. redo item
 #: ../src/bet_tab.c:1420
@@ -3450,7 +3445,7 @@ msgstr "Ausführen"
 
 #: ../src/bet_tab.c:2119
 msgid "Execute the balance of a deferred debit account"
-msgstr "Saldo von Ausgabenkonto mit verzögerten Buchungen übernehmen"
+msgstr "Saldo von Kreditkartenkonto übernehmen"
 
 #. set the titles of tabs module budget
 #: ../src/bet_tab.c:2795
@@ -5815,14 +5810,12 @@ msgid "Amortization array"
 msgstr "Tilgungsplan"
 
 #: ../src/grisbi_win.c:686
-#, fuzzy
 msgid "Delete button"
-msgstr "Buchung löschen"
+msgstr "Löschen"
 
 #: ../src/grisbi_win.c:693
-#, fuzzy
 msgid "Delete file"
-msgstr "Eine neue Datei auswählen"
+msgstr "Datei löschen"
 
 #: ../src/grisbi_win.c:741
 msgid "New"
@@ -8988,24 +8981,23 @@ msgstr ""
 "\"%s\"."
 
 #: ../src/gsb_file.c:1354
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove this accounts file \"%s\"?\n"
-msgstr "Soll die ausgewählte Bank \"%s\" gelöscht werden?\n"
+msgstr "Soll die Datei \"%s\" gelöscht werden?\n"
 
 #: ../src/gsb_file.c:1356
-#, fuzzy
 msgid "Confirmation of accounts file removal"
-msgstr "Die Löschung der Bank bestätigen"
+msgstr "Die Löschung der Datei bestätigen"
 
 #: ../src/gsb_file_load.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "The initial account balance \"%s\" is in error. Please correct it."
-msgstr "Das Beginndatum ist nicht gültig, Dateneingabe überprüfen."
+msgstr ""
+"Der Anfangssaldo \"%s\" ist fehlerhaft. Bitte Dateneingabe korrigieren."
 
 #: ../src/gsb_file_load.c:425
-#, fuzzy
 msgid "Initial balance error"
-msgstr "Saldo Anfang: "
+msgstr "Der Anfangssaldo ist fehlerhaft"
 
 #: ../src/gsb_file_load.c:3665
 msgid "This is not a Grisbi file... Loading aborted."
@@ -10611,16 +10603,14 @@ msgid "The id of the imported and chosen accounts are different"
 msgstr "Die ID's vom importierten und ausgewählten Konto stimmen nicht überein"
 
 #: ../src/import.c:3880
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have imported transaction of transfer to an inexistent account: '%s'"
-msgstr ""
-"Die importierten Buchungen werden im Konto %s als verrechnet gekennzeichnet\n"
+msgstr "Es wurden Buchungen für das nicht vorhandene Konto '%s' importiert."
 
 #: ../src/import.c:3883
-#, fuzzy
 msgid "Transfer transaction in error"
-msgstr "Buchungen von %s neu zuordnen"
+msgstr "Fehler bei Umbuchung"
 
 #: ../src/import.c:4242
 #, c-format
@@ -11670,13 +11660,12 @@ msgid "Renegotiation N° %d"
 msgstr "Neuberechnung N° %d"
 
 #: ../src/prefs/prefs_page_bet_account.c:508
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Warning: You are about to delete this deferred debit card: \"%s\"\n"
 "Are you sure?"
 msgstr ""
-"Warnung: Sie sind dabei das Ausgabenkonto mit verzögerten Buchungen \"%s\" "
-"zu löschen.\n"
+"Warnung: Sie sind dabei das Kreditkartenkonto \"%s\" zu löschen.\n"
 "Soll dieser Vorgang fortgesetzt werden?"
 
 #: ../src/prefs/prefs_page_currency.c:234
