@@ -3,12 +3,11 @@
 
 #include <gtk/gtk.h>
 
-enum fyear_list_columns {
+enum FyearListColumns {
     FYEAR_COL_NAME = 0,
     FYEAR_COL_NUMBER,
     FYEAR_COL_VIEW
 };
-
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
