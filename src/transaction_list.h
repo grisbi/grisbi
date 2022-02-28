@@ -13,7 +13,7 @@ gboolean 	transaction_list_check_line_is_visible	(gint line_in_transaction,
 													 gint visibles_lines);
 void		transaction_list_colorize				(void);
 gboolean	transaction_list_create					(void);
-void		transaction_list_filter					(gint account_number);
+gboolean	transaction_list_filter					(gint account_number);
 gint		transaction_list_get_last_line			(gint nb_rows);
 gint		transaction_list_get_n_children			(gint transaction_number);
 gboolean	transaction_list_get_variance			(gint transaction_number);

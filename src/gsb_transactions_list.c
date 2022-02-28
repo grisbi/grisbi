@@ -2706,9 +2706,14 @@ void gsb_transactions_list_update_tree_view (gint account_number,
 		return;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-    if (keep_selected_transaction)
-        selected_transaction = transaction_list_select_get ();
-    transaction_list_filter (account_number);
+	if (keep_selected_transaction)
+		selected_transaction = transaction_list_select_get ();
+
+	/* Fix bug 2172 */
+	if (transaction_list_filter (account_number))
+	{
+		transaction_list_filter (account_number);
+	}
     transaction_list_set_balances ();
     transaction_list_sort ();
     transaction_list_colorize ();

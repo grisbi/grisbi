@@ -933,7 +933,7 @@ gboolean transaction_list_remove_archive (gint archive_number)
  *
  * \return
  * */
-void transaction_list_filter (gint account_number)
+gboolean transaction_list_filter (gint account_number)
 {
     gint current_pos_general_list;
     gint current_pos_filtered_list = 0;
@@ -942,6 +942,7 @@ void transaction_list_filter (gint account_number)
     GtkTreeIter iter;
     gint i;
     gint *neworder;
+	gboolean re_filter = FALSE;
     CustomList *custom_list;
 	GrisbiAppConf *a_conf;
 
@@ -950,8 +951,8 @@ void transaction_list_filter (gint account_number)
 
     devel_debug (NULL);
 
-    g_return_if_fail (custom_list != NULL);
-    g_return_if_fail (custom_list->num_rows != 0);
+    g_return_val_if_fail (custom_list != NULL, FALSE);
+    g_return_val_if_fail (custom_list->num_rows != 0, FALSE);
 
     /* there is a bug, i think in gtk, which when we re-filter the list with opened split, and when
      * there is less lines in the list that the window, gtk close the split opened without
@@ -962,7 +963,7 @@ void transaction_list_filter (gint account_number)
 
     /* we erase the selection */
     if (custom_list->selected_row)
-	transaction_list_select_unselect ();
+		transaction_list_select_unselect ();
 
     custom_list->nb_rows_by_transaction = gsb_data_account_get_nb_rows (account_number);
 
@@ -1098,6 +1099,12 @@ void transaction_list_filter (gint account_number)
         gtk_tree_path_next (path);
     }
 
+	/* fix bug 2172 */
+	if (previous_visible_rows > 0 && current_pos_filtered_list != previous_visible_rows)
+	{
+		re_filter = TRUE;
+	}
+
     /* if the previous list was bigger than now, we need to delete some rows */
     if (previous_visible_rows > current_pos_filtered_list)
 	{
@@ -1136,6 +1143,8 @@ void transaction_list_filter (gint account_number)
 
     gtk_tree_path_free(path);
     g_free(neworder);
+
+	return re_filter;
 }
 
 
@@ -1186,24 +1195,24 @@ void transaction_list_colorize (void)
                 white_record = record->children_rows[record->number_of_children -1];
                 transaction_list_update_white_child (white_record);
             }
-            else
-            {
-                /* set the color of the mother */
+				else
+				{
+					/* set the color of the mother */
                 for (j=0 ; j<TRANSACTION_LIST_ROWS_NB ; j++)
                     record->transaction_records[j]->text_color = gsb_rgba_get_couleur ("text_unfinished_split");
             }
 
         }
 	    /* if we changed of transaction, change the color */
-	    if (record->transaction_pointer != current_transaction_pointer)
-	    {
-		current_color = !current_color;
-		current_transaction_pointer = record->transaction_pointer;
-	    }
+			if (record->transaction_pointer != current_transaction_pointer)
+			{
+				current_color = !current_color;
+				current_transaction_pointer = record->transaction_pointer;
+			}
 
-	    /* set the color of the row */
-	    record->row_bg = gsb_rgba_get_couleur_with_indice ("couleur_fond", current_color);
-	}
+			/* set the color of the row */
+			record->row_bg = gsb_rgba_get_couleur_with_indice ("couleur_fond", current_color);
+		}
     }
 }
 
