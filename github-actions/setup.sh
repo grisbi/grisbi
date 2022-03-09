@@ -3,6 +3,7 @@
 if [ "$RUNNER_OS" == "Linux" ]; then
 	echo "GNU/Linux"
 
+	sudo apt update
 	sudo apt install \
 		autoconf \
 		automake \
