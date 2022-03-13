@@ -155,7 +155,7 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
     g_free(support_cache_dir);
 
     // GTK
-    // https://developer.gnome.org/gtk3/stable/gtk-running.html
+    // https://docs.gtk.org/gtk3/running.html
     my_setenv("GTK_EXE_PREFIX",  bundle_resources_dir);
     my_setenv("GTK_DATA_PREFIX", bundle_resources_dir);
 
