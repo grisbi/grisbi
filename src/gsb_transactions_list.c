@@ -823,24 +823,25 @@ static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
 
     column_number = GPOINTER_TO_INT (no_column);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (transactions_tree_view), column_number);
-    alignment = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "alignment"));
     cell_renderer = g_object_get_data (G_OBJECT (column), "cell_renderer");
 
+    alignment = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "alignment"));
     switch (alignment)
     {
         case GTK_JUSTIFY_LEFT:
-            xalign = 0.0;
+            xalign = COLUMN_LEFT;
             break;
         case GTK_JUSTIFY_CENTER:
-            xalign = 0.5;
+            xalign = COLUMN_CENTER;
             break;
         case GTK_JUSTIFY_RIGHT:
-            xalign = 1.0;
+            xalign = COLUMN_RIGHT;
             break;
 		case GTK_JUSTIFY_FILL:
 			break;
     }
 
+	printf ("alignment = %d xalign = %f\n", alignment, xalign);
     transaction_col_align[column_number] = alignment;
     gtk_tree_view_column_set_alignment  (column, xalign);
     g_object_set (G_OBJECT (cell_renderer), "xalign", xalign, NULL);
@@ -1371,11 +1372,27 @@ static void gsb_transactions_list_create_tree_view_columns (void)
     for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
     {
 		GtkCellRenderer *cell_renderer;
+		gfloat xalign = 0.0;
 
 		cell_renderer = gtk_cell_renderer_text_new ();
-		g_object_set (G_OBJECT (cell_renderer),
-					  "xalign", (gfloat)transaction_col_align[i]/2,
-					  NULL);
+
+		/* fix bug 2181 */
+	    switch (transaction_col_align[i])
+		{
+			case GTK_JUSTIFY_LEFT:
+				xalign = COLUMN_LEFT;
+				break;
+			case GTK_JUSTIFY_CENTER:
+				xalign = COLUMN_CENTER;
+				break;
+			case GTK_JUSTIFY_RIGHT:
+				xalign = COLUMN_RIGHT;
+				break;
+			case GTK_JUSTIFY_FILL:
+				break;
+		}
+		g_object_set (G_OBJECT (cell_renderer), "xalign", xalign, NULL);
+
 		transactions_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes
 			(_(titres_colonnes_liste_operations[i]),
 			 cell_renderer,
@@ -1383,7 +1400,6 @@ static void gsb_transactions_list_create_tree_view_columns (void)
 			 "cell-background-rgba", CUSTOM_MODEL_BACKGROUND,
 			 "font", CUSTOM_MODEL_FONT,
 			 NULL);
-
 		g_object_set_data (G_OBJECT (transactions_tree_view_columns[i]), "cell_renderer", cell_renderer);
 
 		if (i == column_balance)
@@ -1394,7 +1410,6 @@ static void gsb_transactions_list_create_tree_view_columns (void)
 			gtk_tree_view_column_add_attribute (transactions_tree_view_columns[i],
 												cell_renderer,
 												"foreground-rgba", CUSTOM_MODEL_TEXT_COLOR);
-
 
 		if (i == gsb_transactions_list_find_element_col (ELEMENT_MARK))
 		{
@@ -1419,9 +1434,7 @@ static void gsb_transactions_list_create_tree_view_columns (void)
 			gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell_renderer), MARGIN_BOX, 0);
 		}
 
-		gtk_tree_view_column_set_alignment (transactions_tree_view_columns[i],
-											(gfloat)transaction_col_align[i]/2);
-
+		gtk_tree_view_column_set_alignment (transactions_tree_view_columns[i], xalign);
 		gtk_tree_view_column_set_sizing (transactions_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED);
 		gtk_tree_view_column_set_resizable (transactions_tree_view_columns[i], TRUE);
     }
