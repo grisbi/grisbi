@@ -2743,8 +2743,8 @@ gboolean gsb_data_transaction_remove_transaction_in_transaction_list ( gint tran
  *
  * \return
  **/
-GSList *gsb_import_get_transactions_list_for_import (gint account_number,
-													 GDate *first_date_import)
+GSList *gsb_data_transaction_get_list_for_import (gint account_number,
+												  GDate *first_date_import)
 {
     GSList *tmp_list;
     GSList *ope_list = NULL;

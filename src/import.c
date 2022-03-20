@@ -2920,7 +2920,7 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 	g_date_add_days (date_fin_comparaison, etat.import_files_nb_days);
 
 	/* on récupère la liste des opérations à partir de l'opération correspondante trouvée */
-	ope_list = gsb_import_get_transactions_list_for_import (account_number, date_debut_comparaison);
+	ope_list = gsb_data_transaction_get_list_for_import (account_number, date_debut_comparaison);
 
 	tmp_list_transactions = ope_list;
 	while (tmp_list_transactions)
@@ -3480,7 +3480,7 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
     gint demande_confirmation = FALSE;
 
     /* on récupère la liste des opérations dans l'intervalle de recherche pour l'import */
-    ope_list = gsb_import_get_transactions_list_for_import (account_number, first_date_import);
+    ope_list = gsb_data_transaction_get_list_for_import (account_number, first_date_import);
 
     tmp_list = imported_account->operations_importees;
 
@@ -4387,7 +4387,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
     first_date_import = gsb_import_get_first_date (imported_account->operations_importees);
 
     /* on récupère la liste des opérations dans l'intervalle de recherche pour l'import */
-    ope_list = gsb_import_get_transactions_list_for_import (account_number, first_date_import);
+    ope_list = gsb_data_transaction_get_list_for_import (account_number, first_date_import);
 
     g_date_free (first_date_import);
 

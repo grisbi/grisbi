@@ -58,6 +58,8 @@ GsbReal 		gsb_data_transaction_get_last_transaction_with_div_sub_div 		(gint acc
 																				 gint div_number,
 																				 gint sub_div_nb,
 																				 gint type_div);
+GSList *		gsb_data_transaction_get_list_for_import 						(gint account_number,
+																				 GDate *first_date_import);
 gint 			gsb_data_transaction_get_marked_transaction 					(gint transaction_number);
 GSList *		gsb_data_transaction_get_metatree_transactions_list 			(void);
 const gchar *	gsb_data_transaction_get_method_of_payment_content				(gint transaction_number);
@@ -73,8 +75,6 @@ gint 			gsb_data_transaction_get_sub_category_number 					(gint transaction_numb
 const gchar *	gsb_data_transaction_get_transaction_id 						(gint transaction_number);
 gint 			gsb_data_transaction_get_transaction_number 					(gpointer transaction_pointer);
 GSList *		gsb_data_transaction_get_transactions_list 						(void);
-GSList *		gsb_import_get_transactions_list_for_import 					(gint account_number,
-																				 GDate *first_date_import);
 const GDate *	gsb_data_transaction_get_value_date 							(gint transaction_number);
 const GDate *	gsb_data_transaction_get_value_date_or_date 					(gint transaction_number);
 const gchar *	gsb_data_transaction_get_voucher 								(gint transaction_number);
