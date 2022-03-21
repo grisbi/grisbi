@@ -2327,7 +2327,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 		}
 	}
 
-    /* récupération du montant */
+	/* récupération du montant */
     gsb_data_transaction_set_amount (transaction_number, imported_transaction->montant);
 
     /* récupération de la devise */
@@ -3728,20 +3728,20 @@ static void gsb_import_add_imported_transactions (struct ImportAccount *imported
 
     while (tmp_list)
     {
-	struct ImportTransaction *imported_transaction;
+		struct ImportTransaction *imported_transaction;
 
-	imported_transaction = tmp_list->data;
+		imported_transaction = tmp_list->data;
 
-	if (imported_transaction->action == IMPORT_TRANSACTION_GET_TRANSACTION)
-	{
-	    gint transaction_number;
+		if (imported_transaction->action == IMPORT_TRANSACTION_GET_TRANSACTION)
+		{
+			gint transaction_number;
 
-	    /* set the account currency to the transaction and create the transaction */
-	    if (imported_account->bouton_devise)
-            imported_transaction->devise = gsb_currency_get_currency_from_combobox (
-                        imported_account->bouton_devise);
-	    else
-            imported_transaction->devise = gsb_data_currency_get_number_by_code_iso4217 (
+			/* set the account currency to the transaction and create the transaction */
+			if (imported_account->bouton_devise)
+				imported_transaction->devise = gsb_currency_get_currency_from_combobox (
+							imported_account->bouton_devise);
+			else
+				imported_transaction->devise = gsb_data_currency_get_number_by_code_iso4217 (
                         imported_account->devise);
 
 	    transaction_number = gsb_import_create_transaction (imported_transaction,
@@ -3752,8 +3752,8 @@ static void gsb_import_add_imported_transactions (struct ImportAccount *imported
         {
             gsb_transactions_list_update_transaction (transaction_number);
             tmp_list = tmp_list->next;
-            continue;
-        }
+				continue;
+			}
 
 	    /* invert the amount of the transaction if asked */
 	    if (imported_account->invert_transaction_amount)
@@ -3763,9 +3763,9 @@ static void gsb_import_add_imported_transactions (struct ImportAccount *imported
 
 	    /* we need to add the transaction now to the tree model here
 	     * to avoid to write again all the account */
-	    gsb_transactions_list_append_new_transaction (transaction_number, FALSE);
-	}
-	tmp_list = tmp_list->next;
+			gsb_transactions_list_append_new_transaction (transaction_number, FALSE);
+		}
+		tmp_list = tmp_list->next;
     }
 
     /* if we are on the current account, we need to update the tree_view */
@@ -4039,30 +4039,29 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
 	    while (tmp_list)
 	    {
 		gboolean enregistre;
-		GSList *last_item;
+			GSList *last_item;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (model),
-				     &iter,
-				     0, &enregistre,
-				     -1);
+			gtk_tree_model_get (GTK_TREE_MODEL (model),
+						 &iter,
+						 0, &enregistre,
+						 -1);
 
-		if (enregistre)
-		{
-		    /* à ce niveau, l'opé a été cochée donc on l'enregistre en la marquant T	 */
+			if (enregistre)
+			{
+				/* à ce niveau, l'opé a été cochée donc on l'enregistre en la marquant T	 */
 
-		    struct ImportTransaction *ope_import;
-		    gint transaction_number;
+				struct ImportTransaction *ope_import;
+				gint transaction_number;
 
-		    ope_import = tmp_list->data;
+				ope_import = tmp_list->data;
 
-		    transaction_number = gsb_import_create_transaction (ope_import,
-									 ope_import->no_compte , NULL);
-		    gsb_data_transaction_set_marked_transaction (transaction_number, 2);
+				transaction_number = gsb_import_create_transaction (ope_import, ope_import->no_compte, NULL);
+				gsb_data_transaction_set_marked_transaction (transaction_number, OPERATION_TELEPOINTEE);
 
-            /* we need to add the transaction now to the tree model and update the tree_view */
-            gsb_transactions_list_append_new_transaction (transaction_number, FALSE);
-            gsb_transactions_list_update_tree_view (ope_import->no_compte, FALSE);
-            gsb_data_account_colorize_current_balance (ope_import->no_compte);
+				/* we need to add the transaction now to the tree model and update the tree_view */
+				gsb_transactions_list_append_new_transaction (transaction_number, FALSE);
+				gsb_transactions_list_update_tree_view (ope_import->no_compte, FALSE);
+				gsb_data_account_colorize_current_balance (ope_import->no_compte);
 
 		    /* on a enregistré l'opé, on la retire maintenant de la liste et de la sliste */
 		    last_item = tmp_list;
@@ -4403,6 +4402,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
         GSList *tmp_ope_list;
         struct ImportTransaction *ope_import;
         gint i;
+		gboolean ope_import_trouve = FALSE;
 
         ope_import = tmp_list->data;
         ope_trouvees = NULL;
@@ -4423,7 +4423,15 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 
             transaction_number = GPOINTER_TO_INT (tmp_ope_list->data);
 
-            /* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
+			/* on met la devise de l'opération si plus tard on l'enregistre */
+			if (imported_account->bouton_devise)
+				ope_import->devise = gsb_currency_get_currency_from_combobox (
+							imported_account->bouton_devise);
+			else
+				ope_import->devise = gsb_data_currency_get_number_by_code_iso4217 (
+							imported_account->devise);
+
+			/* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
              * une id comparable */
             if (ope_import->id_operation)
             {
@@ -4431,10 +4439,12 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
                 if (tmp_str && strcmp (ope_import->id_operation, tmp_str) == 0)
                 {
                     ope_trouvees = g_slist_append (ope_trouvees, tmp_ope_list->data);
+					ope_import_trouve = TRUE;
 
                     break;
                 }
             }
+
             /* si on n'a rien trouvé par id, */
             /* on fait le tour de la liste d'opés pour trouver des opés comparable */
             /* cad même date avec + ou - une échelle et même montant et pas une opé de ventil */
@@ -4464,6 +4474,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
                 /* on a retouvé une opé de même date et même montant, on l'ajoute à la liste
                  * des opés trouvées */
                 ope_trouvees = g_slist_append (ope_trouvees, tmp_ope_list->data);
+				ope_import_trouve = TRUE;
 
                 break;
             }
@@ -4480,33 +4491,10 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 
 			switch (g_slist_length (ope_trouvees))
 			{
-				case 0:
-				/* aucune opé comparable n'a été retrouvée */
-				/* on marque donc cette opé comme seule */
-				/* sauf si c'est une opé de ventil  */
-
-				if (!ope_import->ope_de_ventilation)
-				{
-					/* on met le no de compte et la devise de l'opération si plus tard on l'enregistre */
-
-					if (imported_account->bouton_devise)
-						ope_import->devise = gsb_currency_get_currency_from_combobox (
-									imported_account->bouton_devise);
-					else
-						ope_import->devise = gsb_data_currency_get_number_by_code_iso4217 (
-									imported_account->devise);
-
-					liste_opes_import_celibataires = g_slist_append (liste_opes_import_celibataires,
-											ope_import);
-				}
-
-				break;
-
 				case 1:
 				/*  il n'y a qu'une opé retrouvée, on la pointe */
 				/* si elle est déjà pointée ou relevée, on ne fait rien */
 				/* si l'opé d'import a une id et pas l'opé, on marque l'id dans l'opé */
-
 				transaction_number = GPOINTER_TO_INT (ope_trouvees->data);
 
 				if (strlen (gsb_data_transaction_get_transaction_id (transaction_number)) == 0
@@ -4518,6 +4506,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 				if (!gsb_data_transaction_get_marked_transaction (transaction_number))
 				{
 					gsb_data_transaction_set_marked_transaction (transaction_number, 2);
+
 					/* si c'est une opé ventilée, on recherche les opé filles pour leur mettre
 					 * le même pointage que la mère */
 					if (gsb_data_transaction_get_split_of_transaction (transaction_number))
@@ -4545,13 +4534,15 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					gint fyear = 0;
 
 					gsb_data_transaction_set_value_date (transaction_number, ope_import->date_de_valeur);
-				/* set the financial year according to the date or value date */
+
+					/* set the financial year according to the date or value date */
 					if (etat.get_fyear_by_value_date)
 						fyear = gsb_data_fyear_get_from_date (ope_import->date_de_valeur);
 					if (fyear > 0)
 						gsb_data_transaction_set_financial_year_number (transaction_number, fyear);
 
 				}
+				ope_import_trouve = TRUE;
 
 				break;
 
@@ -4561,6 +4552,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 				/* on va voir s'il y a d'autres opées importées ayant la même date et le même montant
 				   si on retrouve autant d'opé importées que d'opé trouvées, on peut marquer cette
 				   opé sans s'en préoccuper */
+				/* dans le cas contraire, l'ope sera ajoutee a la liste des ope celibataires */
 				i=0;
 				liste_ope_importees_tmp = imported_account->operations_importees;
 
@@ -4654,30 +4646,27 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 						}
 						tmp_list_2 = tmp_list_2->next;
 					}
-				}
-				else
-				{
-					/* on a trouvé un nombre différent d'opés d'import et d'opés semblables dans
-					 * la liste d'opés on marque donc cette opé d'import comme seule */
-
-					ope_import->devise = gsb_currency_get_currency_from_combobox (
-								imported_account->bouton_devise);
-					liste_opes_import_celibataires = g_slist_append (
-								liste_opes_import_celibataires, ope_import);
-
+					ope_import_trouve = TRUE;
 				}
 			}
 			g_slist_free (ope_trouvees);
 		}
+
+		if (ope_import_trouve == FALSE)
+		{
+			/* on ajoute l'ope dans la liste des operations celibataires */
+			liste_opes_import_celibataires = g_slist_append (liste_opes_import_celibataires, ope_import);
+		}
+
         tmp_list = tmp_list->next;
     }
 
-    if (ope_list)
-        g_slist_free (ope_list);
+	if (ope_list)
+		g_slist_free (ope_list);
 
     /* a ce niveau, liste_opes_import_celibataires contient les opés d'import dont on
      * n'a pas retrouvé l'opé correspondante
-     * on les affiche dans une liste en proposant de les ajouter à la liste */
+     * on les affiche dans une liste en proposant de les ajouter à la liste  des transactions */
     if (liste_opes_import_celibataires)
         gsb_import_show_orphan_transactions (liste_opes_import_celibataires, account_number);
 }
