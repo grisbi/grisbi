@@ -83,7 +83,7 @@ struct _BetGraphDataStruct
 
     /* données pour l'axe X */
     gdouble 				tab_X[MAX_POINTS_GRAPHIQUE];							/* données de type gdouble */
-    gchar 					tab_libelle[MAX_POINTS_GRAPHIQUE][TAILLE_MAX_LIBELLE];	/* données de type string */
+    gchar 					tab_libelle[MAX_POINTS_GRAPHIQUE][TAILLE_MAX_LIBELLE+1];/* données de type string */
     gchar **				tab_vue_libelle;										/* tableau associé à celui ci-dessus */
 
     /* données pour l'axe Y */
