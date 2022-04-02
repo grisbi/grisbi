@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/* 			https://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*                      https://www.grisbi.org                                */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -59,39 +59,39 @@ static GtkPrintSettings *settings = NULL;
  *
  */
 void print_dialog_config ( GCallback begin_callback,
-                        GCallback draw_callback,
-                        gchar *custom_tab_label,
-                        GCallback custom_tab_callback,
-                        GCallback custom_apply_callback,
-                        gpointer data )
+		GCallback draw_callback,
+		gchar *custom_tab_label,
+		GCallback custom_tab_callback,
+		GCallback custom_apply_callback,
+		gpointer data )
 {
-    GtkPrintOperation *print;
-    GtkPrintOperationResult res;
+	GtkPrintOperation *print;
+	GtkPrintOperationResult res;
 
-    print = gtk_print_operation_new ();
+	print = gtk_print_operation_new ();
 	gtk_print_operation_set_unit ( print, GTK_UNIT_POINTS );
 
-    if (settings != NULL)
-	gtk_print_operation_set_print_settings (print, settings);
+	if (settings != NULL)
+		gtk_print_operation_set_print_settings (print, settings);
 
-    /* Custom stuff */
-    if ( custom_tab_label )
-	gtk_print_operation_set_custom_tab_label ( print, custom_tab_label );
-    if ( custom_tab_callback )
-	g_signal_connect (print, "create-custom-widget", custom_tab_callback, data );
-    if ( custom_apply_callback )
-	g_signal_connect (print, "custom-widget-apply", custom_apply_callback, data );
+	/* Custom stuff */
+	if ( custom_tab_label )
+		gtk_print_operation_set_custom_tab_label ( print, custom_tab_label );
+	if ( custom_tab_callback )
+		g_signal_connect (print, "create-custom-widget", custom_tab_callback, data );
+	if ( custom_apply_callback )
+		g_signal_connect (print, "custom-widget-apply", custom_apply_callback, data );
 
-    g_signal_connect (print, "begin_print", G_CALLBACK (begin_callback), data );
-    g_signal_connect (print, "draw_page", G_CALLBACK (draw_callback), data );
+	g_signal_connect (print, "begin_print", G_CALLBACK (begin_callback), data );
+	g_signal_connect (print, "draw_page", G_CALLBACK (draw_callback), data );
 
 
-    res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-				   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ), NULL);
+	res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+			GTK_WINDOW ( grisbi_app_get_active_window (NULL) ), NULL);
 
-    if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
-    {
-	settings = gtk_print_operation_get_print_settings (print);
-    }
+	if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
+	{
+		settings = gtk_print_operation_get_print_settings (print);
+	}
 
 }
