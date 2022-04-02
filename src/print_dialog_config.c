@@ -91,7 +91,9 @@ void print_dialog_config ( GCallback begin_callback,
 
 	if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
 	{
-		settings = gtk_print_operation_get_print_settings (print);
+        if (settings != NULL)
+            g_object_unref (settings);
+		settings = g_object_ref(gtk_print_operation_get_print_settings (print));
 	}
 
 }
