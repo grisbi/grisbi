@@ -3995,7 +3995,7 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
 														gint result,
 														GtkWidget *liste_ope_celibataires)
 {
-    GSList *liste_opes_import_celibataires;
+    GSList *list_ope_import_celibataires;
     GSList *tmp_list;
     GtkTreeIter iter;
     GtkTreeModel *model;
@@ -4020,14 +4020,14 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
 			/* on ajoute la ou les opés marquées à la liste d'opés en les pointant d'un T
 			   puis on les retire de la liste des orphelines
 			   s'il ne reste plus d'opés orphelines, on ferme la boite de dialogue */
-			liste_opes_import_celibataires = g_object_get_data (G_OBJECT (liste_ope_celibataires), "liste_ope");
+			list_ope_import_celibataires = g_object_get_data (G_OBJECT (liste_ope_celibataires), "liste_ope");
 			model = gtk_tree_view_get_model (GTK_TREE_VIEW (liste_ope_celibataires));
 			gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter);
 
 			/* normalement, pas besoin de mettre ça à 0 car normalement pas de ventilations à ce stade... */
 			mother_transaction_number = 0;
 
-			tmp_list = liste_opes_import_celibataires;
+			tmp_list = list_ope_import_celibataires;
 			while (tmp_list)
 			{
 				gboolean enregistre;
@@ -4055,7 +4055,7 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
 					/* on a enregistré l'opé, on la retire maintenant de la liste et de la sliste */
 					last_item = tmp_list;
 					tmp_list = tmp_list->next;
-					liste_opes_import_celibataires = g_slist_remove_link (liste_opes_import_celibataires, last_item);
+					list_ope_import_celibataires = g_slist_remove_link (list_ope_import_celibataires, last_item);
 
 					/* on retire la ligne qu'on vient d'enregistrer, cela met l'iter directement sur la suite */
 					gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
@@ -4068,7 +4068,7 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
 			}
 
 			/* on enregistre la nouvelle liste d'opé pour la retrouver plus tard */
-			g_object_set_data (G_OBJECT (liste_ope_celibataires), "liste_ope", liste_opes_import_celibataires);
+			g_object_set_data (G_OBJECT (liste_ope_celibataires), "liste_ope", list_ope_import_celibataires);
 
 			/* il est possible que les opés importées soient des virements, il faut faire les relations ici */
 			if (virements_a_chercher)
@@ -4348,7 +4348,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 {
     GSList *list_ope_retenues;
     GSList *tmp_list;
-    GSList *liste_opes_import_celibataires;
+    GSList *list_ope_import_celibataires;
     GDate *first_date_import = NULL;
 
     /* si le compte importé a une id, on la vérifie ici */
@@ -4369,7 +4369,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 
     g_date_free (first_date_import);
 
-    liste_opes_import_celibataires = NULL;
+    list_ope_import_celibataires = NULL;
 
     /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
     tmp_list = imported_account->operations_importees;
@@ -4625,7 +4625,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 		if (ope_import_trouve == FALSE)
 		{
 			/* on ajoute l'ope dans la liste des operations celibataires */
-			liste_opes_import_celibataires = g_slist_append (liste_opes_import_celibataires, ope_import);
+			list_ope_import_celibataires = g_slist_append (list_ope_import_celibataires, ope_import);
 		}
 
         tmp_list = tmp_list->next;
@@ -4634,11 +4634,11 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 	if (list_ope_retenues)
 		g_slist_free (list_ope_retenues);
 
-    /* a ce niveau, liste_opes_import_celibataires contient les opés d'import dont on */
+    /* a ce niveau, list_ope_import_celibataires contient les opés d'import dont on */
     /* n'a pas retrouvé l'opé correspondante */
     /* on les affiche dans une liste en proposant de les ajouter à la liste  des transactions */
-    if (liste_opes_import_celibataires)
-        gsb_import_show_orphan_transactions (liste_opes_import_celibataires, account_number);
+    if (list_ope_import_celibataires)
+        gsb_import_show_orphan_transactions (list_ope_import_celibataires, account_number);
 }
 
 /**
