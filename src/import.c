@@ -4375,7 +4375,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
     tmp_list_ope_importees = imported_account->operations_importees;
     while (tmp_list_ope_importees)
     {
-        GSList *liste_ope_importees_tmp;
+        GSList *tmp_list_ope_importees2;
         GSList *ope_trouvees;
         GSList *tmp_list_ope_retenues;
         struct ImportTransaction *ope_import;
@@ -4527,15 +4527,15 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 				   opé sans s'en préoccuper */
 				/* dans le cas contraire, l'ope sera ajoutee a la liste des ope celibataires */
 				i=0;
-				liste_ope_importees_tmp = imported_account->operations_importees;
+				tmp_list_ope_importees2 = imported_account->operations_importees;
 
-				while (liste_ope_importees_tmp)
+				while (tmp_list_ope_importees2)
 				{
 					struct ImportTransaction *ope_import_tmp;
 					GDate *date_debut_comparaison;
 					GDate *date_fin_comparaison;
 
-					ope_import_tmp = liste_ope_importees_tmp->data;
+					ope_import_tmp = tmp_list_ope_importees2->data;
 
 					/* we look for a date around ope_import_tmp with +- etat.import_files_nb_days */
 					date_debut_comparaison = g_date_new_dmy (g_date_get_day (ope_import_tmp->date),
@@ -4558,7 +4558,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 						i++;
 					}
 
-					liste_ope_importees_tmp = liste_ope_importees_tmp->next;
+					tmp_list_ope_importees2 = tmp_list_ope_importees2->next;
 				}
 
 				if (i ==  (gint) g_slist_length (ope_trouvees))
