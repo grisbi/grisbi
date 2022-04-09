@@ -2894,7 +2894,7 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 {
 	GSList *list_ope_retenues;
 	GSList *list_resultats = NULL;
-	GSList *tmp_list_transactions;
+	GSList *tmp_list_ope_retenues;
 	GDate *date_debut_comparaison;
 	GDate *date_fin_comparaison;
 	GDateDay day;
@@ -2920,14 +2920,14 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 	/* on récupère la liste des opérations à partir de l'opération correspondante trouvée */
 	list_ope_retenues = gsb_data_transaction_get_list_for_import (account_number, date_debut_comparaison);
 
-	tmp_list_transactions = list_ope_retenues;
-	while (tmp_list_transactions)
+	tmp_list_ope_retenues = list_ope_retenues;
+	while (tmp_list_ope_retenues)
 	{
 		gint transaction_number;
 
-		transaction_number = GPOINTER_TO_INT (tmp_list_transactions->data);
+		transaction_number = GPOINTER_TO_INT (tmp_list_ope_retenues->data);
 
-		tmp_list_transactions = tmp_list_transactions->next;
+		tmp_list_ope_retenues = tmp_list_ope_retenues->next;
 
 		if (transaction_number == ope_import->ope_correspondante)
 			continue;
@@ -3483,13 +3483,13 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
 
     while (tmp_list)
     {
-        GSList *tmp_list_transactions;
+        GSList *tmp_list_ope_retenues;
         struct ImportTransaction *imported_transaction;
 
         imported_transaction = tmp_list->data;
 
-        tmp_list_transactions = list_ope_retenues;
-        while (tmp_list_transactions)
+        tmp_list_ope_retenues = list_ope_retenues;
+        while (tmp_list_ope_retenues)
         {
             gint transaction_number;
             const gchar *tmp_str;
@@ -3499,9 +3499,9 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
             GDateMonth month;
             GDateYear year;
 
-            transaction_number = GPOINTER_TO_INT (tmp_list_transactions->data);
+            transaction_number = GPOINTER_TO_INT (tmp_list_ope_retenues->data);
 
-            tmp_list_transactions = tmp_list_transactions->next;
+            tmp_list_ope_retenues = tmp_list_ope_retenues->next;
 
             /* first check the id */
             if (imported_transaction->id_operation)
