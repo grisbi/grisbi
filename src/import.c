@@ -4567,15 +4567,15 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					/* pour celles qui sont déjà pointées, on ne fait rien */
 					/* si l'opé importée à une id, on met cette id dans l'opération si elle n'en a pas */
 
-					GSList *tmp_list_2;
+					GSList *tmp_list_ope_trouvees;
 
-					tmp_list_2 = list_ope_trouvees;
+					tmp_list_ope_trouvees = list_ope_trouvees;
 
-					while (tmp_list_2)
+					while (tmp_list_ope_trouvees)
 					{
 						gint transaction_number2;
 
-						transaction_number2 = GPOINTER_TO_INT (tmp_list_2->data);
+						transaction_number2 = GPOINTER_TO_INT (tmp_list_ope_trouvees->data);
 
 						if (strlen (gsb_data_transaction_get_transaction_id (transaction_number2)) == 0
 							 && ope_import->id_operation)
@@ -4613,7 +4613,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 								}
 							}
 						}
-						tmp_list_2 = tmp_list_2->next;
+						tmp_list_ope_trouvees = tmp_list_ope_trouvees->next;
 					}
 					ope_import_trouve = TRUE;
 				}
