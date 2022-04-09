@@ -4347,7 +4347,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 											  gint account_number)
 {
     GSList *list_ope_retenues;
-    GSList *tmp_list;
+    GSList *tmp_list_ope_importees;
     GSList *list_ope_import_celibataires;
     GDate *first_date_import = NULL;
 
@@ -4372,8 +4372,8 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
     list_ope_import_celibataires = NULL;
 
     /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
-    tmp_list = imported_account->operations_importees;
-    while (tmp_list)
+    tmp_list_ope_importees = imported_account->operations_importees;
+    while (tmp_list_ope_importees)
     {
         GSList *liste_ope_importees_tmp;
         GSList *ope_trouvees;
@@ -4382,7 +4382,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
         gint i;
 		gboolean ope_import_trouve = FALSE;
 
-        ope_import = tmp_list->data;
+        ope_import = tmp_list_ope_importees->data;
         ope_trouvees = NULL;
 
         /* set now the account number of the transaction */
@@ -4628,7 +4628,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 			list_ope_import_celibataires = g_slist_append (list_ope_import_celibataires, ope_import);
 		}
 
-        tmp_list = tmp_list->next;
+        tmp_list_ope_importees = tmp_list_ope_importees->next;
     }
 
 	if (list_ope_retenues)
