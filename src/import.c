@@ -2892,7 +2892,7 @@ static gint gsb_import_correct_opes_find_multiples_ope_msg (GtkWidget *parent,
 static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *button,
                                                                 struct ImportTransaction *ope_import)
 {
-	GSList *ope_list;
+	GSList *list_ope_retenues;
 	GSList *list_resultats = NULL;
 	GSList *tmp_list_transactions;
 	GDate *date_debut_comparaison;
@@ -2918,9 +2918,9 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 	g_date_add_days (date_fin_comparaison, etat.import_files_nb_days);
 
 	/* on récupère la liste des opérations à partir de l'opération correspondante trouvée */
-	ope_list = gsb_data_transaction_get_list_for_import (account_number, date_debut_comparaison);
+	list_ope_retenues = gsb_data_transaction_get_list_for_import (account_number, date_debut_comparaison);
 
-	tmp_list_transactions = ope_list;
+	tmp_list_transactions = list_ope_retenues;
 	while (tmp_list_transactions)
 	{
 		gint transaction_number;
@@ -2953,8 +2953,8 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 			}
 		}
 	}
-	if (ope_list)
-		g_slist_free (ope_list);
+	if (list_ope_retenues)
+		g_slist_free (list_ope_retenues);
 
 	if (nbre_resultat == 0)
 	{
@@ -3472,12 +3472,12 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
 										  gint account_number,
 										  GDate *first_date_import)
 {
-    GSList *ope_list;
+    GSList *list_ope_retenues;
     GSList *tmp_list;
     gint demande_confirmation = FALSE;
 
     /* on récupère la liste des opérations dans l'intervalle de recherche pour l'import */
-    ope_list = gsb_data_transaction_get_list_for_import (account_number, first_date_import);
+    list_ope_retenues = gsb_data_transaction_get_list_for_import (account_number, first_date_import);
 
     tmp_list = imported_account->operations_importees;
 
@@ -3488,7 +3488,7 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
 
         imported_transaction = tmp_list->data;
 
-        tmp_list_transactions = ope_list;
+        tmp_list_transactions = list_ope_retenues;
         while (tmp_list_transactions)
         {
             gint transaction_number;
@@ -3575,8 +3575,8 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
         tmp_list = tmp_list->next;
     }
 
-    if (ope_list)
-        g_slist_free (ope_list);
+    if (list_ope_retenues)
+        g_slist_free (list_ope_retenues);
 
     return demande_confirmation;
 }
@@ -4346,7 +4346,7 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
 static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_account,
 											  gint account_number)
 {
-    GSList *ope_list;
+    GSList *list_ope_retenues;
     GSList *tmp_list;
     GSList *liste_opes_import_celibataires;
     GDate *first_date_import = NULL;
@@ -4365,7 +4365,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
     first_date_import = gsb_import_get_first_date (imported_account->operations_importees);
 
     /* on récupère la liste des opérations dans l'intervalle de recherche pour l'import */
-    ope_list = gsb_data_transaction_get_list_for_import (account_number, first_date_import);
+    list_ope_retenues = gsb_data_transaction_get_list_for_import (account_number, first_date_import);
 
     g_date_free (first_date_import);
 
@@ -4377,7 +4377,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
     {
         GSList *liste_ope_importees_tmp;
         GSList *ope_trouvees;
-        GSList *tmp_ope_list;
+        GSList *tmp_list_ope_retenues;
         struct ImportTransaction *ope_import;
         gint i;
 		gboolean ope_import_trouve = FALSE;
@@ -4388,8 +4388,8 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
         /* set now the account number of the transaction */
         ope_import->no_compte = account_number;
 
-        tmp_ope_list = ope_list;
-        while (tmp_ope_list)
+        tmp_list_ope_retenues = list_ope_retenues;
+        while (tmp_list_ope_retenues)
         {
             gint transaction_number;
             const gchar *tmp_str;
@@ -4399,7 +4399,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
             GDateMonth month;
             GDateYear year;
 
-            transaction_number = GPOINTER_TO_INT (tmp_ope_list->data);
+            transaction_number = GPOINTER_TO_INT (tmp_list_ope_retenues->data);
 
 			/* on met la devise de l'opération si plus tard on l'enregistre */
 			if (imported_account->bouton_devise)
@@ -4414,7 +4414,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
                 tmp_str = gsb_data_transaction_get_id (transaction_number);
                 if (tmp_str && strcmp (ope_import->id_operation, tmp_str) == 0)
                 {
-                    ope_trouvees = g_slist_append (ope_trouvees, tmp_ope_list->data);
+                    ope_trouvees = g_slist_append (ope_trouvees, tmp_list_ope_retenues->data);
 					ope_import_trouve = TRUE;
 
                     break;
@@ -4447,12 +4447,12 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 				&& gsb_data_transaction_get_marked_transaction (transaction_number) < OPERATION_TELEPOINTEE)
             {
                 /* on a touvé une opé comparable on l'ajoute à la liste des opés trouvées */
-                ope_trouvees = g_slist_append (ope_trouvees, tmp_ope_list->data);
+                ope_trouvees = g_slist_append (ope_trouvees, tmp_list_ope_retenues->data);
 				ope_import_trouve = TRUE;
 
                 break;
             }
-            tmp_ope_list = tmp_ope_list->next;
+            tmp_list_ope_retenues = tmp_list_ope_retenues->next;
         }
 
         /* à ce stade, ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
@@ -4483,20 +4483,20 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					 * le même pointage que la mère */
 					if (gsb_data_transaction_get_split_of_transaction (transaction_number))
 					{
-						tmp_ope_list = ope_list;
+						tmp_list_ope_retenues = list_ope_retenues;
 
-						while (tmp_ope_list)
+						while (tmp_list_ope_retenues)
 						{
 							gint transaction_number_tmp;
 
-							transaction_number_tmp = GPOINTER_TO_INT (tmp_ope_list->data);
+							transaction_number_tmp = GPOINTER_TO_INT (tmp_list_ope_retenues->data);
 
 							if (gsb_data_transaction_get_mother_transaction_number ( transaction_number_tmp)
 								== transaction_number)
 								gsb_data_transaction_set_marked_transaction (transaction_number_tmp,
 																			 OPERATION_TELEPOINTEE);
 
-							tmp_ope_list = tmp_ope_list->next;
+							tmp_list_ope_retenues = tmp_list_ope_retenues->next;
 						}
 					}
 				}
@@ -4631,8 +4631,8 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
         tmp_list = tmp_list->next;
     }
 
-	if (ope_list)
-		g_slist_free (ope_list);
+	if (list_ope_retenues)
+		g_slist_free (list_ope_retenues);
 
     /* a ce niveau, liste_opes_import_celibataires contient les opés d'import dont on */
     /* n'a pas retrouvé l'opé correspondante */
