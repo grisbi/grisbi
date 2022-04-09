@@ -4376,14 +4376,14 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
     while (tmp_list_ope_importees)
     {
         GSList *tmp_list_ope_importees2;
-        GSList *ope_trouvees;
+        GSList *list_ope_trouvees;
         GSList *tmp_list_ope_retenues;
         struct ImportTransaction *ope_import;
         gint i;
 		gboolean ope_import_trouve = FALSE;
 
         ope_import = tmp_list_ope_importees->data;
-        ope_trouvees = NULL;
+        list_ope_trouvees = NULL;
 
         /* set now the account number of the transaction */
         ope_import->no_compte = account_number;
@@ -4414,7 +4414,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
                 tmp_str = gsb_data_transaction_get_id (transaction_number);
                 if (tmp_str && strcmp (ope_import->id_operation, tmp_str) == 0)
                 {
-                    ope_trouvees = g_slist_append (ope_trouvees, tmp_list_ope_retenues->data);
+                    list_ope_trouvees = g_slist_append (list_ope_trouvees, tmp_list_ope_retenues->data);
 					ope_import_trouve = TRUE;
 
                     break;
@@ -4447,7 +4447,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 				&& gsb_data_transaction_get_marked_transaction (transaction_number) < OPERATION_TELEPOINTEE)
             {
                 /* on a touvé une opé comparable on l'ajoute à la liste des opés trouvées */
-                ope_trouvees = g_slist_append (ope_trouvees, tmp_list_ope_retenues->data);
+                list_ope_trouvees = g_slist_append (list_ope_trouvees, tmp_list_ope_retenues->data);
 				ope_import_trouve = TRUE;
 
                 break;
@@ -4455,21 +4455,21 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
             tmp_list_ope_retenues = tmp_list_ope_retenues->next;
         }
 
-        /* à ce stade, ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
+        /* à ce stade, list_ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
         /* soit il n'y en n'a qu'une, et on la pointe, soit il y en a plusieurs, et on recherche */
         /* les opés importées s'il y en a d'autre comparables, et on pointe les opés en fonction */
         /* du nb de celles importées */
-		if (ope_trouvees)
+		if (list_ope_trouvees)
 		{
 			gint transaction_number;
 
-			switch (g_slist_length (ope_trouvees))
+			switch (g_slist_length (list_ope_trouvees))
 			{
 				case 1:
 				/*  il n'y a qu'une opé retrouvée, on la pointe */
 				/* si elle est déjà pointée ou relevée, on ne fait rien */
 				/* si l'opé d'import a une id et pas l'opé, on marque l'id dans l'opé */
-				transaction_number = GPOINTER_TO_INT (ope_trouvees->data);
+				transaction_number = GPOINTER_TO_INT (list_ope_trouvees->data);
 
 				if (strlen (gsb_data_transaction_get_transaction_id (transaction_number)) == 0
 					&& ope_import->id_operation)
@@ -4528,7 +4528,6 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 				/* dans le cas contraire, l'ope sera ajoutee a la liste des ope celibataires */
 				i=0;
 				tmp_list_ope_importees2 = imported_account->operations_importees;
-
 				while (tmp_list_ope_importees2)
 				{
 					struct ImportTransaction *ope_import_tmp;
@@ -4561,7 +4560,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					tmp_list_ope_importees2 = tmp_list_ope_importees2->next;
 				}
 
-				if (i ==  (gint) g_slist_length (ope_trouvees))
+				if (i ==  (gint) g_slist_length (list_ope_trouvees))
 				{
 					/* on a trouvé autant d'opé d'import semblables que d'opés semblables dans la
 					 * liste d'opé donc on peut marquer les opés trouvées */
@@ -4570,7 +4569,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 
 					GSList *tmp_list_2;
 
-					tmp_list_2 = ope_trouvees;
+					tmp_list_2 = list_ope_trouvees;
 
 					while (tmp_list_2)
 					{
@@ -4619,7 +4618,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					ope_import_trouve = TRUE;
 				}
 			}
-			g_slist_free (ope_trouvees);
+			g_slist_free (list_ope_trouvees);
 		}
 
 		if (ope_import_trouve == FALSE)
