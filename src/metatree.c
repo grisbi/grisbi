@@ -2402,6 +2402,10 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
                 balance = utils_real_get_string_with_currency ( iface -> div_balance ( div_id ),
                                     iface -> tree_currency (), TRUE );
                 break;
+			default:
+				balance = g_strdup("ERROR");
+				text = g_strdup("ERROR");
+				break;
         }
 
         grisbi_win_headings_update_title ( text );
