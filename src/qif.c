@@ -1338,75 +1338,75 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 
 		if (imported_account)
 		{
-        /* first, we need to check if the first transaction is an opening balance
-         * or a normal transaction
-         * update : money sometimes translate Opening balance... */
-		if (imported_account->operations_importees)
-		{
-			if (g_slist_length (imported_account->operations_importees) > 0)
+			/* first, we need to check if the first transaction is an opening balance
+			 * or a normal transaction
+			 * update : money sometimes translate Opening balance... */
+			if (imported_account->operations_importees)
 			{
-				imported_transaction = imported_account->operations_importees->data;
-				if (imported_transaction->tiers
-				 &&
-				 (!g_ascii_strncasecmp (imported_transaction->tiers, "Opening Balance", 15)
-				 ||
-				 !g_ascii_strcasecmp (imported_transaction->tiers, _("Opening Balance"))))
+				if (g_slist_length (imported_account->operations_importees) > 0)
 				{
-					/* ok, we are on an opening balance, we transfer the first transaction
-					 * to the initial datas of the account */
-
-					/* get the initial amount */
-					imported_account->solde = imported_transaction->montant;
-
-					/* get the name of account */
-					if (!account_name)
+					imported_transaction = imported_account->operations_importees->data;
+					if (imported_transaction->tiers
+							&&
+							(!g_ascii_strncasecmp (imported_transaction->tiers, "Opening Balance", 15)
+							 ||
+							 !g_ascii_strcasecmp (imported_transaction->tiers, _("Opening Balance"))))
 					{
-						tmp_str = my_strdelimit (imported_transaction->dest_account_name, "[]", "");
-						imported_account->nom_de_compte = gsb_import_unique_imported_name (tmp_str);
+						/* ok, we are on an opening balance, we transfer the first transaction
+						 * to the initial datas of the account */
 
-						g_free (tmp_str);
-						tmp_str = NULL;		/* remove Memory error	Use-after-free */
+						/* get the initial amount */
+						imported_account->solde = imported_transaction->montant;
+
+						/* get the name of account */
+						if (!account_name)
+						{
+							tmp_str = my_strdelimit (imported_transaction->dest_account_name, "[]", "");
+							imported_account->nom_de_compte = gsb_import_unique_imported_name (tmp_str);
+
+							g_free (tmp_str);
+							tmp_str = NULL;		/* remove Memory error	Use-after-free */
+						}
+
+						/* get the date of the file */
+						imported_account->date_solde_qif = my_strdup (imported_transaction->date_tmp);
+
+						/* now, we can remove the first imported transaction */
+						imported_account->operations_importees = g_slist_remove (imported_account->operations_importees,
+								imported_transaction);
+						g_free (imported_transaction);
 					}
+					/* now we need to transform the dates of transaction into gdate */
 
-					/* get the date of the file */
-					imported_account->date_solde_qif = my_strdup (imported_transaction->date_tmp);
-
-					/* now, we can remove the first imported transaction */
-					imported_account->operations_importees = g_slist_remove (imported_account->operations_importees,
-												imported_transaction);
-					g_free (imported_transaction);
+					/* try to understand the order */
+					order = gsb_qif_get_date_order (imported_account->operations_importees);
+					if (order == -1)
+						dialogue_error (_("Grisbi couldn't determine the format of the date into the qif file.\n"
+									"Please contact the Grisbi team (devel@listes.grisbi.org) to find "
+									"the problem.\nFor now, all the dates will be imported as 01.01.2000"));
 				}
-				/* now we need to transform the dates of transaction into gdate */
-
-				/* try to understand the order */
-				order = gsb_qif_get_date_order (imported_account->operations_importees);
-				if (order == -1)
-					dialogue_error (_("Grisbi couldn't determine the format of the date into the qif file.\n"
-									  "Please contact the Grisbi team (devel@listes.grisbi.org) to find "
-									  "the problem.\nFor now, all the dates will be imported as 01.01.2000"));
 			}
-		}
 
-		tmp_list = imported_account->operations_importees;
-        while (tmp_list)
-        {
-            imported_transaction = tmp_list->data;
-            if (order == -1)
-                /* we didn't find the order */
-                imported_transaction->date = g_date_new_dmy (1,1,2000);
-            else
-                imported_transaction->date = gsb_qif_get_date (imported_transaction->date_tmp, order);
+			tmp_list = imported_account->operations_importees;
+			while (tmp_list)
+			{
+				imported_transaction = tmp_list->data;
+				if (order == -1)
+					/* we didn't find the order */
+					imported_transaction->date = g_date_new_dmy (1,1,2000);
+				else
+					imported_transaction->date = gsb_qif_get_date (imported_transaction->date_tmp, order);
 
-            tmp_list = tmp_list->next;
-        }
+				tmp_list = tmp_list->next;
+			}
 
-        /* set the date of the qif file */
-        if (imported_account->date_solde_qif)
-            imported_account->date_fin = gsb_qif_get_date (imported_account->date_solde_qif, order);
+			/* set the date of the qif file */
+			if (imported_account->date_solde_qif)
+				imported_account->date_fin = gsb_qif_get_date (imported_account->date_solde_qif, order);
 
-        /* add that account to the others */
-		if (!no_save_account)
-        	liste_comptes_importes = g_slist_append (liste_comptes_importes, imported_account);
+			/* add that account to the others */
+			if (!no_save_account)
+				liste_comptes_importes = g_slist_append (liste_comptes_importes, imported_account);
 		}
 		else
 			alert_debug("Wrong format\n");
