@@ -1893,13 +1893,13 @@ static gboolean gsb_scheduler_list_update_white_child (gint white_line_number,
     }
     else
     {
-        tmp_str = (gchar*)"";
+        tmp_str = g_strdup("");
         gsb_scheduler_list_set_color_of_mother (mother_scheduled_number, FALSE);
     }
 
     gtk_tree_store_set (GTK_TREE_STORE (tree_model_scheduler_list), iter, 2, tmp_str, -1);
 
-    if (tmp_str && strlen (tmp_str))
+    if (tmp_str)
         g_free (tmp_str);
 
     return TRUE;
