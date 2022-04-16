@@ -176,7 +176,6 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 {
 	GtkWidget *head_page;
 	const gchar *langue;
-	gchar *tmp_str;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
 	PrefsPageAccueilPrivate *priv;
@@ -194,21 +193,24 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 
     /* set the box for french langage*/
 	langue = gsb_locale_get_language ();
-	tmp_str = g_ascii_strup (langue, -1);
-    if (langue && g_strstr_len (tmp_str, -1, "FR"))
-    {
-		GtkWidget *vbox_button;
+	if (langue)
+	{
+		gchar *tmp_str = g_ascii_strup (langue, -1);
+		if (g_strstr_len (tmp_str, -1, "FR"))
+		{
+			GtkWidget *vbox_button;
 
-		vbox_button = gsb_automem_radiobutton_gsettings_new ("Soldes finals",
-														"Soldes finaux",
-														&a_conf->pluriel_final,
-														G_CALLBACK (prefs_page_accueil_checkbutton_pluriel_final_toggle),
-														a_conf);
-		gtk_box_pack_start (GTK_BOX (priv->box_lang_fr), vbox_button, FALSE, FALSE, 0);
-		gtk_box_pack_start (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, FALSE, FALSE, 0);
-		gtk_box_reorder_child (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, 1);
-    }
-	g_free (tmp_str);
+			vbox_button = gsb_automem_radiobutton_gsettings_new ("Soldes finals",
+																 "Soldes finaux",
+																 &a_conf->pluriel_final,
+																 G_CALLBACK (prefs_page_accueil_checkbutton_pluriel_final_toggle),
+																 a_conf);
+			gtk_box_pack_start (GTK_BOX (priv->box_lang_fr), vbox_button, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, FALSE, FALSE, 0);
+			gtk_box_reorder_child (GTK_BOX (priv->vbox_accueil), priv->hbox_paddingbox_lang_fr, 1);
+		}
+		g_free (tmp_str);
+	}
 
 	/* set a_conf->balances_with_scheduled */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_balances_with_scheduled),
