@@ -243,6 +243,7 @@ gchar *etats_titre ( gint report_number)
 	gchar buffer_date_2[256];
 	gsize rc;
 	GDate *date_tmp;
+	gchar *date_str1, *date_str2;
 
 	switch ( gsb_data_report_get_date_type (report_number))
 	{
@@ -261,12 +262,17 @@ gchar *etats_titre ( gint report_number)
 		if ( gsb_data_report_get_personal_date_start (report_number)
 		     &&
 		     gsb_data_report_get_personal_date_end (report_number))
+		{
+			date_str1 = gsb_format_gdate ( gsb_data_report_get_personal_date_start (report_number));
+			date_str2 = gsb_format_gdate ( gsb_data_report_get_personal_date_end (report_number));
 		    titre = g_strconcat ( titre,
 					  ", ",
 					  g_strdup_printf ( _("Result from %s to %s"),
-							    gsb_format_gdate ( gsb_data_report_get_personal_date_start (report_number)),
-							    gsb_format_gdate ( gsb_data_report_get_personal_date_end (report_number)) ),
+								date_str1, date_str2 ),
 					  NULL );
+			g_free(date_str1);
+			g_free(date_str2);
+		}
 		else
 		    titre = g_strconcat ( titre,
 					  ", ", _("Custom dates ranges not filled"),
@@ -276,11 +282,13 @@ gchar *etats_titre ( gint report_number)
 	    case 2:
 		/* cumul à ce jour */
 
+		date_str1 = gsb_format_gdate (today_date);
 		titre = g_strconcat ( titre,
 				      ", ",
 				      g_strdup_printf ( _("total at %s"),
-							gsb_format_gdate (today_date)),
+							date_str1),
 				      NULL );
+		g_free(date_str1);
 		break;
 
 	    case 3:
@@ -313,21 +321,25 @@ gchar *etats_titre ( gint report_number)
 	    case 5:
 		/* cumul mensuel */
 
+		date_str1 = gsb_format_gdate (today_date);
 		titre = g_strconcat ( titre,
 				      ", ",
 				      g_strdup_printf ( _("month total at %s"),
-							gsb_format_gdate (today_date)),
+							date_str1),
 				      NULL );
+		g_free(date_str1);
 		break;
 
 	    case 6:
 		/* cumul annuel */
 
+		date_str1 = gsb_format_gdate (today_date);
 		titre = g_strconcat ( titre,
 				      ", ",
 				      g_strdup_printf ( _("year total at %s"),
-							gsb_format_gdate (today_date)),
+							date_str1),
 				      NULL );
+		g_free(date_str1);
 		break;
 
 	    case 7:
@@ -367,12 +379,15 @@ gchar *etats_titre ( gint report_number)
 		g_date_subtract_days ( date_tmp,
 				       30 );
 
+		date_str1 = gsb_format_gdate ( date_tmp );
+		date_str2 = gsb_format_gdate (today_date);
 		titre = g_strconcat ( titre,
 				      ", ",
 				      g_strdup_printf ( _("Result from %s to %s"),
-							gsb_format_gdate ( date_tmp ),
-							gsb_format_gdate (today_date)),
+							date_str1, date_str2),
 				      NULL );
+		g_free(date_str1);
+		g_free(date_str2);
 		break;
 
 	    case 10:
