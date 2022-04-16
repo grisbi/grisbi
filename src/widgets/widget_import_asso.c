@@ -669,7 +669,6 @@ static void widget_import_asso_setup_treeview_asso (WidgetImportAsso *page)
 
     /* create the treeview */
 	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->treeview_import_asso), GTK_TREE_MODEL (list_store));
-    g_object_unref (list_store);
 
 	/* set the payee name column */
     cell = gtk_cell_renderer_text_new ();
@@ -698,6 +697,7 @@ static void widget_import_asso_setup_treeview_asso (WidgetImportAsso *page)
 
 	/* fill the list */
     widget_import_asso_fill_model (list_store);
+	g_object_unref (list_store);
 
     utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
 
