@@ -1026,16 +1026,19 @@ void gsb_account_property_iban_delete_text ( GtkEditable *entry,
 struct Iso13616Iban *gsb_account_property_iban_get_struc ( gchar *pays )
 {
     struct Iso13616Iban *s_iban = iso_13616_ibans;
+    gchar *pays_2lettres;
 
+    pays_2lettres = g_strndup (pays, 2);
     while (s_iban -> iban )
     {
-        if ( g_strstr_len (s_iban -> locale, 2, g_strndup ( pays, 2)) )
+        if ( g_strstr_len (s_iban -> locale, 2, pays_2lettres ))
             break;
         s_iban ++;
     }
     if ( s_iban -> iban == NULL )
         s_iban = iso_13616_ibans;
 
+    g_free(pays_2lettres);
     return s_iban;
 }
 
