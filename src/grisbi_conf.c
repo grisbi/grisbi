@@ -452,8 +452,8 @@ gboolean grisbi_conf_load_app_config (void)
     else
     {
         a_conf->browser_command = g_strdup (tmp_str);
-        g_free (tmp_str);
     }
+	g_free (tmp_str);
 
     tmp_str = g_key_file_get_string (config,
 									 "General",
