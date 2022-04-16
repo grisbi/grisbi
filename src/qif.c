@@ -1791,13 +1791,15 @@ gboolean qif_export (const gchar *filename,
 					}
 					else
 					{
+						gchar *str = gsb_data_category_get_name (gsb_data_transaction_get_category_number
+																 (transaction_number_tmp),
+															  gsb_data_transaction_get_sub_category_number (transaction_number_tmp),
+																 FALSE);
 						/* it's a normal category */
 						fprintf (fichier_qif,
 								 "L%s\n",
-								 gsb_data_category_get_name (gsb_data_transaction_get_category_number
-															 (transaction_number_tmp),
-															 gsb_data_transaction_get_sub_category_number (transaction_number_tmp),
-															 FALSE));
+								 str);
+						g_free(str);
 					}
 				}
 				fprintf (fichier_qif, "^\n");
