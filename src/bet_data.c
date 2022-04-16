@@ -330,7 +330,7 @@ static void bet_data_future_set_max_number (gint number)
  *
  * \return
  **/
-static void bet_data_future_struct_free (FuturData *sfd)
+void bet_data_future_struct_free (FuturData *sfd)
 {
 	if (sfd->date)
 		g_date_free (sfd->date);

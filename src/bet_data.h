@@ -179,6 +179,7 @@ void 						bet_data_struct_transaction_current_fyear_free 	(TransactionCurrentFy
 TransactionCurrentFyear *	bet_data_struct_transaction_current_fyear_init	(void);
 void 						bet_data_variables_free 						(void);
 gboolean 					bet_data_variables_init 						(void);
+void						bet_data_future_struct_free						(FuturData *sfd);
 
 /* ARRAY_DATA */
 GDate *						bet_data_array_get_date_max 					(gint account_number);
