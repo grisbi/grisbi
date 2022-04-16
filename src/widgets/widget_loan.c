@@ -1565,6 +1565,7 @@ dialog_return:
 			gsb_data_category_set_category_from_string (scheduled_number, text, FALSE);
 		}
 
+		bet_data_finance_structure_amortissement_free(s_amortissement);
 		if (!widget_loan_scheduled_dialog_validate (s_sch_dialog))
 		{
 			goto dialog_return;
