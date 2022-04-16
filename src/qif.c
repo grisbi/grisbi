@@ -1045,7 +1045,7 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
 static gint gsb_qif_passe_ligne (FILE *qif_file,
 								 const gchar *coding_system)
 {
-    gchar *tmp_str;
+    gchar *tmp_str = NULL;
     gint returned_value = 0;
 
 	devel_debug (NULL);
@@ -1058,11 +1058,12 @@ static gint gsb_qif_passe_ligne (FILE *qif_file,
 
 		do
 		{
-            g_free(tmp_str);
+			g_free(tmp_str);
+			tmp_str = NULL;
 			returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 			//~ printf ("tmp_str = %s returned_value = %d\n", tmp_str, returned_value);
 		}
-		while (returned_value != EOF && tmp_str[0] != '!');
+		while (returned_value != EOF && tmp_str && tmp_str[0] != '!');
 	}
 
     if (returned_value == EOF)
