@@ -2303,6 +2303,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
     GtkTreePath *sel_path;
 	gchar *str_capital_du = NULL;
     gchar *tmp_str;
+	gchar *tmp_str2;
     gint index = 0;
     gint nbre_echeances;
     gint type_taux;
@@ -2422,7 +2423,9 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 
     /* set duration */
     label = g_object_get_data (G_OBJECT (parent), "bet_finance_duree");
-    tmp_str = g_strconcat (utils_str_itoa (s_loan->duree), _(" months "), NULL);
+	tmp_str2 = utils_str_itoa (s_loan->duree);
+    tmp_str = g_strconcat (tmp_str2, _(" months "), NULL);
+	g_free(tmp_str2);
     gtk_label_set_label (GTK_LABEL (label), tmp_str);
     g_free (tmp_str);
 
