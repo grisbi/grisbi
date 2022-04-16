@@ -647,11 +647,12 @@ static gboolean bet_graph_on_motion (GtkWidget *event_box,
         {
             double const *x;
             double const *y;
+			gchar *tmp_str;
 
             gog_series_get_xy_data (series, &x, &y);
-            buf = g_strdup_printf (_("date %s : value %s"), self->tab_vue_libelle[index],
-                        utils_real_get_string_with_currency_from_double (
-                        y[index], self->currency_number));
+			tmp_str = utils_real_get_string_with_currency_from_double (y[index], self->currency_number);
+            buf = g_strdup_printf (_("date %s : value %s"), self->tab_vue_libelle[index], tmp_str);
+			g_free(tmp_str);
         }
     }
     else if (strcmp (self->service_id, "GogLinePlot")  == 0)
