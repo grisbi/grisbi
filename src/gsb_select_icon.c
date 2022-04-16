@@ -146,8 +146,13 @@ static gchar *gsb_select_icon_troncate_name_icon (gchar *name_icon,
             if (i < n)
                 ptr = g_utf8_offset_to_pointer (name_icon, (i + 1) *10);
             if (ptr)
+			{
+				gchar *end2;
+				end2 = g_strndup (end, ptr - end);
                 tmpstr2 = g_strconcat (tmpstr, "\n",
-                                       g_strndup (end, ptr - end), NULL);
+									   end2, NULL);
+				g_free(end2);
+			}
             else
                 tmpstr2 = g_strconcat (tmpstr, "\n", end, NULL);
             ptr = NULL;
