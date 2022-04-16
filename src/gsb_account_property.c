@@ -1446,7 +1446,9 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
     else if ( strlen ( iban ) == 0 )
         return -1;
 
-    s_iban = gsb_account_property_iban_get_struc ( g_strndup (iban, 2) );
+    tmp_str = g_strndup (iban, 2);
+    s_iban = gsb_account_property_iban_get_struc ( tmp_str );
+    g_free(tmp_str);
 
     model = my_strdelimit ( s_iban -> iban, " -", "" );
     tmp_str = my_strdelimit ( iban, " -", "" );
