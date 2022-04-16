@@ -591,7 +591,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 		gint sub_budgetary_number;
 
 	    CSV_CLEAR_FIELD (csv_field_imput);
-	    csv_field_imput = my_strdup (gsb_data_budget_get_name (budgetary_number, 0, ""));
+	    csv_field_imput = gsb_data_budget_get_name (budgetary_number, 0, "");
 
 		sub_budgetary_number = gsb_data_transaction_get_sub_budgetary_number (transaction_number);
 	    if (sub_budgetary_number != -1)
@@ -741,7 +741,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 					gint sub_budgetary_number;
 
 					CSV_CLEAR_FIELD (csv_field_imput);
-					csv_field_imput = my_strdup (gsb_data_budget_get_name (budgetary_number, 0, ""));
+					csv_field_imput = gsb_data_budget_get_name (budgetary_number, 0, "");
 
 					sub_budgetary_number = gsb_data_transaction_get_sub_budgetary_number (pSplitTransaction);
 					if (sub_budgetary_number != -1)

@@ -954,10 +954,10 @@ static gchar *bet_array_list_get_description (gint account_number,
                 if (desc && strlen (desc))
                     break;
 
-                desc = g_strdup (gsb_data_budget_get_name
+                desc = gsb_data_budget_get_name
 								 (gsb_data_transaction_get_budgetary_number (transaction_number),
 								  gsb_data_transaction_get_sub_budgetary_number (transaction_number),
-								  _("No data by default")));
+								  _("No data by default"));
                 break;
             case 1:
                 desc = g_strdup (gsb_data_category_get_name
@@ -966,10 +966,10 @@ static gchar *bet_array_list_get_description (gint account_number,
                                   _("No category")));
                 break;
             case 2:
-                desc = g_strdup (gsb_data_budget_get_name
+                desc = gsb_data_budget_get_name
 								 (gsb_data_transaction_get_budgetary_number (transaction_number),
                                   gsb_data_transaction_get_sub_budgetary_number (transaction_number),
-                                  _("No budgetary line")));
+                                  _("No budgetary line"));
                 break;
         }
     }
@@ -998,12 +998,12 @@ static gchar *bet_array_list_get_description (gint account_number,
                 if (desc && strlen (desc))
                     break;
 
-                desc = g_strdup (gsb_data_budget_get_name (
+                desc = gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number),
                                     gsb_data_scheduled_get_sub_budgetary_number (
                                     scheduled_number),
-                                    _("No data by default")));
+                                    _("No data by default"));
                 break;
             case 1:
                 desc = g_strdup (gsb_data_category_get_name (
@@ -1014,12 +1014,12 @@ static gchar *bet_array_list_get_description (gint account_number,
                                     _("No category")));
                 break;
             case 2:
-                desc = g_strdup (gsb_data_budget_get_name (
+                desc = gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number),
                                     gsb_data_scheduled_get_sub_budgetary_number (
                                     scheduled_number),
-                                    _("No budgetary line")));
+                                    _("No budgetary line"));
                 break;
         }
     }
@@ -1060,10 +1060,10 @@ static gchar *bet_array_list_get_description (gint account_number,
                     if (desc && strlen (desc))
                         break;
 
-                    desc = g_strdup (gsb_data_budget_get_name (
+                    desc = gsb_data_budget_get_name (
                                     scheduled->budgetary_number,
                                     scheduled->sub_budgetary_number,
-                                    _("No data by default")));
+                                    _("No data by default"));
                     break;
                 case 1:
                     desc = g_strdup (gsb_data_category_get_name (
@@ -1072,10 +1072,10 @@ static gchar *bet_array_list_get_description (gint account_number,
                                     _("No category")));
                     break;
                 case 2:
-                    desc = g_strdup (gsb_data_budget_get_name (
+                    desc = gsb_data_budget_get_name (
                                     scheduled->budgetary_number,
                                     scheduled->sub_budgetary_number,
-                                    _("No budgetary line")));
+                                    _("No budgetary line"));
                     break;
             }
         }

@@ -2985,11 +2985,11 @@ gchar *gsb_transactions_list_grep_cell_content (gint transaction_number,
 
 		/* mise en forme de l'ib */
 		case ELEMENT_BUDGET:
-			return (my_strdup (gsb_data_budget_get_name (gsb_data_transaction_get_budgetary_number
+			return (gsb_data_budget_get_name (gsb_data_transaction_get_budgetary_number
 														 (transaction_number),
 														 gsb_data_transaction_get_sub_budgetary_number
 														 (transaction_number),
-														 NULL)));
+														 NULL));
 
 		case ELEMENT_DEBIT:
 		case ELEMENT_CREDIT:

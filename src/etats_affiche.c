@@ -1393,9 +1393,9 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	if ( gsb_data_report_get_show_report_category (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_category_number (transaction_number))
-		text = my_strdup (gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+		text = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
 								  gsb_data_transaction_get_sub_category_number (transaction_number),
-								  NULL ));
+								  NULL );
 	    else
 	    {
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
@@ -1439,9 +1439,9 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    if ( gsb_data_transaction_get_budgetary_number ( transaction_number))
 	    {
-		text = my_strdup (gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
+		text = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
 								 gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
-								NULL ));
+								NULL );
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
