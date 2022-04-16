@@ -823,6 +823,11 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
 						g_free (imported_transaction->tiers);
 					if (imported_transaction->categ)
 						g_free (imported_transaction->categ);
+					imported_transaction->date_tmp = NULL;
+					imported_transaction->notes = NULL;
+					imported_transaction->cheque = NULL;
+					imported_transaction->tiers = NULL;
+					imported_transaction->categ = NULL;
 					imported_transaction->p_r = 0;
 					imported_transaction->montant = null_real;
 
