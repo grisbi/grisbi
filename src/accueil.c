@@ -1343,6 +1343,7 @@ static void update_liste_echeances_manuelles_accueil (gboolean force)
 			gchar* tmp_str;
 			gchar* tmp_str2;
 			GtkStyleContext* context;
+			gchar *date;
 
 			scheduled_number = GPOINTER_TO_INT (pointeur_liste -> data);
 			account_number = gsb_data_scheduled_get_account_number (scheduled_number);
@@ -1374,13 +1375,15 @@ static void update_liste_echeances_manuelles_accueil (gboolean force)
 			gtk_box_pack_start (GTK_BOX (hbox), event_box, TRUE, TRUE, 5);
 			gtk_widget_show (event_box);
 
-			tmp_str = g_strconcat (gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
+			date = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
+			tmp_str = g_strconcat (date,
 								   " : ",
 								   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
 														    FALSE),
 								  NULL);
 			label = gtk_label_new (tmp_str);
 			g_free (tmp_str);
+			g_free(date);
 
 			utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
 			gtk_container_add (GTK_CONTAINER (event_box), label);
@@ -1472,6 +1475,7 @@ static void update_liste_echeances_auto_accueil (gboolean force)
 			gchar* tmp_str;
 			gchar* tmp_str2;
 			GtkStyleContext* context;
+			gchar *date;
 
 			transaction_number = GPOINTER_TO_INT (pointeur_liste -> data);
 			account_number = gsb_data_transaction_get_account_number (transaction_number);
@@ -1503,13 +1507,15 @@ static void update_liste_echeances_auto_accueil (gboolean force)
 			gtk_widget_show (event_box);
 
 			/* label à gauche */
-			tmp_str = g_strconcat (gsb_format_gdate (gsb_data_transaction_get_date (transaction_number)),
+			date = gsb_format_gdate (gsb_data_transaction_get_date (transaction_number));
+			tmp_str = g_strconcat (date,
 								   " : ",
 								   gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
 														    FALSE),
 								  NULL);
 			label = gtk_label_new (tmp_str);
 			g_free (tmp_str);
+			g_free(date);
 
 			utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
 			gtk_box_pack_start (GTK_BOX (hbox), event_box, TRUE, TRUE, 5);
@@ -2077,6 +2083,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     gint currency_number;
     GsbReal amount;
 	gchar *tmp_str, *tmp_str2, *way;
+	gchar *date;
 
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
     currency_number = gsb_data_scheduled_get_currency_number (scheduled_number) ;
@@ -2087,7 +2094,8 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     gtk_widget_show (hbox);
 
     /* label à gauche */
-    tmp_str = g_strconcat (gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
+	date = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
+    tmp_str = g_strconcat (date,
 						   " : ",
 						   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
 													FALSE),
@@ -2095,6 +2103,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
     label = gtk_label_new (tmp_str);
 
     g_free (tmp_str);
+	g_free(date);
 
     utils_labels_set_alignment (GTK_LABEL (label), MISC_LEFT, MISC_VERT_CENTER);
     gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
