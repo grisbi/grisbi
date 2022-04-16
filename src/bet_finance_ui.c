@@ -2400,7 +2400,9 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 
     /* met à jour le titre du tableau */
     label = g_object_get_data (G_OBJECT (parent), "bet_finance_amortization_title");
-    tmp_str = g_strconcat (_("Amortization Table"), _(" at "), gsb_format_gdate (last_paid_date), NULL);
+	tmp_str2 = gsb_format_gdate (last_paid_date);
+    tmp_str = g_strconcat (_("Amortization Table"), _(" at "), tmp_str2, NULL);
+	g_free(tmp_str2);
     gtk_label_set_label (GTK_LABEL (label), tmp_str);
     g_free (tmp_str);
 
