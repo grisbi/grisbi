@@ -1067,7 +1067,10 @@ static gint gsb_qif_passe_ligne (FILE *qif_file,
 	}
 
     if (returned_value == EOF)
+	{
+		g_free(tmp_str);
         return EOF;
+	}
     else 		/* tmp_str[0] == '!' */
     {
         if (last_header && strlen (last_header))
