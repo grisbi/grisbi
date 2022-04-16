@@ -121,8 +121,9 @@ static GtkWidget *debug_print_backtrace ( void )
     {
 	g_print ("\t%s\n", backtrace_strings[i]);
 	gchar* old_text = text;
-	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ),
-			     NULL );
+	gchar *tmp_str = g_strconcat ( "\t", backtrace_strings[i], "\n", NULL );
+	text = g_strconcat ( text, tmp_str, NULL );
+	g_free(tmp_str);
 	g_free ( old_text );
     }
 
