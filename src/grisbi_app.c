@@ -942,9 +942,11 @@ static gint grisbi_app_handle_local_options (GApplication *app,
 {
     if (g_variant_dict_contains (v_options, "version"))
     {
+		gchar *extra_support_str = extra_support ();
         g_print ("%s - Version %s\n", g_get_application_name (), VERSION);
         g_print("\n\n");
-        g_print("%s", extra_support ());
+        g_print("%s", extra_support_str);
+		g_free(extra_support_str);
         return 0;
     }
 
