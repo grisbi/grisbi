@@ -550,6 +550,8 @@ GsbReal gnucash_value ( gchar * value )
   number = utils_str_atoi ( tab_value[0] );
   mantisse = utils_str_atoi ( tab_value[1] );
 
+  g_strfreev(tab_value);
+
   return gsb_real_double_to_real (number / mantisse);
 }
 
