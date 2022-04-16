@@ -1813,6 +1813,7 @@ static gboolean bet_graph_populate_lines_by_hist_line (BetGraphDataStruct *self)
             desc = g_strdup_printf ("%s %d", gettext (short_str_months[date_month-1]),
                         g_date_get_year (start_current_fyear));
         strncpy (&libelle_axe_x[self->nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE);
+		g_free(desc);
 
         /* Pour un graphique line on n'affiche pas 0 comme donnée des mois futurs */
         if (strcmp (self->service_id, "GogLinePlot") == 0)
