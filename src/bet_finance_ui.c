@@ -127,7 +127,7 @@ static AmortissementStruct *bet_finance_get_echeance_at_date (LoanStruct *s_loan
 {
 	AmortissementStruct *s_amortissement = NULL;
 
-	devel_debug (gsb_format_gdate (date));
+	//devel_debug (gsb_format_gdate (date));
 	s_amortissement = bet_data_finance_structure_amortissement_init ();
 	if (g_date_compare (date, s_loan->first_date) == 0
 		&& s_loan->first_is_different)
