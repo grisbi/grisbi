@@ -629,14 +629,19 @@ static gboolean gtk_combofix_fill_store (GtkComboFix *combofix,
 
             if (string[0] == '\t')
             {
-                /* it's a child */
-                tmp_str = g_strconcat (last_parent, " : ", string + 1, NULL);
-                gtk_combofix_fill_iter_child (priv->store, &iter_parent, string + 1, tmp_str, list_number);
+				if (last_parent)
+				{
+					/* it's a child */
+					tmp_str = g_strconcat (last_parent, " : ", string + 1, NULL);
+					gtk_combofix_fill_iter_child (priv->store, &iter_parent, string + 1, tmp_str, list_number);
 
-				/* append a row in the completion */
-				gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
-				gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, tmp_str, -1);
-                g_free (tmp_str);
+					/* append a row in the completion */
+					gtk_list_store_append (GTK_LIST_STORE (completion_store), &new_iter);
+					gtk_list_store_set (GTK_LIST_STORE (completion_store), &new_iter, 0, tmp_str, -1);
+					g_free (tmp_str);
+				}
+				else
+					alert_debug("Wrong format\n");
             }
             else
             {
