@@ -376,12 +376,17 @@ static gint gsb_file_dialog_save (const gchar *filename,
     gchar *hint = NULL;
     gchar *message = NULL;
     gint result;
+	gchar *basename = NULL;
 
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
 									 GTK_BUTTONS_NONE,
 									 " ");
+
+	if (filename)
+		basename = g_path_get_basename(filename);
+
 	switch (origine)
 	{
 		case -1:
@@ -393,7 +398,7 @@ static gint gsb_file_dialog_save (const gchar *filename,
 			now = time (NULL);
 			difference = (int) (difftime (now, run.file_modification));
 			hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
-									(filename ? g_path_get_basename(filename) : _("unnamed")));
+									(basename ? basename : _("unnamed")));
 
 
 			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
@@ -424,7 +429,7 @@ static gint gsb_file_dialog_save (const gchar *filename,
 		default:
 		{
 			hint = g_strdup_printf (_("Save changes in '%s' file?"),
-									(filename ? g_path_get_basename(filename) : _("unnamed")));
+									(basename ? basename : _("unnamed")));
 
 			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
 									"gtk-cancel", GTK_RESPONSE_NO,
@@ -438,6 +443,7 @@ static gint gsb_file_dialog_save (const gchar *filename,
 
     g_free (message);
     g_free (hint);
+    g_free(basename);
 
     gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
