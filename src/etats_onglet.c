@@ -710,7 +710,6 @@ static GtkWidget *etats_onglet_create_reports_list (void)
 	tree_view = gtk_tree_view_new ();
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);					/* report_name, report_number */
 	gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL(model));
-    g_object_unref (model);
     gtk_container_add (GTK_CONTAINER(sw), tree_view);
     gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);
 	g_object_set_data (G_OBJECT (vbox), "tree_view", tree_view);
@@ -724,6 +723,7 @@ static GtkWidget *etats_onglet_create_reports_list (void)
 
 	/* Fill the model */
 	etats_onglet_fill_reports_list_model (GTK_LIST_STORE (model));
+	g_object_unref (model);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
 	g_signal_connect (selection,
