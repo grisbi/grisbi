@@ -2346,7 +2346,10 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 
 	s_amortissement->str_date = gsb_format_gdate (date);
 	if (strlen (s_amortissement->str_date) == 0)
+	{
+		g_free(s_amortissement->str_date);
 		return;
+	}
 
 	if (amortization_initial_date == FALSE)
 	{
