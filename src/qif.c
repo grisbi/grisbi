@@ -1058,6 +1058,7 @@ static gint gsb_qif_passe_ligne (FILE *qif_file,
 
 		do
 		{
+            g_free(tmp_str);
 			returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 			//~ printf ("tmp_str = %s returned_value = %d\n", tmp_str, returned_value);
 		}
@@ -1071,6 +1072,7 @@ static gint gsb_qif_passe_ligne (FILE *qif_file,
         if (last_header && strlen (last_header))
             g_free (last_header);
         last_header = g_strdup (tmp_str);
+        g_free(tmp_str);
 
 		return 0;
     }
