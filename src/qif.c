@@ -1336,6 +1336,8 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
         /* continue untill the end of the file or a change of account */
         while (returned_value != EOF && returned_value != 0);
 
+		if (imported_account)
+		{
         /* first, we need to check if the first transaction is an opening balance
          * or a normal transaction
          * update : money sometimes translate Opening balance... */
@@ -1405,6 +1407,9 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
         /* add that account to the others */
 		if (!no_save_account)
         	liste_comptes_importes = g_slist_append (liste_comptes_importes, imported_account);
+		}
+		else
+			alert_debug("Wrong format\n");
     }
     /* go to the next account */
     while (returned_value != EOF);
