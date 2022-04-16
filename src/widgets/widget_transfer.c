@@ -1395,16 +1395,23 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 {
 	GHashTable *transfert_list;
 	gchar *key;
+	gchar *number_str, *account_number_str;
 	TransfertData *transfert;
 	WidgetTransferPrivate *priv;
 
 	devel_debug (NULL);
 	priv = widget_transfer_get_instance_private (WIDGET_TRANSFER (dialog));
 
+	number_str = utils_str_itoa (number);
 	if (account_number == 0)
-		key = g_strconcat ("0:", utils_str_itoa (number), NULL);
+		key = g_strconcat ("0:", number_str, NULL);
 	else
-		key = g_strconcat (utils_str_itoa (account_number), ":", utils_str_itoa (number), NULL);
+	{
+		account_number_str = utils_str_itoa (account_number);
+		key = g_strconcat (account_number_str, ":", number_str, NULL);
+		g_free(account_number_str);
+	}
+	g_free(number_str);
 
 	transfert_list = bet_data_transfert_get_list ();
 
