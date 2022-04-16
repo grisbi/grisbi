@@ -729,7 +729,6 @@ gboolean grisbi_conf_save_app_config (void)
 	gchar **recent_array;
 	const gchar *tmp_str;
 	gint i;
-	GError *error = NULL;
 	ConditionalMsg *warning;
 	GrisbiAppConf *a_conf;
 
@@ -1161,7 +1160,7 @@ gboolean grisbi_conf_save_app_config (void)
 		utils_files_create_XDG_dir ();
 	}
 
-	if (!g_key_file_save_to_file (config, filename, &error))
+	if (!g_key_file_save_to_file (config, filename, NULL))
 	{
 		gchar* msg;
 
