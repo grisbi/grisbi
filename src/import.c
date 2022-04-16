@@ -4558,7 +4558,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					tmp_list_ope_multiples = list_ope_multiples;
 					tmp_list_ope_trouvees = list_ope_trouvees;
 
-					while (list_ope_multiples)
+					while (tmp_list_ope_multiples)
 					{
 						gint transaction_number2;
 
@@ -4586,9 +4586,9 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 								gsb_transactions_list_update_transaction (transaction_number2);
 							}
 
-							tmp_list_ope_multiples = tmp_list_ope_multiples->next;
-							tmp_list_ope_trouvees = tmp_list_ope_trouvees->next;
 						}
+						tmp_list_ope_multiples = tmp_list_ope_multiples->next;
+						tmp_list_ope_trouvees = tmp_list_ope_trouvees->next;
 					}
 
 					ope_import_trouve = TRUE;
@@ -4605,7 +4605,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					tmp_list_ope_multiples = list_ope_multiples;
 					tmp_list_ope_trouvees = list_ope_trouvees;
 
-					while (list_ope_trouvees)
+					while (tmp_list_ope_trouvees)
 					{
 						gint transaction_number2;
 
@@ -4632,10 +4632,9 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 																					 imported_account->origine);
 								gsb_transactions_list_update_transaction (transaction_number2);
 							}
-
-							tmp_list_ope_multiples = tmp_list_ope_multiples->next;
-							tmp_list_ope_trouvees = tmp_list_ope_trouvees->next;
 						}
+						tmp_list_ope_multiples = tmp_list_ope_multiples->next;
+						tmp_list_ope_trouvees = tmp_list_ope_trouvees->next;
 					}
 
 					ope_import_trouve = TRUE;
