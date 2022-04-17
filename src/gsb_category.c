@@ -356,6 +356,7 @@ GSList * gsb_category_assistant_scan_directory (const gchar *basename, GtkTreeMo
 		list = g_slist_append ( list, filename );
 	    }
 	}
+		g_dir_close(dir);
     }
 
     g_free ( dirname );
