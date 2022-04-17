@@ -1113,10 +1113,12 @@ static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
 
 		if (contents == NULL)
 		{
+			gchar *basename = g_path_get_basename (nom_fichier);
 			new_charmap = utils_files_create_sel_charset (assistant,
 														  tmp_contents,
 														  charmap,
-														  g_path_get_basename (nom_fichier));
+														  basename);
+			g_free(basename);
 			if (new_charmap)
 			{
 				gtk_tree_store_set (GTK_TREE_STORE (model), &iter, IMPORT_FILESEL_CODING, new_charmap, -1);
