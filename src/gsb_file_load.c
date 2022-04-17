@@ -4022,6 +4022,7 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 		{
 			w_run->old_version = TRUE;
 			g_free (markup_parser);
+			g_free (file_content);
 
 			return FALSE;
 		}
