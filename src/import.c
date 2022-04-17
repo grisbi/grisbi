@@ -1439,8 +1439,9 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
             gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         IMPORT_FILESEL_CODING, charmap_imported,
                         -1);
-            g_free (contents);
         }
+		else
+			g_free (contents);
         g_free (tmp_str);
 
         gsb_import_preview_maybe_sensitive_next (assistant, GTK_TREE_MODEL (model));
