@@ -129,7 +129,10 @@ static void gsb_file_remove_old_backup (const gchar *filename,
 										NULL,
 										NULL);
 	if (!direnum)
+	{
+		g_free(name);
 		return;
+	}
 
 	while (TRUE)
 	{
