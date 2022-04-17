@@ -285,7 +285,7 @@ static gboolean gsb_select_icon_add_path (void)
     }
     gtk_list_store_prepend (store, &iter);
     gtk_list_store_set (store, &iter, 0, path_icon, -1);
-    devel_debug (g_strconcat ("path ajouté ", path_icon, NULL));
+    devel_debug (path_icon);
 
     return TRUE;
 }
