@@ -248,6 +248,7 @@ static void transaction_list_append_child (gint transaction_number)
              * before the mother */
             orphan_child_transactions = g_slist_append (orphan_child_transactions,
 														GINT_TO_POINTER (transaction_number));
+			g_free(newrecord);
             return;
         }
     }
