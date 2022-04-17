@@ -2842,17 +2842,20 @@ static gint gsb_import_correct_opes_find_multiples_ope_msg (GtkWidget *parent,
     {
 		GtkWidget *button;
     	gchar *tmp_str;
+		gchar *tmp_date;
 		const gchar *payee;
 		gint transaction_number;
 
 		transaction_number = GPOINTER_TO_INT (tmp_list->data);
 		payee = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
 										 FALSE);
+		tmp_date = gsb_format_gdate (gsb_data_transaction_get_date (transaction_number));
 		tmp_str = g_strdup_printf (_("Transaction N° %d found: %s ; %s ; %s"),
 		                           transaction_number,
-		                           gsb_format_gdate (gsb_data_transaction_get_date (transaction_number)),
+								   tmp_date,
 		                           payee,
 		                           tmp_str2);
+		g_free(tmp_date);
 		button = gtk_button_new_with_label (tmp_str);
 		g_object_set_data (G_OBJECT (button), "dialog", dialog);
 		gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
@@ -2978,6 +2981,7 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 		const gchar *tiers;
 		gchar *tmp_str;
 		gchar *tmp_str2;
+		gchar *tmp_date;
 
 		if (nbre_resultat == 1)
 		{
@@ -3000,12 +3004,13 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 		{
 			tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
 								ope_import->ope_correspondante));
+			tmp_date = gsb_format_gdate (gsb_data_transaction_get_date (ope_import->ope_correspondante));
 			tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s ; %s"),
-						gsb_format_gdate (gsb_data_transaction_get_date (
-						ope_import->ope_correspondante)),
+						tmp_date,
 						tiers,
 						tmp_str2,
 						gsb_data_transaction_get_notes (ope_import->ope_correspondante));
+			g_free(tmp_date);
 			g_free (tmp_str2);
 			gtk_label_set_text (GTK_LABEL (ope_import->label_ope_find), tmp_str);
 			g_free (tmp_str);
@@ -3014,11 +3019,12 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 		{
 			tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
 								ope_import->ope_correspondante));
+			tmp_date = gsb_format_gdate (gsb_data_transaction_get_date (ope_import->ope_correspondante));
 			tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s"),
-						gsb_format_gdate (gsb_data_transaction_get_date (
-						ope_import->ope_correspondante)),
+						tmp_date,
 						tiers,
 						tmp_str2);
+			g_free(tmp_date);
 			g_free (tmp_str2);
 			gtk_label_set_text (GTK_LABEL (ope_import->label_ope_find), tmp_str);
 			g_free (tmp_str);
@@ -3044,6 +3050,7 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
     GtkWidget *label;
 	GSList *tmp_list_ope;
     gchar *tmp_str2;
+	gchar *tmp_date;
 
 	/* traitement des opérations */
 	tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (transaction_number));
@@ -3062,11 +3069,13 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 			/* Opération existante */
 			tiers = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (ope_import->ope_correspondante),
 											 FALSE);
+			tmp_date = gsb_format_gdate (gsb_data_transaction_get_date
+										 (ope_import->ope_correspondante));
 			tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s"),
-									   gsb_format_gdate (gsb_data_transaction_get_date
-														 (ope_import->ope_correspondante)),
+									   tmp_date,
 									   tiers,
 									   tmp_str2);
+			g_free(tmp_date);
 			label = gtk_label_new (tmp_str);
 			utils_labels_set_alignment (GTK_LABEL (label), 0.0, 0.0);
 			g_free (tmp_str);
@@ -3074,16 +3083,18 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 			gtk_widget_show (label);
 
 			/* Opération importée */
+			tmp_date = gsb_format_gdate (ope_import->date);
 			if (etat.fusion_import_transactions)
 				tmp_str = g_strdup_printf (_("Transaction to be merged: %s ; %s ; %s"),
-										   gsb_format_gdate (ope_import->date),
+										   tmp_date,
 										   ope_import->tiers,
 										   tmp_str2);
 			else
 				tmp_str = g_strdup_printf (_("Transaction to import: %s ; %s ; %s"),
-										   gsb_format_gdate (ope_import->date),
+										   tmp_date,
 										   ope_import->tiers,
 										   tmp_str2);
+			g_free(tmp_date);
 			label = gtk_label_new (tmp_str);
 			utils_labels_set_alignment (GTK_LABEL (label), 0.0, 0.0);
 			g_free (tmp_str);
@@ -3274,6 +3285,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			 !ope_import->ope_de_ventilation)
 		{
 			const gchar *tiers;
+			gchar *tmp_date;
 
 			/* on est certain d'afficher une opération au moins */
 			ope_visible = TRUE;
@@ -3296,16 +3308,18 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			return_exponent = gsb_data_account_get_currency_floating_point (account_number);
 			tmp_str2 = utils_real_get_string (gsb_real_adjust_exponent (ope_import->montant,
 							return_exponent));
+			tmp_date = gsb_format_gdate (ope_import->date);
 			if (etat.fusion_import_transactions)
 				tmp_str = g_strdup_printf (_("Transaction to be merged: %s ; %s ; %s"),
-							gsb_format_gdate (ope_import->date),
+							tmp_date,
 							ope_import->tiers,
 							tmp_str2);
 			else
 				tmp_str = g_strdup_printf (_("Transaction to import: %s ; %s ; %s"),
-							gsb_format_gdate (ope_import->date),
+							tmp_date,
 							ope_import->tiers,
 							tmp_str2);
+			g_free(tmp_date);
 			g_free (tmp_str2);
 			label = gtk_label_new (tmp_str);
 			g_free (tmp_str);
@@ -3356,12 +3370,14 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			{
 				tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
 									ope_import->ope_correspondante));
+				tmp_date = gsb_format_gdate (gsb_data_transaction_get_date (
+																			ope_import->ope_correspondante));
 				tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s ; %s"),
-							gsb_format_gdate (gsb_data_transaction_get_date (
-							ope_import->ope_correspondante)),
+							tmp_date,
 							tiers,
 							tmp_str2,
 							gsb_data_transaction_get_notes (ope_import->ope_correspondante));
+				g_free(tmp_date);
 				g_free (tmp_str2);
 				ope_import->label_ope_find = gtk_label_new (tmp_str);
 				g_free (tmp_str);
@@ -3370,11 +3386,13 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			{
 				tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
 									ope_import->ope_correspondante));
+				tmp_date = gsb_format_gdate (gsb_data_transaction_get_date (
+																			ope_import->ope_correspondante));
 				tmp_str = g_strdup_printf (_("Transaction found: %s ; %s ; %s"),
-							gsb_format_gdate (gsb_data_transaction_get_date (
-							ope_import->ope_correspondante)),
+							tmp_date,
 							tiers,
 							tmp_str2);
+				g_free(tmp_date);
 				g_free (tmp_str2);
 				ope_import->label_ope_find = gtk_label_new (tmp_str);
 				g_free (tmp_str);
@@ -4260,14 +4278,16 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
 	{
 	    struct ImportTransaction *ope_import;
 	    GtkTreeIter iter;
+		gchar *tmp_date;
 
 	    ope_import = tmp_list->data;
 
 	    gtk_list_store_append (store, &iter);
+		tmp_date = gsb_format_gdate (ope_import->date);
 	    gtk_list_store_set (store,
                         &iter,
                         0, FALSE,
-                        1, gsb_format_gdate (ope_import->date),
+                        1, tmp_date,
                         2, ope_import->tiers,
                         3, utils_real_get_string_with_currency (ope_import->montant,
                         ope_import->devise, TRUE),
