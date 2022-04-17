@@ -1714,6 +1714,7 @@ void gsb_partial_balance_remove_from_account (gint deleted_account)
 		}
 		tmp_list = tmp_list->next;
 	}
+	g_free(deleted_account_str);
 }
 
 /*********************************************************************************************/
