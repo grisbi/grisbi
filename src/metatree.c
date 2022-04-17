@@ -3023,6 +3023,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
 
             if ( split_division[1] && nouveau_no_sub_division == 0 )
             {
+				g_strfreev ( split_division );
                 tmp_str = g_strdup_printf ( _("Warning you can not create %s."),
                         _(iface -> meta_name_minus) );
                 dialogue_warning( tmp_str );
