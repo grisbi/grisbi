@@ -256,12 +256,14 @@ static GSList *utils_files_check_UTF8_validity (const gchar *contents,
         if (ptr_tmp)
         {
             gchar *ptr_r;
+			gchar *tmp_str;
 
             string = g_strndup (ptr, ((ptr_tmp) - ptr));
             if ((ptr_r = g_strrstr (string, "\r")))
                 ptr_r[0] = '\0';
 
-            if (g_convert (string, -1, "UTF-8", coding_system, NULL, NULL, NULL) == NULL)
+			tmp_str = g_convert (string, -1, "UTF-8", coding_system, NULL, NULL, NULL);
+            if (tmp_str == NULL)
             {
                 gchar *tmp_str;
 
@@ -286,6 +288,8 @@ static GSList *utils_files_check_UTF8_validity (const gchar *contents,
 
                 return list;
             }
+			else
+				g_free(tmp_str);
             g_free (string);
             ptr = ptr_tmp + 1;
         }
