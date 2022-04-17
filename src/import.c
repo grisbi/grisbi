@@ -1578,10 +1578,14 @@ static void gsb_import_select_file (GSList *filenames,
 				contents = g_convert (tmp_contents, -1, "UTF-8", charmap, NULL, NULL, NULL);
 
 				if (contents == NULL)
+				{
+					gchar *basename = g_path_get_basename (iterator->data);
 					charmap = utils_files_create_sel_charset (assistant,
 															  tmp_contents,
 															  charmap,
-															  g_path_get_basename (iterator->data));
+															  basename);
+					g_free(basename);
+				}
 				else
 					g_free (contents);
 			}
