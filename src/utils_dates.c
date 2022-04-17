@@ -530,6 +530,7 @@ GDate *gsb_parse_date_string_safe (const gchar *date_string)
 		g_strfreev (tab_date);
 		return date;
     }
+	g_strfreev (tab_date);
 
     return NULL;
 }
