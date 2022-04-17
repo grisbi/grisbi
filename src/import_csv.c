@@ -819,6 +819,7 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
 {
     int i, needed[] = { 2, 4, -1 };
     gchar *label = NULL;
+	gchar *new_label;
 
     if (!csv_fields_config)
 		return;
@@ -830,11 +831,13 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
 		{
 			if (label)
 			{
-				label = g_strconcat (label, ", ", _(csv_fields [needed [i]].name), NULL);
+				new_label = g_strconcat (label, ", ", _(csv_fields [needed [i]].name), NULL);
+				g_free(label);
+				label = new_label;
 			}
 			else
 			{
-				label = _(csv_fields [needed [i]].name);
+				label = my_strdup(_(csv_fields [needed [i]].name));
 			}
 		}
     }
@@ -856,7 +859,9 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
     {
         if (label)
         {
-            label = g_strconcat (label, ", ", _("Transaction amount"), NULL);
+            new_label = g_strconcat (label, ", ", _("Transaction amount"), NULL);
+			g_free(label);
+			label = new_label;
         }
         else
         {
@@ -876,6 +881,7 @@ static void csv_import_update_validity_check (GtkWidget *assistant)
 		gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (assistant),
 													 "button_next"),
 								  FALSE);
+		g_free(label);
     }
     else
     {
