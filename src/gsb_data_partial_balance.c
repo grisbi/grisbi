@@ -1244,9 +1244,11 @@ gboolean gsb_partial_balance_select_account ( GtkTreeSelection *selection,
                 gtk_tree_model_get ( model, &iter, 1, &account_nb, -1);
                 if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) > 0 )
                 {
+					gchar *tmp_str = g_strdup_printf ( "%d", account_nb );
                     gtk_entry_set_text ( GTK_ENTRY ( entry ),
                                 g_strconcat ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ), ";",
-                                g_strdup_printf ( "%d", account_nb ), NULL ) );
+                                tmp_str, NULL));
+					g_free(tmp_str);
                 }
                 else
                     gtk_entry_set_text ( GTK_ENTRY ( entry ), g_strdup_printf ( "%d", account_nb ) );
