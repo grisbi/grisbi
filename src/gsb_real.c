@@ -131,8 +131,9 @@ static gchar *gsb_real_add_thousands_sep (gchar *str_number,
         }
     };
 
-    result = g_strndup (dest, nbre_char + sep);
-    result = g_strreverse (result);
+	tmp_ptr = g_strndup (dest, nbre_char + sep);
+    result = g_strreverse (tmp_ptr);
+	g_free(tmp_ptr);
 
     /* on met le bon séparateur si necessaire */
     if (longueur > 1)
