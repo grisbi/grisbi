@@ -2342,12 +2342,15 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 
 	date = gsb_date_copy (s_loan->first_date);
 	if (!date || !g_date_valid (date))
+	{
+		bet_data_finance_structure_amortissement_free(s_amortissement);
 		return;
+	}
 
 	s_amortissement->str_date = gsb_format_gdate (date);
 	if (strlen (s_amortissement->str_date) == 0)
 	{
-		g_free(s_amortissement->str_date);
+		bet_data_finance_structure_amortissement_free(s_amortissement);
 		return;
 	}
 
