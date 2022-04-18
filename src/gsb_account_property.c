@@ -1470,9 +1470,18 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
      */
 
     if ( strlen (tmp_str) > 4 )
-        tmp_str = g_strconcat ( tmp_str + 4, g_strndup (tmp_str, 2), "00", NULL );
+	{
+		gchar *tmp_str2 = g_strndup (tmp_str, 2);
+        gchar *tmp_str3 = g_strconcat ( tmp_str + 4, tmp_str2, "00", NULL );
+		g_free(tmp_str2);
+		g_free(tmp_str);
+		tmp_str = tmp_str3;
+	}
     else
+	{
+		g_free(tmp_str);
         return 0;
+	}
 
     ptr = tmp_str;
     while ( ptr[i]  )
