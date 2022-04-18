@@ -695,14 +695,17 @@ static gboolean bet_graph_on_motion (GtkWidget *event_box,
         {
             double const *x;
             double const *y;
+			gchar *tmp_str;
 
             gog_series_get_xy_data (series, &x, &y);
+			tmp_str = utils_real_get_string_with_currency_from_double (y[index], self->currency_number);
             buf = g_strdup_printf (
                     "<markup><span font_weight=\"bold\">%s</span>\n%s (%.2f%%)</markup>",
                     self->tab_vue_libelle[index],
-                    utils_real_get_string_with_currency_from_double (y[index], self->currency_number),
+								   tmp_str,
                     100*y[index]/self->montant
                    );
+			g_free(tmp_str);
         }
     }
 
