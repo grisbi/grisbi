@@ -1745,23 +1745,23 @@ gboolean qif_export (const gchar *filename,
 								/* it's a category : sub-category */
 								if (!mother_transaction_category_written)
 								{
+									tmp_str = gsb_data_category_get_name (gsb_data_transaction_get_category_number
+																		  (transaction_number_tmp_2),
+																		  gsb_data_transaction_get_sub_category_number
+																		  (transaction_number_tmp_2),
+																		  _("No category defined"));
 
-									fprintf (fichier_qif,
-											 "L%s\n",
-											 gsb_data_category_get_name (gsb_data_transaction_get_category_number
-																		 (transaction_number_tmp_2),
-																		 gsb_data_transaction_get_sub_category_number
-																		 (transaction_number_tmp_2),
-																		 _("No category defined")));
+									fprintf (fichier_qif, "L%s\n", tmp_str);
+									g_free(tmp_str);
 									mother_transaction_category_written = 1;
 								}
-								fprintf (fichier_qif,
-										 "S%s\n",
-										 gsb_data_category_get_name (gsb_data_transaction_get_category_number
-																	 (transaction_number_tmp_2),
-																	 gsb_data_transaction_get_sub_category_number
-																	 (transaction_number_tmp_2),
-																	 _("No category defined")));
+								tmp_str = gsb_data_category_get_name (gsb_data_transaction_get_category_number
+																	  (transaction_number_tmp_2),
+																	  gsb_data_transaction_get_sub_category_number
+																	  (transaction_number_tmp_2),
+																	  _("No category defined"));
+								fprintf (fichier_qif, "S%s\n", tmp_str);
+								g_free(tmp_str);
 							}
 
 							/* set the notes of the split child */

@@ -1072,6 +1072,7 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 			tmp_number2 = gsb_data_scheduled_get_sub_budgetary_number (scheduled_number+1);
 			tmp_str = gsb_data_budget_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->FBudgetCombo), tmp_str);
+			g_free(tmp_str);
 			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->FBudgetCombo), TRUE);
 		}
 		else
@@ -1127,6 +1128,7 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 			tmp_number2 = gsb_data_scheduled_get_sub_category_number (scheduled_number+2);
 			tmp_str = gsb_data_category_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SCategCombo), tmp_str);
+			g_free(tmp_str);
 			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->SCategCombo), TRUE);
 		}
 		else
@@ -1163,6 +1165,7 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 			tmp_number2 = gsb_data_scheduled_get_sub_budgetary_number (scheduled_number+2);
 			tmp_str = gsb_data_budget_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->SBudgetCombo), tmp_str);
+			g_free(tmp_str);
 			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->SBudgetCombo), TRUE);
 		}
 		else
@@ -1217,6 +1220,7 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 			tmp_number2 = gsb_data_scheduled_get_sub_category_number (scheduled_number+3);
 			tmp_str = gsb_data_category_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TCategCombo), tmp_str);
+			g_free(tmp_str);
 			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->TCategCombo), TRUE);
 		}
 		else
@@ -1253,6 +1257,7 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 			tmp_number2 = gsb_data_scheduled_get_sub_budgetary_number (scheduled_number+3);
 			tmp_str = gsb_data_budget_get_name (tmp_number, tmp_number2, NULL);
 			gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->TBudgetCombo), tmp_str);
+			g_free(tmp_str);
 			utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->TBudgetCombo), TRUE);
 		}
 		else

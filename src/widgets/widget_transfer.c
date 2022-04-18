@@ -1497,10 +1497,11 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 	/* set card_category */
 	if (transfert->card_category_number > 0)
 	{
-		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_card_category),
-							   gsb_data_category_get_name (transfert->card_category_number,
-														   transfert->card_sub_category_number,
-														   NULL));
+		gchar *tmp_str = gsb_data_category_get_name (transfert->card_category_number,
+											  transfert->card_sub_category_number,
+											  NULL);
+		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_card_category), tmp_str);
+		g_free(tmp_str);
 		gsb_form_widget_set_empty (priv->combo_card_category, FALSE);
 		gtk_editable_set_position (GTK_EDITABLE (gtk_combofix_get_entry
 												 (GTK_COMBOFIX (priv->combo_card_category))), 0);
@@ -1581,10 +1582,11 @@ void widget_transfer_fill_data_from_line (GtkWidget *dialog,
 	/* set main category */
 	if (transfert->main_category_number > 0)
 	{
-		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_main_category),
-							   gsb_data_category_get_name (transfert->main_category_number,
-														   transfert->main_sub_category_number,
-														   NULL));
+		gchar *tmp_str = gsb_data_category_get_name (transfert->main_category_number,
+											  transfert->main_sub_category_number,
+											  NULL);
+		gtk_combofix_set_text (GTK_COMBOFIX (priv->combo_main_category), tmp_str);
+		g_free(tmp_str);
 		gsb_form_widget_set_empty (priv->combo_main_category, FALSE);
 		gtk_editable_set_position (GTK_EDITABLE (gtk_combofix_get_entry
 												 (GTK_COMBOFIX (priv->combo_main_category))), 0);

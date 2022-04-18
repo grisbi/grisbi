@@ -715,13 +715,21 @@ gboolean edit_category ( GtkTreeView *tree_view )
 	return FALSE;
 
     if ( sub_category_number > 0 )
-	title = g_strdup_printf ( _("Properties for %s"), gsb_data_category_get_sub_category_name ( category_number,
-												    sub_category_number,
-												    _("No sub-category defined" )));
+	{
+		gchar *tmp_str = gsb_data_category_get_sub_category_name ( category_number,
+														   sub_category_number,
+														   _("No sub-category defined" ));
+		title = g_strdup_printf ( _("Properties for %s"), tmp_str);
+		g_free(tmp_str);
+	}
     else
-	title = g_strdup_printf ( _("Properties for %s"), gsb_data_category_get_name ( category_number,
-										       0,
-										       _("No category defined") ));
+	{
+		gchar *tmp_str = gsb_data_category_get_name ( category_number,
+													 0,
+													 _("No category defined") );
+		title = g_strdup_printf ( _("Properties for %s"), tmp_str);
+		g_free(tmp_str);
+	}
 
     dialog = gtk_dialog_new_with_buttons ( title,
 					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),

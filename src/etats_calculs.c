@@ -248,16 +248,21 @@ static gint classement_ope_perso_etat (gpointer transaction_1,
 					return_value = gsb_data_transaction_get_sub_category_number (transaction_number_2)-
 										gsb_data_transaction_get_sub_category_number (transaction_number_1);
 			else
-				return_value = my_strcasecmp (gsb_data_category_get_name (gsb_data_transaction_get_category_number
-																		  (transaction_number_1),
-																		  gsb_data_transaction_get_sub_category_number
-																		  (transaction_number_1),
-																		  NULL),
-											  gsb_data_category_get_name (gsb_data_transaction_get_category_number
-																		  (transaction_number_2),
-																		  gsb_data_transaction_get_sub_category_number
-																		  (transaction_number_2),
-																		  NULL));
+			{
+				gchar *category_name_1 = gsb_data_category_get_name (gsb_data_transaction_get_category_number
+															  (transaction_number_1),
+																	   gsb_data_transaction_get_sub_category_number
+																	   (transaction_number_1),
+																	   NULL);
+				gchar *category_name_2 = gsb_data_category_get_name (gsb_data_transaction_get_category_number
+																	 (transaction_number_2),
+																		gsb_data_transaction_get_sub_category_number
+																		(transaction_number_2),
+																		NULL);
+				return_value = my_strcasecmp (category_name_1, category_name_2);
+				g_free(category_name_1);
+				g_free(category_name_2);
+			}
 			}
 			break;
 
@@ -444,8 +449,8 @@ classement_suivant:
 					if (category_number_2)
 					{
 						/* 2 categories, return sorted */
-						const gchar *category_name_1;
-						const gchar *category_name_2;
+						gchar *category_name_1;
+						gchar *category_name_2;
 
 						if (category_number_1 == category_number_2)
 						{
@@ -457,6 +462,8 @@ classement_suivant:
 						category_name_1 = gsb_data_category_get_name (category_number_1, 0, NULL);
 						category_name_2 = gsb_data_category_get_name (category_number_2, 0, NULL);
 						return_value = my_strcasecmp (category_name_1, category_name_2);
+						g_free(category_name_1);
+						g_free(category_name_2);
 
 						if (return_value)
 						{
@@ -557,8 +564,8 @@ classement_suivant:
 				&& gsb_data_report_get_category_show_sub_category (current_report_number))
 			{
 				/* we sort by sub-categ, alphabetic order, and first with sub-categ, no sub-categ come after */
-				const gchar *categ_name_1;
-				const gchar *categ_name_2;
+				gchar *categ_name_1;
+				gchar *categ_name_2;
 
 				categ_name_1 = gsb_data_category_get_name (gsb_data_transaction_get_category_number
 														   (transaction_number_1),
@@ -571,6 +578,8 @@ classement_suivant:
 														   (transaction_number_2),
 														   NULL);
 				return_value = my_strcasecmp (categ_name_1, categ_name_2);
+				g_free(categ_name_1);
+				g_free(categ_name_2);
 
 				if (return_value)
 				{

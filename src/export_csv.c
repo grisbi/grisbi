@@ -689,7 +689,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 						gint sub_category_number;
 
 						CSV_CLEAR_FIELD (csv_field_categ);
-						csv_field_categ = my_strdup (gsb_data_category_get_name (category_number, 0, ""));
+						csv_field_categ = gsb_data_category_get_name (category_number, 0, "");
 
 						sub_category_number = gsb_data_transaction_get_sub_category_number (pSplitTransaction);
 						if (sub_category_number != -1)
@@ -788,7 +788,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 					gint sub_category_number;
 
 					CSV_CLEAR_FIELD (csv_field_categ);
-					csv_field_categ = my_strdup (gsb_data_category_get_name (category_number, 0, ""));
+					csv_field_categ = gsb_data_category_get_name (category_number, 0, "");
 
 					sub_category_number = gsb_data_transaction_get_sub_category_number (transaction_number);
 					if (sub_category_number != -1)
