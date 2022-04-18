@@ -999,13 +999,13 @@ GtkWidget *utils_widget_csv_separators_new (GtkSizeGroup *size_group,
 	{
 		gtk_size_group_add_widget (size_group, combobox);
 		gtk_size_group_add_widget (size_group, entry);
-		gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, MARGIN_BOX);
-		gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, MARGIN_BOX);
+		gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, 0);
 	}
 	else
 	{
-		gtk_box_pack_start (GTK_BOX (hbox), combobox, TRUE, TRUE, MARGIN_BOX);
-		gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, MARGIN_BOX);
+		gtk_box_pack_start (GTK_BOX (hbox), combobox, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
 	}
 
 	/* set signals */
