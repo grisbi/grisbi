@@ -465,8 +465,8 @@ gboolean grisbi_conf_load_app_config (void)
 			g_free (a_conf->current_theme);
 
         a_conf->current_theme = g_strdup (tmp_str);
-        g_free (tmp_str);
     }
+	g_free (tmp_str);
 
     a_conf->custom_fonte_listes = g_key_file_get_boolean (config,
 														  "General",
