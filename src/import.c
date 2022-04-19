@@ -5271,6 +5271,7 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
 	const gchar *filename = NULL;
     gchar *tmp_str;
     gchar *tmp_str2;
+	gchar *tmp_str3;
 
     if (!rule)
     return NULL;
@@ -5313,10 +5314,11 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
                         gsb_data_account_get_name (gsb_data_import_rule_get_account (rule)));
 
     /* textstring 2 */
-    tmp_str2 = g_strconcat(tmp_str, g_strdup_printf (_("Currency to import is %s.\n"),
-                        gsb_data_currency_get_name (
-                        gsb_data_import_rule_get_currency (rule))), NULL);
+	tmp_str3 = g_strdup_printf (_("Currency to import is %s.\n"),
+								gsb_data_currency_get_name (gsb_data_import_rule_get_currency (rule)));
+    tmp_str2 = g_strconcat(tmp_str, tmp_str3, NULL);
     g_free (tmp_str);
+	g_free (tmp_str3);
 	tmp_str = tmp_str2;
 
     /* textstring 3 */
