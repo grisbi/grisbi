@@ -567,8 +567,8 @@ static gboolean bet_graph_right_button_press (GtkWidget *widget,
         if (index == -1)
             return TRUE;
 
-        total_div = g_strdup_printf ("%s", utils_real_get_string_with_currency_from_double (
-                        self->tab_Y[index], self->currency_number));
+        total_div = utils_real_get_string_with_currency_from_double (
+                        self->tab_Y[index], self->currency_number);
 
         bet_hist_data = gsb_data_account_get_bet_hist_data (self->account_number);
         if (bet_hist_data)
