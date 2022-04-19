@@ -941,12 +941,14 @@ static gchar *bet_array_list_get_description (gint account_number,
                 if (desc && strlen (desc))
                     break;
 
+				g_free(desc);
                 desc = g_strdup (gsb_data_payee_get_name
 								 (gsb_data_transaction_get_party_number (transaction_number),
 								  TRUE));
                 if (desc && strlen (desc))
                     break;
 
+				g_free(desc);
                 desc = gsb_data_category_get_name
 								 (gsb_data_transaction_get_category_number (transaction_number),
 								  gsb_data_transaction_get_sub_category_number (transaction_number),
@@ -954,6 +956,7 @@ static gchar *bet_array_list_get_description (gint account_number,
                 if (desc && strlen (desc))
                     break;
 
+				g_free(desc);
                 desc = gsb_data_budget_get_name
 								 (gsb_data_transaction_get_budgetary_number (transaction_number),
 								  gsb_data_transaction_get_sub_budgetary_number (transaction_number),
