@@ -270,7 +270,6 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (list_store));
 		gtk_widget_set_name (treeview, "colorized_tree_view");
 		g_object_set_data (G_OBJECT (priv->vbox_accueil), "treeview", treeview);
-		g_object_unref (list_store);
 
 		/* Enable drag & drop */
 		gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (treeview),
@@ -362,6 +361,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 		}
 
 		 utils_set_list_store_background_color (treeview, PARTIAL_BACKGROUND_COLOR);
+		g_object_unref (list_store);
 	}
 	else
 	{
