@@ -393,6 +393,7 @@ static gint print_tree_view_list_draw_row ( GtkPrintContext *context,
                     print_tree_view_list_draw_column ( column_position, line_position );
                     list_tmp  = list_tmp -> next;
                     column++;
+					g_free(text);
                     continue;
                 }
 
@@ -405,6 +406,7 @@ static gint print_tree_view_list_draw_row ( GtkPrintContext *context,
                         print_tree_view_list_draw_column ( column_position, line_position );
                     list_tmp  = list_tmp -> next;
                     column++;
+					g_free(text);
                     continue;
                 }
 
@@ -419,6 +421,7 @@ static gint print_tree_view_list_draw_row ( GtkPrintContext *context,
                 column++;
                 g_strfreev ( tab );
                 g_free ( str_tmp );
+				g_free(text);
             }
             line_position = line_position + size_row + gsb_data_print_config_get_draw_lines ( );
             column = 0;
