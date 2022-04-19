@@ -1433,9 +1433,11 @@ static gboolean gsb_import_switch_type (GtkCellRendererText *cell,
 
         if (contents == NULL)
         {
+			gchar *basename = g_path_get_basename (nom_fichier);
             charmap_imported = utils_files_create_sel_charset (assistant, tmp_str,
                         charmap_imported,
-                g_path_get_basename (nom_fichier));
+						basename);
+			g_free(basename);
             gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         IMPORT_FILESEL_CODING, charmap_imported,
                         -1);
