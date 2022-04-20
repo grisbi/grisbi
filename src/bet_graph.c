@@ -678,13 +678,16 @@ static gboolean bet_graph_on_motion (GtkWidget *event_box,
         event->y >= view->allocation.y && event->y < view->allocation.y + view->allocation.h)
         {
             GogAxisMap *x_map;
+			gchar *tmp_str;
 
             x_map = gog_chart_map_get_axis_map (map, 0);
             index = gog_axis_map_from_view (x_map, event->x);
 
+			tmp_str = utils_real_get_string_with_currency_from_double (
+						self->tab_Y[index-1], self->currency_number);
             buf = g_strdup_printf (_("date %s : value %s"), self->tab_vue_libelle[index-1],
-                        utils_real_get_string_with_currency_from_double (
-                        self->tab_Y[index-1], self->currency_number));
+                        tmp_str);
+			g_free(tmp_str);
         }
         gog_chart_map_free (map);
     }
