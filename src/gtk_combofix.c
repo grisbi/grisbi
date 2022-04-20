@@ -1686,11 +1686,9 @@ static void gtk_combofix_create_entry (GtkComboFix *combofix)
 	/* set store */
 	completion_store = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (completion_store));
-	g_object_unref (completion_store);
 
 	/* set entry completion */
 	gtk_entry_set_completion (GTK_ENTRY (priv->entry), completion);
-	g_object_unref (completion);
 
 	/* set entry signals */
     g_signal_connect (G_OBJECT (priv->entry),
