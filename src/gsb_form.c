@@ -792,8 +792,11 @@ static gboolean gsb_form_validate_form_transaction (gint transaction_number,
             final_date = gsb_data_reconcile_get_final_date (reconcile_number);
             if (g_date_compare (save_form_date, final_date) > 0)
             {
+				gchar *tmp_date;
+				tmp_date = gsb_format_gdate (final_date);
                 tmp_str = g_strdup_printf (_("The date must be less than or equal to %s"),
-										   gsb_format_gdate (final_date));
+										   tmp_date);
+				g_free(tmp_date);
                 dialogue_hint (tmp_str, _("Invalid date"));
 
                 g_free(tmp_str);
