@@ -2922,10 +2922,12 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 				result = (warning+msg_no)->default_answer;
             else
             {
+				gchar *tmp_date;
 				tmp_str = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
+				tmp_date = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
 				occurrences = g_strdup_printf (_("Do you want to delete just this occurrence or "
 												 "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
-											   gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
+											   tmp_date,
 											   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number
 																		(scheduled_number),
 																		FALSE),
@@ -2933,6 +2935,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 											   gsb_data_currency_get_name (gsb_data_scheduled_get_currency_number
 																		   (scheduled_number)));
 				g_free (tmp_str);
+				g_free(tmp_date);
 
 				dialog = dialogue_special_no_run (GTK_MESSAGE_QUESTION,
 												  GTK_BUTTONS_NONE,
