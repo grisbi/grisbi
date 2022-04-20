@@ -1030,9 +1030,13 @@ GDate *gsb_parse_import_date_string (const gchar *date_string)
 	if (g_strrstr_len (import_format, 4, "/%"))
 		date_tokens = g_strsplit (import_format + 1, "/%", 3);
 	if (g_strrstr_len (import_format, 4, ".%"))
+	{
+		g_strfreev (date_tokens);
 		date_tokens = g_strsplit (import_format + 1, ".%", 3);
+	}
 	if (g_strrstr_len (import_format, 4, "-%"))
 	{
+		g_strfreev (date_tokens);
         date_tokens = g_strsplit (import_format + 1, "-%", 3);
 		/* set the ISO-8601 pattern */
 		regex_str = DATE_ISO8601_REGEX;
