@@ -235,6 +235,7 @@ gboolean grisbi_conf_load_app_config (void)
 								      NULL);
     if (tmp_path == NULL || strlen (tmp_path) == 0)
     {
+		g_free(tmp_path);
         tmp_path = g_strdup (gsb_dirs_get_user_data_dir ());
     }
     gsb_file_set_backup_path (tmp_path);
