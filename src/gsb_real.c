@@ -104,7 +104,7 @@ static gchar *gsb_real_add_thousands_sep (gchar *str_number,
         return str_number;
 
     nbre_char = strlen (str_number);
-    str_number = g_strreverse (str_number);
+    g_strreverse (str_number);
     ptr = str_number;
 
     if ((longueur = strlen (thousands_sep)) == 1)
@@ -132,7 +132,7 @@ static gchar *gsb_real_add_thousands_sep (gchar *str_number,
     };
 
     result = g_strndup (dest, nbre_char + sep);
-    result = g_strreverse (result);
+    g_strreverse (result);
 
     /* on met le bon séparateur si necessaire */
     if (longueur > 1)
