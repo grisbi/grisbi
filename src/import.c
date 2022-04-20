@@ -5324,10 +5324,12 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
     /* textstring 3 */
     if (gsb_data_import_rule_get_invert (rule))
     {
-        tmp_str2 = g_strconcat(tmp_str, g_strdup_printf (_("Amounts of the transactions will be "
-                                                        "inverted.\n")), NULL);
+		tmp_str2 = g_strdup_printf (_("Amounts of the transactions will be "
+									  "inverted.\n"));
+        tmp_str3 = g_strconcat(tmp_str, tmp_str2, NULL);
         g_free (tmp_str);
-	    tmp_str = tmp_str2;
+		g_free(tmp_str2);
+	    tmp_str = tmp_str3;
     }
 
     label = gtk_label_new (tmp_str);
