@@ -683,7 +683,10 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 	//~ printf ("tmp_str en fin de liste = %s returned_value= %d\n", tmp_str, returned_value);
 
     if (returned_value == EOF)
+	{
+		g_free(tmp_str);
 		return EOF;
+	}
     else																	/* tmp_str[0] = '!' */
 	{
 		if (g_ascii_strncasecmp (tmp_str, "!Clear:AutoSwitch", 18) == 0)
