@@ -515,6 +515,7 @@ gboolean grisbi_conf_load_app_config (void)
 									 NULL);
     if (tmp_str == NULL || strlen (tmp_str) == 0)
     {
+		g_free(tmp_str);
         tmp_str = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
     }
 	else
