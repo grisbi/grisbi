@@ -1828,7 +1828,6 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 										  GTK_SORT_DESCENDING);
 
 	gtk_container_add (GTK_CONTAINER (sw), tree_view);
-	g_object_unref (model);
 
     /* Toggle column. */
     renderer = gtk_cell_renderer_toggle_new ();
