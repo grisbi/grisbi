@@ -645,8 +645,8 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 									imported_account->type_de_compte = type;
 							}
 						}
-						g_free (tmp_str);
 						returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
+						g_free (tmp_str);
 					}
 					while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
 
