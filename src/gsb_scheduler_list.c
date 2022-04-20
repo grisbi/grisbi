@@ -1730,8 +1730,14 @@ static void gsb_scheduler_list_remove_orphan_list (GSList *orphan_scheduled,
             if (string == NULL)
                 string = utils_str_itoa (scheduled_number);
             else
-                string = g_strconcat (string, " - ",
-                    utils_str_itoa (scheduled_number), NULL);
+			{
+				gchar *tmp_str1, *tmp_str2;
+				tmp_str1 = utils_str_itoa (scheduled_number);
+				tmp_str2 = g_strconcat (string, " - ", tmp_str1, NULL);
+				g_free(tmp_str1);
+				g_free(string);
+				string = tmp_str2;
+			}
         }
 
         tmp_list = tmp_list->next;
