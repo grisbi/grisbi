@@ -693,9 +693,15 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 		{
 			returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 			if (returned_value == EOF)
+			{
+				g_free(tmp_str);
 				return EOF;
+			}
 			else if (tmp_str[0] != '!')
+			{
+				g_free(tmp_str);
 				return 1;
+			}
 		}
 
 		if (last_header && strlen (last_header))
