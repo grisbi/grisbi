@@ -760,9 +760,13 @@ static gboolean gsb_form_validate_form_transaction (gint transaction_number,
              ||
              g_date_compare (value_date, final_date) > 0)
             {
+				gchar *tmp_date1, *tmp_date2;
+				tmp_date1 = gsb_format_gdate (init_date);
+				tmp_date2 = gsb_format_gdate (final_date);
                 tmp_str = g_strdup_printf (_("Beware the date must be between %s and %s"),
-										   gsb_format_gdate (init_date),
-										   gsb_format_gdate (final_date));
+										   tmp_date1, tmp_date2);
+				g_free(tmp_date1);
+				g_free(tmp_date2);
                 dialogue_hint (tmp_str, _("Invalid date"));
 
                 g_free(tmp_str);
