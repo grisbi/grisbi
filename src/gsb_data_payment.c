@@ -856,7 +856,12 @@ gboolean gsb_data_payment_set_last_number_from_int (gint payment_number,
 
 	new_number = utils_str_itoa (last_number);
 	if (prefix && strlen (prefix))
-		new_number = g_strconcat (prefix, new_number, NULL);
+	{
+		gchar *tmp_str;
+		tmp_str = g_strconcat (prefix, new_number, NULL);
+		g_free(new_number);
+		new_number = tmp_str;
+	}
 
 	payment->last_number = new_number;
 
