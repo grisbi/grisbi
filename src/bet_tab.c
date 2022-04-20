@@ -987,12 +987,14 @@ static gchar *bet_array_list_get_description (gint account_number,
                 if (desc && strlen (desc))
                     break;
 
+				g_free(desc);
                 desc = g_strdup (gsb_data_payee_get_name (
                                     gsb_data_scheduled_get_party_number (
                                     scheduled_number), TRUE));
                 if (desc && strlen (desc))
                     break;
 
+				g_free(desc);
                 desc = gsb_data_category_get_name (
                                     gsb_data_scheduled_get_category_number (
                                     scheduled_number),
@@ -1001,6 +1003,7 @@ static gchar *bet_array_list_get_description (gint account_number,
                 if (desc && strlen (desc))
                     break;
 
+				g_free(desc);
                 desc = gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number),
@@ -1052,17 +1055,20 @@ static gchar *bet_array_list_get_description (gint account_number,
                     if (desc && strlen (desc))
                         break;
 
+					g_free(desc);
                     desc = g_strdup (gsb_data_payee_get_name (
                                     scheduled->party_number, TRUE));
                     if (desc && strlen (desc))
                         break;
 
+					g_free(desc);
                     desc = gsb_data_category_get_name (
                                     scheduled->category_number,
                                     scheduled->sub_category_number, NULL);
                     if (desc && strlen (desc))
                         break;
 
+					g_free(desc);
                     desc = gsb_data_budget_get_name (
                                     scheduled->budgetary_number,
                                     scheduled->sub_budgetary_number,
