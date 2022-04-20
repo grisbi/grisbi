@@ -3928,6 +3928,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
 
         if ( split_division[1] && nouveau_no_sub_division == 0 )
         {
+			gboolean ret;
             tmp_str_1 = g_strdup_printf ( _("Warning you can not create %s."),
                     _(iface -> meta_name_minus) );
             dialogue_warning( tmp_str_1 );
@@ -3936,10 +3937,13 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
 
             gtk_widget_destroy ( dialog );
 
-        return ( metatree_select_transactions_destination ( iface, model,
+        ret = metatree_select_transactions_destination ( iface, model,
                         transaction_number,
                         division, sub_division,
-                        no_div, no_sub_div ) );
+                        no_div, no_sub_div );
+			g_strfreev ( split_division );
+
+			return ret;
         }
     }
 
