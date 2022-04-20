@@ -570,6 +570,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   gchar buffer[1024], *tempname;
   FILE * filein, * tempfile;
   xmlDocPtr doc;
+  gchar *tmp_filename;
 
   filein = utils_files_utf8_fopen ( filename, "r" );
   if ( ! filein )
@@ -644,7 +645,9 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   fclose ( filein );
   fclose ( tempfile );
 
-  doc = xmlParseFile( g_filename_from_utf8 ( tempname, -1, NULL, NULL, NULL ) );
+  tmp_filename = g_filename_from_utf8 ( tempname, -1, NULL, NULL, NULL );
+  doc = xmlParseFile( tmp_filename );
+  g_free(tmp_filename);
 
   /** Once parsed, the temporary file is removed as it is useless.  */
   g_unlink ( tempname );
