@@ -1532,6 +1532,7 @@ static gboolean bet_graph_populate_lines_by_forecast_data (BetGraphDataStruct *s
 
                         strncpy (&libelle_axe_x[self->nbre_elemnts * TAILLE_MAX_LIBELLE],
                                     str_date, TAILLE_MAX_LIBELLE);
+						g_free (str_date);
                         tab_Y[self->nbre_elemnts-1] = prev_montant;
                         self->nbre_elemnts++;
 
@@ -1541,8 +1542,6 @@ static gboolean bet_graph_populate_lines_by_forecast_data (BetGraphDataStruct *s
                             self->nbre_elemnts = nbre_iterations + 1;
                             break;
                         }
-
-                        g_free (str_date);
                     }
                     day_courant = day;
                     if (g_date_is_first_of_month (date))
