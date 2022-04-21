@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "import_csv.h"
+#include "classement_echeances.h"
 #include "csv_parse.h"
 #include "csv_template_rule.h"
 #include "dialog.h"
@@ -1499,7 +1500,9 @@ gboolean csv_import_file_by_rule (gint rule,
         }
 
         /* g_print (">> Appending new transaction %p\n", ope); */
-        compte->operations_importees = g_slist_append (compte->operations_importees, ope);
+        compte->operations_importees = g_slist_insert_sorted (compte->operations_importees,
+															  ope,
+															  (GCompareFunc) classement_sliste_transactions_par_date);
 
 		index++;
         list = g_array_index (lines_tab, GSList *, index);
@@ -1707,7 +1710,9 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
         }
 
         /* g_print (">> Appending new transaction %p\n", ope); */
-        compte->operations_importees = g_slist_append (compte->operations_importees, ope);
+        compte->operations_importees = g_slist_insert_sorted (compte->operations_importees,
+															  ope,
+															  (GCompareFunc) classement_sliste_transactions_par_date);
 
 		index++;
         list = g_array_index (lines_tab, GSList *, index);

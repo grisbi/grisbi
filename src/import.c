@@ -4370,7 +4370,10 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
 }
 
 /**
- *
+ * Pointe les opérations télérelevées.
+ * En cas d'opérations comparables multiples , on pointe la première opé comparable rencontrée
+ * les suivantes ne seront pas concernées.
+ * Seules les opérations non pointées seront modifiées ou fusionnées
  *
  * \param
  * \param
@@ -4403,20 +4406,18 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 
     g_date_free (first_date_import);
 
+	/* on initialise la liste des opé célibataires */
     list_ope_import_celibataires = NULL;
 
     /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
     tmp_list_ope_importees = imported_account->operations_importees;
     while (tmp_list_ope_importees)
     {
-        GSList *list_ope_trouvees;
-        GSList *tmp_list_ope_importees2;
         GSList *tmp_list_ope_retenues;
         struct ImportTransaction *ope_import;
 		gboolean ope_import_trouve = FALSE;
 
         ope_import = tmp_list_ope_importees->data;
-        list_ope_trouvees = NULL;
 
         /* set now the account number of the transaction */
         ope_import->no_compte = account_number;
@@ -4448,8 +4449,12 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
                 tmp_str = gsb_data_transaction_get_id (transaction_number);
                 if (tmp_str && strcmp (ope_import->id_operation, tmp_str) == 0)
                 {
-                    list_ope_trouvees = g_slist_append (list_ope_trouvees, tmp_list_ope_retenues->data);
+					/* on a trouvé une opé comparable on initialise ope_import->ope_correspondante */
+					ope_import->ope_correspondante = transaction_number;
 					ope_import_trouve = TRUE;
+
+					/* on peut supprimer l'opé de la liste des ope retenues car c'est un cas unique */
+					list_ope_retenues = g_slist_remove (list_ope_retenues, tmp_list_ope_retenues->data);
 
                     break;
                 }
@@ -4457,7 +4462,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 
             /* si on n'a rien trouvé par id, */
             /* on fait le tour de la liste d'opés pour trouver des opés comparable */
-            /* cad même date avec + ou - une échelle et même montant et pas une opé de ventil */
+            /* cad même date avec + ou - une échelle et même montant et pas une opé de ventilation */
             day = g_date_get_day (ope_import->date);
             month = g_date_get_month (ope_import->date);
             year = g_date_get_year (ope_import->date);
@@ -4480,41 +4485,33 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 				&& (g_date_compare (date_transaction, date_fin_comparaison) <= 0)
 				&& !gsb_data_transaction_get_mother_transaction_number (transaction_number))
             {
-                /* on a touvé une opé comparable on l'ajoute à la liste des opés trouvées */
-                list_ope_trouvees = g_slist_append (list_ope_trouvees, tmp_list_ope_retenues->data);
+                /* on a touvé une opé comparable on initialise ope_import->ope_correspondante */
+				ope_import->ope_correspondante = transaction_number;
 				ope_import_trouve = TRUE;
 
-				/* on garde transaction_number si fusion avec operation importee */
-				if (etat.fusion_import_transactions)
+				/* on récupère la date de valeur si besoin */
+				if (ope_import->date_de_valeur == NULL
+					&& etat.csv_force_date_valeur_with_date
+					&& imported_account->origine
+					&& g_ascii_strcasecmp (imported_account->origine, "CSV") == 0)
 				{
-					ope_import->ope_correspondante = transaction_number;
+					ope_import->date_de_valeur = gsb_date_copy (ope_import->date);
 				}
 
-				/* on récupère la date de valeur si besoin */
-				if (imported_account->origine && g_ascii_strcasecmp (imported_account->origine, "CSV") == 0)
-				{
-					if (etat.csv_force_date_valeur_with_date)
-					{
-						ope_import->date_de_valeur = gsb_date_copy (ope_import->date);
-					}
-				}
+				/* on supprime l'opé de la liste des ope retenues car c'est le premier cas rencontré */
+				list_ope_retenues = g_slist_remove (list_ope_retenues, tmp_list_ope_retenues->data);
 
                 break;
             }
             tmp_list_ope_retenues = tmp_list_ope_retenues->next;
         }
 
-        /* à ce stade, list_ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
-        /* soit il n'y en n'a qu'une, et on la traite, soit il y en a plusieurs. on recherche d'autres */
-        /* opés importées comparables, et on les traite en fonction du nb de celles importées */
-		if (list_ope_trouvees)
-		{
-			/* il n'y a qu'une opé retrouvée, on la traite */
-			if ((gint) g_slist_length (list_ope_trouvees) == 1)
+        /* à ce stade, si il existe une opé comparable ope_import_trouve = TRUE */
+		if (ope_import_trouve == TRUE)
 			{
 				gint transaction_number;
 
-				transaction_number = GPOINTER_TO_INT (list_ope_trouvees->data);
+				transaction_number = ope_import->ope_correspondante;
 
 				/* si elle est déjà pointée ou télé relevée, on ne fait rien */
 				if (!gsb_data_transaction_get_marked_transaction (transaction_number))
@@ -4535,163 +4532,21 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 						gsb_transactions_list_update_transaction (transaction_number);
 					}
 				}
-				ope_import_trouve = TRUE;
 			}
 			else
 			{
-				GSList *list_ope_multiples = NULL;
-
-				/* il y a plusieurs opé trouvées correspondant à l'opé importée */
-				/* on va recherche d'autres opé importées ayant la même date et le même montant */
-				tmp_list_ope_importees2 = imported_account->operations_importees;
-				while (tmp_list_ope_importees2)
-				{
-					GDate *date_debut_comparaison;
-					GDate *date_fin_comparaison;
-					struct ImportTransaction *tmp_ope_import;
-
-					tmp_ope_import = tmp_list_ope_importees2->data;
-
-					/* we look for a date around tmp_ope_import with +- etat.import_files_nb_days */
-					date_debut_comparaison = g_date_new_dmy (g_date_get_day (tmp_ope_import->date),
-															 g_date_get_month (tmp_ope_import->date),
-															 g_date_get_year (tmp_ope_import->date));
-					g_date_subtract_days (date_debut_comparaison, etat.import_files_nb_days);
-
-					date_fin_comparaison = g_date_new_dmy (g_date_get_day (tmp_ope_import->date),
-														   g_date_get_month (tmp_ope_import->date),
-														   g_date_get_year (tmp_ope_import->date));
-					g_date_add_days (date_fin_comparaison, etat.import_files_nb_days);
-
-					if (!gsb_real_cmp (tmp_ope_import->montant, ope_import->montant)
-						&& (g_date_compare (ope_import->date, date_debut_comparaison) >= 0)
-						&& (g_date_compare (ope_import->date, date_fin_comparaison) <= 0)
-						&& !tmp_ope_import->ope_de_ventilation)
-					{
-						/* on a retouvé une ope importee comparable de même montant, on récupere tmp_ope_import */
-						list_ope_multiples = g_slist_append (list_ope_multiples, tmp_ope_import);
-					}
-
-					tmp_list_ope_importees2 = tmp_list_ope_importees2->next;
-				}
-
-				/* fix Warning: Access to field 'data' results in a dereference of a null pointer at line 4606 */
-				if (list_ope_multiples == NULL)
-				{
-					list_ope_multiples = g_slist_append (list_ope_multiples, ope_import);
-				}
-
-				/* on a trouvé moins ou autant d'opé importées que d'opés semblables dans la
-				 * liste d'opé trouvées -> on traite les ope importées */
-				if (g_slist_length (list_ope_multiples) <= g_slist_length (list_ope_trouvees))
-				{
-					GSList *tmp_list_ope_multiples;
-					GSList *tmp_list_ope_trouvees;
-					struct ImportTransaction *tmp_ope_import;
-
-					tmp_list_ope_multiples = list_ope_multiples;
-					tmp_list_ope_trouvees = list_ope_trouvees;
-
-					while (tmp_list_ope_multiples)
-					{
-						gint transaction_number2;
-
-						/* on assume que les opérations dans les deux listes sont dans le même ordre */
-						transaction_number2 = GPOINTER_TO_INT (tmp_list_ope_trouvees->data);
-						tmp_ope_import = tmp_list_ope_multiples->data;
-
-						if (!gsb_data_transaction_get_marked_transaction (transaction_number2))
-						{
-							/* on met a jour l'id si il n'y en n'a pas */
-							if (strlen (gsb_data_transaction_get_transaction_id (transaction_number2)) == 0
-								&& tmp_ope_import->id_operation)
-								gsb_data_transaction_set_transaction_id (transaction_number2,
-																		 tmp_ope_import->id_operation);
-
-							/* on pointe l'opé */
-							gsb_data_transaction_set_marked_transaction (transaction_number2, OPERATION_TELEPOINTEE);
-
-							/* on traite la fusion des opérations si besoin */
-							if (etat.fusion_import_transactions && ope_import->ope_correspondante > 0)
-							{
-								transaction_number2 = gsb_import_create_transaction (tmp_ope_import,
-																					 account_number,
-																					 imported_account->origine);
-								gsb_transactions_list_update_transaction (transaction_number2);
-							}
-
-						}
-						tmp_list_ope_multiples = tmp_list_ope_multiples->next;
-						tmp_list_ope_trouvees = tmp_list_ope_trouvees->next;
-					}
-
-					ope_import_trouve = TRUE;
-				}
-
-				/* on a trouvé plus d'opé importées que d'opés semblables dans la
-				 * liste d'opé trouvées -> on traite les ope trouvées */
-				else if (g_slist_length (list_ope_multiples) > g_slist_length (list_ope_trouvees))
-				{
-					GSList *tmp_list_ope_multiples;
-					GSList *tmp_list_ope_trouvees;
-					struct ImportTransaction *tmp_ope_import;
-
-					tmp_list_ope_multiples = list_ope_multiples;
-					tmp_list_ope_trouvees = list_ope_trouvees;
-
-					while (tmp_list_ope_trouvees)
-					{
-						gint transaction_number2;
-
-						/* on assume que les opérations dans les deux listes sont dans le même ordre */
-						transaction_number2 = GPOINTER_TO_INT (tmp_list_ope_trouvees->data);
-						tmp_ope_import = tmp_list_ope_multiples->data;
-
-						if (!gsb_data_transaction_get_marked_transaction (transaction_number2))
-						{
-							/* on met a jour l'id si il n'y en n'a pas */
-							if (strlen (gsb_data_transaction_get_transaction_id (transaction_number2)) == 0
-								&& tmp_ope_import->id_operation)
-								gsb_data_transaction_set_transaction_id (transaction_number2,
-																		 tmp_ope_import->id_operation);
-
-							/* on pointe l'opé */
-							gsb_data_transaction_set_marked_transaction (transaction_number2, OPERATION_TELEPOINTEE);
-
-							/* on traite la fusion des opérations si besoin */
-							if (etat.fusion_import_transactions && ope_import->ope_correspondante > 0)
-							{
-								transaction_number2 = gsb_import_create_transaction (tmp_ope_import,
-																					 account_number,
-																					 imported_account->origine);
-								gsb_transactions_list_update_transaction (transaction_number2);
-							}
-						}
-						tmp_list_ope_multiples = tmp_list_ope_multiples->next;
-						tmp_list_ope_trouvees = tmp_list_ope_trouvees->next;
-					}
-
-					ope_import_trouve = TRUE;
-				}
-			}
-			g_slist_free (list_ope_trouvees);
-		}
-
-		if (ope_import_trouve == FALSE)
-		{
-			/* récupération de la date de valeur si besoin */
-			if (imported_account->origine && g_ascii_strcasecmp (imported_account->origine, "CSV") == 0)
-			{
-				if (etat.csv_force_date_valeur_with_date)
+				/* récupération de la date de valeur si besoin */
+				if (ope_import->date_de_valeur == NULL
+					&& etat.csv_force_date_valeur_with_date
+					&& imported_account->origine
+					&& g_ascii_strcasecmp (imported_account->origine, "CSV") == 0)
 				{
 					ope_import->date_de_valeur = gsb_date_copy (ope_import->date);
 				}
-			}
 
 			/* on ajoute l'ope dans la liste des operations celibataires */
 			list_ope_import_celibataires = g_slist_append (list_ope_import_celibataires, ope_import);
 		}
-
         tmp_list_ope_importees = tmp_list_ope_importees->next;
     }
 
