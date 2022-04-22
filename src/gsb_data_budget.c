@@ -1421,7 +1421,7 @@ gchar * gsb_debug_duplicate_budget_check (void)
 {
     GSList * tmp;
     gint num_duplicate = 0;
-    gchar * output = (gchar*)"";
+    gchar * output = NULL;
 
     tmp = budget_list;
     while ( tmp )
@@ -1438,16 +1438,25 @@ gchar * gsb_debug_duplicate_budget_check (void)
 	    /* Second comparison is just there to find only one of them. */
 	    if ( duplicate && duplicate > tmp_sous_budget )
 	    {
-	        gchar* tmpstr1 = output;
 		gchar* tmpstr2 = g_strdup_printf (
 		                        _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
 					budget -> budget_name,
 					((SubBudgetStruct *) tmp_sous_budget -> data) -> sub_budget_name,
 					((SubBudgetStruct *) duplicate -> data) -> sub_budget_name );
-		output = g_strconcat ( tmpstr1,
-				       tmpstr2,
-				       NULL );
-		g_free ( tmpstr2 );
+			if (output)
+			{
+				gchar* tmpstr1;
+
+				tmpstr1 = g_strconcat ( output,
+							   tmpstr2,
+							   NULL );
+				g_free(output);
+				g_free ( tmpstr2 );
+				output = tmpstr1;
+			}
+			else
+				output = tmpstr2;
+
 		num_duplicate ++;
 	    }
 	    tmp_sous_budget = tmp_sous_budget -> next;
