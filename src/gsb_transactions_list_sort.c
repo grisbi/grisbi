@@ -654,8 +654,8 @@ gint gsb_transactions_list_sort_by_budget ( gint transaction_number_1,
 	    return gsb_transactions_list_sort_by_date_and_no ( transaction_number_1, transaction_number_2 );
     else
     {
-        const gchar *temp_1;
-        const gchar *temp_2;
+        gchar *temp_1, *temp_1bis;
+        gchar *temp_2, *temp_2bis;
 
         temp_1 = gsb_data_budget_get_name ( budgetary_number_1,
                             sub_budgetary_number_1,
@@ -667,12 +667,21 @@ gint gsb_transactions_list_sort_by_budget ( gint transaction_number_1,
                             sub_budgetary_number_2,
                             NULL);
         if ( temp_2 == NULL )
+		{
+			g_free(temp_1);
             return 1;
+		}
 
         /* g_utf8_collate is said not very fast, must try with big big account to check
          * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
-        return_value = g_utf8_collate ( g_utf8_casefold ( temp_1, -1 ),
-                        g_utf8_casefold ( temp_2, -1 ) );
+		temp_1bis = g_utf8_casefold ( temp_1, -1 );
+		g_free(temp_1);
+		temp_2bis = g_utf8_casefold ( temp_2, -1 );
+		g_free(temp_2);
+
+		return_value = g_utf8_collate ( temp_1bis, temp_2bis);
+		g_free(temp_1bis);
+		g_free(temp_2bis);
     }
 
     if ( return_value )
