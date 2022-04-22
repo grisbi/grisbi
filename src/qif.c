@@ -506,6 +506,8 @@ static gboolean qif_traite_champs_n (struct ImportTransaction *imported_transact
                 g_free (imported_transaction->cheque);
                 imported_transaction->cheque = tmp_str;
             }
+			else
+				g_free(tmp_str);
         }
         else if (strcmp (imported_transaction->cheque, "Virement") == 0)
         {
