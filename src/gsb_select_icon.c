@@ -125,7 +125,7 @@ static gchar *gsb_select_icon_troncate_name_icon (gchar *name_icon,
 
     if (size > 10)
     {
-        gchar *tmpstr, *tmpstr2;
+        gchar *tmpstr, *tmpstr2 = NULL;
         gchar *end;
         gchar *ptr = NULL;
         gint i = 1;
@@ -149,12 +149,16 @@ static gchar *gsb_select_icon_troncate_name_icon (gchar *name_icon,
 			{
 				gchar *end2;
 				end2 = g_strndup (end, ptr - end);
+				g_free(tmpstr2);
                 tmpstr2 = g_strconcat (tmpstr, "\n",
 									   end2, NULL);
 				g_free(end2);
 			}
             else
+			{
+				g_free(tmpstr2);
                 tmpstr2 = g_strconcat (tmpstr, "\n", end, NULL);
+			}
             ptr = NULL;
             i++;
         } while (i <= n);
