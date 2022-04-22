@@ -127,7 +127,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
-					   my_strdup ("<?xml version=\"1.0\"?>\n<Grisbi_categ>\n"));
+					   "<?xml version=\"1.0\"?>\n<Grisbi_categ>\n");
 
     iterator = gsb_file_others_save_general_part ( iterator,
 						   &length_calculated,
@@ -143,7 +143,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
-					   my_strdup ("</Grisbi_categ>"));
+					   "</Grisbi_categ>");
 
     /* the file is in memory, we can save it */
 
@@ -220,7 +220,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
-					   my_strdup ("<?xml version=\"1.0\"?>\n<Grisbi_budget>\n"));
+					   "<?xml version=\"1.0\"?>\n<Grisbi_budget>\n");
 
     iterator = gsb_file_others_save_general_part ( iterator,
 						   &length_calculated,
@@ -236,7 +236,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
-					   my_strdup ("</Grisbi_budget>"));
+					   "</Grisbi_budget>");
 
     /* the file is in memory, we can save it */
 
@@ -310,7 +310,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
-					   my_strdup ("<?xml version=\"1.0\"?>\n<Grisbi_report>\n"));
+					   "<?xml version=\"1.0\"?>\n<Grisbi_report>\n");
 
     iterator = gsb_file_others_save_general_part ( iterator,
 						   &length_calculated,
@@ -327,7 +327,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
-					   my_strdup ("</Grisbi_report>"));
+					   "</Grisbi_report>");
 
     /* the file is in memory, we can save it */
 
@@ -392,6 +392,7 @@ gulong gsb_file_others_save_general_part ( gulong iterator,
 						length_calculated,
 						file_content,
 						new_string );
+	g_free(new_string);
     return result;
 }
 

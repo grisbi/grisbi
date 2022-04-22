@@ -371,6 +371,7 @@ static gulong gsb_file_save_account_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
 	}
@@ -429,6 +430,7 @@ static gulong gsb_file_save_archive_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
     }
@@ -493,6 +495,7 @@ static gulong gsb_file_save_bank_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
     }
@@ -530,6 +533,7 @@ static gulong gsb_file_save_bet_part (gulong iterator,
 										  length_calculated,
 										  file_content,
 										  new_string);
+	g_free(new_string);
 
 	tab = bet_data_get_strings_to_save ();
 
@@ -578,6 +582,7 @@ static gulong gsb_file_save_bet_graph_part (gulong iterator,
 										  length_calculated,
 										  file_content,
 										  new_string);
+	g_free(new_string);
 
 	/* save the historical preferences */
 	new_string = bet_graph_get_configuration_string (BET_ONGLETS_HIST);
@@ -587,6 +592,7 @@ static gulong gsb_file_save_bet_graph_part (gulong iterator,
 										  length_calculated,
 										  file_content,
 										  new_string);
+	g_free(new_string);
 
 	/* and return the new iterator */
 	return iterator;
@@ -644,6 +650,7 @@ static gulong gsb_file_save_currency_link_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
     }
@@ -691,6 +698,7 @@ static gulong gsb_file_save_currency_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
     }
@@ -746,6 +754,7 @@ static gulong gsb_file_save_financial_year_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
     }
@@ -1038,10 +1047,12 @@ static gulong gsb_file_save_general_part (gulong iterator,
 	g_free (bet_array_column_width_write);
 
 	/* append the new string to the file content and return the new iterator */
-	return gsb_file_save_append_part (iterator,
+	gulong ret = gsb_file_save_append_part (iterator,
 									  length_calculated,
 									  file_content,
 									  new_string);
+	g_free(new_string);
+	return ret;
 }
 
 /**
@@ -1117,6 +1128,7 @@ static gulong gsb_file_save_import_rule_part (gulong iterator,
 													  length_calculated,
 													  file_content,
 													  new_string);
+				g_free(new_string);
 
 				tmp_list = gsb_data_import_rule_get_csv_spec_lines_list (import_rule_number);
 				while (tmp_list)
@@ -1138,6 +1150,7 @@ static gulong gsb_file_save_import_rule_part (gulong iterator,
 														  length_calculated,
 														  file_content,
 														  new_string);
+					g_free(new_string);
 					index++;
 
 					tmp_list = tmp_list->next;
@@ -1154,6 +1167,7 @@ static gulong gsb_file_save_import_rule_part (gulong iterator,
 												  length_calculated,
 												  file_content,
 												  new_string);
+			g_free(new_string);
 		}
 
 		list_tmp = list_tmp->next;
@@ -1203,6 +1217,7 @@ static gulong gsb_file_save_partial_balance_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
     }
@@ -1256,6 +1271,7 @@ static gulong gsb_file_save_party_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
     }
@@ -1304,6 +1320,7 @@ static gulong gsb_file_save_payment_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
 	}
@@ -1370,10 +1387,12 @@ static gulong gsb_file_save_print_part (gulong iterator,
 		g_free (string_to_free4);
 
 	/* append the new string to the file content and return the new iterator */
-	return gsb_file_save_append_part (iterator,
+	gulong ret = gsb_file_save_append_part (iterator,
 									  length_calculated,
 									  file_content,
 									  new_string);
+	g_free(new_string);
+	return ret;
 }
 
 /**
@@ -1445,6 +1464,7 @@ static gulong gsb_file_save_reconcile_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
     }
@@ -1471,10 +1491,12 @@ static gulong gsb_file_save_rgba_part (gulong iterator,
 	new_string = gsb_rgba_get_string_to_save ();
 
 	/* append the new string to the file content and return the new iterator */
-	return gsb_file_save_append_part (iterator,
+	gulong ret = gsb_file_save_append_part (iterator,
 									  length_calculated,
 									  file_content,
 									  new_string);
+	g_free(new_string);
+	return ret;
 }
 
 /**
@@ -1554,6 +1576,7 @@ static gulong gsb_file_save_scheduled_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
 	}
@@ -1680,6 +1703,7 @@ static gulong gsb_file_save_transaction_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		list_tmp = list_tmp->next;
 	}
@@ -1788,7 +1812,7 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 	iterator = gsb_file_save_append_part (iterator,
 					   &length_calculated,
 					   &file_content,
-					   my_strdup ("<?xml version=\"1.0\"?>\n<Grisbi>\n"));
+					   "<?xml version=\"1.0\"?>\n<Grisbi>\n");
 
 	iterator = gsb_file_save_general_part (iterator,
 						&length_calculated,
@@ -1888,7 +1912,7 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 	iterator = gsb_file_save_append_part (iterator,
 					   &length_calculated,
 					   &file_content,
-					   my_strdup ("</Grisbi>"));
+					   "</Grisbi>");
 
 	/* crypt the file if asked */
 	if (w_etat->crypt_file)
@@ -2033,7 +2057,6 @@ gulong gsb_file_save_append_part (gulong iterator,
 
 	memcpy (*file_content + iterator, new_string, strlen (new_string));
 	iterator = iterator + strlen (new_string);
-	g_free (new_string);
 
 	return iterator;
 }
@@ -2095,6 +2118,7 @@ gulong gsb_file_save_budgetary_part (gulong iterator,
 											  length_calculated,
 										      file_content,
 											  new_string);
+		g_free(new_string);
 
 		/* save the sub-budgetaries */
 		sub_list_tmp = gsb_data_budget_get_sub_budget_list (budget_number);
@@ -2118,6 +2142,7 @@ gulong gsb_file_save_budgetary_part (gulong iterator,
 												  length_calculated,
 												  file_content,
 												  new_string);
+			g_free(new_string);
 
 			sub_list_tmp = sub_list_tmp->next;
 		}
@@ -2167,6 +2192,7 @@ gulong gsb_file_save_category_part (gulong iterator,
 											  length_calculated,
 										      file_content,
 											  new_string);
+		g_free(new_string);
 
 		/* save the sub-categories */
 		sub_list_tmp = gsb_data_category_get_sub_category_list (category_number);
@@ -2190,6 +2216,7 @@ gulong gsb_file_save_category_part (gulong iterator,
 												  length_calculated,
 												  file_content,
 												  new_string);
+			g_free(new_string);
 
 			sub_list_tmp = sub_list_tmp->next;
 		}
@@ -2737,6 +2764,7 @@ gulong gsb_file_save_report_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+		g_free(new_string);
 
 		/* save the text comparison */
 		list_tmp_2 = gsb_data_report_get_text_comparison_list (report_number);
@@ -2797,6 +2825,7 @@ gulong gsb_file_save_report_part (gulong iterator,
 											  length_calculated,
 											  file_content,
 											  new_string);
+			g_free(new_string);
 
 			list_tmp_2 = list_tmp_2->next;
 		}
@@ -2859,6 +2888,7 @@ gulong gsb_file_save_report_part (gulong iterator,
 
 			/* append the new string to the file content and take the new iterator */
 			iterator = gsb_file_save_append_part (iterator, length_calculated, file_content, new_string);
+			g_free(new_string);
 
 			list_tmp_2 = list_tmp_2->next;
 		}
