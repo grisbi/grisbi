@@ -1486,21 +1486,28 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
     ptr = tmp_str;
     while ( ptr[i]  )
 	{
+		gchar *tmp_str2;
         if ( g_ascii_isdigit ( ptr[i] ) )
         {
+			tmp_str2 = g_strdup_printf ("%c", ptr[i]);
             if ( buffer == NULL )
-                buffer = g_strdup_printf ( "%c", ptr[i] );
+                buffer = tmp_str2;
             else
-                buffer = g_strconcat ( buffer,
-                        g_strdup_printf ("%c", ptr[i]), NULL );
+			{
+                buffer = g_strconcat ( buffer, tmp_str2, NULL );
+				g_free(tmp_str2);
+			}
         }
         else
         {
+			tmp_str2 = g_strdup_printf ("%d", ptr[i] - 55);
             if ( buffer == NULL )
-                buffer = g_strdup_printf ( "%d", ptr[i] - 55 );
+                buffer = tmp_str2;
             else
-                buffer = g_strconcat ( buffer,
-                        g_strdup_printf ("%d", ptr[i] - 55), NULL );
+			{
+                buffer = g_strconcat ( buffer, tmp_str2, NULL );
+				g_free(tmp_str2);
+			}
         }
         i++;
     }
