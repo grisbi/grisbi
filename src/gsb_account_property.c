@@ -1528,6 +1528,7 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
      * dernier reste à 98 ce qui donne le code de contrôle
      */
     gstring = g_string_new ( buffer );
+	g_free(buffer);
 
     while ( gstring -> len > 0 )
     {
