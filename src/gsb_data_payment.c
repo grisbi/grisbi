@@ -862,6 +862,7 @@ gboolean gsb_data_payment_set_last_number_from_int (gint payment_number,
 		g_free(new_number);
 		new_number = tmp_str;
 	}
+	g_free(prefix);
 
 	payment->last_number = new_number;
 
