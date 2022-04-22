@@ -1994,6 +1994,7 @@ dialog_return:
 								  "not specified or the date is invalid."));
             dialogue_warning_hint (tmp_str, _("One field is not filled in"));
             g_free (tmp_str);
+			bet_data_future_struct_free(scheduled);
             goto dialog_return;
         }
         else
