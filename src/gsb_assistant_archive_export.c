@@ -355,7 +355,7 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 {
     gint archive_number;
     GtkTreeModel *model;
-    const gchar *export_name;
+    gchar *export_name;
     gboolean success = FALSE;
     gchar* tmpstr;
 	GrisbiAppConf *a_conf;
@@ -410,7 +410,9 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
             /* on vérifie juste que l'extension existe */
             if ( ! g_strrstr ( export_name, ".gsb" ) )
             {
-               export_name = g_strconcat ( export_name, ".gsb", NULL );
+				tmpstr = g_strconcat ( export_name, ".gsb", NULL );
+				g_free(export_name);
+				export_name = tmpstr;
             }
 		    success = gsb_file_util_test_overwrite (export_name)
 			&&
@@ -421,7 +423,9 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 		    /* QIF format */
             if ( ! g_strrstr ( export_name, ".qif" ) )
             {
-               export_name = g_strconcat ( export_name, ".qif", NULL );
+				tmpstr = g_strconcat ( export_name, ".qif", NULL );
+				g_free(export_name);
+				export_name = tmpstr;
             }
 		    success = gsb_qif_export_archive ( export_name, archive_number);
 		    break;
@@ -430,11 +434,14 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 		    /* CSV format */
             if ( ! g_strrstr ( export_name, ".csv" ) )
             {
-               export_name = g_strconcat ( export_name, ".csv", NULL );
+				tmpstr = g_strconcat ( export_name, ".csv", NULL );
+				g_free(export_name);
+				export_name = tmpstr;
             }
 		    success = gsb_csv_export_archive ( export_name, archive_number);
 		    break;
 	    }
+		g_free(export_name);
 	    /* now success = TRUE or FALSE, show the good final page of assistant */
 	    if (success)
 		gtk_label_set_text ( GTK_LABEL (archive_export_label_success),
