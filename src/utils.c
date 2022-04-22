@@ -223,7 +223,6 @@ gboolean lance_navigateur_web (const gchar *url)
             tmp_str = g_strconcat (" \"", url, "\" ", NULL);
             chaine = g_strjoinv (tmp_str, split);
             g_free(tmp_str);
-            g_strfreev (split);
 
             /* add the & character at the end */
             tmp_str = g_strconcat (chaine, "&", NULL);
@@ -232,6 +231,7 @@ gboolean lance_navigateur_web (const gchar *url)
         }
         else
             chaine = g_strconcat (a_conf->browser_command, " \"", url, "\"&", NULL);
+		g_strfreev (split);
 
         if (system (chaine) == -1)
         {
