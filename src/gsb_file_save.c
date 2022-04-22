@@ -1950,8 +1950,11 @@ gboolean gsb_file_save_save_file (const gchar *filename,
     else
     {
         GError *error = NULL;
+		gboolean ret;
 
-        if (!g_file_set_contents (filename, file_content, iterator, &error))
+		ret = g_file_set_contents (filename, file_content, iterator, &error);
+		g_free (file_content);
+		if (!ret)
         {
             gchar* tmpstr = g_strdup_printf (_("Cannot save file '%s': %s"),
                               filename,
@@ -1962,7 +1965,6 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 
 			return (FALSE);
         }
-        g_free (file_content);
     }
 
     /* if it's a new file, we set the permission */
