@@ -518,18 +518,14 @@ gchar *etats_titre ( gint report_number)
 				else
 					new_titre = g_strconcat (tab[0], " - ", titre, NULL);
 		}
-		g_strfreev (tab);
 		g_free (titre);
-		g_date_free (today_date);
-
-		return new_titre;
+		titre = new_titre;
 	}
-	else
-	{
-		g_date_free (today_date);
 
-		return titre;
-	}
+	g_strfreev (tab);
+	g_date_free (today_date);
+
+	return titre;
 }
 
 /**
