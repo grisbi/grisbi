@@ -1227,6 +1227,7 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 
     default_filter = gtk_file_filter_new ();
     tmp_str = g_strdup_printf (_("Known files (%s)"), files);
+	g_free(files);
     gtk_file_filter_set_name (default_filter, tmp_str);
     g_free (tmp_str);
 
