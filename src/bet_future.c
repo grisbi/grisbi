@@ -1533,9 +1533,22 @@ static gboolean bet_future_set_form_data_from_line (gint account_number,
     FuturData *scheduled;
 
     if (account_number == 0)
-        key = g_strconcat ("0:", utils_str_itoa (number), NULL);
+	{
+		gchar *tmp_str1;
+		tmp_str1 = utils_str_itoa (number);
+        key = g_strconcat ("0:", tmp_str1, NULL);
+		g_free(tmp_str1);
+	}
     else
-        key = g_strconcat (utils_str_itoa (account_number), ":", utils_str_itoa (number), NULL);
+	{
+		gchar *tmp_str1;
+		gchar *tmp_str2;
+		tmp_str1 = utils_str_itoa (account_number);
+		tmp_str2 = utils_str_itoa (number);
+        key = g_strconcat (tmp_str1, ":", tmp_str2, NULL);
+		g_free(tmp_str1);
+		g_free(tmp_str2);
+	}
 
     future_list = bet_data_future_get_list ();
 
