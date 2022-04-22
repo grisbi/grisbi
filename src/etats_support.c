@@ -279,15 +279,19 @@ gchar *etats_titre ( gint report_number)
 		     &&
 		     gsb_data_report_get_personal_date_end (report_number))
 		{
+			gchar *tmp_str;
+
 			date_str1 = gsb_format_gdate ( gsb_data_report_get_personal_date_start (report_number));
 			date_str2 = gsb_format_gdate ( gsb_data_report_get_personal_date_end (report_number));
+			tmp_str = g_strdup_printf ( _("Result from %s to %s"),
+									   date_str1, date_str2 );
 			tmp_titre = g_strconcat ( titre,
 					  ", ",
-					  g_strdup_printf ( _("Result from %s to %s"),
-								date_str1, date_str2 ),
+					  tmp_str,
 					  NULL );
 			g_free(date_str1);
 			g_free(date_str2);
+			g_free(tmp_str);
 		}
 		else
 			tmp_titre = g_strconcat ( titre,
