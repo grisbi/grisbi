@@ -1541,6 +1541,7 @@ static void gsb_import_select_file (GSList *filenames,
 		/* get contents of file */
 		if (!g_file_get_contents (iterator->data, &tmp_contents, NULL, &error))
 		{
+			g_free(str_last_modif);
 			g_print (_("Unable to read file: %s\n"), error->message);
 			g_error_free (error);
 			return;
