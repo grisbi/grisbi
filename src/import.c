@@ -1344,7 +1344,10 @@ static gboolean gsb_import_gunzip_file (gchar *filename)
             return FALSE;
         }
         else
+		{
+			g_free (file_content);
             return TRUE;
+		}
     }
     return FALSE;
 }
