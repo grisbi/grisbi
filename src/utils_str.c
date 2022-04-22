@@ -1070,9 +1070,12 @@ gchar *utils_str_incremente_number_from_str (const gchar *str_number,
 
     new_str_number = utils_str_itoa (number);
 
-    if (prefix && strlen (prefix) > 0)
+    if (prefix)
     {
-        new_str_number = g_strconcat (prefix, new_str_number, NULL);
+		gchar *tmp_str;
+		tmp_str = g_strconcat (prefix, new_str_number, NULL);
+		g_free(new_str_number);
+		new_str_number = tmp_str;
         g_free (prefix);
     }
 
