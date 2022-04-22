@@ -188,7 +188,7 @@ static void csv_template_rule_notebook_page_reordered (GtkNotebook *notebook,
             										  	CsvTemplateRule *template_rule)
 {
 	GSList *tmp_list;
-	const gchar *tmp_str;
+	gchar *tmp_str;
 	gint tmp_number;
 	CsvTemplateRulePrivate *priv;
 
@@ -196,8 +196,9 @@ static void csv_template_rule_notebook_page_reordered (GtkNotebook *notebook,
 	priv = csv_template_rule_get_instance_private (template_rule);
 
 	/* on regarde quel onglet à bougé */
-	tmp_str = gtk_notebook_get_tab_label_text (notebook, child);
-	tmp_number = utils_str_atoi (gsb_string_extract_int (tmp_str));
+	tmp_str = gsb_string_extract_int (gtk_notebook_get_tab_label_text (notebook, child));
+	tmp_number = utils_str_atoi (tmp_str);
+	g_free(tmp_str);
 
 	/* on balaie la liste des lignes pour placer la ligne modifiée au bon endroit */
 	tmp_list = priv->list_spec_lines;
