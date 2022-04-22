@@ -1331,6 +1331,7 @@ gchar *utils_str_break_form_name_field (const gchar *text,
 
 			tab= g_strsplit (text, ":", 2);
 			tmp_str = g_strconcat (tab[0], ":\n", tab[1]+1, NULL);
+			g_strfreev (tab);
 		}
 		else if (g_utf8_strchr (text, -1, '|'))
 		{
