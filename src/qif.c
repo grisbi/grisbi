@@ -704,9 +704,8 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 			}
 		}
 
-		if (last_header && strlen (last_header))
-			g_free (last_header);
-		last_header = g_strdup (tmp_str);
+		g_free (last_header);
+		last_header = tmp_str;
 
 		return 0;
 	}
@@ -941,9 +940,8 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
         return EOF;
     else													/* string[0] = '!' */
     {
-        if (last_header && strlen (last_header))
-            g_free (last_header);
-        last_header = g_strdup (string);
+		g_free (last_header);
+        last_header = string;
 
 		return 0;
 	}
@@ -1040,9 +1038,8 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
         return EOF;
     else															/* tmp_str[0] = '!' */
     {
-        if (last_header && strlen (last_header))
-            g_free (last_header);
-        last_header = g_strdup (tmp_str);
+		g_free (last_header);
+        last_header = tmp_str;
 
 		return 0;
     }
@@ -1087,10 +1084,8 @@ static gint gsb_qif_passe_ligne (FILE *qif_file,
 	}
     else 		/* tmp_str[0] == '!' */
     {
-        if (last_header && strlen (last_header))
-            g_free (last_header);
-        last_header = g_strdup (tmp_str);
-        g_free(tmp_str);
+		g_free (last_header);
+        last_header = tmp_str;
 
 		return 0;
     }
