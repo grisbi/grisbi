@@ -486,9 +486,11 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp->data);
 		if (gsb_data_transaction_get_currency_number (transaction_number) == currency_number)
 		{
+			g_free (tmp_str1);
 			tmp_str1 = g_strdup_printf (_("Currency '%s' is used in current "
 										  "file.  Grisbi can't delete it."),
 										gsb_data_currency_get_name (currency_number));
+			g_free (tmp_str2);
 			tmp_str2 = g_strdup_printf (_("Impossible to remove currency '%s'"),
 										gsb_data_currency_get_name (currency_number));
 			trouve = TRUE;
@@ -507,9 +509,11 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp->data);
 		if (gsb_data_scheduled_get_currency_number (scheduled_number) == currency_number)
 		{
+			g_free (tmp_str1);
 			tmp_str1 = g_strdup_printf (_("Currency '%s' is used in current "
 										  "file. Grisbi can't delete it."),
 										gsb_data_currency_get_name (currency_number));
+			g_free (tmp_str2);
 			tmp_str2 = g_strdup_printf (_("Impossible to remove currency '%s'"),
 										gsb_data_currency_get_name (currency_number));
 			trouve = TRUE;
