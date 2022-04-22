@@ -304,6 +304,7 @@ gchar *etats_titre ( gint report_number)
 				      g_strdup_printf ( _("total at %s"),
 							date_str1),
 				      NULL );
+		g_free(date_str1);
 		break;
 
 	    case 3:
