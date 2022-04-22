@@ -2038,7 +2038,7 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 gulong gsb_file_save_append_part (gulong iterator,
 								  gulong *length_calculated,
 								  gchar **file_content,
-								  gchar *new_string)
+								  const gchar *new_string)
 {
 	if (!new_string)
 		return iterator;

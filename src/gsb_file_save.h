@@ -11,7 +11,7 @@
 gulong			gsb_file_save_append_part		(gulong iterator,
 												 gulong *length_calculated,
                         						 gchar **file_content,
-                        						 gchar *new_string);
+                        						 const gchar *new_string);
 gulong			gsb_file_save_budgetary_part	(gulong iterator,
                         						 gulong *length_calculated,
                         						 gchar **file_content);
