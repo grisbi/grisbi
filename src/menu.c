@@ -131,6 +131,7 @@ static gboolean gsb_menu_help_manual (void)
 		g_free (str_to_free);
     }
 	lance_navigateur_web (string);
+	g_free(string);
 
     return FALSE;
 }
