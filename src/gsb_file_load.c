@@ -636,7 +636,7 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
 			gchar *tmp_str;
 
             tmp_str = g_strdup_printf ("Unknown attribute '%s'\n", attribute_names[i]);
-            g_print ("%s", tmp_str);
+			alert_debug (tmp_str);
             g_free (tmp_str);
         }
 
@@ -2324,7 +2324,7 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
 			gchar *tmp_str;
 
             tmp_str = g_strdup_printf ("Unknown attribute '%s'\n", attribute_names[i]);
-            g_print ("%s", tmp_str);
+			alert_debug (tmp_str);
             g_free (tmp_str);
         }
 
@@ -3627,7 +3627,7 @@ static void gsb_file_load_transactions_part (const gchar **attribute_names,
 			gchar *tmp_str;
 
             tmp_str = g_strdup_printf ("Unknown attribute '%s'\n", attribute_names[i]);
-            g_print ("%s", tmp_str);
+			alert_debug (tmp_str);
             g_free (tmp_str);
         }
 
@@ -3892,7 +3892,7 @@ static void gsb_file_load_start_element (GMarkupParseContext *context,
 		gchar *tmp_str;
 
         tmp_str = g_strdup_printf ("Unknown element '%s'", element_name);
-        g_print ("%s", tmp_str);
+		alert_debug (tmp_str);
 		g_free (tmp_str);
     }
 }
@@ -4370,7 +4370,7 @@ void gsb_file_load_sub_budgetary_part (const gchar **attribute_names,
 								   buffer_new_div_sous_div->no_sub_div,
 								   buffer_new_div_sous_div->name);
 
-		g_print ("%s", tmp_str);
+		alert_debug (tmp_str);
 		g_free (tmp_str);
 	}
 
@@ -4509,7 +4509,7 @@ void gsb_file_load_sub_category_part (const gchar **attribute_names,
 								   buffer_new_div_sous_div->no_sub_div,
 								   buffer_new_div_sous_div->name);
 
-        g_print ("%s", tmp_str);
+		alert_debug (tmp_str);
 		g_free (tmp_str);
     }
 
