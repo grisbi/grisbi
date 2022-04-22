@@ -228,10 +228,12 @@ void debug_traitement_sigsegv ( gint signal_nb )
 		grisbi_win_status_bar_clear();
 
 		old_errmsg = errmsg;
+		tmp_str = g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
+								   nom_fichier_comptes );
 		errmsg = g_strconcat ( errmsg,
-							  g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
-											   nom_fichier_comptes ),
+							  tmp_str,
 							  NULL );
+		g_free(tmp_str);
 		g_free ( old_errmsg );
 		g_free (nom_fichier_comptes);
     }
