@@ -111,8 +111,11 @@ static int ofx_proc_account_cb (struct OfxAccountData data,
 
 	if (data.account_id_valid)
 	{
+		gchar *tmp_str;
 		compte_ofx_importation_en_cours->id_compte = g_convert (data.account_id, -1, "UTF-8", coding_system, NULL, NULL, NULL);
-		compte_ofx_importation_en_cours->nom_de_compte = gsb_import_unique_imported_name (g_convert (data.account_name, -1, "UTF-8", coding_system, NULL, NULL, NULL));
+		tmp_str = g_convert (data.account_name, -1, "UTF-8", coding_system, NULL, NULL, NULL);
+		compte_ofx_importation_en_cours->nom_de_compte = gsb_import_unique_imported_name (tmp_str);
+		g_free(tmp_str);
 		compte_ofx_importation_en_cours->filename = ofx_filename;
 	}
 
