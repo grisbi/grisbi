@@ -1166,6 +1166,8 @@ static void gsb_file_load_bet_hist_part (const gchar **attribute_names,
         sub_div_nb = utils_str_atoi (attribute_values[i]);
         if (sub_div_nb > 0)
         {
+			if (sub_shd)
+				bet_data_hist_struct_free(sub_shd);
             sub_shd = bet_data_hist_struct_init ();
             sub_shd->div_number = sub_div_nb;
             i++;
