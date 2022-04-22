@@ -2206,8 +2206,11 @@ AmortissementStruct *bet_finance_get_echeance_first (LoanStruct *s_loan,
 {
 	gdouble taux_periodique;
 	AmortissementStruct *s_amortissement = NULL;
+	gchar *tmp_str;
 
-	devel_debug (gsb_format_gdate (first_date));
+	tmp_str = gsb_format_gdate (first_date);
+	devel_debug (tmp_str);
+	g_free(tmp_str);
 	taux_periodique = bet_data_finance_get_taux_periodique (s_loan->annual_rate, s_loan->type_taux);
 	s_amortissement = bet_data_finance_structure_amortissement_init ();
 	if (s_loan->first_is_different)
