@@ -4371,6 +4371,7 @@ void gsb_file_load_sub_budgetary_part (const gchar **attribute_names,
 								   buffer_new_div_sous_div->name);
 
 		g_print ("%s", tmp_str);
+		g_free (tmp_str);
 	}
 
     if (buffer_new_div_sous_div->name)
@@ -4509,6 +4510,7 @@ void gsb_file_load_sub_category_part (const gchar **attribute_names,
 								   buffer_new_div_sous_div->name);
 
         g_print ("%s", tmp_str);
+		g_free (tmp_str);
     }
 
     if (buffer_new_div_sous_div->name)
