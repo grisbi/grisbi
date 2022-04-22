@@ -1299,6 +1299,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 
         if (returned_value == EOF)
         {
+			g_free(tmp_str);
             if (premier_compte)
 			{
 				if (imported->import_categories)
