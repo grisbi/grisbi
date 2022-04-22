@@ -97,6 +97,7 @@ static void gsb_file_remove_old_backup (const gchar *filename,
     GSList *iterator;
 	gchar *basename;
 	gchar *name = NULL;
+	gchar *tmp_date;
 
 	devel_debug (filename);
 
@@ -232,7 +233,9 @@ static void gsb_file_remove_old_backup (const gchar *filename,
 		return;
 	}
 
-	dialogue_message ("remove-backup-files", g_slist_length (filenames), gsb_format_gdate (first_old_date));
+	tmp_date = gsb_format_gdate (first_old_date);
+	dialogue_message ("remove-backup-files", g_slist_length (filenames), tmp_date);
+	g_free(tmp_date);
 
 	g_date_free (first_old_date);
 
