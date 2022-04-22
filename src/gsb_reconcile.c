@@ -600,6 +600,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     gint reconcile_number;
     GsbReal real;
 	gchar *tmp_str;
+	gchar *tmp_date;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -658,7 +659,9 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
         initial_date = gsb_data_reconcile_get_final_date ( reconcile_number );
         if ( g_date_compare ( initial_date, date ) >= 0 )
         {
-            tmp_str = g_strdup_printf ( _("Invalid date: '%s'"), gsb_format_gdate ( date ) );
+			tmp_date = gsb_format_gdate ( date );
+            tmp_str = g_strdup_printf ( _("Invalid date: '%s'"), tmp_date );
+			g_free(tmp_date);
             dialogue_warning_hint ( tmp_str, _("Reconciliation can't be completed.") );
             g_free ( tmp_str );
 
@@ -688,7 +691,9 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     }
 
 	label_last_statement = grisbi_win_get_label_last_statement ();
-    tmp_str = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
+	tmp_date = gsb_format_gdate (date);
+    tmp_str = g_strdup_printf ( _("Last statement: %s"), tmp_date);
+	g_free(tmp_date);
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			 tmp_str);
     g_free ( tmp_str );
