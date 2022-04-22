@@ -1038,9 +1038,15 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
     while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
 
     if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')		/* tmp_str[0] = '^' */
+	{
+		g_free(tmp_str);
         return 1;
+	}
     else if (returned_value == EOF)
+	{
+		g_free(tmp_str);
         return EOF;
+	}
     else															/* tmp_str[0] = '!' */
     {
 		g_free (last_header);
