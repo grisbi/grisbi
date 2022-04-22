@@ -1718,6 +1718,7 @@ void gsb_partial_balance_remove_from_account (gint deleted_account)
 					}
 					str_to_free_2 = partial_balance->liste_cptes;
 					partial_balance->liste_cptes = gsb_string_remplace_string (str_to_free_2, str_to_free_1, "");
+					g_free(str_to_free_1);
 					nbre_elements--;
 				}
 
