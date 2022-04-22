@@ -1183,6 +1183,12 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						tmp_list = g_slist_find_custom (liste_comptes_importes,
 														account_name,
 														(GCompareFunc) gsb_qif_name_compare);
+						if (imported_account)
+						{
+							gsb_qif_free_struct_account (imported_account);
+							imported_account = NULL;
+						}
+
 						if (tmp_list)
 						{
 							imported_account = tmp_list->data;
