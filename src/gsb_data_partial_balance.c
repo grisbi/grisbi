@@ -1660,10 +1660,10 @@ void gsb_data_partial_balance_renum_account_number_0 (gint account_number)
 					new_str = g_strjoinv (";", tab);
 					g_free (partial_balance->liste_cptes);
 					partial_balance->liste_cptes = new_str;
-					g_strfreev (tab);
 					break;
 				}
 			}
+			g_strfreev (tab);
 		}
 		tmp_list = tmp_list->next;
 	}
