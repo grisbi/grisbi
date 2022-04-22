@@ -620,6 +620,7 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 
 				name = g_strdup (tmp_str+1);
 				g_free (tmp_str);
+				tmp_str = NULL;
 
 				/* on regarde si le compte existe déjà */
 				tmp_list = g_slist_find_custom (liste_comptes_importes, name, (GCompareFunc) gsb_qif_name_compare);
@@ -647,8 +648,8 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 									imported_account->type_de_compte = type;
 							}
 						}
-						returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 						g_free (tmp_str);
+						returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 					}
 					while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
 
