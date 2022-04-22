@@ -527,18 +527,20 @@ static gboolean qif_traite_champs_n (struct ImportTransaction *imported_transact
 static gchar *gsb_qif_get_account_name (FILE *qif_file,
 										const gchar *coding_system)
 {
-    gchar *tmp_str;
+    gchar *tmp_str = NULL;
     gchar *name = NULL;
     gint returned_value = 0;
 
     do
     {
+		g_free(tmp_str);
         returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 
         if (tmp_str[0] == 'N')
             name = my_strdup (tmp_str + 1);
     }
     while (tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
+	g_free(tmp_str);
 
     return name;
 }
