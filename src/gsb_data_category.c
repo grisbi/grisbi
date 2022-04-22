@@ -1597,7 +1597,7 @@ gchar * gsb_debug_duplicate_categ_check (void)
 {
     GSList * tmp;
     gint num_duplicate = 0;
-    gchar * output = (gchar*)"";
+    gchar * output = NULL;
 
     tmp = category_list;
     while ( tmp )
@@ -1614,16 +1614,22 @@ gchar * gsb_debug_duplicate_categ_check (void)
 	    /* Second comparison is just there to find only one of them. */
 	    if ( duplicate && duplicate > tmp_sous_categ )
 	    {
-	        gchar* tmpstr1 = output;
 		gchar* tmpstr2 = g_strdup_printf (
 				_("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
 				categ -> category_name,
 				((SubCategoryStruct *) tmp_sous_categ -> data) -> sub_category_name,
 				((SubCategoryStruct *) duplicate -> data) -> sub_category_name );
-		output = g_strconcat ( tmpstr1,
+			if (output)
+			{
+				gchar *tmpstr1 = output;
+				output = g_strconcat ( tmpstr1,
 				       tmpstr2,
 				       NULL );
-		g_free ( tmpstr2 );
+				g_free ( tmpstr1 );
+				g_free ( tmpstr2 );
+			}
+			else
+				output = tmpstr2;
 		num_duplicate ++;
 	    }
 	    tmp_sous_categ = tmp_sous_categ -> next;
