@@ -227,6 +227,7 @@ static gchar *gsb_file_test_and_load_csv_file (struct ImportFile *imported)
         {
             g_print (_("Unable to read file: %s\n"), error->message);
             g_error_free (error);
+			g_free (tmp_str1);
             return FALSE;
         }
     }
