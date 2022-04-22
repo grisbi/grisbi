@@ -609,6 +609,7 @@ static gboolean bet_graph_right_button_press (GtkWidget *widget,
 
             g_free (msg);
         }
+		g_free(total_div);
     }
 
     /* return */
