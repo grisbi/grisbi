@@ -1617,8 +1617,6 @@ gboolean grisbi_win_set_window_title (gint account_number)
         if (titre && strlen (titre) > 0)
         {
             titre_grisbi = g_strconcat (titre, " - ", _("Grisbi"), NULL);
-            g_free (titre);
-
             return_value = TRUE;
         }
         else
@@ -1626,6 +1624,7 @@ gboolean grisbi_win_set_window_title (gint account_number)
             titre_grisbi = g_strconcat ("<", _("unnamed"), ">", NULL);
             return_value = FALSE;
         }
+		g_free (titre);
     }
     gtk_window_set_title (GTK_WINDOW (grisbi_app_get_active_window (NULL)), titre_grisbi);
 
