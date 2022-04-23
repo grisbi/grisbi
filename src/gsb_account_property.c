@@ -1249,10 +1249,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     }
 
     /* set bank_branch_code */
-    if ( c == 'A' )
-        c = 'B';
-    else
-        c = 'G';
+	c = 'G';
     ptr_1 = g_utf8_strchr ( model, -1, c );
     if ( ptr_1 == NULL )
         c = 'S';
