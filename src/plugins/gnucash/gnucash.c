@@ -651,7 +651,8 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   g_free(tmp_filename);
 
   /** Once parsed, the temporary file is removed as it is useless.  */
-  g_unlink ( tempname );
+  if (g_unlink ( tempname ))
+	  important_debug("Unable to remove file");
   g_free(tempname);
 
   return doc;
