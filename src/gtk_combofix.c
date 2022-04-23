@@ -1515,15 +1515,18 @@ static gboolean gtk_combofix_select_item (GtkComboFix *combofix,
     g_free (tmp_item);
 
     if (result == 0)
-        gtk_tree_model_get_iter_first (model, &iter);
-
-    gtk_tree_selection_select_iter (priv->selection, &iter);
-    path = gtk_tree_model_get_path (model, &iter);
-    if (path)
-    {
-        gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (priv->tree_view), path, NULL, FALSE, 0, 0);
-        gtk_tree_path_free (path);
-    }
+	{
+        if (gtk_tree_model_get_iter_first (model, &iter))
+		{
+			gtk_tree_selection_select_iter (priv->selection, &iter);
+			path = gtk_tree_model_get_path (model, &iter);
+			if (path)
+			{
+				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (priv->tree_view), path, NULL, FALSE, 0, 0);
+				gtk_tree_path_free (path);
+			}
+		}
+	}
 
     return FALSE;
 }
