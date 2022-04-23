@@ -1330,7 +1330,8 @@ static gboolean gsb_import_gunzip_file (gchar *filename)
     {
         GError *error = NULL;
 
-        g_unlink (filename);
+        if (g_unlink (filename))
+			important_debug("Unable to remove file");
         if (!g_file_set_contents (filename, file_content, length, &error))
         {
             gchar *tmp_str;
