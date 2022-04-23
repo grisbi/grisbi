@@ -125,7 +125,7 @@ gchar *etats_titre ( gint report_number)
     GDate *today_date;
 	gchar *tmp_titre = NULL;
 
-    titre = gsb_data_report_get_report_name (report_number);
+    titre = g_strdup(gsb_data_report_get_report_name (report_number));
     today_date = gdate_today ();
 
     if ( gsb_data_report_get_use_financial_year (report_number))
