@@ -503,6 +503,10 @@ gchar *etats_titre ( gint report_number)
 							g_date_get_year (today_date)),
 				      NULL );
 		break;
+
+		default:
+			tmp_titre = g_strdup("???");
+			break;
 	}
 		g_free(titre);
 		titre = tmp_titre;
