@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "include.h"
 #include "gsb_locale.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 static struct lconv *_locale = NULL;
@@ -325,7 +326,8 @@ void gsb_locale_init_language (const gchar *new_language)
 				{
 					language = g_strdup (tmp_language);
 				}
-				g_setenv ("LANGUAGE", language, TRUE);
+				if (!g_setenv ("LANGUAGE", language, TRUE))
+					important_debug("Unable to set LANGUAGE");
 				langue = g_strdup (language);
 				setlocale (LC_ALL, "");
 				g_free (language);
