@@ -37,6 +37,7 @@
 #include "etats_config.h"
 #include "structures.h"
 #include "etats_affiche.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -165,7 +166,8 @@ gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
 
     /* on efface le fichier s'il existe déjà */
     if ( g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) )
-        g_unlink ( filename );
+        if (g_unlink ( filename ))
+			important_debug("Unable to remove file");
 
     csv_out = utils_files_utf8_fopen ( filename, "w" );
     if ( ! csv_out )
