@@ -864,7 +864,7 @@ void gsb_file_set_backup_path (const gchar *path)
     else
         backup_path = my_strdup (path);
 
-    if (!g_file_test (path, G_FILE_TEST_EXISTS))
+    if (path && !g_file_test (path, G_FILE_TEST_EXISTS))
     {
         utils_files_create_XDG_dir ();
     }
