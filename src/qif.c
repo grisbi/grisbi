@@ -612,11 +612,7 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 			 &&
 			 returned_value != EOF
 			 &&
-			 tmp_str[0] == 'N'
-			 &&
-			 tmp_str[0] != '^'
-			 &&
-			 tmp_str[0] != '!')
+			 tmp_str[0] == 'N')
 			{
 				gchar *name;
 
@@ -976,11 +972,7 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
          &&
          returned_value != EOF
          &&
-         tmp_str[0] == 'N'
-         &&
-         tmp_str[0] != '^'
-         &&
-         tmp_str[0] != '!')
+         tmp_str[0] == 'N')
         {
             gint category_number;
             gint type_category = 1;
