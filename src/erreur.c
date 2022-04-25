@@ -413,24 +413,38 @@ void debug_message_string ( const gchar *prefixe,
     if (level <= debugging_grisbi || force_debug_display || debug_mode)
     {
         gchar* tmp_str;
+		GLogLevelFlags log_level;
 
-        /* on affiche dans la console le message */
-        if (message)
-            tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
-                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
+        if (NULL == message)
+			message = "";
+
+		tmp_str = g_strdup_printf(_("%2f : %s - %s:%d:%s - %s"),
+                        (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
-        else
-            tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s\n"),
-                        debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
-                        file, line, function);
 
         if ( debug_mode && debug_file)
         {
-            fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+			gchar *tmp_str2;
+			tmp_str2 = g_strdup_printf("%s %s\n", debug_get_debug_time (), tmp_str);
+            fwrite ( tmp_str2, sizeof (gchar), strlen ( tmp_str2 ), debug_file );
+			g_free(tmp_str2);
             fflush ( debug_file );
         }
 
-        g_print ("%s", tmp_str);
+		/* on affiche dans la console le message */
+		switch (level)
+		{
+			case DEBUG_LEVEL_ALERT:
+				log_level = G_LOG_LEVEL_CRITICAL;
+				break;
+			case DEBUG_LEVEL_IMPORTANT:
+				log_level = G_LOG_LEVEL_WARNING;
+				break;
+			default:
+				log_level = G_LOG_LEVEL_MESSAGE;
+		}
+        g_log (NULL, log_level, "%s", tmp_str);
+
         g_free ( tmp_str );
     }
 }
