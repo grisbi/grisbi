@@ -541,7 +541,7 @@ static gchar *gsb_qif_get_account_name (FILE *qif_file,
         if (tmp_str[0] == 'N')
             name = my_strdup (tmp_str + 1);
     }
-    while (tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
+    while (returned_value != EOF && tmp_str[0] != '^' && tmp_str[0] != '!');
 	g_free(tmp_str);
 
     return name;
@@ -608,9 +608,9 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 	{
 		do
 		{
-			if (tmp_str
+			if (returned_value != EOF
 			 &&
-			 returned_value != EOF
+			 tmp_str
 			 &&
 			 tmp_str[0] == 'N')
 			{
@@ -630,9 +630,9 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 					do
 					{
-						if (tmp_str
+						if (returned_value != EOF
 						 &&
-						 returned_value != EOF
+						 tmp_str
 						 &&
 						 tmp_str[0] != '^'
 						 &&
@@ -649,7 +649,7 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 						g_free (tmp_str);
 						returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 					}
-					while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
+					while (returned_value != EOF && tmp_str && tmp_str[0] != '^' && tmp_str[0] != '!');
 
 					liste_comptes_importes = g_slist_append (liste_comptes_importes, imported_account);
 				}
@@ -679,7 +679,7 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 			else
 				returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 		}
-		while (tmp_str && returned_value != EOF && tmp_str[0] != '!');
+		while (returned_value != EOF && tmp_str && tmp_str[0] != '!');
 	}
 	//~ printf ("tmp_str en fin de liste = %s returned_value= %d\n", tmp_str, returned_value);
 
@@ -739,9 +739,9 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
         returned_value = utils_files_get_utf8_line_from_file (qif_file, &string, coding_system);
 
         /* a transaction never begin with ^ and !*/
-        if (strlen (string)
-         &&
-         returned_value != EOF
+        if (returned_value != EOF
+		 &&
+		 strlen (string)
          &&
          string[0] != '^'
          &&
@@ -890,7 +890,7 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
             }
         }
     }
-    while (string[0] != '^' && returned_value != EOF && string[0] != '!');
+    while (returned_value != EOF && string[0] != '^' && string[0] != '!');
 
     /* either we are at the end of a transaction, either at the end of the file */
     /* sometimes we have ^ and EOF, so we need in that case to take the transaction */
@@ -968,9 +968,9 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
     do
     {
         /* a category never begin with ^ and !*/
-        if (tmp_str
-         &&
-         returned_value != EOF
+        if (returned_value != EOF
+		 &&
+		 tmp_str
          &&
          tmp_str[0] == 'N')
         {
@@ -984,9 +984,9 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
 
 			do
             {
-                if (tmp_str
-                 &&
-                 returned_value != EOF
+                if (returned_value != EOF
+				 &&
+				 tmp_str
                  &&
                  tmp_str[0] != '^'
                  &&
@@ -999,7 +999,7 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
                 }
 				returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
 			}
-            while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
+            while (returned_value != EOF && tmp_str && tmp_str[0] != '^' && tmp_str[0] != '!');
 
             /* get the category and create it if doesn't exist */
             if (tab_str[0])
@@ -1027,7 +1027,7 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
 
 		returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
     }
-    while (tmp_str && tmp_str[0] != '^' && returned_value != EOF && tmp_str[0] != '!');
+    while (returned_value != EOF && tmp_str && tmp_str[0] != '^' && tmp_str[0] != '!');
 
     if (returned_value != EOF  && tmp_str && tmp_str[0] != '!')		/* tmp_str[0] = '^' */
 	{
