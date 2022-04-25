@@ -520,6 +520,9 @@ gint utils_files_get_utf8_line_from_file (FILE *fichier,
     gchar *pointeur_char = NULL;
     gchar *tmp_string;
 
+	/* start with a known value */
+	*string = NULL;
+
     if (!fichier)
 	return 0;
 
