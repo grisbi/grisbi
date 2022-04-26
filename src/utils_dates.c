@@ -92,12 +92,12 @@ static const gchar *order_names[] = {
 /* save of the last date entried */
 static gchar *last_date = NULL;
 
-struct struct_last_entry_date {
+struct LastEntryDate {
     gchar *date_string;
     GDate *last_entry_date;
 };
 
-static struct struct_last_entry_date *buffer_entry_date = NULL;
+static struct LastEntryDate *buffer_entry_date = NULL;
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -375,7 +375,7 @@ gboolean gsb_date_check_and_complete_entry (GtkWidget *entry,
         tmpstr = gsb_format_gdate (date);
         gtk_entry_set_text (GTK_ENTRY (entry), tmpstr);
         if (buffer_entry_date == NULL)
-            buffer_entry_date = g_malloc0 (sizeof (struct struct_last_entry_date));
+            buffer_entry_date = g_malloc0 (sizeof (struct LastEntryDate));
         buffer_entry_date -> date_string = g_strdup (tmpstr);
         buffer_entry_date -> last_entry_date = date;
         g_free (tmpstr);
@@ -413,7 +413,7 @@ gboolean gsb_date_check_entry (GtkWidget *entry)
     else
     {
         if (buffer_entry_date == NULL)
-            buffer_entry_date = g_malloc0 (sizeof (struct struct_last_entry_date));
+            buffer_entry_date = g_malloc0 (sizeof (struct LastEntryDate));
         buffer_entry_date -> date_string = g_strdup (string);
         buffer_entry_date -> last_entry_date = date;
     }
