@@ -103,6 +103,7 @@ AC_ARG_ENABLE(debug,
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
 	AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
 	enable_debug=yes
+	CFLAGS="$CFLAGS -g"
 fi
 
 if test "x$enable_debug" = xyes; then
