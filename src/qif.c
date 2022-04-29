@@ -928,11 +928,9 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
 																	 imported_transaction);
         }
     }
-
-	if (!imported_transaction->date_tmp)
-	{
+	else
 		g_free (imported_transaction);
-	}
+
     if (returned_value != EOF  && string[0] != '!')
 	{
 		return 1;
