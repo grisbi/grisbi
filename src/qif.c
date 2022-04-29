@@ -1117,7 +1117,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
     gint returned_value = 0;
 	gboolean accounts_liste = FALSE;
 	gboolean premier_compte = TRUE;
-	gboolean no_save_account = FALSE;
+	gboolean save_account = TRUE;
     FILE *qif_file;
 
 	devel_debug (NULL);
@@ -1192,7 +1192,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						if (tmp_list)
 						{
 							imported_account = tmp_list->data;
-							no_save_account = TRUE;
+							save_account = FALSE;
 						}
 						else
 						{
@@ -1268,7 +1268,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 							/* create and fill the new account */
 							imported_account = gsb_qif_init_struct_account (_("Imported QIF account"), imported->name);
 							premier_compte = FALSE;
-							no_save_account = FALSE;
+							save_account = TRUE;
 						}
 
 						if (account_type == 6)
@@ -1419,7 +1419,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 				imported_account->date_fin = gsb_qif_get_date (imported_account->date_solde_qif, order);
 
 			/* add that account to the others */
-			if (!no_save_account)
+			if (save_account)
 				liste_comptes_importes = g_slist_append (liste_comptes_importes, imported_account);
 		}
 		else
