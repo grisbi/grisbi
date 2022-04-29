@@ -260,6 +260,7 @@ gchar *etats_titre ( gint report_number)
 	gsize rc;
 	GDate *date_tmp;
 	gchar *date_str1, *date_str2;
+	gchar *tmp_str;
 
 	switch ( gsb_data_report_get_date_type (report_number))
 	{
@@ -279,8 +280,6 @@ gchar *etats_titre ( gint report_number)
 		     &&
 		     gsb_data_report_get_personal_date_end (report_number))
 		{
-			gchar *tmp_str;
-
 			date_str1 = gsb_format_gdate ( gsb_data_report_get_personal_date_start (report_number));
 			date_str2 = gsb_format_gdate ( gsb_data_report_get_personal_date_end (report_number));
 			tmp_str = g_strdup_printf ( _("Result from %s to %s"),
@@ -303,11 +302,11 @@ gchar *etats_titre ( gint report_number)
 		/* cumul à ce jour */
 
 		date_str1 = gsb_format_gdate (today_date);
+		tmp_str = g_strdup_printf ( _("total at %s"),
+								   date_str1);
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("total at %s"),
-							date_str1),
-				      NULL );
+				      ", ", tmp_str, NULL );
+		g_free(tmp_str);
 		g_free(date_str1);
 		break;
 
@@ -321,32 +320,33 @@ gchar *etats_titre ( gint report_number)
 		if (rc == 0)
 		    strcpy(buffer_date, "???");
 
+		tmp_str = g_strdup_printf ( _("%s %d"),
+								   buffer_date,
+								   g_date_get_year (today_date));
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("%s %d"),
-							buffer_date,
-							g_date_get_year (today_date)),
-				      NULL );
+				      ", ", tmp_str, NULL );
+		g_free(tmp_str);
 		break;
 
 	    case 4:
 		/* année en cours */
 
+		tmp_str = g_strdup_printf ( _("year %d"),
+								   g_date_get_year (today_date));
 		tmp_titre = g_strconcat ( titre,
-				      ", ", g_strdup_printf ( _("year %d"),
-							      g_date_get_year (today_date)),
-				      NULL );
+				      ", ", tmp_str, NULL );
+		g_free(tmp_str);
 		break;
 
 	    case 5:
 		/* cumul mensuel */
 
 		date_str1 = gsb_format_gdate (today_date);
+		tmp_str = g_strdup_printf ( _("month total at %s"),
+								   date_str1);
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("month total at %s"),
-							date_str1),
-				      NULL );
+				      ", ", tmp_str, NULL );
+		g_free(tmp_str);
 		g_free(date_str1);
 		break;
 
@@ -354,11 +354,11 @@ gchar *etats_titre ( gint report_number)
 		/* cumul annuel */
 
 		date_str1 = gsb_format_gdate (today_date);
+		tmp_str = g_strdup_printf ( _("year total at %s"),
+								   date_str1);
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("year total at %s"),
-							date_str1),
-				      NULL );
+				      ", ", tmp_str, NULL );
+		g_free(tmp_str);
 		g_free(date_str1);
 		break;
 
@@ -374,21 +374,22 @@ gchar *etats_titre ( gint report_number)
 		if (rc == 0)
 		    strcpy(buffer_date, "???");
 
+		tmp_str = g_strdup_printf ( _("%s %d"),
+								   buffer_date,
+								   g_date_get_year (today_date));
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("%s %d"),
-							buffer_date,
-							g_date_get_year (today_date)),
-				      NULL );
+				      ", ", tmp_str, NULL );
+		g_free(tmp_str);
 		break;
 
 	    case 8:
 		/* année précédente */
 
+		tmp_str = g_strdup_printf ( _("year %d"),
+								   g_date_get_year (today_date) - 1);
 		tmp_titre = g_strconcat ( titre,
-				      ", ", g_strdup_printf ( _("year %d"),
-							      g_date_get_year (today_date) - 1),
-				      NULL );
+				      ", ", tmp_str, NULL );
+		g_free(tmp_str);
 		break;
 
 	    case 9:
@@ -401,11 +402,11 @@ gchar *etats_titre ( gint report_number)
 
 		date_str1 = gsb_format_gdate ( date_tmp );
 		date_str2 = gsb_format_gdate (today_date);
+		tmp_str = g_strdup_printf ( _("Result from %s to %s"),
+								   date_str1, date_str2);
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("Result from %s to %s"),
-							date_str1, date_str2),
-				      NULL );
+				      ", ", tmp_str, NULL );
+		g_free(tmp_str);
 		g_free(date_str1);
 		g_free(date_str2);
 		break;
