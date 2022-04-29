@@ -260,7 +260,7 @@ gchar *etats_titre ( gint report_number)
 	gsize rc;
 	GDate *date_tmp;
 	gchar *date_str1, *date_str2;
-	gchar *tmp_str;
+	gchar *tmp_str, *tmp_str2;
 
 	switch ( gsb_data_report_get_date_type (report_number))
 	{
@@ -430,16 +430,16 @@ gchar *etats_titre ( gint report_number)
 		if (rc == 0)
 		    strcpy(buffer_date, "???");
 
+		tmp_str = g_strdup_printf ( _("from %s %d"),
+								   buffer_date_2,
+								   g_date_get_year ( date_tmp ));
+		tmp_str2 = g_strdup_printf ( _("to %s %d"),
+									buffer_date,
+									g_date_get_year (today_date));
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("from %s %d"),
-							buffer_date_2,
-							g_date_get_year ( date_tmp )),
-				      " ",
-				      g_strdup_printf ( _("to %s %d"),
-							buffer_date,
-							g_date_get_year (today_date)),
-				      NULL );
+				      ", ", tmp_str, " ", tmp_str2, NULL );
+		g_free(tmp_str);
+		g_free(tmp_str2);
 		break;
 
 	    case 11:
@@ -462,16 +462,16 @@ gchar *etats_titre ( gint report_number)
 		    strcpy(buffer_date, "???");
 
 
+		tmp_str = g_strdup_printf ( _("from %s %d"),
+								   buffer_date_2,
+								   g_date_get_year ( date_tmp ));
+		tmp_str2 = g_strdup_printf ( _("to %s %d"),
+									buffer_date,
+									g_date_get_year (today_date));
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("from %s %d"),
-							buffer_date_2,
-							g_date_get_year ( date_tmp )),
-				      " ",
-				      g_strdup_printf ( _("to %s %d"),
-							buffer_date,
-							g_date_get_year (today_date)),
-				      NULL );
+				      ", ", tmp_str, " ", tmp_str2, NULL );
+		g_free(tmp_str);
+		g_free(tmp_str2);
 		break;
 
 	    case 12:
@@ -493,16 +493,16 @@ gchar *etats_titre ( gint report_number)
 		if (rc == 0)
 		    strcpy(buffer_date, "???");
 
+		tmp_str = g_strdup_printf ( _("from %s %d"),
+								   buffer_date_2,
+								   g_date_get_year ( date_tmp ));
+		tmp_str2 = g_strdup_printf ( _("to %s %d"),
+									buffer_date,
+									g_date_get_year (today_date));
 		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      g_strdup_printf ( _("from %s %d"),
-							buffer_date_2,
-							g_date_get_year ( date_tmp )),
-				      " ",
-				      g_strdup_printf ( _("to %s %d"),
-							buffer_date,
-							g_date_get_year (today_date)),
-				      NULL );
+				      ", ", tmp_str, " ", tmp_str2, NULL );
+		g_free(tmp_str);
+		g_free(tmp_str2);
 		break;
 
 		default:
