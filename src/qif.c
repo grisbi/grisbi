@@ -1161,8 +1161,11 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						accounts_liste = TRUE;
 						if (premier_compte)
 						{
-							gsb_qif_free_struct_account (imported_account);
-							imported_account = NULL;
+							if (save_account)
+							{
+								gsb_qif_free_struct_account (imported_account);
+								imported_account = NULL;
+							}
 							premier_compte = FALSE;
 							tmp_str = last_header;
 						}
@@ -1183,7 +1186,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						tmp_list = g_slist_find_custom (liste_comptes_importes,
 														account_name,
 														(GCompareFunc) gsb_qif_name_compare);
-						if (imported_account)
+						if (imported_account && save_account)
 						{
 							gsb_qif_free_struct_account (imported_account);
 							imported_account = NULL;
@@ -1204,12 +1207,8 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 					{
 						/* create and fill the new account */
 						if (premier_compte)
-						{
-							gsb_qif_free_struct_account (imported_account);
-							imported_account = NULL;
 							premier_compte = FALSE;
-						}
-						else if (name_preced)
+						if (save_account)
 							gsb_qif_free_struct_account (imported_account);
 						imported_account = gsb_qif_init_struct_account (account_name, imported->name);
 
@@ -1259,11 +1258,8 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 					{
 						if (name_preced == FALSE)
 						{
-							if (premier_compte)
-							{
+							if (save_account)
 								gsb_qif_free_struct_account (imported_account);
-								imported_account = NULL;
-							}
 
 							/* create and fill the new account */
 							imported_account = gsb_qif_init_struct_account (_("Imported QIF account"), imported->name);
@@ -1312,7 +1308,8 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 				if (imported->import_categories)
 				{
 					/* On a juste importé un fichier de catégories */
-					gsb_qif_free_struct_account (imported_account);
+					if (save_account)
+						gsb_qif_free_struct_account (imported_account);
 					fclose (qif_file);
 
 					return TRUE;
@@ -1330,7 +1327,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
             else
             {
                 /* we have at least saved an account before, ok, enough for me */
-				if (imported_account)
+				if (imported_account && save_account)
 					gsb_qif_free_struct_account (imported_account);
                 fclose (qif_file);
 
