@@ -1156,6 +1156,8 @@ static gulong gsb_file_save_import_rule_part (gulong iterator,
 					tmp_list = tmp_list->next;
 				}
 			}
+			else
+				g_free(new_string);
 		}
 		else
 		{
