@@ -1200,7 +1200,6 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						else
 						{
 							imported_account = gsb_qif_init_struct_account (account_name, imported->name);
-							g_free (account_name);
 						}
 					}
 					else
@@ -1211,9 +1210,8 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
 						if (save_account)
 							gsb_qif_free_struct_account (imported_account);
 						imported_account = gsb_qif_init_struct_account (account_name, imported->name);
-
-						g_free (account_name);
 					}
+					g_free (account_name);
 					name_preced = TRUE;
 					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, imported->coding_system);
 				}
