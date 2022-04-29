@@ -343,7 +343,8 @@ void gsb_locale_init_language (const gchar *new_language)
 		return;
 
 	/* set LANGUAGE for gtk3 */
-	g_setenv ("LANGUAGE", language, TRUE);
+	if (!g_setenv ("LANGUAGE", language, TRUE))
+		important_debug("g_setenv(LANGUAGE) failed");
 	/* set LANG for devise and numbers */
 	if (2 == strlen(language))
 	{
