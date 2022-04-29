@@ -389,14 +389,20 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	if ( account )
 		account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
 	else
+	{
 		gsb_import_free_transaction (transaction);
+		transaction = NULL;
+	}
 
 	/** Splits of transactions are handled the same way, we process
 	  them if we find more than one split in transaction node. */
 	if ( g_slist_length ( split_list ) > 1 )
 	{
-		transaction -> operation_ventilee = 1;
-		transaction -> montant = total;
+		if (transaction)
+		{
+			transaction -> operation_ventilee = 1;
+			transaction -> montant = total;
+		}
 
 		while ( split_list )
 		{
