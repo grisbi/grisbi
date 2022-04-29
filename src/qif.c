@@ -938,7 +938,10 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
 		return 1;
 	}
     else if (returned_value == EOF)
+	{
+		g_free(string);
         return EOF;
+	}
     else													/* string[0] = '!' */
     {
 		g_free (last_header);
