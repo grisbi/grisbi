@@ -356,7 +356,8 @@ void gsb_locale_init_language (const gchar *new_language)
 	else
 		/* language should already be in the form "en_GB" */
 		tmp_str = g_strconcat (language, ".UTF-8", NULL);
-	g_setenv ("LANG", tmp_str, TRUE);
+	if (!g_setenv ("LANG", tmp_str, TRUE))
+		important_debug("g_setenv(LANG) failed");
 	g_free (tmp_str);
 	langue = g_strdup (language);
 	g_free (language);
