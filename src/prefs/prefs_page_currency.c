@@ -557,6 +557,7 @@ static void prefs_page_currency_button_remove_clicked (GtkWidget *button,
 		{
 			tmp_str1 = g_strdup (_("There is a link between this currency and another currency.\n"
 										  "Please delete this link first."));
+			g_free(tmp_str2);
 			tmp_str2 = g_strdup_printf (_("Impossible to remove currency '%s'"),
 										gsb_data_currency_get_name (currency_number));
 		}
