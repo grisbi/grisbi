@@ -288,6 +288,7 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
 
                 else if (!strcmp (attribute_names[i], "Bet_capital"))
                 {
+					bet_data_loan_struct_loan_free(s_loan);
  					s_loan = bet_data_loan_struct_loan_init ();
 					s_loan->capital = g_ascii_strtod (attribute_values[i], NULL);
 					s_loan->capital_du = s_loan->capital;
