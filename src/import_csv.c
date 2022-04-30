@@ -170,7 +170,7 @@ static void csv_import_free_lines_tab (GArray *lines_tab)
  **/
 static gchar *gsb_file_test_and_load_csv_file (struct ImportFile *imported)
 {
-	gchar* tmp_str1;
+	gchar* tmp_str1 = NULL;
     gchar *contents;
     gsize size;
     gsize bytes_written;
@@ -190,6 +190,7 @@ static gchar *gsb_file_test_and_load_csv_file (struct ImportFile *imported)
 	{
 		gchar *tmp_str2;
 
+		g_free(tmp_str1);
 		tmp_str2 = g_path_get_basename (imported->name);
 		tmp_str1 = g_strdup_printf ( _("The file %s is empty. Please choose another file."), tmp_str2);
         dialogue_warning_hint (tmp_str1, _("File empty."));
