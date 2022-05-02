@@ -82,12 +82,14 @@ extern GSList *liste_comptes_importes_error;
  **/
 static void gsb_qif_free_struct_account (struct ImportAccount *imported_account)
 {
-    g_free (imported_account->origine);
-	g_free (imported_account->real_filename);
-	g_free (imported_account->filename);
-	g_free (imported_account->nom_de_compte);
-
-	g_free (imported_account);
+	if (imported_account)
+	{
+		g_free (imported_account->origine);
+		g_free (imported_account->real_filename);
+		g_free (imported_account->filename);
+		g_free (imported_account->nom_de_compte);
+		g_free (imported_account);
+	}
 }
 
 /**
