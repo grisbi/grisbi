@@ -54,6 +54,9 @@ then
 else
 	# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
 	CFLAGS+=" -Wno-deprecated-declarations"
+
+	# runs the standard link-time optimizer
+	CFLAGS+=" -flto=auto"
 fi
 
 # enable goffice
