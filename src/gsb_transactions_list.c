@@ -889,7 +889,7 @@ static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tre
 														  gint *column_ptr)
 {
     GtkSortType sort_type = -1;
-    gint current_column;
+    gint current_column = -1;
     gint account_number;
     gint new_column;
     GSList *tmp_list;
