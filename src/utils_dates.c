@@ -844,6 +844,7 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
     gchar *date_wrong[ORDER_MAX];
 	gint num_col_date = -1;
 	gint nbre_dates_OK = 0;
+	gboolean col_date_present = FALSE;
 
 	devel_debug_int (index);
 	mismatch_dates = TRUE;
@@ -864,6 +865,15 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 				tmp_str = g_slist_nth_data (list, i);
 			else
 				tmp_str = g_slist_nth_data (list, num_col_date);
+
+			if (!col_date_present && tmp_str && g_ascii_strcasecmp (tmp_str, "date") == 0)
+			{
+				num_col_date = i;
+				col_date_present = TRUE;
+				g_free (tmp_str);
+
+				break;
+			}
 
 			array = gsb_date_get_date_content (tmp_str);
 			if (array)
@@ -907,63 +917,122 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 					year = atoi (array[1]);
 					break;
 				}
-				if (g_date_valid_dmy (day, month, year))
+
+				if (col_date_present)
 				{
-					/* the date is valid, go to the next date */
-					num_col_date = i;
-					if (day > 12)
-						nbre_dates_OK ++;
-					g_strfreev (array);
-					break;
+					if (i == num_col_date)
+					{
+						if (g_date_valid_dmy (day, month, year))
+						{
+							/* the date is valid, go to the next date */
+							if (day > 12)
+								nbre_dates_OK ++;
+							g_strfreev (array);
+							break;
+						}
+						else
+						{
+							/* the date is not valid, change the order or go away */
+							date_wrong[order] = (gchar*) list->data;
+							order++;
+
+							if (order < ORDER_MAX)
+							{
+								/* we try again with the new order */
+								nbre_dates_OK = 0;
+								g_strfreev (array);
+								break;
+							}
+							else
+							{
+								/* the order was already changed for all the formats, we show the problem and leave */
+								gint j;
+								gchar *string;
+
+								string = g_strdup (_("The order cannot be determined,\n"));
+
+								for (j = 0; j < ORDER_MAX; j++)
+								{
+									gchar *tmp_str2;
+
+									tmp_str2 = g_strconcat (string,
+														   _("Date wrong for the order "),
+														   order_names[j], " : ",
+														   date_wrong[j], "\n", NULL);
+									g_free (string);
+									string = tmp_str2;
+								}
+
+								dialogue_error (string);
+								g_free (string);
+								g_strfreev (array);
+								import_format = NULL;
+								g_free (tmp_str);
+
+								return;
+							}
+						}
+						break;
+					}
 				}
 				else
 				{
-					/* the date is not valid, change the order or go away */
-					date_wrong[order] = (gchar*) list->data;
-					order++;
-
-					if (order < ORDER_MAX)
+					if (g_date_valid_dmy (day, month, year))
 					{
-						/* we try again with the new order */
-						nbre_dates_OK = 0;
+						/* the date is valid, go to the next date */
+						num_col_date = i;
+						if (day > 12)
+							nbre_dates_OK ++;
 						g_strfreev (array);
 						break;
 					}
 					else
 					{
-						/* the order was already changed for all the formats, we show the problem and leave */
-						gint j;
-						gchar *string;
+						/* the date is not valid, change the order or go away */
+						date_wrong[order] = (gchar*) list->data;
+						order++;
 
-						string = g_strdup (_("The order cannot be determined,\n"));
-
-						for (j = 0; j < ORDER_MAX; j++)
+						if (order < ORDER_MAX)
 						{
-							gchar *tmp_str2;
-
-							tmp_str2 = g_strconcat (string,
-												   _("Date wrong for the order "),
-												   order_names[j], " : ",
-												   date_wrong[j], "\n", NULL);
-							g_free (string);
-							string = tmp_str2;
+							/* we try again with the new order */
+							nbre_dates_OK = 0;
+							g_strfreev (array);
+							break;
 						}
+						else
+						{
+							/* the order was already changed for all the formats, we show the problem and leave */
+							gint j;
+							gchar *string;
 
-						dialogue_error (string);
-						g_free (string);
-						g_strfreev (array);
-						import_format = NULL;
+							string = g_strdup (_("The order cannot be determined,\n"));
 
-						return;
+							for (j = 0; j < ORDER_MAX; j++)
+							{
+								gchar *tmp_str2;
+
+								tmp_str2 = g_strconcat (string,
+													   _("Date wrong for the order "),
+													   order_names[j], " : ",
+													   date_wrong[j], "\n", NULL);
+								g_free (string);
+								string = tmp_str2;
+							}
+
+							dialogue_error (string);
+							g_free (string);
+							g_strfreev (array);
+							import_format = NULL;
+							g_free (tmp_str);
+
+							return;
+						}
 					}
 				}
-			}
-			else
-			{
-				if (num_col_date >= 0)
-					num_col_date = -1;
+				g_free (tmp_str);
 			}
 		}
+
 		index++;
 		list = g_array_index (lines_tab, GSList *, index);
 	}
