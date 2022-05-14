@@ -37,6 +37,8 @@ CFLAGS+=" -Wmissing-noreturn"
 # warnings disabled on purpose
 CFLAGS+=" -Wno-unused-parameter"
 
+CFLAGS+=" -O2"
+
 configure_args=""
 
 # fail on warning
