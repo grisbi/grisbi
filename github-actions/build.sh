@@ -1,6 +1,6 @@
 #!/bin/bash
 
-env
+# env
 
 # Warnings enabled
 CFLAGS=""
