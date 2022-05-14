@@ -38,6 +38,7 @@ CFLAGS+=" -Wmissing-noreturn"
 CFLAGS+=" -Wno-unused-parameter"
 
 CFLAGS+=" -O2"
+CFLAGS+=" -D_FORTIFY_SOURCE=2"
 
 configure_args=""
 
