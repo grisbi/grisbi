@@ -888,7 +888,7 @@ static gint gsb_transactions_list_get_valid_element_sort (gint account_number,
 static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tree_view_column,
 														  gint *column_ptr)
 {
-    GtkSortType sort_type;
+    GtkSortType sort_type = -1;
     gint current_column;
     gint account_number;
     gint new_column;
