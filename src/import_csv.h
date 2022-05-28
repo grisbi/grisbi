@@ -8,6 +8,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+gboolean 		csv_import_change_separator			(GtkEntry *entry,
+													 GtkWidget *assistant);
 gboolean 		csv_import_csv_account 				(GtkWidget *assistant,
 													 struct ImportFile *imported);
 gboolean		csv_import_file_by_rule				(gint rule,

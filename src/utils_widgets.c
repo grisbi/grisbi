@@ -37,13 +37,16 @@
 #include "bet_hist.h"
 #include "grisbi_win.h"
 #include "gsb_account.h"
+#include "gsb_combo_box.h"
 #include "gsb_data_account.h"
 #include "gsb_file.h"
 #include "gsb_fyear.h"
+#include "import_csv.h"
 #include "navigation.h"
 #include "prefs_page_bet_account.h"
 #include "structures.h"
 #include "utils.h"
+#include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -51,7 +54,15 @@
 
 /*START_STATIC*/
 static const gchar* bet_duration_array[] = {N_("Month"), N_("Year"), NULL};
-
+static const gchar *import_format_date[] = {
+	N_("dd/mm/yyyy"),
+	N_("mm/dd/yyyy"),
+	N_("yyyy/mm/dd"),
+	N_("yyyy/dd/mm"),
+	N_("dd/yyyy/mm"),
+	N_("mm/yyyy/dd"),
+	NULL
+};
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -128,10 +139,81 @@ static gboolean utils_widget_origin_data_clicked (GtkWidget *togglebutton,
 	return FALSE;
 }
 
+/* IMPORT CSV_OPTIONS WIDGET */
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void utils_widget_import_csv_options_combo_changed (GtkComboBox *combo,
+														   gpointer null)
+{
+	gint order = 0;
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	order = gtk_combo_box_get_active (combo);
+	w_run->import_format_order = order;
+
+	g_free (w_run->import_format_date);
+	switch (order)
+	{
+		case 0:
+			w_run->import_format_date = g_strdup ("%d/%m/%Y");
+			break;
+		case 1:
+			w_run->import_format_date = g_strdup ("%m/%d/%Y");
+			break;
+		case 2:
+			w_run->import_format_date = g_strdup ("%Y/%m/%d");
+			break;
+		case 3:
+			w_run->import_format_date = g_strdup ("%Y/%d/%m");
+			break;
+		case 4:
+			w_run->import_format_date = g_strdup ("%d/%Y/%m");
+			break;
+		case 5:
+			w_run->import_format_date = g_strdup ("%m/%Y/%d");
+			break;
+	}
+
+}
+
+/**
+ * callback pour forcer le chox du format de la date
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void utils_widget_import_csv_options_toggled (GtkToggleButton *togglebutton,
+													 GtkWidget *assistant)
+{
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->import_force_date = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (togglebutton));
+	if (w_run->import_format_date == NULL)
+	{
+		GtkWidget *combo;
+
+		combo = g_object_get_data (G_OBJECT (assistant), "combo-format-date");
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
+		w_run->import_format_order = 0;
+		w_run->import_format_date = g_strdup ("%d/%m/%Y");
+	}
+}
+
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
-/*COMMON_FUNCTIONS*//**
+/*COMMON_FUNCTIONS*/
+/**
  * fixes error [-Werror=cast-function-type]
  *
  * \param
@@ -466,6 +548,126 @@ void utils_widget_origin_fyear_clicked (GtkWidget *combo,
 
     gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
     bet_data_update_bet_module (account_number, -1);
+}
+
+
+/* IMPORT CSV_OPTIONS WIDGET */
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void utils_widget_import_csv_options_widget_new (GtkWidget *parent,
+												 gboolean fill,
+												 GtkWidget *assistant)
+{
+	GtkWidget *grid;
+	GtkWidget *label;
+	GtkWidget *hbox_sep;
+	GtkWidget *check_button;
+	GtkWidget *check_button_label;
+	GtkWidget *combo_format_date;
+	GtkWidget *hbox_format_date;
+	GtkSizeGroup *size_group;
+	gchar *title;
+	gchar* tmp_str;
+
+	/* set hbox options for csv separator and force dates data */
+	grid = gtk_grid_new ();
+	gtk_grid_set_column_spacing (GTK_GRID (grid), MARGIN_BOX);
+	gtk_grid_set_row_spacing (GTK_GRID (grid), MARGIN_BOX);
+	gtk_box_pack_start (GTK_BOX (parent), grid, FALSE, FALSE, 0);
+
+    /* on crée le size_group pour l'alignement des hbox */
+    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+
+	/* set choose csv separators */
+    label = gtk_label_new (NULL);
+    utils_labels_set_alignment (GTK_LABEL (label), 0, 1);
+	gtk_widget_set_margin_start (label, MARGIN_BOX);
+	title = g_strdup (_("Choose CSV separator"));
+    tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);
+    gtk_label_set_markup (GTK_LABEL (label), tmp_str);
+	g_free (title);
+    g_free(tmp_str);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 2 , 1);
+
+	label = gtk_label_new ("    ");
+    gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1 , 1);
+
+	hbox_sep = utils_widget_csv_separators_new (NULL,
+												G_CALLBACK (csv_import_change_separator),
+												assistant);
+	gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), hbox_sep);
+    gtk_grid_attach (GTK_GRID (grid), hbox_sep, 1, 1, 1 , 1);
+
+	/* set force date option */
+	/* set check button */
+	title = g_strdup (_("Force date format"));
+	tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title);
+	check_button = gtk_check_button_new_with_label (tmp_str);
+	check_button_label = gtk_bin_get_child (GTK_BIN (check_button));
+	gtk_label_set_markup (GTK_LABEL (check_button_label), tmp_str);
+	g_free (title);
+    g_free(tmp_str);
+	gtk_grid_attach (GTK_GRID (grid), check_button, 2, 0, 2 , 1);
+
+	label = gtk_label_new ("    ");
+    gtk_grid_attach (GTK_GRID (grid), label, 2, 1, 1 , 1);
+
+	/* set hbox date format */
+	hbox_format_date = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+	gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), hbox_format_date);
+	gtk_widget_set_sensitive (hbox_format_date, FALSE);
+	gtk_grid_attach (GTK_GRID (grid), hbox_format_date, 3, 1, 1 , 1);
+
+	/* set label */
+	label = gtk_label_new ("Select new date format : ");
+	gtk_box_pack_start (GTK_BOX (hbox_format_date), label, TRUE, TRUE, 0);
+
+	/* set combo date format */
+	combo_format_date = gsb_combo_box_new_with_index (import_format_date, NULL, NULL);
+	g_object_set_data (G_OBJECT (assistant), "combo-format-date", combo_format_date);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combo_format_date), 0);
+    gtk_box_pack_start (GTK_BOX (hbox_format_date), combo_format_date, TRUE, TRUE, 0);
+
+	/* set signals */
+	g_signal_connect (G_OBJECT (check_button),
+                      "toggled",
+                      G_CALLBACK (utils_buttons_sensitive_by_checkbutton),
+                      hbox_format_date);
+
+	g_signal_connect_after (G_OBJECT (check_button),
+						    "toggled",
+						    G_CALLBACK (utils_widget_import_csv_options_toggled),
+						    assistant);
+	g_signal_connect (G_OBJECT (combo_format_date),
+                      "changed",
+                      G_CALLBACK (utils_widget_import_csv_options_combo_changed),
+                      NULL);
+
+	gtk_widget_show_all (grid);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void utils_widget_import_csv_options_set_combo_order (GtkWidget *assistant,
+													  gint import_format_order)
+{
+	GtkWidget *combo;
+
+	combo = g_object_get_data (G_OBJECT (assistant), "combo-format-date");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combo), import_format_order);
 }
 
 /**

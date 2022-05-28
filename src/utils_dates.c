@@ -74,9 +74,6 @@ static const gchar *months[] = {
     "Sep", "Oct", "Nov", "Dec"
 };
 
-/* format pour les dates */
-static gchar *import_format = NULL;
-
 /* test des dates des fichiers csv */
 static gboolean mismatch_dates = TRUE;
 
@@ -833,6 +830,7 @@ GDate *gsb_date_get_first_day_of_current_month (void)
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
@@ -842,11 +840,14 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 	GSList *list;
     gint order = 0;
     gchar *date_wrong[ORDER_MAX];
+	gchar *import_format = NULL;
 	gint num_col_date = -1;
 	gint nbre_dates_OK = 0;
 	gboolean col_date_present = FALSE;
+	GrisbiWinRun *w_run;
 
 	devel_debug_int (index);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	mismatch_dates = TRUE;
 	list = g_array_index (lines_tab, GSList *, index);
     do
@@ -956,9 +957,9 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 									gchar *tmp_str2;
 
 									tmp_str2 = g_strconcat (string,
-														   _("Date wrong for the order "),
-														   order_names[j], " : ",
-														   date_wrong[j], "\n", NULL);
+															_("Date wrong for the order "),
+															order_names[j], " : ",
+															date_wrong[j], "\n", NULL);
 									g_free (string);
 									string = tmp_str2;
 								}
@@ -1002,8 +1003,8 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 						else
 						{
 							/* the order was already changed for all the formats, we show the problem and leave */
-							gint j;
 							gchar *string;
+							gint j;
 
 							string = g_strdup (_("The order cannot be determined,\n"));
 
@@ -1012,9 +1013,9 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 								gchar *tmp_str2;
 
 								tmp_str2 = g_strconcat (string,
-													   _("Date wrong for the order "),
-													   order_names[j], " : ",
-													   date_wrong[j], "\n", NULL);
+														_("Date wrong for the order "),
+														order_names[j], " : ",
+														date_wrong[j], "\n", NULL);
 								g_free (string);
 								string = tmp_str2;
 							}
@@ -1038,34 +1039,53 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 	}
     while (list && nbre_dates_OK < 3);
 
+	if (nbre_dates_OK < 3)
+	{
+		/* the order was already changed for all the formats, we show the problem and leave */
+		gchar *tmp_str;
+
+		tmp_str = g_strdup (_("Grisbi could not determine the format of the dates.\n\n"
+							  "Please force it!"));
+
+		dialogue_warning_hint (tmp_str, _("The dates format is indeterminate"));
+		g_free (tmp_str);
+	}
+
+	/* set format date */
 	switch (order)
 	{
 		case 0:
 			import_format = g_strdup ("%d/%m/%Y");
-			return;
 			break;
 		case 1:
 			import_format = g_strdup ("%m/%d/%Y");
-			return;
 			break;
 		case 2:
 			import_format = g_strdup ("%Y/%m/%d");
-			return;
 			break;
 		case 3:
 			import_format = g_strdup ("%Y/%d/%m");
-			return;
 			break;
 		case 4:
 			import_format = g_strdup ("%d/%Y/%m");
-			return;
 			break;
 		case 5:
 			import_format = g_strdup ("%m/%Y/%d");
-			return;
 			break;
 	}
-	import_format = NULL;
+	if (import_format)
+	{
+		w_run->import_format_order = order;
+		g_free (w_run->import_format_date);
+		w_run->import_format_date = import_format;
+	}
+	else
+	{
+		w_run->import_format_order = 0;
+		g_free (w_run->import_format_date);
+		w_run->import_format_date = g_strdup ("%d/%m/%Y");
+		import_format = NULL;
+	}
 }
 
 /**
@@ -1084,29 +1104,31 @@ GDate *gsb_parse_import_date_string (const gchar *date_string)
 	gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
 	const gchar *regex_str;
+	GrisbiWinRun *w_run;
 
 	//~ devel_debug (date_string);
 	if (!date_string || !strlen (date_string))
 		return NULL;
 
-	if (!import_format)
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	if (!w_run->import_format_date)
 		return NULL;
 
 	/* set the local pattern */
 	regex_str = DATE_STRING_REGEX;
 
     /* récupère le format des champs date */
-	if (g_strrstr_len (import_format, 4, "/%"))
-		date_tokens = g_strsplit (import_format + 1, "/%", 3);
-	if (g_strrstr_len (import_format, 4, ".%"))
+	if (g_strrstr_len (w_run->import_format_date, 4, "/%"))
+		date_tokens = g_strsplit (w_run->import_format_date + 1, "/%", 3);
+	if (g_strrstr_len (w_run->import_format_date, 4, ".%"))
 	{
 		g_strfreev (date_tokens);
-		date_tokens = g_strsplit (import_format + 1, ".%", 3);
+		date_tokens = g_strsplit (w_run->import_format_date + 1, ".%", 3);
 	}
-	if (g_strrstr_len (import_format, 4, "-%"))
+	if (g_strrstr_len (w_run->import_format_date, 4, "-%"))
 	{
 		g_strfreev (date_tokens);
-        date_tokens = g_strsplit (import_format + 1, "-%", 3);
+        date_tokens = g_strsplit (w_run->import_format_date + 1, "-%", 3);
 		/* set the ISO-8601 pattern */
 		regex_str = DATE_ISO8601_REGEX;
 	}

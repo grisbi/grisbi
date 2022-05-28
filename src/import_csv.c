@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2003 Cédric Auger  (cedric@grisbi.org)           */
 /*          2004-2006 Benjamin Drieu (bdrieu@april.org)                       */
 /*                      2008-2018 Pierre Biava (grisbi@pierre.biava.name)     */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -34,6 +34,7 @@
 #include "csv_parse.h"
 #include "csv_template_rule.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_automem.h"
 #include "gsb_data_import_rule.h"
 #include "import.h"
@@ -42,6 +43,7 @@
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "utils_widgets.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -95,10 +97,6 @@ struct CsvField csv_fields[18] = {
 	{ N_("Split"),	    		0.0, csv_import_validate_string, csv_import_parse_split, 		"" },				/* 16 */
 	{ NULL, 0.0, NULL, NULL, NULL },
 };
-
-
-
-
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -1235,8 +1233,10 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
     GtkTreeView *tree_preview;
     GSList *list;
     gint line = 0;
+	GrisbiWinRun *w_run;
 
 	devel_debug (NULL);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     separator = g_object_get_data (G_OBJECT(assistant), "separator");
     tree_preview = g_object_get_data (G_OBJECT(assistant), "tree_preview");
 	lines_tab = g_object_get_data (G_OBJECT(assistant), "lines-tab");
@@ -1268,10 +1268,9 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
 
         list = g_array_index (lines_tab, GSList *, line);
 
-        if (!list)
+        if (!list)	/* le nombre de lignes est < CSV_MAX_TOP_LINES, on sort */
         {
-			csv_import_update_validity_check (assistant);
-            return FALSE;
+			break;
         }
 
         gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
@@ -1280,16 +1279,13 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
 			gchar *tmp_str;
 
 			tmp_str = gsb_string_truncate (list->data);
-            gtk_tree_store_set (GTK_TREE_STORE (model),
-								&iter,
-								col, tmp_str,
-								-1);
+            gtk_tree_store_set (GTK_TREE_STORE (model), &iter, col, tmp_str, -1);
 			g_free (tmp_str);
             col++;
             list = list->next;
         }
 
-        if (etat.csv_skipped_lines [line])
+		if (etat.csv_skipped_lines [line])
         {
             gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, TRUE, -1);
         }
@@ -1297,69 +1293,11 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
         line++;
     }
 
+	/* set force date format of widget */
+	utils_widget_import_csv_options_set_combo_order (assistant, w_run->import_format_order);
     csv_import_update_validity_check (assistant);
 
     return FALSE;
-}
-
-/**
- * Callback triggered when separator is changed in the GtkEntry
- * containing it.
- *
- * \param entry		Entry that triggered event.
- * \param position	Position of the change (not used).
- *
- * \return			FALSE
- **/
-static gboolean csv_import_change_separator (GtkEntry *entry,
-											 GtkWidget *assistant)
-{
-    GtkWidget *combobox;
-    gchar *separator;
-    gint index = 0;
-
-	devel_debug (NULL);
-    combobox = g_object_get_data (G_OBJECT(entry), "combobox");
-    separator = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
-
-	if (strlen (separator) > 0)
-    {
-		gchar *contents = NULL;
-		GArray *lines_tab;
-
-        g_object_set_data (G_OBJECT(assistant), "separator", separator);
-		if (etat.csv_separator && strlen (etat.csv_separator) > 0)
-			g_free (etat.csv_separator);
-		etat.csv_separator = separator;
-		contents = g_object_get_data (G_OBJECT(assistant), "contents");
-		if (!contents || strlen (contents) == 0)
-			return FALSE;
-
-		lines_tab = g_object_get_data (G_OBJECT(assistant), "lines_tab");
-		if (lines_tab)
-			csv_import_free_lines_tab (lines_tab);
-
-		lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
-		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
-		first_line_with_cols = 0;
-        csv_import_update_preview (assistant);
-    }
-    else
-    {
-		if (etat.csv_separator)
-			g_free (etat.csv_separator);
-        etat.csv_separator = (gchar*)"";
-        g_object_set_data (G_OBJECT(assistant), "separator", NULL);
-    }
-
-    /* Update combobox if we can. */
-	index = utils_widget_csv_separators_combo_update (separator);
-
-    utils_widget_csv_separators_combo_block_unblock (combobox, entry, TRUE);
-    gtk_combo_box_set_active (GTK_COMBO_BOX(combobox), index);
-    utils_widget_csv_separators_combo_block_unblock (combobox, entry, FALSE);
-
-	return FALSE;
 }
 
 /******************************************************************************/
@@ -1754,12 +1692,8 @@ GtkWidget *import_create_csv_preview_page (GtkWidget *assistant)
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
-	/* set choose csv separators */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Choose CSV separator"));
-	hbox = utils_widget_csv_separators_new (NULL,
-											G_CALLBACK (csv_import_change_separator),
-											assistant);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+	/* set hbox options for csv separator and force dates data */
+	utils_widget_import_csv_options_widget_new (vbox, FALSE, assistant);
 
 	/* set select csv fields */
     paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Select CSV fields"));
@@ -1878,6 +1812,66 @@ GSList *csv_import_get_columns_list	(GtkWidget *assistant)
 	list = g_slist_copy_deep (tmp_list, my_strdup_null, NULL);
 
 	return list;
+}
+
+/**
+ * Callback triggered when separator is changed in the GtkEntry
+ * containing it.
+ *
+ * \param entry		Entry that triggered event.
+ * \param position	Position of the change (not used).
+ *
+ * \return			FALSE
+ **/
+gboolean csv_import_change_separator (GtkEntry *entry,
+									  GtkWidget *assistant)
+{
+    GtkWidget *combobox;
+    gchar *separator;
+    gint index = 0;
+
+	devel_debug (NULL);
+    combobox = g_object_get_data (G_OBJECT(entry), "combobox");
+    separator = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	if (strlen (separator) > 0)
+    {
+		gchar *contents = NULL;
+		GArray *lines_tab;
+
+        g_object_set_data (G_OBJECT(assistant), "separator", separator);
+		if (etat.csv_separator && strlen (etat.csv_separator) > 0)
+			g_free (etat.csv_separator);
+		etat.csv_separator = separator;
+		contents = g_object_get_data (G_OBJECT(assistant), "contents");
+		if (!contents || strlen (contents) == 0)
+			return FALSE;
+
+		lines_tab = g_object_get_data (G_OBJECT(assistant), "lines_tab");
+		if (lines_tab)
+			csv_import_free_lines_tab (lines_tab);
+
+		lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
+		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
+		first_line_with_cols = 0;
+        csv_import_update_preview (assistant);
+    }
+    else
+    {
+		if (etat.csv_separator)
+			g_free (etat.csv_separator);
+        etat.csv_separator = (gchar*)"";
+        g_object_set_data (G_OBJECT(assistant), "separator", NULL);
+    }
+
+    /* Update combobox if we can. */
+	index = utils_widget_csv_separators_combo_update (separator);
+
+    utils_widget_csv_separators_combo_block_unblock (combobox, entry, TRUE);
+    gtk_combo_box_set_active (GTK_COMBO_BOX(combobox), index);
+    utils_widget_csv_separators_combo_block_unblock (combobox, entry, FALSE);
+
+	return FALSE;
 }
 
 /**

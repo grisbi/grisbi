@@ -897,8 +897,9 @@ static void grisbi_win_free_w_run (GrisbiWinRun *w_run)
 
     devel_debug (NULL);
 
-	if (w_run->prefs_selected_row)
-		g_free (w_run->prefs_selected_row);
+	g_free (w_run->prefs_selected_row);
+	g_free (w_run->import_format_date);
+	w_run->import_format_date = NULL;
 
     g_free (w_run);
 }
