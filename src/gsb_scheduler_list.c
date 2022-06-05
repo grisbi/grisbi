@@ -222,7 +222,7 @@ static void gsb_scheduler_list_change_scheduler_view (GtkWidget *item,
     g_free (tmp_str);
 
     etat.affichage_echeances = periodicity;
-    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+    gsb_scheduler_list_fill_list ();
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
     gsb_scheduler_list_select (-1);
 
@@ -2076,11 +2076,9 @@ gboolean gsb_scheduler_list_execute_transaction (gint scheduled_number)
 /**
  * fill the scheduled transactions list
  *
- * \para tree_view
- *
  * \return TRUE or FALSE
  **/
-gboolean gsb_scheduler_list_fill_list (GtkWidget *tree_view)
+gboolean gsb_scheduler_list_fill_list (void)
 {
     GSList *tmp_list;
     GDate *end_date;
@@ -3045,7 +3043,7 @@ gboolean gsb_scheduler_list_clone_selected_scheduled (GtkWidget *menu_item,
         }
     }
 
-    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+    gsb_scheduler_list_fill_list ();
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
     gsb_scheduler_list_select (new_scheduled_number);
 
@@ -3218,7 +3216,7 @@ void gsb_scheduler_list_update_tree_view (GtkWidget *tree_view)
 	devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
-	gsb_scheduler_list_fill_list (tree_view);
+	gsb_scheduler_list_fill_list ();
 	gsb_scheduler_list_set_background_color (tree_view);
 
 	if (!a_conf->select_scheduled_in_list && last_scheduled_number == -1)

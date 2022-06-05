@@ -1610,7 +1610,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
     {
     case PROPERTY_NAME:
         /* update the scheduler list */
-        gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+        gsb_scheduler_list_fill_list ();
 
         /*update the view menu */
 		grisbi_win_menu_move_to_acc_delete ();

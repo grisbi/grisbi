@@ -327,7 +327,7 @@ static void widget_css_rules_button_select_colors_changed (GtkWidget *color_butt
 				transaction_list_redraw ();
 
 				/* update scheduled list */
-				gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+				gsb_scheduler_list_fill_list ();
 				gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 				gsb_scheduler_list_select (-1);
 			}

@@ -2631,7 +2631,7 @@ void gsb_gui_navigation_update_localisation (gint type_maj)
         run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     /* update sheduled liste */
-    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+    gsb_scheduler_list_fill_list ();
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
     if (current_page == GSB_SCHEDULER_PAGE)
         gsb_scheduler_list_select (-1);
