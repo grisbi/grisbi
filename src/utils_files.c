@@ -265,8 +265,6 @@ static GSList *utils_files_check_UTF8_validity (const gchar *contents,
 			tmp_str = g_convert (string, -1, "UTF-8", coding_system, NULL, NULL, NULL);
             if (tmp_str == NULL)
             {
-                gchar *tmp_str;
-
                 long_str = strlen (string);
                 result = g_malloc0 (sizeof (struct CheckEncoding));
                 result->charset = "";
