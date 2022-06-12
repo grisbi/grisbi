@@ -454,6 +454,9 @@ LoanStruct *bet_data_loan_struct_loan_init (void)
  **/
 void bet_data_loan_struct_loan_free (LoanStruct *s_loan)
 {
+	if (NULL == s_loan)
+		return;
+
 	if (s_loan->first_date)
 		g_date_free (s_loan->first_date);
 	g_free (s_loan);
