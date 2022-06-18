@@ -385,10 +385,10 @@ GtkWidget *gsb_combo_box_gsettings_new_from_list (gchar **string,
  *
  * \return
  **/
-GtkWidget *gsb_combo_box_new_with_index_from_ui (GtkWidget *combo,
-												 const gchar **string,
-												 GCallback func,
-												 gpointer data)
+void gsb_combo_box_new_with_index_from_ui (GtkWidget *combo,
+										   const gchar **string,
+										   GCallback func,
+										   gpointer data)
 {
     GtkTreeModel *model;
 
@@ -402,8 +402,9 @@ GtkWidget *gsb_combo_box_new_with_index_from_ui (GtkWidget *combo,
 						  "changed",
 						  G_CALLBACK (func),
 						  data);
+}
 
-    return combo;
+/**
 }
 
 /**
