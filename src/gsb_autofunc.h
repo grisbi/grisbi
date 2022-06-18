@@ -15,7 +15,6 @@ GtkWidget *	gsb_autofunc_checkbutton_new 				(const gchar *label,
 														 GCallback default_func,
 														 gint number_for_func);
 void		gsb_autofunc_checkbutton_new_from_ui		(GtkWidget *button,
-														 const gchar *label,
 														 gboolean value,
 														 GCallback hook,
 														 gpointer data,
