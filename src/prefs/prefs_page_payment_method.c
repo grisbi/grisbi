@@ -1333,7 +1333,6 @@ static void prefs_page_payment_method_setup_page (PrefsPagePaymentMethod *page,
 
     /* Payment method name */
     gsb_autofunc_entry_new_from_ui (priv->entry_payment_name,
-                                    NULL,
                                     G_CALLBACK (prefs_page_payment_method_name_changed),
                                     priv->treeview_payment,
                                     G_CALLBACK (gsb_data_payment_set_name),

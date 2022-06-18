@@ -846,15 +846,11 @@ GtkWidget *gsb_autofunc_entry_new (const gchar *value,
 }
 
 void gsb_autofunc_entry_new_from_ui (GtkWidget *entry,
-									 const gchar *value,
 									 GCallback hook,
 									 gpointer data,
 									 GCallback default_func,
 									 gint number_for_func)
 {
-    if (value)
-		gtk_entry_set_text (GTK_ENTRY(entry), value);
-
     /* set the default func :
      * the func will be send to gsb_editable_set_text by the data,
      * the number_for_func will be set as data for object */

@@ -571,7 +571,6 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 
 	/* set the entry widget entry_archives_name */
 	gsb_autofunc_entry_new_from_ui (priv->entry_archives_name,
-	                                NULL,
 								    G_CALLBACK (prefs_page_archives_name_changed),
 								    priv->treeview_archives,
 								    G_CALLBACK (gsb_data_archive_set_name),

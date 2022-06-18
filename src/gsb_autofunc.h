@@ -55,7 +55,6 @@ GtkWidget *	gsb_autofunc_entry_new 						(const gchar *value,
 														 GCallback default_func,
 														 gint number_for_func);
 void		gsb_autofunc_entry_new_from_ui				(GtkWidget *entry,
-					                                     const gchar *value,
 														 GCallback hook,
 														 gpointer data,
 														 GCallback default_func,
