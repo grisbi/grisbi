@@ -405,6 +405,38 @@ void gsb_combo_box_new_with_index_from_ui (GtkWidget *combo,
 }
 
 /**
+ * create a text only combo_box with an index from glade widget
+ * column 0 will contain the text
+ * column 1 will have the index
+ *
+ * the function takes a g_slist of text and number to attribute
+ * 	this list must be as : text_1->number_1->text_2->number_2->...
+ *
+ * \param combo from glade ui
+ * \param list	a g_slist containing succession of text and number to associate to the text
+ * \param func an optional function to call when change the current item (gboolean func (GtkWidget *combox, gpointer data)
+ * \param data the data to send to the func
+ *
+ * \return
+ **/
+void gsb_combo_box_new_with_index_from_list_from_ui (GtkWidget *combo,
+													 GSList *list,
+													 GCallback func,
+													 gpointer data)
+{
+    GtkTreeModel *model;
+
+    model = GTK_TREE_MODEL (gsb_combo_box_list_store_new_from_list (list));
+    gtk_combo_box_set_model (GTK_COMBO_BOX (combo), model);
+
+    gsb_combo_box_set_text_renderer (GTK_COMBO_BOX (combo), 0);
+    gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
+
+    if (func)
+        g_signal_connect (G_OBJECT (combo),
+						  "changed",
+						  G_CALLBACK (func),
+						  data);
 }
 
 /**
