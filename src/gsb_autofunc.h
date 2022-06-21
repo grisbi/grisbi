@@ -119,6 +119,11 @@ GtkWidget *	gsb_autofunc_textview_new 					(const gchar *value,
 														 gpointer data,
 														 GCallback default_func,
 														 gint number_for_func);
+void		gsb_autofunc_textview_new_from_ui 			(GtkWidget *text_view,
+														 GCallback hook,
+														 gpointer data,
+														 GCallback default_func,
+														 gint number_for_func);
 void 		gsb_autofunc_textview_set_value 			(GtkWidget *text_view,
 														 const gchar *value,
 														 gint number_for_func);

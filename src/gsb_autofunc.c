@@ -1541,6 +1541,57 @@ GtkWidget *gsb_autofunc_textview_new (const gchar *value,
     return text_view;
 }
 
+/*
+ * creates a new GtkTextView from glade ui which will automatickly modify the value according to the text in memory
+ * in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... (number, string content)
+ * ie the target function must be :
+ * 	(default_func) (gint number_for_func,
+ * 			 gchar *string)
+ * ex : gsb_data_bank_set_bank_note (account_number, text)
+ * rem : do the same as gsb_autofunc_entry_new but for a text_view
+ *
+ * \param value a string to fill the text_view
+ * \param hook an optional function to execute as a handler if the
+ * 	text_view's contents are modified : !!! send the text_buffer, and not the text_view
+ * 	hook should be :
+ * 		gboolean hook (GtkTextBuffer *text_buffer,
+ * 				gpointer data)
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func (number, string)) or NULL
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ *
+ * \return
+ **/
+void gsb_autofunc_textview_new_from_ui (GtkWidget *text_view,
+										GCallback hook,
+										gpointer data,
+										GCallback default_func,
+										gint number_for_func)
+{
+    GtkTextBuffer *buffer;
+
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+
+    /* set the default function and save the number_for_func */
+    g_object_set_data (G_OBJECT (buffer), "number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+		g_object_set_data (G_OBJECT (buffer),
+						   "changed",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(buffer),
+																	 "changed",
+																	 ((GCallback) gsb_autofunc_textview_changed),
+																	 default_func)));
+    if (hook)
+		g_object_set_data (G_OBJECT (buffer),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after  (G_OBJECT(buffer),
+																	  "changed",
+																	  ((GCallback) hook),
+																	  data)));
+}
+
 /**
  * set the value in a gsb_editable_text_area
  * a value is in 2 parts :
