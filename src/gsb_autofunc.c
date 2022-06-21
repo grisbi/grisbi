@@ -968,6 +968,29 @@ GtkWidget *gsb_autofunc_entry_new (const gchar *value,
     return entry;
 }
 
+/*
+ * creates a new GtkEntry from glade ui which will modify the value according to the entry
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... (number, string content)
+ * ie the target function must be :
+ * 	(default_func) (gint number_for_func,
+ * 			 gchar *string)
+ * ex : gsb_data_account_set_name (account_number, name)
+ *
+ * \param value a string to fill the entry
+ * \param hook an optional function to execute as a handler if the
+ * 	entry's contents are modified.
+ * 	hook should be :
+ * 		gboolean hook (GtkWidget *entry,
+ * 				gpointer data)
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func (number, string)) or NULL
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_entry_set_value
+ *
+ * \return
+ **/
 void gsb_autofunc_entry_new_from_ui (GtkWidget *entry,
 									 GCallback hook,
 									 gpointer data,
