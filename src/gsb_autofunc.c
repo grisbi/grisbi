@@ -70,17 +70,17 @@
  * \param button The reference GtkCheckButton
  * \param default_func the function to call to change the value in memory
  *
- * \return FALSE
- */
-static gboolean gsb_autofunc_checkbutton_changed (GtkWidget *button,
-												  gboolean default_func (gint,
-																		 gboolean))
+ * \return
+ **/
+static void gsb_autofunc_checkbutton_changed (GtkWidget *button,
+											  gboolean default_func (gint,
+																	 gboolean))
 {
     gint number_for_func;
 
     /* just to be sure... */
-    if (!default_func || !button)
-		return FALSE;
+	if (!default_func || !button)
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "number_for_func"));
     default_func (number_for_func, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)));
@@ -88,7 +88,7 @@ static gboolean gsb_autofunc_checkbutton_changed (GtkWidget *button,
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
 
-    return FALSE;
+    return;
 }
 
 /**
@@ -97,25 +97,23 @@ static gboolean gsb_autofunc_checkbutton_changed (GtkWidget *button,
  * \param combobox The reference Combobox
  * \param default_func the function to call to change the value in memory
  *
- * \return FALSE
- */
-static gboolean gsb_autofunc_combobox_changed (GtkWidget *combobox,
-											   gboolean default_func (gint,
-																	  gint))
+ * \return
+ **/
+static void gsb_autofunc_combobox_changed (GtkWidget *combobox,
+											gboolean default_func (gint,
+																   gint))
 {
     gint number_for_func;
 
     /* just to be sure... */
-    if (!default_func || !combobox)
-		return FALSE;
+	if (!default_func || !combobox)
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combobox), "number_for_func"));
     default_func (number_for_func, gsb_combo_box_get_index (combobox));
 
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
-
-	return FALSE;
 }
 
 /**
@@ -124,25 +122,23 @@ static gboolean gsb_autofunc_combobox_changed (GtkWidget *combobox,
  * \param combobox The reference Combobox
  * \param default_func the function to call to change the value in memory
  *
- * \return FALSE
- */
-static gboolean gsb_autofunc_currency_changed (GtkWidget *combobox,
-											   gboolean default_func (gint,
-																	  gint))
+ * \return
+ **/
+static void gsb_autofunc_currency_changed (GtkWidget *combobox,
+										   gboolean default_func (gint,
+																  gint))
 {
     gint number_for_func;
 
     /* just to be sure... */
-    if (!default_func || !combobox)
-		return FALSE;
+	if (!default_func || !combobox)
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combobox), "number_for_func"));
     default_func (number_for_func, gsb_currency_get_currency_from_combobox (combobox));
 
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -152,18 +148,18 @@ static gboolean gsb_autofunc_currency_changed (GtkWidget *combobox,
  * \param entry The reference GtkEntry
  * \param default_func the function to call to change the date in memory
  *
- * \return FALSE
- */
-static gboolean gsb_autofunc_date_changed (GtkWidget *entry,
-										   gboolean default_func (gint,
-																  const GDate *))
+ * \return
+ **/
+static void gsb_autofunc_date_changed (GtkWidget *entry,
+									   gboolean default_func (gint,
+															  const GDate *))
 {
     gint number_for_func;
     GDate *date;
 
     /* just to be sure... */
-    if (!default_func || !entry)
-		return FALSE;
+	if (!default_func || !entry)
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "number_for_func"));
     date = gsb_calendar_entry_get_date (entry);
@@ -175,8 +171,6 @@ static gboolean gsb_autofunc_date_changed (GtkWidget *entry,
 
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -186,25 +180,23 @@ static gboolean gsb_autofunc_date_changed (GtkWidget *entry,
  * \param entry The reference GtkEntry
  * \param default_func the function to call to change the value in memory
  *
- * \return FALSE
- */
-static gboolean gsb_autofunc_entry_changed (GtkWidget *entry,
-											gboolean default_func (gint,
-																   const gchar *))
+ * \return
+ **/
+static void gsb_autofunc_entry_changed (GtkWidget *entry,
+										gboolean default_func (gint,
+															   const gchar *))
 {
     gint number_for_func;
 
     /* just to be sure... */
-    if (!default_func || !entry)
-		return FALSE;
+	if (!default_func || !entry)
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "number_for_func"));
     default_func (number_for_func, gtk_entry_get_text (GTK_ENTRY (entry)));
 
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -214,25 +206,23 @@ static gboolean gsb_autofunc_entry_changed (GtkWidget *entry,
  * \param entry The reference GtkEntry
  * \param default_func the function to call to change the value in memory
  *
- * \return FALSE
- */
-static gboolean gsb_autofunc_int_changed (GtkWidget *entry,
-										  gboolean default_func (gint,
-																 gint))
+ * \return
+ **/
+static void gsb_autofunc_int_changed (GtkWidget *entry,
+									  gboolean default_func (gint,
+															 gint))
 {
     gint number_for_func;
 
     /* just to be sure... */
-    if (!default_func || !entry)
-		return FALSE;
+	if (!default_func || !entry)
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "number_for_func"));
     default_func (number_for_func, utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (entry))));
 
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -242,25 +232,23 @@ static gboolean gsb_autofunc_int_changed (GtkWidget *entry,
  * \param entry The reference GtkEntry
  * \param default_func the function to call to change the date in memory
  *
- * \return FALSE
- */
-static gboolean gsb_autofunc_real_changed (GtkWidget *entry,
-										   gboolean default_func (gint,
-																  GsbReal))
+ * \return
+ **/
+static void gsb_autofunc_real_changed (GtkWidget *entry,
+									   gboolean default_func (gint,
+															  GsbReal))
 {
     gint number_for_func;
 
     /* just to be sure... */
     if (!default_func || !entry)
-		return FALSE;
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "number_for_func"));
     default_func (number_for_func, utils_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (entry))));
 
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
-
-	return FALSE;
 }
 
 /**
@@ -272,23 +260,21 @@ static gboolean gsb_autofunc_real_changed (GtkWidget *entry,
  *
  * \return FALSE
  */
-static gboolean gsb_autofunc_spin_changed (GtkWidget *spin_button,
-										   gboolean default_func (gint,
-																  gint))
+static void gsb_autofunc_spin_changed (GtkWidget *spin_button,
+									   gboolean default_func (gint,
+															  gint))
 {
     gint number_for_func;
 
     /* just to be sure... */
     if (!default_func || !spin_button)
-		return FALSE;
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (spin_button), "number_for_func"));
     default_func (number_for_func, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin_button)));
 
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
-
-	return FALSE;
 }
 
 /**
@@ -297,16 +283,16 @@ static gboolean gsb_autofunc_spin_changed (GtkWidget *spin_button,
  * \param buffer The reference GtkTextBuffer
  * \param dummy Handler parameter.  Not used.
  */
-static gboolean gsb_autofunc_textview_changed (GtkTextBuffer *buffer,
-											   gboolean default_func (gint,
-																	  const gchar *))
+static void gsb_autofunc_textview_changed (GtkTextBuffer *buffer,
+										   gboolean default_func (gint,
+																  const gchar *))
 {
     GtkTextIter start, end;
     gint number_for_func;
 
     /* just to be sure... */
-    if (!default_func || !buffer)
-		return FALSE;
+	if (!default_func || !buffer)
+		return;
 
     number_for_func = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (buffer), "number_for_func"));
 
@@ -317,8 +303,6 @@ static gboolean gsb_autofunc_textview_changed (GtkTextBuffer *buffer,
 
     /* Mark file as modified */
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /******************************************************************************/
@@ -401,8 +385,8 @@ GtkWidget *gsb_autofunc_checkbutton_new (const gchar *label,
  * \param default_func The function to call to change the value in memory (function must be func (number, gboolean)) or NULL
  * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  *
- * \return a new GtkCheckButton
- * */
+ * \return
+ **/
 void gsb_autofunc_checkbutton_new_from_ui (GtkWidget *button,
 										   gboolean value,
 										   GCallback hook,
