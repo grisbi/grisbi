@@ -45,6 +45,13 @@ GtkWidget *	gsb_autofunc_currency_new 					(gboolean set_name,
 													     gpointer data,
 													     GCallback default_func,
 													     gint number_for_func);
+void		gsb_autofunc_currency_new_from_ui			(GtkWidget *combo,
+														 gboolean set_name,
+													     gint currency_number,
+													     GCallback hook,
+													     gpointer data,
+													     GCallback default_func,
+													     gint number_for_func);
 void 		gsb_autofunc_currency_set_currency_number 	(GtkWidget *combobox,
 														 gint currency_number,
 														 gint number_for_func);

@@ -702,6 +702,70 @@ GtkWidget *gsb_autofunc_currency_new (gboolean set_name,
      return combobox;
 }
 
+/*
+ * This create a combobox of currencies from glade ui, this is basically the same as gsb_autofunc_combobox_new
+ * 	but work only with currencies
+ *
+ * for each change, will call the corresponding given function : gsb_data_... (number, currency_number)
+ * ie the target function must be :
+ * 	(default_func) (gint number_for_func,
+ * 			 gint currency_number)
+ * ex : gsb_data_account_set_currency (account_number, currency_number)
+ *
+ * basically, that combobox is created with gsb_currency_make_combobox, so can use that functions to get the index
+ * 	if necessary
+ *
+ * \param set_name TRUE to show the name of the currencies in the combobox
+ * \param currency_number the currency we want to show
+ * \param hook an optional function to execute as a handler if the
+ * 	combobox changed.
+ * 	hook should be :
+ * 		gboolean hook (GtkWidget *combobox,
+ * 				gpointer data)
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func (number, currency_number)) or NULL
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_currency_set_currency_number
+ *
+ * \return
+ **/
+void gsb_autofunc_currency_new_from_ui (GtkWidget *combo,
+										gboolean set_name,
+										gint currency_number,
+										GCallback hook,
+										gpointer data,
+										GCallback default_func,
+										gint number_for_func)
+{
+	/* init combo_account_currency */
+	gsb_currency_make_combobox_from_ui (combo, set_name);
+
+    /* fill the combobox */
+    if (currency_number)
+        gsb_currency_set_combobox_history (combo, currency_number);
+
+    /* set the default func :
+     * the func will be sent to gsb_autofunc_currency_changed by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data (G_OBJECT (combo), "number_for_func", GINT_TO_POINTER (number_for_func));
+
+    if (default_func)
+		g_object_set_data (G_OBJECT (combo),
+						   "changed",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(combo),
+																	 "changed",
+																	 G_CALLBACK (gsb_autofunc_currency_changed),
+																	 default_func)));
+    if (hook)
+		g_object_set_data (G_OBJECT (combo),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(combo),
+																	 "changed",
+																	 G_CALLBACK (hook),
+																	 data)));
+}
+
 /**
  * show the currency in a gsb_autofunc_currency
  * a value is in 2 parts :
