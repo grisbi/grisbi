@@ -15,6 +15,8 @@ GtkWidget *	gsb_bank_create_combobox 				(gint index);
 gboolean 	gsb_bank_edit_from_button 				(GtkWidget *button,
 													 GtkWidget *combobox);
 void		gsb_bank_free_combo_list_model			(void);
+void		gsb_bank_new_combobox_from_ui			(GtkWidget *combo,
+													 gint index);
 gboolean 	gsb_bank_update_combo_list_model		(GtkWidget *combobox);
 /* END_DECLARATION */
 #endif

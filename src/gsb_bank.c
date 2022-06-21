@@ -285,6 +285,48 @@ GtkWidget *gsb_bank_create_combobox (gint index)
 }
 
 /**
+ * create a combo with the name of all the banks and an 'add' line at the end from glade ui
+ *
+ * \param bank the index we want to place the combobox
+ *
+ * \return
+ **/
+void gsb_bank_new_combobox_from_ui (GtkWidget *combo,
+									gint index)
+{
+    GtkCellRenderer *renderer;
+
+    /* create the model if not done */
+    if (!bank_list_model)
+        gsb_bank_update_combo_list_model (NULL);
+
+    gtk_combo_box_set_model (GTK_COMBO_BOX (combo), bank_list_model);
+
+    /* show the text column */
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo),
+									renderer,
+									"text", BANK_NAME_COL,
+									NULL);
+
+    /* create the separator */
+    gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (combo),
+										  (GtkTreeViewRowSeparatorFunc) gsb_bank_combo_list_check_separator,
+										  NULL,
+										  NULL);
+
+    /* set the index */
+    gsb_bank_combo_list_set_bank (combo, index);
+
+    /* the signal just check if we select new bank, to show the dialog to add a new bank */
+    g_signal_connect (G_OBJECT (combo),
+					  "changed",
+					  G_CALLBACK (gsb_bank_combo_list_changed),
+					  NULL);
+}
+
+/**
  * return the number of the curently showed on the combobox
  *
  * \param combobox
