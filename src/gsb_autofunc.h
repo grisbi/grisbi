@@ -29,6 +29,13 @@ GtkWidget *	gsb_autofunc_combobox_new 					(GSList *list,
 													     gpointer data,
 													     GCallback default_func,
 													     gint number_for_func);
+void		gsb_autofunc_combobox_new_from_ui 			(GtkWidget *combobox,
+														 GSList *list,
+													     gint index,
+													     GCallback hook,
+													     gpointer data,
+													     GCallback default_func,
+													     gint number_for_func);
 void 		gsb_autofunc_combobox_set_index 			(GtkWidget *combobox,
 													     gint index,
 													     gint number_for_func);

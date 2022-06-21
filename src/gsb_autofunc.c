@@ -535,6 +535,65 @@ GtkWidget *gsb_autofunc_combobox_new (GSList *list,
     return combobox;
 }
 
+/*
+ * creates a new Combobox from glade ui which will modify the value according to the index
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... (number, index)
+ * ie the target function must be :
+ * 	(default_func) (gint number_for_func,
+ * 			 gint index)
+ * ex : gsb_data_account_set_kind (account_number, account_kind)
+ *
+ * basically, that combobox is created with gsb_combo_box_new_with_index_from_list, so can use that functions to get the index
+ * 	if necessary
+ *
+ * \param list a g_slist to create the combobox (succession of text and number, see gsb_combo_box_new_with_index_from_list)
+ * \param index the index to place the combobox
+ * \param hook an optional function to execute as a handler if the
+ * 	combobox changed.
+ * 	hook should be :
+ * 		gboolean hook (GtkWidget *combobox,
+ * 				gpointer data)
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func (number, number)) or NULL
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_combobox_set_index
+ *
+ * \return
+ * */
+void gsb_autofunc_combobox_new_from_ui (GtkWidget *combo,
+										GSList *list,
+										gint index,
+										GCallback hook,
+										gpointer data,
+										GCallback default_func,
+										gint number_for_func)
+{
+    /* fill the combobox */
+    gsb_combo_box_new_with_index_from_list_from_ui (combo, list, NULL, NULL);
+    gsb_combo_box_set_index (combo, index);
+
+    /* set the default func :
+     * the func will be sent to gsb_autofunc_combo_changed by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data (G_OBJECT (combo), "number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+		g_object_set_data (G_OBJECT (combo),
+						   "changed",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(combo),
+																	 "changed",
+																	 G_CALLBACK (gsb_autofunc_combobox_changed),
+																	 default_func)));
+    if (hook)
+		g_object_set_data (G_OBJECT (combo),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(combo),
+																	 "changed",
+																	 G_CALLBACK (hook),
+																	 data)));
+}
+
 /**
  * set the value in a gsb_autofunc_combobox
  * a value is in 2 parts :
