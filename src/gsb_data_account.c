@@ -2605,7 +2605,7 @@ void gsb_data_account_change_account_icon (GtkWidget *button,
 			gsb_gui_navigation_update_account (current_account);
         }
         else
-{
+		{
     		GdkPixbuf *pixbuf;
 
 			gsb_data_account_set_name_icon ( current_account, new_icon );
@@ -2614,6 +2614,7 @@ void gsb_data_account_change_account_icon (GtkWidget *button,
 
 			image = gsb_data_account_get_account_icon_image ( current_account );
 			gtk_button_set_image ( GTK_BUTTON ( button ), image );
+			gtk_widget_show (image);
 			gsb_gui_navigation_update_account ( current_account );
         }
 
