@@ -56,6 +56,7 @@
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -901,7 +902,7 @@ static void search_transaction_combo_other_account_changed (GtkComboBox *combo,
 
 		/* on change pour le nouveau compte */
 	    gsb_gui_navigation_change_account (account_number);
-	    gsb_account_property_fill_page ();
+	    widget_account_property_fill ();
 	    gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, account_number, 0);
 
 		/* on réinitialise la recherche */

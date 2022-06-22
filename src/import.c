@@ -51,6 +51,7 @@
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
+#include "gsb_data_bank.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
@@ -761,7 +762,7 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     gtk_box_pack_start (GTK_BOX (compte->hbox1), label, FALSE, FALSE, 0);
 
     compte->bouton_type_compte = gsb_combo_box_new_with_index_from_list (
-                        gsb_account_property_create_combobox_list (),
+                        gsb_data_bank_get_bank_type_list (),
                         NULL, NULL);
     gtk_box_pack_start (GTK_BOX (compte->hbox1), compte->bouton_type_compte,
                         TRUE, TRUE, 0);

@@ -73,6 +73,7 @@
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -1292,7 +1293,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 			if (account_number >= 0 )
 			{
 				gsb_gui_navigation_change_account ( account_number );
-				gsb_account_property_fill_page ();
+				widget_account_property_fill ();
 				clear_suffix = FALSE;
 				if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
 					gsb_transactions_list_set_visible_archived_button ( TRUE );

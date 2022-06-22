@@ -12,6 +12,7 @@ GSList *		gsb_data_bank_get_bank_list 			(void);
 const gchar *	gsb_data_bank_get_bank_mail 			(gint bank_number);
 const gchar *	gsb_data_bank_get_bank_note 			(gint bank_number);
 const gchar *	gsb_data_bank_get_bank_tel 				(gint bank_number);
+GSList *		gsb_data_bank_get_bank_type_list 		(void);
 const gchar *	gsb_data_bank_get_bank_web 				(gint bank_number);
 const gchar *	gsb_data_bank_get_bic 					(gint bank_number);
 const gchar *	gsb_data_bank_get_code 					(gint bank_number);

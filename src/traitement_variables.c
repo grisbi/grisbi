@@ -235,6 +235,9 @@ void init_variables (void)
      * to know if the widgets are created or not */
     grisbi_win_free_general_notebook ();
 
+	/* free account_property_page */
+	grisbi_win_free_account_property_page ();
+
     /* defaut value for width and align of columns */
     gsb_transactions_list_init_tab_align_col_treeview (NULL);
     gsb_transactions_list_init_tab_width_col_treeview (NULL);

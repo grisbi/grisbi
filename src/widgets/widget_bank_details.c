@@ -46,6 +46,7 @@
 #include "utils.h"
 #include "utils_editables.h"
 #include "utils_prefs.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -96,7 +97,7 @@ static void widget_bank_details_bic_code_changed (GtkEntry *entry,
     gint bank_number;
 
     bank_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "number_for_func"));
-    gsb_account_property_set_label_code_bic (bank_number);
+    widget_account_property_update_bank_data (bank_number);
 }
 
 /**
@@ -114,7 +115,7 @@ static void widget_bank_details_code_changed (GtkEntry *entry,
     gint bank_number;
 
     bank_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "number_for_func"));
-    gsb_account_property_set_label_code_banque (bank_number);
+    widget_account_property_update_bank_data (bank_number);
 }
 
 /**

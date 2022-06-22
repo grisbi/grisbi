@@ -26,6 +26,7 @@ void			grisbi_win_form_label_align_right 			(GtkAllocation *allocation);
 
 void 			grisbi_win_general_notebook_set_page 		(gint page);
 GtkWidget *     grisbi_win_get_account_page					(void);
+GtkWidget *     grisbi_win_get_account_property_page		(void);
 const gchar *   grisbi_win_get_filename                     (GrisbiWin *win);
 GtkWidget *		grisbi_win_get_form_expander				(void);
 gpointer 		grisbi_win_get_form_organization 			(void);
@@ -43,6 +44,7 @@ gboolean        grisbi_win_headings_update_show_headings    (void);
 void            grisbi_win_headings_sensitive_headings      (gboolean sensitive);
 
 gboolean 		grisbi_win_file_is_loading 					(void);
+void			grisbi_win_free_account_property_page		(void);
 void            grisbi_win_free_general_notebook            (void);
 void            grisbi_win_free_general_vbox                (void);
 

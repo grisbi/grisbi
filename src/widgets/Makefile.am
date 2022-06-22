@@ -9,6 +9,8 @@ AM_CPPFLAGS = -I$(top_srcdir) \
 noinst_LTLIBRARIES = libwidgets.la
 
 libwidgets_la_SOURCES = \
+	widget_account_property.c \
+	widget_account_property.h \
 	widget_bank_details.c \
 	widget_bank_details.h \
 	widget_cmp_amount.c \
@@ -45,6 +47,7 @@ MAINTAINERCLEANFILES = \
 	Makefile.in
 	
 EXTRA_DIST = \
+	widget_account_property.ui \
 	widget_bank_details.ui \
 	widget_cmp_amount.ui \
 	widget_cmp_text.ui \

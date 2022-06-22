@@ -57,6 +57,7 @@
 #include "utils_dates.h"
 #include "utils_prefs.h"
 #include "utils_str.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -284,7 +285,7 @@ static gboolean prefs_page_archives_destroy_archive (GtkWidget *button,
 		if (account_number >= 0)
 		{
 			/* we are on an account */
-			gsb_account_property_fill_page ();
+			widget_account_property_fill ();
 			transaction_list_set_balances ();
 		}
 

@@ -55,6 +55,7 @@
 #include "utils_prefs.h"
 #include "utils_real.h"
 #include "erreur.h"
+#include "widget_account_property.h"
 #include "widget_currency_details.h"
 /*END_INCLUDE*/
 
@@ -106,7 +107,6 @@ static GsbReal current_exchange;
 static GsbReal current_exchange_fees;
 
 /*START_EXTERN*/
-extern GtkWidget *detail_devise_compte;
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -655,6 +655,7 @@ gint gsb_currency_get_currency_from_combobox (GtkWidget *combo_box)
  */
 gboolean gsb_currency_update_combobox_currency_list (void)
 {
+	GtkWidget *detail_devise_compte;
 	GtkWidget *combo_devise_totaux_categ;
 	GtkWidget *combo_devise_totaux_ib;
 	GtkWidget *combo_devise_totaux_tiers;
@@ -671,6 +672,7 @@ gboolean gsb_currency_update_combobox_currency_list (void)
 	combo_devise_totaux_tiers = prefs_page_metatree_get_currency_combobox ("combo_totaux_tiers");
 
 	/* XXX still buggy, very slow on the gtk_list_store_clear() call, try to find why. */
+	detail_devise_compte = widget_account_property_get_combo_account_currency ();
     if (detail_devise_compte && G_IS_OBJECT (detail_devise_compte))
     {
         handler_id = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (detail_devise_compte), "changed-hook"));

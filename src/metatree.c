@@ -57,6 +57,7 @@
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -1212,7 +1213,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 
 			/* select the transaction number */
 			gsb_gui_navigation_update_account_label (account_number);
-			gsb_account_property_fill_page ();
+			widget_account_property_fill ();
 
 			transaction_list_select (transaction_number);
 		}

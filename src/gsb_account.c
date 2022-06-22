@@ -57,6 +57,7 @@
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "utils_str.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -152,7 +153,7 @@ gboolean gsb_account_new ( KindAccount account_type,
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( grisbi_win_get_account_page () ),
                         GSB_PROPERTIES_PAGE );
 
-        gsb_account_property_fill_page ();
+        widget_account_property_fill ();
     }
 
     gsb_file_set_modified ( TRUE );

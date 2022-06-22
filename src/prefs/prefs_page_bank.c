@@ -49,6 +49,7 @@
 #include "structures.h"
 #include "utils.h"
 #include "utils_prefs.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -96,6 +97,7 @@ enum bank_list_col
 static void prefs_page_bank_add_clicked (GtkWidget *button,
 										 PrefsPageBank *page)
 {
+	GtkWidget *combo_bank_list;
 	GtkTreeSelection *selection;
 	GtkListStore *store;
 	GtkTreeIter iter;
@@ -106,7 +108,8 @@ static void prefs_page_bank_add_clicked (GtkWidget *button,
 	priv = prefs_page_bank_get_instance_private (page);
 
 	devel_debug (NULL);
-    /* create the new bank */
+
+	/* create the new bank */
     bank_number = gsb_data_bank_new (_("New bank"));
     if (!bank_number)
     {
@@ -133,7 +136,9 @@ static void prefs_page_bank_add_clicked (GtkWidget *button,
 	gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
 
 	/* remove the bank from the combobox list */
-	gsb_bank_update_combo_list_model (gsb_account_property_get_bank_list_combobox());
+	combo_bank_list = widget_account_property_get_combo_bank_list();
+	if (combo_bank_list)
+		gsb_bank_update_combo_list_model (combo_bank_list);
 
 	/* set sensitive button_bank_remove */
 	gtk_widget_set_sensitive (priv->button_bank_remove, TRUE);
@@ -247,7 +252,7 @@ static void prefs_page_bank_remove_clicked (GtkWidget *button,
 		gsb_data_bank_remove (bank_number);
 
 		/* remove the bank from the combobox list */
-		combobox = gsb_account_property_get_bank_list_combobox ();
+		combobox = widget_account_property_get_combo_bank_list ();
 		gsb_bank_update_combo_list_model (combobox);
 
 		nbre_bank = gsb_data_bank_max_number ();
@@ -551,7 +556,7 @@ void prefs_page_bank_update_selected_line (GtkEntry *entry,
 								-1);
     }
 
-	gsb_bank_update_combo_list_model (gsb_account_property_get_bank_list_combobox());
+	gsb_bank_update_combo_list_model (widget_account_property_get_combo_bank_list());
 }
 
 /**

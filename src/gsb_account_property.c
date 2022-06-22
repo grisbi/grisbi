@@ -68,6 +68,7 @@
 #include "utils_buttons.h"
 #include "utils_editables.h"
 #include "utils_str.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -134,7 +135,6 @@ static GtkWidget *label_code_bic = NULL;
 static GtkWidget *label_guichet = NULL;
 static GtkWidget *label_no_compte = NULL;
 static GtkWidget *label_cle_compte = NULL;
-static GtkWidget *paddingbox_detail_compte;
 /*END_STATIC*/
 
 enum origin
@@ -1064,388 +1064,390 @@ static gboolean gsb_account_property_iban_focus_out_event (GtkWidget *entry,
  **/
 GtkWidget *gsb_account_property_create_page (void)
 {
-    GtkWidget *onglet, *vbox, *scrolled_window, *hbox, *vbox2;
-    GtkWidget *label, *scrolled_window_text, *paddingbox;
-    GtkSizeGroup *size_group;
-	GSList *list;
+    //~ GtkWidget *onglet, *vbox, *scrolled_window, *hbox, *vbox2;
+    //~ GtkWidget *label, *scrolled_window_text, *paddingbox;
+    //~ GtkSizeGroup *size_group;
+	//~ GSList *list;
+	GtkWidget *onglet;
 
     devel_debug (NULL);
 
     /* la fenetre ppale est une vbox avec les détails en haut et appliquer en bas */
-    onglet = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    gtk_widget_set_name (onglet, "properties_page");
-    gtk_container_set_border_width (GTK_CONTAINER (onglet), BOX_BORDER_WIDTH);
+    //~ onglet = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+    //~ gtk_widget_set_name (onglet, "properties_page");
+    //~ gtk_container_set_border_width (GTK_CONTAINER (onglet), BOX_BORDER_WIDTH);
+	onglet = GTK_WIDGET (widget_account_property_new (NULL));
 
-    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+    //~ size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
     /* Création du bouton pour modifier l'icône de compte. C'est un moyen de
      * contourner le bug du gtk_viewport */
-    bouton_icon = gtk_button_new ();
-    gtk_widget_set_size_request (bouton_icon, -1, 40);
-    gtk_widget_set_halign (bouton_icon, GTK_ALIGN_CENTER);
-    gtk_button_set_relief (GTK_BUTTON (bouton_icon), GTK_RELIEF_NORMAL);
-    gtk_box_pack_start (GTK_BOX (onglet), bouton_icon, FALSE, FALSE, 0);
+    //~ bouton_icon = gtk_button_new ();
+    //~ gtk_widget_set_size_request (bouton_icon, -1, 40);
+    //~ gtk_widget_set_halign (bouton_icon, GTK_ALIGN_CENTER);
+    //~ gtk_button_set_relief (GTK_BUTTON (bouton_icon), GTK_RELIEF_NORMAL);
+    //~ gtk_box_pack_start (GTK_BOX (onglet), bouton_icon, FALSE, FALSE, 0);
 
-    /* partie du haut avec les détails du compte */
-    scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-									GTK_POLICY_AUTOMATIC,
-									GTK_POLICY_AUTOMATIC);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_OUT);
-    gtk_box_pack_start (GTK_BOX (onglet), scrolled_window, TRUE, TRUE, 0);
 
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    utils_widget_set_padding (vbox, MARGIN_START, 0);
-    gtk_container_add (GTK_CONTAINER (scrolled_window), vbox);
+    //~ scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
+    //~ gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+									//~ GTK_POLICY_AUTOMATIC,
+									//~ GTK_POLICY_AUTOMATIC);
+    //~ gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_OUT);
+    //~ gtk_box_pack_start (GTK_BOX (onglet), scrolled_window, TRUE, TRUE, 0);
+
+    //~ vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
+    //~ utils_widget_set_padding (vbox, MARGIN_START, 0);
+    //~ gtk_container_add (GTK_CONTAINER (scrolled_window), vbox);
 
     /* création de la ligne des détails du compte */
-    paddingbox_detail_compte = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
+    //~ paddingbox_detail_compte = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
 
    /* création de la ligne du nom du compte */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Account name: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Account name: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    detail_nom_compte = gsb_autofunc_entry_new (NULL,
-												G_CALLBACK (gsb_account_property_changed),
-												GINT_TO_POINTER (PROPERTY_NAME),
-												G_CALLBACK (gsb_data_account_set_name),
-												0);
-    g_signal_connect (G_OBJECT (detail_nom_compte),
-					  "focus-out-event",
-			          G_CALLBACK (gsb_account_property_focus_out),
-			          GINT_TO_POINTER (PROPERTY_NAME));
+    //~ detail_nom_compte = gsb_autofunc_entry_new (NULL,
+												//~ G_CALLBACK (gsb_account_property_changed),
+												//~ GINT_TO_POINTER (PROPERTY_NAME),
+												//~ G_CALLBACK (gsb_data_account_set_name),
+												//~ 0);
+    //~ g_signal_connect (G_OBJECT (detail_nom_compte),
+					  //~ "focus-out-event",
+			          //~ G_CALLBACK (gsb_account_property_focus_out),
+			          //~ GINT_TO_POINTER (PROPERTY_NAME));
 
-    gtk_box_pack_start (GTK_BOX (hbox), detail_nom_compte, TRUE, TRUE, 0);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), detail_nom_compte, TRUE, TRUE, 0);
 
     /* create the box of kind of account */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Account type: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Account type: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     /* create the list of the kind of account combobox */
-	list = gsb_account_property_create_combobox_list ();
-    detail_type_compte = gsb_autofunc_combobox_new (list,
-													0,
-													G_CALLBACK (gsb_account_property_changed),
-													GINT_TO_POINTER (PROPERTY_KIND),
-													G_CALLBACK (gsb_data_account_set_kind),
-													0);
-    gtk_box_pack_start (GTK_BOX(hbox), detail_type_compte, TRUE, TRUE, 0);
-	g_slist_free (list);
+	//~ list = gsb_account_property_create_combobox_list ();
+    //~ detail_type_compte = gsb_autofunc_combobox_new (list,
+													//~ 0,
+													//~ G_CALLBACK (gsb_account_property_changed),
+													//~ GINT_TO_POINTER (PROPERTY_KIND),
+													//~ G_CALLBACK (gsb_data_account_set_kind),
+													//~ 0);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), detail_type_compte, TRUE, TRUE, 0);
+	//~ g_slist_free (list);
 
     /* create the currency line */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX (paddingbox_detail_compte), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Account currency: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Account currency: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    detail_devise_compte = gsb_autofunc_currency_new (TRUE,
-													  0,
-													  G_CALLBACK (gsb_account_property_changed),
-													  GINT_TO_POINTER (PROPERTY_CURRENCY),
-													  NULL,
-													  0);
-    gtk_box_pack_start (GTK_BOX(hbox), detail_devise_compte, TRUE, TRUE, 0);
+    //~ detail_devise_compte = gsb_autofunc_currency_new (TRUE,
+													  //~ 0,
+													  //~ G_CALLBACK (gsb_account_property_changed),
+													  //~ GINT_TO_POINTER (PROPERTY_CURRENCY),
+													  //~ NULL,
+													  //~ 0);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), detail_devise_compte, TRUE, TRUE, 0);
 
     /* create closed account line */
-    detail_compte_cloture = gsb_autofunc_checkbutton_new (_("Closed account"),
-														  FALSE,
-														  G_CALLBACK (gsb_account_property_changed),
-														  GINT_TO_POINTER (PROPERTY_CLOSED_ACCOUNT),
-														  G_CALLBACK (gsb_data_account_set_closed_account),
-														  0);
-    gtk_box_pack_start (GTK_BOX (paddingbox_detail_compte), detail_compte_cloture, FALSE, FALSE, 0);
+    //~ detail_compte_cloture = gsb_autofunc_checkbutton_new (_("Closed account"),
+														  //~ FALSE,
+														  //~ G_CALLBACK (gsb_account_property_changed),
+														  //~ GINT_TO_POINTER (PROPERTY_CLOSED_ACCOUNT),
+														  //~ G_CALLBACK (gsb_data_account_set_closed_account),
+														  //~ 0);
+    //~ gtk_box_pack_start (GTK_BOX (paddingbox_detail_compte), detail_compte_cloture, FALSE, FALSE, 0);
 
     /* set the callback for the button_icon */
-    gtk_button_set_relief (GTK_BUTTON (bouton_icon), GTK_RELIEF_NONE);
+    //~ gtk_button_set_relief (GTK_BUTTON (bouton_icon), GTK_RELIEF_NONE);
 
-    g_signal_connect (G_OBJECT(bouton_icon),
-					  "clicked",
-					  G_CALLBACK(gsb_data_account_change_account_icon),
-					  NULL);
+    //~ g_signal_connect (G_OBJECT(bouton_icon),
+					  //~ "clicked",
+					  //~ G_CALLBACK(gsb_data_account_change_account_icon),
+					  //~ NULL);
 
     /* création de la ligne du titulaire du compte */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account holder"));
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account holder"));
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Holder name: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Holder name: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    detail_titulaire_compte = gsb_autofunc_entry_new (NULL,
-													  NULL,
-													  NULL,
-													  G_CALLBACK (gsb_data_account_set_holder_name),
-													  0);
-    g_signal_connect (G_OBJECT (detail_titulaire_compte),
-					  "focus-out-event",
-					  G_CALLBACK (gsb_account_property_focus_out),
-					  GINT_TO_POINTER (PROPERTY_HOLDER_NAME));
-    gtk_box_pack_start (GTK_BOX(hbox), detail_titulaire_compte, TRUE, TRUE, 0);
+    //~ detail_titulaire_compte = gsb_autofunc_entry_new (NULL,
+													  //~ NULL,
+													  //~ NULL,
+													  //~ G_CALLBACK (gsb_data_account_set_holder_name),
+													  //~ 0);
+    //~ g_signal_connect (G_OBJECT (detail_titulaire_compte),
+					  //~ "focus-out-event",
+					  //~ G_CALLBACK (gsb_account_property_focus_out),
+					  //~ GINT_TO_POINTER (PROPERTY_HOLDER_NAME));
+    //~ gtk_box_pack_start (GTK_BOX(hbox), detail_titulaire_compte, TRUE, TRUE, 0);
 
     /* address of the holder line */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-    gtk_box_pack_start (GTK_BOX (hbox), vbox2, FALSE, FALSE, 0);
+    //~ vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), vbox2, FALSE, FALSE, 0);
 
     /* we need to create first the text_view because used in callbacks */
-    detail_adresse_titulaire = gsb_autofunc_textview_new (NULL,
-														  NULL,
-														  NULL,
-														  G_CALLBACK (gsb_data_account_set_holder_address),
-														  0);
+    //~ detail_adresse_titulaire = gsb_autofunc_textview_new (NULL,
+														  //~ NULL,
+														  //~ NULL,
+														  //~ G_CALLBACK (gsb_data_account_set_holder_address),
+														  //~ 0);
 
     /* now the checkbutton for different address */
-    button_holder_address = gsb_autofunc_checkbutton_new (_("Holder's own address: "),
-														  FALSE,
-														  G_CALLBACK (gsb_editable_erase_text_view),
-														  detail_adresse_titulaire,
-														  NULL,
-														  0);
-    gtk_box_pack_start (GTK_BOX(vbox2), button_holder_address, FALSE, FALSE, 0);
+    //~ button_holder_address = gsb_autofunc_checkbutton_new (_("Holder's own address: "),
+														  //~ FALSE,
+														  //~ G_CALLBACK (gsb_editable_erase_text_view),
+														  //~ detail_adresse_titulaire,
+														  //~ NULL,
+														  //~ 0);
+    //~ gtk_box_pack_start (GTK_BOX(vbox2), button_holder_address, FALSE, FALSE, 0);
 
     /* if un-select the holder's button address, we need to erase the tree_view,
      * else issue when come back to that account property */
-    g_signal_connect (G_OBJECT (button_holder_address),
-					  "toggled",
-					  G_CALLBACK (utils_buttons_sensitive_by_checkbutton),
-					  detail_adresse_titulaire);
+    //~ g_signal_connect (G_OBJECT (button_holder_address),
+					  //~ "toggled",
+					  //~ G_CALLBACK (utils_buttons_sensitive_by_checkbutton),
+					  //~ detail_adresse_titulaire);
 
     /* create the text view for holder address */
-    scrolled_window_text = gtk_scrolled_window_new (FALSE, FALSE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window_text),
-									GTK_POLICY_AUTOMATIC,
-									GTK_POLICY_AUTOMATIC);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW(scrolled_window_text), GTK_SHADOW_IN);
-    gtk_widget_set_size_request (scrolled_window_text, -1, 120);
-    gtk_box_pack_start (GTK_BOX (hbox), scrolled_window_text, TRUE, TRUE, 0);
+    //~ scrolled_window_text = gtk_scrolled_window_new (FALSE, FALSE);
+    //~ gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window_text),
+									//~ GTK_POLICY_AUTOMATIC,
+									//~ GTK_POLICY_AUTOMATIC);
+    //~ gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW(scrolled_window_text), GTK_SHADOW_IN);
+    //~ gtk_widget_set_size_request (scrolled_window_text, -1, 120);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), scrolled_window_text, TRUE, TRUE, 0);
 
     /* text view created before */
-    gtk_container_add (GTK_CONTAINER (scrolled_window_text), detail_adresse_titulaire);
-    gtk_widget_set_sensitive (detail_adresse_titulaire, FALSE);
+    //~ gtk_container_add (GTK_CONTAINER (scrolled_window_text), detail_adresse_titulaire);
+    //~ gtk_widget_set_sensitive (detail_adresse_titulaire, FALSE);
 
     /* création de la ligne de l'établissement financier */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Bank"));
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Bank"));
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Financial institution: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Financial institution: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    bank_list_combobox = gsb_bank_create_combobox (0);
-    g_signal_connect (G_OBJECT (bank_list_combobox),
-					  "changed",
-					  G_CALLBACK (gsb_account_property_changed_bank_label),
-					  NULL);
-    gtk_box_pack_start (GTK_BOX(hbox), bank_list_combobox, TRUE, TRUE, 0);
+    //~ bank_list_combobox = gsb_bank_create_combobox (0);
+    //~ g_signal_connect (G_OBJECT (bank_list_combobox),
+					  //~ "changed",
+					  //~ G_CALLBACK (gsb_account_property_changed_bank_label),
+					  //~ NULL);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), bank_list_combobox, TRUE, TRUE, 0);
 
-    edit_bank_button = utils_buttons_button_new_from_stock ("gtk-edit", _("Modify"));
-    gtk_button_set_relief (GTK_BUTTON (edit_bank_button), GTK_RELIEF_NONE);
-    g_signal_connect (G_OBJECT (edit_bank_button),
-                      "clicked",
-                      G_CALLBACK (gsb_bank_edit_from_button),
-                      bank_list_combobox);
-    gtk_box_pack_start (GTK_BOX (hbox), edit_bank_button, FALSE, FALSE, 0);
+    //~ edit_bank_button = utils_buttons_button_new_from_stock ("gtk-edit", _("Modify"));
+    //~ gtk_button_set_relief (GTK_BUTTON (edit_bank_button), GTK_RELIEF_NONE);
+    //~ g_signal_connect (G_OBJECT (edit_bank_button),
+                      //~ "clicked",
+                      //~ G_CALLBACK (gsb_bank_edit_from_button),
+                      //~ bank_list_combobox);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), edit_bank_button, FALSE, FALSE, 0);
 
     /* création du numéro BIC */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("BIC code: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("BIC code: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    label_code_bic = gtk_label_new (NULL);
-    utils_labels_set_alignment (GTK_LABEL(label_code_bic), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_label_set_justify (GTK_LABEL(label_code_bic), GTK_JUSTIFY_RIGHT);
-    gtk_box_pack_start (GTK_BOX(hbox), label_code_bic, TRUE, TRUE, 0);
+    //~ label_code_bic = gtk_label_new (NULL);
+    //~ utils_labels_set_alignment (GTK_LABEL(label_code_bic), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_label_set_justify (GTK_LABEL(label_code_bic), GTK_JUSTIFY_RIGHT);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label_code_bic, TRUE, TRUE, 0);
 
      /* création de la ligne du numéro IBAN */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("IBAN number: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("IBAN number: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    detail_IBAN = gtk_entry_new ();
-    g_signal_connect (G_OBJECT (detail_IBAN), "insert-text",
-					  G_CALLBACK (gsb_account_property_iban_insert_text),
-                      bank_list_combobox);
-    g_signal_connect (G_OBJECT (detail_IBAN), "delete-text",
-                      G_CALLBACK (gsb_account_property_iban_delete_text),
-                      bank_list_combobox);
-    g_signal_connect (G_OBJECT (detail_IBAN), "key-press-event",
-                      G_CALLBACK (gsb_account_property_iban_key_press_event),
-                      NULL);
-    g_signal_connect (G_OBJECT (detail_IBAN), "focus-in-event",
-                      G_CALLBACK (gsb_account_property_iban_focus_in_event),
-                      NULL);
-    g_signal_connect (G_OBJECT (detail_IBAN), "focus-out-event",
-                      G_CALLBACK (gsb_account_property_iban_focus_out_event),
-                      NULL);
+    //~ detail_IBAN = gtk_entry_new ();
+    //~ g_signal_connect (G_OBJECT (detail_IBAN), "insert-text",
+					  //~ G_CALLBACK (gsb_account_property_iban_insert_text),
+                      //~ bank_list_combobox);
+    //~ g_signal_connect (G_OBJECT (detail_IBAN), "delete-text",
+                      //~ G_CALLBACK (gsb_account_property_iban_delete_text),
+                      //~ bank_list_combobox);
+    //~ g_signal_connect (G_OBJECT (detail_IBAN), "key-press-event",
+                      //~ G_CALLBACK (gsb_account_property_iban_key_press_event),
+                      //~ NULL);
+    //~ g_signal_connect (G_OBJECT (detail_IBAN), "focus-in-event",
+                      //~ G_CALLBACK (gsb_account_property_iban_focus_in_event),
+                      //~ NULL);
+    //~ g_signal_connect (G_OBJECT (detail_IBAN), "focus-out-event",
+                      //~ G_CALLBACK (gsb_account_property_iban_focus_out_event),
+                      //~ NULL);
 
-    gtk_widget_set_size_request (detail_IBAN, 350, -1);
-    gtk_box_pack_start (GTK_BOX (hbox), detail_IBAN, FALSE, FALSE, 0);
+    //~ gtk_widget_set_size_request (detail_IBAN, 350, -1);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), detail_IBAN, FALSE, FALSE, 0);
 
     /* create the code of bank */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Bank sort code: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Bank sort code: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    label_code_banque = gtk_label_new (NULL);
-    utils_labels_set_alignment (GTK_LABEL(label_code_banque), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_label_set_justify (GTK_LABEL(label_code_banque), GTK_JUSTIFY_RIGHT);
-    gtk_box_pack_start (GTK_BOX(hbox), label_code_banque, TRUE, TRUE, 0);
+    //~ label_code_banque = gtk_label_new (NULL);
+    //~ utils_labels_set_alignment (GTK_LABEL(label_code_banque), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_label_set_justify (GTK_LABEL(label_code_banque), GTK_JUSTIFY_RIGHT);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label_code_banque, TRUE, TRUE, 0);
 
     /* création de la ligne du guichet */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Bank branch code: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Bank branch code: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    label_guichet = gtk_label_new (NULL);
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_label_set_justify (GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
-    gtk_box_pack_start (GTK_BOX(hbox), label_guichet, FALSE, FALSE, 0);
+    //~ label_guichet = gtk_label_new (NULL);
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_label_set_justify (GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label_guichet, FALSE, FALSE, 0);
 
-    detail_guichet = gsb_autofunc_entry_new (NULL,
-											 NULL,
-											 NULL,
-											 G_CALLBACK (gsb_data_account_set_bank_branch_code),
-											 0);
-    gtk_box_pack_start (GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
+    //~ detail_guichet = gsb_autofunc_entry_new (NULL,
+											 //~ NULL,
+											 //~ NULL,
+											 //~ G_CALLBACK (gsb_data_account_set_bank_branch_code),
+											 //~ 0);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
 
     /* création de la ligne du numéro du compte */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Account number / Key: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Account number / Key: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    label_no_compte = gtk_label_new (NULL);
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_label_set_justify (GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
-    gtk_box_pack_start (GTK_BOX(hbox), label_no_compte, FALSE, FALSE, 0);
+    //~ label_no_compte = gtk_label_new (NULL);
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_label_set_justify (GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label_no_compte, FALSE, FALSE, 0);
 
-    detail_no_compte = gsb_autofunc_entry_new (NULL,
-											   NULL,
-											   NULL,
-											   G_CALLBACK (gsb_data_account_set_bank_account_number),
-											   0);
-    gtk_box_pack_start (GTK_BOX (hbox), detail_no_compte, TRUE, TRUE, 0);
+    //~ detail_no_compte = gsb_autofunc_entry_new (NULL,
+											   //~ NULL,
+											   //~ NULL,
+											   //~ G_CALLBACK (gsb_data_account_set_bank_account_number),
+											   //~ 0);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), detail_no_compte, TRUE, TRUE, 0);
 
-    detail_cle_compte = gsb_autofunc_entry_new (NULL,
-												NULL,
-												NULL,
-												G_CALLBACK (gsb_data_account_set_bank_account_key),
-												0);
-    gtk_widget_set_size_request (detail_cle_compte, 30, -1);
-    gtk_box_pack_start (GTK_BOX (hbox), detail_cle_compte, FALSE, FALSE, 0);
+    //~ detail_cle_compte = gsb_autofunc_entry_new (NULL,
+												//~ NULL,
+												//~ NULL,
+												//~ G_CALLBACK (gsb_data_account_set_bank_account_key),
+												//~ 0);
+    //~ gtk_widget_set_size_request (detail_cle_compte, 30, -1);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), detail_cle_compte, FALSE, FALSE, 0);
 
-    label_cle_compte = gtk_label_new (NULL);
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_label_set_justify (GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
-    gtk_box_pack_start (GTK_BOX(hbox), label_cle_compte, FALSE, FALSE, 0);
+    //~ label_cle_compte = gtk_label_new (NULL);
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_label_set_justify (GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
+    //~ gtk_box_pack_start (GTK_BOX(hbox), label_cle_compte, FALSE, FALSE, 0);
 
     /* création de la ligne du solde initial */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Balances"));
+    //~ paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Balances"));
 
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Initial balance: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Initial balance: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-    detail_solde_init = gsb_autofunc_real_new (null_real,
-											   G_CALLBACK (gsb_account_property_changed),
-											   GINT_TO_POINTER (PROPERTY_INIT_BALANCE),
-											   G_CALLBACK (gsb_data_account_set_init_balance), 0);
-    gtk_box_pack_start (GTK_BOX (hbox), detail_solde_init, TRUE, TRUE, 0);
+    //~ detail_solde_init = gsb_autofunc_real_new (null_real,
+											   //~ G_CALLBACK (gsb_account_property_changed),
+											   //~ GINT_TO_POINTER (PROPERTY_INIT_BALANCE),
+											   //~ G_CALLBACK (gsb_data_account_set_init_balance), 0);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), detail_solde_init, TRUE, TRUE, 0);
 
     /* création de la ligne du solde mini autorisé */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Minimum authorised balance: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Minimum authorised balance: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-    detail_solde_mini_autorise = gsb_autofunc_real_new (null_real,
-														G_CALLBACK (gsb_account_property_changed),
-														GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
-														G_CALLBACK (gsb_data_account_set_mini_balance_authorized),
-														0);
-    gtk_box_pack_start (GTK_BOX (hbox), detail_solde_mini_autorise, TRUE, TRUE, 0);
+    //~ detail_solde_mini_autorise = gsb_autofunc_real_new (null_real,
+														//~ G_CALLBACK (gsb_account_property_changed),
+														//~ GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
+														//~ G_CALLBACK (gsb_data_account_set_mini_balance_authorized),
+														//~ 0);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), detail_solde_mini_autorise, TRUE, TRUE, 0);
 
     /* création de la ligne du solde mini voulu */
-    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0);
+    //~ hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+    //~ gtk_box_pack_start (GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Minimum desired balance: "));
-    utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
-    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    //~ label = gtk_label_new (_("Minimum desired balance: "));
+    //~ utils_labels_set_alignment (GTK_LABEL(label), MISC_LEFT, MISC_VERT_CENTER);
+    //~ gtk_size_group_add_widget (GTK_SIZE_GROUP (size_group), label);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-    detail_solde_mini_voulu = gsb_autofunc_real_new (null_real,
-													 G_CALLBACK (gsb_account_property_changed),
-													 GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
-													 G_CALLBACK (gsb_data_account_set_mini_balance_wanted),
-													 0);
-    gtk_box_pack_start (GTK_BOX (hbox), detail_solde_mini_voulu, TRUE, TRUE, 0);
+    //~ detail_solde_mini_voulu = gsb_autofunc_real_new (null_real,
+													 //~ G_CALLBACK (gsb_account_property_changed),
+													 //~ GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
+													 //~ G_CALLBACK (gsb_data_account_set_mini_balance_wanted),
+													 //~ 0);
+    //~ gtk_box_pack_start (GTK_BOX (hbox), detail_solde_mini_voulu, TRUE, TRUE, 0);
 
     /* comments line */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Comments"));
+    //~ paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Comments"));
 
-    scrolled_window_text = gtk_scrolled_window_new (FALSE, FALSE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window_text),
-									GTK_POLICY_AUTOMATIC,
-									GTK_POLICY_AUTOMATIC);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW(scrolled_window_text), GTK_SHADOW_IN);
-    gtk_box_pack_start (GTK_BOX (paddingbox), scrolled_window_text, TRUE, TRUE, 0);
+    //~ scrolled_window_text = gtk_scrolled_window_new (FALSE, FALSE);
+    //~ gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window_text),
+									//~ GTK_POLICY_AUTOMATIC,
+									//~ GTK_POLICY_AUTOMATIC);
+    //~ gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW(scrolled_window_text), GTK_SHADOW_IN);
+    //~ gtk_box_pack_start (GTK_BOX (paddingbox), scrolled_window_text, TRUE, TRUE, 0);
 
-    detail_commentaire = gsb_autofunc_textview_new (NULL,
-													NULL,
-													NULL,
-													G_CALLBACK (gsb_data_account_set_comment),
-													0);
+    //~ detail_commentaire = gsb_autofunc_textview_new (NULL,
+													//~ NULL,
+													//~ NULL,
+													//~ G_CALLBACK (gsb_data_account_set_comment),
+													//~ 0);
 
-    gtk_widget_set_size_request (scrolled_window_text, -1, SW_MIN_HEIGHT);
-    gtk_container_add (GTK_CONTAINER (scrolled_window_text), detail_commentaire);
+    //~ gtk_widget_set_size_request (scrolled_window_text, -1, SW_MIN_HEIGHT);
+    //~ gtk_container_add (GTK_CONTAINER (scrolled_window_text), detail_commentaire);
 
-    gtk_widget_show_all (onglet);
+    //~ gtk_widget_show_all (onglet);
 
     return (onglet);
 }
@@ -1459,81 +1461,85 @@ GtkWidget *gsb_account_property_create_page (void)
  **/
 void gsb_account_property_fill_page (void)
 {
-	GtkWidget *label;
-    gint bank_number;
-    gint current_account;
-    GtkWidget *image;
+	GtkWidget *account_property_page;
+    //~ GtkWidget *image;
+	//~ GtkWidget *label;
+    //~ gint bank_number;
+    //~ gint account_number;
+    //~ gint current_account;
 
     devel_debug (NULL);
 
-    current_account = gsb_gui_navigation_get_current_account ();
+	account_property_page = grisbi_win_get_account_property_page ();
+	widget_account_property_fill (account_property_page);
+    //~ current_account = gsb_gui_navigation_get_current_account ();
 
-	/* set label of paddingbox file_selection_page */
-	label = g_object_get_data (G_OBJECT (paddingbox_detail_compte), "paddingbox_label");
-	if (label)
-	{
-		gchar *str_to_free;
-		gchar *tmp_str1;
-		gchar *tmp_str2;
 
-		str_to_free = g_strdup_printf (" N° %d", current_account);
-		tmp_str1 = g_strconcat (_("Account details"), str_to_free, NULL);
-		tmp_str2 = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", tmp_str1);
-		gtk_label_set_markup (GTK_LABEL (label), tmp_str2);
-		g_free (str_to_free);
-		g_free(tmp_str1);
-		g_free (tmp_str2);
-	}
+	//~ label = g_object_get_data (G_OBJECT (paddingbox_detail_compte), "paddingbox_label");
+	//~ if (label)
+	//~ {
+		//~ gchar *str_to_free;
+		//~ gchar *tmp_str1;
+		//~ gchar *tmp_str2;
+    //~ /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
+		//~ str_to_free = g_strdup_printf (" N° %d", current_account);
+		//~ tmp_str1 = g_strconcat (_("Account details"), str_to_free, NULL);
+		//~ tmp_str2 = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", tmp_str1);
+		//~ gtk_label_set_markup (GTK_LABEL (label), tmp_str2);
+		//~ g_free (str_to_free);
+		//~ g_free(tmp_str1);
+		//~ g_free (tmp_str2);
+	//~ }
 
-    gsb_autofunc_entry_set_value (detail_nom_compte,
-								  gsb_data_account_get_name (current_account), current_account);
+    //~ gsb_autofunc_entry_set_value (detail_nom_compte,
+								  //~ gsb_data_account_get_name (current_account), current_account);
 
-    gsb_autofunc_combobox_set_index (detail_type_compte,
-									 gsb_data_account_get_kind (current_account), current_account);
+    //~ gsb_autofunc_combobox_set_index (detail_type_compte,
+									 //~ gsb_data_account_get_kind (current_account), current_account);
 
-    /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
-    image = gsb_data_account_get_account_icon_image (current_account);
-    gtk_button_set_image (GTK_BUTTON (bouton_icon), image);
+    //~ /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
+    //~ image = gsb_data_account_get_account_icon_image (current_account);
+    //~ gtk_button_set_image (GTK_BUTTON (bouton_icon), image);
 
-    gsb_autofunc_currency_set_currency_number (detail_devise_compte,
-											   gsb_data_account_get_currency (current_account), current_account);
+    //~ gsb_autofunc_currency_set_currency_number (detail_devise_compte,
+											   //~ gsb_data_account_get_currency (current_account), current_account);
 
-    gsb_autofunc_checkbutton_set_value (detail_compte_cloture,
-										gsb_data_account_get_closed_account (current_account), current_account);
+    //~ gsb_autofunc_checkbutton_set_value (detail_compte_cloture,
+										//~ gsb_data_account_get_closed_account (current_account), current_account);
+    //~ /* fill bank information */
+    //~ gsb_autofunc_entry_set_value (detail_titulaire_compte,
+								  //~ gsb_data_account_get_holder_name (current_account), current_account);
 
-    gsb_autofunc_entry_set_value (detail_titulaire_compte,
-								  gsb_data_account_get_holder_name (current_account), current_account);
+    //~ gsb_autofunc_checkbutton_set_value (button_holder_address,
+										//~ gsb_data_account_get_holder_address (current_account) != NULL, 0);
 
-    gsb_autofunc_checkbutton_set_value (button_holder_address,
-										gsb_data_account_get_holder_address (current_account) != NULL, 0);
+    //~ gsb_autofunc_textview_set_value (detail_adresse_titulaire,
+									 //~ gsb_data_account_get_holder_address (current_account), current_account);
 
-    gsb_autofunc_textview_set_value (detail_adresse_titulaire,
-									 gsb_data_account_get_holder_address (current_account), current_account);
+    //~ /* fill bank information */
+    //~ bank_number = gsb_data_account_get_bank (current_account);
+    //~ gsb_account_property_set_label_code_bic (bank_number);
 
-    /* fill bank information */
-    bank_number = gsb_data_account_get_bank (current_account);
-    gsb_account_property_set_label_code_bic (bank_number);
+    //~ gsb_account_property_iban_set_iban (gsb_data_account_get_bank_account_iban (current_account));
 
-    gsb_account_property_iban_set_iban (gsb_data_account_get_bank_account_iban (current_account));
+    //~ if (gsb_account_property_iban_set_bank_from_iban (gsb_data_account_get_bank_account_iban (current_account)))
+        //~ gsb_account_property_iban_switch_bank_data (FALSE);
+    //~ else
+        //~ gsb_account_property_iban_switch_bank_data (TRUE);
 
-    if (gsb_account_property_iban_set_bank_from_iban (gsb_data_account_get_bank_account_iban (current_account)))
-        gsb_account_property_iban_switch_bank_data (FALSE);
-    else
-        gsb_account_property_iban_switch_bank_data (TRUE);
+    //~ gsb_autofunc_real_set (detail_solde_init,
+                           //~ gsb_data_account_get_init_balance (current_account,
+                           //~ gsb_data_currency_get_floating_point (
+                           //~ gsb_data_account_get_currency (current_account))), current_account);
+    //~ gsb_autofunc_real_set (detail_solde_mini_autorise,
+                           //~ gsb_data_account_get_mini_balance_authorized (current_account),
+                           //~ current_account);
+    //~ gsb_autofunc_real_set (detail_solde_mini_voulu,
+						   //~ gsb_data_account_get_mini_balance_wanted (current_account),
+						   //~ current_account);
 
-    gsb_autofunc_real_set (detail_solde_init,
-                           gsb_data_account_get_init_balance (current_account,
-                           gsb_data_currency_get_floating_point (
-                           gsb_data_account_get_currency (current_account))), current_account);
-    gsb_autofunc_real_set (detail_solde_mini_autorise,
-                           gsb_data_account_get_mini_balance_authorized (current_account),
-                           current_account);
-    gsb_autofunc_real_set (detail_solde_mini_voulu,
-						   gsb_data_account_get_mini_balance_wanted (current_account),
-						   current_account);
-
-    gsb_autofunc_textview_set_value (detail_commentaire,
-									 gsb_data_account_get_comment (current_account), current_account);
+    //~ gsb_autofunc_textview_set_value (detail_commentaire,
+									 //~ gsb_data_account_get_comment (current_account), current_account);
 }
 
 /**

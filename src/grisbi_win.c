@@ -67,6 +67,7 @@
 #include "utils_dates.h"
 #include "utils_files.h"
 #include "utils_str.h"
+#include "widget_account_property.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -120,6 +121,9 @@ struct _GrisbiWinPrivate
 
 	/* widgets de la fenêtre des operations */
 	GtkWidget *			vbox_transactions_list;			/* vbox contenant le tree_view des opérations */
+
+	/* widget account_property_page */
+	GtkWidget *			account_property_page;
 
     /* nom du fichier associé à la fenêtre */
     gchar *             filename;
@@ -452,8 +456,10 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
                         bet_finance_ui_create_account_amortization_page (),
                         gtk_label_new (_("Amortization array")));
 
+	/* append account_property_page */
+	priv->account_property_page = GTK_WIDGET (widget_account_property_new ());
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        gsb_account_property_create_page (),
+                        priv->account_property_page,
                         gtk_label_new (_("Properties")));
 
     g_signal_connect (G_OBJECT (priv->account_page),
@@ -932,6 +938,8 @@ static void grisbi_win_init (GrisbiWin *win)
 	priv->form_expander = NULL;
 	priv->vbox_transactions_list = NULL;
 
+	priv->account_property_page = NULL;
+
     /* creation et initialisation de la structure w_run */
     priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
 	(priv->w_run)->account_number_is_0 = FALSE;
@@ -1141,6 +1149,24 @@ GtkWidget *grisbi_win_get_account_page (void)
     priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
     return priv->account_page;
+}
+
+/**
+ * retourne account_property_page
+ *
+ * \param
+ *
+ * \return account_page
+ **/
+GtkWidget *grisbi_win_get_account_property_page (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    return priv->account_property_page;
 }
 
 /**
@@ -1854,6 +1880,24 @@ void grisbi_win_free_general_notebook (void)
 }
 
 /* ACCOUNT_PAGE */
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_free_account_property_page (void)
+{
+    GrisbiWin *win;
+    GrisbiWinPrivate *priv;
+
+    win = grisbi_app_get_active_window (NULL);
+    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+    priv->account_property_page = NULL;
+}
+
 /**
  * called when the account notebook changed page between
  * transactions list and account description

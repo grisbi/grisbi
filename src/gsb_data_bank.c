@@ -31,6 +31,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_bank.h"
@@ -602,3 +603,36 @@ gboolean gsb_data_bank_set_bic ( gint bank_number, const gchar *bank_BIC )
     return TRUE;
 }
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_data_bank_get_bank_type_list (void)
+{
+    gchar *text [] = { _("Bank account"), _("Cash account"), _("Liabilities account"), _("Assets account"), NULL };
+    gint i = 0;
+    GSList *list = NULL;
+
+    while (text[i])
+    {
+		list = g_slist_append (list, text[i]);
+		list = g_slist_append (list, GINT_TO_POINTER (i));
+		i++;
+    }
+
+	return list;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
