@@ -567,6 +567,7 @@ void print_report_export_pdf (const gchar *pdf_name)
     g_value_init (&value, G_TYPE_STRING);
     g_value_set_string (&value, pdf_name);
 
+	table_etat = etats_gtktable_get_table_etat ();
 	print = gtk_print_operation_new ();
 
 	if (print_settings != NULL)
