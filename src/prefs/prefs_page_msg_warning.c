@@ -117,6 +117,19 @@ static gboolean prefs_page_msg_warning_list_button_press (GtkWidget *tree_view,
  *
  * \return
  **/
+
+/* Disable: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
+  142 |                                 tmp_str = g_strdup_printf (_((warning+i)->hint), filename);
+      |                                 ^~~~~~~
+*/
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+#endif
+
 static void prefs_page_msg_warning_fill_model (GtkTreeModel *model)
 {
 	gchar *tmp_str;
@@ -163,6 +176,11 @@ static void prefs_page_msg_warning_fill_model (GtkTreeModel *model)
 		g_free (tmp_str);
 	}
 }
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
 
 /**
  *
