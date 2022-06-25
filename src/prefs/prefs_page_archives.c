@@ -40,7 +40,6 @@
 #include "prefs_page_archives.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "gsb_account_property.h"
 #include "gsb_autofunc.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"

@@ -46,7 +46,6 @@
 #include "categories_onglet.h"
 #include "etats_onglet.h"
 #include "dialog.h"
-#include "gsb_account_property.h"
 #include "gsb_data_form.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"

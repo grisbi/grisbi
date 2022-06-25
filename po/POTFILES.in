@@ -89,7 +89,6 @@ src/grisbi_conf.c
 src/grisbi_prefs.c
 src/grisbi_win.c
 src/gsb_account.c
-src/gsb_account_property.c
 src/gsb_assistant.c
 src/gsb_assistant_account.c
 src/gsb_assistant_archive.c

@@ -38,7 +38,6 @@
 
 /*START_INCLUDE*/
 #include "widget_bank_details.h"
-#include "gsb_account_property.h"
 #include "gsb_autofunc.h"
 #include "gsb_bank.h"
 #include "gsb_data_bank.h"

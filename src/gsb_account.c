@@ -33,7 +33,6 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "grisbi_win.h"
-#include "gsb_account_property.h"
 #include "gsb_category.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"

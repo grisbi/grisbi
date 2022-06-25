@@ -39,7 +39,6 @@
 #include "etats_onglet.h"
 #include "grisbi_app.h"
 #include "gsb_account.h"
-#include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"

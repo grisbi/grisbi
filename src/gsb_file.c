@@ -43,7 +43,6 @@
 #include "dialog.h"
 #include "etats_gtktable.h"
 #include "grisbi_app.h"
-#include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
@@ -1146,7 +1145,6 @@ gboolean gsb_file_close (void)
 		etats_gtktable_free_table_etat (); /* set table_etat = NULL: fix crash loading a multiple accounts files */
  	    init_variables ();
         grisbi_win_free_general_vbox ();
-        gsb_account_property_clear_config ();
 		grisbi_win_set_filename (NULL, NULL);
 
         grisbi_win_set_window_title (-1);
@@ -1335,7 +1333,6 @@ gboolean gsb_file_quit (void)
 	    /* free all the variables */
 		etats_gtktable_free_table_etat (); /* set table_etat = NULL: fix crash loading a multiple accounts files */
         grisbi_win_free_general_vbox ();
-        gsb_account_property_clear_config ();
 		grisbi_win_set_filename (NULL, NULL);
 
         grisbi_win_set_window_title (-1);

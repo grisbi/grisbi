@@ -95,7 +95,6 @@
 
 /*START_EXTERN*/
 extern GtkTreeModel *	bank_list_model;
-extern GtkWidget *		detail_devise_compte;
 extern gint 			id_timeout;
 extern GSList *			orphan_child_transactions;
 extern gint 			scheduler_current_tree_view_width;
@@ -225,10 +224,6 @@ void init_variables (void)
     etat.combofix_case_sensitive = FALSE;
     etat.combofix_force_payee = FALSE;
     etat.combofix_force_category = FALSE;
-
-    /* mis à NULL prévient un plantage aléatoire dans
-     * gsb_currency_update_combobox_currency_list */
-    detail_devise_compte = NULL;
 
     /* the main notebook is set to NULL,
      * important because it's the checked variable in a new file

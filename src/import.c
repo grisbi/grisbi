@@ -44,7 +44,6 @@
 #endif /* HAVE_GOFFICE */
 #include "grisbi_app.h"
 #include "gsb_account.h"
-#include "gsb_account_property.h"
 #include "gsb_assistant.h"
 #include "gsb_assistant_file.h"
 #include "gsb_automem.h"

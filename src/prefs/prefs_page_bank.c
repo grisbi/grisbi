@@ -39,7 +39,6 @@
 /*START_INCLUDE*/
 #include "prefs_page_bank.h"
 #include "dialog.h"
-#include "gsb_account_property.h"
 #include "gsb_bank.h"
 #include "gsb_data_bank.h"
 #include "gsb_data_account.h"

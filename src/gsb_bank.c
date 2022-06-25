@@ -41,7 +41,6 @@
 #include "gsb_bank.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "gsb_account_property.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
 #include "gsb_file.h"
