@@ -340,7 +340,6 @@ gchar *gsb_real_raw_format_string (GsbReal number,
 								   const gchar *currency_symbol)
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
-    gchar format[40];
     gchar *result = NULL, *temp = NULL;
 	const gchar *cs_start;
     const gchar *cs_start_space;
@@ -380,14 +379,13 @@ gchar *gsb_real_raw_format_string (GsbReal number,
         temp = gsb_real_add_thousands_sep (temp, locale->mon_thousands_sep);
     }
 
-    g_snprintf (format, sizeof (format), "%s%d%s", "%s%s%s%s%s%0", number.exponent, "lld%s%s");
-
-    result = g_strdup_printf (format,
+    result = g_strdup_printf ("%s%s%s%s%s%0*lld%s%s",
 							  cs_start,
 							  cs_start_space,
 							  sign,
 							  temp,
 							  mon_decimal_point,
+							  number.exponent,
 							  units.rem,
 							  cs_end_space,
 							  cs_end);
@@ -917,7 +915,6 @@ gchar *gsb_real_safe_real_to_string (GsbReal number,
 									 gint default_exponent)
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
-    gchar format[40];
     gchar *result = NULL;
     gchar *partie_entiere;
     const gchar *sign;
@@ -945,9 +942,7 @@ gchar *gsb_real_safe_real_to_string (GsbReal number,
 
     partie_entiere = g_strndup (buffer, nbre_char);
 
-    g_snprintf (format, sizeof (format), "%s%d%s", "%s%s%s%0", number.exponent, "lld");
-
-    result = g_strdup_printf (format, sign, partie_entiere, mon_decimal_point, units.rem);
+    result = g_strdup_printf ("%s%s%s%0*lld", sign, partie_entiere, mon_decimal_point, number.exponent, units.rem);
     g_free (partie_entiere);
 
 /*     printf ("number.mantissa = %lld number.exponent = %d résultat = %s\n",
