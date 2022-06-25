@@ -871,7 +871,6 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 			{
 				num_col_date = i;
 				col_date_present = TRUE;
-				g_free (tmp_str);
 
 				break;
 			}
