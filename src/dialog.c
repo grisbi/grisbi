@@ -856,6 +856,15 @@ void dialogue_error_memory (void)
  *
  * \return
  **/
+
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+#endif
+
 void dialogue_message (const gchar *label, ...)
 {
     va_list ap;
@@ -882,6 +891,11 @@ void dialogue_message (const gchar *label, ...)
 		i ++;
     }
 }
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
 
 /**
  * Display an info dialog window with a hint displayed larger and in
