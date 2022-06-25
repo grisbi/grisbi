@@ -418,7 +418,7 @@ void debug_message_string ( const gchar *prefixe,
         if (NULL == message)
 			message = "";
 
-		tmp_str = g_strdup_printf(_("%2f : %s - %s:%d:%s - %s"),
+		tmp_str = g_strdup_printf("%2f : %s - %s:%d:%s - %s",
                         (clock() + 0.0)/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
 
@@ -596,7 +596,7 @@ gboolean debug_start_log ( void )
 
 		debug_mode = TRUE;
         /* début du mode de débogage */
-        tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
+        tmp_str = g_strdup_printf("%s, %2f : Debug - %s:%d:%s\n\n",
                         debug_get_debug_time ( ),
                         (clock() + 0.0)/ CLOCKS_PER_SEC,
                         __FILE__,
