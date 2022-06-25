@@ -182,7 +182,6 @@ static void bet_finance_fill_data_ligne (GtkTreeModel *model,
     gchar *str_echeance;
     gchar *str_totale;
     gchar *str_total_cost;
-    gchar *str_format;
 	gchar *tmp_str;
     gchar buffer[256];
     gint nbre_char;
@@ -195,12 +194,8 @@ static void bet_finance_fill_data_ligne (GtkTreeModel *model,
 													   s_echeance->devise,
 													   TRUE);
 
-	tmp_str = utils_str_itoa (BET_TAUX_DIGITS);
-    str_format = g_strconcat ("%.", tmp_str, "f", NULL);
-	g_free (tmp_str);
-    nbre_char = g_sprintf (buffer, str_format, s_echeance->taux);
+    nbre_char = g_sprintf (buffer, "%.*f", BET_TAUX_DIGITS, s_echeance->taux);
     str_taux =  g_strndup (buffer, nbre_char + 1);
-    g_free (str_format);
 
     str_frais = utils_real_get_string_with_currency (gsb_real_double_to_real (s_echeance->frais),
 													 s_echeance->devise,
