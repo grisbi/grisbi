@@ -1443,6 +1443,8 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 {
 	GtkTextBuffer *buffer;
 	GtkTextIter iter;
+	const gchar *tab = "\t";
+	gchar *tmp_str;
 	guint i;
 	GrisbiAppPrivate *priv;
 
@@ -1467,7 +1469,7 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 #endif
 			g_free (str_to_free);
 
-			text = g_strdup_printf ("%s\t-> %s.\n", gettext (accels[i].translate_string), str);
+			text = g_strdup_printf ("%s%s-> %s.\n", gettext (accels[i].translate_string), tab, str);
 			gtk_text_buffer_insert (buffer, &iter, text, -1);
 			g_free (str);
 			g_free (text);
@@ -1489,7 +1491,7 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 #endif
 			g_free (str_to_free);
 
-			text = g_strdup_printf ("%s\t\t-> %s.\n", gettext (accels[i].translate_string), str);
+			text = g_strdup_printf ("%s%s-> %s.\n", gettext (accels[i].translate_string), tab, str);
 			gtk_text_buffer_insert (buffer, &iter, text, -1);
 			g_free (str);
 			g_free (text);
@@ -1500,11 +1502,19 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list :</b>"), -1);
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
 #ifdef GTKOSXAPPLICATION
-	gtk_text_buffer_insert (buffer, &iter, _("(Un)Pointing a transaction\t\t-> <Command>p, <Command>F12\n"), -1);
-	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t\t-> <Command>r\n"), -1);
+	tmp_str = g_strdup_printf (_("(Un)Pointing a transaction%s-> <Command>p, <Command>F12\n"), tab);
+	gtk_text_buffer_insert (buffer, &iter, tmp_str, -1);
+	g_free (tmp_str);
+	tmp_str = g_strdup_printf (_("(Un)Reconcile a transaction%s-> <Command>r\n"), tab);
+	gtk_text_buffer_insert (buffer, &iter, tmp_str, -1);
+	g_free (tmp_str);
 #else
-	gtk_text_buffer_insert (buffer, &iter, _("(Un)Pointing a transaction\t\t-> <Ctrl>p, <Ctrl>F12\n"), -1);
-	gtk_text_buffer_insert (buffer, &iter, _("(Un)Reconcile a transaction\t\t-> <Ctrl>r\n"), -1);
+	tmp_str = g_strdup_printf (_("(Un)Pointing a transaction%s-> <Ctrl>p, <Ctrl>F12\n"), tab);
+	gtk_text_buffer_insert (buffer, &iter, tmp_str, -1);
+	g_free (tmp_str);
+	tmp_str = g_strdup_printf (_("(Un)Reconcile a transaction%s-> <Ctrl>p, <Ctrl>F12\n"), tab);
+	gtk_text_buffer_insert (buffer, &iter, tmp_str, -1);
+	g_free (tmp_str);
 #endif
 }
 
