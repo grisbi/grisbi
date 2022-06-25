@@ -939,15 +939,9 @@ gchar *utils_str_dtostr (gdouble number,
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar *str_number;
-    gchar *decimal;
-    gchar *format;
     gint nbre_char;
 
-    decimal = utils_str_itoa (nbre_decimal);
-    format = g_strconcat ("%.", decimal, "f", NULL);
-    nbre_char = g_sprintf (buffer, format, number);
-    g_free (decimal);
-    g_free (format);
+    nbre_char = g_sprintf (buffer, "%.*f", nbre_decimal, number);
 
     if (nbre_char > G_ASCII_DTOSTR_BUF_SIZE)
         return NULL;
