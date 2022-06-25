@@ -767,6 +767,19 @@ gchar *dialogue_make_red (const gchar *text)
  * \return			a pango formated string It returns a newly allocated string which must
  *					be freed when no more used.
  */
+
+/* Disable: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
+  777 |     tmp_str = g_markup_printf_escaped (span_format , text);
+      |     ^~~~~~~
+*/
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+#endif
+
 gchar *dialogue_make_pango_attribut (const gchar *attribut,
 							const gchar *text)
 {
@@ -779,6 +792,11 @@ gchar *dialogue_make_pango_attribut (const gchar *attribut,
 
     return tmp_str;
 }
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
 
 /**
  * use pango layout to produce a string that will contain a text.
