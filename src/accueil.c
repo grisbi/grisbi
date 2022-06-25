@@ -2075,6 +2075,19 @@ void affiche_dialogue_soldes_minimaux (void)
  *
  * \return FALSE
  **/
+
+/* Disable: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
+ 2126 |     tmp_str = g_strdup_printf (way, tmp_str2, gsb_data_account_get_name (account_number));
+      |     ^~~~~~~
+*/
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+#endif
+
 gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_number)
 {
     GtkWidget *label;
@@ -2140,6 +2153,11 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
 
     return FALSE;
 }
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
 
 /**
  * update the title of the main page
