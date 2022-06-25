@@ -926,6 +926,39 @@ GtkWidget *utils_menu_item_new_from_image_label (const gchar *image_name,
 }
 
 /**
+ * Création d'un GtkToolButton à partir d'une image et d'un label
+ *
+ * \param image_name    filename
+ * \param label_name    label for button
+ *
+ * \return a GtkToolItem or NULL
+ * */
+GtkWidget *utils_menu_item_new_from_resource_label (const gchar *image_name,
+												 const gchar *label_name)
+{
+	GtkWidget *menu_item = NULL;
+	GtkWidget *box;
+	GtkWidget *image;
+	GtkWidget *label;
+	gchar *resource;
+
+	resource = g_strconcat ("/org/gtk/grisbi/images/", image_name, NULL);
+
+	image = gtk_image_new_from_resource (resource);
+	g_free (resource);
+
+	label = gtk_label_new (label_name);
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+	gtk_container_add (GTK_CONTAINER (box), image);
+	gtk_container_add (GTK_CONTAINER (box), label);
+
+	menu_item = gtk_menu_item_new ();
+	gtk_container_add (GTK_CONTAINER (menu_item), box);
+
+    return menu_item;
+}
+
+/**
  *
  *
  * \param

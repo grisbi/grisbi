@@ -279,6 +279,30 @@ GtkWidget *utils_buttons_button_new_from_image (const gchar *image_name)
 }
 
 /**
+ * Crée un bouton à partir d'une ressource image
+ *
+ * \param const gchar   name of image
+ *
+ * \return GtkWidget
+ **/
+GtkWidget *utils_buttons_button_new_from_resource (const gchar *image_name)
+{
+	GtkWidget *button = NULL;
+	GtkWidget *image;
+	gchar *resource;
+
+	button = gtk_button_new ();
+
+	resource = g_strconcat ("/org/gtk/grisbi/images/", image_name, NULL);
+
+	image = gtk_image_new_from_resource (resource);
+	g_free (resource);
+	gtk_button_set_image (GTK_BUTTON (button), image);
+
+	return button;
+}
+
+/**
  * similaire à gtk_button_new_from_stock ()
  *
  * \param const gchar   stock item
