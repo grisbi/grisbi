@@ -4121,11 +4121,11 @@ msgstr "Grisbi n'a pas pu créer le fichier de log..."
 
 #: ../src/etats_affiche.c:200 ../src/etats_affiche.c:423
 #: ../src/etats_affiche.c:637 ../src/etats_affiche.c:739
-#, fuzzy, c-format
+#, c-format
 msgid "Total %s (%d transaction)"
 msgid_plural "Total %s (%d transactions)"
 msgstr[0] "Total %s (%d opération)"
-msgstr[1] "Total %s (%d opération)"
+msgstr[1] "Total %s (%d opérations)"
 
 #: ../src/etats_affiche.c:205 ../src/etats_affiche.c:428
 #: ../src/etats_affiche.c:642
@@ -4133,11 +4133,11 @@ msgid "Total "
 msgstr "Total "
 
 #: ../src/etats_affiche.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "Category total (%d transaction): "
 msgid_plural "Category total (%d transactions): "
 msgstr[0] "Total catégorie (%d opération) : "
-msgstr[1] "Total catégorie (%d opération) : "
+msgstr[1] "Total catégorie (%d opérations) : "
 
 #: ../src/etats_affiche.c:218
 msgid "Category total: "
@@ -4146,18 +4146,18 @@ msgstr "Total catégorie : "
 #: ../src/etats_affiche.c:244 ../src/etats_affiche.c:356
 #: ../src/etats_affiche.c:465 ../src/etats_affiche.c:576
 #: ../src/etats_affiche.c:679 ../src/etats_affiche.c:781
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d transaction)"
 msgid_plural "%s (%d transactions)"
 msgstr[0] "%s (%d opération)"
-msgstr[1] "%s (%d opération)"
+msgstr[1] "%s (%d opérations)"
 
 #: ../src/etats_affiche.c:313 ../src/etats_affiche.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "Total %s: %s (%d transaction): "
 msgid_plural "Total %s: %s (%d transactions): "
 msgstr[0] "Total %s : %s (%d opération) : "
-msgstr[1] "Total %s : %s (%d opération) : "
+msgstr[1] "Total %s : %s (%d opérations) : "
 
 #: ../src/etats_affiche.c:320 ../src/etats_affiche.c:536
 #, c-format
@@ -4165,21 +4165,21 @@ msgid "Total %s: %s"
 msgstr "Total %s : %s"
 
 #: ../src/etats_affiche.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Sub-categories total (%d transaction): "
 msgid_plural "Sub-categories total (%d transactions): "
 msgstr[0] "Total sous-catégories (%d opération) : "
-msgstr[1] "Total sous-catégories (%d opération) : "
+msgstr[1] "Total sous-catégories (%d opérations) : "
 
 #: ../src/etats_affiche.c:334
 msgid "Sub-categories total: "
 msgstr "Total sous-catégories : "
 
 #: ../src/etats_affiche.c:436
-#, fuzzy, c-format
+#, c-format
 msgid "Budgetary lines total: (%d transaction): "
 msgid_plural "Budgetary lines total: (%d transactions): "
-msgstr[0] "Total imputations budgétaires : (%d opérations) : "
+msgstr[0] "Total imputations budgétaires : (%d opération) : "
 msgstr[1] "Total imputations budgétaires : (%d opérations) : "
 
 #: ../src/etats_affiche.c:442
@@ -4187,22 +4187,22 @@ msgid "Budgetary lines total: "
 msgstr "Total imputations budgétaires : "
 
 #: ../src/etats_affiche.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "Sub-budgetary lines total: (%d transaction): "
 msgid_plural "Sub-budgetary lines total: (%d transactions): "
 msgstr[0] "Total sous-imputations budgétaires : (%d opération) : "
-msgstr[1] "Total sous-imputations budgétaires : (%d opération) : "
+msgstr[1] "Total sous-imputations budgétaires : (%d opérations) : "
 
 #: ../src/etats_affiche.c:550
 msgid "Sub-budgetary lines total: "
 msgstr "Total sous-imputations budgétaires : "
 
 #: ../src/etats_affiche.c:650
-#, fuzzy, c-format
+#, c-format
 msgid "Account total: (%d transaction): "
 msgid_plural "Account total: (%d transactions): "
 msgstr[0] "Total compte : (%d opération) : "
-msgstr[1] "Total compte : (%d opération) : "
+msgstr[1] "Total compte : (%d opérations) : "
 
 #: ../src/etats_affiche.c:655
 msgid "Account total: "
@@ -4214,11 +4214,11 @@ msgid "Total %s"
 msgstr "Total %s"
 
 #: ../src/etats_affiche.c:752
-#, fuzzy, c-format
+#, c-format
 msgid "Payee total: (%d transaction): "
 msgid_plural "Payee total: (%d transactions): "
 msgstr[0] "Total tiers (%d opération) : "
-msgstr[1] "Total tiers (%d opération) : "
+msgstr[1] "Total tiers (%d opérations) : "
 
 #: ../src/etats_affiche.c:757
 msgid "Payee total: "
@@ -4226,11 +4226,11 @@ msgstr "Total tiers : "
 
 #: ../src/etats_affiche.c:921 ../src/etats_affiche.c:1019
 #: ../src/etats_affiche.c:1181
-#, fuzzy, c-format
+#, c-format
 msgid "Result of %s (%d transaction): "
 msgid_plural "Result of %s (%d transactions): "
 msgstr[0] "Résultat de %s (%d opération) : "
-msgstr[1] "Résultat de %s (%d opération) : "
+msgstr[1] "Résultat de %s (%d opérations) : "
 
 #: ../src/etats_affiche.c:926 ../src/etats_affiche.c:1024
 #: ../src/etats_affiche.c:1187
@@ -4239,11 +4239,11 @@ msgid "Result of %s: "
 msgstr "Résultat de %s : "
 
 #: ../src/etats_affiche.c:982
-#, fuzzy, c-format
+#, c-format
 msgid "Result from %s to %s (%d transaction): "
 msgid_plural "Result from %s to %s (%d transactions): "
 msgstr[0] "Résultat du %s au %s (%d opération) : "
-msgstr[1] "Résultat du %s au %s (%d opération) : "
+msgstr[1] "Résultat du %s au %s (%d opérations) : "
 
 #: ../src/etats_affiche.c:993
 #, c-format
@@ -4251,11 +4251,11 @@ msgid "Result from %s to %s: "
 msgstr "Résultat du %s au %s : "
 
 #: ../src/etats_affiche.c:1047
-#, fuzzy, c-format
+#, c-format
 msgid "Result for %s (%d transaction): "
 msgid_plural "Result for %s (%d transactions): "
 msgstr[0] "Résultat pour %s (%d opération) : "
-msgstr[1] "Résultat pour %s (%d opération) : "
+msgstr[1] "Résultat pour %s (%d opérations) : "
 
 #: ../src/etats_affiche.c:1052
 #, c-format
@@ -4263,11 +4263,11 @@ msgid "Result for %s: "
 msgstr "Résultat pour %s : "
 
 #: ../src/etats_affiche.c:1197
-#, fuzzy, c-format
+#, c-format
 msgid "Result without financial year (%d transaction): "
 msgid_plural "Result without financial year (%d transactions): "
 msgstr[0] "Résultat sans exercice (%d opération) : "
-msgstr[1] "Résultat sans exercice (%d opération) : "
+msgstr[1] "Résultat sans exercice (%d opérations) : "
 
 #: ../src/etats_affiche.c:1203
 msgid "Result without financial year: "
@@ -4286,36 +4286,36 @@ msgid "Transfer from %s"
 msgstr "Virement de %s"
 
 #: ../src/etats_affiche.c:1664
-#, fuzzy, c-format
+#, c-format
 msgid "Total charge (%d transaction): "
 msgid_plural "Total charge (%d transactions): "
 msgstr[0] "Charge totale (%d opération) : "
-msgstr[1] "Charge totale (%d opération) : "
+msgstr[1] "Charge totale (%d opérations) : "
 
 #: ../src/etats_affiche.c:1671
-#, fuzzy, c-format
+#, c-format
 msgid "Total expense (%d transaction): "
 msgid_plural "Total expense (%d transactions): "
 msgstr[0] "Dépense totale (%d opération) : "
-msgstr[1] "Dépense totale (%d opération) : "
+msgstr[1] "Dépense totale (%d opérations) : "
 
 #: ../src/etats_affiche.c:1681
 msgid "Total expenses: "
 msgstr "Dépenses totales : "
 
 #: ../src/etats_affiche.c:1691
-#, fuzzy, c-format
+#, c-format
 msgid "Total product (%d transaction): "
 msgid_plural "Total product (%d transactions): "
 msgstr[0] "Produit total (%d opération) : "
-msgstr[1] "Produit total (%d opération) : "
+msgstr[1] "Produit total (%d opérations) : "
 
 #: ../src/etats_affiche.c:1698
-#, fuzzy, c-format
+#, c-format
 msgid "Total income (%d transaction): "
 msgid_plural "Total income (%d transactions): "
 msgstr[0] "Revenu total (%d opération) : "
-msgstr[1] "Revenu total (%d opération) : "
+msgstr[1] "Revenu total (%d opérations) : "
 
 #: ../src/etats_affiche.c:1706
 msgid "Total Products: "
@@ -4326,11 +4326,11 @@ msgid "Total income: "
 msgstr "Revenu total : "
 
 #: ../src/etats_affiche.c:1758
-#, fuzzy, c-format
+#, c-format
 msgid "General total (%d transaction): "
 msgid_plural "General total (%d transactions): "
 msgstr[0] "Total général (%d opération) : "
-msgstr[1] "Total général (%d opération) : "
+msgstr[1] "Total général (%d opérations) : "
 
 #: ../src/etats_affiche.c:1763
 msgid "General total: "
