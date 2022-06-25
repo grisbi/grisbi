@@ -358,9 +358,9 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
     gchar *tmp;
     gchar *old_label;
     gchar *new_label;
-    gchar format[6] = "%s%0d";
     int __reconcile_number;
     size_t __size;
+    size_t __size_expand;
     int __expand;
 
     /* old_label = NAME + NUMBER */
@@ -404,16 +404,15 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
 
     /* if stage 99 -> 100 for example,
      * then we have to allocate one more byte */
-    __size = strlen ( tmp ) + __expand;
+    __size_expand = strlen ( tmp ) + __expand;
     /* format string for the output (according NUMBER string length) */
-    format[3] = 48 + __size;
 
     /* close the NAME string */
     *tmp = 0;
     /* NAME + NUMBER + '\0' */
-    __size += strlen ( old_label ) * sizeof ( gchar ) + 1;
+    __size = __size_expand + strlen ( old_label ) * sizeof ( gchar ) + 1;
     new_label = g_malloc0 ( __size * sizeof ( gchar ) );
-    sprintf ( new_label, format, old_label, __reconcile_number );
+    sprintf ( new_label, "%s%*d", old_label, (int)__size_expand, __reconcile_number );
 
     /* replace ' ' by '0' in number */
     tmp = new_label + strlen ( old_label ) * sizeof ( gchar );
