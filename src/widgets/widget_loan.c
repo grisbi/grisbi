@@ -1940,17 +1940,12 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
  **/
 static void widget_loan_init (WidgetLoan *w_loan)
 {
-	gchar *filename;
 
 	gtk_widget_init_template (GTK_WIDGET (w_loan));
 
 	/* set icons */
-	filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gtk-apply-16.png", NULL);
-	pixbuf_OK = gdk_pixbuf_new_from_file (filename, NULL);
-	g_free (filename);
-	filename = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gtk-dialog-warning-16.png", NULL);
-	pixbuf_NOK = gdk_pixbuf_new_from_file (filename, NULL);
-	g_free (filename);
+	pixbuf_OK = gdk_pixbuf_new_from_resource ("/org/gtk/grisbi/images/gtk-apply-16.png", NULL);
+	pixbuf_NOK = gdk_pixbuf_new_from_resource ("/org/gtk/grisbi/images/gtk-warning-16.png", NULL);
 }
 
 /**

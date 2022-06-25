@@ -1,5 +1,6 @@
 EXTRA_DIST = \
 	gtk-add-16.png \
+	gtk-apply-16.png \
 	gsb-down-16.png \
 	gtk-eye-looking.svg \
 	gtk-eye-not-looking.svg \

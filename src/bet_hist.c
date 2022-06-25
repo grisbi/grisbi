@@ -786,8 +786,8 @@ static void bet_hist_context_menu (GtkWidget *tree_view)
 	menu = gtk_menu_new ();
 
 	/* Add last amount menu */
-	menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png",
-													  _("Assign the amount of the last operation"));
+	menu_item = utils_menu_item_new_from_resource_label ("gtk-add-16.png",
+														 _("Assign the amount of the last operation"));
 	g_signal_connect (G_OBJECT (menu_item),
 					  "activate",
 					  G_CALLBACK (bet_hist_add_last_amount),

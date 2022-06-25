@@ -1313,8 +1313,8 @@ static void bet_array_list_context_menu (GtkWidget *tree_view,
     }
     else
     {
-        menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png",
-														  _("Adding to the balance"));
+        menu_item = utils_menu_item_new_from_resource_label ("gtk-add-16.png",
+															 _("Adding to the balance"));
     }
     g_signal_connect (G_OBJECT (menu_item),
                         "activate",
@@ -1328,7 +1328,7 @@ static void bet_array_list_context_menu (GtkWidget *tree_view,
     gtk_widget_show (menu_item);
 
     /* Insert Row */
-    menu_item = utils_menu_item_new_from_image_label ("gtk-add-16.png", _("Insert row"));
+    menu_item = utils_menu_item_new_from_resource_label ("gtk-add-16.png", _("Insert row"));
     g_signal_connect (G_OBJECT (menu_item),
                     "activate",
                     G_CALLBACK (bet_array_list_insert_menu),

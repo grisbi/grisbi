@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
 	<gresource prefix="/org/gtk/grisbi">
-		<file>images/gsb-down-16.png</file>
-		<file>images/gsb-pdf.svg</file>
-		<file>images/gsb-up-16.png</file>
 		<file>images/gtk-add-16.png</file>
-		<file>images/gtk-eye-not-looking.svg</file>
+		<file>images/gtk-apply-16.png</file>
+		<file>images/gsb-down-16.png</file>
 		<file>images/gtk-eye-looking.svg</file>
+		<file>images/gtk-eye-not-looking.svg</file>
+		<file>images/gsb-pdf.svg</file>
 		<file>images/gtk-remove-16.png</file>
+		<file>images/gsb-up-16.png</file>
 		<file>images/gtk-warning-16.png</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_amount.ui</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_accounts.ui</file>

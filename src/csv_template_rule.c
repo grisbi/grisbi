@@ -950,7 +950,7 @@ static void csv_template_rule_setup_dialog (CsvTemplateRule *template_rule,
 	g_free (tmp_str);
 
 	/* set the notebook action widget */
-	button = utils_buttons_button_new_from_image ("gtk-add-16.png");
+	button = utils_buttons_button_new_from_resource ("gtk-add-16.png");
 	gtk_widget_show (button);
 	gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE);
 	gtk_notebook_set_action_widget (GTK_NOTEBOOK (priv->notebook_csv_spec), button, GTK_PACK_START);
@@ -1025,7 +1025,7 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 	g_object_set_data (G_OBJECT (template_rule), "rule_number", GINT_TO_POINTER (rule_number));
 
 	/* set the notebook action widget */
-	button = utils_buttons_button_new_from_image ("gtk-add-16.png");
+	button = utils_buttons_button_new_from_resource ("gtk-add-16.png");
 	gtk_widget_show (button);
 	gtk_notebook_set_action_widget (GTK_NOTEBOOK (priv->notebook_csv_spec), button, GTK_PACK_START);
 	priv->button_csv_spec_add_line = button;

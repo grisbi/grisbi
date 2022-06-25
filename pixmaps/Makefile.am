@@ -86,8 +86,6 @@ grisbi_pixmaps_DATA = \
 	gsb-warnings-32.png \
 	gsb-web-browser-16.png \
 	gtk-about-16.png \
-	gtk-add-16.png \
-	gtk-apply-16.png \
 	gtk-close-16.png \
 	gtk-copy-16.png \
 	gtk-copy-24.png \
