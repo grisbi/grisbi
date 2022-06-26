@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2022 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -79,8 +79,22 @@ struct _PrefsPageBetAccountPrivate
 	GtkWidget *			hbox_bet_credit_card;
 	GtkWidget *			checkbutton_bet_credit_card;
 	GtkWidget *			vbox_bank_cash_account;
+
 	GtkWidget *			hbox_forecast_data;
 	GtkWidget *			vbox_forecast_data;
+	GtkWidget *			radiobutton_source_transaction0;
+	GtkWidget *			radiobutton_source_transaction1;
+	GtkWidget *			radiobutton_source_transaction2;
+	GtkWidget *			radiobutton_source_transaction3;
+	GtkWidget *			radiobutton_source_scheduled0;
+	GtkWidget *			radiobutton_source_scheduled1;
+	GtkWidget *			radiobutton_source_scheduled2;
+	GtkWidget *			radiobutton_source_scheduled3;
+	GtkWidget *			radiobutton_source_futur0;
+	GtkWidget *			radiobutton_source_futur1;
+	GtkWidget *			radiobutton_source_futur2;
+	GtkWidget *			radiobutton_source_futur3;
+
 	GtkWidget *			hbox_hist_data;
 	GtkWidget *			vbox_hist_data;
 	GtkWidget *			vbox_hist_card_account_use_data;
@@ -136,29 +150,26 @@ static void prefs_page_bet_account_set_label_bet_hist_main_account_use_data (gin
  *
  * \return FALSE
  **/
-static gboolean prefs_page_bet_account_select_label_changed (GtkWidget *checkbutton,
-                                                			 GdkEventButton *event,
-                                                			 gpointer data)
+static void prefs_page_bet_account_select_label_toggled (GtkWidget *togglebutton,
+														 gpointer data)
 {
-    gint value;
-    gint origine;
-    gint account_number;
+	gint value;
+	gint origine;
+	gint account_number;
 
-    devel_debug (NULL);
+	devel_debug (NULL);
 
-    /* we are on the active button, so save the value for it */
-    value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (checkbutton), "pointer"));
-    origine = GPOINTER_TO_INT (data);
-    account_number = gsb_account_get_account_from_combo ();
+	/* we are on the active button, so save the value for it */
+	value = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (togglebutton), "pointer"));
+	origine = GPOINTER_TO_INT (data);
+	account_number = gsb_account_get_account_from_combo ();
 
-    gsb_data_account_set_bet_select_label (account_number, origine, value);
+	gsb_data_account_set_bet_select_label (account_number, origine, value);
 
-    utils_prefs_gsb_file_set_modified ();
+	utils_prefs_gsb_file_set_modified ();
 
-    gsb_data_account_set_bet_maj (account_number, BET_MAJ_ESTIMATE);
-    bet_data_update_bet_module (account_number, -1);
-
-    return FALSE;
+	gsb_data_account_set_bet_maj (account_number, BET_MAJ_ESTIMATE);
+	bet_data_update_bet_module (account_number, -1);
 }
 
 /**
@@ -168,79 +179,155 @@ static gboolean prefs_page_bet_account_select_label_changed (GtkWidget *checkbut
  *
  * \return
  **/
-static GtkWidget *prefs_page_bet_account_get_select_labels_widget (void)
+static void prefs_page_bet_account_init_select_labels_widget (PrefsPageBetAccountPrivate *priv)
 {
-    GtkWidget *vbox;
-    GtkWidget *label;
-    GtkWidget *button;
-    gint origine;
-    gint select;
+	gint origine;
+	gint select;
 
-    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	/* set labels for transactions */
+	origine = SPP_ORIGIN_TRANSACTION;
+	select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (), origine);
+	switch (select)
+	{
+		case 0:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_transaction0), TRUE);
+			break;
 
-    /* set labels for transactions */
-    origine = SPP_ORIGIN_TRANSACTION;
-    select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (), origine);
-    label = gtk_label_new (_("Labels for transactions:"));
-    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
-    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 5);
+		case 1:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_transaction1), TRUE);
+			break;
 
-    button = gsb_automem_radiobutton3_new (_("By default"),
-                                           _("Categories"),
-                                           _("Budgetary lines"),
-                                           &select,
-                                           G_CALLBACK (prefs_page_bet_account_select_label_changed),
-                                           GINT_TO_POINTER (origine),
-                                           GTK_ORIENTATION_HORIZONTAL);
-    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+		case 2:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_transaction2), TRUE);
+			break;
 
+		case 3:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_transaction3), TRUE);
+			break;
+	}
 
-    /* set labels for scheduled */
-    origine = SPP_ORIGIN_SCHEDULED;
-    select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (),
-                        origine);
-    label = gtk_label_new (_("Labels for scheduled transactions:"));
-    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
-    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 5);
+	/* set data for each widget */
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_transaction0), "pointer", GINT_TO_POINTER (0));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_transaction1), "pointer", GINT_TO_POINTER (1));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_transaction2), "pointer", GINT_TO_POINTER (2));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_transaction3), "pointer", GINT_TO_POINTER (3));
 
-    button = gsb_automem_radiobutton3_new (_("By default"),
-					    _("Categories"),
-					    _("Budgetary lines"),
-					    &select,
-                        G_CALLBACK (prefs_page_bet_account_select_label_changed),
-                        GINT_TO_POINTER (origine),
-                        GTK_ORIENTATION_HORIZONTAL);
-    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+	/* Connect signal */
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_transaction0),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_TRANSACTION));
 
-    /* set labels for futur data */
-    origine = SPP_ORIGIN_FUTURE;
-    select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (), origine);
-    label = gtk_label_new (_("Labels for futur data:"));
-    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
-    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 5);
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_transaction1),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_TRANSACTION));
 
-    button = gsb_automem_radiobutton3_new (_("By default"),
-					    _("Categories"),
-					    _("Budgetary lines"),
-					    &select,
-                        G_CALLBACK (prefs_page_bet_account_select_label_changed),
-                        GINT_TO_POINTER (origine),
-                        GTK_ORIENTATION_HORIZONTAL);
-    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_transaction2),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_TRANSACTION));
 
-    label = gtk_label_new (_("Order by default if the data are not zero:\n"
-							 "\tnotes, payee, category and budgetary line."));
-    gtk_label_set_use_markup (GTK_LABEL(label), TRUE);
-    utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
-    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 5) ;
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_transaction3),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_TRANSACTION));
 
-    gtk_widget_show_all (vbox);
+	/* set labels for scheduled */
+	origine = SPP_ORIGIN_SCHEDULED;
+	select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (), origine);
+	switch (select)
+	{
+		case 0:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_scheduled0), TRUE);
+			break;
 
-    return vbox;
+		case 1:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_scheduled1), TRUE);
+			break;
+
+		case 2:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_scheduled2), TRUE);
+			break;
+
+		case 3:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_scheduled3), TRUE);
+			break;
+	}
+
+	/* set data for each widget */
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_scheduled0), "pointer", GINT_TO_POINTER (0));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_scheduled1), "pointer", GINT_TO_POINTER (1));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_scheduled2), "pointer", GINT_TO_POINTER (2));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_scheduled3), "pointer", GINT_TO_POINTER (3));
+
+	/* Connect signal */
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_scheduled0),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_SCHEDULED));
+
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_scheduled1),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_SCHEDULED));
+
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_scheduled2),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_SCHEDULED));
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_scheduled3),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_SCHEDULED));
+
+	/* set labels for futur data */
+	origine = SPP_ORIGIN_FUTURE;
+	select = gsb_data_account_get_bet_select_label (gsb_account_get_account_from_combo (), origine);
+	switch (select)
+	{
+		case 0:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_futur0), TRUE);
+			break;
+
+		case 1:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_futur1), TRUE);
+			break;
+
+		case 2:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_futur2), TRUE);
+			break;
+
+		case 3:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_source_futur3), TRUE);
+			break;
+	}
+
+	/* set data for each widget */
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_futur0), "pointer", GINT_TO_POINTER (0));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_futur1), "pointer", GINT_TO_POINTER (1));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_futur2), "pointer", GINT_TO_POINTER (2));
+	g_object_set_data (G_OBJECT (priv->radiobutton_source_futur3), "pointer", GINT_TO_POINTER (3));
+
+	/* Connect signal */
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_futur0),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_FUTURE));
+
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_futur1),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_FUTURE));
+
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_futur2),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_FUTURE));
+	g_signal_connect (G_OBJECT (priv->radiobutton_source_futur3),
+					  "toggled",
+					  G_CALLBACK (prefs_page_bet_account_select_label_toggled),
+					  GINT_TO_POINTER (SPP_ORIGIN_FUTURE));
 }
 
 /**
@@ -556,7 +643,6 @@ static void prefs_page_bet_account_use_data_in_account_toggle (GtkToggleButton *
 	devel_debug_int (gtk_toggle_button_get_active (button));
 
 	account_number = gsb_account_get_combo_account_number (priv->combo_bet_account);
-	printf ("account_number = %d\n", account_number);
 	transfert_list = bet_data_transfert_get_list ();
 	g_hash_table_iter_init (&iter, transfert_list);
 
@@ -854,12 +940,12 @@ static void prefs_page_bet_account_setup_account_page (PrefsPageBetAccount *page
 	/* Calculation of duration */
     widget = utils_widget_get_duration_widget (SPP_ORIGIN_CONFIG);
     gtk_box_pack_start (GTK_BOX (priv->vbox_forecast_data), widget, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (priv->vbox_forecast_data), widget, 0);
 
     /* Select the labels of the list */
-    widget = prefs_page_bet_account_get_select_labels_widget ();
-    gtk_box_pack_start (GTK_BOX (priv->vbox_forecast_data), widget, FALSE, FALSE, 0);
+	prefs_page_bet_account_init_select_labels_widget (priv);
 
-    /* Sources of historical data */
+	/* Sources of historical data */
 	widget = utils_widget_origin_data_new (account_page, SPP_ORIGIN_CONFIG);
 	gtk_box_pack_start (GTK_BOX (priv->vbox_hist_data), widget, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_hist_data), widget, 0);
@@ -940,7 +1026,7 @@ static void prefs_page_bet_account_class_init (PrefsPageBetAccountClass *klass)
 	G_OBJECT_CLASS (klass)->dispose = prefs_page_bet_account_dispose;
 
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-												 "/org/gtk/grisbi/ui/prefs_page_bet_account.ui");
+												 "/org/gtk/grisbi/prefs/prefs_page_bet_account.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_bet_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, hbox_bet_select_account);
@@ -957,6 +1043,46 @@ static void prefs_page_bet_account_class_init (PrefsPageBetAccountClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_credit_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, notebook_credit_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBetAccount, vbox_loan_data);
+
+	/* set origin of forecast data */
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_transaction0);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_transaction1);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_transaction2);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_transaction3);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_scheduled0);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_scheduled1);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_scheduled2);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_scheduled3);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass)
+												  ,PrefsPageBetAccount,
+												  radiobutton_source_futur0);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_futur1);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageBetAccount,
+												  radiobutton_source_futur2);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass)
+												  ,PrefsPageBetAccount,
+												  radiobutton_source_futur3);
 
 	/* ajout pour gerer l'agregation des données dans le compte principal */
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),

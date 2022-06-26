@@ -3105,8 +3105,8 @@ gint gsb_data_account_get_bet_select_label (gint account_number,
  *
  *
  * \param
- * \param
- * \param
+ * \param origine	SPP_ORIGIN_TRANSACTION, SPP_ORIGIN_SCHEDULED, SPP_ORIGIN_FUTURE
+ * \param type		0 default (Note), 1 = Payees, 2= Categories, 3 = IB
  *
  * \return
  **/

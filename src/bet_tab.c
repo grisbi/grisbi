@@ -962,13 +962,21 @@ static gchar *bet_array_list_get_description (gint account_number,
 								  gsb_data_transaction_get_sub_budgetary_number (transaction_number),
 								  _("No data by default"));
                 break;
-            case 1:
+
+			case 1:
+                desc = g_strdup (gsb_data_payee_get_name
+								 (gsb_data_transaction_get_party_number (transaction_number),
+								  TRUE));
+				break;
+
+            case 2:
                 desc = gsb_data_category_get_name
 								 (gsb_data_transaction_get_category_number (transaction_number),
                                   gsb_data_transaction_get_sub_category_number (transaction_number),
                                   _("No category"));
                 break;
-            case 2:
+
+            case 3:
                 desc = gsb_data_budget_get_name
 								 (gsb_data_transaction_get_budgetary_number (transaction_number),
                                   gsb_data_transaction_get_sub_budgetary_number (transaction_number),
