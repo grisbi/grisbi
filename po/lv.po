@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-25 13:28+0200\n"
+"POT-Creation-Date: 2022-06-26 10:11+0200\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -4767,7 +4767,7 @@ msgid "Exporting report..."
 msgstr "Eksportēt pārskatu..."
 
 #: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:762
-#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:842 ../src/gsb_file.c:528
+#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:845 ../src/gsb_file.c:528
 #: ../src/gsb_file.c:677 ../src/gsb_file.c:1000
 msgid "Done"
 msgstr "Izdarīt"
@@ -8681,11 +8681,19 @@ msgid ""
 msgstr ""
 "Grisbi veiksmīgi atkļūdoja šo kontu failu.Tagad varat saglabāt izmaiņas."
 
+#: ../src/gsb_debug.c:74
+msgid "Fix completed"
+msgstr "Labošana pabeigta"
+
 #: ../src/gsb_debug.c:78
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr "Grisbi neizdevās izlabot šo konta failu. Nekādu izmaiņu nav."
+
+#: ../src/gsb_debug.c:80
+msgid "Unable to fix account"
+msgstr "Neizdevās salabot kontu"
 
 #: ../src/gsb_debug.c:148
 msgid "Try to fix this inconsistency."
@@ -8704,54 +8712,56 @@ msgstr ""
 
 #: ../src/gsb_debug.c:349
 #, fuzzy, c-format
-msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
-msgstr "Darījums #%d ir saistīts ar neesošu darījumu #%d.\n"
+msgid "Transaction %d is linked to transaction %d which does not exist.\n"
+msgstr ""
+"Darījums %d ir saistīts ar darījumu %d, kas ir saistīts ar darījumu %d.\n"
 
-#: ../src/gsb_debug.c:374
-#, c-format
+#: ../src/gsb_debug.c:375
+#, fuzzy, c-format
 msgid ""
-"Transaction #%d is linked to transaction #%d, which is linked to transaction "
-"#%d.\n"
+"Transaction %d is linked to transaction %d which is linked to transaction "
+"%d.\n"
 msgstr ""
 "Darījums %d ir saistīts ar darījumu %d, kas ir saistīts ar darījumu %d.\n"
 
 #. sub-category not found
-#: ../src/gsb_debug.c:439
-#, c-format
-msgid "Transaction %d has category %d but invalid sub-category %d.\n"
+#: ../src/gsb_debug.c:440
+#, fuzzy, c-format
+msgid ""
+"Transaction %d has category %d and sub-category %d which does not exist.\n"
 msgstr "Darījums %d ir kategorijā %d, bet nepareizā apakškategorijā %d.\n"
 
 #. category not found
-#: ../src/gsb_debug.c:453
-#, c-format
-msgid "Transaction %d has invalid category %d.\n"
-msgstr "Darījums %d ir nepareizā kategorijā %d.\n"
+#: ../src/gsb_debug.c:455
+#, fuzzy, c-format
+msgid "Transaction %d has category %d which does not exist.\n"
+msgstr "Darījumam %d ir neesošs partneris %d."
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:553
-#, c-format
-msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
+#: ../src/gsb_debug.c:555
+#, fuzzy, c-format
+msgid "Transaction %d has budget %d and sub-budget %d which does not exist.\n"
 msgstr "Darījums %d ir budžetā %d, bet nepareizā apakšbudžetā %d.\n"
 
 #. budget not found
-#: ../src/gsb_debug.c:567
-#, c-format
-msgid "Transaction %d has invalid budget %d.\n"
-msgstr "Darījums %d ir nepareizā budžetā %d.\n"
+#: ../src/gsb_debug.c:570
+#, fuzzy, c-format
+msgid "Transaction %d has budget %d which does not exist.\n"
+msgstr "Darījumam %d ir neesošs partneris %d."
 
 #. payee not found
-#: ../src/gsb_debug.c:662
-#, c-format
-msgid "Transaction %d has invalid payee %d.\n"
-msgstr "Darījumam %d ir nepareizs partneris %d.\n"
+#: ../src/gsb_debug.c:665
+#, fuzzy, c-format
+msgid "Transaction %d has payee %d which does not exist.\n"
+msgstr "Darījumam %d ir neesošs partneris %d."
 
 #. Check for reconciliation inconcistency.
-#: ../src/gsb_debug.c:718
+#: ../src/gsb_debug.c:721
 #, fuzzy
 msgid "Incorrect reconciliation totals"
 msgstr "Nepareizi saskaņota kopsumma"
 
-#: ../src/gsb_debug.c:719
+#: ../src/gsb_debug.c:722
 #, fuzzy
 msgid ""
 "This test will look at accounts where the reconciled total which does not "
@@ -8760,7 +8770,7 @@ msgstr ""
 "Šis tests meklēs kontus, kuros saskaņotas kopsummas nesakrīt ar saskaņotiem "
 "darījumiem."
 
-#: ../src/gsb_debug.c:720
+#: ../src/gsb_debug.c:723
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions and initial balance.\n"
@@ -8773,15 +8783,15 @@ msgstr ""
 "\n"
 "Tas var būt mainītu saskaņoto darījumu vai mainītu konta iestatījumu dēļ."
 
-#: ../src/gsb_debug.c:726
+#: ../src/gsb_debug.c:729
 msgid "Duplicate sub-categories check"
 msgstr "Apakškategorijas dublikātu pārbaude"
 
-#: ../src/gsb_debug.c:727 ../src/gsb_debug.c:740 ../src/gsb_debug.c:753
+#: ../src/gsb_debug.c:730 ../src/gsb_debug.c:743 ../src/gsb_debug.c:756
 msgid "free"
 msgstr "bezmaksas"
 
-#: ../src/gsb_debug.c:728
+#: ../src/gsb_debug.c:731
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric identifier in some cases, resulting in transactions having two "
@@ -8799,11 +8809,11 @@ msgstr ""
 "Neviens darījums netiks zaudēts, bet dažos gadījumos jums būs manuāli "
 "jāpārvieto darījumus uz šo jauno apakškategoriju."
 
-#: ../src/gsb_debug.c:739
+#: ../src/gsb_debug.c:742
 msgid "Duplicate sub-budgetary lines check"
 msgstr "Apakšbudžeta pozīciju dublikātu pārbaude"
 
-#: ../src/gsb_debug.c:741
+#: ../src/gsb_debug.c:744
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -8821,11 +8831,11 @@ msgstr ""
 "Neviens darījumu netiks zaudēts, bet dažos gadījumos, jums būs manuāli "
 "pārvietot darījumi uz šo jauno apakšbudžeta pozīciju."
 
-#: ../src/gsb_debug.c:752
+#: ../src/gsb_debug.c:755
 msgid "Orphan countra-transactions check"
 msgstr "Nepamatota konta darījumu pārbaude"
 
-#: ../src/gsb_debug.c:754
+#: ../src/gsb_debug.c:757
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -8838,11 +8848,11 @@ msgstr ""
 "Lai to labotu, jums manuāli jārediģē .gsb failu (ar teksta redaktoru) un "
 "jāfiksē darījumus, izmantojot savu ciparu ID."
 
-#: ../src/gsb_debug.c:760
+#: ../src/gsb_debug.c:763
 msgid "Incorrect category/sub-category number"
 msgstr "Nepareizs kategorijas/apakškategorijas numurs"
 
-#: ../src/gsb_debug.c:761
+#: ../src/gsb_debug.c:764
 #, fuzzy
 msgid ""
 "This test will look for transactions which have non-existent categories/sub-"
@@ -8850,7 +8860,7 @@ msgid ""
 msgstr ""
 "Šis tests meklēs darījumus, kam nav vispār kategorijas / apakškategorijas."
 
-#: ../src/gsb_debug.c:762
+#: ../src/gsb_debug.c:765
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents categories/sub-categories "
@@ -8861,18 +8871,18 @@ msgstr ""
 "Ja vēlaties turpināt, Grisbi novērsīs šo kategoriju kļūdu, un darījumi nebūs "
 "bez kategorijām."
 
-#: ../src/gsb_debug.c:767
+#: ../src/gsb_debug.c:770
 msgid "Incorrect budget/sub-budget number"
 msgstr "Nepareizs budžeta/apakšbudžeta numurs"
 
-#: ../src/gsb_debug.c:768
+#: ../src/gsb_debug.c:771
 #, fuzzy
 msgid ""
 "This test will look for transactions which have non-existent budgets/sub-"
 "budgets."
 msgstr "Šis tests meklēs darījumus kas nav iekļauti budžetā/apakšbudžetā."
 
-#: ../src/gsb_debug.c:769
+#: ../src/gsb_debug.c:772
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents budgets/sub-budgets If you "
@@ -8882,16 +8892,16 @@ msgstr ""
 "Grisbi atrada dažus darījumus ārpus budžeta/apakšbudžeta. Ja vēlaties "
 "turpināt, Grisbi novērsīs šo kļūdu."
 
-#: ../src/gsb_debug.c:774
+#: ../src/gsb_debug.c:777
 msgid "Incorrect payee number"
 msgstr "Nepareizs partnera numurs"
 
-#: ../src/gsb_debug.c:775
+#: ../src/gsb_debug.c:778
 #, fuzzy
 msgid "This test will look for transactions which have non-existent payees."
 msgstr "Šis tests meklēs darījumus,kuriem nav uzrādīts partneris."
 
-#: ../src/gsb_debug.c:776
+#: ../src/gsb_debug.c:779
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents payees If you choose to "
@@ -8900,7 +8910,7 @@ msgstr ""
 "Grisbi atrada dažus darījumus, kuriem nav uzrādīts partneris. ja vēlaties "
 "turpināt, Grisbi noņems šādus darījumus."
 
-#: ../src/gsb_debug.c:822
+#: ../src/gsb_debug.c:825
 msgid ""
 "Inconsistencies found\n"
 "\n"
@@ -8908,7 +8918,7 @@ msgstr ""
 "Atrastas neatbilstības\n"
 "\n"
 
-#: ../src/gsb_debug.c:825
+#: ../src/gsb_debug.c:828
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
@@ -8916,7 +8926,7 @@ msgstr ""
 "Šajā atkļūdošanas testā atrastas pretrunas kontu failā:\n"
 "\n"
 
-#: ../src/gsb_debug.c:847
+#: ../src/gsb_debug.c:850
 msgid ""
 "No inconsistency found\n"
 "\n"
@@ -8924,19 +8934,19 @@ msgstr ""
 "Pretrunas nav atrastas\n"
 "\n"
 
-#: ../src/gsb_debug.c:850
+#: ../src/gsb_debug.c:853
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr "Apsveicam, jūsu kontu fails ir labā stāvoklī!\n"
 
-#: ../src/gsb_debug.c:874
+#: ../src/gsb_debug.c:877
 msgid "Checking file for possible corruption..."
 msgstr "Pārbauda failu iespējamo korupciju..."
 
-#: ../src/gsb_debug.c:876
+#: ../src/gsb_debug.c:879
 msgid "Grisbi accounts debug"
 msgstr "Grisbi kontu atkļūdošana"
 
-#: ../src/gsb_debug.c:877
+#: ../src/gsb_debug.c:880
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
@@ -12367,7 +12377,7 @@ msgstr "Fonts un izkārtojums"
 msgid "Invalid QIF file"
 msgstr "Nepareizs QIF fails"
 
-#: ../src/qif.c:206 ../src/utils_dates.c:1202
+#: ../src/qif.c:206 ../src/utils_dates.c:1201
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -12385,11 +12395,11 @@ msgstr ""
 "Datumam %s ir vairāk nekā 2 atdalītāji.\n"
 "Tas nav iespējams. lūdzu sazinieties ar Grisbi komandu."
 
-#: ../src/qif.c:337 ../src/utils_dates.c:953 ../src/utils_dates.c:1009
+#: ../src/qif.c:337 ../src/utils_dates.c:952 ../src/utils_dates.c:1008
 msgid "The order cannot be determined,\n"
 msgstr "Neizdevās noteikt pasūtījumu,\n"
 
-#: ../src/qif.c:342 ../src/utils_dates.c:960 ../src/utils_dates.c:1016
+#: ../src/qif.c:342 ../src/utils_dates.c:959 ../src/utils_dates.c:1015
 msgid "Date wrong for the order "
 msgstr "Nepareizs pasūtījuma datums"
 
@@ -13032,14 +13042,14 @@ msgstr "Neizdevās izpildīt sūtītāju"
 msgid "Unselect"
 msgstr "Neatzīmēt nevienu"
 
-#: ../src/utils_dates.c:1047
+#: ../src/utils_dates.c:1046
 msgid ""
 "Grisbi could not determine the format of the dates.\n"
 "\n"
 "Please force it!"
 msgstr ""
 
-#: ../src/utils_dates.c:1050
+#: ../src/utils_dates.c:1049
 #, fuzzy
 msgid "The dates format is indeterminate"
 msgstr "Neizdevās noteikt pasūtījumu,\n"
@@ -13453,6 +13463,22 @@ msgstr "Daļēja bilance"
 #: ../src/widgets/widget_transfer.c:937
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
+#~ msgstr "Darījums #%d ir saistīts ar neesošu darījumu #%d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid category %d.\n"
+#~ msgstr "Darījums %d ir nepareizā kategorijā %d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid budget %d.\n"
+#~ msgstr "Darījums %d ir nepareizā budžetā %d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid payee %d.\n"
+#~ msgstr "Darījumam %d ir nepareizs partneris %d.\n"
 
 #, c-format
 #~ msgid "%s, %2f : %s - %s:%d:%s\n"
@@ -13897,12 +13923,6 @@ msgstr ""
 #~ msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 #~ msgstr "Nepareizs atkļūdošanas līmenis. pārbaudiet GRISBI_ATKĻŪDOŠANU"
 
-#~ msgid "Fix completed"
-#~ msgstr "Labošana pabeigta"
-
-#~ msgid "Unable to fix account"
-#~ msgstr "Neizdevās salabot kontu"
-
 #~ msgid "Maximum items showed in drop down lists (0 for no limit): "
 #~ msgstr ""
 #~ "Maksimālais ierakstu skaits nolaižamajā izvēlnē (0 bez ierobežojuma):"
@@ -14215,9 +14235,6 @@ msgstr ""
 #~ "The transaction %d has a category n%d and sub-category n%d but they don't "
 #~ "exist."
 #~ msgstr "Darījumam %d ir neesoša kategorija %d vai apakškategorija %d."
-
-#~ msgid "The transaction %d has a payee n%d but it doesn't exist."
-#~ msgstr "Darījumam %d ir neesošs partneris %d."
 
 #~ msgid ""
 #~ "gsb_form_scheduler_create is called with a bad table,\n"

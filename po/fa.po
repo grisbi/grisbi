@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-25 13:28+0200\n"
+"POT-Creation-Date: 2022-06-26 10:11+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -4744,7 +4744,7 @@ msgid "Exporting report..."
 msgstr "چاپ گزارش ..."
 
 #: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:762
-#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:842 ../src/gsb_file.c:528
+#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:845 ../src/gsb_file.c:528
 #: ../src/gsb_file.c:677 ../src/gsb_file.c:1000
 #, fuzzy
 msgid "Done"
@@ -8526,11 +8526,21 @@ msgid ""
 "modifications."
 msgstr ""
 
+#: ../src/gsb_debug.c:74
+#, fuzzy
+msgid "Fix completed"
+msgstr "فشرده سازی فایل"
+
 #: ../src/gsb_debug.c:78
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
+
+#: ../src/gsb_debug.c:80
+#, fuzzy
+msgid "Unable to fix account"
+msgstr "حساب حذف شده"
 
 #: ../src/gsb_debug.c:148
 msgid "Try to fix this inconsistency."
@@ -8546,59 +8556,60 @@ msgstr ""
 
 #: ../src/gsb_debug.c:349
 #, c-format
-msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
+msgid "Transaction %d is linked to transaction %d which does not exist.\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:374
+#: ../src/gsb_debug.c:375
 #, c-format
 msgid ""
-"Transaction #%d is linked to transaction #%d, which is linked to transaction "
-"#%d.\n"
+"Transaction %d is linked to transaction %d which is linked to transaction "
+"%d.\n"
 msgstr ""
 
 #. sub-category not found
-#: ../src/gsb_debug.c:439
+#: ../src/gsb_debug.c:440
 #, c-format
-msgid "Transaction %d has category %d but invalid sub-category %d.\n"
+msgid ""
+"Transaction %d has category %d and sub-category %d which does not exist.\n"
 msgstr ""
 
 #. category not found
-#: ../src/gsb_debug.c:453
+#: ../src/gsb_debug.c:455
 #, c-format
-msgid "Transaction %d has invalid category %d.\n"
+msgid "Transaction %d has category %d which does not exist.\n"
 msgstr ""
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:553
+#: ../src/gsb_debug.c:555
 #, c-format
-msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
+msgid "Transaction %d has budget %d and sub-budget %d which does not exist.\n"
 msgstr ""
 
 #. budget not found
-#: ../src/gsb_debug.c:567
+#: ../src/gsb_debug.c:570
 #, c-format
-msgid "Transaction %d has invalid budget %d.\n"
+msgid "Transaction %d has budget %d which does not exist.\n"
 msgstr ""
 
 #. payee not found
-#: ../src/gsb_debug.c:662
+#: ../src/gsb_debug.c:665
 #, c-format
-msgid "Transaction %d has invalid payee %d.\n"
+msgid "Transaction %d has payee %d which does not exist.\n"
 msgstr ""
 
 #. Check for reconciliation inconcistency.
-#: ../src/gsb_debug.c:718
+#: ../src/gsb_debug.c:721
 #, fuzzy
 msgid "Incorrect reconciliation totals"
 msgstr "حساب حذف شده"
 
-#: ../src/gsb_debug.c:719
+#: ../src/gsb_debug.c:722
 msgid ""
 "This test will look at accounts where the reconciled total which does not "
 "match with reconciled transactions."
 msgstr ""
 
-#: ../src/gsb_debug.c:720
+#: ../src/gsb_debug.c:723
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions and initial balance.\n"
@@ -8607,16 +8618,16 @@ msgid ""
 "changes in the balance of reconciliations in the preferences."
 msgstr ""
 
-#: ../src/gsb_debug.c:726
+#: ../src/gsb_debug.c:729
 msgid "Duplicate sub-categories check"
 msgstr ""
 
-#: ../src/gsb_debug.c:727 ../src/gsb_debug.c:740 ../src/gsb_debug.c:753
+#: ../src/gsb_debug.c:730 ../src/gsb_debug.c:743 ../src/gsb_debug.c:756
 #, fuzzy
 msgid "free"
 msgstr "رایگان"
 
-#: ../src/gsb_debug.c:728
+#: ../src/gsb_debug.c:731
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric identifier in some cases, resulting in transactions having two "
@@ -8627,11 +8638,11 @@ msgid ""
 "move transactions to this new sub-category."
 msgstr ""
 
-#: ../src/gsb_debug.c:739
+#: ../src/gsb_debug.c:742
 msgid "Duplicate sub-budgetary lines check"
 msgstr ""
 
-#: ../src/gsb_debug.c:741
+#: ../src/gsb_debug.c:744
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -8642,11 +8653,11 @@ msgid ""
 "move transactions to this new sub-budgetary line."
 msgstr ""
 
-#: ../src/gsb_debug.c:752
+#: ../src/gsb_debug.c:755
 msgid "Orphan countra-transactions check"
 msgstr ""
 
-#: ../src/gsb_debug.c:754
+#: ../src/gsb_debug.c:757
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -8655,85 +8666,85 @@ msgid ""
 "editor) and fix transactions using their numeric ID."
 msgstr ""
 
-#: ../src/gsb_debug.c:760
+#: ../src/gsb_debug.c:763
 msgid "Incorrect category/sub-category number"
 msgstr ""
 
-#: ../src/gsb_debug.c:761
+#: ../src/gsb_debug.c:764
 msgid ""
 "This test will look for transactions which have non-existent categories/sub-"
 "categories."
 msgstr ""
 
-#: ../src/gsb_debug.c:762
+#: ../src/gsb_debug.c:765
 msgid ""
 "Grisbi found some transactions with non existents categories/sub-categories "
 "If you choose to continue, Grisbi will remove that category error and that "
 "transactions will have no categories."
 msgstr ""
 
-#: ../src/gsb_debug.c:767
+#: ../src/gsb_debug.c:770
 msgid "Incorrect budget/sub-budget number"
 msgstr ""
 
-#: ../src/gsb_debug.c:768
+#: ../src/gsb_debug.c:771
 msgid ""
 "This test will look for transactions which have non-existent budgets/sub-"
 "budgets."
 msgstr ""
 
-#: ../src/gsb_debug.c:769
+#: ../src/gsb_debug.c:772
 msgid ""
 "Grisbi found some transactions with non existents budgets/sub-budgets If you "
 "choose to continue, Grisbi will remove that budget error and that "
 "transactions will have no budgets."
 msgstr ""
 
-#: ../src/gsb_debug.c:774
+#: ../src/gsb_debug.c:777
 msgid "Incorrect payee number"
 msgstr ""
 
-#: ../src/gsb_debug.c:775
+#: ../src/gsb_debug.c:778
 msgid "This test will look for transactions which have non-existent payees."
 msgstr ""
 
-#: ../src/gsb_debug.c:776
+#: ../src/gsb_debug.c:779
 msgid ""
 "Grisbi found some transactions with non existents payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
 msgstr ""
 
-#: ../src/gsb_debug.c:822
+#: ../src/gsb_debug.c:825
 msgid ""
 "Inconsistencies found\n"
 "\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:825
+#: ../src/gsb_debug.c:828
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:847
+#: ../src/gsb_debug.c:850
 msgid ""
 "No inconsistency found\n"
 "\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:850
+#: ../src/gsb_debug.c:853
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:874
+#: ../src/gsb_debug.c:877
 msgid "Checking file for possible corruption..."
 msgstr ""
 
-#: ../src/gsb_debug.c:876
+#: ../src/gsb_debug.c:879
 msgid "Grisbi accounts debug"
 msgstr ""
 
-#: ../src/gsb_debug.c:877
+#: ../src/gsb_debug.c:880
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
@@ -11981,7 +11992,7 @@ msgstr ""
 msgid "Invalid QIF file"
 msgstr ""
 
-#: ../src/qif.c:206 ../src/utils_dates.c:1202
+#: ../src/qif.c:206 ../src/utils_dates.c:1201
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -11995,11 +12006,11 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: ../src/qif.c:337 ../src/utils_dates.c:953 ../src/utils_dates.c:1009
+#: ../src/qif.c:337 ../src/utils_dates.c:952 ../src/utils_dates.c:1008
 msgid "The order cannot be determined,\n"
 msgstr ""
 
-#: ../src/qif.c:342 ../src/utils_dates.c:960 ../src/utils_dates.c:1016
+#: ../src/qif.c:342 ../src/utils_dates.c:959 ../src/utils_dates.c:1015
 msgid "Date wrong for the order "
 msgstr ""
 
@@ -12525,14 +12536,14 @@ msgstr "امکان اجرای مرورگر وب نیست"
 msgid "Unselect"
 msgstr "حذف"
 
-#: ../src/utils_dates.c:1047
+#: ../src/utils_dates.c:1046
 msgid ""
 "Grisbi could not determine the format of the dates.\n"
 "\n"
 "Please force it!"
 msgstr ""
 
-#: ../src/utils_dates.c:1050
+#: ../src/utils_dates.c:1049
 msgid "The dates format is indeterminate"
 msgstr ""
 
@@ -13148,10 +13159,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Total Produits (%d opérations) : "
 #~ msgstr "تراکنش:"
-
-#, fuzzy
-#~ msgid "Unable to fix account"
-#~ msgstr "حساب حذف شده"
 
 #, fuzzy
 #~ msgid " year "

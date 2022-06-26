@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-25 13:28+0200\n"
+"POT-Creation-Date: 2022-06-26 10:11+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -4934,7 +4934,7 @@ msgid "Exporting report..."
 msgstr "Εξαγωγή αναφοράς..."
 
 #: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:762
-#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:842 ../src/gsb_file.c:528
+#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:845 ../src/gsb_file.c:528
 #: ../src/gsb_file.c:677 ../src/gsb_file.c:1000
 msgid "Done"
 msgstr "Έτοιμο"
@@ -8976,6 +8976,10 @@ msgstr ""
 "Το Grisbi επισκεύασε επιτυχώς αυτό το αρχείο λογαριασμού. Μπορείτε τώρα να "
 "σώσετε τις τροποποιήσεις σας."
 
+#: ../src/gsb_debug.c:74
+msgid "Fix completed"
+msgstr "Η διόρθωση ολοκληρώθηκε"
+
 #: ../src/gsb_debug.c:78
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
@@ -8983,6 +8987,10 @@ msgid ""
 msgstr ""
 "Το Grisbi ήταν ανίκανο να επισκευάσει αυτό το αρχείο λογαριασμού.  Καμία "
 "τροποποίηση δεν έχει γίνει."
+
+#: ../src/gsb_debug.c:80
+msgid "Unable to fix account"
+msgstr "Αδύνατη η επιδιόρθωση λογαριασμού"
 
 #: ../src/gsb_debug.c:148
 msgid "Try to fix this inconsistency."
@@ -9001,57 +9009,60 @@ msgstr ""
 
 #: ../src/gsb_debug.c:349
 #, fuzzy, c-format
-msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
-msgstr "Η συναλλαγή #%d συνδέεται με την ανύπαρκτη συναλλαγή #%d.\n"
+msgid "Transaction %d is linked to transaction %d which does not exist.\n"
+msgstr ""
+"Η συναλλαγή #%d συνδέεται με τη συναλλαγή #%d, η οποία συνδέεται με τη "
+"συναλλαγή #%d.\n"
 
-#: ../src/gsb_debug.c:374
-#, c-format
+#: ../src/gsb_debug.c:375
+#, fuzzy, c-format
 msgid ""
-"Transaction #%d is linked to transaction #%d, which is linked to transaction "
-"#%d.\n"
+"Transaction %d is linked to transaction %d which is linked to transaction "
+"%d.\n"
 msgstr ""
 "Η συναλλαγή #%d συνδέεται με τη συναλλαγή #%d, η οποία συνδέεται με τη "
 "συναλλαγή #%d.\n"
 
 #. sub-category not found
-#: ../src/gsb_debug.c:439
-#, c-format
-msgid "Transaction %d has category %d but invalid sub-category %d.\n"
+#: ../src/gsb_debug.c:440
+#, fuzzy, c-format
+msgid ""
+"Transaction %d has category %d and sub-category %d which does not exist.\n"
 msgstr "Η συναλλαγή %d έχει την κατηγορία %d αλλά την άκυρη υποκατηγορία %d.\n"
 
 #. category not found
-#: ../src/gsb_debug.c:453
-#, c-format
-msgid "Transaction %d has invalid category %d.\n"
-msgstr "Η συναλλαγή %d έχει την άκυρη κατηγορία %d.\n"
+#: ../src/gsb_debug.c:455
+#, fuzzy, c-format
+msgid "Transaction %d has category %d which does not exist.\n"
+msgstr "Η συναλλαγή %d έχει έναν δικαιούχο πληρωμής n°%d αλλά δεν υπάρχει."
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:553
-#, c-format
-msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
+#: ../src/gsb_debug.c:555
+#, fuzzy, c-format
+msgid "Transaction %d has budget %d and sub-budget %d which does not exist.\n"
 msgstr ""
 "Η συναλλαγή %d έχει τον προϋπολογισμό %d αλλά τον άκυρο υπο--προϋπολογισμό "
 "%d.\n"
 
 #. budget not found
-#: ../src/gsb_debug.c:567
-#, c-format
-msgid "Transaction %d has invalid budget %d.\n"
-msgstr "Η συναλλαγή %d έχει τον άκυρο προϋπολογισμό %d.\n"
+#: ../src/gsb_debug.c:570
+#, fuzzy, c-format
+msgid "Transaction %d has budget %d which does not exist.\n"
+msgstr "Η συναλλαγή %d έχει έναν δικαιούχο πληρωμής n°%d αλλά δεν υπάρχει."
 
 #. payee not found
-#: ../src/gsb_debug.c:662
-#, c-format
-msgid "Transaction %d has invalid payee %d.\n"
-msgstr "Η συναλλαγή %d έχει τον άκυρο δικαιούχο πληρωμής %d.\n"
+#: ../src/gsb_debug.c:665
+#, fuzzy, c-format
+msgid "Transaction %d has payee %d which does not exist.\n"
+msgstr "Η συναλλαγή %d έχει έναν δικαιούχο πληρωμής n°%d αλλά δεν υπάρχει."
 
 #. Check for reconciliation inconcistency.
-#: ../src/gsb_debug.c:718
+#: ../src/gsb_debug.c:721
 #, fuzzy
 msgid "Incorrect reconciliation totals"
 msgstr "Ανακριβή σύνολα συμφωνιών"
 
-#: ../src/gsb_debug.c:719
+#: ../src/gsb_debug.c:722
 #, fuzzy
 msgid ""
 "This test will look at accounts where the reconciled total which does not "
@@ -9060,7 +9071,7 @@ msgstr ""
 "Αυτή η δοκιμή θα ψάξει τους λογαριασμούς όπου τα συμφωνημένα σύνολα δεν "
 "ταιριάζουν με τις συμφωνημένες συναλλαγές."
 
-#: ../src/gsb_debug.c:720
+#: ../src/gsb_debug.c:723
 #, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
@@ -9076,15 +9087,15 @@ msgstr ""
 "μερικές φορές επίσης για τους παλαιούς λογαριασμούς που περνούν σε  ΕυρώIn η "
 "διαφορά να είναι μερικά λεπτά και αυτό είναι φυσιολογικό."
 
-#: ../src/gsb_debug.c:726
+#: ../src/gsb_debug.c:729
 msgid "Duplicate sub-categories check"
 msgstr "Διπλός έλεγχος υποκατηγοριών"
 
-#: ../src/gsb_debug.c:727 ../src/gsb_debug.c:740 ../src/gsb_debug.c:753
+#: ../src/gsb_debug.c:730 ../src/gsb_debug.c:743 ../src/gsb_debug.c:756
 msgid "free"
 msgstr "Ελεύθερο"
 
-#: ../src/gsb_debug.c:728
+#: ../src/gsb_debug.c:731
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric identifier in some cases, resulting in transactions having two "
@@ -9103,11 +9114,11 @@ msgstr ""
 "Καμία συναλλαγή δεν θα χαθεί, αλλά σε μερικές περιπτώσεις, θα πρέπει με το "
 "χέρι να μετακινήσετε τις συναλλαγές σε αυτή την νέα υποκατηγορία."
 
-#: ../src/gsb_debug.c:739
+#: ../src/gsb_debug.c:742
 msgid "Duplicate sub-budgetary lines check"
 msgstr "Διπλός υπο-δημοσιονομικός έλεγχος γραμμών"
 
-#: ../src/gsb_debug.c:741
+#: ../src/gsb_debug.c:744
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -9126,11 +9137,11 @@ msgstr ""
 "Καμία συναλλαγή δεν θα χαθεί, αλλά σε μερικές περιπτώσεις, θα πρέπει με το "
 "χέρι να μετακινήσετε τις συναλλαγές προς τη νέα υπο-δημοσιονομική γραμμή."
 
-#: ../src/gsb_debug.c:752
+#: ../src/gsb_debug.c:755
 msgid "Orphan countra-transactions check"
 msgstr "Ορφανός έλεγχος αντίθετων μεταφορών"
 
-#: ../src/gsb_debug.c:754
+#: ../src/gsb_debug.c:757
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -9145,11 +9156,11 @@ msgstr ""
 "(με έναν επεξεργαστή κειμένων) και να διορθώσετε τις συναλλαγές "
 "χρησιμοποιώντας την αριθμητική ταυτότητά τους"
 
-#: ../src/gsb_debug.c:760
+#: ../src/gsb_debug.c:763
 msgid "Incorrect category/sub-category number"
 msgstr "Ανακριβής αριθμός κατηγορίας/υποκατηγορίας"
 
-#: ../src/gsb_debug.c:761
+#: ../src/gsb_debug.c:764
 #, fuzzy
 msgid ""
 "This test will look for transactions which have non-existent categories/sub-"
@@ -9158,7 +9169,7 @@ msgstr ""
 "Αυτή η δοκιμή θα ψάξει τις συναλλαγές που έχουν τις μη υπάρχουσες κατηγορίες/"
 "τις υποκατηγορίες."
 
-#: ../src/gsb_debug.c:762
+#: ../src/gsb_debug.c:765
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents categories/sub-categories "
@@ -9169,11 +9180,11 @@ msgstr ""
 "υποκατηγορίες εάν επιλέξετε να συνεχιστείτε το Grisbi θα αφαιρέσει εκείνο το "
 "λάθος κατηγορίας και ότι οι συναλλαγές δεν θα έχουν καμία κατηγορία."
 
-#: ../src/gsb_debug.c:767
+#: ../src/gsb_debug.c:770
 msgid "Incorrect budget/sub-budget number"
 msgstr "Ανακριβής αριθμός προϋπολογισμών/υπο-προϋπολογισμών"
 
-#: ../src/gsb_debug.c:768
+#: ../src/gsb_debug.c:771
 #, fuzzy
 msgid ""
 "This test will look for transactions which have non-existent budgets/sub-"
@@ -9182,7 +9193,7 @@ msgstr ""
 "Αυτή η δοκιμή θα ψάξει τις συναλλαγές που έχουν τους μη υπάρχοντες "
 "προϋπολογισμούς/τους υπο--προϋπολογισμούς."
 
-#: ../src/gsb_debug.c:769
+#: ../src/gsb_debug.c:772
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents budgets/sub-budgets If you "
@@ -9193,18 +9204,18 @@ msgstr ""
 "υποκατηγορίες εάν επιλέξετε να συνεχιστείτε το Grisbi θα αφαιρέσει εκείνο το "
 "λάθος κατηγορίας και ότι οι συναλλαγές δεν θα έχουν καμία κατηγορία."
 
-#: ../src/gsb_debug.c:774
+#: ../src/gsb_debug.c:777
 msgid "Incorrect payee number"
 msgstr "Ανακριβής αριθμός δικαιούχων πληρωμής"
 
-#: ../src/gsb_debug.c:775
+#: ../src/gsb_debug.c:778
 #, fuzzy
 msgid "This test will look for transactions which have non-existent payees."
 msgstr ""
 "Αυτή η δοκιμή θα ψάξει τις συναλλαγές που έχουν τους μη υπάρχοντες "
 "δικαιούχους πληρωμής."
 
-#: ../src/gsb_debug.c:776
+#: ../src/gsb_debug.c:779
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents payees If you choose to "
@@ -9214,7 +9225,7 @@ msgstr ""
 "επιλέξετε να συνεχιστείτε το Grisbi θα τους αφαιρέσει και ότι οι συναλλαγές "
 "δεν θα έχουν κανέναν δικαιούχο πληρωμή"
 
-#: ../src/gsb_debug.c:822
+#: ../src/gsb_debug.c:825
 msgid ""
 "Inconsistencies found\n"
 "\n"
@@ -9222,7 +9233,7 @@ msgstr ""
 "Βρέθηκαν ασυνέπειες\n"
 "\n"
 
-#: ../src/gsb_debug.c:825
+#: ../src/gsb_debug.c:828
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
@@ -9231,7 +9242,7 @@ msgstr ""
 "λογαριασμού:\n"
 "\n"
 
-#: ../src/gsb_debug.c:847
+#: ../src/gsb_debug.c:850
 msgid ""
 "No inconsistency found\n"
 "\n"
@@ -9239,19 +9250,19 @@ msgstr ""
 "Δεν βρέθηκαν ασυνέπειες\n"
 "\n"
 
-#: ../src/gsb_debug.c:850
+#: ../src/gsb_debug.c:853
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr "Συγχαρητήρια, το αρχείο λογαριασμών σας είναι σε καλή φόρμα!\n"
 
-#: ../src/gsb_debug.c:874
+#: ../src/gsb_debug.c:877
 msgid "Checking file for possible corruption..."
 msgstr "Ελέγχοντας το αρχείο για την πιθανή καταστροφή..."
 
-#: ../src/gsb_debug.c:876
+#: ../src/gsb_debug.c:879
 msgid "Grisbi accounts debug"
 msgstr "Αποσφαλμάτωση λογαριασμών του Grisbi"
 
-#: ../src/gsb_debug.c:877
+#: ../src/gsb_debug.c:880
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
@@ -12800,7 +12811,7 @@ msgstr "Πηγές & σχεδιάγραμμα"
 msgid "Invalid QIF file"
 msgstr "Άκυρο αρχείο QIF"
 
-#: ../src/qif.c:206 ../src/utils_dates.c:1202
+#: ../src/qif.c:206 ../src/utils_dates.c:1201
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -12817,11 +12828,11 @@ msgstr ""
 "Αυτό δεν πρέπει να συμβεί. Παρακαλώ ελάτε σε επαφή με την ομάδα Grisbi για "
 "να προσπαθήσετε να προσθέσετε το παράξενο σχήμα σας στο Grisbi."
 
-#: ../src/qif.c:337 ../src/utils_dates.c:953 ../src/utils_dates.c:1009
+#: ../src/qif.c:337 ../src/utils_dates.c:952 ../src/utils_dates.c:1008
 msgid "The order cannot be determined,\n"
 msgstr "Η διαταγή δεν μπορεί να καθοριστεί,\n"
 
-#: ../src/qif.c:342 ../src/utils_dates.c:960 ../src/utils_dates.c:1016
+#: ../src/qif.c:342 ../src/utils_dates.c:959 ../src/utils_dates.c:1015
 msgid "Date wrong for the order "
 msgstr "Ημερομηνία λανθασμένη για τη διαταγή"
 
@@ -13408,14 +13419,14 @@ msgstr "Αδυναμία εκτέλεσης μηχανής αναζήτησης 
 msgid "Unselect"
 msgstr "Αποεπιλογή όλων"
 
-#: ../src/utils_dates.c:1047
+#: ../src/utils_dates.c:1046
 msgid ""
 "Grisbi could not determine the format of the dates.\n"
 "\n"
 "Please force it!"
 msgstr ""
 
-#: ../src/utils_dates.c:1050
+#: ../src/utils_dates.c:1049
 #, fuzzy
 msgid "The dates format is indeterminate"
 msgstr "Η διαταγή δεν μπορεί να καθοριστεί,\n"
@@ -13834,6 +13845,22 @@ msgstr "Αρχική ισορροπία"
 #: ../src/widgets/widget_transfer.c:937
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
+#~ msgstr "Η συναλλαγή #%d συνδέεται με την ανύπαρκτη συναλλαγή #%d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid category %d.\n"
+#~ msgstr "Η συναλλαγή %d έχει την άκυρη κατηγορία %d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid budget %d.\n"
+#~ msgstr "Η συναλλαγή %d έχει τον άκυρο προϋπολογισμό %d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid payee %d.\n"
+#~ msgstr "Η συναλλαγή %d έχει τον άκυρο δικαιούχο πληρωμής %d.\n"
 
 #, fuzzy, c-format
 #~ msgid "%s, %2f : %s - %s:%d:%s\n"
@@ -14296,12 +14323,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Εσφαλμένο επίπεδο αποσφαλμάτωσης,παρακαλώ ελέγξτε την τιμή DEBUG_GRISBI"
 
-#~ msgid "Fix completed"
-#~ msgstr "Η διόρθωση ολοκληρώθηκε"
-
-#~ msgid "Unable to fix account"
-#~ msgstr "Αδύνατη η επιδιόρθωση λογαριασμού"
-
 #, fuzzy
 #~ msgid "Maximum items showed in drop down lists (0 for no limit): "
 #~ msgstr ""
@@ -14616,10 +14637,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Η συναλλαγή %d έχει μια κατηγορία n°%d και την υποκατηγορία n°%d αλλά δεν "
 #~ "υπάρχουν."
-
-#, fuzzy
-#~ msgid "The transaction %d has a payee n%d but it doesn't exist."
-#~ msgstr "Η συναλλαγή %d έχει έναν δικαιούχο πληρωμής n°%d αλλά δεν υπάρχει."
 
 #~ msgid ""
 #~ "gsb_form_scheduler_create is called with a bad table,\n"

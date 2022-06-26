@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-25 13:28+0200\n"
+"POT-Creation-Date: 2022-06-26 10:11+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -4765,7 +4765,7 @@ msgid "Exporting report..."
 msgstr "Exportování sestavy..."
 
 #: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:762
-#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:842 ../src/gsb_file.c:528
+#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:845 ../src/gsb_file.c:528
 #: ../src/gsb_file.c:677 ../src/gsb_file.c:1000
 msgid "Done"
 msgstr "Hotovo"
@@ -8697,12 +8697,20 @@ msgid ""
 "modifications."
 msgstr "Grisbi úspěšně opravilo tento soubor účtů. Nyní můžete změny uložit."
 
+#: ../src/gsb_debug.c:74
+msgid "Fix completed"
+msgstr "Oprava dokončena"
+
 #: ../src/gsb_debug.c:78
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
 "Grisbi se nepodařilo opravit tento soubor účtů. Nebyly provedeny žádné změny."
+
+#: ../src/gsb_debug.c:80
+msgid "Unable to fix account"
+msgstr "Účet nelze opravit"
 
 #: ../src/gsb_debug.c:148
 msgid "Try to fix this inconsistency."
@@ -8721,55 +8729,58 @@ msgstr ""
 
 #: ../src/gsb_debug.c:349
 #, fuzzy, c-format
-msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
-msgstr "Transakce #%d je spojena s neexistující transakcí #%d.\n"
-
-#: ../src/gsb_debug.c:374
-#, c-format
-msgid ""
-"Transaction #%d is linked to transaction #%d, which is linked to transaction "
+msgid "Transaction %d is linked to transaction %d which does not exist.\n"
+msgstr ""
+"Transakce #%d je připojena k transakci #%d, která je připojena k transakci "
 "#%d.\n"
+
+#: ../src/gsb_debug.c:375
+#, fuzzy, c-format
+msgid ""
+"Transaction %d is linked to transaction %d which is linked to transaction "
+"%d.\n"
 msgstr ""
 "Transakce #%d je připojena k transakci #%d, která je připojena k transakci "
 "#%d.\n"
 
 #. sub-category not found
-#: ../src/gsb_debug.c:439
-#, c-format
-msgid "Transaction %d has category %d but invalid sub-category %d.\n"
+#: ../src/gsb_debug.c:440
+#, fuzzy, c-format
+msgid ""
+"Transaction %d has category %d and sub-category %d which does not exist.\n"
 msgstr "Transakce %d má kategorii %d ale neplatnou podkategorii %d.\n"
 
 #. category not found
-#: ../src/gsb_debug.c:453
-#, c-format
-msgid "Transaction %d has invalid category %d.\n"
-msgstr "Transakce %d má neplatnou kategorii %d.\n"
+#: ../src/gsb_debug.c:455
+#, fuzzy, c-format
+msgid "Transaction %d has category %d which does not exist.\n"
+msgstr "Transakce %d má neexistujícího plátce/příjemce č. %d."
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:553
-#, c-format
-msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
+#: ../src/gsb_debug.c:555
+#, fuzzy, c-format
+msgid "Transaction %d has budget %d and sub-budget %d which does not exist.\n"
 msgstr "Transakce %d má rozpočet %d ale neplatný podrozpočet %d.\n"
 
 #. budget not found
-#: ../src/gsb_debug.c:567
-#, c-format
-msgid "Transaction %d has invalid budget %d.\n"
-msgstr "Transakce %d má neplatný rozpočet %d.\n"
+#: ../src/gsb_debug.c:570
+#, fuzzy, c-format
+msgid "Transaction %d has budget %d which does not exist.\n"
+msgstr "Transakce %d má neexistujícího plátce/příjemce č. %d."
 
 #. payee not found
-#: ../src/gsb_debug.c:662
-#, c-format
-msgid "Transaction %d has invalid payee %d.\n"
-msgstr "Transakce %d má neplatného plátce/příjemce %d.\n"
+#: ../src/gsb_debug.c:665
+#, fuzzy, c-format
+msgid "Transaction %d has payee %d which does not exist.\n"
+msgstr "Transakce %d má neexistujícího plátce/příjemce č. %d."
 
 #. Check for reconciliation inconcistency.
-#: ../src/gsb_debug.c:718
+#: ../src/gsb_debug.c:721
 #, fuzzy
 msgid "Incorrect reconciliation totals"
 msgstr "Nesprávný součet odsouhlasení"
 
-#: ../src/gsb_debug.c:719
+#: ../src/gsb_debug.c:722
 #, fuzzy
 msgid ""
 "This test will look at accounts where the reconciled total which does not "
@@ -8778,7 +8789,7 @@ msgstr ""
 "Tato kontrola vyhledá účty, kde zůstatky na odsouhlasení nesouhlasí se "
 "součtem z transakcí."
 
-#: ../src/gsb_debug.c:720
+#: ../src/gsb_debug.c:723
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions and initial balance.\n"
@@ -8792,15 +8803,15 @@ msgstr ""
 "Příčinou může být rušení nebo změny v odsouhlasení, nebo změny v částkách "
 "odsouhlasení prováděné v okně Možnosti."
 
-#: ../src/gsb_debug.c:726
+#: ../src/gsb_debug.c:729
 msgid "Duplicate sub-categories check"
 msgstr "Kontrola zdvojených podkategorií"
 
-#: ../src/gsb_debug.c:727 ../src/gsb_debug.c:740 ../src/gsb_debug.c:753
+#: ../src/gsb_debug.c:730 ../src/gsb_debug.c:743 ../src/gsb_debug.c:756
 msgid "free"
 msgstr "prázdné"
 
-#: ../src/gsb_debug.c:728
+#: ../src/gsb_debug.c:731
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric identifier in some cases, resulting in transactions having two "
@@ -8818,11 +8829,11 @@ msgstr ""
 "Žádné transakce nebudou ztraceny, ale v některých případech bude potřeba "
 "ručně přiřadit transakce do nové podkategorie."
 
-#: ../src/gsb_debug.c:739
+#: ../src/gsb_debug.c:742
 msgid "Duplicate sub-budgetary lines check"
 msgstr "Kontrola zdvojených podrozpočtů"
 
-#: ../src/gsb_debug.c:741
+#: ../src/gsb_debug.c:744
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -8840,11 +8851,11 @@ msgstr ""
 "Žádné transakce nebudou ztraceny, ale v některých případech bude potřeba "
 "ručně přiřadit transakce do nového podrozpočtu."
 
-#: ../src/gsb_debug.c:752
+#: ../src/gsb_debug.c:755
 msgid "Orphan countra-transactions check"
 msgstr "Kontrola osiřelých protitransakcí"
 
-#: ../src/gsb_debug.c:754
+#: ../src/gsb_debug.c:757
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -8858,11 +8869,11 @@ msgstr ""
 "K nápravě budete muset ručně upravit svůj .gsb soubor (pomocí textového "
 "editoru) a opravit transakce pomocí jejich číselných ID."
 
-#: ../src/gsb_debug.c:760
+#: ../src/gsb_debug.c:763
 msgid "Incorrect category/sub-category number"
 msgstr "Nesprávné číslo kategorie/podkategorie"
 
-#: ../src/gsb_debug.c:761
+#: ../src/gsb_debug.c:764
 #, fuzzy
 msgid ""
 "This test will look for transactions which have non-existent categories/sub-"
@@ -8870,7 +8881,7 @@ msgid ""
 msgstr ""
 "Tento test vyhledá transakce s neexistujícími kategoriemi/podkategoriemi."
 
-#: ../src/gsb_debug.c:762
+#: ../src/gsb_debug.c:765
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents categories/sub-categories "
@@ -8881,18 +8892,18 @@ msgstr ""
 "Pokud se rozhodnete pokračovat, Grisbi odstraní chybné kategorie a zmíněné "
 "transakce budou bez kategorie."
 
-#: ../src/gsb_debug.c:767
+#: ../src/gsb_debug.c:770
 msgid "Incorrect budget/sub-budget number"
 msgstr "Nesprávné číslo rozpočtu/podrozpočtu"
 
-#: ../src/gsb_debug.c:768
+#: ../src/gsb_debug.c:771
 #, fuzzy
 msgid ""
 "This test will look for transactions which have non-existent budgets/sub-"
 "budgets."
 msgstr "Tento test vyhledá transakce s neexistujícími rozpočty/podrozpočty."
 
-#: ../src/gsb_debug.c:769
+#: ../src/gsb_debug.c:772
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents budgets/sub-budgets If you "
@@ -8903,16 +8914,16 @@ msgstr ""
 "se rozhodnete pokračovat, Grisbi odstraní chybné rozpočty a zmíněné "
 "transakce budou bez rozpočtu."
 
-#: ../src/gsb_debug.c:774
+#: ../src/gsb_debug.c:777
 msgid "Incorrect payee number"
 msgstr "Nesprávné číslo plátce/příjemce"
 
-#: ../src/gsb_debug.c:775
+#: ../src/gsb_debug.c:778
 #, fuzzy
 msgid "This test will look for transactions which have non-existent payees."
 msgstr "Tento test vyhledá transakce s neexistujícími plátci/příjemci."
 
-#: ../src/gsb_debug.c:776
+#: ../src/gsb_debug.c:779
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents payees If you choose to "
@@ -8922,7 +8933,7 @@ msgstr ""
 "rozhodnete pokračovat, Grisbi odstraní chybné plátce/příjemce a zmíněné "
 "transakce budou bez plátce/příjemce."
 
-#: ../src/gsb_debug.c:822
+#: ../src/gsb_debug.c:825
 msgid ""
 "Inconsistencies found\n"
 "\n"
@@ -8930,7 +8941,7 @@ msgstr ""
 "Byly nalezeny nekonzistence\n"
 "\n"
 
-#: ../src/gsb_debug.c:825
+#: ../src/gsb_debug.c:828
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
@@ -8938,7 +8949,7 @@ msgstr ""
 "Následující kontrolní testy nalezly nekonzistence v tomto souboru účtů:\n"
 "\n"
 
-#: ../src/gsb_debug.c:847
+#: ../src/gsb_debug.c:850
 msgid ""
 "No inconsistency found\n"
 "\n"
@@ -8946,19 +8957,19 @@ msgstr ""
 "Nebyla nalezena nekonzistence\n"
 "\n"
 
-#: ../src/gsb_debug.c:850
+#: ../src/gsb_debug.c:853
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr "Gratulujeme, váš soubor účtů je vpořádku!\n"
 
-#: ../src/gsb_debug.c:874
+#: ../src/gsb_debug.c:877
 msgid "Checking file for possible corruption..."
 msgstr "Kontroluji soubor na případné poškození..."
 
-#: ../src/gsb_debug.c:876
+#: ../src/gsb_debug.c:879
 msgid "Grisbi accounts debug"
 msgstr "Kontrola účtů Grisbi"
 
-#: ../src/gsb_debug.c:877
+#: ../src/gsb_debug.c:880
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
@@ -12409,7 +12420,7 @@ msgstr "Písma a rozložení"
 msgid "Invalid QIF file"
 msgstr "Chybný soubor QIF"
 
-#: ../src/qif.c:206 ../src/utils_dates.c:1202
+#: ../src/qif.c:206 ../src/utils_dates.c:1201
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -12428,11 +12439,11 @@ msgstr ""
 "To by se stát nemělo. Prosím zkontaktujte vývojový tým, abychom přidali váš "
 "neobvyklý formát data do Grisbi."
 
-#: ../src/qif.c:337 ../src/utils_dates.c:953 ../src/utils_dates.c:1009
+#: ../src/qif.c:337 ../src/utils_dates.c:952 ../src/utils_dates.c:1008
 msgid "The order cannot be determined,\n"
 msgstr "Pořadí nemůže být určeno,\n"
 
-#: ../src/qif.c:342 ../src/utils_dates.c:960 ../src/utils_dates.c:1016
+#: ../src/qif.c:342 ../src/utils_dates.c:959 ../src/utils_dates.c:1015
 msgid "Date wrong for the order "
 msgstr "Špatné datum pro pořadí"
 
@@ -13090,14 +13101,14 @@ msgstr "Nelze spustit poštovní program"
 msgid "Unselect"
 msgstr "Odznačit vše"
 
-#: ../src/utils_dates.c:1047
+#: ../src/utils_dates.c:1046
 msgid ""
 "Grisbi could not determine the format of the dates.\n"
 "\n"
 "Please force it!"
 msgstr ""
 
-#: ../src/utils_dates.c:1050
+#: ../src/utils_dates.c:1049
 #, fuzzy
 msgid "The dates format is indeterminate"
 msgstr "Pořadí nemůže být určeno,\n"
@@ -13510,6 +13521,22 @@ msgstr "Souhrnný zůstatek"
 #: ../src/widgets/widget_transfer.c:937
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
+#~ msgstr "Transakce #%d je spojena s neexistující transakcí #%d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid category %d.\n"
+#~ msgstr "Transakce %d má neplatnou kategorii %d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid budget %d.\n"
+#~ msgstr "Transakce %d má neplatný rozpočet %d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid payee %d.\n"
+#~ msgstr "Transakce %d má neplatného plátce/příjemce %d.\n"
 
 #, c-format
 #~ msgid "%s, %2f : %s - %s:%d:%s\n"
@@ -13959,12 +13986,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Chybná úroveň ladění, prosím zkontrolujte proměnnou prostředí DEBUG_GRISBI"
 
-#~ msgid "Fix completed"
-#~ msgstr "Oprava dokončena"
-
-#~ msgid "Unable to fix account"
-#~ msgstr "Účet nelze opravit"
-
 #~ msgid "Maximum items showed in drop down lists (0 for no limit): "
 #~ msgstr "Maximum položek v rozbalovacích seznamech (0 bez limitu): "
 
@@ -14276,9 +14297,6 @@ msgstr ""
 #~ "The transaction %d has a category n%d and sub-category n%d but they don't "
 #~ "exist."
 #~ msgstr "Transakce %d má neexistující kategorii č. %d a podkategorii č. %d."
-
-#~ msgid "The transaction %d has a payee n%d but it doesn't exist."
-#~ msgstr "Transakce %d má neexistujícího plátce/příjemce č. %d."
 
 #~ msgid ""
 #~ "gsb_form_scheduler_create is called with a bad table,\n"

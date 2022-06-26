@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-25 13:28+0200\n"
+"POT-Creation-Date: 2022-06-26 10:11+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -4828,7 +4828,7 @@ msgid "Exporting report..."
 msgstr "Exportando el informe ..."
 
 #: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:762
-#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:842 ../src/gsb_file.c:528
+#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:845 ../src/gsb_file.c:528
 #: ../src/gsb_file.c:677 ../src/gsb_file.c:1000
 msgid "Done"
 msgstr "Hecho"
@@ -8799,6 +8799,10 @@ msgstr ""
 "Grisbi corrigió con éxito este archivo de cuentas.  Ahora debería guardar "
 "sus modificaciones."
 
+#: ../src/gsb_debug.c:74
+msgid "Fix completed"
+msgstr "Corrección completada"
+
 #: ../src/gsb_debug.c:78
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
@@ -8806,6 +8810,10 @@ msgid ""
 msgstr ""
 "Grisbi no pudo reparar este fichero de cuentas.  No se ha hecho ninguna "
 "modificación."
+
+#: ../src/gsb_debug.c:80
+msgid "Unable to fix account"
+msgstr "No ha sido posible corregir la cuenta"
 
 #: ../src/gsb_debug.c:148
 msgid "Try to fix this inconsistency."
@@ -8824,59 +8832,62 @@ msgstr ""
 
 #: ../src/gsb_debug.c:349
 #, fuzzy, c-format
-msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
-msgstr "La transacción #%d está unida a una transacción que no existe #%d.\n"
+msgid "Transaction %d is linked to transaction %d which does not exist.\n"
+msgstr ""
+"La transacción #%d está relacionada con la transacción #%d, que está "
+"relacionada con la transacción #%d \n"
 
-#: ../src/gsb_debug.c:374
-#, c-format
+#: ../src/gsb_debug.c:375
+#, fuzzy, c-format
 msgid ""
-"Transaction #%d is linked to transaction #%d, which is linked to transaction "
-"#%d.\n"
+"Transaction %d is linked to transaction %d which is linked to transaction "
+"%d.\n"
 msgstr ""
 "La transacción #%d está relacionada con la transacción #%d, que está "
 "relacionada con la transacción #%d \n"
 
 #. sub-category not found
-#: ../src/gsb_debug.c:439
-#, c-format
-msgid "Transaction %d has category %d but invalid sub-category %d.\n"
+#: ../src/gsb_debug.c:440
+#, fuzzy, c-format
+msgid ""
+"Transaction %d has category %d and sub-category %d which does not exist.\n"
 msgstr ""
 "La transacción %d tiene una categoría %d pero laa subcategoría %d no es "
 "válida.\n"
 
 #. category not found
-#: ../src/gsb_debug.c:453
-#, c-format
-msgid "Transaction %d has invalid category %d.\n"
-msgstr "La transacción %d tiene la categoría no válida %d.\n"
+#: ../src/gsb_debug.c:455
+#, fuzzy, c-format
+msgid "Transaction %d has category %d which does not exist.\n"
+msgstr "La transacción %d tiene un tercero n°%d pero éste no existe."
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:553
-#, c-format
-msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
+#: ../src/gsb_debug.c:555
+#, fuzzy, c-format
+msgid "Transaction %d has budget %d and sub-budget %d which does not exist.\n"
 msgstr ""
 "La transacción %d tiene la línea presupuestaria %d pero una línea "
 "subpresupuestaria que no es correcta %d\n"
 
 #. budget not found
-#: ../src/gsb_debug.c:567
-#, c-format
-msgid "Transaction %d has invalid budget %d.\n"
-msgstr "La transacción %d tiene una línea presupuestaria no válida %d.\n"
+#: ../src/gsb_debug.c:570
+#, fuzzy, c-format
+msgid "Transaction %d has budget %d which does not exist.\n"
+msgstr "La transacción %d tiene un tercero n°%d pero éste no existe."
 
 #. payee not found
-#: ../src/gsb_debug.c:662
-#, c-format
-msgid "Transaction %d has invalid payee %d.\n"
-msgstr "La transacción %d tiene un tercero %d que no es válido.\n"
+#: ../src/gsb_debug.c:665
+#, fuzzy, c-format
+msgid "Transaction %d has payee %d which does not exist.\n"
+msgstr "La transacción %d tiene un tercero n°%d pero éste no existe."
 
 #. Check for reconciliation inconcistency.
-#: ../src/gsb_debug.c:718
+#: ../src/gsb_debug.c:721
 #, fuzzy
 msgid "Incorrect reconciliation totals"
 msgstr "Totales de reconciliación incorrectos"
 
-#: ../src/gsb_debug.c:719
+#: ../src/gsb_debug.c:722
 #, fuzzy
 msgid ""
 "This test will look at accounts where the reconciled total which does not "
@@ -8885,7 +8896,7 @@ msgstr ""
 "Este test buscará las cuentas dónde los totales reconciliados no coincidan "
 "con las transacciones reconciliadas."
 
-#: ../src/gsb_debug.c:720
+#: ../src/gsb_debug.c:723
 #, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
@@ -8902,15 +8913,15 @@ msgstr ""
 "también para las cuentas antiguas que pasan a Euroln que la inconsistencia "
 "es tan sólo de algunos céntimos y es normal."
 
-#: ../src/gsb_debug.c:726
+#: ../src/gsb_debug.c:729
 msgid "Duplicate sub-categories check"
 msgstr "Comprobar duplicidades en las subcategorías"
 
-#: ../src/gsb_debug.c:727 ../src/gsb_debug.c:740 ../src/gsb_debug.c:753
+#: ../src/gsb_debug.c:730 ../src/gsb_debug.c:743 ../src/gsb_debug.c:756
 msgid "free"
 msgstr "Libre"
 
-#: ../src/gsb_debug.c:728
+#: ../src/gsb_debug.c:731
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric identifier in some cases, resulting in transactions having two "
@@ -8929,11 +8940,11 @@ msgstr ""
 "No se perderá ninguna transacción, pero en algunos casos usted tendrá que "
 "mover las transacciones manualmente a su nueva subcategoría."
 
-#: ../src/gsb_debug.c:739
+#: ../src/gsb_debug.c:742
 msgid "Duplicate sub-budgetary lines check"
 msgstr "Comprobación de duplicidades en las líneas subpresupuestarias"
 
-#: ../src/gsb_debug.c:741
+#: ../src/gsb_debug.c:744
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -8952,11 +8963,11 @@ msgstr ""
 "No se perderá ninguna transacción, pero en algunos casos usted tendrá que "
 "mover las transacciones manualmente a la nueva línea subpresupuestaria."
 
-#: ../src/gsb_debug.c:752
+#: ../src/gsb_debug.c:755
 msgid "Orphan countra-transactions check"
 msgstr "Comprobación de contratransacciones huérfanas"
 
-#: ../src/gsb_debug.c:754
+#: ../src/gsb_debug.c:757
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -8970,11 +8981,11 @@ msgstr ""
 "Para arreglar esto, debe editar manualmente su archivo gsb (con un editor de "
 "textos) y corregir las transacciones usando su identificador numérico."
 
-#: ../src/gsb_debug.c:760
+#: ../src/gsb_debug.c:763
 msgid "Incorrect category/sub-category number"
 msgstr "Número de categoría/subcategoría incorrecto"
 
-#: ../src/gsb_debug.c:761
+#: ../src/gsb_debug.c:764
 #, fuzzy
 msgid ""
 "This test will look for transactions which have non-existent categories/sub-"
@@ -8983,7 +8994,7 @@ msgstr ""
 "Esta prueba buscará las transacciones que tienen categorías/subcategorías no "
 "existentes."
 
-#: ../src/gsb_debug.c:762
+#: ../src/gsb_debug.c:765
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents categories/sub-categories "
@@ -8994,11 +9005,11 @@ msgstr ""
 "inexistentes si elige continuar, Grisbi eliminará estas categorías erróneas "
 "y las transacciones no tendrán categorías."
 
-#: ../src/gsb_debug.c:767
+#: ../src/gsb_debug.c:770
 msgid "Incorrect budget/sub-budget number"
 msgstr "Número de prespuesto/sub presupuesto incorrecto"
 
-#: ../src/gsb_debug.c:768
+#: ../src/gsb_debug.c:771
 #, fuzzy
 msgid ""
 "This test will look for transactions which have non-existent budgets/sub-"
@@ -9007,7 +9018,7 @@ msgstr ""
 "Esta prueba buscará transacciones que tengan lineas presupuestarias/"
 "subpresupuestarias inexistentes."
 
-#: ../src/gsb_debug.c:769
+#: ../src/gsb_debug.c:772
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents budgets/sub-budgets If you "
@@ -9019,16 +9030,16 @@ msgstr ""
 "línea presupuestaria errónea y esas transacciones no tendrán líneas "
 "presupuestarias."
 
-#: ../src/gsb_debug.c:774
+#: ../src/gsb_debug.c:777
 msgid "Incorrect payee number"
 msgstr "Número de tercero incorrecto"
 
-#: ../src/gsb_debug.c:775
+#: ../src/gsb_debug.c:778
 #, fuzzy
 msgid "This test will look for transactions which have non-existent payees."
 msgstr "Este test buscará tranascciones que tengan terceros que no existen."
 
-#: ../src/gsb_debug.c:776
+#: ../src/gsb_debug.c:779
 #, fuzzy
 msgid ""
 "Grisbi found some transactions with non existents payees If you choose to "
@@ -9037,7 +9048,7 @@ msgstr ""
 "Grisbi encontró algunas transacciones con terceros inexistentes si elige "
 "continuar, Grisbi los borrará y esas transacciones se quedarán sin tercero."
 
-#: ../src/gsb_debug.c:822
+#: ../src/gsb_debug.c:825
 msgid ""
 "Inconsistencies found\n"
 "\n"
@@ -9045,7 +9056,7 @@ msgstr ""
 "Se han encontrado inconsistencias\n"
 "\n"
 
-#: ../src/gsb_debug.c:825
+#: ../src/gsb_debug.c:828
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
@@ -9054,7 +9065,7 @@ msgstr ""
 "de cuentas:\n"
 "\n"
 
-#: ../src/gsb_debug.c:847
+#: ../src/gsb_debug.c:850
 msgid ""
 "No inconsistency found\n"
 "\n"
@@ -9062,19 +9073,19 @@ msgstr ""
 "No se han encontrado inconsistencias\n"
 "\n"
 
-#: ../src/gsb_debug.c:850
+#: ../src/gsb_debug.c:853
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr "¡Enhorabuena, su archivo de cuentas está en forma!\n"
 
-#: ../src/gsb_debug.c:874
+#: ../src/gsb_debug.c:877
 msgid "Checking file for possible corruption..."
 msgstr "Buscando una posible corrupción en el archivo..."
 
-#: ../src/gsb_debug.c:876
+#: ../src/gsb_debug.c:879
 msgid "Grisbi accounts debug"
 msgstr "Comprobación de errores en las cuentas de Grisbi"
 
-#: ../src/gsb_debug.c:877
+#: ../src/gsb_debug.c:880
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
@@ -12584,7 +12595,7 @@ msgstr "Tipos de letra y presentación"
 msgid "Invalid QIF file"
 msgstr "Archivo WIF no válido"
 
-#: ../src/qif.c:206 ../src/utils_dates.c:1202
+#: ../src/qif.c:206 ../src/utils_dates.c:1201
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -12601,11 +12612,11 @@ msgstr ""
 "Esto no debería pasar. Por favor póngase en contacto con el Equipo de Grisbi "
 "para intentar añadir su formato a Grisbi."
 
-#: ../src/qif.c:337 ../src/utils_dates.c:953 ../src/utils_dates.c:1009
+#: ../src/qif.c:337 ../src/utils_dates.c:952 ../src/utils_dates.c:1008
 msgid "The order cannot be determined,\n"
 msgstr "El pedido no puede determinarse,\n"
 
-#: ../src/qif.c:342 ../src/utils_dates.c:960 ../src/utils_dates.c:1016
+#: ../src/qif.c:342 ../src/utils_dates.c:959 ../src/utils_dates.c:1015
 msgid "Date wrong for the order "
 msgstr "Fecha errónea para el pedido "
 
@@ -13259,14 +13270,14 @@ msgstr "No puedo ejecutar el navegador web"
 msgid "Unselect"
 msgstr "Deseleccionar todo"
 
-#: ../src/utils_dates.c:1047
+#: ../src/utils_dates.c:1046
 msgid ""
 "Grisbi could not determine the format of the dates.\n"
 "\n"
 "Please force it!"
 msgstr ""
 
-#: ../src/utils_dates.c:1050
+#: ../src/utils_dates.c:1049
 #, fuzzy
 msgid "The dates format is indeterminate"
 msgstr "El pedido no puede determinarse,\n"
@@ -13682,6 +13693,23 @@ msgstr "Balance parcial"
 #: ../src/widgets/widget_transfer.c:937
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
+#~ msgstr ""
+#~ "La transacción #%d está unida a una transacción que no existe #%d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid category %d.\n"
+#~ msgstr "La transacción %d tiene la categoría no válida %d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid budget %d.\n"
+#~ msgstr "La transacción %d tiene una línea presupuestaria no válida %d.\n"
+
+#, c-format
+#~ msgid "Transaction %d has invalid payee %d.\n"
+#~ msgstr "La transacción %d tiene un tercero %d que no es válido.\n"
 
 #, fuzzy, c-format
 #~ msgid "%s, %2f : %s - %s:%d:%s\n"
@@ -14142,12 +14170,6 @@ msgstr ""
 #~ "Nivel de corrección de errores equivocado, por favor compruebe la "
 #~ "variable de entorno DEBUG_GRISBI"
 
-#~ msgid "Fix completed"
-#~ msgstr "Corrección completada"
-
-#~ msgid "Unable to fix account"
-#~ msgstr "No ha sido posible corregir la cuenta"
-
 #, fuzzy
 #~ msgid "Maximum items showed in drop down lists (0 for no limit): "
 #~ msgstr ""
@@ -14477,10 +14499,6 @@ msgstr ""
 #~ msgstr ""
 #~ "La transacción %d tiene una categoría n°%d y una subcategoría n°%d pero "
 #~ "éstas no existen."
-
-#, fuzzy
-#~ msgid "The transaction %d has a payee n%d but it doesn't exist."
-#~ msgstr "La transacción %d tiene un tercero n°%d pero éste no existe."
 
 #~ msgid ""
 #~ "gsb_form_scheduler_create is called with a bad table,\n"

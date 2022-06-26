@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-25 13:28+0200\n"
+"POT-Creation-Date: 2022-06-26 10:11+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -4940,7 +4940,7 @@ msgid "Exporting report..."
 msgstr "ייצוא הדו\"ח בתור CSV ..."
 
 #: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:762
-#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:842 ../src/gsb_file.c:528
+#: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:845 ../src/gsb_file.c:528
 #: ../src/gsb_file.c:677 ../src/gsb_file.c:1000
 #, fuzzy
 msgid "Done"
@@ -8789,11 +8789,20 @@ msgid ""
 "modifications."
 msgstr ""
 
+#: ../src/gsb_debug.c:74
+msgid "Fix completed"
+msgstr ""
+
 #: ../src/gsb_debug.c:78
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
+
+#: ../src/gsb_debug.c:80
+#, fuzzy
+msgid "Unable to fix account"
+msgstr "סוג החשבון"
 
 #: ../src/gsb_debug.c:148
 #, fuzzy
@@ -8813,61 +8822,62 @@ msgstr ""
 
 #: ../src/gsb_debug.c:349
 #, fuzzy, c-format
-msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
+msgid "Transaction %d is linked to transaction %d which does not exist.\n"
 msgstr ""
 "לעיסקה #%d צריכה להיות #%d נגדית, אבל לעיסקה #%d יש #%d נגדית במקום  #%d. "
 
-#: ../src/gsb_debug.c:374
+#: ../src/gsb_debug.c:375
 #, fuzzy, c-format
 msgid ""
-"Transaction #%d is linked to transaction #%d, which is linked to transaction "
-"#%d.\n"
+"Transaction %d is linked to transaction %d which is linked to transaction "
+"%d.\n"
 msgstr ""
 "לעיסקה #%d צריכה להיות #%d נגדית, אבל לעיסקה #%d יש #%d נגדית במקום  #%d. "
 
 #. sub-category not found
-#: ../src/gsb_debug.c:439
+#: ../src/gsb_debug.c:440
 #, fuzzy, c-format
-msgid "Transaction %d has category %d but invalid sub-category %d.\n"
+msgid ""
+"Transaction %d has category %d and sub-category %d which does not exist.\n"
 msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
 
 #. category not found
-#: ../src/gsb_debug.c:453
+#: ../src/gsb_debug.c:455
 #, fuzzy, c-format
-msgid "Transaction %d has invalid category %d.\n"
-msgstr "קיבוץ עיסקאות לפי קטגוריה"
+msgid "Transaction %d has category %d which does not exist.\n"
+msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:553
+#: ../src/gsb_debug.c:555
 #, fuzzy, c-format
-msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
+msgid "Transaction %d has budget %d and sub-budget %d which does not exist.\n"
 msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
 
 #. budget not found
-#: ../src/gsb_debug.c:567
+#: ../src/gsb_debug.c:570
 #, fuzzy, c-format
-msgid "Transaction %d has invalid budget %d.\n"
+msgid "Transaction %d has budget %d which does not exist.\n"
 msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
 
 #. payee not found
-#: ../src/gsb_debug.c:662
+#: ../src/gsb_debug.c:665
 #, fuzzy, c-format
-msgid "Transaction %d has invalid payee %d.\n"
+msgid "Transaction %d has payee %d which does not exist.\n"
 msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
 
 #. Check for reconciliation inconcistency.
-#: ../src/gsb_debug.c:718
+#: ../src/gsb_debug.c:721
 #, fuzzy
 msgid "Incorrect reconciliation totals"
 msgstr "התאמה"
 
-#: ../src/gsb_debug.c:719
+#: ../src/gsb_debug.c:722
 msgid ""
 "This test will look at accounts where the reconciled total which does not "
 "match with reconciled transactions."
 msgstr ""
 
-#: ../src/gsb_debug.c:720
+#: ../src/gsb_debug.c:723
 #, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
@@ -8882,17 +8892,17 @@ msgstr ""
 "החשבונות הבאים אינם מתואמים:\n"
 "\n"
 
-#: ../src/gsb_debug.c:726
+#: ../src/gsb_debug.c:729
 #, fuzzy
 msgid "Duplicate sub-categories check"
 msgstr "הצגת תתי-קטגוריות"
 
-#: ../src/gsb_debug.c:727 ../src/gsb_debug.c:740 ../src/gsb_debug.c:753
+#: ../src/gsb_debug.c:730 ../src/gsb_debug.c:743 ../src/gsb_debug.c:756
 #, fuzzy
 msgid "free"
 msgstr "יוון"
 
-#: ../src/gsb_debug.c:728
+#: ../src/gsb_debug.c:731
 #, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
@@ -8911,12 +8921,12 @@ msgstr ""
 "אף עיסקה לא תאבד, אבל במספר מקרים, ייתכן ויהיה צורך להעביר את העיסקאות באופן "
 "ידני אל תת-קטגוריה חדשה זו."
 
-#: ../src/gsb_debug.c:739
+#: ../src/gsb_debug.c:742
 #, fuzzy
 msgid "Duplicate sub-budgetary lines check"
 msgstr "תת-קו התקציב"
 
-#: ../src/gsb_debug.c:741
+#: ../src/gsb_debug.c:744
 #, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
@@ -8935,12 +8945,12 @@ msgstr ""
 "אף עיסקה לא תאבד, אבל במספר מקרים, ייתכן ויהיה צורך להעביר את העיסקאות באופן "
 "ידני אל תת-קו תקציב חדש זה."
 
-#: ../src/gsb_debug.c:752
+#: ../src/gsb_debug.c:755
 #, fuzzy
 msgid "Orphan countra-transactions check"
 msgstr "עיסקאות יתומות"
 
-#: ../src/gsb_debug.c:754
+#: ../src/gsb_debug.c:757
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -8949,88 +8959,88 @@ msgid ""
 "editor) and fix transactions using their numeric ID."
 msgstr ""
 
-#: ../src/gsb_debug.c:760
+#: ../src/gsb_debug.c:763
 msgid "Incorrect category/sub-category number"
 msgstr ""
 
-#: ../src/gsb_debug.c:761
+#: ../src/gsb_debug.c:764
 msgid ""
 "This test will look for transactions which have non-existent categories/sub-"
 "categories."
 msgstr ""
 
-#: ../src/gsb_debug.c:762
+#: ../src/gsb_debug.c:765
 msgid ""
 "Grisbi found some transactions with non existents categories/sub-categories "
 "If you choose to continue, Grisbi will remove that category error and that "
 "transactions will have no categories."
 msgstr ""
 
-#: ../src/gsb_debug.c:767
+#: ../src/gsb_debug.c:770
 msgid "Incorrect budget/sub-budget number"
 msgstr ""
 
-#: ../src/gsb_debug.c:768
+#: ../src/gsb_debug.c:771
 msgid ""
 "This test will look for transactions which have non-existent budgets/sub-"
 "budgets."
 msgstr ""
 
-#: ../src/gsb_debug.c:769
+#: ../src/gsb_debug.c:772
 msgid ""
 "Grisbi found some transactions with non existents budgets/sub-budgets If you "
 "choose to continue, Grisbi will remove that budget error and that "
 "transactions will have no budgets."
 msgstr ""
 
-#: ../src/gsb_debug.c:774
+#: ../src/gsb_debug.c:777
 msgid "Incorrect payee number"
 msgstr ""
 
-#: ../src/gsb_debug.c:775
+#: ../src/gsb_debug.c:778
 msgid "This test will look for transactions which have non-existent payees."
 msgstr ""
 
-#: ../src/gsb_debug.c:776
+#: ../src/gsb_debug.c:779
 msgid ""
 "Grisbi found some transactions with non existents payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
 msgstr ""
 
-#: ../src/gsb_debug.c:822
+#: ../src/gsb_debug.c:825
 #, fuzzy
 msgid ""
 "Inconsistencies found\n"
 "\n"
 msgstr "לא נמצאה כל בעיית חוסר תיאום."
 
-#: ../src/gsb_debug.c:825
+#: ../src/gsb_debug.c:828
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:847
+#: ../src/gsb_debug.c:850
 #, fuzzy
 msgid ""
 "No inconsistency found\n"
 "\n"
 msgstr "לא נמצאה כל בעיית חוסר תיאום."
 
-#: ../src/gsb_debug.c:850
+#: ../src/gsb_debug.c:853
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:874
+#: ../src/gsb_debug.c:877
 msgid "Checking file for possible corruption..."
 msgstr ""
 
-#: ../src/gsb_debug.c:876
+#: ../src/gsb_debug.c:879
 #, fuzzy
 msgid "Grisbi accounts debug"
 msgstr "הגדרת גריסבי"
 
-#: ../src/gsb_debug.c:877
+#: ../src/gsb_debug.c:880
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
@@ -12459,7 +12469,7 @@ msgstr "גופנים ולוגו"
 msgid "Invalid QIF file"
 msgstr "קובץ דו\"ח שגוי"
 
-#: ../src/qif.c:206 ../src/utils_dates.c:1202
+#: ../src/qif.c:206 ../src/utils_dates.c:1201
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -12473,12 +12483,12 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: ../src/qif.c:337 ../src/utils_dates.c:953 ../src/utils_dates.c:1009
+#: ../src/qif.c:337 ../src/utils_dates.c:952 ../src/utils_dates.c:1008
 #, fuzzy
 msgid "The order cannot be determined,\n"
 msgstr "לא ניתן לאפשר את התמיכה בקבצי OFX!"
 
-#: ../src/qif.c:342 ../src/utils_dates.c:960 ../src/utils_dates.c:1016
+#: ../src/qif.c:342 ../src/utils_dates.c:959 ../src/utils_dates.c:1015
 #, fuzzy
 msgid "Date wrong for the order "
 msgstr "בראש הדו\"ח"
@@ -13028,14 +13038,14 @@ msgstr "לא ניתן להריץ דפדפן אינטרנט"
 msgid "Unselect"
 msgstr "לסמן כלום"
 
-#: ../src/utils_dates.c:1047
+#: ../src/utils_dates.c:1046
 msgid ""
 "Grisbi could not determine the format of the dates.\n"
 "\n"
 "Please force it!"
 msgstr ""
 
-#: ../src/utils_dates.c:1050
+#: ../src/utils_dates.c:1049
 #, fuzzy
 msgid "The dates format is indeterminate"
 msgstr "לא ניתן לאפשר את התמיכה בקבצי OFX!"
@@ -13448,6 +13458,23 @@ msgstr "יתרת פתיחה"
 msgid "One of the two fields is recommended"
 msgstr ""
 
+#, fuzzy, c-format
+#~ msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
+#~ msgstr ""
+#~ "לעיסקה #%d צריכה להיות #%d נגדית, אבל לעיסקה #%d יש #%d נגדית במקום  #%d. "
+
+#, fuzzy, c-format
+#~ msgid "Transaction %d has invalid category %d.\n"
+#~ msgstr "קיבוץ עיסקאות לפי קטגוריה"
+
+#, fuzzy, c-format
+#~ msgid "Transaction %d has invalid budget %d.\n"
+#~ msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
+
+#, fuzzy, c-format
+#~ msgid "Transaction %d has invalid payee %d.\n"
+#~ msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
+
 #, fuzzy
 #~ msgid "(Un)Reconcile a transaction\t\t-> <Ctrl>r\n"
 #~ msgstr "עיסקאות מתואמות"
@@ -13788,10 +13815,6 @@ msgstr ""
 #~ msgstr "סך הכל %s (%d עיסקאות)"
 
 #, fuzzy
-#~ msgid "Unable to fix account"
-#~ msgstr "סוג החשבון"
-
-#, fuzzy
 #~ msgid "Replaces the exist rule"
 #~ msgstr "שם קובץ החשבונות"
 
@@ -14008,10 +14031,6 @@ msgstr ""
 #~ msgid ""
 #~ "The transaction %d has a category n%d and sub-category n%d but they don't "
 #~ "exist."
-#~ msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
-
-#, fuzzy
-#~ msgid "The transaction %d has a payee n%d but it doesn't exist."
 #~ msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
 
 #, fuzzy
