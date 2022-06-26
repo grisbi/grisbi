@@ -372,7 +372,7 @@
                           <object class="GtkLabel" id="label_hist_main_account_use_data">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">(Aggregates the historical data of the main account and deferred debit card accounts)</property>
+                            <property name="label" translatable="yes">(Aggregates the historical data of the main account and deferred debit card accounts) </property>
                             <property name="wrap">True</property>
                             <property name="selectable">True</property>
                           </object>

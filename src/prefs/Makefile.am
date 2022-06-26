@@ -66,3 +66,7 @@ CLEANFILES = \
 
 MAINTAINERCLEANFILES = \
 	Makefile.in
+
+EXTRA_DIST = \
+	prefs_page_bet_account.ui
+

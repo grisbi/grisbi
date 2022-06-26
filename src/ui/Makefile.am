@@ -12,7 +12,6 @@ ui_DATA = grisbi.css \
 		prefs_page_accueil.ui \
 		prefs_page_archives.ui \
 		prefs_page_bank.ui \
-		prefs_page_bet_account.ui \
 		prefs_page_bet_general.ui \
 		prefs_page_currency.ui \
 		prefs_page_currency_link.ui \
