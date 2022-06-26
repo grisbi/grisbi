@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-26 15:45+0200\n"
+"POT-Creation-Date: 2022-06-26 21:44+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -390,8 +390,8 @@ msgid "Gap:"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:20 ../src/widgets/widget_loan.ui.h:10
-#: ../src/bet_finance_ui.c:989 ../src/bet_finance_ui.c:1346
-#: ../src/bet_finance_ui.c:1368 ../src/bet_finance_ui.c:1744
+#: ../src/bet_finance_ui.c:984 ../src/bet_finance_ui.c:1341
+#: ../src/bet_finance_ui.c:1363 ../src/bet_finance_ui.c:1739
 #, no-c-format
 msgid "%"
 msgstr ""
@@ -541,8 +541,8 @@ msgstr ""
 #. names of the data for transactions list
 #. 1
 #: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
-#: ../src/bet_finance_ui.c:1823 ../src/bet_future.c:531 ../src/bet_tab.c:1993
-#: ../src/etats_affiche.c:2463 ../src/export_csv.c:368
+#: ../src/bet_finance_ui.c:1818 ../src/bet_future.c:531 ../src/bet_tab.c:1993
+#: ../src/etats_affiche.c:2434 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1995
 #: ../src/gsb_form_widget.c:550 ../src/gsb_reconcile.c:214
 #: ../src/gsb_scheduler_list.c:925 ../src/gsb_transactions_list.c:110
@@ -584,7 +584,7 @@ msgid "Selection of transactions by:"
 msgstr "Apagar lançamento"
 
 #. 2
-#: ../src/ui/etats_prefs.ui.h:17 ../src/etats_affiche.c:2470
+#: ../src/ui/etats_prefs.ui.h:17 ../src/etats_affiche.c:2441
 #: ../src/export_csv.c:371 ../src/gsb_form.c:2001 ../src/gsb_form.c:2815
 #: ../src/gsb_form.c:2842 ../src/gsb_form_widget.c:562
 #: ../src/gsb_transactions_list.c:111 ../src/import_csv.c:84
@@ -740,7 +740,7 @@ msgstr "Mostrar o sub-total para cada conta"
 
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:547
-#: ../src/etats_affiche.c:2484 ../src/etats_config.c:453
+#: ../src/etats_affiche.c:2455 ../src/etats_config.c:453
 #: ../src/etats_prefs.c:419 ../src/export_csv.c:383 ../src/grisbi_win.c:477
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2018
 #: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:925
@@ -1736,7 +1736,7 @@ msgid "Remove backup files older than "
 msgstr ""
 
 #: ../src/ui/prefs_page_files.ui.h:18 ../src/widgets/widget_loan.ui.h:2
-#: ../src/bet_finance_ui.c:280 ../src/gsb_scheduler_list.c:119
+#: ../src/bet_finance_ui.c:275 ../src/gsb_scheduler_list.c:119
 #, fuzzy
 msgid "months"
 msgstr "Meses"
@@ -2376,7 +2376,7 @@ msgstr "Fax"
 
 #. 4
 #: ../src/widgets/widget_bank_details.ui.h:11 ../src/bet_future.c:574
-#: ../src/etats_affiche.c:2505 ../src/export_csv.c:401 ../src/gsb_form.c:2051
+#: ../src/etats_affiche.c:2476 ../src/export_csv.c:401 ../src/gsb_form.c:2051
 #: ../src/gsb_form_widget.c:586 ../src/gsb_scheduler_list.c:277
 #: ../src/gsb_scheduler_list.c:926 ../src/gsb_scheduler_list.c:1190
 #: ../src/gsb_transactions_list.c:124 ../src/import_csv.c:86
@@ -2726,8 +2726,8 @@ msgstr ""
 
 #. Duration
 #. partie mensuelle
-#: ../src/widgets/widget_loan.ui.h:5 ../src/bet_finance_ui.c:994
-#: ../src/bet_finance_ui.c:1493 ../src/bet_finance_ui.c:1749
+#: ../src/widgets/widget_loan.ui.h:5 ../src/bet_finance_ui.c:989
+#: ../src/bet_finance_ui.c:1488 ../src/bet_finance_ui.c:1744
 #: ../src/utils_widgets.c:263
 #, fuzzy
 msgid "Duration: "
@@ -2738,8 +2738,8 @@ msgid "€"
 msgstr ""
 
 #. taux
-#: ../src/widgets/widget_loan.ui.h:7 ../src/bet_finance_ui.c:980
-#: ../src/bet_finance_ui.c:1735
+#: ../src/widgets/widget_loan.ui.h:7 ../src/bet_finance_ui.c:975
+#: ../src/bet_finance_ui.c:1730
 #, fuzzy
 msgid "Annuel rate interest: "
 msgstr "Orçamento anual:"
@@ -2748,16 +2748,16 @@ msgstr "Orçamento anual:"
 msgid "Fees per month: "
 msgstr ""
 
-#: ../src/widgets/widget_loan.ui.h:12 ../src/bet_finance_ui.c:1379
+#: ../src/widgets/widget_loan.ui.h:12 ../src/bet_finance_ui.c:1374
 #, fuzzy
 msgid "Rate Type: "
 msgstr "Tipo:"
 
-#: ../src/widgets/widget_loan.ui.h:13 ../src/bet_finance_ui.c:1383
+#: ../src/widgets/widget_loan.ui.h:13 ../src/bet_finance_ui.c:1378
 msgid "CAGR"
 msgstr ""
 
-#: ../src/widgets/widget_loan.ui.h:14 ../src/bet_finance_ui.c:1386
+#: ../src/widgets/widget_loan.ui.h:14 ../src/bet_finance_ui.c:1381
 msgid "Proportional rate"
 msgstr ""
 
@@ -2955,7 +2955,7 @@ msgstr "Saldo inicial"
 msgid "Additional balances"
 msgstr "Saldo inicial"
 
-#: ../src/accueil.c:1187 ../src/bet_finance_ui.c:2413
+#: ../src/accueil.c:1187 ../src/bet_finance_ui.c:2408
 msgid " at "
 msgstr ""
 
@@ -2964,12 +2964,12 @@ msgstr ""
 msgid "Enter a scheduled transaction"
 msgstr "Informe um lançamento agendado"
 
-#: ../src/accueil.c:1399 ../src/accueil.c:1531 ../src/accueil.c:2118
+#: ../src/accueil.c:1399 ../src/accueil.c:1531 ../src/accueil.c:2131
 #, fuzzy, c-format
 msgid "%s credited on %s"
 msgstr "%4.2f %s créditos em %s"
 
-#: ../src/accueil.c:1412 ../src/accueil.c:1544 ../src/accueil.c:2122
+#: ../src/accueil.c:1412 ../src/accueil.c:1544 ../src/accueil.c:2135
 #, fuzzy, c-format
 msgid "%s debited on %s"
 msgstr "%4.2f %s débitos em %s"
@@ -3061,66 +3061,66 @@ msgstr ""
 msgid "Confirmation of the change of period"
 msgstr "Confirmação da remoção do banco"
 
-#: ../src/bet_finance_ui.c:514
+#: ../src/bet_finance_ui.c:509
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:591
+#: ../src/bet_finance_ui.c:586
 #, fuzzy
 msgid "year"
 msgstr "Anos"
 
-#: ../src/bet_finance_ui.c:593 ../src/gsb_scheduler_list.c:119
+#: ../src/bet_finance_ui.c:588 ../src/gsb_scheduler_list.c:119
 #, fuzzy
 msgid "years"
 msgstr "Anos"
 
-#: ../src/bet_finance_ui.c:747
+#: ../src/bet_finance_ui.c:742
 msgid "At today"
 msgstr ""
 
 #. création du bouton afficher le simulateur de crédits
-#: ../src/bet_finance_ui.c:749 ../src/bet_finance_ui.c:2074
+#: ../src/bet_finance_ui.c:744 ../src/bet_finance_ui.c:2069
 #, fuzzy
 msgid "Start date"
 msgstr "Inicio:"
 
-#: ../src/bet_finance_ui.c:753 ../src/bet_finance_ui.c:875
+#: ../src/bet_finance_ui.c:748 ../src/bet_finance_ui.c:870
 msgid "Show amortization schedule to date"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:755 ../src/bet_finance_ui.c:878
-#: ../src/bet_finance_ui.c:2075
+#: ../src/bet_finance_ui.c:750 ../src/bet_finance_ui.c:873
+#: ../src/bet_finance_ui.c:2070
 msgid "Show amortization schedule from the beginning"
 msgstr ""
 
 #. Export list
-#: ../src/bet_finance_ui.c:777 ../src/bet_finance_ui.c:899
-#: ../src/bet_finance_ui.c:2098 ../src/bet_hist.c:949 ../src/bet_tab.c:1456
+#: ../src/bet_finance_ui.c:772 ../src/bet_finance_ui.c:894
+#: ../src/bet_finance_ui.c:2093 ../src/bet_hist.c:949 ../src/bet_tab.c:1456
 #, fuzzy
 msgid "Export the array"
 msgstr "Impressora"
 
-#: ../src/bet_finance_ui.c:784
+#: ../src/bet_finance_ui.c:779
 #, fuzzy
 msgid "credit.csv"
 msgstr "Crédito"
 
-#: ../src/bet_finance_ui.c:803 ../src/bet_hist.c:883 ../src/bet_tab.c:402
+#: ../src/bet_finance_ui.c:798 ../src/bet_hist.c:883 ../src/bet_tab.c:402
 #: ../src/imputation_budgetaire.c:472
 msgid "Cannot save file."
 msgstr "Não posso salvar arquivo."
 
-#: ../src/bet_finance_ui.c:845 ../src/bet_finance_ui.c:2050
+#: ../src/bet_finance_ui.c:840 ../src/bet_finance_ui.c:2045
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:854 ../src/bet_finance_ui.c:2062
+#: ../src/bet_finance_ui.c:849 ../src/bet_finance_ui.c:2057
 msgid "View credits simulator"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:891 ../src/bet_finance_ui.c:2089
+#: ../src/bet_finance_ui.c:886 ../src/bet_finance_ui.c:2084
 #: ../src/bet_hist.c:943 ../src/bet_tab.c:1448 ../src/bet_tab.c:2117
 #, fuzzy
 msgid "Print the array"
@@ -3128,166 +3128,166 @@ msgstr "Impressora"
 
 #. titre de la page
 #. titre de la heading
-#: ../src/bet_finance_ui.c:960 ../src/bet_finance_ui.c:1712
-#: ../src/bet_finance_ui.c:2413 ../src/widgets/widget_loan.c:770
+#: ../src/bet_finance_ui.c:955 ../src/bet_finance_ui.c:1707
+#: ../src/bet_finance_ui.c:2408 ../src/widgets/widget_loan.c:770
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:970 ../src/bet_finance_ui.c:1725
+#: ../src/bet_finance_ui.c:965 ../src/bet_finance_ui.c:1720
 #, fuzzy
 msgid "Loan amount: "
 msgstr "Carregar um arquivo de contas:"
 
 #. create columns
 #. Duration
-#: ../src/bet_finance_ui.c:1064
+#: ../src/bet_finance_ui.c:1059
 #, fuzzy
 msgid "Duration"
 msgstr "Tradução"
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:1081
+#: ../src/bet_finance_ui.c:1076
 msgid ""
 "Number\n"
 "of periods"
 msgstr ""
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:1098
+#: ../src/bet_finance_ui.c:1093
 msgid ""
 "Loan\n"
 "capital"
 msgstr ""
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:1115
+#: ../src/bet_finance_ui.c:1110
 msgid ""
 "Annuel\n"
 "rate interest"
 msgstr ""
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:1132
+#: ../src/bet_finance_ui.c:1127
 msgid ""
 "Amount\n"
 "without fees"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:1149 ../src/bet_finance_ui.c:1920
+#: ../src/bet_finance_ui.c:1144 ../src/bet_finance_ui.c:1915
 #, fuzzy
 msgid "Fees"
 msgstr "Taxa"
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:1166 ../src/bet_finance_ui.c:1845
-#: ../src/bet_finance_ui.c:1960
+#: ../src/bet_finance_ui.c:1161 ../src/bet_finance_ui.c:1840
+#: ../src/bet_finance_ui.c:1955
 #, fuzzy
 msgid "Monthly paid"
 msgstr "Mensal"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:1183
+#: ../src/bet_finance_ui.c:1178
 #, fuzzy
 msgid "Total cost"
 msgstr "Total %s"
 
-#: ../src/bet_finance_ui.c:1195
+#: ../src/bet_finance_ui.c:1190
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1246
+#: ../src/bet_finance_ui.c:1241
 msgid "Between 3 and 18 months"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1247
+#: ../src/bet_finance_ui.c:1242
 msgid "Between 1 and 15 years"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1248
+#: ../src/bet_finance_ui.c:1243
 msgid "Between 15 and 30 years"
 msgstr ""
 
 #. taux
-#: ../src/bet_finance_ui.c:1331
+#: ../src/bet_finance_ui.c:1326
 #, fuzzy
 msgid "Annual interest: "
 msgstr "Orçamento anual:"
 
 #. Frais
-#: ../src/bet_finance_ui.c:1352
+#: ../src/bet_finance_ui.c:1347
 #, fuzzy
 msgid "Fees: "
 msgstr "Taxa:"
 
-#: ../src/bet_finance_ui.c:1368
+#: ../src/bet_finance_ui.c:1363
 #, fuzzy
 msgid " of capital"
 msgstr "Carregar um arquivo de contas:"
 
 #. titre de la page
-#: ../src/bet_finance_ui.c:1446 ../src/grisbi_win.c:482
+#: ../src/bet_finance_ui.c:1441 ../src/grisbi_win.c:482
 #: ../src/navigation.c:1359 ../src/navigation.c:2147
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Cartão de crédito"
 
 #. capital
-#: ../src/bet_finance_ui.c:1458
+#: ../src/bet_finance_ui.c:1453
 #, fuzzy
 msgid "Loan capital: "
 msgstr "Carregar um arquivo de contas:"
 
 #. create columns
 #. numéro ou date de l'échéance
-#: ../src/bet_finance_ui.c:1802 ../src/etats_affiche.c:2456
+#: ../src/bet_finance_ui.c:1797 ../src/etats_affiche.c:2427
 msgid "Number"
 msgstr "Número"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1865 ../src/bet_finance_ui.c:1940
+#: ../src/bet_finance_ui.c:1860 ../src/bet_finance_ui.c:1935
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1884
+#: ../src/bet_finance_ui.c:1879
 msgid "Capital repaid"
 msgstr ""
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1902
+#: ../src/bet_finance_ui.c:1897
 #, fuzzy
 msgid "Interests"
 msgstr "Interesses"
 
 #. création du bouton afficher le tableau d'amortissement
-#: ../src/bet_finance_ui.c:2049
+#: ../src/bet_finance_ui.c:2044
 #, fuzzy
 msgid "Amortization"
 msgstr "Ação"
 
 #. création du bouton afficher le simulateur de crédits
-#: ../src/bet_finance_ui.c:2061
+#: ../src/bet_finance_ui.c:2056
 #, fuzzy
 msgid "Credits"
 msgstr "Crédito"
 
 #. création du bouton print
 #. print button
-#: ../src/bet_finance_ui.c:2088 ../src/bet_hist.c:942 ../src/bet_tab.c:2116
+#: ../src/bet_finance_ui.c:2083 ../src/bet_hist.c:942 ../src/bet_tab.c:2116
 #: ../src/etats_onglet.c:578 ../src/gsb_transactions_list.c:2543
 msgid "Print"
 msgstr "Imprimir"
 
 #. Export button
-#: ../src/bet_finance_ui.c:2097 ../src/bet_hist.c:948 ../src/bet_tab.c:2125
+#: ../src/bet_finance_ui.c:2092 ../src/bet_hist.c:948 ../src/bet_tab.c:2125
 #: ../src/categories_onglet.c:588 ../src/etats_onglet.c:568 ../src/export.c:503
 #: ../src/imputation_budgetaire.c:636
 msgid "Export"
 msgstr "Exportar"
 
-#: ../src/bet_finance_ui.c:2438
+#: ../src/bet_finance_ui.c:2433
 #, fuzzy
 msgid " months "
 msgstr "Meses"
@@ -3325,7 +3325,7 @@ msgstr "Frequência"
 msgid "Categories : Sub-categories"
 msgstr "Categorias : sub-categorias"
 
-#: ../src/bet_future.c:569 ../src/bet_hist.c:1441 ../src/etats_affiche.c:2498
+#: ../src/bet_future.c:569 ../src/bet_hist.c:1441 ../src/etats_affiche.c:2469
 #: ../src/etats_config.c:445 ../src/gsb_form.c:2045
 #: ../src/gsb_form_widget.c:582 ../src/gsb_transactions_list.c:113
 #: ../src/imputation_budgetaire.c:183 ../src/meta_budgetary.c:88
@@ -3413,7 +3413,7 @@ msgstr "Freqüência padrão"
 #. Transfer = Virement
 #. Direct deposit remplacé par Transfert = Virement
 #: ../src/bet_future.c:1323 ../src/bet_future.c:1636
-#: ../src/etats_affiche.c:1885 ../src/export_csv.c:674 ../src/export_csv.c:806
+#: ../src/etats_affiche.c:1856 ../src/export_csv.c:674 ../src/export_csv.c:806
 #: ../src/export_csv.c:818 ../src/gsb_data_category.c:1089
 #: ../src/gsb_data_payment.c:610 ../src/gsb_data_payment.c:699
 #: ../src/gsb_data_payment.c:735 ../src/gsb_form.c:2973 ../src/import.c:2491
@@ -3660,7 +3660,7 @@ msgstr ""
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:2409 ../src/etats_affiche.c:2330
+#: ../src/bet_graph.c:2409 ../src/etats_affiche.c:2301
 msgid "Incomes"
 msgstr "Receitas"
 
@@ -3704,7 +3704,7 @@ msgstr "Selecionar todas"
 #. name of the div sous-div column
 #. 6
 #: ../src/bet_hist.c:1267 ../src/bet_hist.c:1448 ../src/categories_onglet.c:180
-#: ../src/etats_affiche.c:2491 ../src/etats_config.c:441
+#: ../src/etats_affiche.c:2462 ../src/etats_config.c:441
 #: ../src/export_csv.c:395 ../src/gsb_transactions_list.c:121
 #: ../src/import_csv.c:88 ../src/meta_categories.c:67
 #: ../src/utils_widgets.c:107
@@ -3715,7 +3715,7 @@ msgstr "Categoria"
 #. 10
 #. set head page
 #: ../src/bet_hist.c:1284 ../src/categories_onglet.c:201
-#: ../src/etats_affiche.c:2546 ../src/gsb_assistant_reconcile_config.c:597
+#: ../src/etats_affiche.c:2517 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_scheduler_list.c:926 ../src/gsb_transactions_list.c:117
 #: ../src/import.c:4358 ../src/import_csv.c:92
 #: ../src/imputation_budgetaire.c:204 ../src/tiers_onglet.c:735
@@ -3799,13 +3799,13 @@ msgid "No data by default"
 msgstr "Voltar para padrões"
 
 #: ../src/bet_tab.c:976 ../src/bet_tab.c:1028 ../src/bet_tab.c:1089
-#: ../src/etats_affiche.c:1901 ../src/gsb_data_category.c:169
+#: ../src/etats_affiche.c:1872 ../src/gsb_data_category.c:169
 #: ../src/meta_categories.c:70 ../src/widgets/widget_list_metatree.c:540
 msgid "No category"
 msgstr "Nenhuma categoria"
 
 #: ../src/bet_tab.c:983 ../src/bet_tab.c:1036 ../src/bet_tab.c:1095
-#: ../src/etats_affiche.c:2065 ../src/meta_budgetary.c:91
+#: ../src/etats_affiche.c:2036 ../src/meta_budgetary.c:91
 #: ../src/widgets/widget_list_metatree.c:532
 msgid "No budgetary line"
 msgstr "Nenhum orçamento"
@@ -4351,23 +4351,23 @@ msgstr "Não exibir esta mensagem novamente"
 msgid "Keep this choice and no longer see this message?"
 msgstr ""
 
-#: ../src/dialog.c:811
+#: ../src/dialog.c:829
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
 msgstr ""
 
-#: ../src/dialog.c:813
+#: ../src/dialog.c:831
 msgid "Serious brain damage expected."
 msgstr "Erro de alocação de memória."
 
-#: ../src/dialog.c:827
+#: ../src/dialog.c:845
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
 msgstr ""
 
-#: ../src/dialog.c:829
+#: ../src/dialog.c:847
 #, fuzzy
 msgid "Cannot allocate memory"
 msgstr "Não posso alocar memória, alguns dados serão perdidos"
@@ -4431,11 +4431,6 @@ msgstr ""
 msgid "Debug updated by cmd line, level is '%s'"
 msgstr ""
 
-#: ../src/erreur.c:421
-#, c-format
-msgid "%2f : %s - %s:%d:%s - %s"
-msgstr ""
-
 #: ../src/erreur.c:582
 #, c-format
 msgid ""
@@ -4443,308 +4438,241 @@ msgid ""
 "that file with the obfuscated file into the bug report."
 msgstr ""
 
-#. début du mode de débogage
-#: ../src/erreur.c:599
-#, c-format
-msgid ""
-"%s, %2f : Debug - %s:%d:%s\n"
-"\n"
-msgstr ""
-
 #: ../src/erreur.c:654
 msgid "Grisbi failed to create the log file..."
 msgstr ""
 
-#: ../src/etats_affiche.c:200 ../src/etats_affiche.c:428
-#: ../src/etats_affiche.c:647 ../src/etats_affiche.c:753
-#, c-format
+#: ../src/etats_affiche.c:200 ../src/etats_affiche.c:423
+#: ../src/etats_affiche.c:637 ../src/etats_affiche.c:739
+#, fuzzy, c-format
 msgid "Total %s (%d transaction)"
-msgstr "Saldo %s (%d lançamento)"
+msgid_plural "Total %s (%d transactions)"
+msgstr[0] "Saldo %s (%d lançamento)"
+msgstr[1] "Saldo %s (%d lançamento)"
 
-#: ../src/etats_affiche.c:202 ../src/etats_affiche.c:430
-#: ../src/etats_affiche.c:649 ../src/etats_affiche.c:755
-#, c-format
-msgid "Total %s (%d transactions)"
-msgstr "Total %s (%d lançamentos)"
-
-#: ../src/etats_affiche.c:206 ../src/etats_affiche.c:434
-#: ../src/etats_affiche.c:653
+#: ../src/etats_affiche.c:205 ../src/etats_affiche.c:428
+#: ../src/etats_affiche.c:642
 #, fuzzy
 msgid "Total "
 msgstr "Total"
 
-#: ../src/etats_affiche.c:214
+#: ../src/etats_affiche.c:213
 #, fuzzy, c-format
 msgid "Category total (%d transaction): "
-msgstr "Total da Categoria (%d lançamentos):"
+msgid_plural "Category total (%d transactions): "
+msgstr[0] "Total da Categoria (%d lançamentos):"
+msgstr[1] "Total da Categoria (%d lançamentos):"
 
-#: ../src/etats_affiche.c:216
-#, fuzzy, c-format
-msgid "Category total (%d transactions): "
-msgstr "Total da Categoria (%d lançamentos):"
-
-#: ../src/etats_affiche.c:220
+#: ../src/etats_affiche.c:218
 #, fuzzy
 msgid "Category total: "
 msgstr "Total da Categoria:"
 
-#: ../src/etats_affiche.c:244 ../src/etats_affiche.c:359
-#: ../src/etats_affiche.c:470 ../src/etats_affiche.c:582
-#: ../src/etats_affiche.c:689 ../src/etats_affiche.c:795
+#: ../src/etats_affiche.c:244 ../src/etats_affiche.c:356
+#: ../src/etats_affiche.c:465 ../src/etats_affiche.c:576
+#: ../src/etats_affiche.c:679 ../src/etats_affiche.c:781
 #, fuzzy, c-format
 msgid "%s (%d transaction)"
-msgstr "Saldo %s (%d lançamento)"
+msgid_plural "%s (%d transactions)"
+msgstr[0] "Saldo %s (%d lançamento)"
+msgstr[1] "Saldo %s (%d lançamento)"
 
-#: ../src/etats_affiche.c:246 ../src/etats_affiche.c:361
-#: ../src/etats_affiche.c:472 ../src/etats_affiche.c:584
-#: ../src/etats_affiche.c:691 ../src/etats_affiche.c:797
-#: ../src/transaction_list.c:665
-#, fuzzy, c-format
-msgid "%s (%d transactions)"
-msgstr "Total %s (%d lançamentos)"
-
-#: ../src/etats_affiche.c:317 ../src/etats_affiche.c:537
+#: ../src/etats_affiche.c:313 ../src/etats_affiche.c:530
 #, fuzzy, c-format
 msgid "Total %s: %s (%d transaction): "
-msgstr "Total %s: %s (%d lançamento):"
+msgid_plural "Total %s: %s (%d transactions): "
+msgstr[0] "Total %s: %s (%d lançamento):"
+msgstr[1] "Total %s: %s (%d lançamento):"
 
-#: ../src/etats_affiche.c:319 ../src/etats_affiche.c:539
-#, fuzzy, c-format
-msgid "Total %s: %s (%d transactions): "
-msgstr "Total %s: %s (%d lançamentos):"
-
-#: ../src/etats_affiche.c:324 ../src/etats_affiche.c:544
+#: ../src/etats_affiche.c:320 ../src/etats_affiche.c:536
 #, c-format
 msgid "Total %s: %s"
 msgstr "Total %s: %s"
 
-#: ../src/etats_affiche.c:332
+#: ../src/etats_affiche.c:328
 #, fuzzy, c-format
 msgid "Sub-categories total (%d transaction): "
-msgstr "Total sub-categorias (%d lançamento):"
+msgid_plural "Sub-categories total (%d transactions): "
+msgstr[0] "Total sub-categorias (%d lançamento):"
+msgstr[1] "Total sub-categorias (%d lançamento):"
 
 #: ../src/etats_affiche.c:334
-#, fuzzy, c-format
-msgid "Sub-categories total (%d transactions): "
-msgstr "Total sub-categorias (%d lançamentos):"
-
-#: ../src/etats_affiche.c:338
 #, fuzzy
 msgid "Sub-categories total: "
 msgstr "Total sub-categorias:"
 
-#: ../src/etats_affiche.c:442
+#: ../src/etats_affiche.c:436
 #, fuzzy, c-format
 msgid "Budgetary lines total: (%d transaction): "
-msgstr "Total do orçamento: (%d lançamento)"
+msgid_plural "Budgetary lines total: (%d transactions): "
+msgstr[0] "Total do orçamento: (%d lançamento)"
+msgstr[1] "Total do orçamento: (%d lançamento)"
 
-#: ../src/etats_affiche.c:444
-#, fuzzy, c-format
-msgid "Budgetary lines total: (%d transactions): "
-msgstr "Total do orçamento: (%d lançamentos)"
-
-#: ../src/etats_affiche.c:448
+#: ../src/etats_affiche.c:442
 #, fuzzy
 msgid "Budgetary lines total: "
 msgstr "Total do orçamento:"
 
-#: ../src/etats_affiche.c:552
+#: ../src/etats_affiche.c:544
 #, fuzzy, c-format
 msgid "Sub-budgetary lines total: (%d transaction): "
-msgstr "Total do sub-orçamento: (%d lançamento):"
+msgid_plural "Sub-budgetary lines total: (%d transactions): "
+msgstr[0] "Total do sub-orçamento: (%d lançamento):"
+msgstr[1] "Total do sub-orçamento: (%d lançamento):"
 
-#: ../src/etats_affiche.c:554
-#, fuzzy, c-format
-msgid "Sub-budgetary lines total: (%d transactions): "
-msgstr "Total do sub-orçamento: (%d lançamentos):"
-
-#: ../src/etats_affiche.c:558
+#: ../src/etats_affiche.c:550
 #, fuzzy
 msgid "Sub-budgetary lines total: "
 msgstr "Total do sub-orçamento:"
 
-#: ../src/etats_affiche.c:661
+#: ../src/etats_affiche.c:650
 #, fuzzy, c-format
 msgid "Account total: (%d transaction): "
-msgstr "Total da conta: (%d lançamento):"
+msgid_plural "Account total: (%d transactions): "
+msgstr[0] "Total da conta: (%d lançamento):"
+msgstr[1] "Total da conta: (%d lançamento):"
 
-#: ../src/etats_affiche.c:663
-#, fuzzy, c-format
-msgid "Account total: (%d transactions): "
-msgstr "Total da conta: (%d lançamentos):"
-
-#: ../src/etats_affiche.c:667
+#: ../src/etats_affiche.c:655
 #, fuzzy
 msgid "Account total: "
 msgstr "Total da Conta:"
 
-#: ../src/etats_affiche.c:759
+#: ../src/etats_affiche.c:744
 #, c-format
 msgid "Total %s"
 msgstr "Total %s"
 
-#: ../src/etats_affiche.c:767
+#: ../src/etats_affiche.c:752
 #, fuzzy, c-format
 msgid "Payee total: (%d transaction): "
-msgstr "Total geral (%d lançamento):"
+msgid_plural "Payee total: (%d transactions): "
+msgstr[0] "Total geral (%d lançamento):"
+msgstr[1] "Total geral (%d lançamento):"
 
-#: ../src/etats_affiche.c:769
-#, fuzzy, c-format
-msgid "Payee total: (%d transactions): "
-msgstr "Total geral (%d lançamentos):"
-
-#: ../src/etats_affiche.c:773
+#: ../src/etats_affiche.c:757
 #, fuzzy
 msgid "Payee total: "
 msgstr "Total geral:"
 
-#: ../src/etats_affiche.c:939 ../src/etats_affiche.c:1038
-#: ../src/etats_affiche.c:1202
+#: ../src/etats_affiche.c:921 ../src/etats_affiche.c:1019
+#: ../src/etats_affiche.c:1181
 #, fuzzy, c-format
 msgid "Result of %s (%d transaction): "
-msgstr "Resultado de %s (%d lançamento):"
+msgid_plural "Result of %s (%d transactions): "
+msgstr[0] "Resultado de %s (%d lançamento):"
+msgstr[1] "Resultado de %s (%d lançamento):"
 
-#: ../src/etats_affiche.c:941 ../src/etats_affiche.c:1040
-#: ../src/etats_affiche.c:1204
-#, fuzzy, c-format
-msgid "Result of %s (%d transactions): "
-msgstr "Resultado de %s (%d lançamentos):"
-
-#: ../src/etats_affiche.c:945 ../src/etats_affiche.c:1044
-#: ../src/etats_affiche.c:1210
+#: ../src/etats_affiche.c:926 ../src/etats_affiche.c:1024
+#: ../src/etats_affiche.c:1187
 #, fuzzy, c-format
 msgid "Result of %s: "
 msgstr "Resultado de %s:"
 
-#: ../src/etats_affiche.c:999
+#: ../src/etats_affiche.c:982
 #, fuzzy, c-format
 msgid "Result from %s to %s (%d transaction): "
-msgstr "Resultado para %s (%d lançamento):"
+msgid_plural "Result from %s to %s (%d transactions): "
+msgstr[0] "Resultado para %s (%d lançamento):"
+msgstr[1] "Resultado para %s (%d lançamento):"
 
-#: ../src/etats_affiche.c:1001
-#, fuzzy, c-format
-msgid "Result from %s to %s (%d transactions): "
-msgstr "Resultado para %s (%d lançamentos):"
-
-#: ../src/etats_affiche.c:1012
+#: ../src/etats_affiche.c:993
 #, fuzzy, c-format
 msgid "Result from %s to %s: "
 msgstr "Resultado para %s:"
 
-#: ../src/etats_affiche.c:1067
+#: ../src/etats_affiche.c:1047
 #, fuzzy, c-format
 msgid "Result for %s (%d transaction): "
-msgstr "Resultado para %s (%d lançamento):"
+msgid_plural "Result for %s (%d transactions): "
+msgstr[0] "Resultado para %s (%d lançamento):"
+msgstr[1] "Resultado para %s (%d lançamento):"
 
-#: ../src/etats_affiche.c:1069
-#, fuzzy, c-format
-msgid "Result for %s (%d transactions): "
-msgstr "Resultado para %s (%d lançamentos):"
-
-#: ../src/etats_affiche.c:1073
+#: ../src/etats_affiche.c:1052
 #, fuzzy, c-format
 msgid "Result for %s: "
 msgstr "Resultado para %s:"
 
-#: ../src/etats_affiche.c:1220
+#: ../src/etats_affiche.c:1197
 #, fuzzy, c-format
 msgid "Result without financial year (%d transaction): "
-msgstr "Resultado sem ano contábil (%d lançamento):"
+msgid_plural "Result without financial year (%d transactions): "
+msgstr[0] "Resultado sem ano contábil (%d lançamento):"
+msgstr[1] "Resultado sem ano contábil (%d lançamento):"
 
-#: ../src/etats_affiche.c:1222
-#, fuzzy, c-format
-msgid "Result without financial year (%d transactions): "
-msgstr "Resultado sem ano contábil (%d lançamentos):"
-
-#: ../src/etats_affiche.c:1226
+#: ../src/etats_affiche.c:1203
 #, fuzzy
 msgid "Result without financial year: "
 msgstr "Resultado sem ano contábil:"
 
-#: ../src/etats_affiche.c:1410 ../src/gsb_data_transaction.c:2832
+#: ../src/etats_affiche.c:1386 ../src/gsb_data_transaction.c:2832
 #: ../src/gsb_scheduler_list.c:1542
 #, c-format
 msgid "Transfer to %s"
 msgstr "Transferir para %s"
 
-#: ../src/etats_affiche.c:1412 ../src/gsb_data_transaction.c:2835
+#: ../src/etats_affiche.c:1390 ../src/gsb_data_transaction.c:2835
 #: ../src/gsb_scheduler_list.c:1547
 #, c-format
 msgid "Transfer from %s"
 msgstr "Transferir para %s"
 
-#: ../src/etats_affiche.c:1688
+#: ../src/etats_affiche.c:1664
 #, fuzzy, c-format
 msgid "Total charge (%d transaction): "
-msgstr "Total da receitas (%d lançamento):"
+msgid_plural "Total charge (%d transactions): "
+msgstr[0] "Total da receitas (%d lançamento):"
+msgstr[1] "Total da receitas (%d lançamento):"
 
-#: ../src/etats_affiche.c:1690
+#: ../src/etats_affiche.c:1671
 #, fuzzy, c-format
 msgid "Total expense (%d transaction): "
-msgstr "Total das despesas (%d lançamento):"
+msgid_plural "Total expense (%d transactions): "
+msgstr[0] "Total das despesas (%d lançamento):"
+msgstr[1] "Total das despesas (%d lançamento):"
 
-#: ../src/etats_affiche.c:1695
-#, fuzzy, c-format
-msgid "Total charges (%d transactions): "
-msgstr "Total da receitas (%d lançamentos):"
-
-#: ../src/etats_affiche.c:1697
-#, fuzzy, c-format
-msgid "Total expenses (%d transactions): "
-msgstr "Total das despesas (%d lançamentos):"
-
-#: ../src/etats_affiche.c:1706
+#: ../src/etats_affiche.c:1681
 #, fuzzy
 msgid "Total expenses: "
 msgstr "Total das despesas:"
 
-#: ../src/etats_affiche.c:1718
+#: ../src/etats_affiche.c:1691
 #, fuzzy, c-format
 msgid "Total product (%d transaction): "
-msgstr "Total da receitas (%d lançamento):"
+msgid_plural "Total product (%d transactions): "
+msgstr[0] "Total da receitas (%d lançamento):"
+msgstr[1] "Total da receitas (%d lançamento):"
 
-#: ../src/etats_affiche.c:1720
+#: ../src/etats_affiche.c:1698
 #, fuzzy, c-format
 msgid "Total income (%d transaction): "
-msgstr "Total da receitas (%d lançamento):"
+msgid_plural "Total income (%d transactions): "
+msgstr[0] "Total da receitas (%d lançamento):"
+msgstr[1] "Total da receitas (%d lançamento):"
 
-#: ../src/etats_affiche.c:1725
-#, fuzzy, c-format
-msgid "Total products (%d transactions): "
-msgstr "Total %s (%d lançamentos)"
-
-#: ../src/etats_affiche.c:1727
-#, fuzzy, c-format
-msgid "Total income (%d transactions): "
-msgstr "Total da receitas (%d lançamentos):"
-
-#: ../src/etats_affiche.c:1734
+#: ../src/etats_affiche.c:1706
 #, fuzzy
 msgid "Total Products: "
 msgstr "Carregar um arquivo de contas:"
 
-#: ../src/etats_affiche.c:1736
+#: ../src/etats_affiche.c:1708
 #, fuzzy
 msgid "Total income: "
 msgstr "Total da receita:"
 
-#: ../src/etats_affiche.c:1786
+#: ../src/etats_affiche.c:1758
 #, fuzzy, c-format
 msgid "General total (%d transaction): "
-msgstr "Total geral (%d lançamento):"
+msgid_plural "General total (%d transactions): "
+msgstr[0] "Total geral (%d lançamento):"
+msgstr[1] "Total geral (%d lançamento):"
 
-#: ../src/etats_affiche.c:1788
-#, fuzzy, c-format
-msgid "General total (%d transactions): "
-msgstr "Total geral (%d lançamentos):"
-
-#: ../src/etats_affiche.c:1792
+#: ../src/etats_affiche.c:1763
 #, fuzzy
 msgid "General total: "
 msgstr "Total geral:"
 
 #. select Split of transaction in list
-#: ../src/etats_affiche.c:1894 ../src/export_csv.c:645
+#: ../src/etats_affiche.c:1865 ../src/export_csv.c:645
 #: ../src/gsb_data_category.c:1088 ../src/gsb_data_transaction.c:2810
 #: ../src/gsb_form.c:244 ../src/gsb_form.c:915 ../src/gsb_form.c:1598
 #: ../src/gsb_form.c:2498 ../src/gsb_form_scheduler.c:309
@@ -4752,61 +4680,61 @@ msgstr "Total geral:"
 msgid "Split of transaction"
 msgstr "Divisão do lançamento"
 
-#: ../src/etats_affiche.c:1983 ../src/widgets/widget_list_metatree.c:541
+#: ../src/etats_affiche.c:1954 ../src/widgets/widget_list_metatree.c:541
 msgid "No subcategory"
 msgstr "Sem sub-categoria"
 
-#: ../src/etats_affiche.c:2146 ../src/meta_budgetary.c:92
+#: ../src/etats_affiche.c:2117 ../src/meta_budgetary.c:92
 #: ../src/widgets/widget_list_metatree.c:533
 msgid "No sub-budgetary line"
 msgstr "Nenhum sub-orçamento"
 
-#: ../src/etats_affiche.c:2295 ../src/gsb_data_payee.c:274
+#: ../src/etats_affiche.c:2266 ../src/gsb_data_payee.c:274
 #: ../src/meta_payee.c:82
 #, fuzzy
 msgid "No payee"
 msgstr "Não exibido"
 
-#: ../src/etats_affiche.c:2328
+#: ../src/etats_affiche.c:2299
 msgid "Products"
 msgstr ""
 
-#: ../src/etats_affiche.c:2355
+#: ../src/etats_affiche.c:2326
 msgid "Charges"
 msgstr ""
 
-#: ../src/etats_affiche.c:2357
+#: ../src/etats_affiche.c:2328
 msgid "Outgoings"
 msgstr "Despesas"
 
-#: ../src/etats_affiche.c:2477 ../src/export_csv.c:377
+#: ../src/etats_affiche.c:2448 ../src/export_csv.c:377
 #: ../src/gsb_assistant_archive_export.c:154 ../src/gsb_form_widget.c:566
 #: ../src/gsb_transactions_list.c:120 ../src/prefs/prefs_page_archives.c:483
 msgid "Financial year"
 msgstr "Ano Contábil"
 
 #. On récupère le nom de la page
-#: ../src/etats_affiche.c:2512 ../src/etats_prefs.c:444
+#: ../src/etats_affiche.c:2483 ../src/etats_prefs.c:444
 #: ../src/etats_prefs.c:638 ../src/grisbi_prefs.c:516
 #: ../src/prefs/prefs_page_payment_method.c:1327
 msgid "Payment methods"
 msgstr "Formas de pagamento"
 
-#: ../src/etats_affiche.c:2519 ../src/gsb_data_payment.c:725
+#: ../src/etats_affiche.c:2490 ../src/gsb_data_payment.c:725
 msgid "Cheque"
 msgstr "Cheque"
 
-#: ../src/etats_affiche.c:2526 ../src/export_csv.c:410 ../src/gsb_form.c:2117
+#: ../src/etats_affiche.c:2497 ../src/export_csv.c:410 ../src/gsb_form.c:2117
 #: ../src/gsb_form_widget.c:606 ../src/gsb_transactions_list.c:123
 msgid "Voucher"
 msgstr "Comprovante"
 
-#: ../src/etats_affiche.c:2533 ../src/export_csv.c:416 ../src/gsb_form.c:2111
+#: ../src/etats_affiche.c:2504 ../src/export_csv.c:416 ../src/gsb_form.c:2111
 #: ../src/gsb_form_widget.c:610 ../src/gsb_transactions_list.c:125
 msgid "Bank references"
 msgstr "Referências bancárias"
 
-#: ../src/etats_affiche.c:2540
+#: ../src/etats_affiche.c:2511
 msgid "Statement"
 msgstr "Indicação"
 
@@ -6203,7 +6131,7 @@ msgid "Fonts & Logo"
 msgstr "Fontes & Logotipo"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:418 ../src/prefs/prefs_page_msg_warning.c:240
+#: ../src/grisbi_prefs.c:418 ../src/prefs/prefs_page_msg_warning.c:258
 msgid "Messages & warnings"
 msgstr "Mensagens & Avisos"
 
@@ -6234,7 +6162,7 @@ msgid "Transactions list cells"
 msgstr "Prévia da lista de lançamentos"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:452 ../src/prefs/prefs_page_msg_delete.c:238
+#: ../src/grisbi_prefs.c:452 ../src/prefs/prefs_page_msg_delete.c:256
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "Mensagens & Avisos"
@@ -7151,7 +7079,7 @@ msgstr "Excluir os lançamentos que não são de transferência"
 msgid "Edit bank"
 msgstr "Alterar banco"
 
-#: ../src/gsb_bank.c:428 ../src/gsb_reconcile.c:509
+#: ../src/gsb_bank.c:428 ../src/gsb_reconcile.c:508
 msgid "None"
 msgstr "Nenhum"
 
@@ -9760,25 +9688,25 @@ msgstr "variação:"
 msgid "Sort by method of payment"
 msgstr "a forma de pagamento"
 
-#: ../src/gsb_reconcile.c:535
+#: ../src/gsb_reconcile.c:534
 #, fuzzy, c-format
 msgid " <b>%s reconciliation</b> "
 msgstr "Reconciliação"
 
-#: ../src/gsb_reconcile.c:611
+#: ../src/gsb_reconcile.c:610
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
 msgstr ""
 
-#: ../src/gsb_reconcile.c:612 ../src/gsb_reconcile.c:624
-#: ../src/gsb_reconcile.c:636 ../src/gsb_reconcile.c:665
-#: ../src/gsb_reconcile.c:681
+#: ../src/gsb_reconcile.c:611 ../src/gsb_reconcile.c:623
+#: ../src/gsb_reconcile.c:635 ../src/gsb_reconcile.c:664
+#: ../src/gsb_reconcile.c:680
 #, fuzzy
 msgid "Reconciliation can't be completed."
 msgstr "Reconciliação número"
 
-#: ../src/gsb_reconcile.c:620
+#: ../src/gsb_reconcile.c:619
 msgid ""
 "There is already a reconciliation with that name, you must use another name "
 "or let it free.\n"
@@ -9786,12 +9714,12 @@ msgid ""
 "it will be automatically incremented."
 msgstr ""
 
-#: ../src/gsb_reconcile.c:633 ../src/gsb_reconcile.c:663
+#: ../src/gsb_reconcile.c:632 ../src/gsb_reconcile.c:662
 #, fuzzy, c-format
 msgid "Invalid date: '%s'"
 msgstr "Data inválida"
 
-#: ../src/gsb_reconcile.c:645
+#: ../src/gsb_reconcile.c:644
 msgid ""
 "There are pointed transactions that occur later than the reconciliation end "
 "date.\n"
@@ -9800,22 +9728,22 @@ msgid ""
 "Do you want to continue?"
 msgstr ""
 
-#: ../src/gsb_reconcile.c:649
+#: ../src/gsb_reconcile.c:648
 #, fuzzy
 msgid "Warning: the reconciliation may be incomplete!"
 msgstr "Reconciliação número"
 
-#: ../src/gsb_reconcile.c:673
+#: ../src/gsb_reconcile.c:672
 msgid "You can set the initial date of the reconciliation in the preferences."
 msgstr ""
 
-#: ../src/gsb_reconcile.c:680
+#: ../src/gsb_reconcile.c:679
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
 msgstr ""
 
-#: ../src/gsb_reconcile.c:695
+#: ../src/gsb_reconcile.c:694
 #, fuzzy, c-format
 msgid "Last statement: %s"
 msgstr "Última atualização"
@@ -12299,14 +12227,14 @@ msgstr "Saldo inicial"
 msgid "Manage the line"
 msgstr "Seleção por data"
 
-#: ../src/prefs/prefs_page_msg_delete.c:146
-#: ../src/prefs/prefs_page_msg_warning.c:147
+#: ../src/prefs/prefs_page_msg_delete.c:159
+#: ../src/prefs/prefs_page_msg_warning.c:160
 #, fuzzy
 msgid "No file loading"
 msgstr "Manipulação dos arquivos de contas"
 
-#: ../src/prefs/prefs_page_msg_delete.c:199
-#: ../src/prefs/prefs_page_msg_warning.c:200
+#: ../src/prefs/prefs_page_msg_delete.c:217
+#: ../src/prefs/prefs_page_msg_warning.c:218
 #, fuzzy
 msgid "Message"
 msgstr "Histórico da menssagens"
@@ -12992,6 +12920,11 @@ msgid ""
 "Grisbi team to fix that issue."
 msgstr ""
 
+#: ../src/transaction_list.c:665
+#, fuzzy, c-format
+msgid "%s (%d transactions)"
+msgstr "Total %s (%d lançamentos)"
+
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
 #: ../src/transaction_list.c:1953
@@ -13492,6 +13425,74 @@ msgstr "Saldo inicial"
 #: ../src/widgets/widget_transfer.c:937
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, c-format
+#~ msgid "Total %s (%d transactions)"
+#~ msgstr "Total %s (%d lançamentos)"
+
+#, fuzzy, c-format
+#~ msgid "Category total (%d transactions): "
+#~ msgstr "Total da Categoria (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Total %s: %s (%d transactions): "
+#~ msgstr "Total %s: %s (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Sub-categories total (%d transactions): "
+#~ msgstr "Total sub-categorias (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Budgetary lines total: (%d transactions): "
+#~ msgstr "Total do orçamento: (%d lançamentos)"
+
+#, fuzzy, c-format
+#~ msgid "Sub-budgetary lines total: (%d transactions): "
+#~ msgstr "Total do sub-orçamento: (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Account total: (%d transactions): "
+#~ msgstr "Total da conta: (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Payee total: (%d transactions): "
+#~ msgstr "Total geral (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Result of %s (%d transactions): "
+#~ msgstr "Resultado de %s (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Result from %s to %s (%d transactions): "
+#~ msgstr "Resultado para %s (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Result for %s (%d transactions): "
+#~ msgstr "Resultado para %s (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Result without financial year (%d transactions): "
+#~ msgstr "Resultado sem ano contábil (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Total charges (%d transactions): "
+#~ msgstr "Total da receitas (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Total expenses (%d transactions): "
+#~ msgstr "Total das despesas (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "Total products (%d transactions): "
+#~ msgstr "Total %s (%d lançamentos)"
+
+#, fuzzy, c-format
+#~ msgid "Total income (%d transactions): "
+#~ msgstr "Total da receitas (%d lançamentos):"
+
+#, fuzzy, c-format
+#~ msgid "General total (%d transactions): "
+#~ msgstr "Total geral (%d lançamentos):"
 
 #, fuzzy, c-format
 #~ msgid "Transaction #%d is linked to non-existent transaction #%d.\n"
