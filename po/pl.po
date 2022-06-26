@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-26 10:11+0200\n"
+"POT-Creation-Date: 2022-06-26 15:45+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -202,6 +202,111 @@ msgstr "Dołącz przelewy z lub do kont zaznaczonych poniżej"
 #: ../src/etats/etats_page_transfer.ui.h:5
 msgid "Exclude the transactions which are not transfers"
 msgstr "Nie dołączaj transakcji, które nie są przelewami"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:1
+#, fuzzy
+msgid "Select an account"
+msgstr "Zaznacz konta bankowe"
+
+#. set the choice of account
+#: ../src/prefs/prefs_page_bet_account.ui.h:2
+#: ../src/gsb_assistant_reconcile_config.c:410
+#, fuzzy
+msgid "Account: "
+msgstr "Konto:"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:3
+#, fuzzy
+msgid "Use the budget module"
+msgstr "linia budżetowa"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:4
+#, fuzzy
+msgid "Account with deferred debit card"
+msgstr "Karta kredytowa"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:5
+#, fuzzy
+msgid "Data for the forecast"
+msgstr "u góry raportu"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:6
+#, fuzzy
+msgid "Labels for transactions:"
+msgstr "Wszystkie transakcje"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:7
+#, fuzzy
+msgid "By default"
+msgstr "Przywróć ustawienia domyślne"
+
+#. on fixe le titre et le suffixe de la barre d'information
+#. set head page
+#: ../src/prefs/prefs_page_bet_account.ui.h:8 ../src/navigation.c:2143
+#: ../src/tiers_onglet.c:714 ../src/tiers_onglet.c:953
+#: ../src/etats/etats_page_payee.c:623
+#, fuzzy
+msgid "Payees"
+msgstr "Dni"
+
+#. set head page
+#: ../src/prefs/prefs_page_bet_account.ui.h:9 ../src/ui/etats_prefs.ui.h:53
+#: ../src/bet_hist.c:2134 ../src/bet_hist.c:2140 ../src/categories_onglet.c:370
+#: ../src/etats_prefs.c:424 ../src/grisbi_win.c:487 ../src/navigation.c:2151
+#: ../src/utils_widgets.c:455 ../src/etats/etats_page_category.c:88
+msgid "Categories"
+msgstr "Kategorie"
+
+#. 8
+#. set head page
+#: ../src/prefs/prefs_page_bet_account.ui.h:10 ../src/ui/etats_prefs.ui.h:59
+#: ../src/bet_hist.c:2138 ../src/etats_prefs.c:429 ../src/export_csv.c:404
+#: ../src/grisbi_win.c:492 ../src/import_csv.c:90
+#: ../src/imputation_budgetaire.c:377 ../src/navigation.c:2155
+#: ../src/utils_widgets.c:458 ../src/etats/etats_page_budget.c:90
+msgid "Budgetary lines"
+msgstr "Linie budżetowe"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:11
+#, fuzzy
+msgid "Labels for scheduled transactions:"
+msgstr "Zamknięte zaplanowane transakcje"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:12
+#, fuzzy
+msgid "Labels for futur data:"
+msgstr "Wszystkie transakcje"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:13
+#, fuzzy
+msgid "Order by default: Notes, Payees, Categories and Budgetary lines."
+msgstr "Proszę podać nazwę linii budżetowej"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:14
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "Data początkowa"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:15
+#, fuzzy
+msgid "Use historical data of CB in the main account"
+msgstr "Przenieś transakcję do innego konta"
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:16
+#, fuzzy
+msgid ""
+"(Aggregates the historical data of the main account and deferred debit card "
+"accounts)"
+msgstr "Nie można wykonać transferu do zamkniętego konta "
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:17
+msgid "(These data are aggregated with those of main account)"
+msgstr ""
+
+#: ../src/prefs/prefs_page_bet_account.ui.h:18
+#, fuzzy
+msgid "Credit Data"
+msgstr "Karta kredytowa"
 
 #: ../src/ui/bet_graph.ui.h:1
 #, fuzzy
@@ -433,7 +538,7 @@ msgstr ""
 #. names of the data for transactions list
 #. 1
 #: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
-#: ../src/bet_finance_ui.c:1823 ../src/bet_future.c:531 ../src/bet_tab.c:1985
+#: ../src/bet_finance_ui.c:1823 ../src/bet_future.c:531 ../src/bet_tab.c:1993
 #: ../src/etats_affiche.c:2463 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1995
 #: ../src/gsb_form_widget.c:550 ../src/gsb_reconcile.c:214
@@ -655,17 +760,6 @@ msgstr "Pokaż nazwę beneficjenta"
 msgid "Display a sub-total for each payee"
 msgstr "Pokaż sumy cząstkowe dla każdego beneficjenta"
 
-#. set head page
-#: ../src/ui/etats_prefs.ui.h:53 ../src/bet_hist.c:2134 ../src/bet_hist.c:2140
-#: ../src/categories_onglet.c:370 ../src/etats_prefs.c:424
-#: ../src/grisbi_win.c:487 ../src/navigation.c:2151
-#: ../src/prefs/prefs_page_bet_account.c:190
-#: ../src/prefs/prefs_page_bet_account.c:209
-#: ../src/prefs/prefs_page_bet_account.c:226 ../src/utils_widgets.c:455
-#: ../src/etats/etats_page_category.c:88
-msgid "Categories"
-msgstr "Kategorie"
-
 #: ../src/ui/etats_prefs.ui.h:54
 #, fuzzy
 msgid "Display categories"
@@ -687,18 +781,6 @@ msgstr "Pokaż sumy cząstkowe dla każdej podkategorii"
 #, fuzzy
 msgid "Display «No sub-category» if none"
 msgstr "Pokaż \"Brak podkategorii\" jeżeli brak podkategorii"
-
-#. 8
-#. set head page
-#: ../src/ui/etats_prefs.ui.h:59 ../src/bet_hist.c:2138
-#: ../src/etats_prefs.c:429 ../src/export_csv.c:404 ../src/grisbi_win.c:492
-#: ../src/import_csv.c:90 ../src/imputation_budgetaire.c:377
-#: ../src/navigation.c:2155 ../src/prefs/prefs_page_bet_account.c:191
-#: ../src/prefs/prefs_page_bet_account.c:210
-#: ../src/prefs/prefs_page_bet_account.c:227 ../src/utils_widgets.c:458
-#: ../src/etats/etats_page_budget.c:90
-msgid "Budgetary lines"
-msgstr "Linie budżetowe"
 
 #: ../src/ui/etats_prefs.ui.h:60
 msgid "Display the (sub-)budget line name"
@@ -1213,59 +1295,6 @@ msgstr "Zdefiniowane banki"
 #: ../src/ui/prefs_page_bank.ui.h:4
 msgid "Bank details"
 msgstr "Szczegóły banku"
-
-#: ../src/ui/prefs_page_bet_account.ui.h:1
-#, fuzzy
-msgid "Select an account"
-msgstr "Zaznacz konta bankowe"
-
-#. set the choice of account
-#: ../src/ui/prefs_page_bet_account.ui.h:2
-#: ../src/gsb_assistant_reconcile_config.c:410
-#, fuzzy
-msgid "Account: "
-msgstr "Konto:"
-
-#: ../src/ui/prefs_page_bet_account.ui.h:3
-#, fuzzy
-msgid "Use the budget module"
-msgstr "linia budżetowa"
-
-#: ../src/ui/prefs_page_bet_account.ui.h:4
-#, fuzzy
-msgid "Account with deferred debit card"
-msgstr "Karta kredytowa"
-
-#: ../src/ui/prefs_page_bet_account.ui.h:5
-#, fuzzy
-msgid "Data for the forecast"
-msgstr "u góry raportu"
-
-#: ../src/ui/prefs_page_bet_account.ui.h:6
-#, fuzzy
-msgid "Sources of historical data"
-msgstr "Data początkowa"
-
-#: ../src/ui/prefs_page_bet_account.ui.h:7
-#, fuzzy
-msgid "Use historical data of CB in the main account"
-msgstr "Przenieś transakcję do innego konta"
-
-#: ../src/ui/prefs_page_bet_account.ui.h:8
-#, fuzzy
-msgid ""
-"(Aggregates the historical data of the main account and deferred debit card "
-"accounts)"
-msgstr "Nie można wykonać transferu do zamkniętego konta "
-
-#: ../src/ui/prefs_page_bet_account.ui.h:9
-msgid "(These data are aggregated with those of main account)"
-msgstr ""
-
-#: ../src/ui/prefs_page_bet_account.ui.h:10
-#, fuzzy
-msgid "Credit Data"
-msgstr "Karta kredytowa"
 
 #: ../src/ui/prefs_page_bet_general.ui.h:1
 #, fuzzy
@@ -2018,7 +2047,7 @@ msgid "Neutral"
 msgstr "Neutralny"
 
 #: ../src/ui/prefs_page_payment_method.ui.h:12 ../src/bet_future.c:552
-#: ../src/bet_tab.c:2019 ../src/categories_onglet.c:786 ../src/export_csv.c:389
+#: ../src/bet_tab.c:2027 ../src/categories_onglet.c:786 ../src/export_csv.c:389
 #: ../src/gsb_form.c:2024 ../src/gsb_form_widget.c:554
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:94
 #: ../src/imputation_budgetaire.c:824
@@ -2029,7 +2058,7 @@ msgstr "Wydatki"
 
 #. 11
 #: ../src/ui/prefs_page_payment_method.ui.h:13 ../src/bet_future.c:557
-#: ../src/bet_tab.c:2037 ../src/categories_onglet.c:786 ../src/export_csv.c:386
+#: ../src/bet_tab.c:2045 ../src/categories_onglet.c:786 ../src/export_csv.c:386
 #: ../src/gsb_form.c:2030 ../src/gsb_form_widget.c:558
 #: ../src/gsb_transactions_list.c:115 ../src/import_csv.c:93
 #: ../src/imputation_budgetaire.c:824
@@ -3067,7 +3096,7 @@ msgstr ""
 
 #. Export list
 #: ../src/bet_finance_ui.c:777 ../src/bet_finance_ui.c:899
-#: ../src/bet_finance_ui.c:2098 ../src/bet_hist.c:949 ../src/bet_tab.c:1448
+#: ../src/bet_finance_ui.c:2098 ../src/bet_hist.c:949 ../src/bet_tab.c:1456
 #, fuzzy
 msgid "Export the array"
 msgstr "Drukarka"
@@ -3092,7 +3121,7 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:891 ../src/bet_finance_ui.c:2089
-#: ../src/bet_hist.c:943 ../src/bet_tab.c:1440 ../src/bet_tab.c:2109
+#: ../src/bet_hist.c:943 ../src/bet_tab.c:1448 ../src/bet_tab.c:2117
 #, fuzzy
 msgid "Print the array"
 msgstr "Drukarka"
@@ -3247,13 +3276,13 @@ msgstr "Wpływy"
 
 #. création du bouton print
 #. print button
-#: ../src/bet_finance_ui.c:2088 ../src/bet_hist.c:942 ../src/bet_tab.c:2108
+#: ../src/bet_finance_ui.c:2088 ../src/bet_hist.c:942 ../src/bet_tab.c:2116
 #: ../src/etats_onglet.c:578 ../src/gsb_transactions_list.c:2543
 msgid "Print"
 msgstr "Drukuj"
 
 #. Export button
-#: ../src/bet_finance_ui.c:2097 ../src/bet_hist.c:948 ../src/bet_tab.c:2117
+#: ../src/bet_finance_ui.c:2097 ../src/bet_hist.c:948 ../src/bet_tab.c:2125
 #: ../src/categories_onglet.c:588 ../src/etats_onglet.c:568 ../src/export.c:503
 #: ../src/imputation_budgetaire.c:636
 msgid "Export"
@@ -3444,7 +3473,7 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: ../src/bet_future.c:2194 ../src/prefs/prefs_page_bet_account.c:510
+#: ../src/bet_future.c:2194 ../src/prefs/prefs_page_bet_account.c:597
 #, fuzzy
 msgid "Confirmation of deletion of a deferred debit card"
 msgstr "Potwierdzenie usunięcia transakcji"
@@ -3710,12 +3739,12 @@ msgstr "Aktualny rok"
 msgid "Amount retained"
 msgstr "Suma dla linii budżetowej"
 
-#: ../src/bet_hist.c:1478 ../src/prefs/prefs_page_bet_account.c:118
+#: ../src/bet_hist.c:1478 ../src/prefs/prefs_page_bet_account.c:132
 #, fuzzy
 msgid "(These data are aggregated with those of a deferred debit card account)"
 msgstr "Nie można wykonać transferu do zamkniętego konta "
 
-#: ../src/bet_hist.c:1481 ../src/prefs/prefs_page_bet_account.c:121
+#: ../src/bet_hist.c:1481 ../src/prefs/prefs_page_bet_account.c:135
 #, fuzzy, c-format
 msgid ""
 "(These data are aggregated with those of %d deferred debit card accounts)"
@@ -3757,7 +3786,7 @@ msgstr "Nieokreślona linia budżetowa"
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:376 ../src/bet_tab.c:2118
+#: ../src/bet_tab.c:376 ../src/bet_tab.c:2126
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Eksport linii budżetowych"
@@ -3766,133 +3795,133 @@ msgstr "Eksport linii budżetowych"
 msgid "forecast.csv"
 msgstr ""
 
-#: ../src/bet_tab.c:963 ../src/bet_tab.c:1012 ../src/bet_tab.c:1075
+#: ../src/bet_tab.c:963 ../src/bet_tab.c:1020 ../src/bet_tab.c:1083
 #, fuzzy
 msgid "No data by default"
 msgstr "Przywróć ustawienia domyślne"
 
-#: ../src/bet_tab.c:969 ../src/bet_tab.c:1020 ../src/bet_tab.c:1081
+#: ../src/bet_tab.c:976 ../src/bet_tab.c:1028 ../src/bet_tab.c:1089
 #: ../src/etats_affiche.c:1901 ../src/gsb_data_category.c:169
 #: ../src/meta_categories.c:70 ../src/widgets/widget_list_metatree.c:540
 msgid "No category"
 msgstr "Brak kategorii"
 
-#: ../src/bet_tab.c:975 ../src/bet_tab.c:1028 ../src/bet_tab.c:1087
+#: ../src/bet_tab.c:983 ../src/bet_tab.c:1036 ../src/bet_tab.c:1095
 #: ../src/etats_affiche.c:2065 ../src/meta_budgetary.c:91
 #: ../src/widgets/widget_list_metatree.c:532
 msgid "No budgetary line"
 msgstr "Pusta linia budżetowa"
 
-#: ../src/bet_tab.c:1039 ../src/bet_tab.c:1044 ../src/bet_tab.c:2334
-#: ../src/bet_tab.c:2346 ../src/bet_tab.c:2561
+#: ../src/bet_tab.c:1047 ../src/bet_tab.c:1052 ../src/bet_tab.c:2342
+#: ../src/bet_tab.c:2354 ../src/bet_tab.c:2569
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Transfer do usuniętego konta"
 
-#: ../src/bet_tab.c:1097
+#: ../src/bet_tab.c:1105
 #, fuzzy, c-format
 msgid "Balance of account: %s"
 msgstr "Konto bankowe:"
 
-#: ../src/bet_tab.c:1100
+#: ../src/bet_tab.c:1108
 #, fuzzy, c-format
 msgid "Partial balance: %s"
 msgstr "Saldo początkowe:"
 
-#: ../src/bet_tab.c:1312
+#: ../src/bet_tab.c:1320
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1317
+#: ../src/bet_tab.c:1325
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Saldo początkowe"
 
 #. Insert Row
-#: ../src/bet_tab.c:1331
+#: ../src/bet_tab.c:1339
 msgid "Insert row"
 msgstr ""
 
-#: ../src/bet_tab.c:1344 ../src/bet_tab.c:1355 ../src/bet_tab.c:1370
-#: ../src/bet_tab.c:1416
+#: ../src/bet_tab.c:1352 ../src/bet_tab.c:1363 ../src/bet_tab.c:1378
+#: ../src/bet_tab.c:1424
 #, fuzzy
 msgid "Delete selection"
 msgstr "Wybór danych"
 
-#: ../src/bet_tab.c:1363
+#: ../src/bet_tab.c:1371
 #, fuzzy
 msgid "Change selection"
 msgstr "Wybór danych"
 
-#: ../src/bet_tab.c:1378
+#: ../src/bet_tab.c:1386
 #, fuzzy
 msgid "Delete all occurrences of the selection"
 msgstr "Kasowanie zaplanowanej transakcji"
 
-#: ../src/bet_tab.c:1390
+#: ../src/bet_tab.c:1398
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Przekształć transakcję w zaplanowaną transakcję"
 
-#: ../src/bet_tab.c:1407
+#: ../src/bet_tab.c:1415
 #, fuzzy
 msgid "Insert the balance of a deferred debit account"
 msgstr "Nie można wykonać transferu do zamkniętego konta "
 
 #. redo item
-#: ../src/bet_tab.c:1429
+#: ../src/bet_tab.c:1437
 #, fuzzy
 msgid "Reset data"
 msgstr "Data końcowa"
 
-#: ../src/bet_tab.c:1588
+#: ../src/bet_tab.c:1596
 #, fuzzy
 msgid "Balance at "
 msgstr "Saldo"
 
 #. on ajoute maintenant la frame pour la description
-#: ../src/bet_tab.c:2002 ../src/etats_onglet.c:861
+#: ../src/bet_tab.c:2010 ../src/etats_onglet.c:861
 msgid "Description"
 msgstr "Opis"
 
-#: ../src/bet_tab.c:2056 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
+#: ../src/bet_tab.c:2064 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
 #: ../src/gsb_transactions_list.c:116 ../src/gsb_transactions_list.c:1660
 msgid "Balance"
 msgstr "Saldo"
 
-#: ../src/bet_tab.c:2127 ../src/gsb_scheduler_list.c:1201
+#: ../src/bet_tab.c:2135 ../src/gsb_scheduler_list.c:1201
 #, fuzzy
 msgid "Execute"
 msgstr "Executive"
 
-#: ../src/bet_tab.c:2128
+#: ../src/bet_tab.c:2136
 #, fuzzy
 msgid "Execute the balance of a deferred debit account"
 msgstr "Nie można wykonać transferu do zamkniętego konta "
 
 #. set the titles of tabs module budget
-#: ../src/bet_tab.c:2804
+#: ../src/bet_tab.c:2812
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: ../src/bet_tab.c:2825
+#: ../src/bet_tab.c:2833
 msgid "balance beginning of period"
 msgstr ""
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:2939
+#: ../src/bet_tab.c:2947
 #, fuzzy
 msgid "Start date: "
 msgstr "Początek:"
 
-#: ../src/bet_tab.c:2956 ../src/gsb_form.c:1797
+#: ../src/bet_tab.c:2964 ../src/gsb_form.c:1797
 msgid "Auto"
 msgstr "Automatyczny"
 
-#: ../src/bet_tab.c:2959
+#: ../src/bet_tab.c:2967
 msgid "Check the box to automatically change start date"
 msgstr ""
 
@@ -6267,7 +6296,7 @@ msgid "Balance estimate"
 msgstr "Salda"
 
 #. On récupère le nom de la page
-#: ../src/grisbi_prefs.c:531 ../src/prefs/prefs_page_bet_account.c:808
+#: ../src/grisbi_prefs.c:531 ../src/prefs/prefs_page_bet_account.c:894
 #, fuzzy
 msgid "Accounts data"
 msgstr "Opis konta"
@@ -11511,14 +11540,6 @@ msgstr "Ostatnia modyfikacja: brak"
 msgid "closed"
 msgstr "Zamknij"
 
-#. on fixe le titre et le suffixe de la barre d'information
-#. set head page
-#: ../src/navigation.c:2143 ../src/tiers_onglet.c:714 ../src/tiers_onglet.c:953
-#: ../src/etats/etats_page_payee.c:623
-#, fuzzy
-msgid "Payees"
-msgstr "Dni"
-
 #: ../src/navigation.c:2317
 #, fuzzy
 msgid "Remove this account"
@@ -11839,47 +11860,19 @@ msgstr "Czy jesteś pewien, że chcesz usunąć bank \"%s\"?\n"
 msgid "Contact name"
 msgstr "Nazwisko osoby kontaktowej"
 
-#: ../src/prefs/prefs_page_bet_account.c:184
-#, fuzzy
-msgid "Labels for transactions:"
-msgstr "Wszystkie transakcje"
-
-#: ../src/prefs/prefs_page_bet_account.c:189
-#: ../src/prefs/prefs_page_bet_account.c:208
-#: ../src/prefs/prefs_page_bet_account.c:225
-#, fuzzy
-msgid "By default"
-msgstr "Przywróć ustawienia domyślne"
-
-#: ../src/prefs/prefs_page_bet_account.c:203
-#, fuzzy
-msgid "Labels for scheduled transactions:"
-msgstr "Zamknięte zaplanowane transakcje"
-
-#: ../src/prefs/prefs_page_bet_account.c:220
-#, fuzzy
-msgid "Labels for futur data:"
-msgstr "Wszystkie transakcje"
-
-#: ../src/prefs/prefs_page_bet_account.c:234
-msgid ""
-"Order by default if the data are not zero:\n"
-"\tnotes, payee, category and budgetary line."
-msgstr ""
-
-#: ../src/prefs/prefs_page_bet_account.c:364
-#: ../src/prefs/prefs_page_bet_account.c:382
-#: ../src/prefs/prefs_page_bet_account.c:875
+#: ../src/prefs/prefs_page_bet_account.c:451
+#: ../src/prefs/prefs_page_bet_account.c:469
+#: ../src/prefs/prefs_page_bet_account.c:961
 #, fuzzy
 msgid "Initial loan"
 msgstr "Saldo początkowe"
 
-#: ../src/prefs/prefs_page_bet_account.c:385
+#: ../src/prefs/prefs_page_bet_account.c:472
 #, c-format
 msgid "Renegotiation N° %d"
 msgstr ""
 
-#: ../src/prefs/prefs_page_bet_account.c:508
+#: ../src/prefs/prefs_page_bet_account.c:595
 #, c-format
 msgid ""
 "Warning: You are about to delete this deferred debit card: \"%s\"\n"
