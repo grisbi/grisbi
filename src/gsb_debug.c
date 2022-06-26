@@ -71,13 +71,13 @@ static gboolean gsb_debug_try_fix (gboolean (*fix) (void))
         gsb_file_set_modified (TRUE);
 		dialogue_hint (_("Grisbi successfully repaired this account file.  "
 						 "You may now save your modifications."),
-					   ("Fix completed"));
+					   _("Fix completed"));
     }
     else
     {
 		dialogue_error_hint (_("Grisbi was unable to repair this account file.  "
 							   "No modification has been done."),
-							 ("Unable to fix account"));
+							 _("Unable to fix account"));
     }
 
     return FALSE;
@@ -346,7 +346,8 @@ static gchar *gsb_debug_transfer_test (void)
 						g_free (old_str);
 						g_free (tmp_str);
 					}
-					tmp_str = g_strdup_printf (_("Transaction #%d is linked to non-existent transaction #%d.\n"),
+					tmp_str = g_strdup_printf (_("Transaction %d is linked to transaction %d "
+												 "which does not exist.\n"),
 											   transaction,
 											   transfer_transaction);
 					old_str = pText;
@@ -371,8 +372,8 @@ static gchar *gsb_debug_transfer_test (void)
 							g_free (tmp_str);
 						}
 						old_str = pText;
-						tmp_str = g_strdup_printf (_("Transaction #%d is linked to transaction #%d, "
-													 "which is linked to transaction #%d.\n"),
+						tmp_str = g_strdup_printf (_("Transaction %d is linked to transaction %d "
+													 "which is linked to transaction %d.\n"),
 												   transaction,
 												   transfer_transaction,
 												   gsb_data_transaction_get_contra_transaction_number
@@ -436,7 +437,8 @@ static gchar *gsb_debug_category_test  (void)
 				&& !gsb_data_category_get_sub_category_structure (category_number, sub_category_number))
 			{
 				/* sub-category not found */
-				tmp_str = g_strdup_printf (_("Transaction %d has category %d but invalid sub-category %d.\n"),
+				tmp_str = g_strdup_printf (_("Transaction %d has category %d and "
+											 "sub-category %d which does not exist.\n"),
 										   transaction_number,
 										   category_number,
 										   sub_category_number);
@@ -450,7 +452,7 @@ static gchar *gsb_debug_category_test  (void)
 		else
 		{
 			/* category not found */
-			tmp_str = g_strdup_printf (_("Transaction %d has invalid category %d.\n"),
+			tmp_str = g_strdup_printf (_("Transaction %d has category %d which does not exist.\n"),
 									   transaction_number,
 									   category_number);
 			tmp_str1 = g_strconcat (returned_text, tmp_str, NULL);
@@ -550,7 +552,8 @@ static gchar *gsb_debug_budget_test  (void)
              && !gsb_data_budget_get_sub_budget_structure (budget_number, sub_budget_number))
             {
             /* sub-budget not found */
-                tmp_str = g_strdup_printf (_("Transaction %d has budget %d but invalid sub-budget %d.\n"),
+                tmp_str = g_strdup_printf (_("Transaction %d has budget %d "
+											 "and sub-budget %d which does not exist.\n"),
 										   transaction_number,
 										   budget_number,
 										   sub_budget_number);
@@ -564,7 +567,7 @@ static gchar *gsb_debug_budget_test  (void)
         else
         {
             /* budget not found */
-            tmp_str = g_strdup_printf (_("Transaction %d has invalid budget %d.\n"),
+            tmp_str = g_strdup_printf (_("Transaction %d has budget %d which does not exist.\n"),
 									   transaction_number,
 									   budget_number);
             tmp_str1 = g_strconcat (returned_text, tmp_str, NULL);
@@ -659,7 +662,7 @@ static gchar *gsb_debug_payee_test  (void)
 		if (!gsb_data_payee_get_structure (payee_number))
 		{
 			/* payee not found */
-			tmp_str = g_strdup_printf (_("Transaction %d has invalid payee %d.\n"),
+			tmp_str = g_strdup_printf (_("Transaction %d has payee %d which does not exist.\n"),
 									   transaction_number,
 									   payee_number);
 			tmp_str1 = g_strconcat (returned_text, tmp_str, NULL);
