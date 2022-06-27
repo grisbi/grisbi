@@ -27,9 +27,9 @@
 #endif
 
 #include "include.h"
-#include <time.h>
-#include <limits.h>
-#include <stdlib.h>
+//~ #include <time.h>
+//~ #include <limits.h>
+//~ #include <stdlib.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
@@ -935,6 +935,7 @@ gboolean gsb_file_open_file (const gchar *filename)
                                    "This file can not be imported by Grisbi."),
                                  _("Version of Grisbi file too old :"));
             grisbi_win_status_bar_stop_wait (TRUE);
+			run.file_modification = 0;
 
             return FALSE;
         }
@@ -973,6 +974,8 @@ gboolean gsb_file_open_file (const gchar *filename)
 #endif
 		grisbi_win_status_bar_stop_wait (TRUE);
 		grisbi_win_stack_box_show (NULL, "accueil_page");
+		run.file_modification = 0;
+
 		return FALSE;
     }
 

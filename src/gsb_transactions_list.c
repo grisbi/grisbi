@@ -4598,7 +4598,7 @@ void gsb_transactions_list_init_tab_align_col_treeview (const gchar *description
  **/
 void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description)
 {
-    gint i;
+	gint i;
 
 	if (description && strlen (description))
 	{
@@ -4624,21 +4624,40 @@ void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description
 			else
 				transaction_col_width[i] = utils_str_atoi (pointeur_char[i]);
 
-			if (i != 5)
-				somme+= transaction_col_width[i];
+			somme+= transaction_col_width[i];
 		}
-		transaction_col_width[i] = 100 - somme;
-		g_strfreev (pointeur_char);
 
-		/* si transaction_col_width[i] est < transaction_col_width_init[i] on reinitialise la largeur des colonnes */
-		if (transaction_col_width[i] < transaction_col_width_init[i])
+		/* si la largeur de la dernière colonne ("Solde") est < 12 */
+		/* le chargement des largeurs n'est pas correct */
+		/* on diminue la plus grande pour la ramener à 12 pour éviter la réinitialisation */
+		if (100 - somme < 12)
 		{
-			/* defaut value for width of columns */
-			for (i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS; i++)
+			gint diff = 0;
+			gint high = 0;
+			gint high_j = 0;
+			gint j;
+
+			diff = 12-(100-somme);
+			for (j = 0 ; j < i ; j++)
 			{
-				transaction_col_width[i] = transaction_col_width_init[i];
+				if (transaction_col_width[j] > high)
+				{
+					high = transaction_col_width[j];
+					high_j = j;
+				}
 			}
+			transaction_col_width[high_j] = high-diff;
+
+			/* à ce stade le fichier n'est pas entièrement chargé */
+			/* on ne peut pas utiliser gsb_file_set_modified () */
+			run.file_modification = time (NULL);
 		}
+		else
+		{
+			transaction_col_width[i] = 100-somme;
+		}
+
+		g_strfreev (pointeur_char);
 	}
 	else
 	{
