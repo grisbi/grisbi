@@ -3146,7 +3146,8 @@ void gsb_scheduler_list_init_tab_width_col_treeview (const gchar *description)
 			else
 				scheduler_col_width[i] = utils_str_atoi (pointeur_char[i]);
 
-			if (i != 5)
+			/* on n'affiche que 6 colonnes donc on laisse libre sa taille */
+			if (i != SCHEDULER_COL_VISIBLE_COLUMNS -2)
 				somme+= scheduler_col_width[i];
 		}
 		scheduler_col_width[i] = 100 - somme;
