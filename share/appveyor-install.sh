@@ -17,3 +17,4 @@ pacman -S --noconfirm mingw-$i_pkg_postfix-ntldd-git
 pacman -S --noconfirm mingw-$i_pkg_postfix-libxslt
 pacman -S --noconfirm autoconf
 pacman -S --noconfirm automake
+pacman -S --noconfirm intltool
