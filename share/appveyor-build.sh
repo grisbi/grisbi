@@ -3,6 +3,9 @@
 # enable log
 set -v
 
+# fail on first error
+set -e
+
 source /appveyor.environment
 export MSYSTEM
 
