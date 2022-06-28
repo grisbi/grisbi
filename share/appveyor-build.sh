@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# enable log
+set -v
+
 source /appveyor.environment
 export MSYSTEM
 
