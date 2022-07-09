@@ -3941,7 +3941,7 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 
 		/* first, we check if the file is crypted, if it is, we decrypt it */
 		if (!strncmp (tmp_file_content, "Grisbi encrypted file ", 22) ||
-			 !strncmp (tmp_file_content, "Grisbi encryption v2: ", 22))
+			 !strncmp (tmp_file_content, "Grisbi encryption v", 19))
 		{
 #ifdef HAVE_SSL
 			length = gsb_file_util_crypt_file (filename, &tmp_file_content, FALSE, length);
