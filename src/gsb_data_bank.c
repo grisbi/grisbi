@@ -55,7 +55,9 @@
  * \struct
  * Describe a bank
  */
-typedef struct
+typedef struct _BankStruct		BankStruct;
+
+struct _BankStruct
 {
     /* WARNING : cannot set guint for bank_number because a bug before (and after ?)
      * 0.6 sometimes set -1 to bank_number and big pb after that if we set guint here */
@@ -74,21 +76,21 @@ typedef struct
     gchar *correspondent_tel;
     gchar *correspondent_mail;
     gchar *correspondent_fax;
-} struct_bank;
+};
 
 /*START_STATIC*/
-static void _gsb_data_bank_free ( struct_bank* bank);
+static void _gsb_data_bank_free ( BankStruct* bank);
 static gpointer gsb_data_bank_get_structure ( gint bank_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** contains the g_slist of struct_bank */
+/** contains the g_slist of BankStruct */
 static GSList *bank_list = NULL;
 
 /** a pointer to the last bank used (to increase the speed) */
-static struct_bank *bank_buffer;
+static BankStruct *bank_buffer;
 
 
 /**
@@ -136,7 +138,7 @@ gpointer gsb_data_bank_get_structure ( gint bank_number )
 
     while ( tmp )
     {
-	struct_bank *bank;
+	BankStruct *bank;
 
 	bank = tmp -> data;
 
@@ -159,7 +161,7 @@ gpointer gsb_data_bank_get_structure ( gint bank_number )
  * */
 gint gsb_data_bank_get_no_bank ( gpointer bank_ptr )
 {
-    struct_bank *bank;
+    BankStruct *bank;
 
     if ( !bank_ptr )
 	return 0;
@@ -200,7 +202,7 @@ gint gsb_data_bank_max_number ( void )
 
     while ( tmp )
     {
-	struct_bank *bank;
+	BankStruct *bank;
 
 	bank = tmp -> data;
 
@@ -223,9 +225,9 @@ gint gsb_data_bank_max_number ( void )
  * */
 gint gsb_data_bank_new ( const gchar *name )
 {
-    struct_bank *bank;
+    BankStruct *bank;
 
-    bank = g_malloc0 ( sizeof ( struct_bank ));
+    bank = g_malloc0 ( sizeof ( BankStruct ));
     bank -> bank_number = gsb_data_bank_max_number () + 1;
 
     if (name)
@@ -237,9 +239,9 @@ gint gsb_data_bank_new ( const gchar *name )
 }
 
 /**
- * This internal function is called to free the memory used by a struct_bank structure
+ * This internal function is called to free the memory used by a BankStruct structure
  */
-static void _gsb_data_bank_free ( struct_bank* bank)
+static void _gsb_data_bank_free ( BankStruct* bank)
 {
     if ( !bank )
 	return;
@@ -273,7 +275,7 @@ static void _gsb_data_bank_free ( struct_bank* bank)
  * */
 gboolean gsb_data_bank_remove ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     GSList *list_tmp;
 
     bank = gsb_data_bank_get_structure ( bank_number );
@@ -314,7 +316,7 @@ gboolean gsb_data_bank_remove ( gint bank_number )
 gint gsb_data_bank_set_new_number ( gint bank_number,
 				    gint new_no_bank )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, 0);
     bank -> bank_number = new_no_bank;
     return new_no_bank;
@@ -339,7 +341,7 @@ gint gsb_data_bank_set_new_number ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_name ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_name;
 }
@@ -349,7 +351,7 @@ const gchar *gsb_data_bank_get_name ( gint bank_number )
 gboolean gsb_data_bank_set_name ( gint bank_number,
 				  const gchar *name )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, bank_name, name);
     return TRUE;
@@ -361,7 +363,7 @@ gboolean gsb_data_bank_set_name ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_code ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_code;
 }
@@ -371,7 +373,7 @@ const gchar *gsb_data_bank_get_code ( gint bank_number )
 gboolean gsb_data_bank_set_code ( gint bank_number,
 				  const gchar *bank_code )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, bank_code, bank_code);
     return TRUE;
@@ -383,7 +385,7 @@ gboolean gsb_data_bank_set_code ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_bank_address ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_address;
 }
@@ -393,7 +395,7 @@ const gchar *gsb_data_bank_get_bank_address ( gint bank_number )
 gboolean gsb_data_bank_set_bank_address ( gint bank_number,
 					  const gchar *bank_address )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, bank_address, bank_address);
     return TRUE;
@@ -405,7 +407,7 @@ gboolean gsb_data_bank_set_bank_address ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_bank_tel ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_tel;
 }
@@ -415,7 +417,7 @@ const gchar *gsb_data_bank_get_bank_tel ( gint bank_number )
 gboolean gsb_data_bank_set_bank_tel (gint bank_number,
 				      				 const gchar *bank_tel)
 {
-    struct_bank *bank;
+    BankStruct *bank;
 
 	bank = gsb_data_bank_get_structure (bank_number);
     if (!bank)
@@ -434,7 +436,7 @@ gboolean gsb_data_bank_set_bank_tel (gint bank_number,
  */
 const gchar *gsb_data_bank_get_bank_mail ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_mail;
 }
@@ -444,7 +446,7 @@ const gchar *gsb_data_bank_get_bank_mail ( gint bank_number )
 gboolean gsb_data_bank_set_bank_mail ( gint bank_number,
 				       const gchar *bank_mail )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, bank_mail, bank_mail);
     return TRUE;
@@ -456,7 +458,7 @@ gboolean gsb_data_bank_set_bank_mail ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_bank_web ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_web;
 }
@@ -466,7 +468,7 @@ const gchar *gsb_data_bank_get_bank_web ( gint bank_number )
 gboolean gsb_data_bank_set_bank_web ( gint bank_number,
 				      const gchar *bank_web )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, bank_web, bank_web);
     return TRUE;
@@ -478,7 +480,7 @@ gboolean gsb_data_bank_set_bank_web ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_bank_note ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_note;
 }
@@ -488,7 +490,7 @@ const gchar *gsb_data_bank_get_bank_note ( gint bank_number )
 gboolean gsb_data_bank_set_bank_note ( gint bank_number,
 				       const gchar *bank_note )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, bank_note, bank_note);
     return TRUE;
@@ -500,7 +502,7 @@ gboolean gsb_data_bank_set_bank_note ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_correspondent_name ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> correspondent_name;
 }
@@ -510,7 +512,7 @@ const gchar *gsb_data_bank_get_correspondent_name ( gint bank_number )
 gboolean gsb_data_bank_set_correspondent_name ( gint bank_number,
 						const gchar *correspondent_name )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, correspondent_name, correspondent_name);
     return TRUE;
@@ -522,7 +524,7 @@ gboolean gsb_data_bank_set_correspondent_name ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_correspondent_tel ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> correspondent_tel;
 }
@@ -532,7 +534,7 @@ const gchar *gsb_data_bank_get_correspondent_tel ( gint bank_number )
 gboolean gsb_data_bank_set_correspondent_tel ( gint bank_number,
 					       const gchar *correspondent_tel )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, correspondent_tel, correspondent_tel);
     return TRUE;
@@ -544,7 +546,7 @@ gboolean gsb_data_bank_set_correspondent_tel ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_correspondent_mail ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> correspondent_mail;
 }
@@ -554,7 +556,7 @@ const gchar *gsb_data_bank_get_correspondent_mail ( gint bank_number )
 gboolean gsb_data_bank_set_correspondent_mail ( gint bank_number,
 						const gchar *correspondent_mail )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, correspondent_mail, correspondent_mail);
     return TRUE;
@@ -566,7 +568,7 @@ gboolean gsb_data_bank_set_correspondent_mail ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_correspondent_fax ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> correspondent_fax;
 }
@@ -576,7 +578,7 @@ const gchar *gsb_data_bank_get_correspondent_fax ( gint bank_number )
 gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,
 					       const gchar *correspondent_fax )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, correspondent_fax, correspondent_fax);
     return TRUE;
@@ -588,7 +590,7 @@ gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,
  */
 const gchar *gsb_data_bank_get_bic ( gint bank_number )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_BIC;
 }
@@ -597,7 +599,7 @@ const gchar *gsb_data_bank_get_bic ( gint bank_number )
  */
 gboolean gsb_data_bank_set_bic ( gint bank_number, const gchar *bank_BIC )
 {
-    struct_bank *bank;
+    BankStruct *bank;
     BANK_GET_OR_RETURN(bank, bank_number, FALSE);
     BANK_SET_FIELD(bank, bank_BIC, bank_BIC);
     return TRUE;
