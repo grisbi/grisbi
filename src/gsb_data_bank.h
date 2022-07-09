@@ -49,7 +49,7 @@ gboolean 		gsb_data_bank_set_correspondent_name 	(gint bank_number,
 gboolean 		gsb_data_bank_set_correspondent_tel 	(gint bank_number,
 														 const gchar *correspondent_tel);
 gboolean 		gsb_data_bank_set_name 					(gint bank_number,
-														 const gchar *name);
+														 const gchar *bank_name);
 gint 			gsb_data_bank_set_new_number 			(gint bank_number,
 														 gint new_no_bank);
 /* END_DECLARATION */

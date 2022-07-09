@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/* 			https://www.grisbi.org				                              */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          https://www.grisbi.org                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -25,7 +25,6 @@
  * work with the bank structure, no GUI here
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -39,18 +38,6 @@
 #include "utils_str.h"
 /*END_INCLUDE*/
 
-
-/* these two macros are here to reduce
- * amount of code for setters and getters */
-#define BANK_GET_OR_RETURN(bank, number, ret) \
-    bank = gsb_data_bank_get_structure ( number ); \
-    if ( !bank ) \
-	return ret;
-#define BANK_SET_FIELD(bank, field, value) \
-    g_free (bank -> field); \
-    bank -> field = my_strdup (value);
-
-
 /**
  * \struct
  * Describe a bank
@@ -59,60 +46,70 @@ typedef struct _BankStruct		BankStruct;
 
 struct _BankStruct
 {
-    /* WARNING : cannot set guint for bank_number because a bug before (and after ?)
-     * 0.6 sometimes set -1 to bank_number and big pb after that if we set guint here */
-    gint bank_number;
-    gchar *bank_name;
-    gchar *bank_code;
-    gchar *bank_BIC;                /* BIC number */
+	/* WARNING : cannot set guint for bank_number because a bug before (and after ?)
+	 * 0.6 sometimes set -1 to bank_number and big pb after that if we set guint here */
+	gint 		bank_number;
+	gchar *		bank_name;
+	gchar *		bank_code;
+	gchar *		bank_BIC;				/* BIC number */
 
-    gchar *bank_address;
-    gchar *bank_tel;
-    gchar *bank_mail;
-    gchar *bank_web;
-    gchar *bank_note;
+	gchar *		bank_address;
+	gchar *		bank_tel;
+	gchar *		bank_mail;
+	gchar *		bank_web;
+	gchar *		bank_note;
 
-    gchar *correspondent_name;
-    gchar *correspondent_tel;
-    gchar *correspondent_mail;
-    gchar *correspondent_fax;
+	gchar *		correspondent_name;
+	gchar *		correspondent_tel;
+	gchar *		correspondent_mail;
+	gchar *		correspondent_fax;
 };
 
 /*START_STATIC*/
-static void _gsb_data_bank_free ( BankStruct* bank);
-static gpointer gsb_data_bank_get_structure ( gint bank_number );
-/*END_STATIC*/
-
-/*START_EXTERN*/
-/*END_EXTERN*/
-
 /** contains the g_slist of BankStruct */
 static GSList *bank_list = NULL;
 
 /** a pointer to the last bank used (to increase the speed) */
 static BankStruct *bank_buffer;
+/*END_STATIC*/
 
+/*START_EXTERN*/
+/*END_EXTERN*/
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
 /**
- * set the banks global variables to NULL, usually when we init all the global variables
+ * This internal function is called to free the memory used by a BankStruct structure
  *
- * \param none
+ * \param struct	bank
  *
- * \return FALSE
- * */
-gboolean gsb_data_bank_init_variables ( void )
+ * \return
+ **/
+static void _gsb_data_bank_free (BankStruct* bank)
 {
-    if ( bank_list )
-    {
-        g_slist_free_full ( bank_list, (GDestroyNotify) _gsb_data_bank_free );
-        bank_list = NULL;
-    }
+	if (!bank)
+		return;
 
-    bank_buffer = NULL;
+	/* free string fields */
+	g_free (bank->bank_name);
+	g_free (bank->bank_code);
+	g_free (bank->bank_BIC);
+	g_free (bank->bank_address);
+	g_free (bank->bank_tel);
+	g_free (bank->bank_mail);
+	g_free (bank->bank_web);
+	g_free (bank->bank_note);
+	g_free (bank->correspondent_name);
+	g_free (bank->correspondent_tel);
+	g_free (bank->correspondent_mail);
+	g_free (bank->correspondent_fax);
 
-    return FALSE;
+	g_free (bank);
+
+	if (bank_buffer == bank)
+		bank_buffer = NULL;
 }
-
 
 /**
  * find and return the structure of the bank asked
@@ -120,36 +117,57 @@ gboolean gsb_data_bank_init_variables ( void )
  * \param bank_number number of bank
  *
  * \return the adr of the struct of the bank (NULL if doesn't exit)
- * */
-gpointer gsb_data_bank_get_structure ( gint bank_number )
+ **/
+static gpointer gsb_data_bank_get_structure (gint bank_number)
 {
-    GSList *tmp;
+	GSList *tmp;
 
-    if (!bank_number)
-	return NULL;
+	if (!bank_number)
+		return NULL;
 
-    /* before checking all the banks, we check the buffer */
-    if ( bank_buffer
-	 &&
-	 bank_buffer -> bank_number == bank_number )
-	return bank_buffer;
+	/* before checking all the banks, we check the buffer */
+	if (bank_buffer && bank_buffer->bank_number == bank_number)
+		return bank_buffer;
 
-    tmp = bank_list;
-
-    while ( tmp )
-    {
-	BankStruct *bank;
-
-	bank = tmp -> data;
-
-	if ( bank -> bank_number == bank_number )
+	tmp = bank_list;
+	while (tmp)
 	{
-	    bank_buffer = bank;
-	    return bank;
+		BankStruct *bank;
+
+		bank = tmp->data;
+		if (bank->bank_number == bank_number)
+		{
+			bank_buffer = bank;
+
+			return bank;
+		}
+		tmp = tmp->next;
 	}
-	tmp = tmp -> next;
-    }
-    return NULL;
+
+	return NULL;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
+/**
+ * set the banks global variables to NULL, usually when we init all the global variables
+ *
+ * \param none
+ *
+ * \return FALSE
+ **/
+gboolean gsb_data_bank_init_variables (void)
+{
+	if (bank_list)
+	{
+		g_slist_free_full (bank_list, (GDestroyNotify) _gsb_data_bank_free);
+		bank_list = NULL;
+	}
+
+	bank_buffer = NULL;
+
+	return FALSE;
 }
 
 /**
@@ -158,19 +176,19 @@ gpointer gsb_data_bank_get_structure ( gint bank_number )
  * \param bank_ptr a pointer to the struct of the bank
  *
  * \return the number of the bank, 0 if problem
- * */
-gint gsb_data_bank_get_no_bank ( gpointer bank_ptr )
+ **/
+gint gsb_data_bank_get_no_bank (gpointer bank_ptr)
 {
-    BankStruct *bank;
+	BankStruct *bank;
 
-    if ( !bank_ptr )
-	return 0;
+	if (!bank_ptr)
+		return 0;
 
-    bank = bank_ptr;
-    bank_buffer = bank;
-    return bank -> bank_number;
+	bank = bank_ptr;
+	bank_buffer = bank;
+
+	return bank->bank_number;
 }
-
 
 /**
  * give the g_slist of bank structure
@@ -178,13 +196,11 @@ gint gsb_data_bank_get_no_bank ( gpointer bank_ptr )
  * \param none
  *
  * \return the g_slist of banks structure
- * */
-GSList *gsb_data_bank_get_bank_list ( void )
+ **/
+GSList *gsb_data_bank_get_bank_list (void)
 {
-    return bank_list;
+	return bank_list;
 }
-
-
 
 /**
  * find and return the last number of bank
@@ -192,28 +208,28 @@ GSList *gsb_data_bank_get_bank_list ( void )
  * \param none
  *
  * \return last number of bank
- * */
-gint gsb_data_bank_max_number ( void )
+ **/
+gint gsb_data_bank_max_number (void)
 {
-    GSList *tmp;
-    gint number_tmp = 0;
+	GSList *tmp;
+	gint number_tmp = 0;
 
-    tmp = bank_list;
+	tmp = bank_list;
 
-    while ( tmp )
-    {
-	BankStruct *bank;
+	while (tmp)
+	{
+		BankStruct *bank;
 
-	bank = tmp -> data;
+		bank = tmp->data;
 
-	if ( bank -> bank_number > number_tmp )
-	    number_tmp = bank -> bank_number;
+		if (bank->bank_number > number_tmp)
+			number_tmp = bank->bank_number;
 
-	tmp = tmp -> next;
-    }
-    return number_tmp;
+		tmp = tmp->next;
+	}
+
+	return number_tmp;
 }
-
 
 /**
  * create a new bank, give it a number, append it to the list
@@ -222,48 +238,20 @@ gint gsb_data_bank_max_number ( void )
  * \param name the name of the bank (can be freed after, it's a copy) or NULL
  *
  * \return the number of the new bank
- * */
-gint gsb_data_bank_new ( const gchar *name )
+ **/
+gint gsb_data_bank_new (const gchar *name)
 {
-    BankStruct *bank;
+	BankStruct *bank;
 
-    bank = g_malloc0 ( sizeof ( BankStruct ));
-    bank -> bank_number = gsb_data_bank_max_number () + 1;
+	bank = g_malloc0 (sizeof (BankStruct));
+	bank->bank_number = gsb_data_bank_max_number () + 1;
 
-    if (name)
-	bank -> bank_name = my_strdup (name);
+	if (name)
+		bank->bank_name = my_strdup (name);
 
-    bank_list = g_slist_append ( bank_list, bank );
+	bank_list = g_slist_append (bank_list, bank);
 
-    return bank -> bank_number;
-}
-
-/**
- * This internal function is called to free the memory used by a BankStruct structure
- */
-static void _gsb_data_bank_free ( BankStruct* bank)
-{
-    if ( !bank )
-	return;
-
-    /* free string fields */
-    g_free ( bank -> bank_name );
-    g_free ( bank -> bank_code );
-    g_free ( bank -> bank_BIC );
-    g_free ( bank -> bank_address );
-	g_free (bank->bank_tel);
-	g_free (bank->bank_mail);
-    g_free ( bank -> bank_web );
-    g_free ( bank -> bank_note );
-    g_free ( bank -> correspondent_name );
-    g_free ( bank -> correspondent_tel );
-    g_free ( bank -> correspondent_mail );
-    g_free ( bank -> correspondent_fax );
-
-    g_free ( bank );
-
-    if ( bank_buffer == bank )
-	bank_buffer = NULL;
+	return bank->bank_number;
 }
 
 /**
@@ -272,36 +260,34 @@ static void _gsb_data_bank_free ( BankStruct* bank)
  * \param bank_number the bank we want to remove
  *
  * \return TRUE ok
- * */
-gboolean gsb_data_bank_remove ( gint bank_number )
+ **/
+gboolean gsb_data_bank_remove (gint bank_number)
 {
-    BankStruct *bank;
-    GSList *list_tmp;
+	GSList *list_tmp;
+	BankStruct *bank;
 
-    bank = gsb_data_bank_get_structure ( bank_number );
+	bank = gsb_data_bank_get_structure (bank_number);
 
-    if (!bank)
-	return FALSE;
+	if (!bank)
+		return FALSE;
 
-    bank_list = g_slist_remove ( bank_list,
-				 bank );
-    _gsb_data_bank_free ( bank );
+	bank_list = g_slist_remove (bank_list, bank);
+	_gsb_data_bank_free (bank);
 
-    /* remove that bank of the accounts */
-    list_tmp = gsb_data_account_get_list_accounts ();
+	/* remove that bank of the accounts */
+	list_tmp = gsb_data_account_get_list_accounts ();
+	while (list_tmp)
+	{
+		gint account_number;
 
-    while (list_tmp)
-    {
-	gint account_number = gsb_data_account_get_no_account (list_tmp -> data);
+		account_number = gsb_data_account_get_no_account (list_tmp->data);
+		if (gsb_data_account_get_bank (account_number) == bank_number)
+			gsb_data_account_set_bank (account_number, 0);
+		list_tmp = list_tmp->next;
+	}
 
-	if ( gsb_data_account_get_bank (account_number) == bank_number )
-	    gsb_data_account_set_bank ( account_number, 0 );
-	list_tmp = list_tmp -> next;
-    }
-
-    return TRUE;
+	return TRUE;
 }
-
 
 /**
  * set a new number for the bank
@@ -313,15 +299,19 @@ gboolean gsb_data_bank_remove ( gint bank_number )
  *
  * \return the new number or 0 if the bank doen't exist
  * */
-gint gsb_data_bank_set_new_number ( gint bank_number,
-				    gint new_no_bank )
+gint gsb_data_bank_set_new_number (gint bank_number,
+								   gint new_no_bank)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, 0);
-    bank -> bank_number = new_no_bank;
-    return new_no_bank;
-}
+	BankStruct *bank;
 
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return 0;
+
+	bank->bank_number = new_no_bank;
+
+	return new_no_bank;
+}
 
 /**
  * Setters and getters are defined just after.
@@ -333,276 +323,508 @@ gint gsb_data_bank_set_new_number ( gint bank_number,
  *
  * Each getter returns a pointer on a string, which must not be freed.
  * Setters return the pointer on success, NULL otherwise
- */
-
+ **/
 
 /**
  * Getter for the bank_name
- */
-const gchar *gsb_data_bank_get_name ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_name (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> bank_name;
-}
-/**
- * Setter for the bank_name
- */
-gboolean gsb_data_bank_set_name ( gint bank_number,
-				  const gchar *name )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, bank_name, name);
-    return TRUE;
-}
-
-
-/**
- * Getter for the bank_code
- */
-const gchar *gsb_data_bank_get_code ( gint bank_number )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> bank_code;
-}
-/**
- * Setter for the bank_code
- */
-gboolean gsb_data_bank_set_code ( gint bank_number,
-				  const gchar *bank_code )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, bank_code, bank_code);
-    return TRUE;
-}
-
-
-/**
- * Getter for the bank_address
- */
-const gchar *gsb_data_bank_get_bank_address ( gint bank_number )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> bank_address;
-}
-/**
- * Setter for the bank_address
- */
-gboolean gsb_data_bank_set_bank_address ( gint bank_number,
-					  const gchar *bank_address )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, bank_address, bank_address);
-    return TRUE;
-}
-
-
-/**
- * Getter for the bank_tel
- */
-const gchar *gsb_data_bank_get_bank_tel ( gint bank_number )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> bank_tel;
-}
-/**
- * Setter for the bank_tel
- */
-gboolean gsb_data_bank_set_bank_tel (gint bank_number,
-				      				 const gchar *bank_tel)
-{
-    BankStruct *bank;
+	BankStruct *bank;
 
 	bank = gsb_data_bank_get_structure (bank_number);
-    if (!bank)
+	if (!bank)
+		return NULL;
+
+	return bank->bank_name;
+}
+
+/**
+ * Setter for the bank_name
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_name (gint bank_number,
+								 const gchar *bank_name)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
 		return FALSE;
 
-	if (bank->bank_tel)
-		g_free (bank->bank_tel);
-    bank->bank_tel = my_strdup (bank_tel);
+	g_free (bank->bank_name);
+	bank->bank_name = my_strdup (bank_name);
 
 	return TRUE;
 }
 
+/**
+ * Getter for the bank_code
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_code (gint bank_number)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->bank_code;
+}
+
+/**
+ * Setter for the bank_code
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_code (gint bank_number,
+								 const gchar *bank_code)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	g_free (bank->bank_code);
+	bank->bank_code = my_strdup (bank_code);
+
+	return TRUE;
+}
+
+/**
+ * Getter for the bank_address
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_bank_address (gint bank_number)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->bank_address;
+}
+
+/**
+ * Setter for the bank_address
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_bank_address (gint bank_number,
+										 const gchar *bank_address)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->bank_address)
+		g_free (bank->bank_address);
+	bank->bank_tel = my_strdup (bank_address);
+
+	return TRUE;
+}
+
+/**
+ * Getter for the bank_tel
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_bank_tel (gint bank_number)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->bank_tel;
+}
+
+/**
+ * Setter for the bank_tel
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_bank_tel (gint bank_number,
+					  				 const gchar *bank_tel)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->bank_tel)
+		g_free (bank->bank_tel);
+	bank->bank_tel = my_strdup (bank_tel);
+
+	return TRUE;
+}
 
 /**
  * Getter for the bank_mail
- */
-const gchar *gsb_data_bank_get_bank_mail ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_bank_mail (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> bank_mail;
-}
-/**
- * Setter for the bank_mail
- */
-gboolean gsb_data_bank_set_bank_mail ( gint bank_number,
-				       const gchar *bank_mail )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, bank_mail, bank_mail);
-    return TRUE;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->bank_mail;
 }
 
+/**
+ * Setter for the bank_mail
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_bank_mail (gint bank_number,
+									  const gchar *bank_mail)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->bank_mail)
+		g_free (bank->bank_mail);
+	bank->bank_tel = my_strdup (bank_mail);
+
+	return TRUE;
+}
 
 /**
  * Getter for the bank_web
- */
-const gchar *gsb_data_bank_get_bank_web ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_bank_web (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> bank_web;
-}
-/**
- * Setter for the bank_web
- */
-gboolean gsb_data_bank_set_bank_web ( gint bank_number,
-				      const gchar *bank_web )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, bank_web, bank_web);
-    return TRUE;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->bank_web;
 }
 
+/**
+ * Setter for the bank_web
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_bank_web (gint bank_number,
+									 const gchar *bank_web)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->bank_web)
+		g_free (bank->bank_web);
+	bank->bank_tel = my_strdup (bank_web);
+
+	return TRUE;
+}
 
 /**
  * Getter for the bank_note
- */
-const gchar *gsb_data_bank_get_bank_note ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_bank_note (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> bank_note;
-}
-/**
- * Setter for the bank_note
- */
-gboolean gsb_data_bank_set_bank_note ( gint bank_number,
-				       const gchar *bank_note )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, bank_note, bank_note);
-    return TRUE;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->bank_note;
 }
 
+/**
+ * Setter for the bank_note
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_bank_note (gint bank_number,
+									  const gchar *bank_note)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->bank_note)
+		g_free (bank->bank_note);
+	bank->bank_tel = my_strdup (bank_note);
+
+	return TRUE;
+}
 
 /**
  * Getter for the correspondent_name
- */
-const gchar *gsb_data_bank_get_correspondent_name ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_correspondent_name (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> correspondent_name;
-}
-/**
- * Setter for the correspondent_name
- */
-gboolean gsb_data_bank_set_correspondent_name ( gint bank_number,
-						const gchar *correspondent_name )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, correspondent_name, correspondent_name);
-    return TRUE;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->correspondent_name;
 }
 
+/**
+ * Setter for the correspondent_name
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_correspondent_name (gint bank_number,
+											   const gchar *correspondent_name)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->correspondent_name)
+		g_free (bank->correspondent_name);
+	bank->correspondent_name = my_strdup (correspondent_name);
+
+	return TRUE;
+}
 
 /**
  * Getter for the correspondent_tel
- */
-const gchar *gsb_data_bank_get_correspondent_tel ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_correspondent_tel (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> correspondent_tel;
-}
-/**
- * Setter for the correspondent_tel
- */
-gboolean gsb_data_bank_set_correspondent_tel ( gint bank_number,
-					       const gchar *correspondent_tel )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, correspondent_tel, correspondent_tel);
-    return TRUE;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->correspondent_tel;
 }
 
+/**
+ * Setter for the correspondent_tel
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_correspondent_tel (gint bank_number,
+											  const gchar *correspondent_tel)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->correspondent_tel)
+		g_free (bank->correspondent_tel);
+	bank->correspondent_tel = my_strdup (correspondent_tel);
+
+	return TRUE;
+}
 
 /**
  * Getter for the correspondent_mail
- */
-const gchar *gsb_data_bank_get_correspondent_mail ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_correspondent_mail (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> correspondent_mail;
-}
-/**
- * Setter for the correspondent_mail
- */
-gboolean gsb_data_bank_set_correspondent_mail ( gint bank_number,
-						const gchar *correspondent_mail )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, correspondent_mail, correspondent_mail);
-    return TRUE;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->correspondent_mail;
 }
 
+/**
+ * Setter for the correspondent_mail
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_correspondent_mail (gint bank_number,
+											   const gchar *correspondent_mail)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->correspondent_mail)
+		g_free (bank->correspondent_mail);
+	bank->correspondent_mail = my_strdup (correspondent_mail);
+
+	return TRUE;
+}
 
 /**
  * Getter for the correspondent_fax
- */
-const gchar *gsb_data_bank_get_correspondent_fax ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_correspondent_fax (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> correspondent_fax;
-}
-/**
- * Setter for the correspondent_fax
- */
-gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,
-					       const gchar *correspondent_fax )
-{
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, correspondent_fax, correspondent_fax);
-    return TRUE;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->correspondent_fax;
 }
 
+/**
+ * Setter for the correspondent_fax
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_correspondent_fax (gint bank_number,
+											  const gchar *correspondent_fax)
+{
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->correspondent_fax)
+		g_free (bank->correspondent_fax);
+	bank->correspondent_fax = my_strdup (correspondent_fax);
+
+	return TRUE;
+}
 
 /**
  * Getter for BIC code
- */
-const gchar *gsb_data_bank_get_bic ( gint bank_number )
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *gsb_data_bank_get_bic (gint bank_number)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, NULL);
-    return bank -> bank_BIC;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return NULL;
+
+	return bank->bank_BIC;
 }
+
 /**
  * Setter for BIC code
- */
-gboolean gsb_data_bank_set_bic ( gint bank_number, const gchar *bank_BIC )
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean gsb_data_bank_set_bic (gint bank_number,
+								const gchar *bank_BIC)
 {
-    BankStruct *bank;
-    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
-    BANK_SET_FIELD(bank, bank_BIC, bank_BIC);
-    return TRUE;
+	BankStruct *bank;
+
+	bank = gsb_data_bank_get_structure (bank_number);
+	if (!bank)
+		return FALSE;
+
+	if (bank->bank_BIC)
+		g_free (bank->bank_BIC);
+	bank->bank_BIC = my_strdup (bank_BIC);
+
+	return TRUE;
 }
 
 /**
@@ -614,16 +836,16 @@ gboolean gsb_data_bank_set_bic ( gint bank_number, const gchar *bank_BIC )
  **/
 GSList *gsb_data_bank_get_bank_type_list (void)
 {
-    gchar *text [] = { _("Bank account"), _("Cash account"), _("Liabilities account"), _("Assets account"), NULL };
-    gint i = 0;
-    GSList *list = NULL;
+	GSList *list = NULL;
+	gchar *text [] = {_("Bank account"), _("Cash account"), _("Liabilities account"), _("Assets account"), NULL};
+	gint i = 0;
 
-    while (text[i])
-    {
+	while (text[i])
+	{
 		list = g_slist_append (list, text[i]);
 		list = g_slist_append (list, GINT_TO_POINTER (i));
 		i++;
-    }
+	}
 
 	return list;
 }
