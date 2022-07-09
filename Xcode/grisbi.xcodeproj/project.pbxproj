@@ -1720,13 +1720,13 @@
 					/usr/include/libxml2,
 					"/usr/local/opt/goffice/include/libgoffice-0.10",
 					/usr/local/opt/cairo/include,
-					"/usr/local/opt/openssl@1.1/include",
+					/usr/local/opt/openssl/include,
 					"/usr/local/opt/gtk-mac-integration/include/gtkmacintegration",
 					/usr/local/opt/harfbuzz/include/harfbuzz,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/opt/openssl@1.1/lib",
+					/usr/local/opt/openssl/lib,
 					/usr/local/opt/gettext/lib,
 					"/usr/local/opt/gtk-mac-integration/lib",
 					/usr/local/opt/goffice/lib,
@@ -1760,13 +1760,13 @@
 					/usr/include/libxml2,
 					"/usr/local/opt/goffice/include/libgoffice-0.10",
 					/usr/local/opt/cairo/include,
-					"/usr/local/opt/openssl@1.1/include",
+					/usr/local/opt/openssl/include,
 					"/usr/local/opt/gtk-mac-integration/include/gtkmacintegration",
 					/usr/local/opt/harfbuzz/include/harfbuzz,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/opt/openssl@1.1/lib",
+					/usr/local/opt/openssl/lib,
 					/usr/local/opt/gettext/lib,
 					"/usr/local/opt/gtk-mac-integration/lib",
 					/usr/local/opt/goffice/lib,
