@@ -8,7 +8,6 @@ CFLAGS="-Wall"
 CFLAGS+=" -Wextra"
 CFLAGS+=" -std=c11"
 
-#CFLAGS+=" -Wbad-function-cast"
 CFLAGS+=" -Wcast-align"
 CFLAGS+=" -Wchar-subscripts"
 CFLAGS+=" -Wempty-body"
@@ -36,6 +35,21 @@ CFLAGS+=" -Wmissing-noreturn"
 
 # warnings disabled on purpose
 CFLAGS+=" -Wno-unused-parameter"
+
+# etats_page_amount.c: In function ‘etats_page_amount_retire_ligne_liste_comparaisons’:
+# /usr/lib/x86_64-linux-gnu/glib-2.0/include/glibconfig.h:98:37: error: cast from function call of type ‘gpointer’ {aka ‘void *’} to non-matching type ‘long int’ [-Werror=bad-function-cast]
+#    98 | #define GPOINTER_TO_INT(p) ((gint)  (glong) (p))
+#       |                                     ^
+# etats_page_amount.c:181:30: note: in expansion of macro ‘GPOINTER_TO_INT’
+#   181 |   amount_comparison_number = GPOINTER_TO_INT (g_slist_nth_data (gsb_data_report_get_amount_comparison_list
+#       |                              ^~~~~~~~~~~~~~~
+# /usr/lib/x86_64-linux-gnu/glib-2.0/include/glibconfig.h:98:37: error: cast from function call of type ‘gpointer’ {aka ‘void *’} to non-matching type ‘long int’ [-Werror=bad-function-cast]
+#    98 | #define GPOINTER_TO_INT(p) ((gint)  (glong) (p))
+#       |                                     ^
+# etats_page_amount.c:199:30: note: in expansion of macro ‘GPOINTER_TO_INT’
+#   199 |   amount_comparison_number = GPOINTER_TO_INT (g_slist_nth_data (gsb_data_report_get_amount_comparison_list
+#       |                              ^~~~~~~~~~~~~~~
+#CFLAGS+=" -Wbad-function-cast"
 
 CFLAGS+=" -O2"
 CFLAGS+=" -D_FORTIFY_SOURCE=2"
