@@ -30,6 +30,9 @@
  * _(), which obvisouly breaks glib's gettext macros. */
 #define OPENSSL_DISABLE_OLD_DES_SUPPORT
 #include <openssl/des.h>
+#include <openssl/evp.h>
+#include <openssl/sha.h>
+#include <openssl/err.h>
 
 /*START_INCLUDE*/
 #include "openssl.h"
@@ -37,6 +40,7 @@
 #include "structures.h"
 #include "utils.h"
 #include "dialog.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -78,8 +82,8 @@ static gchar *saved_crypt_key = NULL;
 #define V1_MARKER_SIZE (sizeof(V1_MARKER) - 1)
 #define V2_MARKER "Grisbi encryption v2: "
 #define V2_MARKER_SIZE (sizeof(V2_MARKER) - 1)
-
-#define ALIGN_TO_8_BYTES(l) ((l + 7) & (~7))
+#define V3_MARKER "Grisbi encryption v3: "
+#define V3_MARKER_SIZE (sizeof(V3_MARKER) - 1)
 
 
 
@@ -87,42 +91,138 @@ static gchar *saved_crypt_key = NULL;
  *
  */
 static gulong
-encrypt_v2(gchar *password, gchar **file_content, gulong length)
+encrypt_v3(gchar *password, gchar **file_content, int length)
 {
-    DES_cblock key;
-    DES_key_schedule sched;
-    gulong to_encrypt_length, output_length;
-    gchar *to_encrypt_content, *output_content;
+    int to_encrypt_length, output_length, tmp_length;
+	unsigned char *to_encrypt_content, *output_content, *encrypted_content;
+	unsigned char hash[EVP_MAX_MD_SIZE];
+	unsigned char iv[] = "1234567887654321";
+	unsigned int hash_len;
+	EVP_MD_CTX *md_ctx;
+	EVP_CIPHER_CTX *cipher_ctx;
 
     /* Create a temporary buffer that will hold data to be encrypted. */
-    to_encrypt_length = V2_MARKER_SIZE + length;
+    to_encrypt_length = V3_MARKER_SIZE + length;
     to_encrypt_content = g_malloc ( to_encrypt_length );
-    memmove ( to_encrypt_content, V2_MARKER, V2_MARKER_SIZE );
-    memmove ( to_encrypt_content + V2_MARKER_SIZE, *file_content, length );
 
-    /* Allocate the output file and copy the special marker at its beginning.
-     * DES_cbc_encrypt output is always a multiple of 8 bytes. Adjust the
-     * length of the allocation accordingly. */
-    output_length = V2_MARKER_SIZE + ALIGN_TO_8_BYTES ( to_encrypt_length );
+	/* copy V3 marker */
+    memcpy ( to_encrypt_content, V3_MARKER, V3_MARKER_SIZE );
+	/* copy data */
+    memcpy ( to_encrypt_content + V3_MARKER_SIZE, *file_content, length );
+
+    /* Allocate the output file and copy the special marker at its beginning. */
+    output_length = V3_MARKER_SIZE + to_encrypt_length + EVP_MAX_BLOCK_LENGTH;
     output_content = g_malloc ( output_length );
-    memmove ( output_content, V2_MARKER , V2_MARKER_SIZE );
+	/* add V3 marker to output (in clear) */
+    memcpy ( output_content, V3_MARKER , V3_MARKER_SIZE );
+
+	/* sip the clear marker */
+	encrypted_content = output_content + V3_MARKER_SIZE;
+
+	/* hash the password to generate a key */
+	md_ctx = EVP_MD_CTX_new();
+	EVP_DigestInit(md_ctx, EVP_sha256());
+	EVP_DigestUpdate(md_ctx, password, strlen(password));
+	EVP_DigestFinal_ex(md_ctx, hash, &hash_len);
+	EVP_MD_CTX_free(md_ctx);
 
     /* Encrypt the data and put it in the right place in the output buffer. */
-    DES_string_to_key ( password, &key );
-    DES_set_key_unchecked ( &key, &sched );
-    DES_set_odd_parity ( &key );
+	cipher_ctx = EVP_CIPHER_CTX_new();
+	EVP_CipherInit_ex(cipher_ctx, EVP_aes_128_cbc(), NULL, hash, iv, 1 /* encrypt */);
+	if (!EVP_CipherUpdate(cipher_ctx, encrypted_content, &output_length, to_encrypt_content, to_encrypt_length))
+	{
+		/* Error */
+		EVP_CIPHER_CTX_free(cipher_ctx);
+		alert_debug(ERR_error_string(ERR_get_error(), NULL));
+		return 0;
+	}
+	if (!EVP_CipherFinal_ex(cipher_ctx, encrypted_content + output_length, &tmp_length))
+	{
+		/* Error */
+		EVP_CIPHER_CTX_free(cipher_ctx);
+		alert_debug(ERR_error_string(ERR_get_error(), NULL));
+		return 0;
+	}
+	output_length += tmp_length;
+	EVP_CIPHER_CTX_free(cipher_ctx);
 
-    DES_cbc_encrypt ( (guchar *) to_encrypt_content,
-                    (guchar *) (output_content + V2_MARKER_SIZE),
-                    to_encrypt_length,
-                    &sched,
-                    &key,
-                    DES_ENCRYPT );
+	g_free ( to_encrypt_content );
 
-    g_free ( to_encrypt_content );
+    *file_content = (gchar *)output_content;
+    return output_length + V3_MARKER_SIZE;
+}
 
-    *file_content = output_content;
-    return output_length;
+
+/**
+ *
+ */
+static gulong
+decrypt_v3(gchar *password, gchar **file_content, int length)
+{
+	int encrypted_len, decrypted_len, output_len, tmp_len;
+	unsigned char *encrypted_buf, *decrypted_buf;
+	gchar *output_buf;
+	unsigned char hash[EVP_MAX_MD_SIZE];
+	unsigned char iv[] = "1234567887654321";
+	unsigned int hash_len;
+	EVP_MD_CTX *md_ctx;
+	EVP_CIPHER_CTX *cipher_ctx;
+
+	/* skip the marker */
+	encrypted_buf = (unsigned char *)*file_content + V3_MARKER_SIZE;
+	encrypted_len = length - V3_MARKER_SIZE;
+
+	/* Create a temporary buffer that will hold the decrypted data without the
+	 * first marker. */
+	decrypted_len = encrypted_len + EVP_MAX_BLOCK_LENGTH;
+	decrypted_buf = g_malloc ( decrypted_len );
+	
+	/* clean the buffer to avoid problems with an incomplete last block */
+	memset(decrypted_buf, 0, decrypted_len);
+
+	/* hash the password to generate a key */
+	md_ctx = EVP_MD_CTX_new();
+	EVP_DigestInit(md_ctx, EVP_sha256());
+	EVP_DigestUpdate(md_ctx, password, strlen(password));
+	EVP_DigestFinal_ex(md_ctx, hash, &hash_len);
+	EVP_MD_CTX_free(md_ctx);
+
+	cipher_ctx = EVP_CIPHER_CTX_new();
+	EVP_CipherInit_ex(cipher_ctx, EVP_aes_128_cbc(), NULL, hash, iv, 0 /* decrypt */);
+	if (!EVP_CipherUpdate(cipher_ctx, decrypted_buf, &output_len, encrypted_buf, encrypted_len))
+	{
+		/* Error */
+		EVP_CIPHER_CTX_free(cipher_ctx);
+		alert_debug(ERR_error_string(ERR_get_error(), NULL));
+		return 0;
+	}
+	if (!EVP_CipherFinal_ex(cipher_ctx, decrypted_buf + output_len, &tmp_len))
+	{
+		/* Error */
+		EVP_CIPHER_CTX_free(cipher_ctx);
+		alert_debug(ERR_error_string(ERR_get_error(), NULL));
+		return 0;
+	}
+	output_len += tmp_len;
+	EVP_CIPHER_CTX_free(cipher_ctx);
+
+	/* If the password was correct, the second marker should appear in the first
+	 * few bytes of the decrypted content. */
+	if ( strncmp ( (const char *)decrypted_buf, V3_MARKER, V3_MARKER_SIZE ) )
+	{
+		g_free ( decrypted_buf );
+		return 0;
+	}
+
+	/* Copy the decrypted data to a final buffer, leaving out the second
+	 * marker. g_strndup() is used to add a trailing null byte. */
+	output_len = decrypted_len - V3_MARKER_SIZE;
+	output_buf = g_strndup ( (const gchar *)decrypted_buf + V3_MARKER_SIZE, output_len );
+
+	g_free ( decrypted_buf );
+
+	*file_content = output_buf;
+	return output_len;
 }
 
 
@@ -260,7 +360,7 @@ gulong gsb_file_util_crypt_file ( const gchar * file_name, gchar **file_content,
         if ( !key )
             return 0;
 
-        return encrypt_v2 ( key, file_content, length );
+        return encrypt_v3 ( key, file_content, (int)length );
     }
     else
     {
@@ -280,7 +380,10 @@ return_bad_password:
         if ( !key )
             return 0;
 
-        returned_length = decrypt_v2 ( key, file_content, length );
+		returned_length = decrypt_v3 ( key, file_content, (int)length );
+
+		if ( returned_length == 0 )
+			returned_length = decrypt_v2 ( key, file_content, length );
 
         if ( returned_length == 0 )
             returned_length = decrypt_v1 ( key, file_content, length );
