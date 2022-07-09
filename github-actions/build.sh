@@ -16,7 +16,6 @@ CFLAGS+=" -Wformat-security"
 CFLAGS+=" -Winit-self"
 CFLAGS+=" -Winline"
 CFLAGS+=" -Wmissing-declarations"
-#CFLAGS+=" -Wmissing-include-dirs"
 CFLAGS+=" -Wmissing-prototypes"
 CFLAGS+=" -Wnested-externs"
 CFLAGS+=" -Wold-style-definition"
@@ -50,6 +49,9 @@ CFLAGS+=" -Wno-unused-parameter"
 #   199 |   amount_comparison_number = GPOINTER_TO_INT (g_slist_nth_data (gsb_data_report_get_amount_comparison_list
 #       |                              ^~~~~~~~~~~~~~~
 #CFLAGS+=" -Wbad-function-cast"
+
+# cc1: error: -pthread: No such file or directory [-Werror=missing-include-dirs]
+#CFLAGS+=" -Wmissing-include-dirs"
 
 CFLAGS+=" -O2"
 CFLAGS+=" -D_FORTIFY_SOURCE=2"
