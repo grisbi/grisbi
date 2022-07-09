@@ -226,6 +226,13 @@ decrypt_v3(gchar *password, gchar **file_content, int length)
 }
 
 
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
 /**
  *
  */
@@ -317,6 +324,11 @@ decrypt_v1(gchar *password, gchar **file_content, gulong length)
     *file_content = decrypted_buf;
     return decrypted_len;
 }
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
 
 
 /**
