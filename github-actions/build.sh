@@ -63,10 +63,8 @@ configure_args+=" --enable-real-werror"
 
 if [ "$RUNNER_OS" = "macOS" ]
 then
-	# disable deprecated warnings since gdk-pixbuf fails to
-	# build with:
-	# /usr/local/Cellar/gdk-pixbuf/2.38.1_1/include/gdk-pixbuf-2.0/gdk-pixbuf/gdk-pixbuf-animation.h:122:85: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
-	CFLAGS+=" -Wno-deprecated-declarations"
+	# do nothing
+	echo
 else
 	# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
 	CFLAGS+=" -Wno-deprecated-declarations"
