@@ -31,4 +31,8 @@ jobs:
           ./autogen.sh
           github-actions/build.sh
           make
-          make distcheck
+
+      - name: distcheck
+        shell: bash
+        if: matrix.os == 'ubuntu-latest'
+        run: make distcheck
