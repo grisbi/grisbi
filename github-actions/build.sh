@@ -66,8 +66,12 @@ then
 	# do nothing
 	echo
 else
-	# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
-	CFLAGS+=" -Wno-deprecated-declarations"
+	if [ $(lsb_release -rs) = "20.04" ]
+	then
+		# disable on Ubuntu 20.04
+		# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
+		CFLAGS+=" -Wno-deprecated-declarations"
+	fi
 
 	# runs the standard link-time optimizer
 	CFLAGS+=" -flto=auto"
