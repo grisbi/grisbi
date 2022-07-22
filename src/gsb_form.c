@@ -882,7 +882,8 @@ static gboolean gsb_form_validate_form_transaction (gint transaction_number,
     }
 
     /* check if balance is < 0 and account_kind == GSB_TYPE_CASH */
-    if (gsb_data_account_get_kind (account_number) == GSB_TYPE_CASH)
+	/* fix bug 2200 suppression du test des transactions filles */
+    if (gsb_data_account_get_kind (account_number) == GSB_TYPE_CASH && mother_number == 0)
     {
         GsbReal balance;
 
