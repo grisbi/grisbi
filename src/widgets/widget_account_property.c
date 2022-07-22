@@ -633,7 +633,6 @@ static void widget_account_property_changed (GtkWidget *widget,
 			/* as we changed the initial balance, we need to recalculate the amount
 			 * of each line in the list */
 			transaction_list_set_balances ();
-
 			break;
 
 		case PROPERTY_WANTED_BALANCE:
@@ -1180,6 +1179,27 @@ static void widget_account_property_setup (WidgetAccountProperty *widget)
 												NULL,
 												G_CALLBACK (gsb_data_account_set_bank_account_key),
 												0);
+
+	/* create the entry_initial_balance */
+	gsb_autofunc_real_new_from_ui (priv->entry_initial_balance,
+								   G_CALLBACK (widget_account_property_changed),
+								   GINT_TO_POINTER (PROPERTY_INIT_BALANCE),
+								   G_CALLBACK (gsb_data_account_set_init_balance),
+								   0);
+
+	/* create the entry_minimal_authorized */
+	gsb_autofunc_real_new_from_ui (priv->entry_minimal_authorized,
+								   G_CALLBACK (widget_account_property_changed),
+								   GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
+								   G_CALLBACK (gsb_data_account_set_mini_balance_authorized),
+								  0);
+
+	/* create the entry_minimal_desired */
+	gsb_autofunc_real_new_from_ui (priv->entry_minimal_desired,
+								   G_CALLBACK (widget_account_property_changed),
+								   GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
+								   G_CALLBACK (gsb_data_account_set_mini_balance_wanted),
+								   0);
 
 	/* create the comment textview */
 	gsb_autofunc_textview_new_from_ui (priv->textview_comment_text,
