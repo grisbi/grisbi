@@ -2119,9 +2119,8 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 	GDate *date;
 	GsbReal amount;
 
+	/* fixe bug :des operations peuvent exister le jour de bascule */
 	date = gsb_date_copy (std->date_bascule);
-	/* on enlève 1 jour pour la date de l'opération de remise à 0 du compte */
-	g_date_subtract_days (date, 1);
 
 	/* replace_account is an account */
 	if (std->type == 0)

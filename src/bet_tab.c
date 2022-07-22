@@ -976,7 +976,7 @@ static gchar *bet_array_list_get_description (gint account_number,
                                   _("No category"));
                 break;
 
-            case 3:
+             case 3:
                 desc = gsb_data_budget_get_name
 								 (gsb_data_transaction_get_budgetary_number (transaction_number),
                                   gsb_data_transaction_get_sub_budgetary_number (transaction_number),
@@ -3025,8 +3025,8 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
     {
         GDate *date_bascule;
 
+		/* fixe bug :des operations peuvent exister le jour de bascule */
         date_bascule = gsb_date_copy (transfert->date_bascule);
-        g_date_subtract_days (date_bascule, 1);
 
         /* on recherche une transaction */
         tmp_list = gsb_data_transaction_get_transactions_list ();
