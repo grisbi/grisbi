@@ -1310,6 +1310,55 @@ GtkWidget *gsb_autofunc_real_new (GsbReal real,
     return entry;
 }
 
+/*
+ * creates a new GtkEntry from ui to contain a GsbReal which will modify the value according to the entry
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... (number, gsb_real)
+ * ie the target function must be :
+ * 	(default_func) (gint number_for_func,
+ * 			 GsbReal real)
+ * ex : gsb_data_account_set_init_balance (account, real)
+ *
+ * \param real a GsbReal to fill the entry or NULL
+ * \param hook an optional function to execute as a handler if the
+ * 	entry's contents are modified.
+ * 	hook should be :
+ * 		gboolean hook (GtkWidget *entry,
+ * 				gpointer data)
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func a function to call when something change (function must be func (number, real)) or null_real
+ * \param number_for_func a gint which we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_entry_set_value
+ *
+ * \return a new GtkEntry
+ * */
+void gsb_autofunc_real_new_from_ui (GtkWidget *entry,
+									GCallback hook,
+									gpointer data,
+									GCallback default_func,
+									gint number_for_func)
+{
+	/* set the default func :
+	* the func will be send to gsb_editable_set_text by the data,
+	* the number_for_func will be set as data for object */
+    g_object_set_data (G_OBJECT (entry), "number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+		g_object_set_data (G_OBJECT (entry),
+						   "changed",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(entry),
+																	 "changed",
+																	 G_CALLBACK (gsb_autofunc_real_changed),
+																	 default_func)));
+    if (hook)
+		g_object_set_data (G_OBJECT (entry),
+						   "changed-hook",
+						   GUINT_TO_POINTER (g_signal_connect_after (G_OBJECT(entry),
+																	 "changed",
+																	 G_CALLBACK (hook),
+																	 data)));
+}
+
 /**
  * set the GsbReal in a gsb_editable_date
  * a value is in 2 parts :

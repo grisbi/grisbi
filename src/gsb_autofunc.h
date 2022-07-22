@@ -97,6 +97,11 @@ GtkWidget *	gsb_autofunc_real_new 						(GsbReal real,
 													     gpointer data,
 													     GCallback default_func,
 													     gint number_for_func);
+void 		gsb_autofunc_real_new_from_ui				(GtkWidget *entry,
+														 GCallback hook,
+														 gpointer data,
+														 GCallback default_func,
+														 gint number_for_func);
 void 		gsb_autofunc_real_set 						(GtkWidget *entry,
 														 GsbReal real,
 														 gint number_for_func);
