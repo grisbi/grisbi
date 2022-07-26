@@ -586,6 +586,8 @@ static SpecWidgetLine *csv_template_rule_spec_conf_new_line (CsvTemplateRule *te
 	grid = gtk_grid_new ();
 	gtk_grid_set_column_spacing (GTK_GRID (grid), MARGIN_BOX);
 	gtk_grid_set_row_spacing (GTK_GRID (grid), MARGIN_BOX);
+	gtk_widget_set_margin_bottom (grid, MARGIN_BOX);
+	gtk_widget_set_margin_top (grid, MARGIN_BOX);
 
 	label = gtk_label_new ("    ");
 	gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
