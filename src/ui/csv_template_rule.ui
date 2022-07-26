@@ -32,7 +32,7 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">5</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_csv_template">
             <property name="visible">True</property>
@@ -40,11 +40,10 @@
             <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="button_remove">
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="yes">Cancel</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -54,11 +53,10 @@
             </child>
             <child>
               <object class="GtkButton" id="button_add">
-                <property name="label">gtk-apply</property>
+                <property name="label" translatable="yes">Apply</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -68,10 +66,9 @@
             </child>
             <child>
               <object class="GtkButton" id="button_modifier">
-                <property name="label">gtk-edit</property>
+                <property name="label" translatable="yes">Modify</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="use-stock">True</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -90,6 +87,8 @@
           <object class="GtkBox" id="vbox_csv_template">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="margin-start">5</property>
+            <property name="margin-end">5</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="hbox_paddingbox100">
@@ -99,7 +98,6 @@
                   <object class="GtkBox" id="vbox_paddingbox100">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-left">5</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="Title100">
@@ -196,7 +194,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -217,7 +214,6 @@
                   <object class="GtkBox" id="vbox_paddinggrid200">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-left">5</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <child>
@@ -225,7 +221,6 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">start</property>
-                        <property name="margin-left">5</property>
                         <property name="label" translatable="yes">Account data</property>
                         <attributes>
                           <attribute name="weight" value="bold"/>
@@ -484,7 +479,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -579,7 +573,6 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -618,6 +611,7 @@
           <object class="GtkLabel" id="Title">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="halign">start</property>
             <property name="label" translatable="yes">Title</property>
             <attributes>
               <attribute name="weight" value="bold"/>
@@ -634,7 +628,7 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
-              <object class="GtkLabel" id="label4">
+              <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label">    </property>
