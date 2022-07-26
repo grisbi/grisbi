@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.2 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.16"/>
+  <requires lib="gtk+" version="3.24"/>
   <template class="GrisbiWin" parent="GtkApplicationWindow">
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="title" translatable="yes">Grisbi Application</property>
-    <property name="window_position">center</property>
-    <property name="default_width">1200</property>
-    <property name="default_height">600</property>
+    <property name="window-position">center</property>
+    <property name="default-width">1200</property>
+    <property name="default-height">600</property>
     <signal name="window-state-event" handler="grisbi_win_change_state_window" swapped="no"/>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkStack" id="stack_box">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="hhomogeneous">False</property>
             <child>
               <placeholder/>
@@ -34,7 +31,7 @@
         </child>
         <child>
           <object class="GtkStatusbar" id="statusbar">
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="valign">start</property>
             <property name="orientation">vertical</property>
             <property name="spacing">2</property>
@@ -42,7 +39,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="pack_type">end</property>
+            <property name="pack-type">end</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -51,21 +48,22 @@
   </template>
   <object class="GtkFrame" id="no_file_frame">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label_xalign">0</property>
-    <property name="shadow_type">etched-out</property>
+    <property name="can-focus">False</property>
+    <property name="label-xalign">0</property>
+    <property name="shadow-type">etched-out</property>
     <child>
       <object class="GtkScrolledWindow" id="no_file_sw">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
+        <property name="can-focus">True</property>
         <child>
           <object class="GtkViewport">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
+              <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="no_file_grid">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <placeholder/>
                 </child>
@@ -101,8 +99,8 @@
     </child>
     <child type="label">
       <object class="GtkLabel" id="label1">
-        <property name="can_focus">False</property>
-        <property name="track_visited_links">False</property>
+        <property name="can-focus">False</property>
+        <property name="track-visited-links">False</property>
         <property name="lines">0</property>
       </object>
     </child>
