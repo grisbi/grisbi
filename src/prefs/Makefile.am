@@ -70,5 +70,6 @@ MAINTAINERCLEANFILES = \
 EXTRA_DIST = \
 	prefs_page_accueil.ui \
 	prefs_page_archives.ui \
+	prefs_page_bank.ui \
 	prefs_page_bet_account.ui
 

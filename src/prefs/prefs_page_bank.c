@@ -444,7 +444,7 @@ static void prefs_page_bank_class_init (PrefsPageBankClass *klass)
 	G_OBJECT_CLASS (klass)->dispose = prefs_page_bank_dispose;
 
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-												 "/org/gtk/grisbi/ui/prefs_page_bank.ui");
+												 "/org/gtk/grisbi/prefs/prefs_page_bank.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageBank, vbox_bank);
 
