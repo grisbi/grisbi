@@ -9,7 +9,6 @@ ui_DATA = grisbi.css \
 		grisbi_menu.ui \
 		grisbi_prefs.ui \
 		grisbi_win.ui \
-		prefs_page_archives.ui \
 		prefs_page_bank.ui \
 		prefs_page_bet_general.ui \
 		prefs_page_currency.ui \

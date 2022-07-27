@@ -19,6 +19,7 @@
 		<file preprocess="xml-stripblanks">etats/etats_page_text.ui</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_transfer.ui</file>
 		<file preprocess="xml-stripblanks">prefs/prefs_page_accueil.ui</file>
+		<file preprocess="xml-stripblanks">prefs/prefs_page_archives.ui</file>
 		<file preprocess="xml-stripblanks">prefs/prefs_page_bet_account.ui</file>
 		<file preprocess="xml-stripblanks">ui/bet_graph.ui</file>
 		<file preprocess="xml-stripblanks">ui/csv_template_rule.ui</file>
@@ -26,7 +27,6 @@
 		<file preprocess="xml-stripblanks">ui/grisbi_menu.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_prefs.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_win.ui</file>
-		<file preprocess="xml-stripblanks">ui/prefs_page_archives.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_bank.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_bet_general.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_currency.ui</file>
