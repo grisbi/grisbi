@@ -307,7 +307,7 @@ static void prefs_page_display_adr_class_init (PrefsPageDisplayAdrClass *klass)
 	G_OBJECT_CLASS (klass)->dispose = prefs_page_display_adr_dispose;
 
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-												 "/org/gtk/grisbi/ui/prefs_page_display_adr.ui");
+												 "/org/gtk/grisbi/prefs/prefs_page_display_adr.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayAdr, vbox_display_adr);
 

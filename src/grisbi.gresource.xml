@@ -25,13 +25,13 @@
 		<file preprocess="xml-stripblanks">prefs/prefs_page_bet_general.ui</file>
 		<file preprocess="xml-stripblanks">prefs/prefs_page_currency.ui</file>
 		<file preprocess="xml-stripblanks">prefs/prefs_page_currency_link.ui</file>
+		<file preprocess="xml-stripblanks">prefs/prefs_page_display_adr.ui</file>
 		<file preprocess="xml-stripblanks">ui/bet_graph.ui</file>
 		<file preprocess="xml-stripblanks">ui/csv_template_rule.ui</file>
 		<file preprocess="xml-stripblanks">ui/etats_prefs.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_menu.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_prefs.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_win.ui</file>
-		<file preprocess="xml-stripblanks">ui/prefs_page_display_adr.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_display_fonts.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_display_form.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_display_gui.ui</file>
