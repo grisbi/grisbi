@@ -73,5 +73,6 @@ EXTRA_DIST = \
 	prefs_page_bank.ui \
 	prefs_page_bet_account.ui \
 	prefs_page_bet_general.ui \
-	prefs_page_currency.ui
+	prefs_page_currency.ui \
+	prefs_page_currency_link.ui
 
