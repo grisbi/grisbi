@@ -9,7 +9,6 @@ ui_DATA = grisbi.css \
 		grisbi_menu.ui \
 		grisbi_prefs.ui \
 		grisbi_win.ui \
-		prefs_page_display_form.ui \
 		prefs_page_display_gui.ui \
 		prefs_page_display_ope.ui \
 		prefs_page_divers.ui \

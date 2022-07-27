@@ -962,7 +962,7 @@ static void prefs_page_display_form_class_init (PrefsPageDisplayFormClass *klass
 	G_OBJECT_CLASS (klass)->dispose = prefs_page_display_form_dispose;
 
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-												 "/org/gtk/grisbi/ui/prefs_page_display_form.ui");
+												 "/org/gtk/grisbi/prefs/prefs_page_display_form.ui");
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayForm, vbox_display_form);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayForm, grid_buttons_cols_rows);
