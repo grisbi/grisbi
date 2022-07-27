@@ -17,13 +17,13 @@
 [type: gettext/glade]src/prefs/prefs_page_display_fonts.ui
 [type: gettext/glade]src/prefs/prefs_page_display_form.ui
 [type: gettext/glade]src/prefs/prefs_page_display_gui.ui
+[type: gettext/glade]src/prefs/prefs_page_display_ope.ui
 [type: gettext/glade]src/ui/bet_graph.ui
 [type: gettext/glade]src/ui/csv_template_rule.ui
 [type: gettext/glade]src/ui/etats_prefs.ui
 [type: gettext/glade]src/ui/grisbi_menu.ui
 [type: gettext/glade]src/ui/grisbi_prefs.ui
 [type: gettext/glade]src/ui/grisbi_win.ui
-[type: gettext/glade]src/ui/prefs_page_display_ope.ui
 [type: gettext/glade]src/ui/prefs_page_divers.ui
 [type: gettext/glade]src/ui/prefs_page_files.ui
 [type: gettext/glade]src/ui/prefs_page_form_completion.ui

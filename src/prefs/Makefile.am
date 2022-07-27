@@ -78,5 +78,6 @@ EXTRA_DIST = \
 	prefs_page_display_adr.ui \
 	prefs_page_display_fonts.ui \
 	prefs_page_display_form.ui \
-	prefs_page_display_gui.ui
+	prefs_page_display_gui.ui \
+	prefs_page_display_ope.ui
 
