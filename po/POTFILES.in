@@ -11,13 +11,13 @@
 [type: gettext/glade]src/prefs/prefs_page_bank.ui
 [type: gettext/glade]src/prefs/prefs_page_bet_account.ui
 [type: gettext/glade]src/prefs/prefs_page_bet_general.ui
+[type: gettext/glade]src/prefs/prefs_page_currency.ui
 [type: gettext/glade]src/ui/bet_graph.ui
 [type: gettext/glade]src/ui/csv_template_rule.ui
 [type: gettext/glade]src/ui/etats_prefs.ui
 [type: gettext/glade]src/ui/grisbi_menu.ui
 [type: gettext/glade]src/ui/grisbi_prefs.ui
 [type: gettext/glade]src/ui/grisbi_win.ui
-[type: gettext/glade]src/ui/prefs_page_currency.ui
 [type: gettext/glade]src/ui/prefs_page_currency_link.ui
 [type: gettext/glade]src/ui/prefs_page_display_adr.ui
 [type: gettext/glade]src/ui/prefs_page_display_fonts.ui
