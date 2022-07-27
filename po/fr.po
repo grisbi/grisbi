@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-27 21:58+0200\n"
+"POT-Creation-Date: 2022-06-26 21:44+0200\n"
 "PO-Revision-Date: 2022-06-25 13:16+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -38,7 +38,7 @@ msgstr "Exclure les opérations dont le montant est nul"
 #: ../src/etats/etats_page_budget.ui.h:3
 #: ../src/etats/etats_page_category.ui.h:3
 #: ../src/etats/etats_page_payee.ui.h:13 ../src/etats/etats_page_period.ui.h:9
-#: ../src/etats/etats_page_transfer.ui.h:6 ../src/ui/csv_template_rule.ui.h:18
+#: ../src/etats/etats_page_transfer.ui.h:6 ../src/ui/csv_template_rule.ui.h:15
 #: ../src/widgets/widget_account_property.ui.h:3
 #: ../src/widgets/widget_bank_details.ui.h:12
 #: ../src/widgets/widget_cmp_amount.ui.h:1
@@ -55,7 +55,7 @@ msgstr "Exclure les opérations dont le montant est nul"
 msgid "Title"
 msgstr "Titre"
 
-#: ../src/etats/etats_page_accounts.ui.h:1 ../src/ui/etats_prefs.ui.h:82
+#: ../src/etats/etats_page_accounts.ui.h:1 ../src/ui/etats_prefs.ui.h:74
 msgid "Select transactions only for given accounts"
 msgstr "Sélectionner les opérations uniquement sur certains comptes"
 
@@ -87,7 +87,7 @@ msgstr "Détailler les tiers"
 msgid "Select payees to include in this report: "
 msgstr "Sélectionner les tiers à inclure dans l'état : "
 
-#: ../src/etats/etats_page_payee.ui.h:3 ../src/ui/etats_prefs.ui.h:84
+#: ../src/etats/etats_page_payee.ui.h:3 ../src/ui/etats_prefs.ui.h:76
 #: ../src/widgets/widget_list_accounts.ui.h:1
 #: ../src/widgets/widget_list_metatree.ui.h:1 ../src/export.c:422
 #: ../src/gsb_assistant.c:129 ../src/tiers_onglet.c:1383
@@ -110,7 +110,7 @@ msgstr "<Ctrl> + clic gauche de la souris pour ajouter à la sélection"
 msgid "Search"
 msgstr "Rechercher"
 
-#: ../src/etats/etats_page_payee.ui.h:6 ../src/ui/etats_prefs.ui.h:85
+#: ../src/etats/etats_page_payee.ui.h:6 ../src/ui/etats_prefs.ui.h:77
 #: ../src/widgets/widget_list_accounts.ui.h:6
 msgid ""
 "<Ctrl> + left click of mouse\n"
@@ -199,113 +199,6 @@ msgstr "Inclure les virements de ou vers les comptes"
 #: ../src/etats/etats_page_transfer.ui.h:5
 msgid "Exclude the transactions which are not transfers"
 msgstr "Exclure les opérations qui ne sont pas des virements"
-
-#: ../src/prefs/prefs_page_accueil.ui.h:1
-msgid "Calculation of balances"
-msgstr "Calcul des soldes"
-
-#: ../src/prefs/prefs_page_accueil.ui.h:2
-msgid ""
-"Take into account the scheduled operations in the calculation of balances"
-msgstr "Prendre en compte les opérations planifiées dans le calcul des soldes"
-
-#: ../src/prefs/prefs_page_accueil.ui.h:3
-msgid "Balances partials of the list of accounts"
-msgstr "Position dans la liste des soldes partiels"
-
-#: ../src/prefs/prefs_page_accueil.ui.h:4
-msgid "Place the partial balance  under its accounts if it's possible"
-msgstr "Placer si possible le solde partiel sous ses comptes"
-
-#: ../src/prefs/prefs_page_accueil.ui.h:5 ../src/prefs/prefs_page_bank.ui.h:2
-#: ../src/prefs/prefs_page_currency.ui.h:2
-#: ../src/prefs/prefs_page_currency_link.ui.h:2
-#: ../src/prefs/prefs_page_display_form.ui.h:4
-#: ../src/ui/prefs_page_fyear.ui.h:3 ../src/ui/prefs_page_payment_method.ui.h:2
-#: ../src/widgets/widget_cmp_amount.ui.h:18
-#: ../src/widgets/widget_cmp_text.ui.h:33
-#: ../src/widgets/widget_import_asso.ui.h:4
-msgid "Add"
-msgstr "Ajouter"
-
-#. Properties button
-#. edit button
-#. Properties button
-#. edit button
-#: ../src/prefs/prefs_page_accueil.ui.h:6 ../src/ui/grisbi_menu.ui.h:48
-#: ../src/categories_onglet.c:609 ../src/gsb_scheduler_list.c:1179
-#: ../src/gsb_transactions_list.c:2525 ../src/imputation_budgetaire.c:658
-#: ../src/tiers_onglet.c:546
-msgid "Edit"
-msgstr "Éditer"
-
-#: ../src/prefs/prefs_page_accueil.ui.h:7 ../src/prefs/prefs_page_bank.ui.h:3
-#: ../src/prefs/prefs_page_currency.ui.h:3
-#: ../src/prefs/prefs_page_currency_link.ui.h:3
-#: ../src/prefs/prefs_page_display_form.ui.h:2
-#: ../src/ui/prefs_page_payment_method.ui.h:3
-#: ../src/widgets/widget_cmp_amount.ui.h:19
-#: ../src/widgets/widget_cmp_text.ui.h:34
-#: ../src/widgets/widget_import_asso.ui.h:5
-msgid "Remove"
-msgstr "Enlever"
-
-#: ../src/prefs/prefs_page_accueil.ui.h:8
-msgid "Pluriel de final"
-msgstr "Pluriel de final"
-
-#: ../src/prefs/prefs_page_archives.ui.h:1
-msgid "Known archives"
-msgstr "Archives existantes"
-
-#: ../src/prefs/prefs_page_archives.ui.h:2
-msgid "Archive modification"
-msgstr "Modifier l'archive"
-
-#: ../src/prefs/prefs_page_archives.ui.h:3
-msgid "Automatic check"
-msgstr "Création automatique"
-
-#: ../src/prefs/prefs_page_archives.ui.h:4
-msgid "Delete the archive"
-msgstr "Supprimer l'archive"
-
-#: ../src/prefs/prefs_page_archives.ui.h:5
-msgid "Delete the archive and transactions"
-msgstr "Supprimer l'archive et les opérations"
-
-#: ../src/prefs/prefs_page_archives.ui.h:6
-msgid "Sort the archives by descending date"
-msgstr "Trier les archives par date décroissante"
-
-#: ../src/prefs/prefs_page_archives.ui.h:7
-msgid "Check at opening if creating archive is needed."
-msgstr "Créer automatiquement une archive si nécessaire."
-
-#: ../src/prefs/prefs_page_archives.ui.h:8
-msgid "Warn if more than "
-msgstr "Avertir si plus de "
-
-#: ../src/prefs/prefs_page_archives.ui.h:9
-msgid " transactions are not archived."
-msgstr " opérations ne sont pas archivées."
-
-#. Partial balance name
-#. Name entry
-#: ../src/prefs/prefs_page_archives.ui.h:10 ../src/ui/etats_prefs.ui.h:7
-#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/widgets/widget_bank_details.ui.h:2
-#: ../src/widgets/widget_currency_details.ui.h:1
-#: ../src/gsb_data_partial_balance.c:1857 ../src/tiers_onglet.c:213
-msgid "Name: "
-msgstr "Nom : "
-
-#: ../src/prefs/prefs_page_bank.ui.h:1
-msgid "Known banks"
-msgstr "Banques connues"
-
-#: ../src/prefs/prefs_page_bank.ui.h:4
-msgid "Bank details"
-msgstr "Détails de la banque"
 
 #: ../src/prefs/prefs_page_bet_account.ui.h:1
 msgid "Select an account"
@@ -401,367 +294,6 @@ msgstr "(Ces données sont agrégées avec celles du compte principal)"
 msgid "Credit Data"
 msgstr "Données du crédit"
 
-#: ../src/prefs/prefs_page_bet_general.ui.h:1
-msgid "Common data"
-msgstr "Données communes"
-
-#: ../src/prefs/prefs_page_bet_general.ui.h:2
-msgid "Beginning of period: "
-msgstr "Début de la période : "
-
-#: ../src/prefs/prefs_page_bet_general.ui.h:3
-msgid "1st day of month"
-msgstr "1er jour du mois"
-
-#: ../src/prefs/prefs_page_bet_general.ui.h:4
-msgid "date today"
-msgstr "aujourd'hui"
-
-#: ../src/prefs/prefs_page_bet_general.ui.h:5
-msgid "(This option is used if no starting date for forecasts)"
-msgstr ""
-"(Cette option est utilisée en l'absence d'une date de début pour les "
-"prévisions)"
-
-#: ../src/prefs/prefs_page_bet_general.ui.h:6
-msgid "Option for cash accounts"
-msgstr "Option pour les comptes de caisse"
-
-#: ../src/prefs/prefs_page_bet_general.ui.h:7
-msgid "Add the forecast tab for cash accounts"
-msgstr "Ajouter le tableau des prévisions aux comptes de caisse"
-
-#: ../src/prefs/prefs_page_currency.ui.h:1
-msgid "Known currencies"
-msgstr "Devises connues"
-
-#: ../src/prefs/prefs_page_currency.ui.h:4 ../src/gsb_currency.c:1311
-msgid "Add a currency"
-msgstr "Ajout d'une devise"
-
-#: ../src/prefs/prefs_page_currency.ui.h:5 ../src/ui/csv_template_rule.ui.h:1
-#: ../src/ui/prefs_page_payment_method.ui.h:17
-msgid "Cancel"
-msgstr "Annuler"
-
-#: ../src/prefs/prefs_page_currency.ui.h:6
-msgid "World currencies"
-msgstr "Devises du monde"
-
-#: ../src/prefs/prefs_page_currency_link.ui.h:1
-msgid "Known links"
-msgstr "Liens existants"
-
-#: ../src/prefs/prefs_page_display_adr.ui.h:1
-msgid "Window title of Grisbi"
-msgstr "Titre de la fenêtre de Grisbi"
-
-#: ../src/prefs/prefs_page_display_adr.ui.h:2
-msgid "Accounting entity"
-msgstr "Entité comptable"
-
-#: ../src/prefs/prefs_page_display_adr.ui.h:3
-msgid "Account owner name"
-msgstr "Titulaire du compte"
-
-#: ../src/prefs/prefs_page_display_adr.ui.h:4
-msgid "Filename"
-msgstr "Nom du fichier"
-
-#. label account name
-#: ../src/prefs/prefs_page_display_adr.ui.h:5 ../src/gsb_assistant_file.c:318
-msgid "Name of accounting entity: "
-msgstr "Nom de l'entité comptable : "
-
-#: ../src/prefs/prefs_page_display_adr.ui.h:6
-msgid "Addresses"
-msgstr "Adresses"
-
-#: ../src/prefs/prefs_page_display_adr.ui.h:7
-msgid "Common address: "
-msgstr "Adresse commune : "
-
-#: ../src/prefs/prefs_page_display_adr.ui.h:8
-msgid "Secondary address: "
-msgstr "Adresse secondaire : "
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:1
-msgid "Grisbi logo"
-msgstr "Logo de Grisbi"
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:2
-msgid "Display a logo"
-msgstr "Afficher un logo"
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:3
-msgid "Click on preview to change logo"
-msgstr "Cliquer sur la prévisualisation pour modifier le logo"
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:4 ../src/print_report.c:445
-#: ../src/print_report.c:554 ../src/print_transactions_list.c:261
-#: ../src/print_tree_view_list.c:1017
-msgid "Fonts"
-msgstr "Polices"
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:5
-msgid "Use a custom font for the transactions: "
-msgstr "Choisir une police pour les opérations : "
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:6
-msgid "Theme"
-msgstr "Thème"
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:7
-#: ../src/ui/prefs_page_files.ui.h:7 ../src/ui/search_transaction.ui.h:9
-#: ../src/widgets/widget_list_metatree.ui.h:2
-msgid "label"
-msgstr "label"
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:8
-msgid ""
-"(If the rendering is not correct, you can force the type of theme by "
-"selecting one of options below)"
-msgstr ""
-"(Si le rendu n'est pas correct, vous pouvez forcer le type de thème en "
-"sélectionnant une des options ci-dessous)"
-
-#: ../src/prefs/prefs_page_display_fonts.ui.h:9
-msgid "CSS rules"
-msgstr "Règles CSS"
-
-#: ../src/prefs/prefs_page_display_form.ui.h:1
-msgid "Form structure preview"
-msgstr "Prévisualisation de la structure du formulaire"
-
-#: ../src/prefs/prefs_page_display_form.ui.h:3 ../src/ui/etats_prefs.ui.h:40
-msgid "Columns"
-msgstr "Colonnes"
-
-#: ../src/prefs/prefs_page_display_form.ui.h:5
-msgid "Rows"
-msgstr "Lignes"
-
-#: ../src/prefs/prefs_page_display_form.ui.h:6
-msgid "Form structure content"
-msgstr "Contenu de la structure du formulaire"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:1
-msgid "Resolution screen"
-msgstr "Résolution écran"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:2
-msgid "Use a low resolution screen (Close and reopen preferences)"
-msgstr ""
-"Utiliser un écran  basse résolution (Fermer et ré-ouvrir les préférences)"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:3
-msgid "Headings bar"
-msgstr "Barre d'information"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:4
-msgid "Display headings bar"
-msgstr "Afficher la barre d'information"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:5
-msgid "Navigation pane"
-msgstr "Panneau de navigation"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:6
-msgid "Add mouse scrolling support on the navigation pane"
-msgstr "Ajouter le défilement avec la souris dans le panneau de navigation"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:7
-msgid "Toolbars"
-msgstr "Barres d'outils"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:8
-msgid "Display toolbar buttons as"
-msgstr "Afficher les boutons des barres d'outils comme"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:9
-msgid " : "
-msgstr " : "
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:10
-msgid "Icons only"
-msgstr "Icônes seules"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:11
-msgid "Text only"
-msgstr "Texte seul"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:12
-msgid "Text below items"
-msgstr "Texte sous les icônes"
-
-#: ../src/prefs/prefs_page_display_gui.ui.h:13
-msgid "Shortcuts"
-msgstr "Raccourcis clavier"
-
-#: ../src/prefs/prefs_page_display_ope.ui.h:1
-msgid "Transactions list preview"
-msgstr "Prévisualisation de la liste des opérations"
-
-#: ../src/prefs/prefs_page_display_ope.ui.h:2
-msgid "Transactions list contents"
-msgstr "Contenu de la liste des opérations"
-
-#: ../src/prefs/prefs_page_divers.ui.h:1
-msgid "Number of days before the warning or the execution: "
-msgstr "Nombre de jours avant l'alerte ou l'exécution des opérations : "
-
-#: ../src/prefs/prefs_page_divers.ui.h:2 ../src/ui/bet_graph.ui.h:21
-#: ../src/ui/prefs_page_files.ui.h:15
-#: ../src/ui/prefs_page_payment_method.ui.h:10
-#: ../src/widgets/widget_loan.ui.h:8
-msgid "0"
-msgstr "0"
-
-#: ../src/prefs/prefs_page_divers.ui.h:3
-msgid "Web browser"
-msgstr "Navigateur Web"
-
-#: ../src/prefs/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:222
-msgid "Web browser command: "
-msgstr "Navigateur Web : "
-
-#: ../src/prefs/prefs_page_divers.ui.h:6
-#, no-c-format
-msgid "(You may use %s to expand the URL - I.e: 'firefox %s')"
-msgstr "Vous pouvez essayer de mettre %s - Exemple : 'firefox %s'"
-
-#: ../src/prefs/prefs_page_divers.ui.h:7
-msgid "Preferences settings"
-msgstr "Paramètres des préférences"
-
-#: ../src/prefs/prefs_page_divers.ui.h:8
-msgid "Configuration backend: "
-msgstr "Système de configuration : "
-
-#: ../src/prefs/prefs_page_divers.ui.h:9
-msgid "Reset window of preferences"
-msgstr "Réinitialisation de la fenêtre des préférences"
-
-#: ../src/prefs/prefs_page_divers.ui.h:10
-msgid "(Reset window dimensions of preferences)"
-msgstr "(Réinitialisation des dimensions de la fenêtre des préférences)"
-
-#: ../src/prefs/prefs_page_divers.ui.h:11
-msgid "Help display"
-msgstr "Affichage de l'aide"
-
-#. append group page "Generalities"
-#: ../src/prefs/prefs_page_divers.ui.h:12
-#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:470
-#: ../src/etats_prefs.c:1205 ../src/grisbi_prefs.c:379
-msgid "Generalities"
-msgstr "Généralités"
-
-#: ../src/prefs/prefs_page_divers.ui.h:13
-msgid "Options for launching scheduled operations\n"
-msgstr "Options de lancement des opérations planifiées\n"
-
-#: ../src/prefs/prefs_page_divers.ui.h:15
-msgid "Launch day for scheduled operations performed monthly: "
-msgstr "Jour de lancement des opérations exécutées mensuellement : "
-
-#: ../src/prefs/prefs_page_divers.ui.h:16 ../src/ui/csv_template_rule.ui.h:14
-#: ../src/widgets/widget_currency_link.ui.h:2
-msgid "1"
-msgstr "1"
-
-#: ../src/prefs/prefs_page_divers.ui.h:17
-msgid ""
-"(This option allows you to anticipate the launch of planned transactions for "
-"the following month.\n"
-"They will start on the chosen day)"
-msgstr ""
-"(Cette option permet d'anticiper le lancement des opérations planifiées du "
-"mois suivant.\n"
-"Cela se fera le jour du mois en cours choisi)"
-
-#: ../src/prefs/prefs_page_divers.ui.h:19
-msgid ""
-"Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
-msgstr ""
-"Fixer la date pour les transactions planifiées les 28, 29, 30 et 31 du mois"
-
-#: ../src/prefs/prefs_page_divers.ui.h:20
-msgid ""
-"(This option sets the day of launching the operation if it exists. For "
-"example every 29th of the month except leap years)"
-msgstr ""
-"(Cette option définit le jour de lancement de l'opération si elle existe. "
-"Par exemple tous les 29 du mois sauf les années bissextiles)"
-
-#: ../src/prefs/prefs_page_divers.ui.h:21 ../src/ui/etats_prefs.ui.h:15
-msgid "Others options"
-msgstr "Autres options"
-
-#: ../src/prefs/prefs_page_divers.ui.h:22
-msgid "Use a default account for sheduler form: "
-msgstr "Utiliser un compte par défaut dans le planificateur : "
-
-#: ../src/prefs/prefs_page_divers.ui.h:23
-msgid "Select by default the"
-msgstr "Sélection par défaut de la"
-
-#: ../src/prefs/prefs_page_divers.ui.h:24
-msgid "first"
-msgstr "première"
-
-#: ../src/prefs/prefs_page_divers.ui.h:25
-msgid "or the"
-msgstr "ou de la"
-
-#: ../src/prefs/prefs_page_divers.ui.h:26
-msgid "last"
-msgstr "dernière"
-
-#: ../src/prefs/prefs_page_divers.ui.h:27
-msgid "transaction in the list"
-msgstr "opération de la liste"
-
-#: ../src/prefs/prefs_page_divers.ui.h:28
-msgid "(This change will take effect on the next restart)"
-msgstr "(Ce changement prendra effet au prochain redémarrage)"
-
-#: ../src/prefs/prefs_page_divers.ui.h:29 ../src/grisbi_win.c:472
-#: ../src/navigation.c:2139
-msgid "Scheduler"
-msgstr "Échéancier"
-
-#: ../src/prefs/prefs_page_divers.ui.h:30
-msgid "Choose the language"
-msgstr "Choisir la langue"
-
-#: ../src/prefs/prefs_page_divers.ui.h:31 ../src/parametres.c:144
-#: ../src/parametres.c:152
-msgid "Choose the date format"
-msgstr "Choisir le format de la date"
-
-#: ../src/prefs/prefs_page_divers.ui.h:32
-msgid "Choose decimal and thousands separator"
-msgstr "Choisir le séparateur décimal et le séparateur de milliers"
-
-#: ../src/prefs/prefs_page_divers.ui.h:33 ../src/parametres.c:237
-msgid "Decimal point: "
-msgstr "Séparateur décimal : "
-
-#: ../src/prefs/prefs_page_divers.ui.h:34 ../src/parametres.c:250
-msgid "Thousands separator: "
-msgstr "Séparateur de milliers : "
-
-#: ../src/prefs/prefs_page_divers.ui.h:35
-msgid "Localization"
-msgstr "Paramètres régionaux"
-
-#. set options
-#: ../src/prefs/prefs_page_divers.ui.h:36 ../src/bet_graph.c:1359
-#: ../src/tiers_onglet.c:1256
-msgid "Options"
-msgstr "Options"
-
 #: ../src/ui/bet_graph.ui.h:1
 msgid "<b>Options for the axis</b>"
 msgstr "<b>Options des axes du graphique</b>"
@@ -841,6 +373,13 @@ msgstr "Espacement :"
 msgid "%"
 msgstr "%"
 
+#: ../src/ui/bet_graph.ui.h:21 ../src/ui/prefs_page_divers.ui.h:2
+#: ../src/ui/prefs_page_files.ui.h:15
+#: ../src/ui/prefs_page_payment_method.ui.h:10
+#: ../src/widgets/widget_loan.ui.h:8
+msgid "0"
+msgstr "0"
+
 #: ../src/ui/bet_graph.ui.h:22
 msgid "Display the grids above the plot"
 msgstr "Afficher la grille sur les barres"
@@ -853,76 +392,73 @@ msgstr "Diagramme"
 msgid "Show grid"
 msgstr "Montrer la grille"
 
-#: ../src/ui/bet_graph.ui.h:25 ../src/ui/grisbi_menu.ui.h:19
-#: ../src/ui/grisbi_prefs.ui.h:2 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135
-msgid "Close"
-msgstr "Fermer"
-
-#: ../src/ui/csv_template_rule.ui.h:2
-msgid "Apply"
-msgstr "Appliquer"
-
-#: ../src/ui/csv_template_rule.ui.h:3
-#: ../src/widgets/widget_account_property.ui.h:14
-msgid "Modify"
-msgstr "Modifier"
-
 #. On récupère le nom de la page
-#: ../src/ui/csv_template_rule.ui.h:4 ../src/grisbi_prefs.c:526
+#: ../src/ui/csv_template_rule.ui.h:1 ../src/grisbi_prefs.c:526
 #: ../src/prefs/prefs_page_bet_general.c:216
 msgid "General Options"
 msgstr "Généralités"
 
-#: ../src/ui/csv_template_rule.ui.h:5 ../src/import.c:4680
+#: ../src/ui/csv_template_rule.ui.h:2 ../src/import.c:4680
 msgid "Name of the rule: "
 msgstr "Nom de la règle : "
 
-#: ../src/ui/csv_template_rule.ui.h:6
+#: ../src/ui/csv_template_rule.ui.h:3
 msgid "Rule name"
 msgstr "Nom de la règle"
 
-#: ../src/ui/csv_template_rule.ui.h:7
+#: ../src/ui/csv_template_rule.ui.h:4
 msgid "Account data"
 msgstr "Données du compte"
 
-#: ../src/ui/csv_template_rule.ui.h:8
+#: ../src/ui/csv_template_rule.ui.h:5
 msgid "Import account Id: "
 msgstr "Id du compte importé : "
 
-#: ../src/ui/csv_template_rule.ui.h:9
+#: ../src/ui/csv_template_rule.ui.h:6
 msgid "Row"
 msgstr "Ligne"
 
-#: ../src/ui/csv_template_rule.ui.h:10 ../src/bet_graph.c:1954
+#: ../src/ui/csv_template_rule.ui.h:7 ../src/bet_graph.c:1954
 msgid "Column"
 msgstr "Colonne"
 
-#: ../src/ui/csv_template_rule.ui.h:11
+#: ../src/ui/csv_template_rule.ui.h:8
 msgid "First line data"
 msgstr "Première ligne de données"
 
-#: ../src/ui/csv_template_rule.ui.h:12
+#: ../src/ui/csv_template_rule.ui.h:9
 msgid "Indicates the first usable line of the file"
 msgstr "Indique la première ligne utilisable de données"
 
-#: ../src/ui/csv_template_rule.ui.h:13
+#: ../src/ui/csv_template_rule.ui.h:10
 msgid "Line number: "
 msgstr "N° de ligne : "
 
-#: ../src/ui/csv_template_rule.ui.h:15
+#: ../src/ui/csv_template_rule.ui.h:11 ../src/ui/prefs_page_divers.ui.h:16
+#: ../src/widgets/widget_currency_link.ui.h:2
+msgid "1"
+msgstr "1"
+
+#: ../src/ui/csv_template_rule.ui.h:12
 msgid "Indicates whether the column headers are the first row of the file"
 msgstr ""
 "Indique que la première ligne des données est constituée par les titres des "
 "colonnes"
 
-#: ../src/ui/csv_template_rule.ui.h:16
+#: ../src/ui/csv_template_rule.ui.h:13
 msgid "headers of columns present"
 msgstr "titres des colonnes présentes"
 
-#: ../src/ui/csv_template_rule.ui.h:17
+#: ../src/ui/csv_template_rule.ui.h:14
 msgid "Specific configuration"
 msgstr "Configuration spécifique"
+
+#: ../src/ui/csv_template_rule.ui.h:16
+#: ../src/ui/prefs_page_display_fonts.ui.h:7 ../src/ui/prefs_page_files.ui.h:7
+#: ../src/ui/search_transaction.ui.h:9
+#: ../src/widgets/widget_list_metatree.ui.h:2
+msgid "label"
+msgstr "label"
 
 #: ../src/ui/etats_prefs.ui.h:1
 msgid "General totals currency: "
@@ -950,6 +486,15 @@ msgstr "Devise utilisée pour les comparaisons de montant : "
 msgid "Report name"
 msgstr "Nom de l'état"
 
+#. Partial balance name
+#. Name entry
+#: ../src/ui/etats_prefs.ui.h:7 ../src/ui/prefs_page_archives.ui.h:10
+#: ../src/ui/prefs_page_fyear.ui.h:7 ../src/widgets/widget_bank_details.ui.h:2
+#: ../src/widgets/widget_currency_details.ui.h:1
+#: ../src/gsb_data_partial_balance.c:1857 ../src/tiers_onglet.c:213
+msgid "Name: "
+msgstr "Nom : "
+
 #: ../src/ui/etats_prefs.ui.h:8
 msgid "Add a complementary data: "
 msgstr "Ajouter une donnée complémentaire : "
@@ -960,7 +505,7 @@ msgstr "Ajouter une donnée complémentaire : "
 #: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
 #: ../src/bet_finance_ui.c:1818 ../src/bet_future.c:531 ../src/bet_tab.c:1993
 #: ../src/etats_affiche.c:2434 ../src/export_csv.c:368
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1996
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1995
 #: ../src/gsb_form_widget.c:550 ../src/gsb_reconcile.c:214
 #: ../src/gsb_scheduler_list.c:925 ../src/gsb_transactions_list.c:110
 #: ../src/import.c:1889 ../src/import.c:4344 ../src/import_csv.c:83
@@ -987,14 +532,18 @@ msgstr "En dessous"
 msgid "of title"
 msgstr "du titre"
 
+#: ../src/ui/etats_prefs.ui.h:15 ../src/ui/prefs_page_divers.ui.h:21
+msgid "Others options"
+msgstr "Autres options"
+
 #: ../src/ui/etats_prefs.ui.h:16
 msgid "Selection of transactions by:"
 msgstr "Sélectionner les opérations par :"
 
 #. 2
 #: ../src/ui/etats_prefs.ui.h:17 ../src/etats_affiche.c:2441
-#: ../src/export_csv.c:371 ../src/gsb_form.c:2002 ../src/gsb_form.c:2816
-#: ../src/gsb_form.c:2843 ../src/gsb_form_widget.c:562
+#: ../src/export_csv.c:371 ../src/gsb_form.c:2001 ../src/gsb_form.c:2815
+#: ../src/gsb_form.c:2842 ../src/gsb_form_widget.c:562
 #: ../src/gsb_transactions_list.c:111 ../src/import_csv.c:84
 msgid "Value date"
 msgstr "Date de valeur"
@@ -1095,6 +644,10 @@ msgstr "information bancaire"
 msgid "reconciliation reference"
 msgstr "n° de rapprochement"
 
+#: ../src/ui/etats_prefs.ui.h:40 ../src/ui/prefs_page_display_form.ui.h:3
+msgid "Columns"
+msgstr "Colonnes"
+
 #: ../src/ui/etats_prefs.ui.h:41
 msgid "Display column titles"
 msgstr "Afficher les titres des colonnes"
@@ -1136,7 +689,7 @@ msgstr "Afficher un sous-total lors d'un changement de compte"
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:547
 #: ../src/etats_affiche.c:2455 ../src/etats_config.c:453
 #: ../src/etats_prefs.c:419 ../src/export_csv.c:383 ../src/grisbi_win.c:477
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2019
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:2018
 #: ../src/gsb_form_widget.c:570 ../src/gsb_scheduler_list.c:925
 #: ../src/gsb_transactions_list.c:112 ../src/import.c:4351
 #: ../src/import_csv.c:85 ../src/meta_payee.c:79
@@ -1195,107 +748,99 @@ msgid "Display «No sub-budgetary line» if none"
 msgstr "Afficher « Pas de sous-imputation » si absente"
 
 #: ../src/ui/etats_prefs.ui.h:65
-msgid "Group transactions"
-msgstr "Regroupement des opérations"
-
-#: ../src/ui/etats_prefs.ui.h:66
-msgid "Group transactions by account"
-msgstr "Regrouper les opérations par compte"
-
-#: ../src/ui/etats_prefs.ui.h:67
-msgid "Group transactions by payee"
-msgstr "Regrouper les opérations par tiers"
-
-#: ../src/ui/etats_prefs.ui.h:68
-msgid "Group transactions by category"
-msgstr "Regrouper les opérations par catégorie"
-
-#: ../src/ui/etats_prefs.ui.h:69
-msgid "Group transactions by budgetary line"
-msgstr "Regrouper les opérations par imputation budgétaire"
-
-#: ../src/ui/etats_prefs.ui.h:70
-msgid "Group level organisation"
-msgstr "Organisation des niveaux de regroupement"
-
-#: ../src/ui/etats_prefs.ui.h:71 ../src/ui/prefs_page_reconcile_sort.ui.h:2
-msgid "Go up"
-msgstr "Monter"
-
-#: ../src/ui/etats_prefs.ui.h:72 ../src/ui/prefs_page_reconcile_sort.ui.h:3
-msgid "Go down"
-msgstr "Descendre"
-
-#: ../src/ui/etats_prefs.ui.h:73
 msgid "Selecting Transactions"
 msgstr "Sélectionner toutes les opérations"
 
-#: ../src/ui/etats_prefs.ui.h:74
+#: ../src/ui/etats_prefs.ui.h:66
 msgid "All transactions"
 msgstr "Toutes les opérations"
 
-#: ../src/ui/etats_prefs.ui.h:75
+#: ../src/ui/etats_prefs.ui.h:67
 msgid "Unreconciled transactions"
 msgstr "Opérations non rapprochées"
 
-#: ../src/ui/etats_prefs.ui.h:76
+#: ../src/ui/etats_prefs.ui.h:68
 msgid "Marked transactions"
 msgstr "Opérations marquées"
 
-#: ../src/ui/etats_prefs.ui.h:77
+#: ../src/ui/etats_prefs.ui.h:69
 msgid "Pointing transactions"
 msgstr "Opérations pointées"
 
-#: ../src/ui/etats_prefs.ui.h:78
+#: ../src/ui/etats_prefs.ui.h:70
 msgid "Tele-transmitted transactions"
 msgstr "Opérations télétransmises"
 
-#: ../src/ui/etats_prefs.ui.h:79
+#: ../src/ui/etats_prefs.ui.h:71
 msgid "Reconciled transactions"
 msgstr "Opérations rapprochées"
 
-#: ../src/ui/etats_prefs.ui.h:80
+#: ../src/ui/etats_prefs.ui.h:72
 msgid "Split of transactions detail"
 msgstr "Détail des opérations ventilées"
 
-#: ../src/ui/etats_prefs.ui.h:81
+#: ../src/ui/etats_prefs.ui.h:73
 msgid "Do not detail split of transactions"
 msgstr "Ne pas détailler les opérations ventilées"
 
-#: ../src/ui/etats_prefs.ui.h:83
+#: ../src/ui/etats_prefs.ui.h:75
 msgid "Select methods of payment to include: "
 msgstr "Sélectionner les modes de règlement à inclure dans l'état : "
 
-#: ../src/ui/etats_prefs.ui.h:87 ../src/etats_prefs.c:462
+#: ../src/ui/etats_prefs.ui.h:79
+msgid "Group transactions"
+msgstr "Regroupement des opérations"
+
+#: ../src/ui/etats_prefs.ui.h:80
+msgid "Group transactions by account"
+msgstr "Regrouper les opérations par compte"
+
+#: ../src/ui/etats_prefs.ui.h:81
+msgid "Group transactions by payee"
+msgstr "Regrouper les opérations par tiers"
+
+#: ../src/ui/etats_prefs.ui.h:82
+msgid "Group transactions by category"
+msgstr "Regrouper les opérations par catégorie"
+
+#: ../src/ui/etats_prefs.ui.h:83
+msgid "Group transactions by budgetary line"
+msgstr "Regrouper les opérations par imputation budgétaire"
+
+#: ../src/ui/etats_prefs.ui.h:84
+msgid "Group level organisation"
+msgstr "Organisation des niveaux de regroupement"
+
+#: ../src/ui/etats_prefs.ui.h:85 ../src/etats_prefs.c:462
 #: ../src/etats_prefs.c:1147
 msgid "Data separation"
 msgstr "Séparation des données"
 
-#: ../src/ui/etats_prefs.ui.h:88
+#: ../src/ui/etats_prefs.ui.h:86
 msgid "Split incomes and outgoings"
 msgstr "Séparer les revenus et les dépenses"
 
-#: ../src/ui/etats_prefs.ui.h:89
+#: ../src/ui/etats_prefs.ui.h:87
 msgid "Split by financial year"
 msgstr "Séparer les résultats par exercice"
 
-#: ../src/ui/etats_prefs.ui.h:90
+#: ../src/ui/etats_prefs.ui.h:88
 msgid "Split by period"
 msgstr "Séparer les résultats par période"
 
-#: ../src/ui/etats_prefs.ui.h:91
+#: ../src/ui/etats_prefs.ui.h:89
 msgid "Separation by period"
 msgstr "Séparation par période"
 
-#: ../src/ui/etats_prefs.ui.h:92
+#: ../src/ui/etats_prefs.ui.h:90
 msgid "Separation by time period: "
 msgstr "Période de temps : "
 
-#: ../src/ui/etats_prefs.ui.h:93
+#: ../src/ui/etats_prefs.ui.h:91
 msgid "Beginning of week: "
 msgstr "Début de la semaine : "
 
-#: ../src/ui/etats_prefs.ui.h:94
+#: ../src/ui/etats_prefs.ui.h:92
 msgid "title"
 msgstr "titres"
 
@@ -1373,6 +918,11 @@ msgstr "Rendre anonyme le fichier QIF"
 #: ../src/ui/grisbi_menu.ui.h:18
 msgid "Debug mode"
 msgstr "Mode de débogage"
+
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/ui/grisbi_prefs.ui.h:2
+#: ../src/grisbi_app.c:118 ../src/grisbi_app.c:135
+msgid "Close"
+msgstr "Fermer"
 
 #: ../src/ui/grisbi_menu.ui.h:20
 msgid "E_dit"
@@ -1500,6 +1050,17 @@ msgstr "Importer un fichier"
 msgid "Export accounts as QIF/CSV file"
 msgstr "Exporter vers un fichier QIF/CSV"
 
+#. Properties button
+#. edit button
+#. Properties button
+#. edit button
+#: ../src/ui/grisbi_menu.ui.h:48 ../src/ui/prefs_page_accueil.ui.h:6
+#: ../src/categories_onglet.c:609 ../src/gsb_scheduler_list.c:1179
+#: ../src/gsb_transactions_list.c:2525 ../src/imputation_budgetaire.c:658
+#: ../src/tiers_onglet.c:546
+msgid "Edit"
+msgstr "Éditer"
+
 #: ../src/ui/grisbi_menu.ui.h:49
 msgid "_View"
 msgstr "Affichage"
@@ -1526,6 +1087,428 @@ msgstr "Tout regrouper"
 #: ../src/ui/grisbi_win.ui.h:1
 msgid "Grisbi Application"
 msgstr "Grisbi"
+
+#: ../src/ui/prefs_page_accueil.ui.h:1
+msgid "Calculation of balances"
+msgstr "Calcul des soldes"
+
+#: ../src/ui/prefs_page_accueil.ui.h:2
+msgid ""
+"Take into account the scheduled operations in the calculation of balances"
+msgstr "Prendre en compte les opérations planifiées dans le calcul des soldes"
+
+#: ../src/ui/prefs_page_accueil.ui.h:3
+msgid "Balances partials of the list of accounts"
+msgstr "Position dans la liste des soldes partiels"
+
+#: ../src/ui/prefs_page_accueil.ui.h:4
+msgid "Place the partial balance  under its accounts if it's possible"
+msgstr "Placer si possible le solde partiel sous ses comptes"
+
+#: ../src/ui/prefs_page_accueil.ui.h:5 ../src/ui/prefs_page_bank.ui.h:2
+#: ../src/ui/prefs_page_currency.ui.h:2
+#: ../src/ui/prefs_page_currency_link.ui.h:2
+#: ../src/ui/prefs_page_display_form.ui.h:4 ../src/ui/prefs_page_fyear.ui.h:3
+#: ../src/ui/prefs_page_payment_method.ui.h:2
+#: ../src/widgets/widget_cmp_amount.ui.h:18
+#: ../src/widgets/widget_cmp_text.ui.h:33
+#: ../src/widgets/widget_import_asso.ui.h:4
+msgid "Add"
+msgstr "Ajouter"
+
+#: ../src/ui/prefs_page_accueil.ui.h:7 ../src/ui/prefs_page_bank.ui.h:3
+#: ../src/ui/prefs_page_currency.ui.h:3
+#: ../src/ui/prefs_page_currency_link.ui.h:3
+#: ../src/ui/prefs_page_display_form.ui.h:2
+#: ../src/ui/prefs_page_payment_method.ui.h:3
+#: ../src/widgets/widget_cmp_amount.ui.h:19
+#: ../src/widgets/widget_cmp_text.ui.h:34
+#: ../src/widgets/widget_import_asso.ui.h:5
+msgid "Remove"
+msgstr "Enlever"
+
+#: ../src/ui/prefs_page_accueil.ui.h:8
+msgid "Pluriel de final"
+msgstr "Pluriel de final"
+
+#: ../src/ui/prefs_page_archives.ui.h:1
+msgid "Known archives"
+msgstr "Archives existantes"
+
+#: ../src/ui/prefs_page_archives.ui.h:2
+msgid "Archive modification"
+msgstr "Modifier l'archive"
+
+#: ../src/ui/prefs_page_archives.ui.h:3
+msgid "Automatic check"
+msgstr "Création automatique"
+
+#: ../src/ui/prefs_page_archives.ui.h:4
+msgid "Delete the archive"
+msgstr "Supprimer l'archive"
+
+#: ../src/ui/prefs_page_archives.ui.h:5
+msgid "Delete the archive and transactions"
+msgstr "Supprimer l'archive et les opérations"
+
+#: ../src/ui/prefs_page_archives.ui.h:6
+msgid "Sort the archives by descending date"
+msgstr "Trier les archives par date décroissante"
+
+#: ../src/ui/prefs_page_archives.ui.h:7
+msgid "Check at opening if creating archive is needed."
+msgstr "Créer automatiquement une archive si nécessaire."
+
+#: ../src/ui/prefs_page_archives.ui.h:8
+msgid "Warn if more than "
+msgstr "Avertir si plus de "
+
+#: ../src/ui/prefs_page_archives.ui.h:9
+msgid " transactions are not archived."
+msgstr " opérations ne sont pas archivées."
+
+#: ../src/ui/prefs_page_bank.ui.h:1
+msgid "Known banks"
+msgstr "Banques connues"
+
+#: ../src/ui/prefs_page_bank.ui.h:4
+msgid "Bank details"
+msgstr "Détails de la banque"
+
+#: ../src/ui/prefs_page_bet_general.ui.h:1
+msgid "Common data"
+msgstr "Données communes"
+
+#: ../src/ui/prefs_page_bet_general.ui.h:2
+msgid "Beginning of period: "
+msgstr "Début de la période : "
+
+#: ../src/ui/prefs_page_bet_general.ui.h:3
+msgid "1st day of month"
+msgstr "1er jour du mois"
+
+#: ../src/ui/prefs_page_bet_general.ui.h:4
+msgid "date today"
+msgstr "aujourd'hui"
+
+#: ../src/ui/prefs_page_bet_general.ui.h:5
+msgid "(This option is used if no starting date for forecasts)"
+msgstr ""
+"(Cette option est utilisée en l'absence d'une date de début pour les "
+"prévisions)"
+
+#: ../src/ui/prefs_page_bet_general.ui.h:6
+msgid "Option for cash accounts"
+msgstr "Option pour les comptes de caisse"
+
+#: ../src/ui/prefs_page_bet_general.ui.h:7
+msgid "Add the forecast tab for cash accounts"
+msgstr "Ajouter le tableau des prévisions aux comptes de caisse"
+
+#: ../src/ui/prefs_page_currency.ui.h:1
+msgid "Known currencies"
+msgstr "Devises connues"
+
+#: ../src/ui/prefs_page_currency.ui.h:4 ../src/gsb_currency.c:1311
+msgid "Add a currency"
+msgstr "Ajout d'une devise"
+
+#: ../src/ui/prefs_page_currency.ui.h:5
+#: ../src/ui/prefs_page_payment_method.ui.h:17
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../src/ui/prefs_page_currency.ui.h:6
+msgid "World currencies"
+msgstr "Devises du monde"
+
+#: ../src/ui/prefs_page_currency_link.ui.h:1
+msgid "Known links"
+msgstr "Liens existants"
+
+#: ../src/ui/prefs_page_display_adr.ui.h:1
+msgid "Window title of Grisbi"
+msgstr "Titre de la fenêtre de Grisbi"
+
+#: ../src/ui/prefs_page_display_adr.ui.h:2
+msgid "Accounting entity"
+msgstr "Entité comptable"
+
+#: ../src/ui/prefs_page_display_adr.ui.h:3
+msgid "Account owner name"
+msgstr "Titulaire du compte"
+
+#: ../src/ui/prefs_page_display_adr.ui.h:4
+msgid "Filename"
+msgstr "Nom du fichier"
+
+#. label account name
+#: ../src/ui/prefs_page_display_adr.ui.h:5 ../src/gsb_assistant_file.c:318
+msgid "Name of accounting entity: "
+msgstr "Nom de l'entité comptable : "
+
+#: ../src/ui/prefs_page_display_adr.ui.h:6
+msgid "Addresses"
+msgstr "Adresses"
+
+#: ../src/ui/prefs_page_display_adr.ui.h:7
+msgid "Common address: "
+msgstr "Adresse commune : "
+
+#: ../src/ui/prefs_page_display_adr.ui.h:8
+msgid "Secondary address: "
+msgstr "Adresse secondaire : "
+
+#: ../src/ui/prefs_page_display_fonts.ui.h:1
+msgid "Grisbi logo"
+msgstr "Logo de Grisbi"
+
+#: ../src/ui/prefs_page_display_fonts.ui.h:2
+msgid "Display a logo"
+msgstr "Afficher un logo"
+
+#: ../src/ui/prefs_page_display_fonts.ui.h:3
+msgid "Click on preview to change logo"
+msgstr "Cliquer sur la prévisualisation pour modifier le logo"
+
+#: ../src/ui/prefs_page_display_fonts.ui.h:4 ../src/print_report.c:445
+#: ../src/print_report.c:554 ../src/print_transactions_list.c:261
+#: ../src/print_tree_view_list.c:1017
+msgid "Fonts"
+msgstr "Polices"
+
+#: ../src/ui/prefs_page_display_fonts.ui.h:5
+msgid "Use a custom font for the transactions: "
+msgstr "Choisir une police pour les opérations : "
+
+#: ../src/ui/prefs_page_display_fonts.ui.h:6
+msgid "Theme"
+msgstr "Thème"
+
+#: ../src/ui/prefs_page_display_fonts.ui.h:8
+msgid ""
+"(If the rendering is not correct, you can force the type of theme by "
+"selecting one of options below)"
+msgstr ""
+"(Si le rendu n'est pas correct, vous pouvez forcer le type de thème en "
+"sélectionnant une des options ci-dessous)"
+
+#: ../src/ui/prefs_page_display_fonts.ui.h:9
+msgid "CSS rules"
+msgstr "Règles CSS"
+
+#: ../src/ui/prefs_page_display_form.ui.h:1
+msgid "Form structure preview"
+msgstr "Prévisualisation de la structure du formulaire"
+
+#: ../src/ui/prefs_page_display_form.ui.h:5
+msgid "Rows"
+msgstr "Lignes"
+
+#: ../src/ui/prefs_page_display_form.ui.h:6
+msgid "Form structure content"
+msgstr "Contenu de la structure du formulaire"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:1
+msgid "Resolution screen"
+msgstr "Résolution écran"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:2
+msgid "Use a low resolution screen (Close and reopen preferences)"
+msgstr ""
+"Utiliser un écran  basse résolution (Fermer et ré-ouvrir les préférences)"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:3
+msgid "Headings bar"
+msgstr "Barre d'information"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:4
+msgid "Display headings bar"
+msgstr "Afficher la barre d'information"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:5
+msgid "Navigation pane"
+msgstr "Panneau de navigation"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:6
+msgid "Add mouse scrolling support on the navigation pane"
+msgstr "Ajouter le défilement avec la souris dans le panneau de navigation"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:7
+msgid "Toolbars"
+msgstr "Barres d'outils"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:8
+msgid "Display toolbar buttons as"
+msgstr "Afficher les boutons des barres d'outils comme"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:9
+msgid " : "
+msgstr " : "
+
+#: ../src/ui/prefs_page_display_gui.ui.h:10
+msgid "Icons only"
+msgstr "Icônes seules"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:11
+msgid "Text only"
+msgstr "Texte seul"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:12
+msgid "Text below items"
+msgstr "Texte sous les icônes"
+
+#: ../src/ui/prefs_page_display_gui.ui.h:13
+msgid "Shortcuts"
+msgstr "Raccourcis clavier"
+
+#: ../src/ui/prefs_page_display_ope.ui.h:1
+msgid "Transactions list preview"
+msgstr "Prévisualisation de la liste des opérations"
+
+#: ../src/ui/prefs_page_display_ope.ui.h:2
+msgid "Transactions list contents"
+msgstr "Contenu de la liste des opérations"
+
+#: ../src/ui/prefs_page_divers.ui.h:1
+msgid "Number of days before the warning or the execution: "
+msgstr "Nombre de jours avant l'alerte ou l'exécution des opérations : "
+
+#: ../src/ui/prefs_page_divers.ui.h:3
+msgid "Web browser"
+msgstr "Navigateur Web"
+
+#: ../src/ui/prefs_page_divers.ui.h:4 ../src/gsb_assistant_first.c:222
+msgid "Web browser command: "
+msgstr "Navigateur Web : "
+
+#: ../src/ui/prefs_page_divers.ui.h:6
+#, no-c-format
+msgid "(You may use %s to expand the URL - I.e: 'firefox %s')"
+msgstr "Vous pouvez essayer de mettre %s - Exemple : 'firefox %s'"
+
+#: ../src/ui/prefs_page_divers.ui.h:7
+msgid "Preferences settings"
+msgstr "Paramètres des préférences"
+
+#: ../src/ui/prefs_page_divers.ui.h:8
+msgid "Configuration backend: "
+msgstr "Système de configuration : "
+
+#: ../src/ui/prefs_page_divers.ui.h:9
+msgid "Reset window of preferences"
+msgstr "Réinitialisation de la fenêtre des préférences"
+
+#: ../src/ui/prefs_page_divers.ui.h:10
+msgid "(Reset window dimensions of preferences)"
+msgstr "(Réinitialisation des dimensions de la fenêtre des préférences)"
+
+#: ../src/ui/prefs_page_divers.ui.h:11
+msgid "Help display"
+msgstr "Affichage de l'aide"
+
+#. append group page "Generalities"
+#: ../src/ui/prefs_page_divers.ui.h:12
+#: ../src/widgets/widget_bank_details.ui.h:1 ../src/etats_prefs.c:470
+#: ../src/etats_prefs.c:1205 ../src/grisbi_prefs.c:379
+msgid "Generalities"
+msgstr "Généralités"
+
+#: ../src/ui/prefs_page_divers.ui.h:13
+msgid "Options for launching scheduled operations\n"
+msgstr "Options de lancement des opérations planifiées\n"
+
+#: ../src/ui/prefs_page_divers.ui.h:15
+msgid "Launch day for scheduled operations performed monthly: "
+msgstr "Jour de lancement des opérations exécutées mensuellement : "
+
+#: ../src/ui/prefs_page_divers.ui.h:17
+msgid ""
+"(This option allows you to anticipate the launch of planned transactions for "
+"the following month.\n"
+"They will start on the chosen day)"
+msgstr ""
+"(Cette option permet d'anticiper le lancement des opérations planifiées du "
+"mois suivant.\n"
+"Cela se fera le jour du mois en cours choisi)"
+
+#: ../src/ui/prefs_page_divers.ui.h:19
+msgid ""
+"Fix the date for the scheduled transactions on 28, 29, 30 and 31 of the month"
+msgstr ""
+"Fixer la date pour les transactions planifiées les 28, 29, 30 et 31 du mois"
+
+#: ../src/ui/prefs_page_divers.ui.h:20
+msgid ""
+"(This option sets the day of launching the operation if it exists. For "
+"example every 29th of the month except leap years)"
+msgstr ""
+"(Cette option définit le jour de lancement de l'opération si elle existe. "
+"Par exemple tous les 29 du mois sauf les années bissextiles)"
+
+#: ../src/ui/prefs_page_divers.ui.h:22
+msgid "Use a default account for sheduler form: "
+msgstr "Utiliser un compte par défaut dans le planificateur : "
+
+#: ../src/ui/prefs_page_divers.ui.h:23
+msgid "Select by default the"
+msgstr "Sélection par défaut de la"
+
+#: ../src/ui/prefs_page_divers.ui.h:24
+msgid "first"
+msgstr "première"
+
+#: ../src/ui/prefs_page_divers.ui.h:25
+msgid "or the"
+msgstr "ou de la"
+
+#: ../src/ui/prefs_page_divers.ui.h:26
+msgid "last"
+msgstr "dernière"
+
+#: ../src/ui/prefs_page_divers.ui.h:27
+msgid "transaction in the list"
+msgstr "opération de la liste"
+
+#: ../src/ui/prefs_page_divers.ui.h:28
+msgid "(This change will take effect on the next restart)"
+msgstr "(Ce changement prendra effet au prochain redémarrage)"
+
+#: ../src/ui/prefs_page_divers.ui.h:29 ../src/grisbi_win.c:472
+#: ../src/navigation.c:2139
+msgid "Scheduler"
+msgstr "Échéancier"
+
+#: ../src/ui/prefs_page_divers.ui.h:30
+msgid "Choose the language"
+msgstr "Choisir la langue"
+
+#: ../src/ui/prefs_page_divers.ui.h:31 ../src/parametres.c:144
+#: ../src/parametres.c:152
+msgid "Choose the date format"
+msgstr "Choisir le format de la date"
+
+#: ../src/ui/prefs_page_divers.ui.h:32
+msgid "Choose decimal and thousands separator"
+msgstr "Choisir le séparateur décimal et le séparateur de milliers"
+
+#: ../src/ui/prefs_page_divers.ui.h:33 ../src/parametres.c:237
+msgid "Decimal point: "
+msgstr "Séparateur décimal : "
+
+#: ../src/ui/prefs_page_divers.ui.h:34 ../src/parametres.c:250
+msgid "Thousands separator: "
+msgstr "Séparateur de milliers : "
+
+#: ../src/ui/prefs_page_divers.ui.h:35
+msgid "Localization"
+msgstr "Paramètres régionaux"
+
+#. set options
+#: ../src/ui/prefs_page_divers.ui.h:36 ../src/bet_graph.c:1359
+#: ../src/tiers_onglet.c:1256
+msgid "Options"
+msgstr "Options"
 
 #: ../src/ui/prefs_page_files.ui.h:1 ../src/gsb_assistant_first.c:238
 msgid "Account files handling"
@@ -1877,7 +1860,7 @@ msgstr "Neutre"
 
 #: ../src/ui/prefs_page_payment_method.ui.h:12 ../src/bet_future.c:552
 #: ../src/bet_tab.c:2027 ../src/categories_onglet.c:786 ../src/export_csv.c:389
-#: ../src/gsb_form.c:2025 ../src/gsb_form_widget.c:554
+#: ../src/gsb_form.c:2024 ../src/gsb_form_widget.c:554
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:94
 #: ../src/imputation_budgetaire.c:824
 #: ../src/prefs/prefs_page_payment_method.c:503
@@ -1888,7 +1871,7 @@ msgstr "Débit"
 #. 11
 #: ../src/ui/prefs_page_payment_method.ui.h:13 ../src/bet_future.c:557
 #: ../src/bet_tab.c:2045 ../src/categories_onglet.c:786 ../src/export_csv.c:386
-#: ../src/gsb_form.c:2031 ../src/gsb_form_widget.c:558
+#: ../src/gsb_form.c:2030 ../src/gsb_form_widget.c:558
 #: ../src/gsb_transactions_list.c:115 ../src/import_csv.c:93
 #: ../src/imputation_budgetaire.c:824
 #: ../src/prefs/prefs_page_payment_method.c:517
@@ -1984,6 +1967,14 @@ msgstr "Regrouper la ligne"
 msgid "Reconciliation: sort transactions"
 msgstr "Rapprochement : tri des opérations"
 
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:2
+msgid "Go up"
+msgstr "Monter"
+
+#: ../src/ui/prefs_page_reconcile_sort.ui.h:3
+msgid "Go down"
+msgstr "Descendre"
+
 #: ../src/ui/search_transaction.ui.h:2
 msgid "Find"
 msgstr "Chercher"
@@ -2077,6 +2068,10 @@ msgstr "Etablissement financier : "
 msgid "BIC/SWIFT code: "
 msgstr "Code BIC : "
 
+#: ../src/widgets/widget_account_property.ui.h:14
+msgid "Modify"
+msgstr "Modifier"
+
 #: ../src/widgets/widget_account_property.ui.h:15
 msgid "IBAN number: "
 msgstr "N° IBAN : "
@@ -2151,7 +2146,7 @@ msgstr "Fax : "
 
 #. 4
 #: ../src/widgets/widget_bank_details.ui.h:11 ../src/bet_future.c:574
-#: ../src/etats_affiche.c:2476 ../src/export_csv.c:401 ../src/gsb_form.c:2052
+#: ../src/etats_affiche.c:2476 ../src/export_csv.c:401 ../src/gsb_form.c:2051
 #: ../src/gsb_form_widget.c:586 ../src/gsb_scheduler_list.c:277
 #: ../src/gsb_scheduler_list.c:926 ../src/gsb_scheduler_list.c:1190
 #: ../src/gsb_transactions_list.c:124 ../src/import_csv.c:86
@@ -2782,7 +2777,7 @@ msgstr ""
 "comptes dont le solde est sous le seuil minimal voulu :\n"
 "\n"
 
-#: ../src/bet_data.c:2268
+#: ../src/bet_data.c:2269
 #, c-format
 msgid ""
 "Warning: the start date of the period of deferred debit card account (%s) is "
@@ -2802,7 +2797,7 @@ msgstr ""
 "Si vous avez encore des opérations à saisir dans le compte carte à débit "
 "différé terminez par «Non» et mettez à jour ce compte avant de recommencer."
 
-#: ../src/bet_data.c:2275
+#: ../src/bet_data.c:2276
 msgid "Confirmation of the change of period"
 msgstr "Confirmation du changement de période"
 
@@ -3049,7 +3044,7 @@ msgstr "Date limite"
 msgid "Own frequency"
 msgstr "Périodicité utilisateur"
 
-#: ../src/bet_future.c:563 ../src/gsb_form.c:2037 ../src/gsb_form_widget.c:574
+#: ../src/bet_future.c:563 ../src/gsb_form.c:2036 ../src/gsb_form_widget.c:574
 #: ../src/widgets/widget_loan.c:1136 ../src/widgets/widget_loan.c:1142
 #: ../src/widgets/widget_loan.c:1228 ../src/widgets/widget_loan.c:1234
 #: ../src/widgets/widget_transfer.c:952 ../src/widgets/widget_transfer.c:1080
@@ -3058,7 +3053,7 @@ msgid "Categories : Sub-categories"
 msgstr "Catégories : Sous-catégories"
 
 #: ../src/bet_future.c:569 ../src/bet_hist.c:1441 ../src/etats_affiche.c:2469
-#: ../src/etats_config.c:445 ../src/gsb_form.c:2046
+#: ../src/etats_config.c:445 ../src/gsb_form.c:2045
 #: ../src/gsb_form_widget.c:582 ../src/gsb_transactions_list.c:113
 #: ../src/imputation_budgetaire.c:183 ../src/meta_budgetary.c:88
 #: ../src/utils_widgets.c:120 ../src/widgets/widget_loan.c:1080
@@ -3146,7 +3141,7 @@ msgstr "Périodicité personnalisée"
 #: ../src/etats_affiche.c:1856 ../src/export_csv.c:674 ../src/export_csv.c:806
 #: ../src/export_csv.c:818 ../src/gsb_data_category.c:1089
 #: ../src/gsb_data_payment.c:610 ../src/gsb_data_payment.c:699
-#: ../src/gsb_data_payment.c:735 ../src/gsb_form.c:2974 ../src/import.c:2491
+#: ../src/gsb_data_payment.c:735 ../src/gsb_form.c:2973 ../src/import.c:2491
 #: ../src/import.c:2512 ../src/import_csv.c:1618 ../src/plugins/ofx/ofx.c:405
 msgid "Transfer"
 msgstr "Virement"
@@ -3615,7 +3610,7 @@ msgstr "solde initial de la période"
 msgid "Start date: "
 msgstr "Date de départ : "
 
-#: ../src/bet_tab.c:2964 ../src/gsb_form.c:1798
+#: ../src/bet_tab.c:2964 ../src/gsb_form.c:1797
 msgid "Auto"
 msgstr "Auto"
 
@@ -3835,9 +3830,9 @@ msgid "Transfer all transactions in another sub-category"
 msgstr "Transférer les opérations dans une autre sous-catégorie"
 
 #. set the tab_label
-#: ../src/csv_template_rule.c:166 ../src/csv_template_rule.c:741
-#: ../src/csv_template_rule.c:949 ../src/csv_template_rule.c:1100
-#: ../src/csv_template_rule.c:1152
+#: ../src/csv_template_rule.c:166 ../src/csv_template_rule.c:739
+#: ../src/csv_template_rule.c:947 ../src/csv_template_rule.c:1098
+#: ../src/csv_template_rule.c:1150
 #, c-format
 msgid "Condition %d"
 msgstr "Condition %d"
@@ -3854,29 +3849,29 @@ msgstr "Inverser le montant"
 msgid "Forcing Grisbi to keep the line"
 msgstr "Forcer Grisbi à garder la ligne"
 
-#: ../src/csv_template_rule.c:594
+#: ../src/csv_template_rule.c:592
 msgid "Data to be used"
 msgstr "Données à utiliser"
 
-#: ../src/csv_template_rule.c:596
+#: ../src/csv_template_rule.c:594
 msgid "Value"
 msgstr "Valeur"
 
-#: ../src/csv_template_rule.c:598
+#: ../src/csv_template_rule.c:596
 msgid "Action"
 msgstr "Action"
 
-#: ../src/csv_template_rule.c:600
+#: ../src/csv_template_rule.c:598
 msgid "Data of action"
 msgstr "Données de l'action"
 
 #. window title
-#: ../src/csv_template_rule.c:925
+#: ../src/csv_template_rule.c:923
 msgid "Create an import rule for CSV file"
 msgstr "Créer une règle pour fichier CSV"
 
 #. window title
-#: ../src/csv_template_rule.c:1019
+#: ../src/csv_template_rule.c:1017
 msgid "Edit an import rule for CSV file"
 msgstr "Editer une règle pour fichier CSV"
 
@@ -4344,8 +4339,8 @@ msgstr "Total général : "
 #. select Split of transaction in list
 #: ../src/etats_affiche.c:1865 ../src/export_csv.c:645
 #: ../src/gsb_data_category.c:1088 ../src/gsb_data_transaction.c:2810
-#: ../src/gsb_form.c:244 ../src/gsb_form.c:916 ../src/gsb_form.c:1599
-#: ../src/gsb_form.c:2499 ../src/gsb_form_scheduler.c:309
+#: ../src/gsb_form.c:244 ../src/gsb_form.c:915 ../src/gsb_form.c:1598
+#: ../src/gsb_form.c:2498 ../src/gsb_form_scheduler.c:309
 #: ../src/widgets/widget_loan.c:973
 msgid "Split of transaction"
 msgstr "Opération ventilée"
@@ -4393,12 +4388,12 @@ msgstr "Modes de règlement"
 msgid "Cheque"
 msgstr "Chèque"
 
-#: ../src/etats_affiche.c:2497 ../src/export_csv.c:410 ../src/gsb_form.c:2118
+#: ../src/etats_affiche.c:2497 ../src/export_csv.c:410 ../src/gsb_form.c:2117
 #: ../src/gsb_form_widget.c:606 ../src/gsb_transactions_list.c:123
 msgid "Voucher"
 msgstr "Pièce comptable"
 
-#: ../src/etats_affiche.c:2504 ../src/export_csv.c:416 ../src/gsb_form.c:2112
+#: ../src/etats_affiche.c:2504 ../src/export_csv.c:416 ../src/gsb_form.c:2111
 #: ../src/gsb_form_widget.c:610 ../src/gsb_transactions_list.c:125
 msgid "Bank references"
 msgstr "Infos banque/guichet"
@@ -4573,7 +4568,7 @@ msgstr "Exporter un état..."
 
 #: ../src/etats_onglet.c:421 ../src/grisbi_prefs.c:762
 #: ../src/grisbi_prefs.c:786 ../src/gsb_debug.c:845 ../src/gsb_file.c:528
-#: ../src/gsb_file.c:677 ../src/gsb_file.c:1003
+#: ../src/gsb_file.c:677 ../src/gsb_file.c:1000
 msgid "Done"
 msgstr "Terminé"
 
@@ -6070,7 +6065,7 @@ msgstr "Nouvelle banque"
 msgid "%s account"
 msgstr "Compte %s"
 
-#: ../src/gsb_assistant_account.c:399 ../src/gsb_data_bank.c:840
+#: ../src/gsb_assistant_account.c:399 ../src/gsb_data_bank.c:615
 #: ../src/gsb_data_partial_balance.c:232 ../src/widgets/widget_transfer.c:784
 msgid "Bank account"
 msgstr "Compte bancaire"
@@ -6080,13 +6075,13 @@ msgstr "Compte bancaire"
 msgid "Cashier"
 msgstr "Espèces"
 
-#: ../src/gsb_assistant_account.c:408 ../src/gsb_data_bank.c:840
+#: ../src/gsb_assistant_account.c:408 ../src/gsb_data_bank.c:615
 #: ../src/gsb_data_partial_balance.c:227
 #, c-format
 msgid "Assets account"
 msgstr "Compte d'actif"
 
-#: ../src/gsb_assistant_account.c:412 ../src/gsb_data_bank.c:840
+#: ../src/gsb_assistant_account.c:412 ../src/gsb_data_bank.c:615
 #: ../src/gsb_data_partial_balance.c:223 ../src/widgets/widget_transfer.c:790
 #, c-format
 msgid "Liabilities account"
@@ -6833,7 +6828,7 @@ msgid "Add new bank"
 msgstr "Ajouter une nouvelle banque"
 
 #. cancel button
-#: ../src/gsb_calendar_entry.c:521 ../src/gsb_form.c:1240
+#: ../src/gsb_calendar_entry.c:521 ../src/gsb_form.c:1239
 #: ../src/gsb_reconcile.c:321
 msgid "_Cancel"
 msgstr "_Annuler"
@@ -6947,7 +6942,7 @@ msgstr ""
 msgid "Rename account \"0\""
 msgstr "Renommer le compte numéro 0"
 
-#: ../src/gsb_data_bank.c:840 ../src/gsb_data_partial_balance.c:219
+#: ../src/gsb_data_bank.c:615 ../src/gsb_data_partial_balance.c:219
 #: ../src/widgets/widget_transfer.c:787
 msgid "Cash account"
 msgstr "Compte de caisse"
@@ -8437,7 +8432,7 @@ msgstr "Aucun tiers défini"
 
 #. sinon on l'ajoute dans la liste des tiers
 #. on récupère le nom de l'état
-#: ../src/gsb_data_payee.c:612 ../src/gsb_form.c:1029 ../src/gtk_combofix.c:414
+#: ../src/gsb_data_payee.c:612 ../src/gsb_form.c:1028 ../src/gtk_combofix.c:414
 #: ../src/gtk_combofix.c:615 ../src/gtk_combofix.c:2398
 #: ../src/gtk_combofix.c:2521 ../src/navigation.c:1393
 msgid "Report"
@@ -8451,14 +8446,14 @@ msgstr "Dépôt"
 
 #. Retrait dans un distributeur de billets replacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:712 ../src/gsb_form.c:2927 ../src/import.c:2477
+#: ../src/gsb_data_payment.c:712 ../src/gsb_form.c:2926 ../src/import.c:2477
 #: ../src/import.c:2484
 msgid "Credit card"
 msgstr "Carte de crédit"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:720 ../src/gsb_form.c:2963 ../src/import.c:2498
+#: ../src/gsb_data_payment.c:720 ../src/gsb_form.c:2962 ../src/import.c:2498
 #: ../src/import.c:2521 ../src/widgets/widget_loan.c:987
 #: ../src/widgets/widget_loan.c:990
 msgid "Direct debit"
@@ -8777,7 +8772,7 @@ msgstr "Impossible d'ouvrir le fichier « %s » : %s"
 msgid "File does not exist"
 msgstr "Le fichier n'existe pas"
 
-#: ../src/gsb_file.c:275 ../src/gsb_file.c:289 ../src/gsb_file.c:943
+#: ../src/gsb_file.c:275 ../src/gsb_file.c:289 ../src/gsb_file.c:942
 #: ../src/gsb_file_load.c:553
 #, c-format
 msgid "Error loading file '%s'"
@@ -8887,7 +8882,7 @@ msgstr ""
 msgid "Version of Grisbi file too old :"
 msgstr "Version du fichier Grisbi trop vieille :"
 
-#: ../src/gsb_file.c:947
+#: ../src/gsb_file.c:946
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -8902,7 +8897,7 @@ msgstr ""
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
-#: ../src/gsb_file.c:958
+#: ../src/gsb_file.c:957
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -8919,7 +8914,7 @@ msgstr ""
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
-#: ../src/gsb_file.c:965
+#: ../src/gsb_file.c:964
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -8932,16 +8927,16 @@ msgstr ""
 "expliquer ce qui s'est passé."
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:983
+#: ../src/gsb_file.c:980
 msgid "Checking schedulers"
 msgstr "Vérification de l'échéancier"
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:993
+#: ../src/gsb_file.c:990
 msgid "Checking amounts"
 msgstr "Pointage"
 
-#: ../src/gsb_file.c:1275
+#: ../src/gsb_file.c:1272
 #, c-format
 msgid ""
 "The original file was saved saved as:\n"
@@ -8950,12 +8945,12 @@ msgstr ""
 "Le fichier original a été sauvegardé sous  le nom :\n"
 "« %s »."
 
-#: ../src/gsb_file.c:1366
+#: ../src/gsb_file.c:1363
 #, c-format
 msgid "Are you sure you want to remove this accounts file \"%s\"?\n"
 msgstr "Êtes-vous sûr de vouloir supprimer ce fichier de comptes « %s » ?\n"
 
-#: ../src/gsb_file.c:1368
+#: ../src/gsb_file.c:1365
 msgid "Confirmation of accounts file removal"
 msgstr "Confirmation de suppression d'un fichier de comptes"
 
@@ -9192,7 +9187,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr "Configurer le formulaire"
 
-#: ../src/gsb_form.c:189 ../src/gsb_form.c:1630 ../src/gsb_form_widget.c:109
+#: ../src/gsb_form.c:189 ../src/gsb_form.c:1629 ../src/gsb_form_widget.c:109
 #: ../src/gtk_combofix.c:158 ../src/widgets/widget_loan.c:1039
 #: ../src/widgets/widget_loan.c:1045
 msgid "Transfer : "
@@ -9248,7 +9243,7 @@ msgstr "La date doit être inférieure ou égale au %s"
 msgid "You must enter an amount."
 msgstr "Un montant est obligatoire."
 
-#: ../src/gsb_form.c:902
+#: ../src/gsb_form.c:901
 msgid ""
 "This account cannot be negative.\n"
 "\n"
@@ -9258,7 +9253,7 @@ msgstr ""
 "\n"
 "Entrez un autre montant ou annulez l'opération."
 
-#: ../src/gsb_form.c:918
+#: ../src/gsb_form.c:917
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -9266,28 +9261,28 @@ msgstr ""
 "Vous ne pouvez pas choisir la catégorie « Opération ventilée » pour une sous-"
 "opération."
 
-#: ../src/gsb_form.c:947
+#: ../src/gsb_form.c:946
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Vous ne pouvez pas associer un virement pour un compte supprimé dans une "
 "opération planifiée."
 
-#: ../src/gsb_form.c:955
+#: ../src/gsb_form.c:954
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "Il n'y a pas de compte associé à ce virement ou il est invalide."
 
-#: ../src/gsb_form.c:965
+#: ../src/gsb_form.c:964
 msgid "Can't issue a transfer its own account."
 msgstr "Impossible d'effectuer un virement sur son propre compte."
 
-#: ../src/gsb_form.c:970
+#: ../src/gsb_form.c:969
 msgid "Can't issue a transfer on a closed account."
 msgstr "Impossible d'effectuer un virement sur un compte clos."
 
-#: ../src/gsb_form.c:992
+#: ../src/gsb_form.c:991
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -9297,7 +9292,7 @@ msgstr ""
 "aucun numéro.\n"
 "Souhaitez-vous continuer ?"
 
-#: ../src/gsb_form.c:1012
+#: ../src/gsb_form.c:1011
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -9305,65 +9300,65 @@ msgstr ""
 "Attention, ce numéro de chèque est déjà utilisé.\n"
 "Souhaitez-vous continuer ?"
 
-#: ../src/gsb_form.c:1036
+#: ../src/gsb_form.c:1035
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
-#: ../src/gsb_form.c:1041
+#: ../src/gsb_form.c:1040
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Une opération dont le tiers est un état ne peut pas être une sous-opération."
 
-#: ../src/gsb_form.c:1049
+#: ../src/gsb_form.c:1048
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
 
-#: ../src/gsb_form.c:1056
+#: ../src/gsb_form.c:1055
 msgid "Invalid multiple payee."
 msgstr "Nom de tiers déjà utilisé."
 
 #. create the check button to recover the children of splits
-#: ../src/gsb_form.c:1230
+#: ../src/gsb_form.c:1229
 msgid "Recover the children"
 msgstr "Restaurer les sous-opérations"
 
 #. create the valid/cancel buttons
-#: ../src/gsb_form.c:1234 ../src/gsb_reconcile.c:327
+#: ../src/gsb_form.c:1233 ../src/gsb_reconcile.c:327
 msgid "V_alidate"
 msgstr "V_alider"
 
-#: ../src/gsb_form.c:1611
+#: ../src/gsb_form.c:1610
 msgid "Transfer : Deleted account"
 msgstr "Virement : Compte supprimé"
 
-#: ../src/gsb_form.c:1800 ../src/gsb_form_scheduler.c:142
+#: ../src/gsb_form.c:1799 ../src/gsb_form_scheduler.c:142
 #: ../src/gsb_scheduler_list.c:1607
 msgid "Manual"
 msgstr "Manuel"
 
-#: ../src/gsb_form.c:2085 ../src/gsb_form_widget.c:594
+#: ../src/gsb_form.c:2084 ../src/gsb_form_widget.c:594
 msgid "Cheque/Transfer number"
 msgstr "N° Chèque/Virement"
 
-#: ../src/gsb_form.c:2936 ../src/plugins/ofx/ofx.c:417
+#: ../src/gsb_form.c:2935 ../src/plugins/ofx/ofx.c:417
 msgid "Direct deposit"
 msgstr "Dépôt"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2945 ../src/import.c:2304 ../src/import.c:2325
+#: ../src/gsb_form.c:2944 ../src/import.c:2304 ../src/import.c:2325
 #: ../src/import.c:2452 ../src/plugins/ofx/ofx.c:373
 #: ../src/plugins/ofx/ofx.c:434
 msgid "Check"
 msgstr "Chèque"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2954 ../src/import.c:2505
+#: ../src/gsb_form.c:2953 ../src/import.c:2505
 msgid "Cash withdrawal"
 msgstr "Liquide"
 
-#: ../src/gsb_form.c:3079
+#: ../src/gsb_form.c:3078
 msgid "No payee selected for this report."
 msgstr "Cet état ne comporte pas de tiers sélectionnés."
 
@@ -10339,8 +10334,8 @@ msgid ""
 msgstr ""
 "<span size=\"x-large\">%s</span>\n"
 "\n"
-"Que voulez-vous faire avec les données du fichier <span "
-"foreground=\"blue\">%s</span> ?\n"
+"Que voulez-vous faire avec les données du fichier <span foreground=\"blue\">"
+"%s</span> ?\n"
 
 #: ../src/import.c:796
 msgid "Add transactions to an account"
@@ -11155,8 +11150,8 @@ msgid ""
 "Otherwise you can transfer \"%s\" in another %s or transform \"%s\" to %s."
 msgstr ""
 "Vous pouvez transférer les opérations de « %s » dans une %s ou une %s\n"
-"Autrement vous pouvez transférer « %s » dans une autre %s ou transformer "
-"\"%s\" en %s."
+"Autrement vous pouvez transférer « %s » dans une autre %s ou transformer \"%s"
+"\" en %s."
 
 #: ../src/metatree.c:2915
 #, c-format
@@ -11404,7 +11399,7 @@ msgid "Invalid OFX file"
 msgstr "Fichier OFX invalide"
 
 #. it seems that it was not the correct password
-#: ../src/plugins/openssl/openssl.c:407
+#: ../src/plugins/openssl/openssl.c:292
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
@@ -11412,19 +11407,19 @@ msgstr ""
 "<span weight=\"bold\" foreground=\"red\">Mot de passe incorrect !</span>\n"
 "\n"
 
-#: ../src/plugins/openssl/openssl.c:442
+#: ../src/plugins/openssl/openssl.c:327
 msgid "Grisbi password"
 msgstr "Mot de passe Grisbi"
 
-#: ../src/plugins/openssl/openssl.c:446
+#: ../src/plugins/openssl/openssl.c:331
 msgid "Crypt file"
 msgstr "Chiffrer le fichier"
 
-#: ../src/plugins/openssl/openssl.c:446
+#: ../src/plugins/openssl/openssl.c:331
 msgid "Decrypt file"
 msgstr "Déchiffrer le fichier"
 
-#: ../src/plugins/openssl/openssl.c:473
+#: ../src/plugins/openssl/openssl.c:358
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -11433,7 +11428,7 @@ msgstr ""
 "%sEntrer le mot de passe pour chiffrer le fichier\n"
 "« <tt>%s</tt> »"
 
-#: ../src/plugins/openssl/openssl.c:478
+#: ../src/plugins/openssl/openssl.c:363
 #, c-format
 msgid ""
 "Please enter password to encrypt file\n"
@@ -11442,7 +11437,7 @@ msgstr ""
 "Entrer le mot de passe pour chiffrer le fichier\n"
 "<span foreground=\"blue\">« %s »</span>"
 
-#: ../src/plugins/openssl/openssl.c:485
+#: ../src/plugins/openssl/openssl.c:370
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -11451,7 +11446,7 @@ msgstr ""
 "%sEntrer le mot de passe pour déchiffrer le fichier\n"
 "« <tt>%s</tt> »"
 
-#: ../src/plugins/openssl/openssl.c:490
+#: ../src/plugins/openssl/openssl.c:375
 #, c-format
 msgid ""
 "Please enter password to decrypt file\n"
@@ -11460,27 +11455,27 @@ msgstr ""
 "Entrer le mot de passe pour déchiffrer le fichier\n"
 "<span foreground=\"blue\">« %s »</span>"
 
-#: ../src/plugins/openssl/openssl.c:502
+#: ../src/plugins/openssl/openssl.c:387
 msgid "Password: "
 msgstr "Mot de passe : "
 
-#: ../src/plugins/openssl/openssl.c:525 ../src/plugins/openssl/openssl.c:590
+#: ../src/plugins/openssl/openssl.c:410 ../src/plugins/openssl/openssl.c:475
 msgid "View password"
 msgstr "Afficher le mot de passe"
 
-#: ../src/plugins/openssl/openssl.c:534
+#: ../src/plugins/openssl/openssl.c:419
 msgid "Don't ask password again for this session."
 msgstr "Ne pas redemander le mot de passe pour cette session."
 
-#: ../src/plugins/openssl/openssl.c:559
+#: ../src/plugins/openssl/openssl.c:444
 msgid "The password must contain at least 7 characters"
 msgstr "Le mot de passe doit contenir au moins 7 caractères"
 
-#: ../src/plugins/openssl/openssl.c:560
+#: ../src/plugins/openssl/openssl.c:445
 msgid "Password too short"
 msgstr "Mot de passe trop court"
 
-#: ../src/plugins/openssl/openssl.c:592
+#: ../src/plugins/openssl/openssl.c:477
 msgid "Hide password"
 msgstr "Cacher le mot de passe"
 
@@ -13113,12 +13108,12 @@ msgstr ""
 msgid "Change the transactions currency"
 msgstr "Changer la devise des opérations"
 
-#: ../src/widgets/widget_account_property.c:1014
+#: ../src/widgets/widget_account_property.c:1015
 #, c-format
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr "Votre numéro IBAN n'est pas correct. Vérifiez votre saisie."
 
-#: ../src/widgets/widget_account_property.c:1329
+#: ../src/widgets/widget_account_property.c:1309
 msgid "Account details"
 msgstr "Détails du compte"
 
