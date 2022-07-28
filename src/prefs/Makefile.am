@@ -84,6 +84,7 @@ EXTRA_DIST = \
 	prefs_page_files.ui \
 	prefs_page_form_completion.ui \
 	prefs_page_form_options.ui \
-	prefs_page_fyear.ui
+	prefs_page_fyear.ui \
+	prefs_page_import.ui
 
 

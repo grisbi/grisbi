@@ -9,7 +9,6 @@ ui_DATA = grisbi.css \
 		grisbi_menu.ui \
 		grisbi_prefs.ui \
 		grisbi_win.ui \
-		prefs_page_import.ui \
 		prefs_page_metatree.ui \
 		prefs_page_msg_delete.ui \
 		prefs_page_msg_warning.ui \
