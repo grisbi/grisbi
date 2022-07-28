@@ -9,7 +9,6 @@ ui_DATA = grisbi.css \
 		grisbi_menu.ui \
 		grisbi_prefs.ui \
 		grisbi_win.ui \
-		prefs_page_form_completion.ui \
 		prefs_page_form_options.ui \
 		prefs_page_fyear.ui \
 		prefs_page_import.ui \
