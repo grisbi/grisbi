@@ -34,13 +34,13 @@
 		<file preprocess="xml-stripblanks">prefs/prefs_page_files.ui</file>
 		<file preprocess="xml-stripblanks">prefs/prefs_page_form_completion.ui</file>
 		<file preprocess="xml-stripblanks">prefs/prefs_page_form_options.ui</file>
+		<file preprocess="xml-stripblanks">prefs/prefs_page_fyear.ui</file>
 		<file preprocess="xml-stripblanks">ui/bet_graph.ui</file>
 		<file preprocess="xml-stripblanks">ui/csv_template_rule.ui</file>
 		<file preprocess="xml-stripblanks">ui/etats_prefs.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_menu.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_prefs.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_win.ui</file>
-		<file preprocess="xml-stripblanks">ui/prefs_page_fyear.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_import.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_metatree.ui</file>
 		<file preprocess="xml-stripblanks">ui/prefs_page_msg_delete.ui</file>
