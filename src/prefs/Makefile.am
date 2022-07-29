@@ -86,6 +86,7 @@ EXTRA_DIST = \
 	prefs_page_form_options.ui \
 	prefs_page_fyear.ui \
 	prefs_page_import.ui \
-	prefs_page_metatree.ui
+	prefs_page_metatree.ui \
+	prefs_page_msg_delete.ui
 
 
