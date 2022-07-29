@@ -89,6 +89,7 @@ EXTRA_DIST = \
 	prefs_page_metatree.ui \
 	prefs_page_msg_delete.ui \
 	prefs_page_msg_warning.ui \
-	prefs_page_options_ope.ui
+	prefs_page_options_ope.ui \
+	prefs_page_payment_method.ui
 
 
