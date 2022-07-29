@@ -91,6 +91,7 @@ EXTRA_DIST = \
 	prefs_page_msg_warning.ui \
 	prefs_page_options_ope.ui \
 	prefs_page_payment_method.ui \
-	prefs_page_reconcile.ui
+	prefs_page_reconcile.ui \
+	prefs_page_reconcile_sort.ui
 
 
