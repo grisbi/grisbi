@@ -138,7 +138,7 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource *drag_source,
 
 
 /** Holds data for the navigation tree.  */
-enum navigation_cols {
+enum NavigationCols {
     NAVIGATION_PIX,
     NAVIGATION_PIX_VISIBLE,
     NAVIGATION_TEXT,
