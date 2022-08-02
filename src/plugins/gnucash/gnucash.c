@@ -46,10 +46,10 @@
 static gchar * child_content ( xmlNodePtr node, const gchar * child_name );
 static struct ImportAccount * find_imported_account_by_name ( gchar * name );
 static struct ImportAccount * find_imported_account_by_uid ( gchar * guid );
-static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
+static struct GnucashCategory * find_imported_categ_by_uid ( gchar * guid );
 static struct gnucash_split * find_split ( GSList * split_list, GsbReal amount,
 				    struct ImportAccount * account,
-				    struct gnucash_category * categ );
+				    struct GnucashCategory * categ );
 static xmlNodePtr get_child ( xmlNodePtr node, const gchar * child_name );
 static gchar * get_currency ( xmlNodePtr currency_node );
 static GsbReal gnucash_value ( gchar * value );
@@ -73,9 +73,9 @@ GSList * gnucash_accounts = NULL;
 /*****************************************************************/
 
 /* Structures */
-struct gnucash_category {
+struct GnucashCategory {
   gchar * name;
-  enum gnucash_category_type {
+  enum GnucashCategoryType {
     GNUCASH_CATEGORY_INCOME,
     GNUCASH_CATEGORY_EXPENSE,
   } type;
@@ -240,16 +240,16 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
 
 
 /**
- * Parse XML category node and fill a gnucash_category with results.
+ * Parse XML category node and fill a GnucashCategory with results.
  * Add category to the global category list.
  *
  * \param categ_node	XML category node to parse.
  */
 void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
 {
-    struct gnucash_category * categ;
+    struct GnucashCategory * categ;
 
-    categ = calloc ( 1, sizeof ( struct gnucash_category ));
+    categ = calloc ( 1, sizeof ( struct GnucashCategory ));
 
     /* Find name, could be tricky if there is a parent. */
     categ -> name = child_content ( categ_node, "name" );
@@ -260,7 +260,7 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
 
 	while ( liste_tmp )
 	{
-	    struct gnucash_category * iter = liste_tmp -> data;
+	    struct GnucashCategory * iter = liste_tmp -> data;
 
 	    if ( !strcmp ( iter -> guid, parent_guid ) )
 	    {
@@ -312,7 +312,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	while ( split_node )
     {
 		struct ImportAccount * split_account = NULL;
-		struct gnucash_category * categ = NULL;
+		struct GnucashCategory * categ = NULL;
 		gint p_r = OPERATION_NORMALE;
 		GsbReal amount;
 
@@ -513,7 +513,7 @@ struct ImportAccount * find_imported_account_by_name ( gchar * name )
  *
  * \return		A pointer to a gnucah_category or NULL upon failure.
  */
-struct gnucash_category * find_imported_categ_by_uid ( gchar * guid )
+struct GnucashCategory * find_imported_categ_by_uid ( gchar * guid )
 {
   GSList * liste_tmp;
 
@@ -521,7 +521,7 @@ struct gnucash_category * find_imported_categ_by_uid ( gchar * guid )
 
   while ( liste_tmp )
     {
-      struct gnucash_category * categ = liste_tmp -> data;
+      struct GnucashCategory * categ = liste_tmp -> data;
 
       if ( !strcmp ( categ -> guid, guid ))
 	{
@@ -679,7 +679,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
  */
 struct gnucash_split * find_split ( GSList * split_list, GsbReal amount,
 				    struct ImportAccount * account,
-				    struct gnucash_category * categ )
+				    struct GnucashCategory * categ )
 {
   GSList * tmp;
 
