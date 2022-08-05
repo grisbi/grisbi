@@ -42,7 +42,9 @@
 #include "gsb_file_save.h"
 #include "bet_data.h"
 #include "bet_data_finance.h"
+#ifdef HAVE_GOFFICE
 #include "bet_graph.h"
+#endif /* HAVE_GOFFICE */
 #include "bet_tab.h"
 #include "custom_list.h"
 #include "dialog.h"

@@ -37,7 +37,9 @@
 #include "gsb_file_load.h"
 #include "bet_data.h"
 #include "bet_data_finance.h"
+#ifdef HAVE_GOFFICE
 #include "bet_graph.h"
+#endif /* HAVE_GOFFICE */
 #include "bet_tab.h"
 #include "custom_list.h"
 #include "dialog.h"
@@ -3736,12 +3738,14 @@ static void gsb_file_load_start_element (GMarkupParseContext *context,
                 gsb_file_load_bet_part (attribute_names, attribute_values);
             }
 
-#ifdef HAVE_GOFFICE
             else if (!strcmp (element_name, "Bet_graph"))
             {
+#ifdef HAVE_GOFFICE
                 gsb_file_load_bet_graph_part (attribute_names, attribute_values);
-            }
+#else
+				break;
 #endif /* HAVE_GOFFICE */
+            }
 
             else if (!strcmp (element_name, "Bet_historical"))
             {

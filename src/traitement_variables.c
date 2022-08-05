@@ -38,7 +38,9 @@
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_future.h"
+#ifdef HAVE_GOFFICE
 #include "bet_graph.h"
+#endif /* HAVE_GOFFICE */
 #include "bet_tab.h"
 #include "categories_onglet.h"
 #include "custom_list.h"

@@ -53,7 +53,6 @@ libgrisbi_la_SOURCES = \
 	bet_data_finance.c \
 	bet_finance_ui.c \
 	bet_future.c \
-	bet_graph.c \
 	bet_hist.c \
 	bet_tab.c	\
 	categories_onglet.c	\
@@ -185,7 +184,6 @@ libgrisbi_la_SOURCES = \
 	bet_data_finance.h \
 	bet_finance_ui.h \
 	bet_future.h \
-	bet_graph.h \
 	bet_hist.h \
 	bet_tab.h  \
 	categories_onglet.h	\
@@ -324,6 +322,10 @@ libgrisbi_la_SOURCES += \
 	go-optionmenu.c \
 	go-charmap-sel.h \
 	go-optionmenu.h
+else
+libgrisbi_la_SOURCES += \
+	bet_graph.c \
+	bet_graph.h
 endif
 
 if PLATFORM_OSX

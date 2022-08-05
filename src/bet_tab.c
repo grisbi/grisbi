@@ -32,7 +32,9 @@
 /*START_INCLUDE*/
 #include "bet_tab.h"
 #include "bet_future.h"
+#ifdef HAVE_GOFFICE
 #include "bet_graph.h"
+#endif /* HAVE_GOFFICE */
 #include "bet_hist.h"
 #include "dialog.h"
 #include "export_csv.h"

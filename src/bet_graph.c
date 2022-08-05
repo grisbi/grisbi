@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C) 2011-2021 Pierre Biava (grisbi@pierre.biava.name)        */
+/*     Copyright (C) 2011-2022 Pierre Biava (grisbi@pierre.biava.name)        */
 /*                   2011 Guillaume Verger (guillaume.verger@laposte.net)     */
 /*          https://www.grisbi.org/                                           */
 /*                                                                            */
@@ -27,9 +27,6 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 #include <strings.h>
-
-#ifdef HAVE_GOFFICE
-#include <goffice/goffice.h>
 
 /*START_INCLUDE*/
 #include "bet_graph.h"
@@ -2571,7 +2568,6 @@ void bet_graph_free_configuration_variables (void)
 		g_free (prefs_hist);
 }
 
-#endif /* HAVE_GOFFICE */
 /**
  *
  *
