@@ -49,84 +49,9 @@
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "widget_bet_graph_options.h"
 #include "erreur.h"
 /*END_INCLUDE*/
-
-typedef struct _BetGraphDataStruct   BetGraphDataStruct;
-typedef struct _BetGraphButtonStruct BetGraphButtonStruct;
-typedef struct _BetGraphPrefsStruct  BetGraphPrefsStruct;
-
-struct _BetGraphDataStruct
-{
-    /* données générales */
-    GtkTreeView *			tree_view;			/* tree_view contenant les données à traiter */
-    GtkNotebook *			notebook;			/* notebook pour l'affichage du graphique */
-    GtkWidget *				button_show_grid;	/* bouton pour cacher/montrer la grille du graphique  */
-    gint					account_number;		/* compte concerné */
-    gint					currency_number;	/* devise du compte */
-
-    /* Données pour le graphique */
-    GtkWidget *				widget;
-    GogChart *				chart;
-    GogPlot *				plot;
-    gchar *					title;
-    gchar *					service_id;			/* définit le type de graphique : GogPiePlot, GogLinePlot, GogBarColPlot = défaut */
-    gboolean 				is_legend;
-    gboolean				valid_data;			/* empêche le recalcul des données pendant la durée de vie du graph */
-    gboolean				show_grid;			/* FALSE par défaut */
-
-    /* données communes aux axes*/
-    gint					nbre_elemnts;
-
-    /* données pour l'axe X */
-    gdouble 				tab_X[MAX_POINTS_GRAPHIQUE];							/* données de type gdouble */
-    gchar 					tab_libelle[MAX_POINTS_GRAPHIQUE][TAILLE_MAX_LIBELLE+1];/* données de type string */
-    gchar **				tab_vue_libelle;										/* tableau associé à celui ci-dessus */
-
-    /* données pour l'axe Y */
-    gdouble					tab_Y[MAX_POINTS_GRAPHIQUE];	/* série 1 données de type gdouble */
-    gdouble					tab_Y2[MAX_POINTS_GRAPHIQUE];	/* série 2 données de type gdouble */
-    gboolean				double_axe;						/* TRUE if two axes */
-    gchar *					title_Y;						/* titre de la série 1 */
-    gchar *					title_Y2;						/* titre de la série 2 */
-
-    /* données pour les camemberts */
-    gint 					type_infos;			/* 0 type crédit ou < 0, 1 type débit ou >= 0, -1 tous types */
-    gdouble 				montant;			/* montant annuel toutes catégories. sert au calcul de pourcentage */
-
-    /* préférences pour le graphique */
-    BetGraphPrefsStruct *	prefs;
-};
-
-struct _BetGraphButtonStruct
-{
-    gchar *					name;
-    gchar *					filename;
-    gchar *					service_id;			/* définit le type de graphique */
-    GCallback				callback;			/* fonction de callback */
-    gboolean 				is_visible;			/* TRUE si le bouton est visible dans la barre d'outils */
-    gint 					origin_tab;			/* BET_ONGLETS_PREV ou BET_ONGLETS_HIST */
-    GtkToolItem *			button;
-    GtkWidget *				tree_view;
-    BetGraphPrefsStruct *	prefs;				/* préférences pour le graphique */
-};
-
-
-struct _BetGraphPrefsStruct
-{
-    gint					type_graph;				/* type de graphique : -1 secteurs, 1 ligne, 0 barres par défaut */
-    gboolean				major_tick_out;			/* TRUE par défaut */
-    gboolean				major_tick_in;			/* FALSE par défaut */
-    gboolean				major_tick_labeled;		/* affichage des libellés de l'axe X. TRUE par défaut*/
-    gint					position;				/* position de l'axe des X. En bas par défaut*/
-    gboolean				new_axis_line;			/* ligne supplémentaire. Croise l'axe des Y à 0. TRUE par défaut*/
-    gint					cross_entry;			/* position du croisement avec l'axe Y. 0 par défaut */
-    gdouble					degrees;				/* rotation des étiquettes de l'axe X en degrés. 90° par défaut */
-    gint					gap_spinner;			/* espace entre deux barres en %. 50 par défaut*/
-    gboolean				before_grid;			/* les étiquettes sont cachées par les barres par défaut */
-    gboolean				major_grid_y;			/* ajoute une grille principale sur l'axe Y */
-    gboolean				minor_grid_y;			/* ajoute une grille secondaire sur l'axe Y */
-};
 
 /*START_STATIC*/
 static GogPlot *bet_graph_create_graph_page  (BetGraphDataStruct *self,
@@ -943,7 +868,7 @@ static gboolean bet_graph_affiche_XY_line (BetGraphDataStruct *self)
  *
  * \return TRUE
  **/
-static void bet_graph_update_graph (BetGraphDataStruct *self)
+void bet_graph_update_graph (BetGraphDataStruct *self)
 {
     gtk_notebook_remove_page (self->notebook, 0);
 
@@ -951,53 +876,6 @@ static void bet_graph_update_graph (BetGraphDataStruct *self)
     gtk_widget_show_all (GTK_WIDGET (self->notebook));
 
     bet_graph_affiche_XY_line (self);
-}
-
-/**
- * callback
- *
- * \param
- * \param
- *
- * \return
- **/
-static void bet_graph_gap_spinner_changed (GtkSpinButton *spinbutton,
-										   BetGraphDataStruct *self)
-{
-    BetGraphPrefsStruct *prefs;
-
-    prefs = self->prefs;
-    prefs->gap_spinner = gtk_spin_button_get_value (spinbutton);
-
-    /* on met à jour le graph */
-    bet_graph_update_graph (self);
-
-    gsb_file_set_modified (TRUE);
-}
-
-/**
- * callback
- *
- * \param
- * \param
- * \param
- *
- * \return
- **/
-static void bet_graph_rotation_changed (GORotationSel *rotation,
-										int angle,
-										BetGraphDataStruct *self)
-{
-    BetGraphPrefsStruct *prefs;
-
-    prefs = self->prefs;
-
-    prefs->degrees = angle;
-
-    /* on met à jour le graph */
-    bet_graph_update_graph (self);
-
-    gsb_file_set_modified (TRUE);
 }
 
 /**
@@ -1035,7 +913,7 @@ static void bet_graph_show_grid_button_changed (GtkToggleButton *togglebutton,
  *
  *\return
  **/
-static void bet_graph_show_grid_button_configure (BetGraphDataStruct *self,
+void bet_graph_show_grid_button_configure (BetGraphDataStruct *self,
 												  gint active,
 												  gint hide)
 {
@@ -1070,278 +948,6 @@ static void bet_graph_show_grid_button_configure (BetGraphDataStruct *self,
 }
 
 /**
- * callback
- *
- * \param
- * \param
- *
- * \return
- **/
-static void bet_graph_toggle_button_changed (GtkToggleButton *togglebutton,
-											 BetGraphDataStruct *self)
-{
-    GtkWidget *button;
-    gint rang;
-    gboolean active;
-    BetGraphPrefsStruct *prefs;
-
-    prefs = self->prefs;
-
-    active = gtk_toggle_button_get_active (togglebutton);
-
-    rang = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (togglebutton), "rang"));
-
-    switch (rang)
-    {
-    case 0:
-        prefs->major_tick_out = active;
-        break;
-    case 1:
-        prefs->major_tick_in = active;
-        break;
-    case 2:
-        prefs->major_tick_labeled = active;
-        break;
-    case 3:
-        prefs->position = 0;
-        break;
-    case 4:
-        prefs->position = 1;
-        break;
-    case 5:
-        prefs->position = 2;
-        button = g_object_get_data (G_OBJECT (togglebutton), "other_axis");
-        gtk_widget_set_sensitive (button, !active);
-        break;
-    case 6:
-        prefs->new_axis_line = active;
-        button = g_object_get_data (G_OBJECT (togglebutton), "other_axis");
-        gtk_widget_set_sensitive (button, !active);
-        break;
-    case 7:
-        prefs->before_grid = active;
-        break;
-    case 8:
-        prefs->major_grid_y = active;
-
-        /* on sensibilise ou désensibilise le bouton minor_grid_y */
-        button = g_object_get_data (G_OBJECT (togglebutton), "grid_y");
-        gtk_widget_set_sensitive (button, active);
-
-        /* si le graphe est dans la bonne configuration on sort */
-        if (prefs->major_grid_y == self->show_grid)
-        {
-            gsb_file_set_modified (TRUE);
-            return;
-        }
-        /* on positionne le bouton self->button_show_grid */
-        if (active)
-            bet_graph_show_grid_button_configure (self, TRUE, TRUE);
-        else
-            bet_graph_show_grid_button_configure (self, FALSE, TRUE);
-        break;
-    case 9:
-        prefs->minor_grid_y = active;
-
-        /* on positionne le bouton self->button_show_grid */
-        if (active)
-            bet_graph_show_grid_button_configure (self, TRUE, TRUE);
-        else
-            bet_graph_show_grid_button_configure (self, FALSE, TRUE);
-        break;
-    }
-
-    /* on met à jour le graph */
-    bet_graph_update_graph (self);
-
-    gsb_file_set_modified (TRUE);
-}
-
-/**
- * Création de la boite de gestion des axes du graphique
- *
- * \param
- *
- * \return boite de gestion des axes du graphique
- **/
-static GtkWidget *bet_graph_create_line_preferences (BetGraphDataStruct *self)
-{
-    GtkWidget *box_prefs;
-    GtkWidget *box_options_col;
-    GtkWidget *rot_align;
-    GtkWidget *widget;
-    GtkWidget *button_1;
-    GtkWidget *button_2;
-    GtkWidget *button_3;
-    GtkWidget *rotation;
-    BetGraphPrefsStruct *prefs;
-
-    prefs = self->prefs;
-
-    box_prefs = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "box_prefs_line"));
-    box_options_col = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "box_options_col"));
-    rot_align = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "rot_align"));
-
-    /* définition du type de graphique */
-    if (strcmp (self->service_id, "GogLinePlot") == 0)
-        prefs->type_graph = 1;
-    else if (strcmp (self->service_id, "GogPiePlot") == 0)
-        prefs->type_graph = -1;
-    else
-        prefs->type_graph = 0;
-
-    /* configuration de l'axe X */
-    /* configure les options d'affichage de l'axe X */
-    widget = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "major_tick_out"));
-    if (prefs->major_tick_out)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-
-    g_object_set_data (G_OBJECT (widget), "rang", GINT_TO_POINTER (0));
-    g_signal_connect (widget,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-    widget = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "major_tick_in"));
-    if (prefs->major_tick_in)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-
-    g_object_set_data (G_OBJECT (widget), "rang", GINT_TO_POINTER (1));
-    g_signal_connect (widget,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-    widget = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "major_tick_labeled"));
-    if (prefs->major_tick_labeled)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-
-    g_object_set_data (G_OBJECT (widget), "rang", GINT_TO_POINTER (2));
-    g_signal_connect (widget,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-    /* Configuration de la position de l'axe des X */
-    button_1 = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "axis_low"));
-    if (prefs->position == 0)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_1), TRUE);
-    g_object_set_data (G_OBJECT (button_1), "rang", GINT_TO_POINTER (3));
-
-    button_2 = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "axis_high"));
-    if (prefs->position == 1)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_2), TRUE);
-    g_object_set_data (G_OBJECT (button_2), "rang", GINT_TO_POINTER (4));
-
-    button_3 = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "axis_cross"));
-    g_object_set_data (G_OBJECT (button_3), "rang", GINT_TO_POINTER (5));
-
-    widget = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "new_axis_line"));
-    g_object_set_data (G_OBJECT (widget), "rang", GINT_TO_POINTER (6));
-
-    /* on lie les deux boutons pour les retrouver plus tard */
-    g_object_set_data (G_OBJECT (widget), "other_axis", button_3);
-    g_object_set_data (G_OBJECT (button_3), "other_axis", widget);
-
-    if (prefs->new_axis_line)
-    {
-        gtk_widget_set_sensitive (button_3, FALSE);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-    }
-
-    if (prefs->position == 2)
-    {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_3), TRUE);
-        gtk_widget_set_sensitive (widget, FALSE);
-    }
-
-    /* set the signal */
-    g_signal_connect (button_1,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-    g_signal_connect (button_2,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-    g_signal_connect (button_3,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-    g_signal_connect (widget,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-    /* configure l'orientation des étiquettes de l'axe X */
-    rotation = go_rotation_sel_new ();
-    go_rotation_sel_set_rotation (GO_ROTATION_SEL (rotation), prefs->degrees);
-    g_signal_connect (G_OBJECT (rotation),
-                        "rotation-changed",
-                        G_CALLBACK (bet_graph_rotation_changed),
-                        self);
-
-    gtk_container_add (GTK_CONTAINER (rot_align), rotation);
-
-    if (prefs->type_graph == 0)
-    {
-        /* configure la visibilité de la grille et provisoirement des étiquettes de l'axe X (bug goffice) */
-        widget = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "before_grid"));
-        g_object_set_data (G_OBJECT (widget), "rang", GINT_TO_POINTER (7));
-        if (prefs->before_grid)
-            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-        g_signal_connect (widget,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-        /* configure la valeur de la largeur des colonnes du graph */
-        widget = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "gap_spinner"));
-        if (prefs->gap_spinner)
-            gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), prefs->gap_spinner);
-        g_signal_connect (widget,
-                        "value-changed",
-                        G_CALLBACK (bet_graph_gap_spinner_changed),
-                        self);
-    }
-    else
-        gtk_widget_hide (box_options_col);
-
-    /* configuration de l'axe Y */
-    /* configuration de la grille */
-    button_1 = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "major_grid_y"));
-    g_object_set_data (G_OBJECT (button_1), "rang", GINT_TO_POINTER (8));
-
-    button_2 = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "minor_grid_y"));
-    if (prefs->minor_grid_y)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_2), TRUE);
-
-    g_object_set_data (G_OBJECT (button_2), "rang", GINT_TO_POINTER (9));
-    /* on lie les deux boutons pour les retrouver plus tard */
-    g_object_set_data (G_OBJECT (button_1), "grid_y", button_2);
-
-    if (prefs->major_grid_y)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_1), TRUE);
-    else
-        gtk_widget_set_sensitive (button_2, FALSE);
-
-    /* set the signal */
-    g_signal_connect (button_1,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-    g_signal_connect (button_2,
-                        "toggled",
-                        G_CALLBACK (bet_graph_toggle_button_changed),
-                        self);
-
-    return box_prefs;
-}
-
-/**
  * Création de la page des préférences pour le graphique si nécessaire.
  *
  * \param BetGraphDataStruct
@@ -1351,11 +957,11 @@ static GtkWidget *bet_graph_create_line_preferences (BetGraphDataStruct *self)
 static void bet_graph_create_prefs_page  (BetGraphDataStruct *self)
 {
     GtkWidget *child;
-    GtkWidget *label;
+	GtkWidget *label;
 
-    label = gtk_label_new (_("Options"));
-    child = bet_graph_create_line_preferences (self);
-    gtk_notebook_append_page (GTK_NOTEBOOK (self->notebook), child, label);
+	label = gtk_label_new (_("Options"));
+	child = GTK_WIDGET (widget_bet_graph_options_new (self));
+	gtk_notebook_append_page (GTK_NOTEBOOK (self->notebook), child, label);
 }
 
 /**

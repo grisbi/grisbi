@@ -40,6 +40,15 @@ libwidgets_la_SOURCES = \
 
 libwidgets_la_LIBADD= $(LIBWIDGETS_LIBS)
 
+if HAVE_GOFFICE
+libwidgets_la_SOURCES += \
+	widget_bet_graph_options.c \
+	widget_bet_graph_options.h
+
+libwidgets_la_LIBADD += $(GOFFICE_LIBS)
+AM_CPPFLAGS += -I$(GOFFICE_CFLAGS)
+endif
+
 CLEANFILES = \
 	*~
 
@@ -62,6 +71,8 @@ EXTRA_DIST = \
 	widget_loan.ui \
 	widget_transfer.ui
 
-
-
+if HAVE_GOFFICE
+EXTRA_DIST += \
+	widget_bet_graph_options.ui
+endif
 
