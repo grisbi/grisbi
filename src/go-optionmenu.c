@@ -163,10 +163,17 @@ go_option_menu_position (GtkMenu  *menu,
 		children = children->next;
 	}
 
-	screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
+	/* remove deprecated function gdk_screen_get_width () */
+	GdkDisplay *display;
+	GdkMonitor *monitor;
+	GdkRectangle rectangle;
 
-	if (menu_xpos + menu_width > screen_width)
-		menu_xpos -= (menu_xpos + menu_width) - screen_width;
+	display = gtk_widget_get_display (widget);
+	monitor = gdk_display_get_monitor_at_point (display, 0, 0);
+	gdk_monitor_get_geometry (monitor, &rectangle);
+
+	if (menu_xpos + menu_width > rectangle.width)
+		menu_xpos -= (menu_xpos + menu_width) - rectangle.width;
 	if (menu_xpos < 0)
 		menu_xpos = 0;
 
