@@ -268,16 +268,10 @@ static void transaction_list_append_child (gint transaction_number)
      * so if no child, better to stop here */
     if (!pos)
     {
-		gchar *tmp_str;
-
-		tmp_str = g_strdup_printf (_("Trying to append the child number %d to the mother %d "
-									"in the model, but no white line was created before... "
-									"Better to stop here, please contact the Grisbi team to "
-									"fix that issue."),
-									transaction_number,
-								  gsb_data_transaction_get_mother_transaction_number (transaction_number));
-		dialogue_error (tmp_str);
-		g_free (tmp_str);
+		/* fix bug 2202 */
+		/* Trying to append the child transaction to a mother in the model, but no white line was created before */
+		orphan_child_transactions = g_slist_append (orphan_child_transactions,
+													GINT_TO_POINTER (transaction_number));
 		g_free (newrecord);
 
 		return;
