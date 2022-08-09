@@ -43,7 +43,9 @@ libwidgets_la_LIBADD= $(LIBWIDGETS_LIBS)
 if HAVE_GOFFICE
 libwidgets_la_SOURCES += \
 	widget_bet_graph_options.c \
-	widget_bet_graph_options.h
+	widget_bet_graph_options.h \
+	widget_bet_graph_pie.c \
+	widget_bet_graph_pie.h
 
 libwidgets_la_LIBADD += $(GOFFICE_LIBS)
 AM_CPPFLAGS += -I$(GOFFICE_CFLAGS)
@@ -73,6 +75,7 @@ EXTRA_DIST = \
 
 if HAVE_GOFFICE
 EXTRA_DIST += \
-	widget_bet_graph_options.ui
+	widget_bet_graph_options.ui \
+	widget_bet_graph_pie.ui
 endif
 

@@ -50,16 +50,14 @@
 #include "utils_real.h"
 #include "utils_str.h"
 #include "widget_bet_graph_options.h"
+#include "widget_bet_graph_pie.h"
 #include "erreur.h"
+#include "utils_widgets.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static GogPlot *bet_graph_create_graph_page  (BetGraphDataStruct *self,
 											  gboolean add_page);
-
-static gboolean bet_graph_right_button_press (GtkWidget *widget,
-											  GdkEventButton  *event,
-											  BetGraphDataStruct *self);
 
 /* GtkBuilder construction de l'interface graphique */
 static GtkBuilder *				bet_graph_builder = NULL;
@@ -127,54 +125,6 @@ static void struct_free_bet_graph_button (BetGraphButtonStruct *self)
  *
  * \return TRUE
  **/
-static BetGraphDataStruct *struct_initialise_bet_graph_data (void)
-{
-    BetGraphDataStruct *self;
-    gint i;
-
-    self = g_new0 (BetGraphDataStruct, 1);
-
-    self->service_id = NULL;
-    self->title = NULL;
-
-    self->tab_vue_libelle = g_malloc (MAX_POINTS_GRAPHIQUE * sizeof (gchar*));
-
-    for (i = 0; i < MAX_POINTS_GRAPHIQUE; i++)
-    {
-        self->tab_vue_libelle[i] = self->tab_libelle[i];
-    }
-
-    self->title_Y = NULL;
-    self->title_Y2 = NULL;
-
-   return self;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static void struct_free_bet_graph_data (BetGraphDataStruct *self)
-{
-    g_free (self->title);
-    g_free (self->service_id);
-    g_free (self->tab_vue_libelle);
-    g_free (self->title_Y);
-    g_free (self->title_Y2);
-
-    g_free (self);
-}
-
-/**
- *
- *
- * \param
- *
- * \return TRUE
- **/
 static BetGraphPrefsStruct *struct_initialise_bet_graph_prefs (void)
 {
     BetGraphPrefsStruct *self;
@@ -193,28 +143,6 @@ static BetGraphPrefsStruct *struct_initialise_bet_graph_prefs (void)
 }
 
 /**
- * Crée un builder et récupère les widgets du fichier bet_graph.ui
- *
- * \param   none
- *
- * \return TRUE if OK FALSE otherwise
- **/
-static gboolean bet_graph_initialise_builder (void)
-{
-    /* Creation d'un nouveau GtkBuilder */
-    bet_graph_builder = gtk_builder_new ();
-    if (bet_graph_builder == NULL)
-        return FALSE;
-
-    /* récupère les widgets */
-    if (utils_gtkbuilder_merge_ui_data_in_builder (bet_graph_builder, "bet_graph.ui"))
-        return TRUE;
-    else
-        return FALSE;
-
-}
-
-/**
  * remplit les structures avec les données des sous divisions.
  *
  * \param BetGraphDataStruct     structure data du parent
@@ -222,8 +150,8 @@ static gboolean bet_graph_initialise_builder (void)
  *
  * \return FALSE
  **/
-static gboolean bet_graph_populate_sectors_by_sub_divisions (BetGraphDataStruct *self,
-															 gint div_number)
+gboolean bet_graph_populate_sectors_by_sub_divisions (BetGraphDataStruct *self,
+													  gint div_number)
 {
     GtkTreeModel *model = NULL;
     GtkTreeIter iter;
@@ -314,228 +242,25 @@ static gboolean bet_graph_populate_sectors_by_sub_divisions (BetGraphDataStruct 
 }
 
 /**
- * affiche un graphique de type camembert joint
+ * Crée un builder et récupère les widgets du fichier bet_graph.ui
  *
- * \param BetGraphDataStruct     structure qui contient les données à afficher
+ * \param   none
  *
  * \return TRUE if OK FALSE otherwise
  **/
-static gboolean bet_graph_affiche_camemberts (BetGraphDataStruct *self)
+static gboolean bet_graph_initialise_builder (void)
 {
-    GogPlot *cur_plot;
-    GogSeries *series;
-    GOData *data;
-    GError * error = NULL;
-
-    cur_plot = self->plot;
-
-    gog_plot_clear_series (GOG_PLOT (cur_plot));
-    series = GOG_SERIES (gog_plot_new_series (GOG_PLOT (cur_plot)));
-
-    data = go_data_vector_str_new ((const char * const*) self->tab_vue_libelle, self->nbre_elemnts, NULL);
-    gog_series_set_dim (series, 0, data, &error);
-    if (error != NULL)
-    {
-        g_error_free (error);
-        error = NULL;
+    /* Creation d'un nouveau GtkBuilder */
+    bet_graph_builder = gtk_builder_new ();
+    if (bet_graph_builder == NULL)
         return FALSE;
-    }
 
-    data = go_data_vector_val_new (self->tab_Y, self->nbre_elemnts, NULL);
-    gog_series_set_dim (series, 1, data, &error);
-    if (error != NULL)
-    {
-        g_error_free (error);
-        error = NULL;
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-/**
- * affiche les sous divisions d'un camembert
- *
- * \param parent        BetGraphDataStruct du parent
- * \param div_number    numéro de la division concernée
- * \param bet_hist_data type de données : catégorie ou IB
- * \param div_name      nom de la catégorie ou de l'IB
- *
- * \return
- **/
-static void bet_graph_affiche_sub_divisions (BetGraphDataStruct *parent,
-											 gint div_number,
-											 gint bet_hist_data,
-											 gchar *div_name,
-											 gchar *total_div)
-{
-    GtkWidget *dialog;
-    GtkWidget *label;
-    GtkWidget *notebook;
-    GtkWidget *box_pie;
-    gchar *title;
-    BetGraphDataStruct *self;
-
-    /* initialisation de la structure des données */
-    self = struct_initialise_bet_graph_data ();
-    self->tree_view = parent->tree_view;
-    self->account_number = parent->account_number;
-    self->currency_number = parent->currency_number;
-    self->service_id = g_strdup (parent->service_id);
-    self->type_infos = parent->type_infos;
-    self->title = g_strconcat (_("Total amount: "), total_div, NULL);
-    self->is_legend = TRUE;
-
-    dialog = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "bet_graph_sub_div_dialog"));
-
-    if (gtk_window_get_transient_for (GTK_WINDOW (dialog)) == NULL)
-    {
-        GtkWidget *parent_widget;
-
-        parent_widget = g_object_get_data (G_OBJECT (parent->notebook), "dialog");
-        gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent_widget));
-    }
-    gtk_widget_set_size_request (dialog, 600, 400);
-    g_signal_connect (G_OBJECT (dialog),
-                        "destroy",
-                        G_CALLBACK (gtk_widget_destroy),
-                        NULL);
-
-    /* set the title */
-    if (bet_hist_data)
-        title = g_markup_printf_escaped (_("<span weight=\"bold\">"
-                        "Display subdivisions items of budgetary: %s</span>"),
-                        div_name);
-
+    /* récupère les widgets */
+    if (utils_gtkbuilder_merge_ui_data_in_builder (bet_graph_builder, "bet_graph.ui"))
+        return TRUE;
     else
-        title = g_markup_printf_escaped (_("<span weight=\"bold\" size=\"large\">"
-                        "Display subdivisions of category: %s</span>"),
-                        div_name);
+        return FALSE;
 
-
-    label = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "label_sub_div"));
-    gtk_label_set_markup (GTK_LABEL (label), title);
-    g_free (title);
-
-    /* initialise les pages pour les graphiques camembert */
-    notebook = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "notebook_sub_div"));
-    gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
-
-    box_pie = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-    gtk_notebook_append_page (GTK_NOTEBOOK (notebook), box_pie, gtk_label_new (_("Graph")));
-
-    /* Set the graph */
-    self->notebook = GTK_NOTEBOOK (notebook);
-    self->plot = bet_graph_create_graph_page (self, FALSE);
-
-    /* on interdit le clic droit */
-    g_signal_handlers_block_by_func (self->widget,
-                        G_CALLBACK (bet_graph_right_button_press),
-                        self);
-
-    /* populate the data */
-    self->valid_data = bet_graph_populate_sectors_by_sub_divisions (self, div_number);
-
-    if (self->valid_data)
-        bet_graph_affiche_camemberts (self);
-
-    /* show or hide widgets */
-    gtk_widget_show_all (dialog);
-
-    gtk_dialog_run (GTK_DIALOG (dialog));
-
-    /* free the data */
-    struct_free_bet_graph_data (self);
-    gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 0);
-    gtk_widget_hide (dialog);
-}
-
-/**
- * fonction appelée quand on fait un click droit sur un graphique
- *
- * \param
- * \param
- * \param
- *
- * \return TRUE
- **/
-static gboolean bet_graph_right_button_press (GtkWidget *widget,
-											  GdkEventButton  *event,
-											  BetGraphDataStruct *self)
-{
-
-    if (event->type == GDK_BUTTON_PRESS
-     &&
-     event->button == 3
-     &&
-     strcmp (self->service_id, "GogPiePlot") == 0)
-    {
-        GogRenderer *rend = NULL;
-        GogView *graph_view = NULL;
-        GogView *view = NULL;
-        GogSeries *series;
-        gchar *total_div;
-        gint index;
-        gint nbre_elemnts = 0;
-        gint div_number = 0;
-        gint bet_hist_data;
-
-        rend = go_graph_widget_get_renderer (GO_GRAPH_WIDGET (self->widget));
-        g_object_get (G_OBJECT (rend), "view", &graph_view, NULL);
-        view = gog_view_find_child_view (graph_view, GOG_OBJECT (self->plot));
-
-        index = gog_plot_view_get_data_at_point (GOG_PLOT_VIEW (view), event->x, event->y, &series);
-
-        if (index == -1)
-            return TRUE;
-
-        total_div = utils_real_get_string_with_currency_from_double (
-                        self->tab_Y[index], self->currency_number);
-
-        bet_hist_data = gsb_data_account_get_bet_hist_data (self->account_number);
-        if (bet_hist_data)
-        {
-            div_number = gsb_data_budget_get_number_by_name (self->tab_vue_libelle[index], FALSE, 0);
-            nbre_elemnts = gsb_data_budget_get_sub_budget_list_length (div_number);
-        }
-        else
-        {
-            div_number = gsb_data_category_get_number_by_name (self->tab_vue_libelle[index], FALSE, 0);
-            nbre_elemnts = gsb_data_category_get_sub_category_list_length (div_number);
-        }
-
-        if (nbre_elemnts)
-            bet_graph_affiche_sub_divisions (self, div_number, bet_hist_data,
-                        self->tab_vue_libelle[index], total_div);
-        else
-        {
-            GtkWidget *dialog;
-            GtkWidget *parent_widget;
-            gchar *msg;
-
-            if (bet_hist_data)
-                msg = g_strdup (_("The selected budget item has no subitems"));
-            else
-                msg = g_strdup (_("The selected category has no subcategory"));
-
-            parent_widget = g_object_get_data (G_OBJECT (self->notebook), "dialog");
-            dialog = gtk_message_dialog_new (GTK_WINDOW (parent_widget),
-                        GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_MESSAGE_INFO,
-                        GTK_BUTTONS_CLOSE,
-                        "%s", msg);
-
-            gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent_widget));
-            gtk_dialog_run (GTK_DIALOG (dialog));
-            gtk_widget_destroy (dialog);
-
-            g_free (msg);
-        }
-		g_free(total_div);
-    }
-
-    /* return */
-    return TRUE;
 }
 
 /**
@@ -652,68 +377,64 @@ static gboolean bet_graph_on_motion (GtkWidget *event_box,
 static GogPlot *bet_graph_create_graph_page  (BetGraphDataStruct *self,
 											  gboolean add_page)
 {
-    GtkWidget *child;
-    GtkWidget *w;
-    GogGraph *graph;
-    GogLabel *label;
-    GogPlot *plot;
-    GOStyle *style;
-    GOData *data;
-    PangoFontDescription *desc;
+	GtkWidget *child;
+	GtkWidget *w;
+	GogGraph *graph;
+	GogLabel *label;
+	GogPlot *plot = NULL;
+	GOStyle *style;
+	GOData *data;
+	PangoFontDescription *desc;
 
-    if (add_page)
-    {
-        /* Set the new page */
-        child = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-        gtk_notebook_prepend_page (self->notebook, child, gtk_label_new (_("Graph")));
-    }
-    else
-        child = gtk_notebook_get_nth_page (GTK_NOTEBOOK (self->notebook), 0);
+	if (add_page)
+	{
+		/* Set the new page */
+		child = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		gtk_notebook_prepend_page (self->notebook, child, gtk_label_new (_("Graph")));
+	}
+	else
+		child = gtk_notebook_get_nth_page (GTK_NOTEBOOK (self->notebook), 0);
 
-    /* Set the graph widget */
-    w = go_graph_widget_new (NULL);
-    g_signal_connect (G_OBJECT (w),
-                        "motion-notify-event",
-                        G_CALLBACK (bet_graph_on_motion),
-                        self);
+	/* Set the graph widget */
+	w = go_graph_widget_new (NULL);
+	g_signal_connect (G_OBJECT (w),
+					  "motion-notify-event",
+					  G_CALLBACK (bet_graph_on_motion),
+					  self);
 
-    g_signal_connect (G_OBJECT (w),
-                        "button-press-event",
-                        G_CALLBACK (bet_graph_right_button_press),
-                        self);
-    gtk_box_pack_end (GTK_BOX (child), w, TRUE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (child), w, TRUE, TRUE, 0);
 
-    self->widget = w;
+	self->widget = w;
 
-    /* Get the embedded graph */
-    graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
+	/* Get the embedded graph */
+	graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
 
-    /* set the title */
-    if (self->title && strlen (self->title))
-    {
-        label = (GogLabel *) g_object_new (GOG_TYPE_LABEL, NULL);
-        data = go_data_scalar_str_new (self->title, FALSE);
-        gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
-        gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
+	/* set the title */
+	if (self->title && strlen (self->title))
+	{
+		label = (GogLabel *) g_object_new (GOG_TYPE_LABEL, NULL);
+		data = go_data_scalar_str_new (self->title, FALSE);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
+		gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
 
-        /* Change the title font */
-        style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
-        desc = pango_font_description_from_string ("Sans bold 12");
-        go_style_set_font_desc (style, desc);
-    }
+		/* Change the title font */
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (label));
+		desc = pango_font_description_from_string ("Sans bold 12");
+		go_style_set_font_desc (style, desc);
+	}
 
-    /* Get the chart created by the widget initialization */
-    self->chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
+	/* Get the chart created by the widget initialization */
+	self->chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
 
-    /* Create a pie plot and add it to the chart */
-    plot = (GogPlot *) gog_plot_new_by_name (self->service_id);
-    gog_object_add_by_name (GOG_OBJECT (self->chart), "Plot", GOG_OBJECT (plot));
+	/* Create a pie plot and add it to the chart */
+	plot = (GogPlot *) gog_plot_new_by_name (self->service_id);
+	gog_object_add_by_name (GOG_OBJECT (self->chart), "Plot", GOG_OBJECT (plot));
 
-    /* Add a legend to the chart */
-    if (self->is_legend)
-        gog_object_add_by_name (GOG_OBJECT (self->chart), "Legend", NULL);
+	/* Add a legend to the chart */
+	if (self->is_legend)
+		gog_object_add_by_name (GOG_OBJECT (self->chart), "Legend", NULL);
 
-    return plot;
+	return plot;
 }
 
 /**
@@ -962,88 +683,6 @@ static void bet_graph_create_prefs_page  (BetGraphDataStruct *self)
 	label = gtk_label_new (_("Options"));
 	child = GTK_WIDGET (widget_bet_graph_options_new (self));
 	gtk_notebook_append_page (GTK_NOTEBOOK (self->notebook), child, label);
-}
-
-/**
- *
- *
- * \param
- *
- * \return TRUE if OK FALSE otherwise
- **/
-static gboolean bet_graph_populate_sectors_by_hist_data (BetGraphDataStruct *self)
-{
-    GtkTreeModel *model = NULL;
-    GtkTreeIter iter;
-
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (self->tree_view));
-    if (model == NULL)
-        return FALSE;
-
-    if (gtk_tree_model_get_iter_first (model, &iter))
-    {
-        gint account_number;
-        gchar *libelle_division = self->tab_libelle[0];
-        gdouble *tab_montant_division = self->tab_Y;
-
-        /* test du numero de compte */
-        gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
-                        SPP_HISTORICAL_ACCOUNT_NUMBER, &account_number,
-                        -1);
-        if (account_number != self->account_number)
-		{
-			if (gsb_data_account_get_bet_hist_use_data_in_account (account_number))
-			{
-				gint main_account_number;
-
-				main_account_number = bet_data_transfert_get_main_account_from_card (account_number);
-				if (main_account_number != self->account_number)
-					return FALSE;
-			}
-			else
-				return FALSE;
-		}
-
-        do
-        {
-            gchar *desc = NULL;
-            gchar *amount = NULL;
-            gint div;
-            gint type_infos;
-
-            gtk_tree_model_get (GTK_TREE_MODEL(model),
-                        &iter,
-                        SPP_HISTORICAL_DESC_COLUMN, &desc,
-                        SPP_HISTORICAL_BALANCE_AMOUNT, &amount,
-                        SPP_HISTORICAL_DIV_NUMBER, &div,
-                        -1);
-
-            type_infos = bet_data_get_div_type (div);
-            if (desc && (self->type_infos == -1 || type_infos == self->type_infos))
-            {
-                strncpy (&libelle_division[self->nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE);
-                tab_montant_division[self->nbre_elemnts] = utils_str_strtod ((amount == NULL) ? "0" : amount, NULL);
-
-                if (tab_montant_division[self->nbre_elemnts] < 0)
-                    self->montant += -tab_montant_division[self->nbre_elemnts];
-                else
-                    self->montant += tab_montant_division[self->nbre_elemnts];
-
-                self->nbre_elemnts++;
-            }
-            g_free (desc);
-            g_free (amount);
-
-            if (self->nbre_elemnts >= MAX_SEGMENT_CAMEMBERT)
-                break;
-        }
-        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
-
-        if (self->nbre_elemnts)
-            return TRUE;
-    }
-
-    return FALSE;
 }
 
 /**
@@ -1673,6 +1312,88 @@ gchar *bet_graph_get_configuration_string (gint origin_tab)
  *
  *
  * \param
+ *
+ * \return TRUE if OK FALSE otherwise
+ **/
+gboolean bet_graph_populate_sectors_by_hist_data (BetGraphDataStruct *self)
+{
+    GtkTreeModel *model = NULL;
+    GtkTreeIter iter;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (self->tree_view));
+    if (model == NULL)
+        return FALSE;
+
+    if (gtk_tree_model_get_iter_first (model, &iter))
+    {
+        gint account_number;
+        gchar *libelle_division = self->tab_libelle[0];
+        gdouble *tab_montant_division = self->tab_Y;
+
+        /* test du numero de compte */
+        gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
+							SPP_HISTORICAL_ACCOUNT_NUMBER, &account_number,
+							-1);
+        if (account_number != self->account_number)
+		{
+			if (gsb_data_account_get_bet_hist_use_data_in_account (account_number))
+			{
+				gint main_account_number;
+
+				main_account_number = bet_data_transfert_get_main_account_from_card (account_number);
+				if (main_account_number != self->account_number)
+					return FALSE;
+			}
+			else
+				return FALSE;
+		}
+
+        do
+        {
+            gchar *desc = NULL;
+            gchar *amount = NULL;
+            gint div;
+            gint type_infos;
+
+            gtk_tree_model_get (GTK_TREE_MODEL(model),
+								&iter,
+								SPP_HISTORICAL_DESC_COLUMN, &desc,
+								SPP_HISTORICAL_BALANCE_AMOUNT, &amount,
+								SPP_HISTORICAL_DIV_NUMBER, &div,
+								-1);
+
+            type_infos = bet_data_get_div_type (div);
+            if (desc && (self->type_infos == -1 || type_infos == self->type_infos))
+            {
+                strncpy (&libelle_division[self->nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE);
+                tab_montant_division[self->nbre_elemnts] = utils_str_strtod ((amount == NULL) ? "0" : amount, NULL);
+
+                if (tab_montant_division[self->nbre_elemnts] < 0)
+                    self->montant += -tab_montant_division[self->nbre_elemnts];
+                else
+                    self->montant += tab_montant_division[self->nbre_elemnts];
+
+                self->nbre_elemnts++;
+            }
+            g_free (desc);
+            g_free (amount);
+
+            if (self->nbre_elemnts >= MAX_SEGMENT_CAMEMBERT)
+                break;
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+
+        if (self->nbre_elemnts)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
  * \param
  *
  * \return
@@ -1927,11 +1648,6 @@ void bet_graph_sectors_graph_new (GtkWidget *button,
     GtkWidget *dialog;
     GtkWidget *label;
     GtkWidget *notebook;
-    GtkWidget *box_pie;
-    GtkWidget *button_grid;
-    gchar *title;
-    gint result_credit = FALSE;
-    gint result_debit = FALSE;
     gint account_number;
     gint currency_number;
     BetGraphDataStruct *self_credit;
@@ -1941,37 +1657,16 @@ void bet_graph_sectors_graph_new (GtkWidget *button,
     devel_debug (NULL);
 	w_etat = grisbi_win_get_w_etat ();
 
-    /* Initialisation d'un nouveau GtkBuilder */
-    if (!bet_graph_initialise_builder ())
-        return;
-
-    /* Création de la fenêtre de dialogue pour le graph */
-    dialog = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "bet_graph_dialog"));
-    gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (grisbi_app_get_active_window (NULL)));
-    gtk_widget_set_size_request (dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70);
-    g_signal_connect (G_OBJECT (dialog),
-                        "destroy",
-                        G_CALLBACK (gtk_widget_destroy),
-                        NULL);
-
-    /* set the title */
+	/* set the title */
     label = GTK_WIDGET (g_object_get_data (G_OBJECT (tree_view), "label_title"));
-    title = dialogue_make_pango_attribut ("weight=\"bold\" size=\"x-large\"",
-                    gtk_label_get_text (GTK_LABEL (label)));
 
-    label = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "label_canvas"));
-    gtk_label_set_markup (GTK_LABEL (label), title);
-    g_free (title);
+	/* Création de la fenêtre de dialogue pour le graph */
+	dialog = GTK_WIDGET (widget_bet_graph_pie_new (NULL, gtk_label_get_text (GTK_LABEL (label))));
 
-    /* initialise les pages pour les graphiques camembert */
-    notebook = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "notebook"));
-    gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
-    g_object_set_data (G_OBJECT (notebook), "dialog", dialog);
+    /* on recupere le notebook pour plus tard */
+	notebook = widget_bet_graph_pie_get_notebook (dialog);
 
-    box_pie = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "box_pie"));
-    gtk_notebook_append_page (GTK_NOTEBOOK (notebook), box_pie, gtk_label_new (_("Graph")));
-
-    /* initialisation des structures de données */
+	/* initialisation des structures de données */
     account_number = gsb_gui_navigation_get_current_account ();
     currency_number = gsb_data_account_get_currency (account_number);
 
@@ -1989,15 +1684,8 @@ void bet_graph_sectors_graph_new (GtkWidget *button,
     self_debit->service_id = g_strdup ("GogPiePlot");
     self_debit->is_legend = TRUE;
 
-    self_debit->plot = bet_graph_create_graph_page (self_debit, FALSE);
-
-    /* populate the data for debit */
-    if (self_debit->valid_data == FALSE)
-        self_debit->valid_data = bet_graph_populate_sectors_by_hist_data (self_debit);
-
-    /* show the data for debit */
-    if (self_debit->valid_data)
-        result_debit = bet_graph_affiche_camemberts (self_debit);
+    /* create and display graph for debit */
+	widget_bet_graph_pie_display_graph (self_debit, FALSE, 0);
 
     /* Set the graph for credit */
     self_credit = struct_initialise_bet_graph_data ();
@@ -2014,34 +1702,17 @@ void bet_graph_sectors_graph_new (GtkWidget *button,
     self_credit->service_id = g_strdup ("GogPiePlot");
     self_credit->is_legend = TRUE;
 
-    self_credit->plot = bet_graph_create_graph_page (self_credit, FALSE);
-
-    /* populate the data for credit */
-    if (self_credit->valid_data == FALSE)
-        self_credit->valid_data = bet_graph_populate_sectors_by_hist_data (self_credit);
-
-    /* show the data for credit */
-    if (self_credit->valid_data)
-        result_credit = bet_graph_affiche_camemberts (self_credit);
+    /* create and display graph for credit */
+	widget_bet_graph_pie_display_graph (self_credit, FALSE, 0);
 
     /* show or hide widgets */
     gtk_widget_show_all (dialog);
-
-    /* cache le bouton show_grid inutile ici */
-    button_grid = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "button_show_grid"));
-    gtk_widget_hide (button_grid);
-
-    if (!result_credit)
-        gtk_widget_hide (self_credit->widget);
-    if (!result_debit)
-        gtk_widget_hide (self_debit->widget);
 
     gtk_dialog_run (GTK_DIALOG (dialog));
 
     /* free the data */
     struct_free_bet_graph_data (self_debit);
     struct_free_bet_graph_data (self_credit);
-    g_object_unref (G_OBJECT (bet_graph_builder));
     gtk_widget_destroy (dialog);
 }
 
@@ -2136,6 +1807,54 @@ void bet_graph_set_configuration_variables (const gchar *string)
 		prefs->minor_grid_y = FALSE;
 
     g_strfreev (tab);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return TRUE
+ **/
+BetGraphDataStruct *struct_initialise_bet_graph_data (void)
+{
+    BetGraphDataStruct *self;
+    gint i;
+
+    self = g_new0 (BetGraphDataStruct, 1);
+
+    self->service_id = NULL;
+    self->title = NULL;
+
+    self->tab_vue_libelle = g_malloc (MAX_POINTS_GRAPHIQUE * sizeof (gchar*));
+
+    for (i = 0; i < MAX_POINTS_GRAPHIQUE; i++)
+    {
+        self->tab_vue_libelle[i] = self->tab_libelle[i];
+    }
+
+    self->title_Y = NULL;
+    self->title_Y2 = NULL;
+
+   return self;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void struct_free_bet_graph_data (BetGraphDataStruct *self)
+{
+    g_free (self->title);
+    g_free (self->service_id);
+    g_free (self->tab_vue_libelle);
+    g_free (self->title_Y);
+    g_free (self->title_Y2);
+
+    g_free (self);
 }
 
 /**

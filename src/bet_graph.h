@@ -9,8 +9,8 @@
 /* END_INCLUDE_H */
 
 /* Definition de la taille mini de la boite de dialogue */
-#define PAGE_WIDTH 750
-#define PAGE_HEIGHT 550
+#define PAGE_WIDTH 800
+#define PAGE_HEIGHT 650
 
 /* Definition du maximum de segments par camembert */
 #define MAX_SEGMENT_CAMEMBERT 30
@@ -20,9 +20,9 @@
 /* Definition de la taille maximum d'un libelle */
 #define TAILLE_MAX_LIBELLE 50
 
-typedef struct _BetGraphDataStruct   BetGraphDataStruct;
-typedef struct _BetGraphButtonStruct BetGraphButtonStruct;
-typedef struct _BetGraphPrefsStruct  BetGraphPrefsStruct;
+typedef struct _BetGraphDataStruct		BetGraphDataStruct;
+typedef struct _BetGraphButtonStruct	BetGraphButtonStruct;
+typedef struct _BetGraphPrefsStruct		BetGraphPrefsStruct;
 
 struct _BetGraphDataStruct
 {
@@ -96,24 +96,30 @@ struct _BetGraphPrefsStruct
 };
 
 /* START_DECLARATION */
-GtkToolItem *	bet_graph_button_menu_new 				(GtkWidget *toolbar,
-														 const gchar *type_graph,
-														 GCallback callback,
-														 GtkWidget *tree_view);
-void 			bet_graph_free_configuration_variables 	(void);
-gchar *			bet_graph_get_configuration_string 		(gint origin_tab);
-void 			bet_graph_line_graph_new 				(GtkWidget *button,
-														 GtkTreeView *tree_view);
-void 			bet_graph_montly_graph_new 				(GtkWidget *button,
-														 GtkTreeView *tree_view);
-void 			bet_graph_sectors_graph_new 			(GtkWidget *button,
-														 GtkTreeView *tree_view);
-void 			bet_graph_set_configuration_variables 	(const gchar *string);
-void 			bet_graph_show_grid_button_configure	(BetGraphDataStruct *self,
-														 gint active,
-														 gint hide);
-void 			bet_graph_update_graph					(BetGraphDataStruct *self);
-void 			struct_free_bet_graph_prefs 			(void);
+BetGraphDataStruct *	struct_initialise_bet_graph_data		(void);
+GtkToolItem *	bet_graph_button_menu_new 						(GtkWidget *toolbar,
+																 const gchar *type_graph,
+																 GCallback callback,
+																 GtkWidget *tree_view);
+void 			bet_graph_free_configuration_variables			(void);
+gchar *			bet_graph_get_configuration_string				(gint origin_tab);
+void 			bet_graph_line_graph_new						(GtkWidget *button,
+																 GtkTreeView *tree_view);
+void 			bet_graph_montly_graph_new						(GtkWidget *button,
+																 GtkTreeView *tree_view);
+gboolean 		bet_graph_populate_sectors_by_hist_data			(BetGraphDataStruct *self);
+gboolean 		bet_graph_populate_sectors_by_sub_divisions		(BetGraphDataStruct *self,
+																 gint div_number);
+void		 	bet_graph_sectors_graph_new						(GtkWidget *button,
+																 GtkTreeView *tree_view);
+void 			bet_graph_set_configuration_variables			(const gchar *string);
+void 			bet_graph_show_grid_button_configure			(BetGraphDataStruct *self,
+																 gint active,
+																 gint hide);
+void 			bet_graph_update_graph							(BetGraphDataStruct *self);
+void 			struct_free_bet_graph_prefs						(void);
+void			struct_free_bet_graph_data						(BetGraphDataStruct *self);
+
 /* END_DECLARATION */
 
 #endif /*_BET_GRAPH */
