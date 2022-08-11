@@ -270,7 +270,7 @@ void init_variables (void)
 	bet_data_loan_delete_all_loans ();
 
 #ifdef HAVE_GOFFICE
-    bet_graph_set_configuration_variables (NULL);
+    bet_graph_set_options_variables (NULL);
 #endif /* HAVE_GOFFICE */
 
 }
@@ -342,7 +342,7 @@ void free_variables (void)
 	bet_data_loan_delete_all_loans ();
 
 #ifdef HAVE_GOFFICE
-    bet_graph_free_configuration_variables ();
+    bet_graph_free_options_variables ();
 #endif /* HAVE_GOFFICE */
 }
 

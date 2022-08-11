@@ -1085,7 +1085,7 @@ static void gsb_file_load_bet_graph_part (const gchar **attribute_names,
 
     if (!strcmp (attribute_names[i], "prefs"))
     {
-        bet_graph_set_configuration_variables (attribute_values[i]);
+        bet_graph_set_options_variables (attribute_values[i]);
         i++;
         continue;
     }

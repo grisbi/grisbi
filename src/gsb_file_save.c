@@ -577,7 +577,7 @@ static gulong gsb_file_save_bet_graph_part (gulong iterator,
 	gchar *new_string = NULL;
 
 	/* save the forecast preferences */
-	new_string = bet_graph_get_configuration_string (BET_ONGLETS_PREV);
+	new_string = bet_graph_get_options_string (BET_ONGLETS_PREV);
 
 	/* append the new string to the file content */
 	iterator = gsb_file_save_append_part (iterator,
@@ -587,7 +587,7 @@ static gulong gsb_file_save_bet_graph_part (gulong iterator,
 	g_free(new_string);
 
 	/* save the historical preferences */
-	new_string = bet_graph_get_configuration_string (BET_ONGLETS_HIST);
+	new_string = bet_graph_get_options_string (BET_ONGLETS_HIST);
 
 	/* append the new string to the file content */
 	iterator = gsb_file_save_append_part (iterator,

@@ -97,14 +97,14 @@ struct _BetGraphPrefsStruct
 
 /* START_DECLARATION */
 BetGraphDataStruct *	struct_initialise_bet_graph_data		(void);
-GtkToolItem *	bet_graph_button_menu_new 						(GtkWidget *toolbar,
+GtkToolItem *			bet_graph_button_menu_new 						(GtkWidget *toolbar,
 																 const gchar *type_graph,
 																 GCallback callback,
 																 GtkWidget *tree_view);
-void 			bet_graph_free_configuration_variables			(void);
-gchar *			bet_graph_get_configuration_string				(gint origin_tab);
+void 					bet_graph_free_options_variables			(void);
+gchar *					bet_graph_get_options_string				(gint origin_tab);
 void 					bet_graph_forecast_graph_new					(GtkWidget *button,
-																 GtkTreeView *tree_view);
+																		 GtkTreeView *tree_view);
 void 					bet_graph_hist_graph_new						(GtkWidget *button,
 																 GtkTreeView *tree_view);
 gboolean				bet_graph_populate_lines_by_forecast_data		(BetGraphDataStruct *self);
@@ -114,13 +114,8 @@ gboolean 				bet_graph_populate_sectors_by_sub_divisions		(BetGraphDataStruct *s
 																 gint div_number);
 void		 			bet_graph_sectors_graph_new						(GtkWidget *button,
 																 GtkTreeView *tree_view);
-void 			bet_graph_set_configuration_variables			(const gchar *string);
-void 					struct_free_bet_graph_prefs						(void);
-																 gint active,
-																 gint hide);
-void 			bet_graph_update_graph							(BetGraphDataStruct *self);
-void 			struct_free_bet_graph_prefs						(void);
-void			struct_free_bet_graph_data						(BetGraphDataStruct *self);
+void 					bet_graph_set_options_variables			(const gchar *string);
+void					struct_free_bet_graph_data						(BetGraphDataStruct *self);
 
 /* END_DECLARATION */
 
