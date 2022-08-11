@@ -960,7 +960,7 @@ static GtkWidget *bet_hist_create_toolbar (GtkWidget *parent,
 	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
 	/* monthly button */
-	item = bet_graph_button_menu_new (toolbar, "hist_graph", G_CALLBACK (bet_graph_montly_graph_new), tree_view);
+	item = bet_graph_button_menu_new (toolbar, "hist_graph", G_CALLBACK (bet_graph_hist_graph_new), tree_view);
 	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 #endif /* HAVE_GOFFICE */
 

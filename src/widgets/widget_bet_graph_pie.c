@@ -274,7 +274,7 @@ static gboolean widget_bet_graph_pie_right_button_press (GtkWidget *dialog,
 														total_div);
 		else
 		{
-			GtkWidget *dialog;
+			GtkWidget *msg_dialog;
 			GtkWidget *parent_dialog;
 			gchar *msg;
 
@@ -284,19 +284,20 @@ static gboolean widget_bet_graph_pie_right_button_press (GtkWidget *dialog,
 				msg = g_strdup (_("The selected category has no subcategory"));
 
 			parent_dialog = g_object_get_data (G_OBJECT (self->notebook), "dialog");
-			dialog = gtk_message_dialog_new (GTK_WINDOW (parent_dialog),
-						GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_INFO,
-						GTK_BUTTONS_CLOSE,
-						"%s", msg);
+			msg_dialog = gtk_message_dialog_new (GTK_WINDOW (parent_dialog),
+												 GTK_DIALOG_DESTROY_WITH_PARENT,
+												 GTK_MESSAGE_INFO,
+												 GTK_BUTTONS_CLOSE,
+												 "%s",
+												 msg);
 
-			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent_dialog));
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
+			gtk_window_set_transient_for (GTK_WINDOW (msg_dialog), GTK_WINDOW (parent_dialog));
+			gtk_dialog_run (GTK_DIALOG (msg_dialog));
+			gtk_widget_destroy (msg_dialog);
 
 			g_free (msg);
 		}
-		g_free(total_div);
+		g_free (total_div);
 	}
 
 	/* return */

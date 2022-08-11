@@ -41,6 +41,7 @@
 [type: gettext/glade]src/widgets/widget_account_property.ui
 [type: gettext/glade]src/widgets/widget_bank_details.ui
 [type: gettext/glade]src/widgets/widget_bet_graph_options.ui
+[type: gettext/glade]src/widgets/widget_bet_graph_others.ui
 [type: gettext/glade]src/widgets/widget_bet_graph_pie.ui
 [type: gettext/glade]src/widgets/widget_cmp_amount.ui
 [type: gettext/glade]src/widgets/widget_cmp_text.ui
@@ -228,6 +229,7 @@ src/etats/etats_page_transfer.c
 src/widgets/widget_account_property.c
 src/widgets/widget_bank_details.c
 src/widgets/widget_bet_graph_options.c
+src/widgets/widget_bet_graph_others.c
 src/widgets/widget_bet_graph_pie.c
 src/widgets/widget_cmp_amount.c
 src/widgets/widget_cmp_text.c

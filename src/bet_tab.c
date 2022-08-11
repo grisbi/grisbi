@@ -2145,7 +2145,7 @@ static GtkWidget *bet_array_list_create_toolbar (GtkWidget *parent,
     /* graph button */
     item = bet_graph_button_menu_new (toolbar,
                         "forecast_graph",
-                        G_CALLBACK (bet_graph_line_graph_new),
+                        G_CALLBACK (bet_graph_forecast_graph_new),
                         tree_view);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 #endif /* HAVE_GOFFICE */

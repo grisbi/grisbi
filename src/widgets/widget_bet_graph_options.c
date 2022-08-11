@@ -38,7 +38,9 @@
 #include "widget_bet_graph_options.h"
 #include "bet_graph.h"
 #include "gsb_file.h"
+#include "utils_real.h"
 #include "structures.h"
+#include "widget_bet_graph_others.h"
 #include "erreur.h"
 
 /*END_INCLUDE*/
@@ -46,7 +48,7 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-typedef struct _WidgetBetGraphOptionsPrivate   WidgetBetGraphOptionsPrivate;
+typedef struct _WidgetBetGraphOptionsPrivate	WidgetBetGraphOptionsPrivate;
 
 struct _WidgetBetGraphOptionsPrivate
 {
@@ -145,9 +147,9 @@ static void widget_bet_graph_options_button_toggled (GtkToggleButton *togglebutt
 		}
 		/* on positionne le bouton self->button_show_grid */
 		if (active)
-			bet_graph_show_grid_button_configure (self, TRUE, TRUE);
+			widget_bet_graph_others_show_grid_button_configure (self, TRUE, TRUE);
 		else
-			bet_graph_show_grid_button_configure (self, FALSE, TRUE);
+			widget_bet_graph_others_show_grid_button_configure (self, FALSE, TRUE);
 		break;
 	case 9:
 		prefs->minor_grid_y = active;
@@ -155,7 +157,7 @@ static void widget_bet_graph_options_button_toggled (GtkToggleButton *togglebutt
 	}
 
 	/* on met à jour le graph */
-	bet_graph_update_graph (self);
+	widget_bet_graph_others_graph_update (self);
 
 	gsb_file_set_modified (TRUE);
 }
@@ -177,7 +179,7 @@ static void widget_bet_graph_options_spinbutton_value_changed (GtkSpinButton *sp
 	prefs->gap_spinner = gtk_spin_button_get_value (spinbutton);
 
 	/* on met à jour le graph */
-	bet_graph_update_graph (self);
+	widget_bet_graph_others_graph_update (self);
 
 	gsb_file_set_modified (TRUE);
 }
@@ -202,7 +204,7 @@ static void widget_bet_graph_options_rotation_changed (GORotationSel *rotation,
 	prefs->degrees = angle;
 
 	/* on met à jour le graph */
-	bet_graph_update_graph (self);
+	widget_bet_graph_others_graph_update (self);
 
 	gsb_file_set_modified (TRUE);
 }
@@ -453,6 +455,36 @@ WidgetBetGraphOptions *widget_bet_graph_options_new (BetGraphDataStruct *self)
 	widget_bet_graph_options_setup_widget (widget, self);
 
 	return widget;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void widget_bet_graph_options_set_button_major_grid_y (GtkWidget *widget,
+													   BetGraphDataStruct *self,
+													   gboolean active)
+{
+	WidgetBetGraphOptionsPrivate *priv;
+
+	priv = widget_bet_graph_options_get_instance_private (WIDGET_BET_GRAPH_OPTIONS (widget));
+
+	/* on bloque le signal */
+	g_signal_handlers_block_by_func (G_OBJECT (priv->checkbutton_major_grid_y),
+									 widget_bet_graph_options_button_toggled,
+									 self);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_major_grid_y), active);
+
+
+		/* on débloque le signal */
+		g_signal_handlers_unblock_by_func (G_OBJECT (priv->checkbutton_major_grid_y),
+										   widget_bet_graph_options_button_toggled,
+										   self);
+
 }
 
 /**

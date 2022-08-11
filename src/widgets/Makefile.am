@@ -44,6 +44,8 @@ if HAVE_GOFFICE
 libwidgets_la_SOURCES += \
 	widget_bet_graph_options.c \
 	widget_bet_graph_options.h \
+	widget_bet_graph_others.c \
+	widget_bet_graph_others.h \
 	widget_bet_graph_pie.c \
 	widget_bet_graph_pie.h
 
@@ -76,6 +78,7 @@ EXTRA_DIST = \
 if HAVE_GOFFICE
 EXTRA_DIST += \
 	widget_bet_graph_options.ui \
+	widget_bet_graph_others.ui \
 	widget_bet_graph_pie.ui
 endif
 

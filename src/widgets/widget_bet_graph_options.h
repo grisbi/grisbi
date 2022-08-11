@@ -31,7 +31,9 @@ struct _WidgetBetGraphOptionsClass
 GType						widget_bet_graph_options_get_type			(void) G_GNUC_CONST;
 
 WidgetBetGraphOptions *		widget_bet_graph_options_new				(BetGraphDataStruct *self);
-
+void						widget_bet_graph_options_set_button_major_grid_y	(GtkWidget *widget,
+																				 BetGraphDataStruct *self,
+																				 gboolean active);
 /* END_DECLARATION */
 
 G_END_DECLS

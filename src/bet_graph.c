@@ -1398,14 +1398,12 @@ gboolean bet_graph_populate_sectors_by_hist_data (BetGraphDataStruct *self)
  *
  * \return
  **/
-void bet_graph_line_graph_new (GtkWidget *button,
-							   GtkTreeView *tree_view)
+void bet_graph_forecast_graph_new (GtkWidget *button,
+								   GtkTreeView *tree_view)
 {
     GtkWidget *dialog;
     GtkWidget *label;
-    gchar *title;
     gchar *service_id;
-    gint result;
     gint account_number;
     gint currency_number;
     gint origin_tab;
@@ -1413,10 +1411,6 @@ void bet_graph_line_graph_new (GtkWidget *button,
     BetGraphPrefsStruct *prefs = NULL;
 
     devel_debug (NULL);
-
-    /* Initialisation d'un nouveau GtkBuilder */
-    if (!bet_graph_initialise_builder ())
-        return;
 
     account_number = gsb_gui_navigation_get_current_account ();
     currency_number = gsb_data_account_get_currency (account_number);
@@ -1437,58 +1431,11 @@ void bet_graph_line_graph_new (GtkWidget *button,
     self->service_id = g_strdup (service_id);
     self->prefs = prefs;
 
-    /* Création de la fenêtre de dialogue pour le graph */
-    dialog = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "bet_graph_dialog"));
-    gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (grisbi_app_get_active_window (NULL)));
-    gtk_widget_set_size_request (dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70);
-    g_signal_connect (G_OBJECT (dialog),
-                        "destroy",
-                        G_CALLBACK (gtk_widget_destroy),
-                        NULL);
-
-    /* initialise le bouton show_grid avec la préférence "Major_grid" */
-    self->button_show_grid = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "button_show_grid"));
-    gtk_button_set_image (GTK_BUTTON (self->button_show_grid),
-                        gtk_image_new_from_file (g_build_filename (gsb_dirs_get_pixmaps_dir (),
-                        "gsb-grille-16.png", NULL)));
-    if (prefs->major_grid_y)
-        bet_graph_show_grid_button_configure (self, TRUE, -1);
-    g_signal_connect (self->button_show_grid,
-                        "toggled",
-                        G_CALLBACK (bet_graph_show_grid_button_changed),
-                        self);
-
     /* set the title */
     label = GTK_WIDGET (g_object_get_data (G_OBJECT (tree_view), "label_title"));
-    title = dialogue_make_pango_attribut ("weight=\"bold\" size=\"x-large\"",
-                    gtk_label_get_text (GTK_LABEL (label)));
-
-    label = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "label_canvas"));
-    gtk_label_set_markup (GTK_LABEL (label), title);
-    g_free (title);
 
     /* initialise les pages pour les graphiques ligne et barre */
-    self->notebook = GTK_NOTEBOOK (gtk_builder_get_object (bet_graph_builder, "notebook"));
-    g_signal_connect_after (self->notebook,
-                        "switch-page",
-                        G_CALLBACK (bet_graph_notebook_change_page),
-                        self);
-
-    /* set the graphique page */
-    self->plot = bet_graph_create_graph_page (self, TRUE);
-
-    /* set the preferences page */
-    bet_graph_create_prefs_page  (self);
-
-    /* populate data */
-    self->valid_data = bet_graph_populate_lines_by_forecast_data (self);
-    if (!self->valid_data)
-        return;
-
-    /* affiche les données */
-    result = bet_graph_affiche_XY_line (self);
-    if (!result)
-        return;
+    dialog = GTK_WIDGET (widget_bet_graph_others_new (self, gtk_label_get_text (GTK_LABEL (label)), origin_tab));
 
     gtk_widget_show_all (dialog);
     gtk_notebook_set_current_page (self->notebook, 0);
@@ -1497,7 +1444,7 @@ void bet_graph_line_graph_new (GtkWidget *button,
 
     /* free the data */
     struct_free_bet_graph_data (self);
-    g_object_unref (G_OBJECT (bet_graph_builder));
+
     gtk_widget_destroy (dialog);
 }
 
@@ -1508,23 +1455,17 @@ void bet_graph_line_graph_new (GtkWidget *button,
  *
  * \return TRUE
  **/
-void bet_graph_montly_graph_new (GtkWidget *button,
-								 GtkTreeView *tree_view)
+void bet_graph_hist_graph_new (GtkWidget *button,
+							   GtkTreeView *tree_view)
 {
     GtkWidget *dialog;
-    GtkWidget *label;
     gchar *title = NULL;
     gchar *tmp_str;
-    gint result;
     gint origin_tab;
     gint fyear_number;
     BetGraphDataStruct *self;
 
     devel_debug (NULL);
-
-    /* Initialisation d'un nouveau GtkBuilder */
-    if (!bet_graph_initialise_builder ())
-        return;
 
     /* Initialisations des données */
     self = struct_initialise_bet_graph_data ();
@@ -1569,59 +1510,12 @@ void bet_graph_montly_graph_new (GtkWidget *button,
             g_free (tmp_str);
         }
     }
-    else
-        self->prefs = prefs_prev;
+	else
+		self->prefs = prefs_prev;
 
-    /* Création de la fenêtre de dialogue pour le graph */
-    dialog = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "bet_graph_dialog"));
-    gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (grisbi_app_get_active_window (NULL)));
-    gtk_widget_set_size_request (dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70);
-    g_signal_connect (G_OBJECT (dialog),
-                        "destroy",
-                        G_CALLBACK (gtk_widget_destroy),
-                        NULL);
-
-    /* initialise le bouton show_grid avec la préférence "Major_grid" */
-    self->button_show_grid = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "button_show_grid"));
-    gtk_button_set_image (GTK_BUTTON (self->button_show_grid),
-                        gtk_image_new_from_file (g_build_filename (gsb_dirs_get_pixmaps_dir (),
-                        "gsb-grille-16.png", NULL)));
-    if (self->prefs->major_grid_y)
-        bet_graph_show_grid_button_configure (self, TRUE, -1);
-    g_signal_connect (self->button_show_grid,
-                        "toggled",
-                        G_CALLBACK (bet_graph_show_grid_button_changed),
-                        self);
-
-    title = dialogue_make_pango_attribut ("weight=\"bold\" size=\"x-large\"", title);
-
-    label = GTK_WIDGET (gtk_builder_get_object (bet_graph_builder, "label_canvas"));
-    gtk_label_set_markup (GTK_LABEL (label), title);
-
-    g_free (title);
-
-    /* initialise les pages pour les graphiques ligne et barre */
-    self->notebook = GTK_NOTEBOOK (gtk_builder_get_object (bet_graph_builder, "notebook"));
-    g_signal_connect_after (self->notebook,
-                        "switch-page",
-                        G_CALLBACK (bet_graph_notebook_change_page),
-                        self);
-
-    /* populate data */
-    self->valid_data = bet_graph_populate_lines_by_hist_line (self);
-    if (!self->valid_data)
-        return;
-
-    /* set the graphique page */
-    self->plot = bet_graph_create_graph_page (self, TRUE);
-
-    /* set the preferences page */
-    bet_graph_create_prefs_page  (self);
-
-    /* affiche les données */
-    result = bet_graph_affiche_XY_line (self);
-    if (!result)
-        return;
+	/* initialise les pages pour les graphiques ligne et barre */
+	dialog = GTK_WIDGET (widget_bet_graph_others_new (self, title, origin_tab));
+	g_free (title);
 
     gtk_widget_show_all (dialog);
     gtk_notebook_set_current_page (self->notebook, 0);
@@ -1629,7 +1523,7 @@ void bet_graph_montly_graph_new (GtkWidget *button,
     gtk_dialog_run (GTK_DIALOG (dialog));
 
     /* free the data */
-    g_object_unref (G_OBJECT (bet_graph_builder));
+    struct_free_bet_graph_data (self);
 
     gtk_widget_destroy (dialog);
 }

@@ -53,6 +53,7 @@
 		<file preprocess="xml-stripblanks">widgets/widget_account_property.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_bank_details.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_bet_graph_options.ui</file>
+		<file preprocess="xml-stripblanks">widgets/widget_bet_graph_others.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_bet_graph_pie.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_cmp_amount.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_cmp_text.ui</file>

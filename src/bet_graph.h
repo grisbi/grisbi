@@ -103,17 +103,19 @@ GtkToolItem *	bet_graph_button_menu_new 						(GtkWidget *toolbar,
 																 GtkWidget *tree_view);
 void 			bet_graph_free_configuration_variables			(void);
 gchar *			bet_graph_get_configuration_string				(gint origin_tab);
-void 			bet_graph_line_graph_new						(GtkWidget *button,
+void 					bet_graph_forecast_graph_new					(GtkWidget *button,
 																 GtkTreeView *tree_view);
-void 			bet_graph_montly_graph_new						(GtkWidget *button,
+void 					bet_graph_hist_graph_new						(GtkWidget *button,
 																 GtkTreeView *tree_view);
-gboolean 		bet_graph_populate_sectors_by_hist_data			(BetGraphDataStruct *self);
-gboolean 		bet_graph_populate_sectors_by_sub_divisions		(BetGraphDataStruct *self,
+gboolean				bet_graph_populate_lines_by_forecast_data		(BetGraphDataStruct *self);
+gboolean				bet_graph_populate_lines_by_hist_line			(BetGraphDataStruct *self);
+gboolean 				bet_graph_populate_sectors_by_hist_data			(BetGraphDataStruct *self);
+gboolean 				bet_graph_populate_sectors_by_sub_divisions		(BetGraphDataStruct *self,
 																 gint div_number);
-void		 	bet_graph_sectors_graph_new						(GtkWidget *button,
+void		 			bet_graph_sectors_graph_new						(GtkWidget *button,
 																 GtkTreeView *tree_view);
 void 			bet_graph_set_configuration_variables			(const gchar *string);
-void 			bet_graph_show_grid_button_configure			(BetGraphDataStruct *self,
+void 					struct_free_bet_graph_prefs						(void);
 																 gint active,
 																 gint hide);
 void 			bet_graph_update_graph							(BetGraphDataStruct *self);
