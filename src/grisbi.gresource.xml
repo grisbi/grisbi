@@ -43,7 +43,6 @@
 		<file preprocess="xml-stripblanks">prefs/prefs_page_payment_method.ui</file>
 		<file preprocess="xml-stripblanks">prefs/prefs_page_reconcile.ui</file>
 		<file preprocess="xml-stripblanks">prefs/prefs_page_reconcile_sort.ui</file>
-		<file preprocess="xml-stripblanks">ui/bet_graph.ui</file>
 		<file preprocess="xml-stripblanks">ui/csv_template_rule.ui</file>
 		<file preprocess="xml-stripblanks">ui/etats_prefs.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_menu.ui</file>

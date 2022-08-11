@@ -10,8 +10,3 @@ EXTRA_DIST = grisbi.css \
 	grisbi_win.ui \
 	search_transaction.ui
 
-if HAVE_GOFFICE
-EXTRA_DIST += \
-	bet_graph.ui 
-endif
-
