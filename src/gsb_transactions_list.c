@@ -3502,15 +3502,27 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
     }
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
-    /* check if the transaction is not reconciled */
+
+	/* check if the transaction is not reconciled */
     if (gsb_transactions_list_check_mark (transaction_number))
     {
-		dialogue_error (_("Impossible to delete a reconciled transaction.\nThe transaction, "
-						  "the contra-transaction or the children if it is a split are "
-						  "reconciled. You can remove the reconciliation with Ctrl R if "
-						  "it is really necessary."));
+		gint mother_number;
+		gboolean valid_delete = FALSE;
 
-		return FALSE;
+		mother_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
+		if (mother_number && !gsb_data_transaction_get_split_of_transaction (transaction_number))
+		{
+			valid_delete = TRUE;
+		}
+		if (!valid_delete)
+		{
+			dialogue_error (_("Impossible to delete a reconciled transaction.\nThe transaction, "
+							  "the contra-transaction or the children if it is a split are "
+							  "reconciled. You can remove the reconciliation with Ctrl R if "
+							  "it is really necessary."));
+
+			return FALSE;
+		}
     }
 
     /* show a warning */

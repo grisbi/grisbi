@@ -291,6 +291,7 @@ static gboolean gsb_form_get_categories (gint transaction_number,
 					g_slist_free (save_children_list);
 				}
 				gsb_data_mix_set_split_of_transaction (transaction_number, 0, is_transaction);
+				transaction_list_reset_transaction_color (transaction_number);
 			}
 
 			/* now, check if it's a transfer or a normal category */

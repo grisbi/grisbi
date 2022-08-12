@@ -2388,6 +2388,41 @@ gboolean transaction_list_check_line_is_visible (gint line_in_transaction,
     return FALSE;
 }
 
+/**
+ * reset the color of transation
+ *
+ * \param gint		number of transaction
+ *
+ * \return
+ **/
+void transaction_list_reset_transaction_color (gint transaction_number)
+{
+	GdkRGBA *text_color;
+	GtkTreeIter iter;
+	gint i;
+	CustomList *custom_list;
+	CustomRecord *record;
+
+	custom_list = transaction_model_get_model ();
+
+	if (custom_list == NULL)
+		return;
+
+	/* get the record */
+	if (!transaction_model_get_transaction_iter (&iter, transaction_number, 0))
+		return;
+
+	record = iter.user_data;
+	if (!record)
+		return;
+
+	/* reset the color of the transaction */
+	text_color = gsb_rgba_get_couleur_with_indice ("text_color", 0);
+
+	for (i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
+		record->transaction_records[i]->text_color = text_color;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
