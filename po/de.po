@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-02 07:15+0200\n"
+"POT-Creation-Date: 2022-08-12 13:59+0200\n"
 "PO-Revision-Date: 2022-01-23 11:58+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -337,7 +337,7 @@ msgstr "Voreinstellung"
 
 #. on fixe le titre et le suffixe de la barre d'information
 #. set head page
-#: ../src/prefs/prefs_page_bet_account.ui.h:8 ../src/navigation.c:2143
+#: ../src/prefs/prefs_page_bet_account.ui.h:8 ../src/navigation.c:632
 #: ../src/tiers_onglet.c:714 ../src/tiers_onglet.c:953
 #: ../src/etats/etats_page_payee.c:623
 msgid "Payees"
@@ -345,8 +345,8 @@ msgstr "Empfänger"
 
 #. set head page
 #: ../src/prefs/prefs_page_bet_account.ui.h:9 ../src/ui/etats_prefs.ui.h:53
-#: ../src/bet_hist.c:2134 ../src/bet_hist.c:2140 ../src/categories_onglet.c:370
-#: ../src/etats_prefs.c:424 ../src/grisbi_win.c:487 ../src/navigation.c:2151
+#: ../src/bet_hist.c:2136 ../src/bet_hist.c:2142 ../src/categories_onglet.c:370
+#: ../src/etats_prefs.c:424 ../src/grisbi_win.c:487 ../src/navigation.c:640
 #: ../src/utils_widgets.c:455 ../src/etats/etats_page_category.c:88
 msgid "Categories"
 msgstr "Kategorien"
@@ -354,9 +354,9 @@ msgstr "Kategorien"
 #. 8
 #. set head page
 #: ../src/prefs/prefs_page_bet_account.ui.h:10 ../src/ui/etats_prefs.ui.h:59
-#: ../src/bet_hist.c:2138 ../src/etats_prefs.c:429 ../src/export_csv.c:404
+#: ../src/bet_hist.c:2140 ../src/etats_prefs.c:429 ../src/export_csv.c:404
 #: ../src/grisbi_win.c:492 ../src/import_csv.c:90
-#: ../src/imputation_budgetaire.c:377 ../src/navigation.c:2155
+#: ../src/imputation_budgetaire.c:377 ../src/navigation.c:644
 #: ../src/utils_widgets.c:458 ../src/etats/etats_page_budget.c:90
 msgid "Budgetary lines"
 msgstr "Gruppen"
@@ -606,7 +606,8 @@ msgid "Number of days before the warning or the execution: "
 msgstr "Hinweis für eine geplante Buchung in Tagen davor anzeigen: "
 
 #: ../src/prefs/prefs_page_divers.ui.h:2 ../src/prefs/prefs_page_files.ui.h:15
-#: ../src/prefs/prefs_page_payment_method.ui.h:10 ../src/ui/bet_graph.ui.h:21
+#: ../src/prefs/prefs_page_payment_method.ui.h:10
+#: ../src/widgets/widget_bet_graph_options.ui.h:19
 #: ../src/widgets/widget_loan.ui.h:8
 msgid "0"
 msgstr "0"
@@ -719,7 +720,7 @@ msgid "(This change will take effect on the next restart)"
 msgstr "(Diese Änderung wird nach dem nächsten Neustart wirksam)"
 
 #: ../src/prefs/prefs_page_divers.ui.h:29 ../src/grisbi_win.c:472
-#: ../src/navigation.c:2139
+#: ../src/navigation.c:628
 msgid "Scheduler"
 msgstr "Planer"
 
@@ -749,8 +750,9 @@ msgid "Localization"
 msgstr "Internationalisierung"
 
 #. set options
-#: ../src/prefs/prefs_page_divers.ui.h:36 ../src/bet_graph.c:1359
-#: ../src/tiers_onglet.c:1256
+#. add the preferences page
+#: ../src/prefs/prefs_page_divers.ui.h:36 ../src/tiers_onglet.c:1256
+#: ../src/widgets/widget_bet_graph_others.c:531
 msgid "Options"
 msgstr "Einstellungen"
 
@@ -1100,7 +1102,7 @@ msgid "Neutral"
 msgstr "Neutral"
 
 #: ../src/prefs/prefs_page_payment_method.ui.h:12 ../src/bet_future.c:552
-#: ../src/bet_tab.c:2027 ../src/categories_onglet.c:786 ../src/export_csv.c:389
+#: ../src/bet_tab.c:2029 ../src/categories_onglet.c:786 ../src/export_csv.c:389
 #: ../src/gsb_form.c:2025 ../src/gsb_form_widget.c:554
 #: ../src/gsb_transactions_list.c:114 ../src/import_csv.c:94
 #: ../src/imputation_budgetaire.c:824
@@ -1111,7 +1113,7 @@ msgstr "Ausgaben"
 
 #. 11
 #: ../src/prefs/prefs_page_payment_method.ui.h:13 ../src/bet_future.c:557
-#: ../src/bet_tab.c:2045 ../src/categories_onglet.c:786 ../src/export_csv.c:386
+#: ../src/bet_tab.c:2047 ../src/categories_onglet.c:786 ../src/export_csv.c:386
 #: ../src/gsb_form.c:2031 ../src/gsb_form_widget.c:558
 #: ../src/gsb_transactions_list.c:115 ../src/import_csv.c:93
 #: ../src/imputation_budgetaire.c:824
@@ -1229,103 +1231,6 @@ msgstr "Hinauf"
 msgid "Go down"
 msgstr "Hinunter"
 
-#: ../src/ui/bet_graph.ui.h:1
-msgid "<b>Options for the axis</b>"
-msgstr "<b>Einstellungen für alle Achsen</b>"
-
-#: ../src/ui/bet_graph.ui.h:2
-msgid "<b>Options for the X axis</b>"
-msgstr "<b>Einstellungen für X-Achse</b>"
-
-#: ../src/ui/bet_graph.ui.h:3
-msgid "<b>Major ticks</b>"
-msgstr "<b>Intervallmarkierungen</b>"
-
-#: ../src/ui/bet_graph.ui.h:4
-msgid "Outside"
-msgstr "Außerhalb"
-
-#: ../src/ui/bet_graph.ui.h:5
-msgid "Inside"
-msgstr "Mittig"
-
-#: ../src/ui/bet_graph.ui.h:6
-msgid "Show Labels"
-msgstr "Beschriftung anzeigen"
-
-#: ../src/ui/bet_graph.ui.h:7
-msgid "<b>Position</b>"
-msgstr "<b>Beschriftung</b>"
-
-#: ../src/ui/bet_graph.ui.h:8
-msgid "Low"
-msgstr "unten Anzeigen"
-
-#: ../src/ui/bet_graph.ui.h:9
-msgid "High"
-msgstr "oben Anzeigen"
-
-#: ../src/ui/bet_graph.ui.h:10
-msgid "Intersection point of X Y axes"
-msgstr "Schnittpunkt X und Y Achse"
-
-#: ../src/ui/bet_graph.ui.h:11
-msgid "<b>Additional line</b>"
-msgstr "<b>Hilfsachse</b>"
-
-#: ../src/ui/bet_graph.ui.h:12
-msgid "Crosses the Y axis at 0"
-msgstr "Schnittpunkt für Y-Achse ist 0"
-
-#: ../src/ui/bet_graph.ui.h:13
-msgid "<b>Options for the Y axis</b>"
-msgstr "<b>Einstellungen für Y-Achse</b>"
-
-#: ../src/ui/bet_graph.ui.h:14
-msgid "<b>Grid</b>"
-msgstr "<b>Linien</b>"
-
-#: ../src/ui/bet_graph.ui.h:15
-msgid "Major grid"
-msgstr "Hauptlinien"
-
-#: ../src/ui/bet_graph.ui.h:16
-msgid "Minor grid"
-msgstr "Hilfslinien"
-
-#: ../src/ui/bet_graph.ui.h:17
-msgid "<b>Options for the columns</b>"
-msgstr "<b>Einstellungen für Spalten</b>"
-
-#: ../src/ui/bet_graph.ui.h:18
-msgid "Gap:"
-msgstr "Abstand:"
-
-#: ../src/ui/bet_graph.ui.h:20 ../src/widgets/widget_loan.ui.h:10
-#: ../src/bet_finance_ui.c:984 ../src/bet_finance_ui.c:1341
-#: ../src/bet_finance_ui.c:1363 ../src/bet_finance_ui.c:1739
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: ../src/ui/bet_graph.ui.h:22
-msgid "Display the grids above the plot"
-msgstr "Linien im Diagramm anzeigen"
-
-#: ../src/ui/bet_graph.ui.h:23
-msgid "Diagram"
-msgstr "Diagramm - Grisbi"
-
-#: ../src/ui/bet_graph.ui.h:24 ../src/bet_graph.c:1025 ../src/bet_graph.c:1058
-msgid "Show grid"
-msgstr "Linien anzeigen"
-
-#: ../src/ui/bet_graph.ui.h:25 ../src/ui/grisbi_menu.ui.h:19
-#: ../src/ui/grisbi_prefs.ui.h:2 ../src/grisbi_app.c:118
-#: ../src/grisbi_app.c:135
-msgid "Close"
-msgstr "Schließen"
-
 #: ../src/ui/csv_template_rule.ui.h:2
 msgid "Apply"
 msgstr ""
@@ -1361,7 +1266,7 @@ msgstr "Importiertes Konto Id:"
 msgid "Row"
 msgstr "Zeile"
 
-#: ../src/ui/csv_template_rule.ui.h:10 ../src/bet_graph.c:1954
+#: ../src/ui/csv_template_rule.ui.h:10 ../src/bet_graph.c:334
 msgid "Column"
 msgstr "Spalte"
 
@@ -1423,7 +1328,7 @@ msgstr "Zusätzliche Daten: "
 #. names of the data for transactions list
 #. 1
 #: ../src/ui/etats_prefs.ui.h:9 ../src/widgets/widget_transfer.ui.h:5
-#: ../src/bet_finance_ui.c:1818 ../src/bet_future.c:531 ../src/bet_tab.c:1993
+#: ../src/bet_finance_ui.c:1818 ../src/bet_future.c:531 ../src/bet_tab.c:1995
 #: ../src/etats_affiche.c:2434 ../src/export_csv.c:368
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1996
 #: ../src/gsb_form_widget.c:550 ../src/gsb_reconcile.c:214
@@ -1585,7 +1490,7 @@ msgid "Make transactions clickable"
 msgstr "Buchungen sind aufrufbar"
 
 #: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:414
-#: ../src/grisbi_win.c:438 ../src/navigation.c:2135
+#: ../src/grisbi_win.c:438 ../src/navigation.c:624
 msgid "Accounts"
 msgstr "Konten"
 
@@ -1831,6 +1736,13 @@ msgstr "QIF Datei anonymisieren"
 msgid "Debug mode"
 msgstr "Debug starten"
 
+#: ../src/ui/grisbi_menu.ui.h:19 ../src/ui/grisbi_prefs.ui.h:2
+#: ../src/widgets/widget_bet_graph_others.ui.h:3
+#: ../src/widgets/widget_bet_graph_pie.ui.h:2 ../src/grisbi_app.c:118
+#: ../src/grisbi_app.c:135
+msgid "Close"
+msgstr "Schließen"
+
 #: ../src/ui/grisbi_menu.ui.h:20
 msgid "E_dit"
 msgstr "Bearbeiten"
@@ -1867,7 +1779,7 @@ msgid "Convert to scheduled transaction"
 msgstr "Buchung regelmäßig ausführen"
 
 #: ../src/ui/grisbi_menu.ui.h:28 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/navigation.c:2305
+#: ../src/grisbi_app.c:137 ../src/navigation.c:212
 msgid "New account"
 msgstr "Konto erstellen"
 
@@ -2142,6 +2054,108 @@ msgstr "Fax: "
 #: ../src/gsb_transactions_list.c:124 ../src/import_csv.c:86
 msgid "Notes"
 msgstr "Notizen"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:1
+msgid "<b>Options for the axis</b>"
+msgstr "<b>Einstellungen für alle Achsen</b>"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:2
+msgid "<b>Options for the X axis</b>"
+msgstr "<b>Einstellungen für X-Achse</b>"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:3
+#, fuzzy
+msgid "Major ticks"
+msgstr "<b>Intervallmarkierungen</b>"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:4
+msgid "Outside"
+msgstr "Außerhalb"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:5
+msgid "Inside"
+msgstr "Mittig"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:6
+msgid "Show Labels"
+msgstr "Beschriftung anzeigen"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:7
+#, fuzzy
+msgid "Position"
+msgstr "<b>Beschriftung</b>"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:8
+msgid "Low"
+msgstr "unten Anzeigen"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:9
+msgid "High"
+msgstr "oben Anzeigen"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:10
+msgid "Intersection point of X Y axes"
+msgstr "Schnittpunkt X und Y Achse"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:11
+#, fuzzy
+msgid "Additional line"
+msgstr "Virtuelles Konto"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:12
+msgid "Crosses the Y axis at 0"
+msgstr "Schnittpunkt für Y-Achse ist 0"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:13
+msgid "<b>Options for the Y axis</b>"
+msgstr "<b>Einstellungen für Y-Achse</b>"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:14
+msgid "Grid"
+msgstr ""
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:15
+msgid "Major grid"
+msgstr "Hauptlinien"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:16
+msgid "Minor grid"
+msgstr "Hilfslinien"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:17
+msgid "<b>Options for the columns</b>"
+msgstr "<b>Einstellungen für Spalten</b>"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:18
+msgid "Gap:"
+msgstr "Abstand:"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:21
+#: ../src/widgets/widget_loan.ui.h:10 ../src/bet_finance_ui.c:984
+#: ../src/bet_finance_ui.c:1341 ../src/bet_finance_ui.c:1363
+#: ../src/bet_finance_ui.c:1739
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: ../src/widgets/widget_bet_graph_options.ui.h:22
+msgid "Display the grids above the plot"
+msgstr "Linien im Diagramm anzeigen"
+
+#: ../src/widgets/widget_bet_graph_others.ui.h:1
+#, fuzzy
+msgid "Chart: Lines"
+msgstr "Gebühren"
+
+#: ../src/widgets/widget_bet_graph_others.ui.h:2
+#: ../src/widgets/widget_bet_graph_others.c:393
+#: ../src/widgets/widget_bet_graph_others.c:430
+msgid "Show grid"
+msgstr "Linien anzeigen"
+
+#: ../src/widgets/widget_bet_graph_pie.ui.h:1
+msgid "Chart: Pie"
+msgstr ""
 
 #: ../src/widgets/widget_cmp_amount.ui.h:2
 #: ../src/widgets/widget_cmp_text.ui.h:1
@@ -2818,7 +2832,7 @@ msgstr "Tilgungen ab Anfang anzeigen"
 
 #. Export list
 #: ../src/bet_finance_ui.c:772 ../src/bet_finance_ui.c:894
-#: ../src/bet_finance_ui.c:2093 ../src/bet_hist.c:949 ../src/bet_tab.c:1456
+#: ../src/bet_finance_ui.c:2093 ../src/bet_hist.c:951 ../src/bet_tab.c:1458
 msgid "Export the array"
 msgstr "Auflistung Exportieren"
 
@@ -2826,7 +2840,7 @@ msgstr "Auflistung Exportieren"
 msgid "credit.csv"
 msgstr "credit.csv"
 
-#: ../src/bet_finance_ui.c:798 ../src/bet_hist.c:883 ../src/bet_tab.c:402
+#: ../src/bet_finance_ui.c:798 ../src/bet_hist.c:885 ../src/bet_tab.c:404
 #: ../src/imputation_budgetaire.c:472
 msgid "Cannot save file."
 msgstr "Datei kann nicht gespeichert werden."
@@ -2841,7 +2855,7 @@ msgstr "Kreditrechner anzeigen"
 
 #. Print list
 #: ../src/bet_finance_ui.c:886 ../src/bet_finance_ui.c:2084
-#: ../src/bet_hist.c:943 ../src/bet_tab.c:1448 ../src/bet_tab.c:2117
+#: ../src/bet_hist.c:945 ../src/bet_tab.c:1450 ../src/bet_tab.c:2119
 msgid "Print the array"
 msgstr "Auflistung Drucken"
 
@@ -2946,8 +2960,8 @@ msgid " of capital"
 msgstr " vom Kapital"
 
 #. titre de la page
-#: ../src/bet_finance_ui.c:1441 ../src/grisbi_win.c:482
-#: ../src/navigation.c:1359 ../src/navigation.c:2147
+#: ../src/bet_finance_ui.c:1441 ../src/grisbi_win.c:482 ../src/navigation.c:636
+#: ../src/navigation.c:1982
 msgid "Credits simulator"
 msgstr "Kreditrechner"
 
@@ -2989,13 +3003,13 @@ msgstr "Kreditrechner"
 
 #. création du bouton print
 #. print button
-#: ../src/bet_finance_ui.c:2083 ../src/bet_hist.c:942 ../src/bet_tab.c:2116
+#: ../src/bet_finance_ui.c:2083 ../src/bet_hist.c:944 ../src/bet_tab.c:2118
 #: ../src/etats_onglet.c:578 ../src/gsb_transactions_list.c:2543
 msgid "Print"
 msgstr "Drucken"
 
 #. Export button
-#: ../src/bet_finance_ui.c:2092 ../src/bet_hist.c:948 ../src/bet_tab.c:2125
+#: ../src/bet_finance_ui.c:2092 ../src/bet_hist.c:950 ../src/bet_tab.c:2127
 #: ../src/categories_onglet.c:588 ../src/etats_onglet.c:568 ../src/export.c:503
 #: ../src/imputation_budgetaire.c:636
 msgid "Export"
@@ -3037,7 +3051,7 @@ msgstr "eigene Frequenz"
 msgid "Categories : Sub-categories"
 msgstr "Kategorien : Unterkategorien"
 
-#: ../src/bet_future.c:569 ../src/bet_hist.c:1441 ../src/etats_affiche.c:2469
+#: ../src/bet_future.c:569 ../src/bet_hist.c:1443 ../src/etats_affiche.c:2469
 #: ../src/etats_config.c:445 ../src/gsb_form.c:2046
 #: ../src/gsb_form_widget.c:582 ../src/gsb_transactions_list.c:113
 #: ../src/imputation_budgetaire.c:183 ../src/meta_budgetary.c:88
@@ -3190,199 +3204,159 @@ msgstr ""
 msgid "Confirmation of deletion of a deferred debit card"
 msgstr "Bestätigung für das Löschen von einem Kreditkartenkonto"
 
-#: ../src/bet_graph.c:151
+#: ../src/bet_graph.c:67
 msgid "Jan"
 msgstr "Jan"
 
-#: ../src/bet_graph.c:151
+#: ../src/bet_graph.c:67
 msgid "Feb"
 msgstr "Feb"
 
-#: ../src/bet_graph.c:151
+#: ../src/bet_graph.c:67
 msgid "Mar"
 msgstr "Mär"
 
-#: ../src/bet_graph.c:151
+#: ../src/bet_graph.c:67
 msgid "Apr"
 msgstr "Apr"
 
-#: ../src/bet_graph.c:152 ../src/bet_graph.c:159
+#: ../src/bet_graph.c:68 ../src/bet_graph.c:76
 msgid "May"
 msgstr "Mai"
 
-#: ../src/bet_graph.c:152
+#: ../src/bet_graph.c:68
 msgid "Jun"
 msgstr "Jun"
 
-#: ../src/bet_graph.c:152
+#: ../src/bet_graph.c:68
 msgid "Jul"
 msgstr "Jul"
 
-#: ../src/bet_graph.c:152
+#: ../src/bet_graph.c:68
 msgid "Aug"
 msgstr "Aug"
 
-#: ../src/bet_graph.c:153
+#: ../src/bet_graph.c:69
 msgid "Sep"
 msgstr "Sep"
 
-#: ../src/bet_graph.c:153
+#: ../src/bet_graph.c:69
 msgid "Oct"
 msgstr "Okt"
 
-#: ../src/bet_graph.c:153
+#: ../src/bet_graph.c:69
 msgid "Nov"
 msgstr "Nov"
 
-#: ../src/bet_graph.c:153
+#: ../src/bet_graph.c:69
 msgid "Dec"
 msgstr "Dez"
 
-#: ../src/bet_graph.c:158
+#: ../src/bet_graph.c:75
 msgid "January"
 msgstr "Januar"
 
-#: ../src/bet_graph.c:158
+#: ../src/bet_graph.c:75
 msgid "February"
 msgstr "Februar"
 
-#: ../src/bet_graph.c:158
+#: ../src/bet_graph.c:75
 msgid "March"
 msgstr "März"
 
-#: ../src/bet_graph.c:158
+#: ../src/bet_graph.c:75
 msgid "April"
 msgstr "April"
 
-#: ../src/bet_graph.c:159
+#: ../src/bet_graph.c:76
 msgid "June"
 msgstr "Juni"
 
-#: ../src/bet_graph.c:159
+#: ../src/bet_graph.c:76
 msgid "July"
 msgstr "Juli"
 
-#: ../src/bet_graph.c:159
+#: ../src/bet_graph.c:76
 msgid "August"
 msgstr "August"
 
-#: ../src/bet_graph.c:160
+#: ../src/bet_graph.c:77
 msgid "September"
 msgstr "September"
 
-#: ../src/bet_graph.c:160
+#: ../src/bet_graph.c:77
 msgid "October"
 msgstr "Oktober"
 
-#: ../src/bet_graph.c:160
+#: ../src/bet_graph.c:77
 msgid "November"
 msgstr "November"
 
-#: ../src/bet_graph.c:160
+#: ../src/bet_graph.c:77
 msgid "December"
 msgstr "Dezember"
 
-#: ../src/bet_graph.c:464
-msgid "Total amount: "
-msgstr "Gesamtbetrag:"
-
-#: ../src/bet_graph.c:484
-#, c-format
-msgid ""
-"<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
-msgstr "<span weight=\"bold\">Teilbereich(e) von Gruppe: %s</span>"
-
-#: ../src/bet_graph.c:489
-#, c-format
-msgid ""
-"<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
-"span>"
-msgstr ""
-"<span weight=\"bold\" size=\"large\">Teilbereich(e) von Kategorie: %s</span>"
-
-#: ../src/bet_graph.c:503 ../src/bet_graph.c:746 ../src/bet_graph.c:2369
-msgid "Graph"
-msgstr "Diagramm"
-
-#: ../src/bet_graph.c:595
-msgid "The selected budget item has no subitems"
-msgstr "Die ausgewählte Gruppe hat kein Untergruppen"
-
-#: ../src/bet_graph.c:597
-msgid "The selected category has no subcategory"
-msgstr "Die ausgewählte Kategorie hat keine Unterkategorien"
-
-#: ../src/bet_graph.c:655 ../src/bet_graph.c:689
-#, c-format
-msgid "date %s : value %s"
-msgstr "Datum %s : Betrag %s"
-
-#. la grille est visible
-#: ../src/bet_graph.c:1023 ../src/bet_graph.c:1056
-msgid "Hide grid"
-msgstr "Linien verbergen"
-
-#: ../src/bet_graph.c:1560
-msgid "You can not exceed one year of visualization"
-msgstr "Die maximale Zeitspanne für die Datenanzeige ist ein Jahr"
-
-#: ../src/bet_graph.c:1560
-msgid "Overflow"
-msgstr "Überlauf"
-
-#: ../src/bet_graph.c:1940
+#: ../src/bet_graph.c:320
 msgid "Display the graph of forecast"
 msgstr "Diagramm von Prognose anzeigen"
 
-#: ../src/bet_graph.c:1948
+#: ../src/bet_graph.c:328
 msgid "Display the monthly graph"
 msgstr "Diagramm anzeigen"
 
-#: ../src/bet_graph.c:1980
+#: ../src/bet_graph.c:357
 msgid "Line"
 msgstr "Linie"
 
-#: ../src/bet_graph.c:2228
+#: ../src/bet_graph.c:515
+msgid "You can not exceed one year of visualization"
+msgstr "Die maximale Zeitspanne für die Datenanzeige ist ein Jahr"
+
+#: ../src/bet_graph.c:515
+msgid "Overflow"
+msgstr "Überlauf"
+
+#: ../src/bet_graph.c:984
 #, c-format
 msgid "Amounts %s - %s for the account: '%s'"
 msgstr "Beträge %s - %s für das Konto: '%s'"
 
-#: ../src/bet_graph.c:2241
+#: ../src/bet_graph.c:997
 #, c-format
 msgid "Monthly amounts since %s for the account: '%s'"
 msgstr "Auflistung nach monatlichen Beträgen seit %s für das Konto: '%s'"
 
-#: ../src/bet_graph.c:2385
+#: ../src/bet_graph.c:1068
 msgid "Expenses"
 msgstr "Ausgaben"
 
-#: ../src/bet_graph.c:2409 ../src/etats_affiche.c:2301
+#: ../src/bet_graph.c:1085 ../src/etats_affiche.c:2301
 msgid "Incomes"
 msgstr "Einnahmen"
 
-#: ../src/bet_hist.c:790
+#: ../src/bet_hist.c:792
 msgid "Assign the amount of the last operation"
 msgstr "Betrag von letzter Buchung eintragen"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:809
+#: ../src/bet_hist.c:811
 msgid "Copy the average amount"
 msgstr "Den durchschnittlichen Betrag kopieren"
 
-#: ../src/bet_hist.c:857
+#: ../src/bet_hist.c:859
 msgid "Export the hist data"
 msgstr "Daten Historie exportieren"
 
 #. sectors button
-#: ../src/bet_hist.c:955
+#: ../src/bet_hist.c:957
 msgid "Data graph"
 msgstr "Diagramm"
 
-#: ../src/bet_hist.c:956
+#: ../src/bet_hist.c:958
 msgid "Display the pie graph"
 msgstr "Diagramm anzeigen"
 
-#: ../src/bet_hist.c:1211
+#: ../src/bet_hist.c:1213
 msgid ""
 "Amount retained: Enter a negative number for a debit\n"
 "a positive number for a credit"
@@ -3390,14 +3364,14 @@ msgstr ""
 "Betrag beibehalten: Für Ausgabe negative Zahl und\n"
 "für Einnahme positive Zahl eingeben"
 
-#: ../src/bet_hist.c:1256 ../src/tiers_onglet.c:1516 ../src/utils_buttons.c:151
+#: ../src/bet_hist.c:1258 ../src/tiers_onglet.c:1516 ../src/utils_buttons.c:151
 #: ../src/utils_buttons.c:153
 msgid "Select"
 msgstr "Auswählen"
 
 #. name of the div sous-div column
 #. 6
-#: ../src/bet_hist.c:1267 ../src/bet_hist.c:1448 ../src/categories_onglet.c:180
+#: ../src/bet_hist.c:1269 ../src/bet_hist.c:1450 ../src/categories_onglet.c:180
 #: ../src/etats_affiche.c:2462 ../src/etats_config.c:441
 #: ../src/export_csv.c:395 ../src/gsb_transactions_list.c:121
 #: ../src/import_csv.c:88 ../src/meta_categories.c:67
@@ -3408,7 +3382,7 @@ msgstr "Kategorie"
 #. on ajoute le montant
 #. 10
 #. set head page
-#: ../src/bet_hist.c:1284 ../src/categories_onglet.c:201
+#: ../src/bet_hist.c:1286 ../src/categories_onglet.c:201
 #: ../src/etats_affiche.c:2517 ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_scheduler_list.c:926 ../src/gsb_transactions_list.c:117
 #: ../src/import.c:4358 ../src/import_csv.c:92
@@ -3417,23 +3391,23 @@ msgstr "Kategorie"
 msgid "Amount"
 msgstr "Betrag"
 
-#: ../src/bet_hist.c:1300
+#: ../src/bet_hist.c:1302
 msgid "Average"
 msgstr "Durchschnitt"
 
-#: ../src/bet_hist.c:1316
+#: ../src/bet_hist.c:1318
 msgid "Current fyear"
 msgstr "Aktuelles Geschäftsjahr"
 
-#: ../src/bet_hist.c:1334
+#: ../src/bet_hist.c:1336
 msgid "Amount retained"
 msgstr "Vorgesehener Betrag"
 
-#: ../src/bet_hist.c:1478 ../src/prefs/prefs_page_bet_account.c:132
+#: ../src/bet_hist.c:1480 ../src/prefs/prefs_page_bet_account.c:132
 msgid "(These data are aggregated with those of a deferred debit card account)"
 msgstr "(Gesammelte Daten von Kreditkartenkonto)"
 
-#: ../src/bet_hist.c:1481 ../src/prefs/prefs_page_bet_account.c:135
+#: ../src/bet_hist.c:1483 ../src/prefs/prefs_page_bet_account.c:135
 #, c-format
 msgid ""
 "(These data are aggregated with those of %d deferred debit card accounts)"
@@ -3444,161 +3418,161 @@ msgstr "(Gesammelte Daten von %d Kreditkartenkonten)"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:1829
+#: ../src/bet_hist.c:1831
 msgid "12 months rolling"
 msgstr "Zeitspanne von 12 Monaten"
 
-#: ../src/bet_hist.c:2022
+#: ../src/bet_hist.c:2024
 #, c-format
 msgid "Amounts by %s on 12 months rolling for the account: '%s'"
 msgstr "Beträge nach %s in der Zeitspanne von 12 Monaten für das Konto: '%s'"
 
-#: ../src/bet_hist.c:2026
+#: ../src/bet_hist.c:2028
 #, c-format
 msgid "Amounts by %s in %s for the account: '%s'"
 msgstr "Beträge nach %s in der Zeitspanne %s für das Konto: '%s'"
 
-#: ../src/bet_tab.c:169
+#: ../src/bet_tab.c:171
 msgid " (still available)"
 msgstr " (verfügbar)"
 
-#: ../src/bet_tab.c:178 ../src/bet_tab.c:199
+#: ../src/bet_tab.c:180 ../src/bet_tab.c:201
 msgid " (budget exceeded)"
 msgstr " (überschritten)"
 
-#: ../src/bet_tab.c:190
+#: ../src/bet_tab.c:192
 msgid " (yet to receive)"
 msgstr " (erwartet)"
 
-#: ../src/bet_tab.c:376 ../src/bet_tab.c:2126
+#: ../src/bet_tab.c:378 ../src/bet_tab.c:2128
 msgid "Export the array of forecast"
 msgstr "Auflistung Exportieren"
 
-#: ../src/bet_tab.c:383
+#: ../src/bet_tab.c:385
 msgid "forecast.csv"
 msgstr "Prognose.csv"
 
-#: ../src/bet_tab.c:963 ../src/bet_tab.c:1020 ../src/bet_tab.c:1083
+#: ../src/bet_tab.c:965 ../src/bet_tab.c:1022 ../src/bet_tab.c:1085
 msgid "No data by default"
 msgstr "Keine Daten verfügbar"
 
-#: ../src/bet_tab.c:976 ../src/bet_tab.c:1028 ../src/bet_tab.c:1089
+#: ../src/bet_tab.c:978 ../src/bet_tab.c:1030 ../src/bet_tab.c:1091
 #: ../src/etats_affiche.c:1872 ../src/gsb_data_category.c:169
 #: ../src/meta_categories.c:70 ../src/widgets/widget_list_metatree.c:540
 msgid "No category"
 msgstr "Keine Kategorie"
 
-#: ../src/bet_tab.c:983 ../src/bet_tab.c:1036 ../src/bet_tab.c:1095
+#: ../src/bet_tab.c:985 ../src/bet_tab.c:1038 ../src/bet_tab.c:1097
 #: ../src/etats_affiche.c:2036 ../src/meta_budgetary.c:91
 #: ../src/widgets/widget_list_metatree.c:532
 msgid "No budgetary line"
 msgstr "Keine Gruppe"
 
-#: ../src/bet_tab.c:1047 ../src/bet_tab.c:1052 ../src/bet_tab.c:2342
-#: ../src/bet_tab.c:2354 ../src/bet_tab.c:2569
+#: ../src/bet_tab.c:1049 ../src/bet_tab.c:1054 ../src/bet_tab.c:2344
+#: ../src/bet_tab.c:2356 ../src/bet_tab.c:2571
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Umbuchung: %s <-> %s"
 
-#: ../src/bet_tab.c:1105
+#: ../src/bet_tab.c:1107
 #, c-format
 msgid "Balance of account: %s"
 msgstr "Saldo vom Konto : %s"
 
-#: ../src/bet_tab.c:1108
+#: ../src/bet_tab.c:1110
 #, c-format
 msgid "Partial balance: %s"
 msgstr "Teilsaldo : %s"
 
-#: ../src/bet_tab.c:1320
+#: ../src/bet_tab.c:1322
 msgid "Subtract to the balance"
 msgstr "Beim Saldo nicht berücksichtigen"
 
-#: ../src/bet_tab.c:1325
+#: ../src/bet_tab.c:1327
 msgid "Adding to the balance"
 msgstr "Beim Saldo berücksichtigen"
 
 #. Insert Row
-#: ../src/bet_tab.c:1339
+#: ../src/bet_tab.c:1341
 msgid "Insert row"
 msgstr "Zeile einfügen"
 
-#: ../src/bet_tab.c:1352 ../src/bet_tab.c:1363 ../src/bet_tab.c:1378
-#: ../src/bet_tab.c:1424
+#: ../src/bet_tab.c:1354 ../src/bet_tab.c:1365 ../src/bet_tab.c:1380
+#: ../src/bet_tab.c:1426
 msgid "Delete selection"
 msgstr "Auswahl löschen"
 
-#: ../src/bet_tab.c:1371
+#: ../src/bet_tab.c:1373
 msgid "Change selection"
 msgstr "Auswahl ändern"
 
-#: ../src/bet_tab.c:1386
+#: ../src/bet_tab.c:1388
 msgid "Delete all occurrences of the selection"
 msgstr "Ein oder alle Vorkommen von der Auswahl löschen"
 
-#: ../src/bet_tab.c:1398
+#: ../src/bet_tab.c:1400
 msgid "Convert selection to scheduled transaction"
 msgstr "Buchung regelmäßig ausführen"
 
-#: ../src/bet_tab.c:1415
+#: ../src/bet_tab.c:1417
 msgid "Insert the balance of a deferred debit account"
 msgstr "Saldo von Kreditkartenkonto übernehmen"
 
 #. redo item
-#: ../src/bet_tab.c:1437
+#: ../src/bet_tab.c:1439
 msgid "Reset data"
 msgstr "Daten zurücksetzen"
 
-#: ../src/bet_tab.c:1596
+#: ../src/bet_tab.c:1598
 msgid "Balance at "
 msgstr "Saldo am "
 
 #. on ajoute maintenant la frame pour la description
-#: ../src/bet_tab.c:2010 ../src/etats_onglet.c:861
+#: ../src/bet_tab.c:2012 ../src/etats_onglet.c:861
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../src/bet_tab.c:2064 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
+#: ../src/bet_tab.c:2066 ../src/export_csv.c:392 ../src/gsb_reconcile.c:217
 #: ../src/gsb_transactions_list.c:116 ../src/gsb_transactions_list.c:1660
 msgid "Balance"
 msgstr "Saldo"
 
-#: ../src/bet_tab.c:2135 ../src/gsb_scheduler_list.c:1201
+#: ../src/bet_tab.c:2137 ../src/gsb_scheduler_list.c:1201
 msgid "Execute"
 msgstr "Ausführen"
 
-#: ../src/bet_tab.c:2136
+#: ../src/bet_tab.c:2138
 msgid "Execute the balance of a deferred debit account"
 msgstr "Saldo von Kreditkartenkonto übernehmen"
 
 #. set the titles of tabs module budget
-#: ../src/bet_tab.c:2812
+#: ../src/bet_tab.c:2814
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Voraussichtlicher Saldo für das Konto '%s' vom %s bis %s"
 
-#: ../src/bet_tab.c:2833
+#: ../src/bet_tab.c:2835
 msgid "balance beginning of period"
 msgstr "Saldo Anfangsperiode"
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:2947
+#: ../src/bet_tab.c:2949
 msgid "Start date: "
 msgstr "Beginndatum: "
 
-#: ../src/bet_tab.c:2964 ../src/gsb_form.c:1798
+#: ../src/bet_tab.c:2966 ../src/gsb_form.c:1798
 msgid "Auto"
 msgstr "automatisch"
 
-#: ../src/bet_tab.c:2967
+#: ../src/bet_tab.c:2969
 msgid "Check the box to automatically change start date"
 msgstr "Für eine automatische Änderung vom Beginndatum auswählen"
 
 #: ../src/categories_onglet.c:190 ../src/etats_config.c:449
 #: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:925
-#: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1196
+#: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1819
 #: ../src/prefs/prefs_page_payment_method.c:1252
 #: ../src/prefs/prefs_page_reconcile.c:329 ../src/tiers_onglet.c:724
 msgid "Account"
@@ -3709,12 +3683,12 @@ msgstr "Kategorien (*.cgsb) exportieren"
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../src/categories_onglet.c:601 ../src/navigation.c:2386
+#: ../src/categories_onglet.c:601 ../src/navigation.c:293
 msgid "Delete selected category"
 msgstr "Die ausgewählte Kategorie löschen"
 
 #: ../src/categories_onglet.c:613 ../src/categories_onglet.c:1116
-#: ../src/navigation.c:2399
+#: ../src/navigation.c:306
 msgid "Edit selected category"
 msgstr "Die ausgewählte Kategorie bearbeiten"
 
@@ -4564,7 +4538,7 @@ msgid "Create a pdf file of the report"
 msgstr "PDF Datei von Bericht erstellen"
 
 #. New report button
-#: ../src/etats_onglet.c:550 ../src/navigation.c:2483
+#: ../src/etats_onglet.c:550 ../src/navigation.c:397
 msgid "New report"
 msgstr "Bericht erstellen"
 
@@ -4670,8 +4644,8 @@ msgstr "Einnahmen und Ausgaben letzter Monat"
 msgid "Unknown report type, creation cancelled"
 msgstr "Unbekannte Berichtart, die Erstellung wurde abgebrochen"
 
-#: ../src/etats_onglet.c:1197 ../src/grisbi_win.c:497 ../src/navigation.c:1395
-#: ../src/navigation.c:2159
+#: ../src/etats_onglet.c:1197 ../src/grisbi_win.c:497 ../src/navigation.c:648
+#: ../src/navigation.c:2018
 msgid "Reports"
 msgstr "Berichte"
 
@@ -5637,11 +5611,11 @@ msgstr "Konvertieren nach"
 msgid "This value determines which iconv test to perform."
 msgstr "Dieser Wert wird von iconv für die Prüfung herangezogen."
 
-#: ../src/go-optionmenu.c:428
+#: ../src/go-optionmenu.c:435
 msgid "Menu"
 msgstr "Menü"
 
-#: ../src/go-optionmenu.c:429
+#: ../src/go-optionmenu.c:436
 msgid "The menu of options"
 msgstr "Menü Einstellungen"
 
@@ -6424,7 +6398,7 @@ msgstr "Bezeichnungen und Dateinamen"
 
 #: ../src/gsb_assistant_file.c:328 ../src/gsb_assistant_file.c:333
 #: ../src/gsb_assistant_file.c:334 ../src/gsb_assistant_file.c:622
-#: ../src/navigation.c:1273
+#: ../src/navigation.c:1896
 msgid "My accounts"
 msgstr "Meine Konten"
 
@@ -8423,7 +8397,7 @@ msgstr "Kein Empfänger definiert"
 #. on récupère le nom de l'état
 #: ../src/gsb_data_payee.c:612 ../src/gsb_form.c:1029 ../src/gtk_combofix.c:414
 #: ../src/gtk_combofix.c:615 ../src/gtk_combofix.c:2398
-#: ../src/gtk_combofix.c:2521 ../src/navigation.c:1393
+#: ../src/gtk_combofix.c:2521 ../src/navigation.c:2016
 msgid "Report"
 msgstr "Bericht"
 
@@ -8748,19 +8722,19 @@ msgid ""
 "manipulation."
 msgstr "Dieser Assistent wird die Grisbi Datei auf Konsistenz prüfen."
 
-#: ../src/gsb_file.c:271 ../src/gsb_file_load.c:549
+#: ../src/gsb_file.c:271 ../src/gsb_file_load.c:551
 #: ../src/gsb_file_others.c:464 ../src/gsb_file_others.c:608
 #: ../src/gsb_file_others.c:795 ../src/gsb_file_others.c:855
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Die Datei kann nicht geöffnet werden '%s': %s"
 
-#: ../src/gsb_file.c:273 ../src/gsb_file_load.c:551
+#: ../src/gsb_file.c:273 ../src/gsb_file_load.c:553
 msgid "File does not exist"
 msgstr "Die Datei ist nicht vorhanden"
 
 #: ../src/gsb_file.c:275 ../src/gsb_file.c:289 ../src/gsb_file.c:943
-#: ../src/gsb_file_load.c:553
+#: ../src/gsb_file_load.c:555
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
@@ -8942,21 +8916,21 @@ msgstr "Soll die Datei \"%s\" gelöscht werden?\n"
 msgid "Confirmation of accounts file removal"
 msgstr "Die Löschung der Datei bestätigen"
 
-#: ../src/gsb_file_load.c:422
+#: ../src/gsb_file_load.c:424
 #, c-format
 msgid "The initial account balance \"%s\" is in error. Please correct it."
 msgstr ""
 "Der Anfangssaldo \"%s\" ist fehlerhaft. Bitte Dateneingabe korrigieren."
 
-#: ../src/gsb_file_load.c:426
+#: ../src/gsb_file_load.c:428
 msgid "Initial balance error"
 msgstr "Der Anfangssaldo ist fehlerhaft"
 
-#: ../src/gsb_file_load.c:3668
+#: ../src/gsb_file_load.c:3670
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi Datei... der Ladevorgang wird abgebrochen."
 
-#: ../src/gsb_file_load.c:3962 ../src/gsb_file_save.c:1933
+#: ../src/gsb_file_load.c:3966 ../src/gsb_file_save.c:1935
 #: ../src/utils_prefs.c:759
 #, c-format
 msgid ""
@@ -8966,17 +8940,17 @@ msgstr ""
 "Diese Version von Grisbi unterstützt keine Verschlüsselung.\n"
 "Bitte rekompilieren Sie Grisbi mit OpenSSL Unterstützung."
 
-#: ../src/gsb_file_load.c:3965
+#: ../src/gsb_file_load.c:3969
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
 
-#: ../src/gsb_file_load.c:3982
+#: ../src/gsb_file_load.c:3986
 #, c-format
 msgid "'%s' is not a valid UTF8 file"
 msgstr "'%s' ist keine gültige UTF-8 Datei"
 
-#: ../src/gsb_file_load.c:3985
+#: ../src/gsb_file_load.c:3989
 #, c-format
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
@@ -8985,15 +8959,15 @@ msgstr ""
 "Bitte Auswählen ob die Datei korrigiert oder ob eine andere Datei geöffnet "
 "werden soll.\n"
 
-#: ../src/gsb_file_load.c:3991
+#: ../src/gsb_file_load.c:3995
 msgid "Load another file"
 msgstr "Andere Datei öffnen"
 
-#: ../src/gsb_file_load.c:3992
+#: ../src/gsb_file_load.c:3996
 msgid "Correct the file"
 msgstr "Datei korrigieren"
 
-#: ../src/gsb_file_load.c:4091
+#: ../src/gsb_file_load.c:4095
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9004,11 +8978,11 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: ../src/gsb_file_load.c:4095
+#: ../src/gsb_file_load.c:4099
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
-#: ../src/gsb_file_load.c:4105
+#: ../src/gsb_file_load.c:4109
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -9023,13 +8997,13 @@ msgstr ""
 "Die Symbole und Farben müssen neu angepasst werden, die Verschlüsselung kann "
 "nicht weiterverwendet werden."
 
-#: ../src/gsb_file_load.c:4111
+#: ../src/gsb_file_load.c:4115
 #, c-format
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr "Grisbi Datei aus einer Vorversion öffnen"
 
 #. the first time we come here, we check if it's a Grisbi file
-#: ../src/gsb_file_load.c:4540
+#: ../src/gsb_file_load.c:4544
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -9045,8 +9019,8 @@ msgid "There is no category to record. Back."
 msgstr "Es ist keine Kategorie für eine Erfassung vorhanden."
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:252
-#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:1961
-#: ../src/gsb_file_save.c:1985
+#: ../src/gsb_file_others.c:343 ../src/gsb_file_save.c:1963
+#: ../src/gsb_file_save.c:1987
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Die Datei kann nicht gespeichert werden '%s': %s"
@@ -9109,12 +9083,12 @@ msgstr "Diese Datei ist keine Budget-Datei - die Verarbeitung wird beendet..."
 msgid "This is not a report file, loading canceled..."
 msgstr "Diese Datei ist keine Bericht-Datei - die Verarbeitung wird beendet..."
 
-#: ../src/gsb_file_save.c:1938
+#: ../src/gsb_file_save.c:1940
 #, c-format
 msgid "Cannot save encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht gespeichert werden '%s'"
 
-#: ../src/gsb_file_save.c:2262
+#: ../src/gsb_file_save.c:2264
 #, c-format
 msgid "Cannot save CSS file '%s': %s"
 msgstr "Die CSS-Datei kann nicht gespeichert werden '%s': %s"
@@ -9681,7 +9655,7 @@ msgstr "Geplante Buchungen"
 msgid "Show transactions for the next: "
 msgstr "Geplante Buchungen anzeigen von: "
 
-#: ../src/gsb_scheduler_list.c:217 ../src/navigation.c:1323
+#: ../src/gsb_scheduler_list.c:217 ../src/navigation.c:1946
 msgid "Scheduled transactions"
 msgstr "Geplante Buchungen"
 
@@ -9789,7 +9763,7 @@ msgid "Remove orphan children"
 msgstr "Verwaiste Unterelemente löschen"
 
 #: ../src/gsb_scheduler_list.c:1893 ../src/transaction_list.c:175
-#: ../src/transaction_list.c:489 ../src/transaction_list.c:1408
+#: ../src/transaction_list.c:483 ../src/transaction_list.c:1402
 #, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "Gesamt : %s (variiert : %s)"
@@ -10258,7 +10232,7 @@ msgstr "Komma getrennte Werte"
 msgid "Quicken Interchange Format"
 msgstr "Quicken Interchange Format"
 
-#: ../src/import.c:132 ../src/plugins/gnucash/gnucash.c:133
+#: ../src/import.c:132 ../src/plugins/gnucash/gnucash.c:877
 msgid "Gnucash"
 msgstr "Gnucash"
 
@@ -10884,12 +10858,12 @@ msgstr "Gruppen (*.igsb) importieren"
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Gruppen (*.igsb) exportieren"
 
-#: ../src/imputation_budgetaire.c:650 ../src/navigation.c:2438
+#: ../src/imputation_budgetaire.c:650 ../src/navigation.c:349
 msgid "Delete selected budgetary line"
 msgstr "Die ausgewählte Gruppe löschen"
 
 #: ../src/imputation_budgetaire.c:662 ../src/imputation_budgetaire.c:1150
-#: ../src/navigation.c:2451
+#: ../src/navigation.c:363
 msgid "Edit selected budgetary line"
 msgstr "Die ausgewählte Gruppe bearbeiten"
 
@@ -10982,7 +10956,7 @@ msgid "No sub-category"
 msgstr "Keine Unterkategorie"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:284 ../src/navigation.c:2379
+#: ../src/meta_categories.c:284 ../src/navigation.c:286
 msgid "New category"
 msgstr "Kategorie erstellen"
 
@@ -11006,7 +10980,7 @@ msgstr "Kein Teil-Empfänger"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:371 ../src/navigation.c:2327 ../src/tiers_onglet.c:525
+#: ../src/meta_payee.c:371 ../src/navigation.c:234 ../src/tiers_onglet.c:525
 msgid "New payee"
 msgstr "Empfänger erstellen"
 
@@ -11208,7 +11182,53 @@ msgstr "Es muss zumindest ein Suchkriterium ausgewählt werden"
 msgid "WARNING"
 msgstr "Warnung"
 
-#: ../src/navigation.c:1114
+#: ../src/navigation.c:224
+msgid "Remove this account"
+msgstr "Konto löschen"
+
+#: ../src/navigation.c:241 ../src/tiers_onglet.c:538
+msgid "Delete selected payee"
+msgstr "Den ausgewählten Empfänger löschen"
+
+#: ../src/navigation.c:254 ../src/tiers_onglet.c:550
+msgid "Edit selected payee"
+msgstr "Den ausgewählten Empfänger bearbeiten"
+
+#. Manage payees button
+#: ../src/navigation.c:270 ../src/tiers_onglet.c:567
+msgid "Manage payees"
+msgstr "Empfänger verwalten"
+
+#. Remove unused payees button
+#: ../src/navigation.c:277 ../src/tiers_onglet.c:576
+msgid "Remove unused payees"
+msgstr "Verwaiste löschen"
+
+#: ../src/navigation.c:323
+msgid "Import a file of categories (.cgsb)"
+msgstr "Kategorien (*.cgsb) importieren"
+
+#: ../src/navigation.c:331
+msgid "Export the list of categories (.cgsb)"
+msgstr "Kategorien (*.cgsb) exportieren"
+
+#: ../src/navigation.c:341
+msgid "New budgetary line"
+msgstr "Gruppe erstellen"
+
+#: ../src/navigation.c:380
+msgid "Import a file of budgetary lines (.igsb)"
+msgstr "Gruppen (*.igsb) importieren"
+
+#: ../src/navigation.c:388
+msgid "Export the list of budgetary lines (.igsb)"
+msgstr "Gruppen (*.igsb) exportieren"
+
+#: ../src/navigation.c:408
+msgid "Remove this report"
+msgstr "Den ausgewählten Bericht löschen"
+
+#: ../src/navigation.c:1739
 msgid ""
 "This account cannot be negative.\n"
 "\n"
@@ -11218,71 +11238,25 @@ msgstr ""
 "\n"
 "Bitte einen positiven Saldo herstellen damit das Konto benutzt werden kann."
 
-#: ../src/navigation.c:1148
+#: ../src/navigation.c:1772
 msgid "Pointed balance: "
 msgstr "ausgewiesener Saldo: "
 
-#: ../src/navigation.c:1150
+#: ../src/navigation.c:1774
 msgid "Reconciled balance: "
 msgstr "abgestimmter Saldo: "
 
-#: ../src/navigation.c:1160
+#: ../src/navigation.c:1784
 msgid "Last statement: "
 msgstr "Letzte Abstimmung: "
 
-#: ../src/navigation.c:1171 ../src/navigation.c:1179
+#: ../src/navigation.c:1796 ../src/navigation.c:1803
 msgid "Last statement: none"
 msgstr "Letzte Abstimmung: -"
 
-#: ../src/navigation.c:1202
+#: ../src/navigation.c:1827
 msgid "closed"
 msgstr "Geschlossen"
-
-#: ../src/navigation.c:2317
-msgid "Remove this account"
-msgstr "Konto löschen"
-
-#: ../src/navigation.c:2334 ../src/tiers_onglet.c:538
-msgid "Delete selected payee"
-msgstr "Den ausgewählten Empfänger löschen"
-
-#: ../src/navigation.c:2347 ../src/tiers_onglet.c:550
-msgid "Edit selected payee"
-msgstr "Den ausgewählten Empfänger bearbeiten"
-
-#. Manage payees button
-#: ../src/navigation.c:2363 ../src/tiers_onglet.c:567
-msgid "Manage payees"
-msgstr "Empfänger verwalten"
-
-#. Remove unused payees button
-#: ../src/navigation.c:2370 ../src/tiers_onglet.c:576
-msgid "Remove unused payees"
-msgstr "Verwaiste löschen"
-
-#: ../src/navigation.c:2415
-msgid "Import a file of categories (.cgsb)"
-msgstr "Kategorien (*.cgsb) importieren"
-
-#: ../src/navigation.c:2422
-msgid "Export the list of categories (.cgsb)"
-msgstr "Kategorien (*.cgsb) exportieren"
-
-#: ../src/navigation.c:2431
-msgid "New budgetary line"
-msgstr "Gruppe erstellen"
-
-#: ../src/navigation.c:2467
-msgid "Import a file of budgetary lines (.igsb)"
-msgstr "Gruppen (*.igsb) importieren"
-
-#: ../src/navigation.c:2474
-msgid "Export the list of budgetary lines (.igsb)"
-msgstr "Gruppen (*.igsb) exportieren"
-
-#: ../src/navigation.c:2494
-msgid "Remove this report"
-msgstr "Den ausgewählten Bericht löschen"
 
 #: ../src/parametres.c:267
 msgid "Choose the decimal and thousands separator"
@@ -11292,23 +11266,17 @@ msgstr "Dezimal-/Tausender Zeichen auswählen"
 msgid "Decimal and thousands separator"
 msgstr "Dezimal und Tausender Zeichen"
 
-#: ../src/plugins/gnucash/gnucash.c:134
-msgid "Invalid Gnucash account, please check gnucash file is not compressed."
-msgstr ""
-"Ungültiges Gnucash Konto, bitte prüfen Sie ob die Gnucash-Datei komprimiert "
-"ist."
-
-#: ../src/plugins/gnucash/gnucash.c:584
+#: ../src/plugins/gnucash/gnucash.c:298
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr "Die Datei \"%s\" ist nicht vorhanden oder keine gültige Datei."
 
-#: ../src/plugins/gnucash/gnucash.c:586
+#: ../src/plugins/gnucash/gnucash.c:300
 #, c-format
 msgid "Error opening file '%s'."
 msgstr "Fehler beim Öffnen der Datei '%s'."
 
-#: ../src/plugins/gnucash/gnucash.c:597
+#: ../src/plugins/gnucash/gnucash.c:316
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.\n"
@@ -11319,10 +11287,16 @@ msgstr ""
 "Bitte überprüfen Sie die Berechtigungen für die Anlage von temporären "
 "Dateien."
 
-#: ../src/plugins/gnucash/gnucash.c:600
+#: ../src/plugins/gnucash/gnucash.c:319
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr "Fehler beim Öffnen der temporären Datei '%s'."
+
+#: ../src/plugins/gnucash/gnucash.c:878
+msgid "Invalid Gnucash account, please check gnucash file is not compressed."
+msgstr ""
+"Ungültiges Gnucash Konto, bitte prüfen Sie ob die Gnucash-Datei komprimiert "
+"ist."
 
 #: ../src/plugins/ofx/ofx.c:223
 msgid "OFX processing returned following message:\n"
@@ -12760,26 +12734,14 @@ msgstr "Wussten Sie dass ..."
 msgid "Display tips at next start"
 msgstr "Tipps beim nächsten Start anzeigen"
 
-#: ../src/transaction_list.c:273
-#, c-format
-msgid ""
-"Trying to append the child number %d to the mother %d in the model, but no "
-"white line was created before... Better to stop here, please contact the "
-"Grisbi team to fix that issue."
-msgstr ""
-"Bei der Zuordnung vom untergeordneten Eintrag mit der Nummer %d zum "
-"Haupteintrag mit der Nummer %d wurde keine \"weise Linie\" erstellt.\n"
-"Bitte kontaktieren Sie das Grisbi-Team um die Ursache für den Fehler zu "
-"finden."
-
-#: ../src/transaction_list.c:665
+#: ../src/transaction_list.c:659
 #, c-format
 msgid "%s (%d transactions)"
 msgstr "%s (%d Buchungen)"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: ../src/transaction_list.c:1953
+#: ../src/transaction_list.c:1947
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't "
 "appendCheck that."
@@ -13111,6 +13073,53 @@ msgstr "Die IBAN Nummer ist ungültig. Bitte Dateneingabe prüfen."
 msgid "Account details"
 msgstr "Konto Details"
 
+#: ../src/widgets/widget_bet_graph_others.c:105
+#: ../src/widgets/widget_bet_graph_others.c:138
+#, c-format
+msgid "date %s : value %s"
+msgstr "Datum %s : Betrag %s"
+
+#: ../src/widgets/widget_bet_graph_others.c:313
+msgid "Graph"
+msgstr "Diagramm"
+
+#. la grille est visible
+#: ../src/widgets/widget_bet_graph_others.c:391
+#: ../src/widgets/widget_bet_graph_others.c:428
+msgid "Hide grid"
+msgstr "Linien verbergen"
+
+#: ../src/widgets/widget_bet_graph_others.c:490
+#, fuzzy
+msgid "Graph: Bars"
+msgstr "Diagramm"
+
+#: ../src/widgets/widget_bet_graph_others.c:492
+msgid "Graph: Lines"
+msgstr ""
+
+#: ../src/widgets/widget_bet_graph_pie.c:178
+#, fuzzy, c-format
+msgid "Display subdivisions items of budgetary: %s"
+msgstr "<span weight=\"bold\">Teilbereich(e) von Gruppe: %s</span>"
+
+#: ../src/widgets/widget_bet_graph_pie.c:180
+#, fuzzy, c-format
+msgid "Display subdivisions of category: %s"
+msgstr "Unterkategorien anzeigen"
+
+#: ../src/widgets/widget_bet_graph_pie.c:190
+msgid "Total amount: "
+msgstr "Gesamtbetrag:"
+
+#: ../src/widgets/widget_bet_graph_pie.c:282
+msgid "The selected budget item has no subitems"
+msgstr "Die ausgewählte Gruppe hat kein Untergruppen"
+
+#: ../src/widgets/widget_bet_graph_pie.c:284
+msgid "The selected category has no subcategory"
+msgstr "Die ausgewählte Kategorie hat keine Unterkategorien"
+
 #: ../src/widgets/widget_css_rules.c:270
 #, c-format
 msgid ""
@@ -13275,6 +13284,34 @@ msgstr "Teilsaldo"
 #: ../src/widgets/widget_transfer.c:937
 msgid "One of the two fields is recommended"
 msgstr "Die Eingabe in zumindest ein oder zwei Feldern wird empfohlen"
+
+#~ msgid "<b>Additional line</b>"
+#~ msgstr "<b>Hilfsachse</b>"
+
+#~ msgid "<b>Grid</b>"
+#~ msgstr "<b>Linien</b>"
+
+#~ msgid "Diagram"
+#~ msgstr "Diagramm - Grisbi"
+
+#, c-format
+#~ msgid ""
+#~ "<span weight=\"bold\" size=\"large\">Display subdivisions of category: "
+#~ "%s</span>"
+#~ msgstr ""
+#~ "<span weight=\"bold\" size=\"large\">Teilbereich(e) von Kategorie: %s</"
+#~ "span>"
+
+#, c-format
+#~ msgid ""
+#~ "Trying to append the child number %d to the mother %d in the model, but "
+#~ "no white line was created before... Better to stop here, please contact "
+#~ "the Grisbi team to fix that issue."
+#~ msgstr ""
+#~ "Bei der Zuordnung vom untergeordneten Eintrag mit der Nummer %d zum "
+#~ "Haupteintrag mit der Nummer %d wurde keine \"weise Linie\" erstellt.\n"
+#~ "Bitte kontaktieren Sie das Grisbi-Team um die Ursache für den Fehler zu "
+#~ "finden."
 
 #, fuzzy, c-format
 #~ msgid "%2f : %s - %s:%d:%s - %s"
