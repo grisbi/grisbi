@@ -8,7 +8,6 @@ AM_CPPFLAGS = -I$(top_srcdir) \
 	      $(GTK_CFLAGS) \
 	      $(LIBGSF_CFLAGS) \
 	      $(GTK_MAC_CFLAGS) \
-	      $(GOFFICE_CFLAGS)	\
 	      -DLOCALEDIR="\"$(localedir)\""	\
 	      -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\""	\
 	      -DDATA_PATH="\"$(datadir)/@PACKAGE@\""	\
@@ -43,7 +42,7 @@ libgrisbi_la_LIBADD += plugins/openssl/openssl.la
 endif
 if HAVE_GOFFICE
 libgrisbi_la_LIBADD += $(GOFFICE_LIBS)
-AM_CPPFLAGS += -I$(GOFFICE_CFLAGS)
+AM_CPPFLAGS += $(GOFFICE_CFLAGS)
 endif
 libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS)
 

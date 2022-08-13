@@ -50,7 +50,7 @@ libwidgets_la_SOURCES += \
 	widget_bet_graph_pie.h
 
 libwidgets_la_LIBADD += $(GOFFICE_LIBS)
-AM_CPPFLAGS += -I$(GOFFICE_CFLAGS)
+AM_CPPFLAGS += $(GOFFICE_CFLAGS)
 endif
 
 CLEANFILES = \

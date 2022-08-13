@@ -36,6 +36,8 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
+#include <goffice/goffice.h>
+
 /*START_INCLUDE*/
 #include "widget_bet_graph_others.h"
 #include "dialog.h"
