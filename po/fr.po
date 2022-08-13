@@ -827,7 +827,7 @@ msgstr " minutes"
 
 #: ../src/prefs/prefs_page_files.ui.h:17
 msgid "Remove backup files older than "
-msgstr "Supprimer les sauvegardes antérieures à "
+msgstr "Supprimer les sauvegardes de plus de "
 
 #: ../src/prefs/prefs_page_files.ui.h:18 ../src/widgets/widget_loan.ui.h:2
 #: ../src/bet_finance_ui.c:275 ../src/gsb_scheduler_list.c:119
