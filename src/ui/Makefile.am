@@ -1,6 +1,6 @@
 uidir = $(pkgdatadir)/ui
 
-EXTRA_DIST = grisbi.css \
+ui_DATA = grisbi.css \
 	grisbi-dark.css \
 	grisbi-widgets.css \
 	csv_template_rule.ui \
@@ -9,4 +9,4 @@ EXTRA_DIST = grisbi.css \
 	grisbi_prefs.ui \
 	grisbi_win.ui \
 	search_transaction.ui
-
+EXTRA_DIST = $(ui_DATA)
