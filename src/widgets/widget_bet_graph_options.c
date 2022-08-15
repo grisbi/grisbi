@@ -478,7 +478,12 @@ void widget_bet_graph_options_set_button_major_grid_y (GtkWidget *widget,
 									 self);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_major_grid_y), active);
-
+	if (!active)
+	{
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_minor_grid_y)))
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_minor_grid_y), FALSE);
+		gtk_widget_set_sensitive (priv->checkbutton_minor_grid_y, FALSE);
+	}
 
 		/* on débloque le signal */
 		g_signal_handlers_unblock_by_func (G_OBJECT (priv->checkbutton_major_grid_y),
