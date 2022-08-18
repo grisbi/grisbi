@@ -40,6 +40,7 @@
 #include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_archive_store.h"
 #include "gsb_data_fyear.h"
@@ -338,8 +339,14 @@ static gboolean gsb_assistant_archive_update_labels (GtkWidget *assistant)
 				transaction_marked = gsb_data_transaction_get_marked_transaction (transaction_number);
 				if (transaction_marked !=OPERATION_RAPPROCHEE)
 				{
-					tmp_list = tmp_list->next;
-					continue;
+					gint account_number;
+
+					account_number = gsb_data_transaction_get_account_number (transaction_number);
+					if (!gsb_data_account_get_closed_account (account_number))
+					{
+						tmp_list = tmp_list->next;
+						continue;
+					}
 				}
 
 				if (gsb_data_transaction_get_financial_year_number (transaction_number) == fyear_number)
