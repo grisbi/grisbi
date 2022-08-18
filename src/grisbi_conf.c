@@ -362,6 +362,8 @@ gboolean grisbi_conf_load_app_config (void)
 																			  "File",
 																			  "max-transactions-before-warn-archival",
 																			  NULL);
+	if (a_conf->max_non_archived_transactions_for_check < 3000)
+		a_conf->max_non_archived_transactions_for_check = 3000;
 
 	/* set list of files */
 	recent_array = g_key_file_get_string_list (config,
