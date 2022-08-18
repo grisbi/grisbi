@@ -5,7 +5,7 @@
   <object class="GtkAdjustment" id="adjustment">
     <property name="lower">3000</property>
     <property name="upper">999999</property>
-    <property name="step-increment">1000</property>
+    <property name="step-increment">500</property>
     <property name="page-increment">10000</property>
   </object>
   <template class="PrefsPageArchives" parent="GtkBox">
