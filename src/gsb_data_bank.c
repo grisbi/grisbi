@@ -444,7 +444,7 @@ gboolean gsb_data_bank_set_bank_address (gint bank_number,
 
 	if (bank->bank_address)
 		g_free (bank->bank_address);
-	bank->bank_tel = my_strdup (bank_address);
+	bank->bank_address = my_strdup (bank_address);
 
 	return TRUE;
 }
@@ -528,7 +528,7 @@ gboolean gsb_data_bank_set_bank_mail (gint bank_number,
 
 	if (bank->bank_mail)
 		g_free (bank->bank_mail);
-	bank->bank_tel = my_strdup (bank_mail);
+	bank->bank_mail = my_strdup (bank_mail);
 
 	return TRUE;
 }
@@ -570,7 +570,7 @@ gboolean gsb_data_bank_set_bank_web (gint bank_number,
 
 	if (bank->bank_web)
 		g_free (bank->bank_web);
-	bank->bank_tel = my_strdup (bank_web);
+	bank->bank_web = my_strdup (bank_web);
 
 	return TRUE;
 }
@@ -612,7 +612,7 @@ gboolean gsb_data_bank_set_bank_note (gint bank_number,
 
 	if (bank->bank_note)
 		g_free (bank->bank_note);
-	bank->bank_tel = my_strdup (bank_note);
+	bank->bank_note = my_strdup (bank_note);
 
 	return TRUE;
 }
