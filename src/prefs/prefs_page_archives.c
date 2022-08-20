@@ -628,6 +628,7 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 	/* set the checkbutton for the automatic check */
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_archives_check_auto),
 								  a_conf->archives_check_auto);
+	g_object_set_data (G_OBJECT (priv->checkbutton_archives_check_auto), "widget", priv->spinbutton_archives_check_auto);
 
 	/* Connect signal */
     g_signal_connect (priv->checkbutton_archives_check_auto,
