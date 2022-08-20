@@ -148,7 +148,7 @@ static void widget_bank_details_setup_widget (WidgetBankDetails *w_bank_details,
         priv->entry_bank_name = gsb_autofunc_entry_new (NULL, NULL, NULL, NULL, 0);
         priv->entry_bank_code = gsb_autofunc_entry_new (NULL, NULL, NULL, NULL, 0);
         priv->entry_bank_BIC = gsb_autofunc_entry_new (NULL, NULL, NULL, NULL, 0);
-        priv->textview_bank_adr = gsb_autofunc_textview_new (NULL, NULL, NULL, NULL, 0);
+        gsb_autofunc_textview_new_from_ui (priv->textview_bank_adr, NULL, NULL, NULL, 0);
         priv->entry_bank_tel = gsb_autofunc_entry_new (NULL, NULL, NULL, NULL, 0);
         priv->entry_bank_mail = gsb_autofunc_entry_new (NULL, NULL, NULL, NULL, 0);
         priv->entry_bank_web = gsb_autofunc_entry_new (NULL, NULL, NULL, NULL, 0);
@@ -170,11 +170,11 @@ static void widget_bank_details_setup_widget (WidgetBankDetails *w_bank_details,
 													   NULL,
                        							 	   G_CALLBACK (gsb_data_bank_set_bic),
 													   0);
-        priv->textview_bank_adr = gsb_autofunc_textview_new (NULL,
-															 NULL,
-															 NULL,
-															 G_CALLBACK (gsb_data_bank_set_bank_address),
-															 0);
+		gsb_autofunc_textview_new_from_ui (priv->textview_bank_adr,
+											NULL,
+											NULL,
+											G_CALLBACK (gsb_data_bank_set_bank_address),
+											0);
 		priv->entry_bank_tel = gsb_autofunc_entry_new (NULL,
 													   NULL,
                         							   NULL,
@@ -272,23 +272,19 @@ static void widget_bank_details_setup_widget (WidgetBankDetails *w_bank_details,
 	/* set Notes */
     if (combobox)
     {
-        priv->textview_bank_notes = gsb_autofunc_textview_new (NULL, NULL, NULL, NULL, 0);
+		gsb_autofunc_textview_new_from_ui (priv->textview_bank_notes, NULL, NULL, NULL, 0);
     }
     else
     {
-        priv->textview_bank_notes = gsb_autofunc_textview_new (NULL,
-                        NULL,
-                        NULL,
-                        G_CALLBACK (gsb_data_bank_set_bank_note),
-                        0);
+		gsb_autofunc_textview_new_from_ui (priv->textview_bank_notes,
+										   NULL,
+										   NULL,
+										   G_CALLBACK (gsb_data_bank_set_bank_note),
+										   0);
     }
 
 	/* attach widget */
 	gtk_size_group_add_widget (size_group, priv->textview_bank_notes);
-    gtk_grid_attach (GTK_GRID (priv->grid_bank_details), priv->textview_bank_notes, 1, 14, 3, 1);
-
-	/* set width and heigh */
-	gtk_widget_set_size_request (priv->textview_bank_notes, -1, SW_MIN_HEIGHT);
 }
 
 /******************************************************************************/
@@ -334,6 +330,8 @@ static void widget_bank_details_class_init (WidgetBankDetailsClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetBankDetails, vbox_bank_details);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetBankDetails, grid_bank_details);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetBankDetails, textview_bank_adr);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetBankDetails, textview_bank_notes);
 }
 
 /******************************************************************************/
