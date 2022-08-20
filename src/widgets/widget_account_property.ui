@@ -103,6 +103,7 @@
                                       <object class="GtkBox" id="hbox_account_name">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <property name="halign">start</property>
                                         <property name="spacing">5</property>
                                         <child>
                                           <object class="GtkLabel" id="label_account_name">
@@ -143,6 +144,7 @@
                                       <object class="GtkBox" id="hbox_account_detail">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <property name="halign">start</property>
                                         <property name="spacing">5</property>
                                         <child>
                                           <object class="GtkLabel" id="label_account_type">
@@ -193,6 +195,7 @@
                                           <object class="GtkComboBox" id="combo_account_currency">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -340,9 +343,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkBox" id="hbox">
+                                      <object class="GtkBox" id="hbox_account_address">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <property name="halign">start</property>
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_holder_address">
                                             <property name="label" translatable="yes">Holder's own address: </property>
@@ -361,7 +365,7 @@
                                         </child>
                                         <child>
                                           <object class="GtkScrolledWindow" id="sw_holder_address">
-                                            <property name="height-request">120</property>
+                                            <property name="height-request">100</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="hexpand">True</property>
@@ -370,6 +374,7 @@
                                               <object class="GtkTextView" id="textview_holder_address">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
+                                                <property name="hexpand">True</property>
                                                 <property name="left-margin">5</property>
                                                 <property name="top-margin">5</property>
                                               </object>
@@ -1000,9 +1005,10 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox" id="box51">
+                                  <object class="GtkBox" id="hbox_comment_text">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
+                                    <property name="halign">start</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">5</property>
                                     <child>
@@ -1092,10 +1098,12 @@
       <widget name="hbox_account_name"/>
       <widget name="hbox_account_detail"/>
       <widget name="hbox_account_holder"/>
+      <widget name="hbox_account_address"/>
       <widget name="hbox_bank_data"/>
       <widget name="hbox_account_iban"/>
       <widget name="hbox_bank_codes"/>
       <widget name="hbox_account_number_key"/>
+      <widget name="hbox_comment_text"/>
     </widgets>
   </object>
   <object class="GtkSizeGroup" id="size_group_labels_col_1">
