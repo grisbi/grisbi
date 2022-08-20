@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.2 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
-  <requires lib="gtk+" version="3.12"/>
+  <requires lib="gtk+" version="3.24"/>
   <template class="WidgetCurrencyPopup" parent="GtkBox">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkBox" id="vbox_currency_popup">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_bottom">5</property>
+        <property name="can-focus">False</property>
+        <property name="margin-bottom">5</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkScrolledWindow" id="sw_currency_popup">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="can-focus">True</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
-            <property name="shadow_type">in</property>
+            <property name="shadow-type">in</property>
             <child>
               <object class="GtkTreeView" id="treeview_currency_popup">
                 <property name="name">colorized_tree_view</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can-focus">True</property>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection"/>
                 </child>
@@ -40,7 +40,7 @@
         <child>
           <object class="GtkBox" id="box1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="hexpand">True</property>
             <property name="spacing">15</property>
             <property name="homogeneous">True</property>
@@ -48,11 +48,11 @@
               <object class="GtkCheckButton" id="checkbutton_currency_popup">
                 <property name="label" translatable="yes">Include obsolete currencies</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="no_show_all">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="no-show-all">True</property>
                 <property name="halign">start</property>
-                <property name="draw_indicator">True</property>
+                <property name="draw-indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -62,17 +62,17 @@
             </child>
             <child>
               <object class="GtkSearchEntry" id="search_currency_popup">
-                <property name="width_request">200</property>
+                <property name="width-request">200</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="no_show_all">True</property>
-                <property name="tooltip_text" translatable="yes">Right click to select the sort column.
+                <property name="can-focus">True</property>
+                <property name="no-show-all">True</property>
+                <property name="tooltip-text" translatable="yes">Right click to select the sort column.
 Sort by default country name.</property>
                 <property name="halign">end</property>
-                <property name="primary_icon_name">edit-find-symbolic</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">False</property>
-                <property name="placeholder_text" translatable="yes">Country</property>
+                <property name="primary-icon-name">edit-find-symbolic</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="primary-icon-sensitive">False</property>
+                <property name="placeholder-text" translatable="yes">Country</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -97,18 +97,18 @@ Sort by default country name.</property>
   </template>
   <object class="GtkBox" id="hbox_paddingbox">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="margin_bottom">5</property>
+    <property name="can-focus">False</property>
+    <property name="margin-bottom">5</property>
     <child>
       <object class="GtkBox" id="vbox_paddingbox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="Title">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">start</property>
             <property name="label" translatable="yes">Title</property>
             <attributes>
@@ -124,11 +124,11 @@ Sort by default country name.</property>
         <child>
           <object class="GtkBox" id="box">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkLabel" id="label">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="label">    </property>
               </object>
               <packing>
@@ -140,7 +140,7 @@ Sort by default country name.</property>
             <child>
               <object class="GtkBox" id="box_">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
@@ -177,6 +177,6 @@ Sort by default country name.</property>
   </object>
   <object class="GtkMenu" id="menu_currency_popup">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
   </object>
 </interface>
