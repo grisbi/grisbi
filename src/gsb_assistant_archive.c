@@ -44,6 +44,7 @@
 #include "gsb_data_archive.h"
 #include "gsb_data_archive_store.h"
 #include "gsb_data_fyear.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
@@ -290,8 +291,15 @@ static gboolean gsb_assistant_archive_update_labels (GtkWidget *assistant)
 				transaction_marked = gsb_data_transaction_get_marked_transaction (transaction_number);
 				if (transaction_marked !=OPERATION_RAPPROCHEE)
 				{
-					tmp_list = tmp_list->next;
-					continue;
+					gint account_number;
+
+					account_number = gsb_data_transaction_get_account_number (transaction_number);
+					if (!gsb_data_account_get_closed_account (account_number)
+						&& gsb_data_reconcile_get_account_last_number (account_number))
+					{
+						tmp_list = tmp_list->next;
+						continue;
+					}
 				}
 
 				if (g_date_compare (init_gdate, gsb_data_transaction_get_date (transaction_number)) <= 0
@@ -342,7 +350,8 @@ static gboolean gsb_assistant_archive_update_labels (GtkWidget *assistant)
 					gint account_number;
 
 					account_number = gsb_data_transaction_get_account_number (transaction_number);
-					if (!gsb_data_account_get_closed_account (account_number))
+					if (!gsb_data_account_get_closed_account (account_number)
+						&& gsb_data_reconcile_get_account_last_number (account_number))
 					{
 						tmp_list = tmp_list->next;
 						continue;
@@ -395,8 +404,15 @@ static gboolean gsb_assistant_archive_update_labels (GtkWidget *assistant)
 				transaction_marked = gsb_data_transaction_get_marked_transaction (transaction_number);
 				if (transaction_marked !=OPERATION_RAPPROCHEE)
 				{
-					tmp_list = tmp_list->next;
-					continue;
+					gint account_number;
+
+					account_number = gsb_data_transaction_get_account_number (transaction_number);
+					if (!gsb_data_account_get_closed_account (account_number)
+						&& gsb_data_reconcile_get_account_last_number (account_number))
+					{
+						tmp_list = tmp_list->next;
+						continue;
+					}
 				}
 
 				/* after just call add_transaction_to_list, all the linked transactions will be taken */
