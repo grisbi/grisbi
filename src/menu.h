@@ -3,7 +3,7 @@
 
 #include <gtk/gtk.h>
 
-enum view_menu_action {
+enum ViewMenuAction {
   HIDE_SHOW_TRANSACTION_FORM = 0,
   HIDE_SHOW_GRID,
   HIDE_SHOW_RECONCILED_TRANSACTIONS,
