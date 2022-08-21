@@ -409,7 +409,11 @@ void grisbi_cmd_file_open_direct_menu (GSimpleAction *action,
 	devel_debug (NULL);
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
-    /* continue only if can close the current file */
+	/* on sort si un fichier est déjà en cours de chargement */
+	if (grisbi_win_status_bar_get_wait_state ())
+		return;
+
+	/* continue only if can close the current file */
     if (w_run->file_is_loading && !gsb_file_close ())
 		return;
 

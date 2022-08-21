@@ -77,7 +77,8 @@ gboolean        grisbi_win_set_window_title                 (gint account_number
 void 			grisbi_win_stack_box_show					(GrisbiWin *win,
 															 const gchar *page_name);
 void            grisbi_win_status_bar_clear                 (void);
-void			grisbi_win_init_statusbar					(GrisbiWin *win);
+gboolean		grisbi_win_status_bar_get_wait_state		(void);
+void			grisbi_win_status_bar_init					(GrisbiWin *win);
 void            grisbi_win_status_bar_message               (gchar *message);
 void			grisbi_win_status_bar_set_font_size			(gint font_size);
 void            grisbi_win_status_bar_stop_wait             (gboolean force_update);

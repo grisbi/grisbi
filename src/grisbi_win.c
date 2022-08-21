@@ -140,6 +140,7 @@ struct _GrisbiWinPrivate
     GdkWindow *         tracked_window;
     guint               context_id;
     guint               message_id;
+	gboolean			wait_state;
 
     /* headings_bar */
     GtkWidget *         headings_eb;
@@ -2293,7 +2294,10 @@ void grisbi_win_status_bar_init (GrisbiWin *win)
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 	a_conf = grisbi_app_get_a_conf ();
 
-    /* set status_bar PROVISOIRE */
+	/* set wait_state */
+	priv->wait_state = FALSE;
+
+	/* set status_bar PROVISOIRE */
     priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
     priv->message_id = G_MAXUINT;
 
@@ -2387,7 +2391,10 @@ void grisbi_win_status_bar_wait (gboolean force_update)
     win = grisbi_app_get_active_window (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    run_window = gtk_widget_get_window (GTK_WIDGET (win));
+	/* set wait_state */
+	priv->wait_state = TRUE;
+
+	run_window = gtk_widget_get_window (GTK_WIDGET (win));
 	display = gdk_window_get_display (run_window);
     cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
     gdk_window_set_cursor (run_window, cursor);
@@ -2446,8 +2453,27 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
 
 	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (win)), NULL);
 
-    if (force_update)
-        update_gui ();
+	/* set wait_state */
+	priv->wait_state = FALSE;
+
+	if (force_update)
+		update_gui ();
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean grisbi_win_status_bar_get_wait_state (void)
+{
+	GrisbiWinPrivate *priv;
+
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
+
+	return priv->wait_state;
 }
 
 /**
