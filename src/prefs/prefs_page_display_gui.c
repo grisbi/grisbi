@@ -165,7 +165,7 @@ static gboolean prefs_page_display_gui_definition_screen_toggled (GtkWidget *tog
 	grisbi_prefs_update_prefs_hpaned (prefs);
 
 	/* init status bar */
-	grisbi_win_init_statusbar (NULL);
+	grisbi_win_status_bar_init (NULL);
 
 	/* update navigation pane */
 	if (grisbi_win_file_is_loading ())

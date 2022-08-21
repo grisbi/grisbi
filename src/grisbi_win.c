@@ -973,7 +973,7 @@ static void grisbi_win_init (GrisbiWin *win)
 
 	/* initialisation de la barre d'état */
 	if (!a_conf->low_definition_screen)
-		grisbi_win_init_statusbar (GRISBI_WIN (win));
+		grisbi_win_status_bar_init (GRISBI_WIN (win));
 
 	/* initialisation du format de la date */
 	(priv->w_etat)->date_format = gsb_date_initialise_format_date ();
@@ -2282,7 +2282,7 @@ void grisbi_win_headings_update_suffix (const gchar *suffix)
  *
  * \return
  */
-void grisbi_win_init_statusbar (GrisbiWin *win)
+void grisbi_win_status_bar_init (GrisbiWin *win)
 {
 	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
