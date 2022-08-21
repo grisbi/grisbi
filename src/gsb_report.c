@@ -51,7 +51,7 @@ static GtkTreeModel *report_model;
 static GtkTreeModel *report_model_filter;
 
 
-enum report_list_columns {
+enum ReportListColumns {
     REPORT_COL_NAME = 0,
     REPORT_COL_NUMBER,
     REPORT_COL_VIEW
