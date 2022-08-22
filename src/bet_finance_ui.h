@@ -12,7 +12,7 @@
 /* START_DECLARATION */
 GsbReal					bet_finance_get_loan_amount_at_date					(gint scheduled_number,
 																			 gint transfer_account,
-																			 GDate *date,
+																			 const GDate *date,
 																			 gboolean maj_s_loan_capital_du);
 AmortissementStruct *	bet_finance_get_echeance_first 						(LoanStruct *s_loan,
 																			 GDate *first_date);

@@ -122,7 +122,7 @@ enum BetFinanceDataColumns
  * \return
  **/
 static AmortissementStruct *bet_finance_get_echeance_at_date (LoanStruct *s_loan,
-															  GDate *date,
+															  const GDate *date,
 															  gboolean maj_s_loan_capital_du)
 {
 	AmortissementStruct *s_amortissement = NULL;
@@ -2145,7 +2145,7 @@ void bet_finance_ui_update_all_finance_toolbars (gint toolbar_style)
  **/
 GsbReal bet_finance_get_loan_amount_at_date (gint scheduled_number,
 											 gint transfer_account,
-											 GDate *date,
+											 const GDate *date,
 											 gboolean maj_s_loan_capital_du)
 {
 	gint transaction_mother = 0;
