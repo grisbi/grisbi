@@ -321,7 +321,7 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number,
 								   gint transaction_mother )
 {
-	GDate *date;
+	const GDate *date;
     gint account_number;
     gint payment_number;
 	gint transfer_account;
@@ -333,8 +333,8 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 	transfer_account = gsb_data_scheduled_get_account_number_transfer (scheduled_number+1);
     transaction_number = gsb_data_transaction_new_transaction (account_number);
 
-	/* initialise les données pour fixed date */
-	date = gsb_data_scheduled_get_date (scheduled_number);
+	/* initialise les données pour fixed date fix bug 2164: récupère la date de la transaction mère */
+	date = gsb_data_transaction_get_date (transaction_mother);
 
 	/* begin to fill the new transaction */
     gsb_data_transaction_set_date (transaction_number, date);
