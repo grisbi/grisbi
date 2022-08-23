@@ -110,9 +110,9 @@ gboolean 		gsb_data_transaction_set_currency_number						(gint transaction_numbe
 gboolean 		gsb_data_transaction_set_date 									(gint transaction_number,
                         														 const GDate *date);
 gboolean 		gsb_data_transaction_set_exchange_fees 							(gint transaction_number,
-                        														 GsbReal rate);
+                        														 GsbReal exchange_fees);
 gboolean 		gsb_data_transaction_set_exchange_rate 							(gint transaction_number,
-                        														 GsbReal rate);
+                        														 GsbReal exchange_rate);
 gboolean 		gsb_data_transaction_set_financial_year_number 					(gint transaction_number,
                         														 gint financial_year_number);
 gboolean 		gsb_data_transaction_set_marked_transaction 					(gint transaction_number,
