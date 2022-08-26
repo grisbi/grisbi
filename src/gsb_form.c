@@ -2229,9 +2229,10 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
     if (!GTK_IS_WIDGET (entry) || !GTK_IS_ENTRY (entry))
 		return FALSE;
 
-	/* remove the selection */
-    gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
-    element_number = GPOINTER_TO_INT (ptr_origin);
+    /* fix bug 2208 */
+    //~ gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
+
+	element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
     transaction_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (gsb_form_get_form_widget ()),
 															 "transaction_number_in_form"));

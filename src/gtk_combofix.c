@@ -964,8 +964,8 @@ static gboolean gtk_combofix_focus_out (GtkWidget *entry,
 {
 	gtk_combofix_hide_popup (combofix);
 
-    /* hide the selection */
-    gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
+    /* fix bug 2208 */
+    //~ gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
 
     return (FALSE);
 }
