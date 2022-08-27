@@ -205,9 +205,6 @@ static void widget_bank_details_setup_widget (WidgetBankDetails *w_bank_details,
     gtk_size_group_add_widget (size_group, priv->entry_bank_BIC);
     gtk_grid_attach (GTK_GRID (priv->grid_bank_details), priv->entry_bank_BIC, 2, 3, 2, 1);
 
-    gtk_size_group_add_widget (size_group, priv->textview_bank_adr);
-    gtk_grid_attach (GTK_GRID (priv->grid_bank_details), priv->textview_bank_adr, 2, 4, 2, 1);
-
     gtk_size_group_add_widget (size_group, priv->entry_bank_tel);
     gtk_grid_attach (GTK_GRID (priv->grid_bank_details), priv->entry_bank_tel, 2, 5, 2, 1);
 
