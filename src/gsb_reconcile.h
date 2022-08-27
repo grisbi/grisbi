@@ -7,11 +7,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *	gsb_reconcile_create_box						(void);
-gboolean	gsb_reconcile_run_reconciliation				(GtkWidget *button,
-                        									 gpointer null);
-gboolean	gsb_reconcile_set_last_scheduled_transaction	(gint scheduled_transaction);
-gboolean	gsb_reconcile_update_amounts					(GtkWidget *entry,
-					    									 gpointer null);
+gint 			gsb_reconcile_get_last_scheduled_transaction		(void);
+gboolean		gsb_reconcile_set_last_scheduled_transaction		(gint scheduled_transaction);
+const GDate *	gsb_reconcile_get_pointed_transactions_max_date		(gint account_number);
 /* END_DECLARATION */
 #endif

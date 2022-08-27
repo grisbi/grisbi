@@ -53,6 +53,7 @@
 [type: gettext/glade]src/widgets/widget_list_accounts.ui
 [type: gettext/glade]src/widgets/widget_list_metatree.ui
 [type: gettext/glade]src/widgets/widget_loan.ui
+[type: gettext/glade]src/widgets/widget_reconcile.ui
 [type: gettext/glade]src/widgets/widget_transfer.ui
 share/grisbi.desktop.in
 src/accueil.c
@@ -241,4 +242,5 @@ src/widgets/widget_import_files.c
 src/widgets/widget_list_accounts.c
 src/widgets/widget_list_metatree.c
 src/widgets/widget_loan.c
+src/widgets/widget_reconcile.c
 src/widgets/widget_transfer.c

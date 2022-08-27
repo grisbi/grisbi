@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="WidgetReconcile" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox" id="vbox_reconcile">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkFrame" id="frame_reconcile">
+            <property name="height-request">358</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label-xalign">0</property>
+            <property name="shadow-type">out</property>
+            <child>
+              <object class="GtkScrolledWindow" id="sw_reconcile">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <child>
+                  <object class="GtkViewport" id="viwport_reconcile">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="GtkBox" id="vbox_reconcil">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">5</property>
+                        <property name="margin-end">5</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkBox" id="hbox_reconcile">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="margin-bottom">5</property>
+                            <property name="hexpand">True</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkLabel" id="label_reconcile_number">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Reconciliation number: </property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="entry_reconcile_number">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="width-chars">18</property>
+                                <property name="placeholder-text" translatable="yes">None</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <!-- n-columns=3 n-rows=11 -->
+                          <object class="GtkGrid" id="grid_reconcile">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="margin-bottom">5</property>
+                            <property name="hexpand">False</property>
+                            <property name="row-spacing">5</property>
+                            <property name="column-spacing">5</property>
+                            <child>
+                              <object class="GtkSeparator" id="hseparator_l1">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
+                                <property name="width">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSeparator" id="vseparator">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="orientation">vertical</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">1</property>
+                                <property name="top-attach">1</property>
+                                <property name="height">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_date">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">center</property>
+                                <property name="label" translatable="yes">Date</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_balance">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">center</property>
+                                <property name="label" translatable="yes">Balance</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">2</property>
+                                <property name="top-attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSeparator" id="hseparator_l3">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">2</property>
+                                <property name="width">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="entry_initial_date">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">start</property>
+                                <property name="width-chars">15</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="entry_final_date">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">start</property>
+                                <property name="width-chars">15</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="entry_initial_balance">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">start</property>
+                                <property name="width-chars">15</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">2</property>
+                                <property name="top-attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="entry_final_balance">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="halign">start</property>
+                                <property name="width-chars">15</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">2</property>
+                                <property name="top-attach">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSeparator" id="hseparator_l5">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">4</property>
+                                <property name="width">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_initial_balance_titre">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Initial balance: </property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_final_balance_titre">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Final balance: </property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">7</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_checking_titre">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Checking: </property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">8</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSeparator" id="hseparator_l10">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">9</property>
+                                <property name="width">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_variance_titre">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Variance: </property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">10</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_initial_balance">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">label</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">2</property>
+                                <property name="top-attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_final_balance">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">label</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">2</property>
+                                <property name="top-attach">7</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_checking_balance">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">label</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">2</property>
+                                <property name="top-attach">8</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_variance_balance">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="label" translatable="yes">label</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">2</property>
+                                <property name="top-attach">10</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="hbox_sort_payment">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="margin-top">5</property>
+                            <property name="margin-bottom">5</property>
+                            <child>
+                              <object class="GtkCheckButton" id="checkbutton_sort_reconcile">
+                                <property name="label" translatable="yes">Sort by method of payment</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
+                                <property name="halign">center</property>
+                                <property name="hexpand">True</property>
+                                <property name="draw-indicator">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="hboc_buttons">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="margin-top">5</property>
+                            <property name="spacing">5</property>
+                            <property name="homogeneous">True</property>
+                            <child>
+                              <object class="GtkButton" id="button_cancel">
+                                <property name="label" translatable="yes">Cancel</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="button_validate">
+                                <property name="label" translatable="yes">Validate</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">5</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label">
+              <object class="GtkLabel" id="label_frame_reconcile">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Reconcile</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+  </template>
+  <object class="GtkSizeGroup" id="sizegroup_box">
+    <widgets>
+      <widget name="hbox_reconcile"/>
+      <widget name="grid_reconcile"/>
+      <widget name="hbox_sort_payment"/>
+      <widget name="hboc_buttons"/>
+    </widgets>
+  </object>
+  <object class="GtkSizeGroup" id="sizegroup_entry">
+    <widgets>
+      <widget name="label_reconcile_number"/>
+      <widget name="label_date"/>
+      <widget name="label_balance"/>
+      <widget name="entry_initial_date"/>
+      <widget name="entry_final_date"/>
+      <widget name="entry_initial_balance"/>
+      <widget name="entry_final_balance"/>
+      <widget name="button_cancel"/>
+      <widget name="button_validate"/>
+    </widgets>
+  </object>
+</interface>

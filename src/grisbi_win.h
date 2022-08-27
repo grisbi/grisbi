@@ -33,6 +33,7 @@ gpointer 		grisbi_win_get_form_organization 			(void);
 GtkWidget *		grisbi_win_get_label_last_statement 		(void);
 GtkWidget *     grisbi_win_get_notebook_general             (void);
 GtkWidget *		grisbi_win_get_prefs_dialog 				(GrisbiWin *win);
+GtkWidget *		grisbi_win_get_reconcile_panel				(GrisbiWin *win);
 GtkWidget *     grisbi_win_get_stack_box                    (GrisbiWin *win);
 GtkWidget *		grisbi_win_get_vbox_transactions_list 		(GrisbiWin *win);
 gpointer		grisbi_win_get_w_etat						(void);
@@ -69,6 +70,8 @@ gboolean 		grisbi_win_set_form_expander_visible 		(gboolean visible,
 gboolean 		grisbi_win_set_form_organization			(gpointer FormOrganization);
 void 			grisbi_win_set_prefs_dialog 				(GrisbiWin *win,
 															 GtkWidget *prefs_dialog);
+void			grisbi_win_set_reconcile_panel				(GrisbiWin *win,
+															 GtkWidget *reconcile_panel);
 void            grisbi_win_set_size_and_position            (GtkWindow *win);
 gboolean 		grisbi_win_set_vbox_transactions_list 		(GrisbiWin *win,
 															 GtkWidget *vbox);

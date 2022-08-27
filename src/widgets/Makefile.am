@@ -35,6 +35,8 @@ libwidgets_la_SOURCES = \
 	widget_list_metatree.h \
 	widget_loan.c \
 	widget_loan.h \
+	widget_reconcile.c \
+	widget_reconcile.h \
 	widget_transfer.c \
 	widget_transfer.h
 
@@ -73,6 +75,7 @@ EXTRA_DIST = \
 	widget_list_accounts.ui \
 	widget_list_metatree.ui \
 	widget_loan.ui \
+	widget_reconcile.ui \
 	widget_transfer.ui
 
 if HAVE_GOFFICE

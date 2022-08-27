@@ -200,12 +200,12 @@ void init_variables (void)
 	w_etat->use_icons_file_dir = FALSE;
 
     /* reconcile (etat) */
-    run.reconcile_account_number = -1;
-    g_free (run.reconcile_final_balance);
-    if (run.reconcile_new_date)
-        g_date_free (run.reconcile_new_date);
-    run.reconcile_final_balance = NULL;
-    run.reconcile_new_date = NULL;
+    w_run->reconcile_account_number = -1;
+    g_free (w_run->reconcile_final_balance);
+    if (w_run->reconcile_new_date)
+        g_date_free (w_run->reconcile_new_date);
+    w_run->reconcile_final_balance = NULL;
+    w_run->reconcile_new_date = NULL;
 
     gsb_transactions_list_set_current_tree_view_width (0);
 	gsb_scheduler_list_set_current_tree_view_width (0);
@@ -328,12 +328,6 @@ void free_variables (void)
 	/* raz variables of etat */
 	if (etat.name_logo && strlen (etat.name_logo))
 		g_free (etat.name_logo);
-
-    /* reconcile (etat) */
-	if (run.reconcile_final_balance)
-	    g_free (run.reconcile_final_balance);
-    if (run.reconcile_new_date)
-        g_date_free (run.reconcile_new_date);
 
     /* free the variables for the estimate balance module */
     bet_data_variables_free ();

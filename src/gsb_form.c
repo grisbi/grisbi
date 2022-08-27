@@ -88,6 +88,7 @@
 #include "utils_operations.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "widget_reconcile.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -2211,8 +2212,8 @@ gboolean gsb_form_entry_get_focus (GtkWidget *entry)
  * \return FALSE
  **/
 gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
-                        GdkEventFocus *ev,
-                        gint *ptr_origin)
+									GdkEventFocus *ev,
+									gint *ptr_origin)
 {
     const gchar *string;
     gint element_number;
@@ -3272,7 +3273,7 @@ gboolean gsb_form_finish_edition (void)
             transaction_list_show_toggle_mark (TRUE);
         else
         {
-            gsb_reconcile_update_amounts (NULL, NULL);
+            widget_reconcile_update_amounts ();
         }
     }
 

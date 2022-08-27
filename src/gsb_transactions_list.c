@@ -75,6 +75,7 @@
 #include "utils_operations.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "widget_reconcile.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -138,7 +139,6 @@ GSList *orphan_child_transactions = NULL;
 /*END_GLOBAL*/
 
 /*START_EXTERN*/
-extern GtkWidget *reconcile_sort_list_button;
 /*END_EXTERN*/
 
 /******************************************************************************/
@@ -637,9 +637,9 @@ static gboolean gsb_transactions_list_switch_mark (gint transaction_number)
     /* if we are reconciling, update the amounts label */
     if (run.equilibrage)
     {
-    /* pbiava 02/12/2009 : shows the balance after you mark the transaction */
-    transaction_list_set_balances ();
-	gsb_reconcile_update_amounts (NULL, NULL);
+		/* pbiava 02/12/2009 : shows the balance after you mark the transaction */
+		transaction_list_set_balances ();
+		widget_reconcile_update_amounts ();
     }
     /* need to update the marked amount on the home page */
     gsb_gui_navigation_update_statement_label (account_number);
@@ -916,8 +916,7 @@ static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tre
     if (transaction_list_sort_get_reconcile_sort ())
     {
         transaction_list_sort_set_reconcile_sort (FALSE);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (reconcile_sort_list_button),
-                                FALSE);
+		widget_reconcile_set_active_sort_checkbutton (FALSE);
         /* if we asked the same last column, we invert the value,
          * to come back to the last sort_type before the sort reconciliation */
         if (new_column == current_column)
@@ -2534,9 +2533,9 @@ static GtkWidget *gsb_transactions_list_new_toolbar (void)
     item = utils_buttons_tool_button_new_from_image_label ("gsb-reconciliation-24.png", _("Reconcile"));
     gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Start account reconciliation"));
     g_signal_connect (G_OBJECT (item),
-                        "clicked",
-                        G_CALLBACK (gsb_reconcile_run_reconciliation),
-                        NULL);
+					  "clicked",
+					  G_CALLBACK (widget_reconcile_run_reconciliation),
+					  NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
     /* print button */
@@ -3585,7 +3584,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
 
     /* if we are reconciling, update the amounts */
 	if (run.equilibrage)
-		gsb_reconcile_update_amounts (NULL, NULL);
+		widget_reconcile_update_amounts ();
 
     /* we will update the home page */
     run.mise_a_jour_liste_comptes_accueil = TRUE;

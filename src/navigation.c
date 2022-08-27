@@ -73,12 +73,11 @@
 #include "utils_real.h"
 #include "utils_str.h"
 #include "widget_account_property.h"
+#include "widget_reconcile.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_GLOBAL*/
-/* Widget that hold all reconciliation widgets. */
-GtkWidget *reconcile_panel;
 /*END_GLOBAL*/
 
 /*START_EXTERN*/
@@ -1171,6 +1170,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane (void)
 {
 	GtkWidget *window;
 	GtkWidget *grid;
+	GtkWidget *reconcile_panel;
 	GtkWidget *sw;
 	GQueue *tmp_queue;
 	GtkCellRenderer *renderer;
@@ -1318,8 +1318,9 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane (void)
 	gtk_grid_attach (GTK_GRID (grid), scheduler_calendar, 0,1,1,1);
 
 	/* Create reconcile stuff (hidden for now). */
-	reconcile_panel = gsb_reconcile_create_box ();
+	reconcile_panel = GTK_WIDGET (widget_reconcile_new ());
 	gtk_grid_attach (GTK_GRID (grid), reconcile_panel, 0,2,1,1);
+	grisbi_win_set_reconcile_panel (GRISBI_WIN (window), reconcile_panel);
 
 	/* signals of tree_view */
 	g_signal_connect (G_OBJECT (navigation_tree_view),

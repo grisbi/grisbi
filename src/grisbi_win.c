@@ -157,10 +157,13 @@ struct _GrisbiWinPrivate
 	GrisbiWinEtat		*w_etat;
 
     /* structure run */
-    GrisbiWinRun     	*w_run;
+    GrisbiWinRun		*w_run;
 
 	/* prefs dialog*/
 	GtkWidget *			prefs_dialog;
+
+	/* reconcile panel */
+	 GtkWidget *		reconcile_panel;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW)
@@ -900,14 +903,19 @@ static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
  **/
 static void grisbi_win_free_w_run (GrisbiWinRun *w_run)
 {
-
-    devel_debug (NULL);
+	devel_debug (NULL);
 
 	g_free (w_run->prefs_selected_row);
 	g_free (w_run->import_format_date);
 	w_run->import_format_date = NULL;
 
-    g_free (w_run);
+	/* free reconcile data */
+	if (w_run->reconcile_final_balance)
+		g_free (w_run->reconcile_final_balance);
+	if (w_run->reconcile_new_date)
+		g_date_free (w_run->reconcile_new_date);
+
+	g_free (w_run);
 }
 
 /******************************************************************************/
@@ -1261,6 +1269,48 @@ void grisbi_win_set_prefs_dialog (GrisbiWin *win,
 	{
 		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 		priv->prefs_dialog = prefs_dialog;
+	}
+}
+
+/**
+ * return reconcile panel
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *grisbi_win_get_reconcile_panel (GrisbiWin *win)
+{
+	GrisbiWinPrivate *priv = NULL;
+
+	if (!win)
+        win = grisbi_app_get_active_window (NULL);
+
+	if (win)
+		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+	return priv->reconcile_panel;
+}
+
+/**
+ * set reconcile_panel
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_set_reconcile_panel (GrisbiWin *win,
+									 GtkWidget *reconcile_panel)
+{
+	GrisbiWinPrivate *priv;
+
+	if (!win)
+        win = grisbi_app_get_active_window (NULL);
+	if (win)
+	{
+		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+		priv->reconcile_panel = reconcile_panel;
 	}
 }
 

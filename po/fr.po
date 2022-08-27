@@ -6802,7 +6802,7 @@ msgstr "Éditer la banque"
 
 #: ../src/gsb_bank.c:428 ../src/gsb_reconcile.c:508
 msgid "None"
-msgstr "Aucun"
+msgstr "Aucune"
 
 #: ../src/gsb_bank.c:461
 msgid "Add new bank"
