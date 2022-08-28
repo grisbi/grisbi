@@ -1256,6 +1256,7 @@ static void bet_array_list_schedule_selected_line (GtkWidget *menu_item,
     gint origine;
     gint number;
     gint scheduled_number;
+	GrisbiWinRun *w_run;
 
     if (!gtk_tree_selection_get_selected (GTK_TREE_SELECTION (tree_selection), &model, &iter))
         return;
@@ -1270,7 +1271,8 @@ static void bet_array_list_schedule_selected_line (GtkWidget *menu_item,
 													 gsb_gui_navigation_get_current_account (),
 													 number);
 
-    run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    w_run->mise_a_jour_liste_echeances_auto_accueil = TRUE;
 
     gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, 0);
     gsb_scheduler_list_select (scheduled_number);

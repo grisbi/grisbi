@@ -332,8 +332,10 @@ static gboolean gsb_transactions_list_move_transaction_to_account (gint transact
     gint source_account;
     gint contra_transaction_number;
     gint current_account;
+	GrisbiWinRun *w_run;
 
     devel_debug_int (target_account);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     source_account = gsb_data_transaction_get_account_number (transaction_number);
     contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
@@ -371,8 +373,8 @@ static gboolean gsb_transactions_list_move_transaction_to_account (gint transact
         gsb_transactions_list_update_tree_view (current_account, FALSE);
 
     /* update the first page */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_soldes_minimaux = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_soldes_minimaux = TRUE;
 
     return TRUE;
 }
@@ -645,7 +647,7 @@ static gboolean gsb_transactions_list_switch_mark (gint transaction_number)
 	}
     /* need to update the marked amount on the home page */
     gsb_gui_navigation_update_statement_label (account_number);
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 
     gsb_file_set_modified (TRUE);
 
@@ -1609,7 +1611,7 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
         transaction_list_update_element (ELEMENT_MARK);
     }
     /* need to update the marked amount on the home page */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 
     gsb_file_set_modified (TRUE);
 
@@ -2917,7 +2919,9 @@ gboolean gsb_transactions_list_append_new_transaction (gint transaction_number,
 													   gboolean update_tree_view)
 {
     gint account_number;
+	GrisbiWinRun *w_run;
 
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     account_number = gsb_data_transaction_get_account_number (transaction_number);
 
     /* append the transaction to the tree view */
@@ -2941,9 +2945,9 @@ gboolean gsb_transactions_list_append_new_transaction (gint transaction_number,
     }
 
     /* on réaffichera l'accueil */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_soldes_minimaux = TRUE;
-    run.mise_a_jour_fin_comptes_passifs = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_soldes_minimaux = TRUE;
+    w_run->mise_a_jour_fin_comptes_passifs = TRUE;
 
 	return FALSE;
 }
@@ -3137,8 +3141,10 @@ gchar *gsb_transactions_list_grep_cell_content (gint transaction_number,
 gboolean gsb_transactions_list_update_transaction (gint transaction_number)
 {
     gint account_number;
+	GrisbiWinRun *w_run;
 
     devel_debug_int (transaction_number);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     /* first, modify the transaction in the tree view */
     transaction_list_update_transaction (transaction_number);
@@ -3150,9 +3156,9 @@ gboolean gsb_transactions_list_update_transaction (gint transaction_number)
     gsb_data_account_colorize_current_balance (account_number);
 
     /* update first page */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_soldes_minimaux = TRUE;
-    run.mise_a_jour_fin_comptes_passifs = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_soldes_minimaux = TRUE;
+    w_run->mise_a_jour_fin_comptes_passifs = TRUE;
 
     return FALSE;
 }
@@ -3601,8 +3607,8 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
 		widget_reconcile_update_amounts ();
 
     /* we will update the home page */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_soldes_minimaux = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_soldes_minimaux = TRUE;
     affiche_dialogue_soldes_minimaux ();
 
     /* We blank form. */
@@ -3839,9 +3845,9 @@ void gsb_transactions_list_convert_transaction_to_sheduled (void)
     scheduled_number = gsb_transactions_list_convert_to_scheduled (gsb_data_account_get_current_transaction_number (
                                     gsb_gui_navigation_get_current_account ()));
 
-    run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
-
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    w_run->mise_a_jour_liste_echeances_auto_accueil = TRUE;
+
     if (w_run->equilibrage == FALSE)
     {
         gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, 0);

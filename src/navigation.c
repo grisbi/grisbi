@@ -2269,6 +2269,7 @@ gboolean gsb_gui_navigation_drag_data_received (GtkTreeDragDest *drag_dest,
 	g_free (tmp_str);
 	g_free (tmp_str2);
 #endif
+	GrisbiWinRun *w_run;
 
 	if (dest_path && selection_data)
 	{
@@ -2316,7 +2317,8 @@ gboolean gsb_gui_navigation_drag_data_received (GtkTreeDragDest *drag_dest,
 						NULL, NULL);
 
 		/* update the order of accounts in first page */
-		run.mise_a_jour_liste_comptes_accueil = TRUE;
+		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+		w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 
 		gsb_file_set_modified (TRUE);
 	}
@@ -2392,10 +2394,13 @@ gboolean gsb_gui_navigation_row_drop_possible (GtkTreeDragDest *drag_dest,
  **/
 void gsb_gui_navigation_update_home_page (void)
 {
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	if (gsb_gui_navigation_get_current_page () == GSB_HOME_PAGE)
 		mise_a_jour_accueil (TRUE);
 	else
-		run.mise_a_jour_liste_comptes_accueil = TRUE;
+		w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 }
 
 /**
@@ -2602,14 +2607,16 @@ void gsb_gui_navigation_update_home_page_from_theme	(void)
 void gsb_gui_navigation_update_localisation (gint type_maj)
 {
 	gint current_page;
+	GrisbiWinRun *w_run;
 
 	current_page = gsb_gui_navigation_get_current_page ();
 
 	/* update home page */
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	if (current_page == GSB_HOME_PAGE)
 		mise_a_jour_accueil (TRUE);
 	else
-		run.mise_a_jour_liste_comptes_accueil = TRUE;
+		w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 
 	/* update sheduled liste */
 	gsb_scheduler_list_fill_list ();

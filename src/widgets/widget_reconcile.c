@@ -373,7 +373,7 @@ static gboolean widget_reconcile_validate (GtkWidget *button,
 	/* update the reconcile number if necessary */
 	transaction_list_update_element (ELEMENT_RECONCILE_NB);
 
-	run.mise_a_jour_liste_comptes_accueil = TRUE;
+	w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 
 	/* go back to the normal transactions list */
 	widget_reconcile_cancel (NULL, priv);

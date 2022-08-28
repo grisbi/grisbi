@@ -569,9 +569,11 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     GSList *tmp_list;
     gboolean automatic_transactions_taken = FALSE;
 	GrisbiAppConf *a_conf;
+	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     /* the scheduled transactions to take will be check here,
      * but the scheduled transactions taken will be add to the already appended ones */
@@ -674,12 +676,12 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     if ( automatic_transactions_taken )
     {
-        run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
+        w_run->mise_a_jour_liste_echeances_auto_accueil = TRUE;
         gsb_file_set_modified ( TRUE );
     }
 
     if ( scheduled_transactions_to_take )
-		run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+		w_run->mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
 
     g_date_free ( date );
 }

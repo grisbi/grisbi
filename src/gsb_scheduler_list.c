@@ -2831,8 +2831,10 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
     gint mother_number = 0;
     gint result;
     gint msg_no = 0;
+	GrisbiWinRun *w_run;
 
     devel_debug_int (scheduled_number);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     if (!scheduled_number)
         scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
@@ -2988,7 +2990,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 
     gsb_calendar_update ();
-    run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+    w_run->mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
 
     gsb_file_set_modified (TRUE);
 

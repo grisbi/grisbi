@@ -515,6 +515,7 @@ static gboolean widget_account_property_focus_out (GtkWidget *widget,
 {
 	gint account_number;
 	gint property_origin;
+	GrisbiWinRun *w_run;
 
 	property_origin = GPOINTER_TO_INT (p_property_origin);
 	account_number = gsb_gui_navigation_get_current_account ();
@@ -549,10 +550,11 @@ static gboolean widget_account_property_focus_out (GtkWidget *widget,
 	}
 
 	/* update main page */
-	run.mise_a_jour_liste_comptes_accueil = TRUE;
-	run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
-	run.mise_a_jour_soldes_minimaux = TRUE;
-	run.mise_a_jour_fin_comptes_passifs = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+	w_run->mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+	w_run->mise_a_jour_soldes_minimaux = TRUE;
+	w_run->mise_a_jour_fin_comptes_passifs = TRUE;
 
 	return FALSE;
 }
@@ -574,6 +576,7 @@ static void widget_account_property_changed (GtkWidget *widget,
 	gint account_number;
 	gboolean state;
 	GrisbiAppConf *a_conf;
+	GrisbiWinRun *w_run;
 
 	account_number = gsb_gui_navigation_get_current_account ();
 	if (account_number == -1)
@@ -640,10 +643,11 @@ static void widget_account_property_changed (GtkWidget *widget,
 	}
 
 	/* update main page */
-	run.mise_a_jour_liste_comptes_accueil = TRUE;
-	run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
-	run.mise_a_jour_soldes_minimaux = TRUE;
-	run.mise_a_jour_fin_comptes_passifs = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+	w_run->mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+	w_run->mise_a_jour_soldes_minimaux = TRUE;
+	w_run->mise_a_jour_fin_comptes_passifs = TRUE;
 }
 
 /* IBAN FUNCTIONS */

@@ -174,11 +174,12 @@ void init_variables (void)
     /* no bank in memory for now */
     gsb_bank_free_combo_list_model ();
 
-    run.mise_a_jour_liste_comptes_accueil = FALSE;
-    run.mise_a_jour_liste_echeances_manuelles_accueil = FALSE;
-    run.mise_a_jour_liste_echeances_auto_accueil = FALSE;
-    run.mise_a_jour_soldes_minimaux = FALSE;
-    run.mise_a_jour_fin_comptes_passifs = FALSE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    w_run->mise_a_jour_liste_comptes_accueil = FALSE;
+    w_run->mise_a_jour_liste_echeances_manuelles_accueil = FALSE;
+    w_run->mise_a_jour_liste_echeances_auto_accueil = FALSE;
+    w_run->mise_a_jour_soldes_minimaux = FALSE;
+    w_run->mise_a_jour_fin_comptes_passifs = FALSE;
 
     orphan_child_transactions = NULL;
 

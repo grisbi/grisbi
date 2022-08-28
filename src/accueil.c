@@ -977,13 +977,15 @@ static void update_liste_comptes_accueil (gboolean force,
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
     gint new_comptes_bancaires=0, new_comptes_passif=0, new_comptes_actif=0;
     gint soldes_mixtes = 0;
+	GrisbiWinRun *w_run;
 
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     if (!force
-		&& !(run.mise_a_jour_liste_comptes_accueil
+		&& !(w_run->mise_a_jour_liste_comptes_accueil
 			 && gsb_data_account_get_number_of_accounts ()))
         return;
 
-    run.mise_a_jour_liste_comptes_accueil = FALSE;
+    w_run->mise_a_jour_liste_comptes_accueil = FALSE;
 
     /* Remove previous child */
     utils_container_remove_children (frame_etat_comptes_accueil);
@@ -1292,15 +1294,18 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
  **/
 static void update_liste_echeances_manuelles_accueil (gboolean force)
 {
-    devel_debug_int (force);
+	GrisbiWinRun *w_run;
+
+	devel_debug_int (force);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     /* need to set that in first because can change mise_a_jour_liste_echeances_manuelles_accueil */
     gsb_scheduler_check_scheduled_transactions_time_limit ();
 
-    if (!force && !run.mise_a_jour_liste_echeances_manuelles_accueil)
+    if (!force && !w_run->mise_a_jour_liste_echeances_manuelles_accueil)
 		return;
 
-    run.mise_a_jour_liste_echeances_manuelles_accueil = FALSE;
+    w_run->mise_a_jour_liste_echeances_manuelles_accueil = FALSE;
 
     if (scheduled_transactions_to_take)
     {
@@ -1439,12 +1444,15 @@ static void update_liste_echeances_manuelles_accueil (gboolean force)
  **/
 static void update_liste_echeances_auto_accueil (gboolean force)
 {
-    if (!force && !run.mise_a_jour_liste_echeances_auto_accueil)
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	if (!force && !w_run->mise_a_jour_liste_echeances_auto_accueil)
 		return;
 
     devel_debug_int (force);
 
-    run.mise_a_jour_liste_echeances_auto_accueil = FALSE;
+    w_run->mise_a_jour_liste_echeances_auto_accueil = FALSE;
 
     if (scheduled_transactions_taken)
     {
@@ -1577,14 +1585,16 @@ static void update_soldes_minimaux (gboolean force,
     GtkWidget *vbox_2;
     GtkWidget *label;
     GSList *list_tmp;
+	GrisbiWinRun *w_run;
 
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     if (!force
 	 &&
-	 !run.mise_a_jour_soldes_minimaux)
+	 !w_run->mise_a_jour_soldes_minimaux)
 	return;
 
     devel_debug (NULL);
-    run.mise_a_jour_soldes_minimaux = FALSE;
+    w_run->mise_a_jour_soldes_minimaux = FALSE;
 
     /* s'il y avait déjà un fils dans la frame, le détruit */
     utils_container_remove_children (frame_etat_soldes_minimaux_autorises);
@@ -1658,7 +1668,7 @@ static void update_soldes_minimaux (gboolean force,
 
     /* on affiche une boite d'avertissement si nécessaire */
     affiche_dialogue_soldes_minimaux ();
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 }
 
 /**
@@ -1676,15 +1686,16 @@ static void update_fin_comptes_passifs (gboolean force,
     GSList *liste_tmp;
     GSList *pointeur;
     GSList *list_tmp;
+	GrisbiWinRun *w_run;
 
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     if (!force
-	 &&
-	 !run.mise_a_jour_fin_comptes_passifs)
+	 && !w_run->mise_a_jour_fin_comptes_passifs)
 	return;
 
     devel_debug (NULL);
 
-    run.mise_a_jour_fin_comptes_passifs = FALSE;
+    w_run->mise_a_jour_fin_comptes_passifs = FALSE;
 
     utils_container_remove_children (frame_etat_fin_compte_passif);
     hide_paddingbox (frame_etat_fin_compte_passif);
@@ -1747,9 +1758,11 @@ GtkWidget *creation_onglet_accueil (void)
     GtkWidget *base_scroll;
     GtkWidget *eb;
 	GrisbiAppConf *a_conf;
+	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_widget_show (vbox);
@@ -1805,7 +1818,7 @@ GtkWidget *creation_onglet_accueil (void)
     gtk_box_pack_start (GTK_BOX (base), frame_etat_comptes_accueil, FALSE, FALSE, 0);
 
     /* on met la liste des comptes et leur état dans la frame */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
     gtk_widget_show_all (frame_etat_comptes_accueil);
 
 
@@ -1813,7 +1826,7 @@ GtkWidget *creation_onglet_accueil (void)
     paddingbox = new_paddingbox_with_title (base, FALSE, _("Closed liabilities accounts"));
     frame_etat_fin_compte_passif = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     gtk_box_pack_start (GTK_BOX (paddingbox), frame_etat_fin_compte_passif, FALSE, FALSE, 0);
-    run.mise_a_jour_fin_comptes_passifs = TRUE;
+    w_run->mise_a_jour_fin_comptes_passifs = TRUE;
 
 
     /* mise en place de la partie des échéances manuelles (non affiché) */
@@ -1852,7 +1865,7 @@ GtkWidget *creation_onglet_accueil (void)
     gtk_box_set_spacing (GTK_BOX (paddingbox), 6);
     gtk_box_pack_start (GTK_BOX (paddingbox), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6);
 
-    run.mise_a_jour_soldes_minimaux = TRUE;
+    w_run->mise_a_jour_soldes_minimaux = TRUE;
 
     gtk_box_pack_start (GTK_BOX (vbox), base_scroll, TRUE, TRUE, 0);
 
@@ -1899,8 +1912,10 @@ void affiche_dialogue_soldes_minimaux (void)
     GSList *liste_tmp;
     GSList *list_tmp;
     gchar *texte_affiche;
+	GrisbiWinRun *w_run;
 
-    if (!run.mise_a_jour_soldes_minimaux)
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    if (!w_run->mise_a_jour_soldes_minimaux)
         return;
 
     liste_autorise = NULL;

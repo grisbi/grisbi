@@ -4031,6 +4031,7 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
     GSList *tmp_list;
     GtkTreeIter iter;
     GtkTreeModel *model;
+	GrisbiWinRun *w_run;
 
     switch (result)
     {
@@ -4107,8 +4108,9 @@ static gboolean gsb_import_click_dialog_ope_orphelines (GtkWidget *dialog,
 				gsb_import_cree_liens_virements_ope_import ();
 
 			/* mise à jour de l'accueil */
-			run.mise_a_jour_liste_comptes_accueil = TRUE;
-			run.mise_a_jour_soldes_minimaux = TRUE;
+			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+			w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+			w_run->mise_a_jour_soldes_minimaux = TRUE;
 
             gsb_file_set_modified (TRUE);
 
@@ -4574,6 +4576,7 @@ static void traitement_operations_importees (GtkWindow *parent)
     GSList *tmp_list;
     gint new_file;
 	GrisbiAppConf *a_conf;
+	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
@@ -4742,8 +4745,9 @@ static void traitement_operations_importees (GtkWindow *parent)
 	grisbi_win_menu_move_to_acc_new ();
 
     /* update main page */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_soldes_minimaux = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_soldes_minimaux = TRUE;
     mise_a_jour_accueil (FALSE);
 
     grisbi_win_status_bar_clear();
@@ -5261,6 +5265,7 @@ gboolean gsb_import_by_rule (gint rule)
     gchar **array;
     gint i=0;
 	GrisbiAppConf *a_conf;
+	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
@@ -5385,8 +5390,9 @@ gboolean gsb_import_by_rule (gint rule)
     g_strfreev (array);
 
     /* update main page */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_soldes_minimaux = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_soldes_minimaux = TRUE;
     mise_a_jour_accueil (FALSE);
 
     /* MAJ du solde du compte nécessaire suivant date des opérations existantes */

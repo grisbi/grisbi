@@ -88,6 +88,7 @@ gboolean gsb_account_new ( KindAccount account_type,
 {
     gint account_number;
     GtkWidget *notebook_general;
+	GrisbiWinRun *w_run;
 
     /*     create the new account */
     account_number = gsb_data_account_new (account_type);
@@ -126,7 +127,8 @@ gboolean gsb_account_new ( KindAccount account_type,
     gsb_data_account_set_name (account_number, name);
 
     /* update the main page */
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 
     /* update the accounts lists */
 	grisbi_win_menu_move_to_acc_delete ();
@@ -175,6 +177,7 @@ gboolean gsb_account_delete ( void )
     gint page_number;
     GSList *list_tmp;
 	gchar* tmpstr;
+	GrisbiWinRun *w_run;
 
     deleted_account = gsb_gui_navigation_get_current_account ();
     devel_debug_int (deleted_account);
@@ -310,10 +313,11 @@ gboolean gsb_account_delete ( void )
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT), FALSE );
 
-    run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_soldes_minimaux = TRUE;
-    run.mise_a_jour_fin_comptes_passifs = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    w_run->mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_soldes_minimaux = TRUE;
+    w_run->mise_a_jour_fin_comptes_passifs = TRUE;
 
     gsb_file_set_modified ( TRUE );
 

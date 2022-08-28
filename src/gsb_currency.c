@@ -663,6 +663,7 @@ gboolean gsb_currency_update_combobox_currency_list (void)
     gulong handler_id;
     gint old_currency_number = -1;
 	gchar* tmpstr;
+	GrisbiWinRun *w_run;
 
 	if (!combobox_currency_store || !gsb_data_currency_get_currency_list ())
 		return FALSE;
@@ -746,9 +747,10 @@ gboolean gsb_currency_update_combobox_currency_list (void)
         list_tmp = list_tmp->next;
     }
 
-    run.mise_a_jour_liste_comptes_accueil = TRUE;
-    run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
-    run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    w_run->mise_a_jour_liste_comptes_accueil = TRUE;
+    w_run->mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+    w_run->mise_a_jour_liste_echeances_auto_accueil = TRUE;
 
     if (detail_devise_compte && G_IS_OBJECT (detail_devise_compte))
     {

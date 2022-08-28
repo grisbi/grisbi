@@ -3404,7 +3404,7 @@ gboolean gsb_form_finish_edition (void)
         if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_POINTEE)
         {
             gsb_gui_navigation_update_statement_label (account_number);
-            run.mise_a_jour_liste_comptes_accueil = TRUE;
+            w_run->mise_a_jour_liste_comptes_accueil = TRUE;
         }
     }
 
