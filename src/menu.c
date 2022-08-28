@@ -233,11 +233,13 @@ void grisbi_cmd_prefs (GSimpleAction *action,
 					   GVariant *parameter,
 					   gpointer app)
 {
+	gint result;
 	GrisbiPrefs *prefs;
 	GrisbiWin *win;
-	gint result;
+	GrisbiWinRun *w_run;
 
-	run.menu_prefs = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->menu_prefs = TRUE;
 	win = grisbi_app_get_active_window (app);
 	prefs = grisbi_prefs_new (win);
 	grisbi_win_set_prefs_dialog (win, GTK_WIDGET (prefs));
@@ -246,7 +248,7 @@ void grisbi_cmd_prefs (GSimpleAction *action,
 	gtk_widget_show_all (GTK_WIDGET (prefs));
 	result = gtk_dialog_run (GTK_DIALOG (prefs));
 	grisbi_prefs_dialog_response (GTK_DIALOG (prefs), result);
-	run.menu_prefs = FALSE;
+	w_run->menu_prefs = FALSE;
 }
 
 /* HELP MENU */
@@ -451,10 +453,13 @@ void grisbi_cmd_file_save (GSimpleAction *action,
 						   GVariant *parameter,
 						   gpointer app)
 {
+	GrisbiWinRun *w_run;
+
 	/* disable quit. See bug #1969 */
-	run.menu_save = TRUE;
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->menu_save = TRUE;
 	gsb_file_save ();
-	run.menu_save = FALSE;
+	w_run->menu_save = FALSE;
 }
 
 /**
@@ -470,9 +475,12 @@ void grisbi_cmd_file_save_as (GSimpleAction *action,
 							  GVariant *parameter,
 							  gpointer app)
 {
-	run.menu_save = TRUE;
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	w_run->menu_save = TRUE;
 	gsb_file_save_as ();
-	run.menu_save = FALSE;
+	w_run->menu_save = FALSE;
 }
 
 /**

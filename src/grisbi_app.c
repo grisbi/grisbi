@@ -363,19 +363,21 @@ static void grisbi_app_quit (GSimpleAction *action,
                              GVariant      *parameter,
                              gpointer       user_data)
 {
-    GrisbiApp *app;
     GList *l;
     gboolean first_win = TRUE;
+    GrisbiApp *app;
+	GrisbiWinRun *w_run;
 
     app = GRISBI_APP (user_data);
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* do not exit while saving. See bug #1969 */
-	if (run.menu_save)
+	if (w_run->menu_save)
 		return;
 
 	/* Do not exit while the preferences dialog is open.
 	 * Otherwise we get a crash when the dialog is closed. */
-	if (run.menu_prefs)
+	if (w_run->menu_prefs)
 		return;
 
     /* Remove all windows registered in the application */
