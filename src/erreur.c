@@ -155,6 +155,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
     GtkWidget *expander;
     GtkWidget *scrolled_window;
 #endif
+	GrisbiWinRun *w_run;
 
 	switch ( signal_nb )
 	{
@@ -185,8 +186,8 @@ void debug_traitement_sigsegv ( gint signal_nb )
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
-
-    if (file_is_loading || run.file_is_saving || !gsb_file_get_modified ())
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    if (file_is_loading || w_run->file_is_saving || !gsb_file_get_modified ())
     {
 		if (file_is_loading )
 		{
@@ -195,7 +196,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
 			g_free ( old_errmsg );
 		}
 
-		if ( run.file_is_saving )
+		if ( w_run->file_is_saving )
 		{
 			old_errmsg = errmsg;
 			errmsg = g_strconcat ( errmsg, _("Error occurred saving file."), NULL );
