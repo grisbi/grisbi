@@ -347,7 +347,7 @@ struct _GrisbiWinRun
     gboolean	menu_save;
 
     /* reconciliation */
-    gint		equilibrage;
+    gboolean	equilibrage;
     gint		reconcile_account_number;					/* Save the last reconciliation try: account */
     gchar *		reconcile_final_balance;					/* final balance amount */
     GDate *		reconcile_new_date;							/* new date */

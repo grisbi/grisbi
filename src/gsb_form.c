@@ -3008,6 +3008,7 @@ gboolean gsb_form_finish_edition (void)
     gint transaction_number;
     gboolean execute_scheduled = FALSE;
     gboolean is_transaction;
+	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
 
@@ -3266,7 +3267,8 @@ gboolean gsb_form_finish_edition (void)
 
     /* if it's a reconciliation and we modify a transaction, check
      * the amount of marked transactions */
-    if (is_transaction && run.equilibrage)
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+    if (is_transaction && w_run->equilibrage)
     {
         if (new_transaction)
             /* we are reconciling and it's a new transaction, so need to show the checkbox */

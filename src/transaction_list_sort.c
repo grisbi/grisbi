@@ -80,9 +80,12 @@ void transaction_list_sort (void)
     GtkTreePath *path;
     gint        *neworder, i;
     CustomList *custom_list;
+	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
-    custom_list = transaction_model_get_model ();
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+
+	custom_list = transaction_model_get_model ();
     g_return_if_fail ( custom_list != NULL );
 
     /* resort */
@@ -95,7 +98,7 @@ void transaction_list_sort (void)
                         custom_list);
 	}
     else if (transaction_list_sort_get_initial_sort ()
-			 && run.equilibrage == 0
+			 && w_run->equilibrage == FALSE
 			 && custom_list->sort_order == GTK_SORT_ASCENDING)
 	{
         return;

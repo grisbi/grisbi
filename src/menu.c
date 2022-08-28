@@ -868,22 +868,25 @@ void grisbi_cmd_show_reconciled_toggle (GSimpleAction *action,
 										GVariant *state,
 										gpointer app)
 {
-    gint current_account;
+	gint current_account;
+	GrisbiWinRun *w_run;
 
-    current_account = gsb_gui_navigation_get_current_account ();
-    if (current_account == -1 || run.equilibrage == 1)
-        return;
+		w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+		current_account = gsb_gui_navigation_get_current_account ();
+	if (current_account == -1 || w_run->equilibrage == TRUE)
+		return;
 
-    if (gsb_data_account_get_r (current_account))
-    {
-	    gsb_transactions_list_mise_a_jour_affichage_r (FALSE);
-        g_action_change_state (G_ACTION (action), g_variant_new_boolean (FALSE));
-    }
-    else
-    {
-	    gsb_transactions_list_mise_a_jour_affichage_r (TRUE);
-        g_action_change_state (G_ACTION (action), g_variant_new_boolean (TRUE));
-    }
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	if (gsb_data_account_get_r (current_account))
+	{
+		gsb_transactions_list_mise_a_jour_affichage_r (FALSE);
+		g_action_change_state (G_ACTION (action), g_variant_new_boolean (FALSE));
+	}
+	else
+	{
+		gsb_transactions_list_mise_a_jour_affichage_r (TRUE);
+		g_action_change_state (G_ACTION (action), g_variant_new_boolean (TRUE));
+	}
 }
 
 /**
@@ -991,9 +994,11 @@ void grisbi_cmd_reset_width_col (GSimpleAction *action,
 gboolean gsb_menu_gui_toggle_show_reconciled (void)
 {
     gint current_account;
+	GrisbiWinRun *w_run;
 
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     current_account = gsb_gui_navigation_get_current_account ();
-    if (current_account == -1 || run.equilibrage == 1)
+    if (current_account == -1 || w_run->equilibrage == TRUE)
         return FALSE;
 
     if (gsb_data_account_get_r (current_account))

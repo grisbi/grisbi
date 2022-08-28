@@ -145,7 +145,7 @@ static gboolean widget_reconcile_cancel (GtkWidget *button,
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-	run.equilibrage = 0;
+	w_run->equilibrage = FALSE;
 
 	/* save the final balance/new date for the next time the user will try to reconcile */
 	w_run->reconcile_account_number = gsb_gui_navigation_get_current_account ();
@@ -796,7 +796,7 @@ gboolean widget_reconcile_run_reconciliation (GtkWidget *button,
 	g_free (tmp_str);
 
 	/* we go to the reconciliation mode */
-	run.equilibrage = 1;
+	w_run->equilibrage = TRUE;
 
 	/* set all the balances for reconciliation */
 	widget_reconcile_update_amounts_labels (NULL, priv);
