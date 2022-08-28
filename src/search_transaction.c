@@ -496,7 +496,12 @@ static void search_transaction_button_search_clicked (GtkButton *button,
 			{
 				gsb_transactions_list_change_aspect_liste (1);
 				if (!priv->file_is_modified)
-					priv->file_modified = run.file_modification;
+				{
+					GrisbiWinRun *w_run;
+
+					w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+					priv->file_modified = w_run->file_modification;
+				}
 			}
 
 			/* on affiche le résultat */
@@ -891,7 +896,12 @@ static void search_transaction_combo_other_account_changed (GtkComboBox *combo,
 		/* on retablit les paramètres de lancien compte */
 		gsb_transactions_list_change_aspect_liste (priv->display_nb_rows);
 		if (!priv->file_is_modified)
-			priv->file_modified = run.file_modification;
+		{
+			GrisbiWinRun *w_run;
+
+			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+			priv->file_modified = w_run->file_modification;
+		}
 		if (gsb_data_account_get_r (priv->account_number) != priv->display_r)
 		{
 			gsb_data_account_set_r (priv->account_number, FALSE);
@@ -1027,6 +1037,7 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 {
 	const gchar *currency_code;
 	gint currency;
+	GrisbiWinRun *w_run;
 	SearchTransactionPrivate *priv;
 
 	devel_debug_int (transaction_number);
@@ -1076,10 +1087,11 @@ static void search_transaction_setup_dialog (SearchTransaction *dialog,
 	search_transaction_init_combo_other_account (priv);
 
 	/* memorise le statut de modification */
-	if (run.file_modification)
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	if (w_run->file_modification)
 		priv->file_is_modified = TRUE;
 	else
-		priv->file_modified = run.file_modification;
+		priv->file_modified = w_run->file_modification;
 
 	/* set signals */
 	g_signal_connect (G_OBJECT (priv->button_search),
@@ -1156,13 +1168,15 @@ static void search_transaction_init (SearchTransaction *dialog)
 
 static void search_transaction_dispose (GObject *object)
 {
+	GrisbiWinRun *w_run;
 	SearchTransactionPrivate *priv;
 
 	priv = search_transaction_get_instance_private (SEARCH_TRANSACTION (object));
 	gsb_transactions_list_change_aspect_liste (priv->display_nb_rows);
 
 	/* on supprime éventuellement la demande de sauvegarde */
-	if (!priv->file_is_modified && priv->file_modified >= run.file_modification)
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	if (!priv->file_is_modified && priv->file_modified >= w_run->file_modification)
 	{
 		gsb_file_set_modified (FALSE);
 

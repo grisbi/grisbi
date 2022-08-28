@@ -399,9 +399,11 @@ static gint gsb_file_dialog_save (const gchar *filename,
 			gchar *time_elapsed;
 			time_t now;
 			gint difference;
+			GrisbiWinRun *w_run;
 
+			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 			now = time (NULL);
-			difference = (int) (difftime (now, run.file_modification));
+			difference = (int) (difftime (now, w_run->file_modification));
 			hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
 									(basename ? basename : _("unnamed")));
 
@@ -935,7 +937,7 @@ gboolean gsb_file_open_file (const gchar *filename)
                                    "This file can not be imported by Grisbi."),
                                  _("Version of Grisbi file too old :"));
             grisbi_win_status_bar_stop_wait (TRUE);
-			run.file_modification = 0;
+			w_run->file_modification = 0;
 
             return FALSE;
         }
@@ -974,7 +976,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 #endif
 		grisbi_win_status_bar_stop_wait (TRUE);
 		grisbi_win_stack_box_show (NULL, "accueil_page");
-		run.file_modification = 0;
+		w_run->file_modification = 0;
 
 		return FALSE;
     }
@@ -1173,21 +1175,24 @@ gboolean gsb_file_close (void)
  */
 void gsb_file_set_modified (gboolean modified)
 {
-/*     devel_debug_int (modified);  */
+	GrisbiWinRun *w_run;
+
+	/*     devel_debug_int (modified);  */
 
     /* If no file is loaded, do not change menu items. */
 	if (!gsb_data_account_get_number_of_accounts ())
 		return;
 
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	if (modified)
     {
 		/* modification pour gerer la non modification par la recherche dans la liste des operations */
-		run.file_modification = time (NULL);
+		w_run->file_modification = time (NULL);
         gsb_menu_gui_sensitive_win_menu_item ("save", TRUE);
     }
     else
     {
-        run.file_modification = 0;
+        w_run->file_modification = 0;
         gsb_menu_gui_sensitive_win_menu_item ("save", FALSE);
     }
 }
@@ -1199,7 +1204,10 @@ void gsb_file_set_modified (gboolean modified)
  */
 gboolean gsb_file_get_modified (void)
 {
-    if (run.file_modification == 0)
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	if (w_run->file_modification == 0)
         return FALSE;
     else
         return TRUE;

@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_currency.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_file.h"
 #include "structures.h"
 #include "utils_str.h"
@@ -494,7 +495,10 @@ gint gsb_data_currency_load_currency (gint new_no_currency)
 		tmp_currency = tmp_list->data;
 		if (tmp_currency->currency_number == new_no_currency)
 		{
-			run.file_modification = TRUE;
+			GrisbiWinRun *w_run;
+
+			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+			w_run->file_modification = TRUE;
 
 			return 0;
 		}

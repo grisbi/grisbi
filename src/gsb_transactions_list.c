@@ -4669,6 +4669,7 @@ void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description
 			gint high = 0;
 			gint high_j = 0;
 			gint j;
+			GrisbiWinRun *w_run;
 
 			diff = 12-(100-somme);
 			for (j = 0 ; j < i ; j++)
@@ -4683,7 +4684,8 @@ void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description
 
 			/* à ce stade le fichier n'est pas entièrement chargé */
 			/* on ne peut pas utiliser gsb_file_set_modified () */
-			run.file_modification = time (NULL);
+			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+			w_run->file_modification = time (NULL);
 		}
 		else
 		{
