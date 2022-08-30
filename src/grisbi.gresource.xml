@@ -50,6 +50,7 @@
 		<file preprocess="xml-stripblanks">ui/grisbi_win.ui</file>
 		<file preprocess="xml-stripblanks">ui/search_transaction.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_account_property.ui</file>
+		<file preprocess="xml-stripblanks">widgets/widget_assistant.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_bank_details.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_bet_graph_options.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_bet_graph_others.ui</file>
