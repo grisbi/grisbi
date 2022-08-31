@@ -407,20 +407,37 @@ gint gsb_data_currency_max_number ( void )
  * */
 gint gsb_data_currency_new ( const gchar *name )
 {
+	GSList *tmp_list;
     CurrencyStruct *currency;
 
+	/* on regarde si la devise n'existe pas */
+		tmp_list = currency_list;
+		while (tmp_list)
+		{
+			CurrencyStruct *tmp_currency;
+
+			tmp_currency = tmp_list->data;
+			if (my_strcasecmp (tmp_currency->currency_name, name) == 0)
+			{
+				return tmp_currency->currency_number;
+			}
+
+			tmp_list = tmp_list->next;
+		}
+
+	/* la devise n'existe pas on la crée */
     currency = g_malloc0 ( sizeof ( CurrencyStruct ));
     currency -> currency_number = gsb_data_currency_max_number () + 1;
 
     if (name)
-	currency -> currency_name = my_strdup (name);
+		currency -> currency_name = my_strdup (name);
     else
-	currency -> currency_name = NULL;
+		currency -> currency_name = NULL;
 
     currency_list = g_slist_append ( currency_list, currency );
 
     if ( ! gsb_data_currency_get_default_currency () )
-	gsb_data_currency_set_default_currency ( currency -> currency_number );
+		gsb_data_currency_set_default_currency ( currency -> currency_number );
 
     return currency -> currency_number;
 }
@@ -862,12 +879,12 @@ gint gsb_data_currency_new_from_iso4217_list (const gchar *currency_name)
 	if (!strcmp (currency->currency_code_iso, tmp) && currency->main_currency)
 	{
 	    g_free (tmp);
-	    return gsb_data_currency_new_with_data (currency->currency_name,
-							 currency->currency_nickname,
-							 currency->currency_code_iso,
-							 currency->floating_point);
-	}
-	currency++;
+			return gsb_data_currency_new_with_data (currency->currency_name,
+								 currency->currency_nickname,
+								 currency->currency_code_iso,
+								 currency->floating_point);
+		}
+		currency++;
     }
 
     g_free (tmp);
