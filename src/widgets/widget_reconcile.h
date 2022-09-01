@@ -28,8 +28,9 @@ struct _WidgetReconcileClass
 };
 
 /* START_DECLARATION */
-GType				widget_reconcile_get_type				(void) G_GNUC_CONST;
-
+GType				widget_reconcile_get_type							(void) G_GNUC_CONST;
+gchar *				widget_reconcile_build_label						(gint reconcile_number,
+																		 gint account_number);
 WidgetReconcile *	widget_reconcile_new								(void);
 gboolean			widget_reconcile_run_reconciliation					(GtkWidget *button,
 																		 gpointer null);

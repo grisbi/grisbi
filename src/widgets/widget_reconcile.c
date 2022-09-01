@@ -475,92 +475,6 @@ static void widget_reconcile_update_amounts_labels (GtkWidget *entry,
 }
 
 /**
- * Build the new label for the reconciliation, given the old one.
- * The expected format is NAME+NUMBER, so this function returns
- * a newly allocated string whose format is NAME+(NUMBER+1). It
- * preserves leading '0' for the NUMBER string.
- *
- * If this is the first label building (first reconciliation for
- * this account), then the function returns a standard string
- * of the account name (lower case) + '-1'.
- *
- * \param reconcile_number
- *
- * \return the new string label
- */
-static gchar *widget_reconcile_build_label (gint reconcile_number,
-											gint account_number)
-{
-	gchar *tmp;
-	gchar *old_label;
-	gchar *new_label;
-	int __reconcile_number;
-	size_t __size;
-	size_t __size_expand;
-	int __expand;
-
-	/* old_label = NAME + NUMBER */
-	old_label = g_strdup (gsb_data_reconcile_get_name (reconcile_number));
-
-	/* return account NAME + '1' */
-	if (!old_label)
-	{
-		tmp = gsb_data_account_get_name (account_number);
-		new_label = g_strconcat (tmp, "-1", NULL);
-		tmp = new_label;
-		while (*tmp != '\0')
-		{
-			if (*tmp == ' ')
-				*tmp = '-';
-			else
-				*tmp = tolower (*tmp);
-			tmp ++;
-		}
-		return new_label;
-	}
-
-	/* we try to find some digits at the end of the name,
-	 * if found, get the biggest number until we find a non digit character */
-	__expand = 1;
-	tmp = old_label + (strlen (old_label) - 1) * sizeof (gchar);
-
-	while (tmp >= old_label)
-	{
-		if (!isdigit (tmp[0]))
-			break;
-
-		if (*tmp != '9')
-			__expand = 0;
-		tmp--;
-	}
-
-	tmp ++; /* step forward to the first digit */
-
-	__reconcile_number = utils_str_atoi (tmp) + 1;
-
-	/* if stage 99->100 for example,
-	 * then we have to allocate one more byte */
-	__size_expand = strlen (tmp) + __expand;
-	/* format string for the output (according NUMBER string length) */
-
-	/* close the NAME string */
-	*tmp = 0;
-	/* NAME + NUMBER + '\0' */
-	__size = __size_expand + strlen (old_label) * sizeof (gchar) + 1;
-	new_label = g_malloc0 (__size * sizeof (gchar));
-	sprintf (new_label, "%s%*d", old_label, (int)__size_expand, __reconcile_number);
-
-	/* replace ' ' by '0' in number */
-	tmp = new_label + strlen (old_label) * sizeof (gchar);
-	while (*tmp == ' ')
-		*tmp++ = '0';
-
-	g_free (old_label);
-
-	return new_label;
-}
-
-/**
  * Création du widget reconcile
  *
  * \param
@@ -674,6 +588,92 @@ WidgetReconcile *widget_reconcile_new (void)
 	widget_reconcile_setup_widget (widget);
 
 	return widget;
+}
+
+/**
+ * Build the new label for the reconciliation, given the old one.
+ * The expected format is NAME+NUMBER, so this function returns
+ * a newly allocated string whose format is NAME+(NUMBER+1). It
+ * preserves leading '0' for the NUMBER string.
+ *
+ * If this is the first label building (first reconciliation for
+ * this account), then the function returns a standard string
+ * of the account name (lower case) + '-1'.
+ *
+ * \param reconcile_number
+ *
+ * \return the new string label
+ */
+gchar *widget_reconcile_build_label (gint reconcile_number,
+									 gint account_number)
+{
+	gchar *tmp;
+	gchar *old_label;
+	gchar *new_label;
+	size_t __size;
+	size_t __size_expand;
+	int __expand;
+	int __reconcile_number;
+
+	/* old_label = NAME + NUMBER */
+	old_label = g_strdup (gsb_data_reconcile_get_name (reconcile_number));
+
+	/* return account NAME + '1' */
+	if (!old_label)
+	{
+		tmp = gsb_data_account_get_name (account_number);
+		new_label = g_strconcat (tmp, "-1", NULL);
+		tmp = new_label;
+		while (*tmp != '\0')
+		{
+			if (*tmp == ' ')
+				*tmp = '-';
+			else
+				*tmp = tolower (*tmp);
+			tmp ++;
+		}
+		return new_label;
+	}
+
+	/* we try to find some digits at the end of the name,
+	 * if found, get the biggest number until we find a non digit character */
+	__expand = 1;
+	tmp = old_label + (strlen (old_label) - 1) * sizeof (gchar);
+
+	while (tmp >= old_label)
+	{
+		if (!isdigit (tmp[0]))
+			break;
+
+		if (*tmp != '9')
+			__expand = 0;
+		tmp--;
+	}
+
+	tmp ++; /* step forward to the first digit */
+
+	__reconcile_number = utils_str_atoi (tmp) + 1;
+
+	/* if stage 99->100 for example,
+	 * then we have to allocate one more byte */
+	__size_expand = strlen (tmp) + __expand;
+	/* format string for the output (according NUMBER string length) */
+
+	/* close the NAME string */
+	*tmp = 0;
+	/* NAME + NUMBER + '\0' */
+	__size = __size_expand + strlen (old_label) * sizeof (gchar) + 1;
+	new_label = g_malloc0 (__size * sizeof (gchar));
+	sprintf (new_label, "%s%*d", old_label, (int)__size_expand, __reconcile_number);
+
+	/* replace ' ' by '0' in number */
+	tmp = new_label + strlen (old_label) * sizeof (gchar);
+	while (*tmp == ' ')
+		*tmp++ = '0';
+
+	g_free (old_label);
+
+	return new_label;
 }
 
 /**
