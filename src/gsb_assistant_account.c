@@ -49,6 +49,7 @@
 #include "utils.h"
 #include "utils_real.h"
 #include "structures.h"
+#include "widget_assistant.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -96,31 +97,32 @@ GtkResponseType gsb_assistant_account_run ( void )
 
     if ( new_icon && strlen ( new_icon ) > 0)
         g_free ( new_icon );
-    assistant = gsb_assistant_new ( _("Create a new account"),
-				    _("This assistant will help you to create a new account.\n"
-				      "All that you do here can be changed later in the account configuration page." ),
-				    NULL,
-				    NULL );
-    gsb_assistant_add_page ( assistant,
+    assistant = GTK_WIDGET (widget_assistant_new ( _("Create a new account"),
+												  _("This assistant will help you to create a new account.\n"
+													"All that you do here can be changed later in the "
+													"account configuration page." ),
+												  NULL,
+												  NULL));
+    widget_assistant_add_page ( assistant,
 			     gsb_assistant_account_page_2 (assistant),
 			     ACCOUNT_ASSISTANT_PAGE_2,
 			     ACCOUNT_ASSISTANT_INTRO,
 			     ACCOUNT_ASSISTANT_PAGE_3,
 			     NULL );
-    gsb_assistant_add_page ( assistant,
+    widget_assistant_add_page ( assistant,
 			     gsb_assistant_account_page_3 (assistant),
 			     ACCOUNT_ASSISTANT_PAGE_3,
 			     ACCOUNT_ASSISTANT_PAGE_2,
 			     ACCOUNT_ASSISTANT_PAGE_FINISH,
 			     NULL );
-    gsb_assistant_add_page ( assistant,
+    widget_assistant_add_page ( assistant,
 			     gsb_assistant_account_page_finish (assistant),
 			     ACCOUNT_ASSISTANT_PAGE_FINISH,
 			     ACCOUNT_ASSISTANT_PAGE_3,
 			     0,
 			     G_CALLBACK ( gsb_assistant_account_enter_page_finish ) );
 
-    return_value = gsb_assistant_run (assistant);
+    return_value = widget_assistant_run (assistant);
 
     if (return_value == GTK_RESPONSE_APPLY)
     {
@@ -138,7 +140,8 @@ GtkResponseType gsb_assistant_account_run ( void )
     }
 
     gtk_widget_destroy (assistant);
-    return result;
+
+	return result;
 }
 
 
@@ -383,7 +386,7 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
     gchar * default_name = NULL;
     gint account_type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind" ) );
 
-    switch ( account_type )
+   switch ( account_type )
     {
 	case GSB_TYPE_BANK:
 	    if ( gsb_bank_combo_list_get_bank_number ( account_combobox_bank ) >= 0 )
