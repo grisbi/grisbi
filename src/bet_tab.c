@@ -342,7 +342,7 @@ static gint bet_array_date_sort_function (GtkTreeModel *model,
 
 			amount_a = utils_real_get_from_string (str_amount_a);
 			amount_b = utils_real_get_from_string (str_amount_b);
-			result = - (gsb_real_cmp (amount_a, amount_b));
+			result = (gsb_real_cmp (amount_a, amount_b));
 		}
 		else
 			result = (origine_b -origine_a);
