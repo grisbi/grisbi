@@ -973,10 +973,10 @@ gboolean gsb_file_open_file (const gchar *filename)
 		dialogue_error_hint (tmp_str2, tmp_str1);
 		g_free (tmp_str1);
 		g_free (tmp_str2);
+		w_run->file_modification = 0;
 #endif
 		grisbi_win_status_bar_stop_wait (TRUE);
 		grisbi_win_stack_box_show (NULL, "accueil_page");
-		w_run->file_modification = 0;
 
 		return FALSE;
     }
