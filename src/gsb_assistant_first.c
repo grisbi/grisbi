@@ -196,11 +196,9 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     GtkWidget *hbox;
     GtkWidget *dialog;
 	GrisbiAppConf *a_conf;
-	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
@@ -251,6 +249,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     /* Automatic backup ? */
 #ifdef HAVE_SSL
     {
+		GrisbiWinEtat *w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
         button = gsb_automem_checkbutton_new (_("Encrypt Grisbi file"),
 											  &w_etat->crypt_file,
 											  G_CALLBACK (utils_prefs_encryption_toggled),
