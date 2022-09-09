@@ -56,7 +56,7 @@ CFLAGS+=" -Wno-unused-parameter"
 CFLAGS+=" -O2"
 CFLAGS+=" -D_FORTIFY_SOURCE=2"
 
-configure_args=""
+configure_args="$@"
 
 # fail on warning
 configure_args+=" --enable-real-werror"
@@ -93,5 +93,5 @@ fi
 # exit on error
 set -e
 
-echo "configure_args: $configure_args $@"
-./configure $configure_args "$@"
+echo "configure_args: $configure_args"
+./configure $configure_args
