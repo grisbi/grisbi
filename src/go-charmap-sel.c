@@ -425,7 +425,7 @@ cs_build_menu (GOCharmapSel *cs)
 			charset_trans++;
 		}
 		if (submenu) {
-			GtkWidget *item =
+			item =
 				gtk_menu_item_new_with_label (_(lgroup->group_name));
 
 			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
