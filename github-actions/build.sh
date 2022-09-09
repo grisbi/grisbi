@@ -77,9 +77,6 @@ else
 	CFLAGS+=" -flto=auto"
 fi
 
-# enable goffice
-configure_args+=" --with-goffice"
-
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
 
