@@ -25,10 +25,16 @@ jobs:
         shell: bash
         run: github-actions/setup.sh
 
-      - name: compile
+      - name: compile without goffice openssl ofx
         shell: bash
         run: |
           ./autogen.sh
+          github-actions/build.sh --without-goffice --without-openssl --without-ofx --without-libxml2
+          make
+
+      - name: compile
+        shell: bash
+        run: |
           github-actions/build.sh
           make
 
