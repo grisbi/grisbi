@@ -174,6 +174,10 @@ install_data() {
 	cp -rf /tmp/inst/share/libofx/dtd/* $prefix/share/libofx/dtd; \
 	echo "Copying data files & plugins for libgoffice";  \	
 	cp -rf /tmp/inst/lib/goffice $prefix/lib
+	
+	# patch Grisbi CSS for the dark mode
+	DARK='@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");'
+	echo $DARK >> $prefix/share/grisbi/ui/grisbi-dark.css
 }
 
 # *****************************************************************************
