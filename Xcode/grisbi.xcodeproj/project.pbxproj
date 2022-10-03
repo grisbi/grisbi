@@ -43,6 +43,7 @@
 		005948AA2621EC6D00FAB953 /* etats_page_payee.c in Sources */ = {isa = PBXBuildFile; fileRef = 005948A62621EC6C00FAB953 /* etats_page_payee.c */; };
 		005BC3401F6C1943006DB25E /* prefs_page_display_adr.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */; };
 		005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */; };
+		0065DB3628EB4CC900908929 /* widget_assistant.c in Sources */ = {isa = PBXBuildFile; fileRef = 0065DB3328EB4CA100908929 /* widget_assistant.c */; };
 		0069D0C02498C36600C4BDAB /* widget_css_rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 0069D0BD2498C36600C4BDAB /* widget_css_rules.c */; };
 		006E682D1DB3E7AD0038B1F0 /* accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67011DB3E7AC0038B1F0 /* accueil.c */; };
 		006E68311DB3E7AD0038B1F0 /* bet_data_finance.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67091DB3E7AC0038B1F0 /* bet_data_finance.c */; };
@@ -308,6 +309,9 @@
 		005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_adr.c; path = prefs/prefs_page_display_adr.c; sourceTree = "<group>"; };
 		005BC3411F6C196D006DB25E /* prefs_page_display_gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_display_gui.h; path = prefs/prefs_page_display_gui.h; sourceTree = "<group>"; };
 		005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_display_gui.c; path = prefs/prefs_page_display_gui.c; sourceTree = "<group>"; };
+		0065DB3328EB4CA100908929 /* widget_assistant.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = widget_assistant.c; sourceTree = "<group>"; };
+		0065DB3428EB4CA100908929 /* widget_assistant.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = widget_assistant.ui; sourceTree = "<group>"; };
+		0065DB3528EB4CA100908929 /* widget_assistant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = widget_assistant.h; sourceTree = "<group>"; };
 		0069D0BD2498C36600C4BDAB /* widget_css_rules.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_css_rules.c; sourceTree = "<group>"; };
 		0069D0BE2498C36600C4BDAB /* widget_css_rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_css_rules.h; sourceTree = "<group>"; };
 		0069D0BF2498C36600C4BDAB /* widget_css_rules.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_css_rules.ui; sourceTree = "<group>"; };
@@ -763,6 +767,9 @@
 				00A5B0C82868F10E00725C5A /* widget_account_property.c */,
 				00A5B0C92868F10E00725C5A /* widget_account_property.h */,
 				00A5B0C72868F10E00725C5A /* widget_account_property.ui */,
+				0065DB3328EB4CA100908929 /* widget_assistant.c */,
+				0065DB3528EB4CA100908929 /* widget_assistant.h */,
+				0065DB3428EB4CA100908929 /* widget_assistant.ui */,
 				000B8594244C787E00EE28BD /* widget_bank_details.c */,
 				000B8595244C787E00EE28BD /* widget_bank_details.h */,
 				000B8596244C787E00EE28BD /* widget_bank_details.ui */,
@@ -1515,6 +1522,7 @@
 				003AC2341F49E06D007DA275 /* prefs_page_archives.c in Sources */,
 				00B77C441DB2A17600A5D233 /* main.c in Sources */,
 				00C17BA1246DD16C00D9E257 /* prefs_page_payment_method.c in Sources */,
+				0065DB3628EB4CC900908929 /* widget_assistant.c in Sources */,
 				006E68781DB3E7AD0038B1F0 /* gsb_data_report_amout_comparison.c in Sources */,
 				006E683A1DB3E7AD0038B1F0 /* csv_parse.c in Sources */,
 				006E68631DB3E7AD0038B1F0 /* gsb_combo_box.c in Sources */,
