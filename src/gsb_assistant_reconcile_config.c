@@ -51,6 +51,9 @@
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "widget_assistant.h"
+#include "widget_reconcile.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -61,13 +64,13 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
 static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *button,
                         GtkWidget *assistant );
 static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
-                        GtkWidget *label );
+																	   GtkWidget *assistant);
 static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( GtkWidget *assistant );
 static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant );
 static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant );
 static gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
                         GtkWidget *assistant );
-static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void );
+static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile (GtkWidget *assistant);
 static GtkWidget *gsb_assistant_reconcile_config_page_success ( void );
 static gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
                         gint new_page );
@@ -140,6 +143,56 @@ enum ReconcileAssistantTransactionColumns {
 
 
 /**
+ * sensitive the button "Link the selection to a reconciliation..." if one ligne is selected
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void gsb_assistant_reconcile_config_manu_selection_changed (GtkTreeSelection *selection,
+																   GtkWidget *button)
+{
+	GtkTreeModel *model;
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview_transactions_to_link));
+	if (gtk_tree_selection_get_selected_rows (selection, &model))
+		gtk_widget_set_sensitive (button, TRUE);
+	else
+		gtk_widget_set_sensitive (button, FALSE);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+static gboolean gsb_assistant_reconcile_config_enter_new_reconcile (GtkWidget *assistant,
+																	gint new_page)
+{
+	gchar *tmp_str;
+	gint account_number;
+	gint new_reconcile_number;
+
+	/* unsensitive the button next */
+	widget_assistant_sensitive_button_next (assistant, FALSE);
+
+	/* init le champs numero de rapprochement */
+	reconcile_account_button = g_object_get_data (G_OBJECT (assistant), "reconcile_account_button");
+	account_number = gsb_account_get_combo_account_number (reconcile_account_button);
+	new_reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
+	tmp_str = widget_reconcile_build_label (new_reconcile_number, account_number);
+
+	reconcile_name_entry = g_object_get_data (G_OBJECT (assistant), "reconcile_name_entry");
+	gtk_entry_set_text (GTK_ENTRY (reconcile_name_entry), tmp_str);
+	g_free (tmp_str);
+
+	return FALSE;
+}
+
+/**
  * function called to launch the reconcile_config assistant
  * calculate the number of transactions to link, and refuse to run the assistant if none
  *
@@ -206,45 +259,46 @@ GtkResponseType gsb_assistant_reconcile_config_run (GtkWidget *tree_view)
 						       "(you will be able to create new reconciliations in the next step). "
 						       "Previous reconciliations will be available too."),
 						       transactions_to_link );
-    assistant = gsb_assistant_new ( _("Associate orphan transactions to a reconciliation"),
-				    tmpstr,
-				    "gsb-reconat-32.png",
-				    NULL );
+    assistant = GTK_WIDGET (widget_assistant_new ( _("Associate orphan transactions to a reconciliation"),
+												  tmpstr,
+												  "gsb-reconat-32.png",
+												  NULL));
     g_free ( tmpstr );
 
-    gsb_assistant_add_page ( assistant,
+    widget_assistant_add_page ( assistant,
 			     gsb_assistant_reconcile_config_page_menu (assistant),
 			     RECONCILE_ASSISTANT_MENU,
 			     RECONCILE_ASSISTANT_INTRO,
 			     RECONCILE_ASSISTANT_NEW_RECONCILE,
 			     NULL );
-    gsb_assistant_add_page ( assistant,
-			     gsb_assistant_reconcile_config_page_new_reconcile (),
+    widget_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_new_reconcile (assistant),
 			     RECONCILE_ASSISTANT_NEW_RECONCILE,
 			     RECONCILE_ASSISTANT_MENU,
 			     RECONCILE_ASSISTANT_MENU,
-			     NULL );
-    gsb_assistant_add_page ( assistant,
+			     G_CALLBACK (gsb_assistant_reconcile_config_enter_new_reconcile));
+    widget_assistant_add_page ( assistant,
 			     gsb_assistant_reconcile_config_page_automatically_associate (assistant),
 			     RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE,
 			     RECONCILE_ASSISTANT_MENU,
 			     RECONCILE_ASSISTANT_MENU,
 			     G_CALLBACK (gsb_assistant_reconcile_config_update_auto_asso));
-    gsb_assistant_add_page ( assistant,
+    widget_assistant_add_page ( assistant,
 			     gsb_assistant_reconcile_config_page_manually_associate (assistant),
 			     RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE,
 			     RECONCILE_ASSISTANT_MENU,
 			     RECONCILE_ASSISTANT_MENU,
 			     G_CALLBACK (gsb_assistant_reconcile_config_update_manu_asso));
-    gsb_assistant_add_page ( assistant,
+    widget_assistant_add_page ( assistant,
 			     gsb_assistant_reconcile_config_page_success (),
 			     RECONCILE_ASSISTANT_SUCCESS,
 			     RECONCILE_ASSISTANT_MENU,
 			     RECONCILE_ASSISTANT_MENU,
-			     NULL );
-    return_value = gsb_assistant_run (assistant);
+			     NULL);
+    return_value = widget_assistant_run (assistant);
     gtk_widget_destroy (assistant);
-    return return_value;
+
+	return return_value;
 }
 
 
@@ -375,7 +429,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
  *
  * \return a GtkWidget, the page to the assistant
  * */
-static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
+static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile (GtkWidget *assistant)
 {
     GtkWidget *page;
     GtkWidget *label;
@@ -405,8 +459,9 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
 	reconcile_name_entry = gtk_entry_new ();
 	gtk_grid_attach (GTK_GRID (table), reconcile_name_entry, 1, 0, 1, 1);
+	g_object_set_data (G_OBJECT (assistant), "reconcile_name_entry", reconcile_name_entry);
 
-	/* set the choice of account */
+					   /* set the choice of account */
 	label = gtk_label_new ( _("Account: ") );
 	utils_labels_set_alignment ( GTK_LABEL (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
@@ -415,6 +470,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 	reconcile_account_button = gsb_account_create_combo_list ( NULL, NULL, TRUE );
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (reconcile_account_button), 0 );
 	gtk_grid_attach (GTK_GRID (table), reconcile_account_button, 3, 0, 1, 1);
+	g_object_set_data (G_OBJECT (assistant), "reconcile_account_button", reconcile_account_button);
 
 	/* set the initial date */
 	label = gtk_label_new ( _("Initial date: ") );
@@ -472,6 +528,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 			 label,
 			 TRUE, TRUE,
 			 0 );
+	g_object_set_data (G_OBJECT (assistant), "label_new_reconcile", label);
 
     /* if we change anything in the entries, hide the label */
     g_signal_connect ( G_OBJECT (reconcile_name_entry),
@@ -499,9 +556,10 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
     g_signal_connect ( G_OBJECT (button),
 		       "clicked",
 		       G_CALLBACK (gsb_assistant_reconcile_config_page_add_new_reconcile),
-		       label );
+		       assistant);
     gtk_widget_show_all (page);
-    return page;
+
+	return page;
 }
 
 
@@ -593,6 +651,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
     GtkWidget *button;
     GtkWidget *hbox;
     GtkListStore *store;
+	GtkTreeSelection *selection;
     gchar *titles[] = {
 	_("Date"), _("Payee"), _("Amount"), _("Account")
     };
@@ -641,10 +700,10 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
     treeview_transactions_to_link = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
 	gtk_widget_set_name (treeview_transactions_to_link, "tree_view");
     g_object_unref (G_OBJECT(store));
-    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview_transactions_to_link)),
-				  GTK_SELECTION_MULTIPLE );
-    gtk_container_add ( GTK_CONTAINER (scrolled_window),
-			treeview_transactions_to_link );
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview_transactions_to_link));
+    gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+    gtk_container_add ( GTK_CONTAINER (scrolled_window), treeview_transactions_to_link );
     gtk_widget_show (treeview_transactions_to_link);
 
     /* set the columns */
@@ -688,6 +747,15 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 			 button,
 			 TRUE, TRUE,
 			 0 );
+
+	/* un sensitive button */
+	gtk_widget_set_sensitive (button, FALSE);
+
+	/* set selection signal */
+	g_signal_connect (G_OBJECT (selection),
+					  "changed",
+					  G_CALLBACK (gsb_assistant_reconcile_config_manu_selection_changed),
+					  button);
 
     gtk_widget_show_all (page);
     return page;
@@ -734,15 +802,12 @@ static GtkWidget *gsb_assistant_reconcile_config_page_success ( void )
  * \return FALSE
  * */
 static gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
-                        GtkWidget *assistant )
+																  GtkWidget *assistant )
 {
     gint new_next_page;
 
-    new_next_page = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (button),
-							 "next_page"));
-    gsb_assistant_set_next ( assistant,
-			     RECONCILE_ASSISTANT_MENU,
-			     new_next_page );
+    new_next_page = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "next_page"));
+    widget_assistant_set_next (assistant, RECONCILE_ASSISTANT_MENU, new_next_page);
 
     return FALSE;
 }
@@ -758,13 +823,17 @@ static gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *bu
  *
  * \return FALSE
  * */
-static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
-                        GtkWidget *label )
+static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile (GtkWidget *button,
+																	   GtkWidget *assistant)
 {
+	GtkWidget *label;
     gint reconcile_number;
     gchar *string;
 
-    /* first, we check the date are valid */
+	/* get label */
+	label = g_object_get_data (G_OBJECT (assistant), "label_new_reconcile");
+
+	/* first, we check the date are valid */
     if ( !gsb_date_check_entry ( reconcile_init_date_entry ) )
     {
         string = dialogue_make_red ( _("The initial date is not valid, please check it.") );
@@ -780,7 +849,8 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
         gtk_label_set_markup ( GTK_LABEL ( label) , string );
         gtk_widget_grab_focus ( reconcile_final_date_entry );
         g_free ( string );
-    return FALSE;
+
+		return FALSE;
     }
 
     /* check there is a name */
@@ -807,16 +877,19 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     /* ok, now we can create the reconcile */
     reconcile_number = gsb_data_reconcile_new (
                         gtk_entry_get_text ( GTK_ENTRY ( reconcile_name_entry ) ) );
-    if ( !reconcile_number )
-    if (gsb_data_reconcile_get_number_by_name ( gtk_entry_get_text (
-     GTK_ENTRY ( reconcile_name_entry ) ) ) )
-    {
-        string = dialogue_make_red ( _("Cannot allocate memory : Bad things will happen soon.") );
-        gtk_label_set_markup ( GTK_LABEL ( label) , string );
-        gtk_widget_grab_focus ( reconcile_name_entry );
-        g_free ( string );
-        return FALSE;
-    }
+    if (!reconcile_number )
+	{
+		if (gsb_data_reconcile_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( reconcile_name_entry ) ) ) )
+		{
+			/* update label */
+			string = dialogue_make_red (_("Cannot allocate memory : Bad things will happen soon."));
+			gtk_label_set_markup ( GTK_LABEL ( label) , string );
+			gtk_widget_grab_focus ( reconcile_name_entry );
+			g_free ( string );
+
+			return FALSE;
+		}
+	}
 
     gsb_data_reconcile_set_init_date ( reconcile_number,
                         gsb_calendar_entry_get_date ( reconcile_init_date_entry ) );
@@ -846,9 +919,17 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     /* update the list of reconcile in the configuration list */
     prefs_page_reconcile_fill (treeview_reconcile);
 
-    gtk_widget_grab_focus ( reconcile_name_entry );
+	/* set sensitive next button */
+	widget_assistant_sensitive_button_next (assistant, TRUE);
 
-    return FALSE;
+	/* go to the success page */
+	widget_assistant_set_next (assistant,
+							   RECONCILE_ASSISTANT_NEW_RECONCILE,
+							   RECONCILE_ASSISTANT_SUCCESS);
+
+	gtk_widget_grab_focus ( reconcile_name_entry );
+
+	return FALSE;
 }
 
 /**
@@ -884,7 +965,10 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
     GSList *tmp_list;
     gint associate_number;
 
-    /* update the string containing the number of transactions to link */
+	/* unsensitive the button next */
+	widget_assistant_sensitive_button_next (assistant, FALSE);
+
+	/* update the string containing the number of transactions to link */
     string = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
 			      transactions_to_link);
 
@@ -944,21 +1028,18 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
 
     if (associate_number)
     {
-	string = g_strdup_printf (_("Grisbi can associate %d transactions to a reconciliation.\n"
-                        "Please click on the launch button to create the links."),
-                        associate_number);
-	gtk_widget_set_sensitive ( button_run_association,
-				   TRUE );
+		string = g_strdup_printf (_("Grisbi can associate %d transactions to a reconciliation.\n"
+									"Please click on the launch button to create the links."),
+								  associate_number);
+		gtk_widget_set_sensitive (button_run_association, TRUE);
     }
     else
     {
-	string = my_strdup (_("There is no transaction that Grisbi can link.\n"
-			      "Check if you created all the necesssary reconciliations."));
-	gtk_widget_set_sensitive ( button_run_association,
-				   FALSE );
+		string = my_strdup (_("There is no transaction that Grisbi can link.\n"
+							  "Check if you created all the necesssary reconciliations."));
+		gtk_widget_set_sensitive ( button_run_association, FALSE );
     }
-    gtk_label_set_text ( GTK_LABEL (label_possible_association),
-			 string);
+    gtk_label_set_text ( GTK_LABEL (label_possible_association), string);
     g_free (string);
 
     return FALSE;
@@ -1020,11 +1101,11 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
     }
     else
     {
-	/* go to the success page */
-	gsb_assistant_set_next ( assistant,
-				 RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE,
-				 RECONCILE_ASSISTANT_SUCCESS );
-	gsb_assistant_next_page (assistant);
+		/* go to the success page */
+		widget_assistant_set_next (assistant,
+								   RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE,
+								   RECONCILE_ASSISTANT_SUCCESS );
+		widget_assistant_next_page (assistant);
     }
     return FALSE;
 }
@@ -1038,13 +1119,16 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
  *
  * \return FALSE
  * */
-gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
-                        gint new_page )
+gboolean gsb_assistant_reconcile_config_update_manu_asso (GtkWidget *assistant,
+														  gint new_page)
 {
     gchar *string;
     GSList *tmp_list;
     gint transaction_number;
     GtkListStore *store;
+
+	/* unsensitive the button next */
+	widget_assistant_sensitive_button_next (assistant, FALSE);
 
     /* update the string containing the number of transactions to link */
     string = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
@@ -1358,11 +1442,11 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     }
     else
     {
-	/* go to the success page */
-	gsb_assistant_set_next ( assistant,
-				 RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE,
-				 RECONCILE_ASSISTANT_SUCCESS );
-	gsb_assistant_next_page (assistant);
+		/* go to the success page */
+		widget_assistant_set_next (assistant,
+								   RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE,
+								   RECONCILE_ASSISTANT_SUCCESS);
+		widget_assistant_next_page (assistant);
     }
     return FALSE;
 }
