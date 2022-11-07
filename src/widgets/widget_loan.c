@@ -75,27 +75,47 @@ typedef struct _DialogScheduled   	DialogScheduled;
 struct _WidgetLoanPrivate
 {
 	GtkWidget *			vbox_loan_data;
-
 	GtkWidget *			grid_loan_data;
-	GtkWidget *			calendar_entry;
-    GtkWidget *			checkbutton_amount_first_is_different;
+
+	GtkAdjustment *		adjustment_rate_interest;
+
+	GtkWidget *			button_amortization_table;
+	GtkWidget *			button_init_scheduled;
+
+	GtkWidget *			checkbutton_amount_first_is_different;
+	GtkWidget *			checkbutton_init_sch_with_loan;
+	GtkWidget *			checkbutton_invers_cols_cap_ech;
+
+	GtkWidget *			combo_account_list;
+
 	GtkWidget *			entry_amount_first_capital;
+	GtkWidget *			entry_amount_first_fees;
 	GtkWidget *			entry_amount_first_interests;
-	GtkWidget *			entry_loan_capital;
 	GtkWidget *			entry_fees_per_month;
+	GtkWidget *			entry_first_date;
+	GtkWidget *			entry_fixed_due_amount;
+	GtkWidget *			entry_loan_capital;
+
 	GtkWidget *			label_fees_per_month_devise;
+	GtkWidget *			label_first_capital_devise;
+	GtkWidget *			label_first_fees_devise;
+	GtkWidget *			label_first_interests_devise;
+	GtkWidget *			label_fixed_amount;
+	GtkWidget *			label_fixed_amount_devise;
 	GtkWidget *			label_loan_capital_devise;
+
 	GtkWidget *			radiobutton_type_taux_1;
 	GtkWidget *			radiobutton_type_taux_2;
+	GtkWidget *			radiobutton_type_taux_3;
+
 	GtkWidget *			spinbutton_loan_duration;
+	GtkWidget *			spinbutton_percentage_fees;
 	GtkWidget *			spinbutton_rate_interest;
-	GtkAdjustment *		adjustment_rate_interest;
-	GtkWidget *			checkbutton_init_sch_with_loan;
-	GtkWidget *			combo_account_list;
-	GtkWidget *			button_init_scheduled;
-	GtkWidget *			checkbutton_invers_cols_cap_ech;
+
 	GtkWidget *			tree_view_amortization_table;
-	GtkWidget *			button_amortization_table;
+	GtkWidget *			vbox_fees_per_month;
+
+	gchar *				code_devise;
 
 	LoanStruct *		s_loan;
 };
@@ -137,6 +157,76 @@ static GdkPixbuf *pixbuf_NOK;
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void widget_loan_adapt_display_from_type_taux (gint type_taux,
+													  WidgetLoanPrivate *priv)
+{
+	devel_debug (NULL);
+	if (type_taux == 2)
+	{
+		gtk_label_set_text (GTK_LABEL (priv->label_fees_per_month_devise), "%");
+		gtk_widget_hide (priv->entry_fees_per_month);
+		gtk_widget_show (priv->entry_fixed_due_amount);
+		gtk_widget_show (priv->label_fixed_amount);
+		gtk_widget_show (priv->spinbutton_percentage_fees);
+		gtk_widget_set_sensitive (priv->entry_amount_first_fees, TRUE);
+		gtk_entry_set_text (GTK_ENTRY (priv->entry_amount_first_fees), "");
+		gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees),
+										GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+	}
+	else
+	{
+		LoanStruct *s_loan;
+
+		s_loan = priv->s_loan;
+		gtk_label_set_text (GTK_LABEL (priv->label_fees_per_month_devise), priv->code_devise);
+		gtk_widget_hide (priv->entry_fixed_due_amount);
+		gtk_widget_hide (priv->label_fixed_amount);
+		gtk_widget_hide (priv->spinbutton_percentage_fees);
+		gtk_widget_show (priv->entry_fees_per_month);
+		gtk_widget_set_sensitive (priv->entry_amount_first_fees, FALSE);
+		gtk_entry_set_text (GTK_ENTRY (priv->entry_amount_first_fees), "");
+		if (s_loan->first_is_different)
+		{
+			gchar *tmp_str;
+			GsbReal real;
+
+			real = gsb_real_double_to_real (s_loan->amount_fees);
+			if (real.mantissa > 0)
+			{
+				tmp_str = utils_real_get_string_with_currency (gsb_real_double_to_real (s_loan->amount_fees),
+															   s_loan->currency_number,
+															   TRUE);
+				gtk_entry_set_text (GTK_ENTRY (priv->entry_amount_first_fees), tmp_str);
+				g_free  (tmp_str);
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees),
+												GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
+			}
+			else
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees),
+												GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+		}
+		else
+			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees),
+											GTK_ENTRY_ICON_PRIMARY, NULL);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void widget_loan_checkbutton_invers_cols_cap_ech (GtkToggleButton *togglebutton,
 														 WidgetLoan *w_loan)
 {
@@ -374,7 +464,7 @@ static gboolean widget_loan_combofix_lose_focus (GtkWidget *entry,
  *
  * \return
  **/
-static	void widget_loan_combo_account_list_changed (GtkComboBox *combo_box,
+static void widget_loan_combo_account_list_changed (GtkComboBox *combo_box,
 													 WidgetLoan *w_loan)
 {
     GtkTreeModel *model;
@@ -523,7 +613,7 @@ static void widget_loan_entry_focus_out (GtkWidget *widget,
 												pixbuf_NOK);
 				gtk_entry_set_text (GTK_ENTRY (priv->entry_fees_per_month), "");
 				s_loan->capital = 0.0;
-				s_loan->fees = 0.0;
+				s_loan->amount_fees = 0.0;
 			}
 			else
 			{
@@ -559,6 +649,11 @@ static void widget_loan_entry_focus_out (GtkWidget *widget,
 		gtk_spin_button_update (GTK_SPIN_BUTTON (widget));
 		s_loan->duree = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
 	}
+	else if (g_strcmp0 (name, "spinbutton_percentage_fees") == 0)
+	{
+		gtk_spin_button_update (GTK_SPIN_BUTTON (widget));
+		s_loan->percentage_fees = gtk_spin_button_get_value (GTK_SPIN_BUTTON (widget));
+	}
 	else if (g_strcmp0 (name, "spinbutton_rate_interest") == 0)
 	{
 		gtk_spin_button_update (GTK_SPIN_BUTTON (widget));
@@ -575,7 +670,34 @@ static void widget_loan_entry_focus_out (GtkWidget *widget,
 			else
 			{
 				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
-				s_loan->fees = utils_str_strtod (tmp_str, NULL);
+				s_loan->amount_fees = utils_str_strtod (tmp_str, NULL);
+				if (s_loan->type_taux < 2)
+				{
+					gtk_entry_set_text (GTK_ENTRY (priv->entry_amount_first_fees), tmp_str);
+					gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees),
+													GTK_ENTRY_ICON_PRIMARY,
+													pixbuf_NOK);
+				}
+			}
+		}
+		else
+		{
+			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+			gtk_entry_grab_focus_without_selecting (GTK_ENTRY (widget));
+		}
+	}
+	else if (g_strcmp0 (name, "entry_fixed_due_amount") == 0)
+	{
+		tmp_str = gtk_entry_get_text (GTK_ENTRY (widget));
+		valide = gsb_form_widget_get_valide_amout_entry (tmp_str);
+		if (valide)
+		{
+			if (strlen (tmp_str) == 0)
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+			else
+			{
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
+				s_loan->fixed_due_amount = utils_str_strtod (tmp_str, NULL);
 			}
 		}
 		else
@@ -614,6 +736,26 @@ static void widget_loan_entry_focus_out (GtkWidget *widget,
 			{
 				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
 				s_loan->first_capital = utils_str_strtod (tmp_str, NULL);
+			}
+		}
+		else
+		{
+			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+			gtk_entry_grab_focus_without_selecting (GTK_ENTRY (widget));
+		}
+	}
+	else if (g_strcmp0 (name, "entry_amount_first_fees") == 0)
+	{
+		tmp_str = gtk_entry_get_text (GTK_ENTRY (widget));
+		valide = gsb_form_widget_get_valide_amout_entry (tmp_str);
+		if (valide)
+		{
+			if (strlen (tmp_str) == 0)
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+			else
+			{
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (widget), GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
+				s_loan->first_fees = utils_str_strtod (tmp_str, NULL);
 			}
 		}
 		else
@@ -683,11 +825,19 @@ static void widget_loan_entry_deleted (GtkEditable *entry,
 		{
 			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (entry), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
 		}
+		else if (g_strcmp0 (name, "entry_fixed_due_amount") == 0)
+		{
+			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (entry), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+		}
 		else if (g_strcmp0 (name, "entry_amount_first_capital") == 0)
 		{
 			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (entry), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
 		}
 		else if (g_strcmp0 (name, "entry_amount_first_interests") == 0)
+		{
+			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (entry), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+		}
+		else if (g_strcmp0 (name, "entry_amount_first_fees") == 0)
 		{
 			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (entry), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
 		}
@@ -715,6 +865,30 @@ static void widget_loan_checkbutton_amount_first_toggled (GtkToggleButton *toggl
 	if (gtk_toggle_button_get_active (togglebutton))
 	{
 		gtk_widget_set_sensitive (priv->entry_amount_first_capital, TRUE);
+		if (s_loan->type_taux == 2)
+		{
+			gtk_widget_set_sensitive (priv->entry_amount_first_fees, TRUE);
+		}
+		else
+		{
+			gchar *tmp_str;
+			GsbReal real;
+
+			real = gsb_real_double_to_real (s_loan->amount_fees);
+			if (real.mantissa > 0)
+			{
+				tmp_str = utils_real_get_string_with_currency (gsb_real_double_to_real (s_loan->amount_fees),
+															   s_loan->currency_number,
+															   TRUE);
+				gtk_entry_set_text (GTK_ENTRY (priv->entry_amount_first_fees), tmp_str);
+				g_free  (tmp_str);
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees),
+												GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
+			}
+			else
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees),
+												GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+		}
 		gtk_widget_set_sensitive (priv->entry_amount_first_interests, TRUE);
 		s_loan->first_is_different = TRUE;
 		gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_capital),
@@ -728,12 +902,17 @@ static void widget_loan_checkbutton_amount_first_toggled (GtkToggleButton *toggl
 		gtk_widget_set_sensitive (priv->entry_amount_first_capital, FALSE);
 		gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_capital),
 										GTK_ENTRY_ICON_PRIMARY, NULL);
+		gtk_entry_set_text (GTK_ENTRY (priv->entry_amount_first_fees), "");
+		gtk_widget_set_sensitive (priv->entry_amount_first_fees, FALSE);
+		gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees),
+										GTK_ENTRY_ICON_PRIMARY, NULL);
 		gtk_entry_set_text (GTK_ENTRY (priv->entry_amount_first_interests), "");
 		gtk_widget_set_sensitive (priv->entry_amount_first_interests, FALSE);
 		gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_interests),
 										GTK_ENTRY_ICON_PRIMARY, NULL);
 		s_loan->first_is_different = FALSE;
 		s_loan->first_capital = 0.0;
+		s_loan->first_fees = 0.0;
 		s_loan->first_interests = 0.0;
 	}
 }
@@ -831,10 +1010,16 @@ static void widget_loan_radiobutton_type_taux_toggled (GtkToggleButton *togglebu
 	name = gtk_widget_get_name (GTK_WIDGET (togglebutton));
 	s_loan = priv->s_loan;
 
-	if (g_strcmp0 (name, "bet_config_type_taux_2") == 0)
+	if (g_strcmp0 (name, "bet_config_type_taux_3") == 0)
+		s_loan->type_taux = 2;
+	else if (g_strcmp0 (name, "bet_config_type_taux_2") == 0)
 		s_loan->type_taux = 1;
 	else
 		s_loan->type_taux = 0;
+
+	/* adapt display */
+	widget_loan_adapt_display_from_type_taux (s_loan->type_taux, priv);
+
 	if (gsb_gui_navigation_get_current_account () == s_loan->account_number)
 	{
 		GtkWidget *account_page;
@@ -1643,7 +1828,6 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 {
 	GtkWidget *separator;
 	gchar *tmp_str = NULL;
-	gchar *code_devise;
 	gint devise;
 	GsbReal real;
 	WidgetLoanPrivate *priv;
@@ -1660,35 +1844,37 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 	separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
 	if (grisbi_app_get_low_definition_screen ())
 	{
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_init_sch_with_loan, 0, 8, 3, 1);
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_init_scheduled, 3, 8, 3, 1);
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), separator, 0, 9, 6, 1);
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_invers_cols_cap_ech, 0, 10, 3, 1);
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_amortization_table, 3, 10, 3, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_init_sch_with_loan, 0, 8, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_init_scheduled, 0, 9, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), separator, 0, 10, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_invers_cols_cap_ech, 0, 11, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_amortization_table, 0, 12, 6, 1);
 		gtk_widget_show (separator);
 	}
 	else
 	{
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_init_sch_with_loan, 0, 8, 3, 1);
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_init_scheduled, 0, 9, 6, 1);
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), separator, 0, 10, 6, 1);
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_invers_cols_cap_ech, 0, 11, 3, 1);
-		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_amortization_table, 0, 12, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_init_sch_with_loan, 0, 7, 4, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_init_scheduled, 4, 7, 2, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), separator, 0, 9, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->checkbutton_invers_cols_cap_ech, 0, 10, 6, 1);
+		gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->button_amortization_table, 0, 11, 6, 1);
 		gtk_widget_show (separator);
 	}
 
 	/* Date of first Repayment */
-	priv->calendar_entry = gsb_calendar_entry_new (FALSE);
-	gtk_widget_show (priv->calendar_entry);
-	gtk_grid_attach (GTK_GRID (priv->grid_loan_data), priv->calendar_entry, 1, 4, 1, 1);
+	gsb_calendar_entry_new_from_ui (priv->entry_first_date, FALSE);
 
 	if (s_loan)
 	{
 		/* set devises */
 		devise = gsb_data_account_get_currency (s_loan->account_number);
-		code_devise = gsb_data_currency_get_nickname_or_code_iso (devise);
-		gtk_label_set_text (GTK_LABEL (priv->label_loan_capital_devise), code_devise);
-		gtk_label_set_text (GTK_LABEL (priv->label_fees_per_month_devise), code_devise);
+		priv->code_devise = g_strdup (gsb_data_currency_get_nickname_or_code_iso (devise));
+		gtk_label_set_text (GTK_LABEL (priv->label_fees_per_month_devise), priv->code_devise);
+		gtk_label_set_text (GTK_LABEL (priv->label_first_capital_devise), priv->code_devise);
+		gtk_label_set_text (GTK_LABEL (priv->label_first_fees_devise), priv->code_devise);
+		gtk_label_set_text (GTK_LABEL (priv->label_first_interests_devise), priv->code_devise);
+		gtk_label_set_text (GTK_LABEL (priv->label_fixed_amount_devise), priv->code_devise);
+		gtk_label_set_text (GTK_LABEL (priv->label_loan_capital_devise), priv->code_devise);
 		if (!s_loan->currency_number)
 			s_loan->currency_number = devise;
 
@@ -1715,28 +1901,75 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 										   bet_data_finance_get_bet_taux_step (BET_TAUX_DIGITS));
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_rate_interest), s_loan->annual_rate);
 
-		/* set fees */
-		real = gsb_real_double_to_real (s_loan->fees);
-		if (real.mantissa > 0)
+		/* set type taux */
+		if (s_loan->type_taux == 2)
 		{
-			tmp_str = utils_real_get_string_with_currency (real, devise, FALSE);
-			gtk_entry_set_text (GTK_ENTRY (priv->entry_fees_per_month), tmp_str);
-			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_fees_per_month), GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
-			g_free (tmp_str);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_type_taux_3), TRUE);
+
+			/* set percentage fees */
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_percentage_fees), s_loan->percentage_fees);
+
+			/* set fixed due amount */
+			real = gsb_real_double_to_real (s_loan->fixed_due_amount);
+			if (real.mantissa > 0)
+			{
+				tmp_str = utils_real_get_string_with_currency (real, devise, FALSE);
+				gtk_entry_set_text (GTK_ENTRY (priv->entry_fixed_due_amount), tmp_str);
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_fixed_due_amount), GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
+				g_free (tmp_str);
+			}
+			else
+			{
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_fixed_due_amount), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+			}
+
+			/* sensitive entry first fees */
+			gtk_widget_set_sensitive (priv->entry_amount_first_fees, TRUE);
+
+			/* unsensitive priv->checkbutton_invers_cols_cap_ech */
+			gtk_widget_set_sensitive (priv->checkbutton_invers_cols_cap_ech, FALSE);
+			s_loan->invers_cols_cap_ech = FALSE;
+
 		}
 		else
 		{
-			gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_fees_per_month), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+			if (s_loan->type_taux == 1)
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_type_taux_2), TRUE);
+			else
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_type_taux_1), TRUE);
+
+			/* set fees */
+			real = gsb_real_double_to_real (s_loan->amount_fees);
+			if (real.mantissa > 0)
+			{
+				tmp_str = utils_real_get_string_with_currency (real, devise, FALSE);
+				gtk_entry_set_text (GTK_ENTRY (priv->entry_fees_per_month), tmp_str);
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_fees_per_month),
+												GTK_ENTRY_ICON_PRIMARY,
+												pixbuf_OK);
+				g_free (tmp_str);
+			}
+			else
+			{
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_fees_per_month),
+												GTK_ENTRY_ICON_PRIMARY,
+												pixbuf_NOK);
+			}
+
+			/* sensitive entry first fees */
+			gtk_widget_set_sensitive (priv->entry_amount_first_fees, FALSE);
+
+			/* sensitive priv->checkbutton_invers_cols_cap_ech and set */
+			gtk_widget_set_sensitive (priv->checkbutton_invers_cols_cap_ech, TRUE);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_invers_cols_cap_ech),
+										  s_loan->invers_cols_cap_ech);
 		}
 
-		/* set type taux */
-		if (s_loan->type_taux)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_type_taux_2), TRUE);
-		else
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radiobutton_type_taux_1), TRUE);
+		/* adapt display */
+		widget_loan_adapt_display_from_type_taux (s_loan->type_taux, priv);
 
 		/* set date of first repayment */
-		gsb_calendar_entry_set_date (priv->calendar_entry, s_loan->first_date);
+		gsb_calendar_entry_set_date (priv->entry_first_date, s_loan->first_date);
 
 		/*  is first repayment is different */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_amount_first_is_different),
@@ -1758,6 +1991,22 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 												GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
 			gtk_widget_set_sensitive (priv->entry_amount_first_capital, TRUE);
 
+			/* first fees */
+			real = gsb_real_double_to_real (s_loan->first_fees);
+			if (real.mantissa > 0)
+			{
+				tmp_str = utils_real_get_string_with_currency (real, devise, FALSE);
+				gtk_entry_set_text (GTK_ENTRY (priv->entry_amount_first_fees), tmp_str);
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees), GTK_ENTRY_ICON_PRIMARY, pixbuf_OK);
+				g_free (tmp_str);
+			}
+			else
+			{
+				gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (priv->entry_amount_first_fees), GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
+			}
+
+			gtk_widget_set_sensitive (priv->entry_amount_first_fees, TRUE);
+
 			/* first interests */
 			real = gsb_real_double_to_real (s_loan->first_interests);
 			if (real.mantissa > 0)
@@ -1773,6 +2022,7 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 												GTK_ENTRY_ICON_PRIMARY, pixbuf_NOK);
 
 			gtk_widget_set_sensitive (priv->entry_amount_first_interests, TRUE);
+
 		}
 
 		/* set checkbutton_init_sch_with_loan */
@@ -1786,10 +2036,6 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 			gtk_button_set_label (GTK_BUTTON (priv->button_init_scheduled), _("Create new scheduled transaction"));
 
 		gtk_widget_set_sensitive (priv->button_init_scheduled, s_loan->init_sch_with_loan);
-
-		/* set checkbutton_invers_cols_cap_ech */
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_invers_cols_cap_ech),
-									  s_loan->invers_cols_cap_ech);
 	}
 
 	/* Connect signal */
@@ -1813,28 +2059,52 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 					  G_CALLBACK (widget_loan_entry_deleted),
 					  w_loan);
 
-    /* callback for entry fees_per_month */
-    g_signal_connect (priv->entry_fees_per_month,
+    /* callback for calendar entry */
+    g_signal_connect (priv->entry_first_date,
 					  "focus-in-event",
 					  G_CALLBACK (widget_loan_entry_focus_in),
 					  w_loan);
-    g_signal_connect (priv->entry_fees_per_month,
+    g_signal_connect (priv->entry_first_date,
+					  "focus-out-event",
+					  G_CALLBACK (widget_loan_entry_focus_out),
+					  w_loan);
+
+	/* callback for spinbutton percentage fees */
+	g_signal_connect (priv->spinbutton_percentage_fees,
+					  "focus-in-event",
+					  G_CALLBACK (widget_loan_entry_focus_in),
+					  w_loan);
+	g_signal_connect (priv->spinbutton_percentage_fees,
+					  "focus-out-event",
+					  G_CALLBACK (widget_loan_entry_focus_out),
+					  w_loan);
+
+	/* callback for entry fixed_due_amount */
+	g_signal_connect (priv->entry_fixed_due_amount,
+					  "focus-in-event",
+					  G_CALLBACK (widget_loan_entry_focus_in),
+					  w_loan);
+	g_signal_connect (priv->entry_fixed_due_amount,
+					  "focus-out-event",
+					  G_CALLBACK (widget_loan_entry_focus_out),
+					  w_loan);
+	g_signal_connect (priv->entry_fixed_due_amount,
+					  "delete-text",
+					  G_CALLBACK (widget_loan_entry_deleted),
+					  w_loan);
+
+	/* callback for entry fees_per_month */
+	g_signal_connect (priv->entry_fees_per_month,
+					  "focus-in-event",
+					  G_CALLBACK (widget_loan_entry_focus_in),
+					  w_loan);
+	g_signal_connect (priv->entry_fees_per_month,
 					  "focus-out-event",
 					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 	g_signal_connect (priv->entry_fees_per_month,
 					  "delete-text",
 					  G_CALLBACK (widget_loan_entry_deleted),
-					  w_loan);
-
-    /* callback for calendar entry */
-    g_signal_connect (priv->calendar_entry,
-					  "focus-in-event",
-					  G_CALLBACK (widget_loan_entry_focus_in),
-					  w_loan);
-    g_signal_connect (priv->calendar_entry,
-					  "focus-out-event",
-					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 
     /* callback for entry amount_first_capital */
@@ -1847,6 +2117,20 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 					  G_CALLBACK (widget_loan_entry_focus_out),
 					  w_loan);
 	g_signal_connect (priv->entry_amount_first_capital,
+					  "delete-text",
+					  G_CALLBACK (widget_loan_entry_deleted),
+					  w_loan);
+
+    /* callback for entry amount_first_fees */
+    g_signal_connect (priv->entry_amount_first_fees,
+					  "focus-in-event",
+					  G_CALLBACK (widget_loan_entry_focus_in),
+					  w_loan);
+    g_signal_connect (priv->entry_amount_first_fees,
+					  "focus-out-event",
+					  G_CALLBACK (widget_loan_entry_focus_out),
+					  w_loan);
+	g_signal_connect (priv->entry_amount_first_fees,
 					  "delete-text",
 					  G_CALLBACK (widget_loan_entry_deleted),
 					  w_loan);
@@ -1897,6 +2181,12 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 					  G_CALLBACK (widget_loan_radiobutton_type_taux_toggled),
 					  w_loan);
 
+	/* callback for radiobutton type_taux_3 */
+	g_signal_connect (G_OBJECT (priv->radiobutton_type_taux_3),
+					  "toggled",
+					  G_CALLBACK (widget_loan_radiobutton_type_taux_toggled),
+					  w_loan);
+
 	/* callback for checkbutton_init_sch_with_loan */
     g_signal_connect (priv->checkbutton_init_sch_with_loan,
 					  "toggled",
@@ -1915,7 +2205,7 @@ static void widget_loan_setup_widget (WidgetLoan *w_loan,
 						  G_CALLBACK (widget_loan_button_init_scheduled_clicked),
 						  w_loan);
 
-    /* callback for checkbutton amount_first_is_different */
+    /* callback for checkbutton_invers_cols_cap_ech */
     g_signal_connect (priv->checkbutton_invers_cols_cap_ech,
 					  "toggled",
 					  G_CALLBACK (widget_loan_checkbutton_invers_cols_cap_ech),
@@ -1969,22 +2259,41 @@ static void widget_loan_class_init (WidgetLoanClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, vbox_loan_data);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, grid_loan_data);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_amount_first_capital);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_amount_first_interests);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_fees_per_month);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_loan_capital);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_fees_per_month_devise);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_loan_capital_devise);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, radiobutton_type_taux_1);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, radiobutton_type_taux_2);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, spinbutton_loan_duration);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, spinbutton_rate_interest);
+
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, adjustment_rate_interest);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, button_amortization_table);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, button_init_scheduled);
+
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, checkbutton_amount_first_is_different);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, checkbutton_init_sch_with_loan);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, button_init_scheduled);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, checkbutton_invers_cols_cap_ech);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, button_amortization_table);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_amount_first_capital);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_amount_first_fees);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_amount_first_interests);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_fees_per_month);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_first_date);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_fixed_due_amount);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, entry_loan_capital);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_fees_per_month_devise);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_first_capital_devise);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_first_fees_devise);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_first_interests_devise);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_fixed_amount);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_fixed_amount_devise);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, label_loan_capital_devise);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, radiobutton_type_taux_1);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, radiobutton_type_taux_2);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, radiobutton_type_taux_3);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, spinbutton_percentage_fees);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, spinbutton_loan_duration);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, spinbutton_rate_interest);
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetLoan, vbox_fees_per_month);
 }
 
 /******************************************************************************/

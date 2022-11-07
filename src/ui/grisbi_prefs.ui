@@ -69,6 +69,7 @@
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
                     <property name="shadow-type">in</property>
+                    <property name="propagate-natural-width">True</property>
                     <child>
                       <object class="GtkTreeView" id="treeview_left">
                         <property name="name">tree_view</property>

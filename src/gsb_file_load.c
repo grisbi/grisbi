@@ -315,8 +315,8 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
                 {
 					if (s_loan)
 					{
-						s_loan->fees = g_ascii_strtod (attribute_values[i], NULL);
-						gsb_data_account_set_bet_finance_frais (account_number, s_loan->fees);
+						s_loan->amount_fees = g_ascii_strtod (attribute_values[i], NULL);
+						gsb_data_account_set_bet_finance_frais (account_number, s_loan->amount_fees);
 					}
                 }
 
@@ -1283,7 +1283,22 @@ static void gsb_file_load_bet_loan_part (const gchar **attribute_names,
 
 		else if (!strcmp (attribute_names[i], "Fees"))
 		{
-			s_loan->fees = g_ascii_strtod (attribute_values[i], NULL);
+			s_loan->amount_fees = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp (attribute_names[i], "PFees"))
+		{
+			s_loan->percentage_fees = g_ascii_strtod (attribute_values[i], NULL);
+
+			i++;
+			continue;
+		}
+
+		else if (!strcmp (attribute_names[i], "FDA"))
+		{
+			s_loan->fixed_due_amount = g_ascii_strtod (attribute_values[i], NULL);
 			i++;
 			continue;
 		}
@@ -1312,6 +1327,13 @@ static void gsb_file_load_bet_loan_part (const gchar **attribute_names,
 		else if (!strcmp (attribute_names[i], "FCa"))
 		{
 			s_loan->first_capital = g_ascii_strtod (attribute_values[i], NULL);
+			i++;
+			continue;
+		}
+
+		else if (!strcmp (attribute_names[i], "FFees"))
+		{
+			s_loan->first_fees = g_ascii_strtod (attribute_values[i], NULL);
 			i++;
 			continue;
 		}

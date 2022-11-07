@@ -133,10 +133,23 @@ static AmortissementStruct *bet_finance_get_echeance_at_date (LoanStruct *s_loan
 		&& s_loan->first_is_different)
 	{
 			s_amortissement->echeance = s_loan->first_capital;
-			s_amortissement->echeance += s_loan->fees + s_loan->first_interests;
+			s_amortissement->echeance += s_loan->amount_fees + s_loan->first_interests;
 			s_amortissement->interets = s_loan->first_interests;
-			s_amortissement->frais = s_loan->fees;
+			s_amortissement->frais = s_loan->amount_fees;
 			s_amortissement->principal = s_loan->first_capital;
+	}
+	else if (s_loan->type_taux == 2)
+	{
+		gdouble taux_periodique;
+
+		taux_periodique = bet_data_finance_get_taux_periodique (s_loan->annual_rate, s_loan->type_taux);
+		s_amortissement->echeance = s_loan->fixed_due_amount;
+		s_amortissement->interets = bet_data_finance_get_interets (s_loan->capital_du, taux_periodique);
+		s_amortissement->frais = bet_data_finance_get_fees_for_type_taux_2 (s_loan->capital_du,
+																			s_loan->percentage_fees);
+		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																	 s_amortissement->interets,
+																	 s_amortissement->frais);
 	}
 	else
 	{
@@ -144,13 +157,14 @@ static AmortissementStruct *bet_finance_get_echeance_at_date (LoanStruct *s_loan
 //~ printf ("s_loan->capital_du avant = %f\n", s_loan->capital_du);
 		taux_periodique = bet_data_finance_get_taux_periodique (s_loan->annual_rate, s_loan->type_taux);
 		s_amortissement->echeance = bet_data_finance_get_echeance (s_loan->capital, taux_periodique, s_loan->duree);
-		s_amortissement->echeance += s_loan->fees;
+		s_amortissement->echeance += s_loan->amount_fees;
 		s_amortissement->interets = bet_data_finance_get_interets (s_loan->capital_du, taux_periodique);
-		s_amortissement->frais = s_loan->fees;
+		s_amortissement->frais = s_loan->amount_fees;
 		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
 																	 s_amortissement->interets,
 																	 s_amortissement->frais);
 	}
+
 	s_amortissement->capital_du = s_loan->capital_du - s_amortissement->principal;
 //~ printf ("capital_du = %f principal = %f interêts = %f frais = %f\n",
 		//~ s_amortissement->capital_du, s_amortissement->principal, s_amortissement->interets, s_amortissement->frais);
@@ -2211,24 +2225,24 @@ AmortissementStruct *bet_finance_get_echeance_first (LoanStruct *s_loan,
 	if (s_loan->first_is_different)
 	{
 		s_amortissement->echeance = s_loan->first_capital;
-		s_amortissement->echeance += s_loan->fees + s_loan->first_interests;
+		s_amortissement->echeance += s_loan->amount_fees + s_loan->first_interests;
 		s_amortissement->interets = s_loan->first_interests;
-		s_amortissement->frais = s_loan->fees;
+		s_amortissement->frais = s_loan->amount_fees;
 		s_amortissement->principal = s_loan->first_capital;
 		s_loan->other_echeance_amount = bet_data_finance_get_echeance (s_loan->capital,
 																	   taux_periodique,
 																	   s_loan->duree);
-		s_loan->other_echeance_amount += s_loan->fees;
+		s_loan->other_echeance_amount += s_loan->amount_fees;
 	}
 	else
 	{
 		s_amortissement->echeance = bet_data_finance_get_echeance (s_loan->capital,
 																   taux_periodique,
 																   s_loan->duree);
-		s_amortissement->echeance += s_loan->fees;
+		s_amortissement->echeance += s_loan->amount_fees;
 		s_amortissement->interets = bet_data_finance_get_interets (s_loan->capital_du,
 																   taux_periodique);
-		s_amortissement->frais = s_loan->fees;
+		s_amortissement->frais = s_loan->amount_fees;
 		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
 																	 s_amortissement->interets,
 																	 s_amortissement->frais);
@@ -2299,27 +2313,25 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
     GtkTreeIter iter;
     GtkTreePath *path;
     GtkTreePath *sel_path;
-	gchar *str_capital_du = NULL;
-    gchar *tmp_str;
-	gchar *tmp_str2;
-    gint index = 0;
-    gint nbre_echeances;
-    gint type_taux;
-    gdouble taux;
-    gdouble taux_periodique;
     GDate *date;
     GDate *last_paid_date = NULL;
 	GDate *last_installment_paid = NULL;
+	gchar *str_capital_du = NULL;
+	gchar *str_date = NULL;
+    gchar *tmp_str;
+	gchar *tmp_str2;
+    gint index = 0;
 	gint index_last_installment_paid = 0;
+    gint nbre_echeances;
+	gint origin;
+    gint type_taux;
+    gdouble taux;
+    gdouble taux_periodique;
     gboolean amortization_initial_date;
 	gboolean first_echeance = FALSE;
-	gint origin;
     AmortissementStruct *s_amortissement;
 
     devel_debug (NULL);
-
-    s_amortissement = bet_data_finance_structure_amortissement_init ();
-    s_amortissement->origin = SPP_ORIGIN_FINANCE;
 
     /* récupère le tableau d'amortissement */
     tree_view = g_object_get_data (G_OBJECT (parent), "bet_finance_tree_view");
@@ -2333,29 +2345,36 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
     store = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
     gtk_tree_store_clear (GTK_TREE_STORE (store));
 
-    s_amortissement->devise = gsb_data_account_get_currency (account_number);
-
     /* récupère les paramètres du crédit */
     nbre_echeances = s_loan->duree;
 
 	date = gsb_date_copy (s_loan->first_date);
 	if (!date || !g_date_valid (date))
 	{
-		bet_data_finance_structure_amortissement_free(s_amortissement);
 		return;
 	}
 
-	s_amortissement->str_date = gsb_format_gdate (date);
-	if (strlen (s_amortissement->str_date) == 0)
+	str_date = gsb_format_gdate (date);
+	if (strlen (str_date) == 0)
 	{
-		bet_data_finance_structure_amortissement_free(s_amortissement);
 		return;
 	}
+
+	/* A ce stade on peut commencer à remplir la structure s_amortissement */
+	s_amortissement = bet_data_finance_structure_amortissement_init ();
+	s_amortissement->origin = SPP_ORIGIN_FINANCE;
+
+	/* set currency */
+	s_amortissement->devise = gsb_data_account_get_currency (account_number);
+
+	/* set date s_amortissement->str_date */
+	s_amortissement->str_date = str_date;
 
 	if (amortization_initial_date == FALSE)
 	{
 		last_paid_date = bet_data_finance_get_date_last_installment_paid (date);
-	/* set first line si necessaire */
+
+		/* set first line si necessaire */
 		if (s_loan->invers_cols_cap_ech)
 		{
 			str_capital_du = utils_real_get_string_with_currency (gsb_real_double_to_real (s_loan->capital),
@@ -2380,6 +2399,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 	{
 		last_paid_date = gsb_date_copy (date);
 		last_installment_paid = bet_data_finance_get_date_last_installment_paid (date);
+
 		/* set first line si necessaire */
 		if (s_loan->invers_cols_cap_ech)
 		{
@@ -2402,7 +2422,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 		}
 	}
 
-    /* met à jour le titre du tableau */
+	/* met à jour le titre du tableau */
     label = g_object_get_data (G_OBJECT (parent), "bet_finance_amortization_title");
 	tmp_str2 = gsb_format_gdate (last_paid_date);
     tmp_str = g_strconcat (_("Amortization Table"), _(" at "), tmp_str2, NULL);
@@ -2436,67 +2456,108 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
     g_free (tmp_str);
 
     /* set frais */
-    s_amortissement->frais = s_loan->fees;
-    s_amortissement->str_frais = utils_real_get_string_with_currency (
-                        gsb_real_double_to_real (s_amortissement->frais),
-                        s_amortissement->devise, TRUE);
+	if (s_loan->type_taux < 2)
+	{
+		s_amortissement->frais = s_loan->amount_fees;
+		s_amortissement->str_frais = utils_real_get_string_with_currency (gsb_real_double_to_real
+																		  (s_amortissement->frais),
+																		  s_amortissement->devise,
+																		  TRUE);
+	}
 
 	/* set first echeance */
 	s_amortissement->num_echeance = 1;
 	if (s_loan->first_is_different)
 	{
-		s_amortissement->echeance = s_loan->first_capital;
-		s_amortissement->interets = s_loan->first_interests;
-		s_amortissement->echeance += s_amortissement->frais + s_amortissement->interets;
-		s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->echeance),
-																			 s_amortissement->devise, TRUE);
-		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
-																	 s_amortissement->interets,
-																	 s_amortissement->frais);
-
-		if (s_loan->invers_cols_cap_ech)
+		if (s_loan->type_taux == 2)
 		{
-			s_amortissement->capital_du -= s_amortissement->principal;
-			if (g_date_compare (date, last_paid_date) >= 0)
-				bet_finance_fill_amortization_ligne (store, s_amortissement);
+			s_amortissement->echeance = s_loan->first_capital;
+			s_amortissement->interets = s_loan->first_interests;
+			s_amortissement->frais = s_loan->first_fees;
+			s_amortissement->str_frais = utils_real_get_string_with_currency (gsb_real_double_to_real
+																			  (s_amortissement->frais),
+																			  s_amortissement->devise,
+																			  TRUE);
+			s_amortissement->echeance += s_amortissement->frais + s_amortissement->interets;
+			s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real
+																				 (s_amortissement->echeance),
+																				 s_amortissement->devise,
+																				 TRUE);
+			s_amortissement->principal = s_loan->first_capital;
 		}
 		else
 		{
-			if (g_date_compare (date, last_paid_date) >= 0)
-				bet_finance_fill_amortization_ligne (store, s_amortissement);
-			s_amortissement->capital_du -= s_amortissement->principal;
+			s_amortissement->echeance = s_loan->first_capital;
+			s_amortissement->interets = s_loan->first_interests;
+			s_amortissement->echeance += s_amortissement->frais + s_amortissement->interets;
+			s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->echeance),
+																				 s_amortissement->devise, TRUE);
+			s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																		 s_amortissement->interets,
+																		 s_amortissement->frais);
 		}
 
-		/* On recalcule la nouvelle échéance du crédit avec nouveau capital dû et nbre d'échéances -1 */
-		s_amortissement->echeance = bet_data_finance_get_echeance (s_amortissement->capital_du,
-																   taux_periodique, nbre_echeances-1);
-		s_amortissement->echeance += s_amortissement->frais;
-		s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->echeance),
-																			 s_amortissement->devise, TRUE);
+			if (s_loan->invers_cols_cap_ech)
+			{
+				s_amortissement->capital_du -= s_amortissement->principal;
+				if (g_date_compare (date, last_paid_date) >= 0)
+					bet_finance_fill_amortization_ligne (store, s_amortissement);
+			}
+			else
+			{
+				if (g_date_compare (date, last_paid_date) >= 0)
+					bet_finance_fill_amortization_ligne (store, s_amortissement);
+				s_amortissement->capital_du -= s_amortissement->principal;
+			}
 	}
 	else
 	{
-		s_amortissement->echeance = bet_data_finance_get_echeance (s_amortissement->capital_du,
-																   taux_periodique, nbre_echeances);
-		s_amortissement->echeance += s_amortissement->frais;
-		s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->echeance),
-																			 s_amortissement->devise, TRUE);
-		s_amortissement->interets = bet_data_finance_get_interets (s_amortissement->capital_du,
-																   taux_periodique);
-		s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
-																	 s_amortissement->interets,
-																	 s_amortissement->frais);
-		if (s_loan->invers_cols_cap_ech)
+		if (s_loan->type_taux == 2)
 		{
-			s_amortissement->capital_du -= s_amortissement->principal;
+			s_amortissement->echeance = s_loan->fixed_due_amount;
+			s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real
+																				 (s_amortissement->echeance),
+																				 s_amortissement->devise, TRUE);
+			s_amortissement->frais = bet_data_finance_get_fees_for_type_taux_2 (s_amortissement->capital_du,
+																				s_loan->percentage_fees);
+			s_amortissement->str_frais = utils_real_get_string_with_currency (gsb_real_double_to_real
+																			  (s_amortissement->frais),
+																			  s_amortissement->devise,
+																			  TRUE);
+			s_amortissement->interets = bet_data_finance_get_interets (s_amortissement->capital_du,
+																	   taux_periodique);
+			s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																		 s_amortissement->interets,
+																		 s_amortissement->frais);
+
 			if (g_date_compare (date, last_paid_date) >= 0)
 				bet_finance_fill_amortization_ligne (store, s_amortissement);
+			s_amortissement->capital_du -= s_amortissement->principal;
 		}
 		else
 		{
-			if (g_date_compare (date, last_paid_date) >= 0)
-				bet_finance_fill_amortization_ligne (store, s_amortissement);
-			s_amortissement->capital_du -= s_amortissement->principal;
+			s_amortissement->echeance = bet_data_finance_get_echeance (s_amortissement->capital_du,
+																	   taux_periodique, nbre_echeances);
+			s_amortissement->echeance += s_amortissement->frais;
+			s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real (s_amortissement->echeance),
+																				 s_amortissement->devise, TRUE);
+			s_amortissement->interets = bet_data_finance_get_interets (s_amortissement->capital_du,
+																	   taux_periodique);
+			s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																		 s_amortissement->interets,
+																		 s_amortissement->frais);
+			if (s_loan->invers_cols_cap_ech)
+			{
+				s_amortissement->capital_du -= s_amortissement->principal;
+				if (g_date_compare (date, last_paid_date) >= 0)
+					bet_finance_fill_amortization_ligne (store, s_amortissement);
+			}
+			else
+			{
+				if (g_date_compare (date, last_paid_date) >= 0)
+					bet_finance_fill_amortization_ligne (store, s_amortissement);
+				s_amortissement->capital_du -= s_amortissement->principal;
+			}
 		}
 	}
 
@@ -2505,39 +2566,81 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 
     /* set the other echeances */
 	for (index = 2; index <= nbre_echeances; index++)
-    {
+	{
 		s_amortissement->num_echeance = index;
-        s_amortissement->interets = bet_data_finance_get_interets (s_amortissement->capital_du,
+		s_amortissement->interets = bet_data_finance_get_interets (s_amortissement->capital_du,
 																   taux_periodique);
-
-        if (index == nbre_echeances)
-        {
-            s_amortissement->echeance = bet_data_finance_get_last_echeance (
-                        s_amortissement->capital_du,
-                        s_amortissement->interets,
-                        s_amortissement->frais);
-            g_free (s_amortissement->str_echeance);
-            s_amortissement->str_echeance = utils_real_get_string_with_currency (
-                        gsb_real_double_to_real (s_amortissement->echeance),
-                        s_amortissement-> devise, TRUE);
-            s_amortissement->principal = s_amortissement->capital_du;
-        }
-        else
-            s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
-																		 s_amortissement->interets,
-																		 s_amortissement->frais);
-
-		if (s_loan->invers_cols_cap_ech)
+		if (s_loan->type_taux == 2)
 		{
-			s_amortissement->capital_du -= s_amortissement->principal;
+			s_amortissement->echeance = s_loan->fixed_due_amount;
+			s_amortissement->str_echeance = utils_real_get_string_with_currency (gsb_real_double_to_real
+																				 (s_amortissement->echeance),
+																				 s_amortissement->devise,
+																				 TRUE);
+			s_amortissement->frais = bet_data_finance_get_fees_for_type_taux_2 (s_amortissement->capital_du,
+																				s_loan->percentage_fees);
+			s_amortissement->str_frais = utils_real_get_string_with_currency (gsb_real_double_to_real
+																			  (s_amortissement->frais),
+																			  s_amortissement->devise,
+																			  TRUE);
+			if (index == nbre_echeances)
+			{
+				s_amortissement->echeance = bet_data_finance_get_last_echeance (
+							s_amortissement->capital_du,
+							s_amortissement->interets,
+							s_amortissement->frais);
+				g_free (s_amortissement->str_echeance);
+				s_amortissement->str_echeance = utils_real_get_string_with_currency (
+							gsb_real_double_to_real (s_amortissement->echeance),
+							s_amortissement-> devise, TRUE);
+				s_amortissement->principal = s_amortissement->capital_du;
+			}
+			else
+			{
+				s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																			 s_amortissement->interets,
+																			 s_amortissement->frais);
+			}
+
 			if (g_date_compare (date, last_paid_date) >= 0)
 				bet_finance_fill_amortization_ligne (store, s_amortissement);
+			s_amortissement->capital_du -= s_amortissement->principal;
 		}
 		else
 		{
-			if (g_date_compare (date, last_paid_date) >= 0)
-				bet_finance_fill_amortization_ligne (store, s_amortissement);
-			s_amortissement->capital_du -= s_amortissement->principal;
+			s_amortissement->num_echeance = index;
+			s_amortissement->interets = bet_data_finance_get_interets (s_amortissement->capital_du,
+																	   taux_periodique);
+
+			if (index == nbre_echeances)
+			{
+				s_amortissement->echeance = bet_data_finance_get_last_echeance (
+							s_amortissement->capital_du,
+							s_amortissement->interets,
+							s_amortissement->frais);
+				g_free (s_amortissement->str_echeance);
+				s_amortissement->str_echeance = utils_real_get_string_with_currency (
+							gsb_real_double_to_real (s_amortissement->echeance),
+							s_amortissement-> devise, TRUE);
+				s_amortissement->principal = s_amortissement->capital_du;
+			}
+			else
+				s_amortissement->principal = bet_data_finance_get_principal (s_amortissement->echeance,
+																			 s_amortissement->interets,
+																			 s_amortissement->frais);
+
+			if (s_loan->invers_cols_cap_ech)
+			{
+				s_amortissement->capital_du -= s_amortissement->principal;
+				if (g_date_compare (date, last_paid_date) >= 0)
+					bet_finance_fill_amortization_ligne (store, s_amortissement);
+			}
+			else
+			{
+				if (g_date_compare (date, last_paid_date) >= 0)
+					bet_finance_fill_amortization_ligne (store, s_amortissement);
+				s_amortissement->capital_du -= s_amortissement->principal;
+			}
 		}
 		if (amortization_initial_date && !first_echeance)
 		{
@@ -2554,7 +2657,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 //~ if (index < 11)
 	//~ printf ("num_echeance = %d capital_du = %f, principal = %f interets = %f\n",
 			//~ s_amortissement->num_echeance, s_amortissement->capital_du, s_amortissement->principal, s_amortissement->interets);
-    }
+	}
 
     bet_finance_struct_amortization_free (s_amortissement);
     g_date_free (date);

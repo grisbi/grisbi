@@ -363,6 +363,7 @@ void bet_data_loan_add_item (LoanStruct *s_loan)
 {
 	if (s_loan)
 	{
+		s_loan->number = g_slist_length (bet_loan_list);
 		//~ printf("add item numero = %d account_number = %d version = %d\n", s_loan->number, s_loan->account_number, s_loan->version_number);
 		bet_loan_list = g_slist_append (bet_loan_list,s_loan);
 		gsb_data_account_set_bet_init_sch_with_loan (s_loan->account_number, s_loan->init_sch_with_loan);
@@ -571,6 +572,26 @@ gdouble bet_data_loan_get_other_echeance_amount (gint account_number)
 		return s_loan->other_echeance_amount;
 	else
 		return 0.0;
+}
+
+/**
+ * retourne le montant des frais à partir d'un % du capital du
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gdouble bet_data_finance_get_fees_for_type_taux_2 (gdouble capital_du,
+												   gdouble percentage_fees)
+{
+    gdouble fees;
+
+    fees = (capital_du/100)*percentage_fees;
+    fees = bet_data_finance_troncate_number (fees, 2);
+
+    return fees;
 }
 
 /**

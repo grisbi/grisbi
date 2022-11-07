@@ -795,6 +795,9 @@ GPtrArray *bet_data_get_strings_to_save (void)
 		gchar *string_to_free5;
 		gchar *string_to_free6;
 		gchar *string_to_free7;
+		gchar *string_to_free8;
+		gchar *string_to_free9;
+		gchar *string_to_free10;
 		gint flotting_point;
 		LoanStruct *s_loan;
 
@@ -804,17 +807,21 @@ GPtrArray *bet_data_get_strings_to_save (void)
 		flotting_point = gsb_data_account_get_currency_floating_point (s_loan->account_number);
 
 		string_to_free1 = utils_str_dtostr (s_loan->capital, flotting_point, TRUE);
-		string_to_free2 = utils_str_dtostr (s_loan->fees, flotting_point, TRUE);
-		string_to_free3 = utils_str_dtostr (s_loan->annual_rate, BET_TAUX_DIGITS, TRUE);
-		string_to_free4 = utils_str_dtostr (s_loan->first_capital, flotting_point, TRUE);
-		string_to_free5 = utils_str_dtostr (s_loan->first_interests, flotting_point, TRUE);
-		string_to_free6 = utils_str_dtostr (s_loan->other_echeance_amount, flotting_point, TRUE);
-		string_to_free7 = utils_str_dtostr (s_loan->capital_du, flotting_point, TRUE);
+		string_to_free2 = utils_str_dtostr (s_loan->amount_fees, flotting_point, TRUE);
+		string_to_free3 = utils_str_dtostr (s_loan->percentage_fees, BET_PERCENTAGE_FEES_DIGITS, TRUE);
+		string_to_free4 = utils_str_dtostr (s_loan->fixed_due_amount, flotting_point, TRUE);
+		string_to_free5 = utils_str_dtostr (s_loan->annual_rate, BET_TAUX_DIGITS, TRUE);
+		string_to_free6 = utils_str_dtostr (s_loan->first_capital, flotting_point, TRUE);
+		string_to_free7 = utils_str_dtostr (s_loan->first_fees, flotting_point, TRUE);
+		string_to_free8 = utils_str_dtostr (s_loan->first_interests, flotting_point, TRUE);
+		string_to_free9 = utils_str_dtostr (s_loan->other_echeance_amount, flotting_point, TRUE);
+		string_to_free10 = utils_str_dtostr (s_loan->capital_du, flotting_point, TRUE);
 
 		tmp_str = g_markup_printf_escaped ("\t<Bet_loan\n"
 										   "\t\tNb=\"%d\" Ac=\"%d\" Ver=\"%d\" InCol=\"%d\"\n"
-										   "\t\tCa=\"%s\" Duree=\"%d\" FDate=\"%s\" Fees=\"%s\" Taux=\"%s\" TyTaux=\"%d\"\n"
-										   "\t\tFEchDif=\"%d\" FCa=\"%s\" FIn=\"%s\" OEch=\"%s\"\n"
+										   "\t\tCa=\"%s\" Duree=\"%d\" FDate=\"%s\" Fees=\"%s\"\n"
+										   "\t\tPFees=\"%s\" FDA=\"%s\" Taux=\"%s\" TyTaux=\"%d\"\n"
+										   "\t\tFEchDif=\"%d\" FCa=\"%s\" FFees=\"%s\" FIn=\"%s\" OEch=\"%s\"\n"
 										   "\t\tISchWL=\"%d\" AAc=\"%d\" ASch=\"%d\" AFr=\"%d\" CaDu=\"%s\" />\n",
 										   s_loan->number,
 										   s_loan->account_number,
@@ -825,16 +832,19 @@ GPtrArray *bet_data_get_strings_to_save (void)
 										   date,
 										   my_safe_null_str (string_to_free2),
 										   my_safe_null_str (string_to_free3),
-										   s_loan->type_taux,
-										   s_loan->first_is_different,
 										   my_safe_null_str (string_to_free4),
 										   my_safe_null_str (string_to_free5),
+										   s_loan->type_taux,
+										   s_loan->first_is_different,
 										   my_safe_null_str (string_to_free6),
+										   my_safe_null_str (string_to_free7),
+										   my_safe_null_str (string_to_free8),
+										   my_safe_null_str (string_to_free9),
 										   s_loan->init_sch_with_loan,
 										   s_loan->associated_account,
 										   s_loan->associated_scheduled,
 										   s_loan->associated_frequency,
-										   my_safe_null_str (string_to_free7)
+										   my_safe_null_str (string_to_free10)
 										   );
 		g_ptr_array_add (tab, tmp_str);
 		g_free (date);
@@ -845,6 +855,9 @@ GPtrArray *bet_data_get_strings_to_save (void)
 		g_free (string_to_free5);
 		g_free (string_to_free6);
 		g_free (string_to_free7);
+		g_free (string_to_free8);
+		g_free (string_to_free9);
+		g_free (string_to_free10);
 
 		tmp_list = tmp_list->next;
 	}

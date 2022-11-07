@@ -8,6 +8,7 @@
 /* END_INCLUDE_H */
 
 #define BET_TAUX_DIGITS 3
+#define BET_PERCENTAGE_FEES_DIGITS 5
 typedef struct _AmortissementStruct		AmortissementStruct;
 typedef struct _EcheanceStruct			EcheanceStruct;
 typedef struct _LoanStruct				LoanStruct;
@@ -44,7 +45,7 @@ struct _EcheanceStruct {
 
 /* structure loan */
 struct _LoanStruct {
-	gint		number;					/* numero du pret */
+	guint		number;					/* numero du pret */
 	gint 		account_number;
 	gint		version_number;			/* numero de prêt : - 1 non initialisé, 0 = nouveau prêt, > 1 numéro de renégociation  */
 	gboolean	invers_cols_cap_ech;	/* inverse les colonnes capital du et échéance dans les tableaux d'amortissement */
@@ -52,11 +53,14 @@ struct _LoanStruct {
 	gdouble		capital;
 	gint 		duree;					/* mois */
 	GDate *		first_date;				/* date de la première échéance */
-	gdouble		fees;					/* par échéance */
+	gdouble		amount_fees;			/* frais fixes par échéance */
 	gdouble		annual_rate;			/* taux annuel */
-	gint 		type_taux;
+	gdouble		fixed_due_amount;		/* echeance fixe pour type de taux = 2 */
+	gdouble		percentage_fees;		/* frais en pourcentage pour type de taux = 2 */
+	gint 		type_taux;				/* 0 = CAGR 1 = proportionnel 2 = echeance fixe et frais en % du capital restant */
 	gboolean	first_is_different;		/* si la 1ère échéance est différente */
 	gdouble		first_capital;			/* capital de la 1ère échéance */
+	gdouble		first_fees;				/* frais de la première échéance */
 	gdouble		first_interests;		/* intérêts de la 1ère échéance */
 	gdouble		other_echeance_amount;	/* valeur des autres échéances si first_is_different = TRUE */
 	gdouble		capital_du;				/* capital restant du après la dernière échéance payée. */
@@ -77,6 +81,8 @@ gdouble 				bet_data_finance_get_last_echeance 					(gdouble capital_du,
 gdouble 				bet_data_finance_get_echeance 						(gdouble capital,
 																			 gdouble taux_periodique,
 																			 gint duree);
+gdouble 				bet_data_finance_get_fees_for_type_taux_2			(gdouble capital_du,
+																			 gdouble percentage_fees);
 gdouble 				bet_data_finance_get_frais_par_echeance 			(gdouble capital,
 																			 gdouble taux_frais,
 																			 gint nbre_echeances);
