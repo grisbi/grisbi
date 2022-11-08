@@ -168,9 +168,9 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
 	/* settings_prefs */
     a_conf->prefs_archives_sort_order = GTK_SORT_ASCENDING;
     a_conf->prefs_fyear_sort_order = GTK_SORT_ASCENDING;
-    a_conf->prefs_height = 600;
-	a_conf->prefs_panel_width = 360;
-    a_conf->prefs_width = 1050;
+	a_conf->prefs_height = PREFS_WIN_MIN_HEIGHT;
+	a_conf->prefs_panel_width = PREFS_PANED_MIN_WIDTH;
+	a_conf->prefs_width = PREFS_WIN_MIN_WIDTH_HIGH;
 
 	/* settings_scheduled */
     a_conf->balances_with_scheduled = TRUE;
@@ -671,19 +671,24 @@ gboolean grisbi_conf_load_app_config (void)
 															 "prefs-fyear-sort-order",
 															 NULL);
     a_conf->prefs_height = g_key_file_get_integer (config,
-											    "Prefs",
-											    "prefs-height",
-											    NULL);
+												   "Prefs",
+												   "prefs-height",
+												   NULL);
 
-   	a_conf->prefs_panel_width = g_key_file_get_integer (config,
-												     "Prefs",
-												     "prefs-panel-width",
-												     NULL);
+	a_conf->prefs_notebook_width = g_key_file_get_integer (config,
+														   "Prefs",
+														   "prefs-notebook-width",
+														   NULL);
 
-    a_conf->prefs_width = g_key_file_get_integer (config,
-											   "Prefs",
-											   "prefs-width",
-											   NULL);
+	a_conf->prefs_panel_width = g_key_file_get_integer (config,
+														"Prefs",
+														"prefs-panel-width",
+														NULL);
+
+   	a_conf->prefs_width = g_key_file_get_integer (config,
+												  "Prefs",
+												  "prefs-width",
+												  NULL);
 
 	/* settings_scheduled */
     a_conf->balances_with_scheduled = g_key_file_get_boolean (config,
@@ -1117,18 +1122,23 @@ gboolean grisbi_conf_save_app_config (void)
 						   a_conf->prefs_fyear_sort_order);
     g_key_file_set_integer (config,
 							"Prefs",
-                        	"prefs-height",
-                        	a_conf->prefs_height);
+							"prefs-height",
+							a_conf->prefs_height);
 
-    g_key_file_set_integer (config,
+	g_key_file_set_integer (config,
 							"Prefs",
-                        	"prefs-panel-width",
-                        	a_conf->prefs_panel_width);
+							"prefs-notebook-width",
+							a_conf->prefs_notebook_width);
 
-    g_key_file_set_integer (config,
+	g_key_file_set_integer (config,
 							"Prefs",
-                        	"prefs-width",
-                        	a_conf->prefs_width);
+							"prefs-panel-width",
+							a_conf->prefs_panel_width);
+
+	g_key_file_set_integer (config,
+							"Prefs",
+							"prefs-width",
+							a_conf->prefs_width);
 
 	/* settings_scheduled */
     g_key_file_set_boolean (config,

@@ -584,7 +584,8 @@ They will start on the chosen day)</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="label" translatable="yes">(This option sets the day of launching the operation if it exists. For example every 29th of the month except leap years)</property>
+                                    <property name="label" translatable="yes">(This option sets the day of launching the operation if it exists.
+For example every 29th of the month except leap years)</property>
                                     <property name="wrap">True</property>
                                   </object>
                                   <packing>

@@ -18,8 +18,6 @@
       <object class="GtkBox" id="vbox_prefs">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area">
@@ -56,8 +54,6 @@
           <object class="GtkPaned" id="paned_prefs">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
             <property name="position">235</property>
             <child>
               <object class="GtkBox" id="box">

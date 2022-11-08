@@ -146,10 +146,18 @@ static void prefs_page_divers_button_reset_prefs_window_clicked (GtkButton *butt
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 	paned_prefs = grisbi_prefs_get_prefs_hpaned (GRISBI_PREFS (prefs));
 	a_conf->prefs_height = PREFS_WIN_MIN_HEIGHT;
-	a_conf->prefs_width = PREFS_WIN_MIN_WIDTH;
 	a_conf->prefs_panel_width = PREFS_PANED_MIN_WIDTH;
 
-	gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH, PREFS_WIN_MIN_HEIGHT);
+	if (a_conf->low_definition_screen)
+	{
+		a_conf->prefs_width = PREFS_WIN_MIN_WIDTH_LOW;
+		gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_LOW, PREFS_WIN_MIN_HEIGHT);
+	}
+	else
+	{
+		a_conf->prefs_width = PREFS_WIN_MIN_WIDTH_HIGH;
+		gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_HIGH, PREFS_WIN_MIN_HEIGHT);
+	}
 	gtk_paned_set_position (GTK_PANED (paned_prefs), PREFS_PANED_MIN_WIDTH);
 }
 

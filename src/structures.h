@@ -64,11 +64,12 @@
 #define FORM_LONG_WIDTH			200				/* largeur minimale demandée pour les champs longs du formulaire */
 
 /* constants for Preferences */
-#define PREFS_PANED_MIN_WIDTH	235				/* Largeur Min du panel gauche des preferences */
-#define PREFS_WIN_MIN_HEIGHT	605				/* Hauteur Min de la fenetre des preferences */
-#define PREFS_WIN_MIN_WIDTH		910				/* Largeur Min de la fenetre des preferences */
-#define SW_MAX_CONTENT_WIDTH	600				/* Since Gtk-3.22 */
-#define SW_MIN_HEIGHT			150
+#define PREFS_PANED_MIN_WIDTH		240			/* Largeur Min du panel gauche des preferences */
+#define PREFS_WIN_MIN_HEIGHT		605			/* Hauteur Min de la fenetre des preferences */
+#define PREFS_WIN_MIN_WIDTH_LOW		905			/* Largeur Min de la fenetre des preferences basse resolution */
+#define PREFS_WIN_MIN_WIDTH_HIGH	1050		/* Largeur Min de la fenetre des preferences basse resolution */
+#define SW_MAX_CONTENT_WIDTH		600			/* Since Gtk-3.22 */
+#define SW_MIN_HEIGHT				150
 
 /* used for gtk_tree_view_column_set_alignment() */
 #define COLUMN_LEFT				0.0
@@ -296,6 +297,7 @@ struct _GrisbiAppConf
 	gint		prefs_archives_sort_order;					/* archive sort order, GTK_SORT_ASCENDING by default */
     gint		prefs_fyear_sort_order;						/* fyear type sort, GTK_SORT_ASCENDING by default */
 	gint		prefs_height;								/* preferences height */
+	gint		prefs_notebook_width;						/* preferences paned width */
 	gint		prefs_panel_width;							/* preferences paned width */
     gint        prefs_width;                                /* preferences width */
 
