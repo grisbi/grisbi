@@ -1289,7 +1289,10 @@ GtkWidget *grisbi_win_get_reconcile_panel (GrisbiWin *win)
 	if (win)
 		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-	return priv->reconcile_panel;
+	if (priv)
+		return priv->reconcile_panel;
+	else
+		return NULL;
 }
 
 /**
