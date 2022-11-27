@@ -216,7 +216,7 @@ decrypt_v3(gchar *password, gchar **file_content, int length)
 
 	/* Copy the decrypted data to a final buffer, leaving out the second
 	 * marker. g_strndup() is used to add a trailing null byte. */
-	output_len = decrypted_len - V3_MARKER_SIZE;
+	output_len -= V3_MARKER_SIZE;
 	output_buf = g_strndup ( (const gchar *)decrypted_buf + V3_MARKER_SIZE, output_len );
 
 	g_free ( decrypted_buf );
