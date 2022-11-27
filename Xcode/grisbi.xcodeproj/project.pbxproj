@@ -25,8 +25,6 @@
 		0038541C20767D5300A0E867 /* prefs_page_accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 0038541A20767D5300A0E867 /* prefs_page_accueil.c */; };
 		003AC2141F49DDE9007DA275 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2131F49DDE9007DA275 /* libcrypto.a */; };
 		003AC2181F49DE25007DA275 /* libofx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2171F49DE25007DA275 /* libofx.a */; };
-		003AC21A1F49DE39007DA275 /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC2191F49DE39007DA275 /* libintl.a */; };
-		003AC21E1F49DEA4007DA275 /* libpango-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC21D1F49DEA4007DA275 /* libpango-1.0.a */; };
 		003AC2201F49DF68007DA275 /* libgoffice-0.10.10.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 003AC21F1F49DF68007DA275 /* libgoffice-0.10.10.dylib */; };
 		003AC2231F49DF93007DA275 /* utils_prefs.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2211F49DF93007DA275 /* utils_prefs.c */; };
 		003AC2251F49DFE1007DA275 /* grisbi_prefs.c in Sources */ = {isa = PBXBuildFile; fileRef = 003AC2241F49DFE1007DA275 /* grisbi_prefs.c */; };
@@ -182,13 +180,14 @@
 		006E68D21DB425BB0038B1F0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68D11DB425BB0038B1F0 /* libz.tbd */; };
 		006E68D41DB425DB0038B1F0 /* libpangocairo-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68D31DB425DB0038B1F0 /* libpangocairo-1.0.a */; };
 		006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68DA1DB426EE0038B1F0 /* gnucash.c */; };
-		006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68DD1DB427130038B1F0 /* libxml2.tbd */; };
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
 		00760ED025C07E320038199C /* widget_loan.c in Sources */ = {isa = PBXBuildFile; fileRef = 00760ECD25C07E320038199C /* widget_loan.c */; };
 		007A1C74261A1F98003B3311 /* etats_page_category.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C6F261A1F98003B3311 /* etats_page_category.c */; };
 		007A1C75261A1F98003B3311 /* etats_page_budget.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C70261A1F98003B3311 /* etats_page_budget.c */; };
 		007A1C79261A1FD6003B3311 /* widget_list_metatree.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C76261A1FD6003B3311 /* widget_list_metatree.c */; };
 		00972E5A25AC960E00856C07 /* grisbi_osx.m in Sources */ = {isa = PBXBuildFile; fileRef = 00972E5925AC960E00856C07 /* grisbi_osx.m */; };
+		0099AD7F29340BD500ECDBAA /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0099AD7E29340BD500ECDBAA /* libintl.a */; };
+		0099AD8129340C1300ECDBAA /* libpango-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0099AD8029340C1300ECDBAA /* libpango-1.0.a */; };
 		009F38552652BAA20082ED78 /* widget_cmp_text.c in Sources */ = {isa = PBXBuildFile; fileRef = 009F38542652BAA10082ED78 /* widget_cmp_text.c */; };
 		009F38592652BAC20082ED78 /* etats_page_text.c in Sources */ = {isa = PBXBuildFile; fileRef = 009F38562652BAC20082ED78 /* etats_page_text.c */; };
 		00A496AB245DC91900CB598C /* prefs_page_currency_link.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A496A9245DC91900CB598C /* prefs_page_currency_link.c */; };
@@ -269,11 +268,7 @@
 		0038541A20767D5300A0E867 /* prefs_page_accueil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_accueil.c; path = prefs/prefs_page_accueil.c; sourceTree = "<group>"; };
 		0038541B20767D5300A0E867 /* prefs_page_accueil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_accueil.h; path = prefs/prefs_page_accueil.h; sourceTree = "<group>"; };
 		003AC2131F49DDE9007DA275 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2l/lib/libcrypto.a; sourceTree = "<group>"; };
-		003AC2151F49DE15007DA275 /* INSTALL_RECEIPT.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = INSTALL_RECEIPT.json; path = ../../../../../../usr/local/Cellar/libofx/0.9.10/INSTALL_RECEIPT.json; sourceTree = "<group>"; };
 		003AC2171F49DE25007DA275 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../../../../usr/local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
-		003AC2191F49DE39007DA275 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = ../../../../../../usr/local/Cellar/gettext/0.19.8.1/lib/libintl.a; sourceTree = "<group>"; };
-		003AC21B1F49DE86007DA275 /* 1.40.7 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = 1.40.7; path = ../../../../../../usr/local/Cellar/pango/1.40.7; sourceTree = "<group>"; };
-		003AC21D1F49DEA4007DA275 /* libpango-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpango-1.0.a"; path = "../../../../../../usr/local/Cellar/pango/1.40.7/lib/libpango-1.0.a"; sourceTree = "<group>"; };
 		003AC21F1F49DF68007DA275 /* libgoffice-0.10.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgoffice-0.10.10.dylib"; path = "../../../../../../usr/local/Cellar/goffice/0.10.35/lib/libgoffice-0.10.10.dylib"; sourceTree = "<group>"; };
 		003AC2211F49DF93007DA275 /* utils_prefs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_prefs.c; sourceTree = "<group>"; };
 		003AC2221F49DF93007DA275 /* utils_prefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_prefs.h; sourceTree = "<group>"; };
@@ -578,7 +573,6 @@
 		006E682A1DB3E7AD0038B1F0 /* utils_str.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_str.h; sourceTree = "<group>"; };
 		006E682B1DB3E7AD0038B1F0 /* utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
 		006E682C1DB3E7AD0038B1F0 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
-		006E68BF1DB3E96C0038B1F0 /* libcairo.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcairo.2.dylib; path = ../../../usr_local/Cellar/cairo/1.14.6_1/lib/libcairo.2.dylib; sourceTree = "<group>"; };
 		006E68C11DB3E9C20038B1F0 /* libcairo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcairo.a; path = ../../../usr_local/Cellar/cairo/1.14.6_1/lib/libcairo.a; sourceTree = "<group>"; };
 		006E68C31DB3EA3D0038B1F0 /* libgio-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgio-2.0.a"; path = "../../../usr_local/Cellar/glib/2.50.1/lib/libgio-2.0.a"; sourceTree = "<group>"; };
 		006E68C51DB3EA6E0038B1F0 /* libglib-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libglib-2.0.a"; path = "../../../usr_local/Cellar/glib/2.50.1/lib/libglib-2.0.a"; sourceTree = "<group>"; };
@@ -586,16 +580,12 @@
 		006E68C91DB425410038B1F0 /* libgtk-3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgtk-3.0.dylib"; path = "../../../usr_local/Cellar/gtk+3/3.22.1/lib/libgtk-3.0.dylib"; sourceTree = "<group>"; };
 		006E68CB1DB4255D0038B1F0 /* libgdk-3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgdk-3.0.dylib"; path = "../../../usr_local/Cellar/gtk+3/3.22.1/lib/libgdk-3.0.dylib"; sourceTree = "<group>"; };
 		006E68CD1DB425720038B1F0 /* libgdk_pixbuf-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgdk_pixbuf-2.0.a"; path = "../../../usr_local/Cellar/gdk-pixbuf/2.36.0_2/lib/libgdk_pixbuf-2.0.a"; sourceTree = "<group>"; };
-		006E68CF1DB425880038B1F0 /* libpango-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpango-1.0.a"; path = "../../../usr_local/Cellar/pango/1.40.3/lib/libpango-1.0.a"; sourceTree = "<group>"; };
 		006E68D11DB425BB0038B1F0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		006E68D31DB425DB0038B1F0 /* libpangocairo-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpangocairo-1.0.a"; path = "../../../usr_local/Cellar/pango/1.40.3/lib/libpangocairo-1.0.a"; sourceTree = "<group>"; };
-		006E68D51DB426670038B1F0 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = ../../../usr_local/Cellar/gettext/0.19.8.1/lib/libintl.a; sourceTree = "<group>"; };
 		006E68DA1DB426EE0038B1F0 /* gnucash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gnucash.c; sourceTree = "<group>"; };
 		006E68DB1DB426EE0038B1F0 /* gnucash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gnucash.h; sourceTree = "<group>"; };
-		006E68DD1DB427130038B1F0 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		006E68E01DB4276C0038B1F0 /* ofx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ofx.c; sourceTree = "<group>"; };
 		006E68E11DB4276C0038B1F0 /* ofx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofx.h; sourceTree = "<group>"; };
-		006E68E31DB427DF0038B1F0 /* libofx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libofx.a; path = ../../../usr_local/Cellar/libofx/0.9.10/lib/libofx.a; sourceTree = "<group>"; };
 		00760ECD25C07E320038199C /* widget_loan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_loan.c; sourceTree = "<group>"; };
 		00760ECE25C07E320038199C /* widget_loan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_loan.h; sourceTree = "<group>"; };
 		00760ECF25C07E320038199C /* widget_loan.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_loan.ui; sourceTree = "<group>"; };
@@ -610,6 +600,8 @@
 		007A1C78261A1FD6003B3311 /* widget_list_metatree.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_list_metatree.ui; sourceTree = "<group>"; };
 		00972E5825AC960E00856C07 /* grisbi_osx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_osx.h; sourceTree = "<group>"; };
 		00972E5925AC960E00856C07 /* grisbi_osx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = grisbi_osx.m; sourceTree = "<group>"; };
+		0099AD7E29340BD500ECDBAA /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = ../../../../../../usr/local/Cellar/gettext/0.21.1/lib/libintl.a; sourceTree = "<group>"; };
+		0099AD8029340C1300ECDBAA /* libpango-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpango-1.0.a"; path = "../../../../../../usr/local/Cellar/pango/1.50.12/lib/libpango-1.0.a"; sourceTree = "<group>"; };
 		009F38522652BAA10082ED78 /* widget_cmp_text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_cmp_text.h; sourceTree = "<group>"; };
 		009F38532652BAA10082ED78 /* widget_cmp_text.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_cmp_text.ui; sourceTree = "<group>"; };
 		009F38542652BAA10082ED78 /* widget_cmp_text.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_cmp_text.c; sourceTree = "<group>"; };
@@ -723,7 +715,6 @@
 		00EA60ED1F91502F00569C19 /* grisbi_prefs.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = grisbi_prefs.ui; path = src/ui/grisbi_prefs.ui; sourceTree = "<group>"; };
 		00EA60F01F91503000569C19 /* csv_template_rule.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = csv_template_rule.ui; path = src/ui/csv_template_rule.ui; sourceTree = "<group>"; };
 		00EA61011F915CBA00569C19 /* grisbi_resources.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grisbi_resources.c; sourceTree = "<group>"; };
-		00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgoffice-0.10.10.dylib"; path = "../../../../../../usr/local/Cellar/goffice/0.10.32/lib/libgoffice-0.10.10.dylib"; sourceTree = "<group>"; };
 		00EE9D041E01EAFB005BB1B0 /* openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = openssl.c; path = openssl/openssl.c; sourceTree = "<group>"; };
 		00EE9D051E01EAFB005BB1B0 /* openssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openssl.h; path = openssl/openssl.h; sourceTree = "<group>"; };
 		00FB5A4D21CA477F00A10B81 /* prefs_page_metatree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_metatree.h; path = prefs/prefs_page_metatree.h; sourceTree = "<group>"; };
@@ -738,13 +729,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0099AD8129340C1300ECDBAA /* libpango-1.0.a in Frameworks */,
+				0099AD7F29340BD500ECDBAA /* libintl.a in Frameworks */,
 				00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib in Frameworks */,
 				003AC2201F49DF68007DA275 /* libgoffice-0.10.10.dylib in Frameworks */,
-				003AC21E1F49DEA4007DA275 /* libpango-1.0.a in Frameworks */,
-				003AC21A1F49DE39007DA275 /* libintl.a in Frameworks */,
 				003AC2181F49DE25007DA275 /* libofx.a in Frameworks */,
 				003AC2141F49DDE9007DA275 /* libcrypto.a in Frameworks */,
-				006E68DE1DB427130038B1F0 /* libxml2.tbd in Frameworks */,
 				006E68D41DB425DB0038B1F0 /* libpangocairo-1.0.a in Frameworks */,
 				006E68D21DB425BB0038B1F0 /* libz.tbd in Frameworks */,
 				006E68CE1DB425720038B1F0 /* libgdk_pixbuf-2.0.a in Frameworks */,
@@ -909,29 +899,21 @@
 		006E68BE1DB3E96C0038B1F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib */,
-				003AC21F1F49DF68007DA275 /* libgoffice-0.10.10.dylib */,
-				003AC21D1F49DEA4007DA275 /* libpango-1.0.a */,
-				003AC21B1F49DE86007DA275 /* 1.40.7 */,
-				003AC2191F49DE39007DA275 /* libintl.a */,
-				003AC2171F49DE25007DA275 /* libofx.a */,
-				003AC2151F49DE15007DA275 /* INSTALL_RECEIPT.json */,
+				006E68C11DB3E9C20038B1F0 /* libcairo.a */,
 				003AC2131F49DDE9007DA275 /* libcrypto.a */,
-				00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */,
-				006E68E31DB427DF0038B1F0 /* libofx.a */,
-				006E68DD1DB427130038B1F0 /* libxml2.tbd */,
-				006E68D51DB426670038B1F0 /* libintl.a */,
-				006E68D31DB425DB0038B1F0 /* libpangocairo-1.0.a */,
-				006E68D11DB425BB0038B1F0 /* libz.tbd */,
-				006E68CF1DB425880038B1F0 /* libpango-1.0.a */,
 				006E68CD1DB425720038B1F0 /* libgdk_pixbuf-2.0.a */,
 				006E68CB1DB4255D0038B1F0 /* libgdk-3.0.dylib */,
-				006E68C91DB425410038B1F0 /* libgtk-3.0.dylib */,
-				006E68C71DB4251D0038B1F0 /* libgobject-2.0.a */,
-				006E68C51DB3EA6E0038B1F0 /* libglib-2.0.a */,
 				006E68C31DB3EA3D0038B1F0 /* libgio-2.0.a */,
-				006E68C11DB3E9C20038B1F0 /* libcairo.a */,
-				006E68BF1DB3E96C0038B1F0 /* libcairo.2.dylib */,
+				006E68C51DB3EA6E0038B1F0 /* libglib-2.0.a */,
+				006E68C71DB4251D0038B1F0 /* libgobject-2.0.a */,
+				003AC21F1F49DF68007DA275 /* libgoffice-0.10.10.dylib */,
+				006E68C91DB425410038B1F0 /* libgtk-3.0.dylib */,
+				00EA60EB1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib */,
+				0099AD7E29340BD500ECDBAA /* libintl.a */,
+				003AC2171F49DE25007DA275 /* libofx.a */,
+				0099AD8029340C1300ECDBAA /* libpango-1.0.a */,
+				006E68D31DB425DB0038B1F0 /* libpangocairo-1.0.a */,
+				006E68D11DB425BB0038B1F0 /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1755,7 +1737,6 @@
 					"/usr/local/opt/libgsf/include/libgsf-1",
 					/usr/local/opt/libxml2/include/libxml2,
 					/usr/local/opt/libofx/include,
-					/usr/include/libxml2,
 					"/usr/local/opt/goffice/include/libgoffice-0.10",
 					/usr/local/opt/cairo/include,
 					/usr/local/opt/openssl/include,
@@ -1795,7 +1776,6 @@
 					"/usr/local/opt/libgsf/include/libgsf-1",
 					/usr/local/opt/libxml2/include/libxml2,
 					/usr/local/opt/libofx/include,
-					/usr/include/libxml2,
 					"/usr/local/opt/goffice/include/libgoffice-0.10",
 					/usr/local/opt/cairo/include,
 					/usr/local/opt/openssl/include,
