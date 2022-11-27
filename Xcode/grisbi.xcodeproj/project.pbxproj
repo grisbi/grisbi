@@ -726,7 +726,6 @@
 		00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgoffice-0.10.10.dylib"; path = "../../../../../../usr/local/Cellar/goffice/0.10.32/lib/libgoffice-0.10.10.dylib"; sourceTree = "<group>"; };
 		00EE9D041E01EAFB005BB1B0 /* openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = openssl.c; path = openssl/openssl.c; sourceTree = "<group>"; };
 		00EE9D051E01EAFB005BB1B0 /* openssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = openssl.h; path = openssl/openssl.h; sourceTree = "<group>"; };
-		00EE9D091E01EBB3005BB1B0 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../usr/local/Cellar/openssl/1.0.2j/lib/libcrypto.a; sourceTree = "<group>"; };
 		00FB5A4D21CA477F00A10B81 /* prefs_page_metatree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefs_page_metatree.h; path = prefs/prefs_page_metatree.h; sourceTree = "<group>"; };
 		00FB5A4E21CA477F00A10B81 /* prefs_page_metatree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = prefs_page_metatree.c; path = prefs/prefs_page_metatree.c; sourceTree = "<group>"; };
 		00FEBE1424965A5000F6405D /* widget_transfer.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_transfer.ui; sourceTree = "<group>"; };
@@ -918,7 +917,6 @@
 				003AC2171F49DE25007DA275 /* libofx.a */,
 				003AC2151F49DE15007DA275 /* INSTALL_RECEIPT.json */,
 				003AC2131F49DDE9007DA275 /* libcrypto.a */,
-				00EE9D091E01EBB3005BB1B0 /* libcrypto.a */,
 				00EE9D011E01E93C005BB1B0 /* libgoffice-0.10.10.dylib */,
 				006E68E31DB427DF0038B1F0 /* libofx.a */,
 				006E68DD1DB427130038B1F0 /* libxml2.tbd */,
