@@ -65,6 +65,8 @@ struct _EtatsPrefsPrivate
 {
     GtkWidget *		hpaned;
 	GtkWidget *		notebook_etats_prefs;
+
+	gboolean		form_date_force_prev_year;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
@@ -1429,6 +1431,7 @@ static GtkWidget *etats_prefs_onglet_affichage_devises_create_page (gint page)
  **/
 static void etats_prefs_init (EtatsPrefs *prefs)
 {
+	GrisbiWinEtat *w_etat;
 	EtatsPrefsPrivate *priv;
 
 	if (!etats_prefs_initialise_builder (prefs))
@@ -1448,9 +1451,16 @@ static void etats_prefs_init (EtatsPrefs *prefs)
     gtk_container_set_border_width (GTK_CONTAINER (prefs), MARGIN_BOX);
     gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (prefs))), 2);
 
+	/* memorise la variable w_etat->form_date_force_prev_year */
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	if (w_etat->form_date_force_prev_year)
+	{
+		priv->form_date_force_prev_year = w_etat->form_date_force_prev_year;
+		w_etat->form_date_force_prev_year = FALSE;
+	}
+
     /* Recupération d'un pointeur sur le gtk_tree_view. */
     etats_prefs_left_panel_create_tree_view (prefs);
-
     gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (prefs))),
                         priv->hpaned, TRUE, TRUE, 0);
 
@@ -1466,7 +1476,19 @@ static void etats_prefs_init (EtatsPrefs *prefs)
  **/
 static void etats_prefs_dispose (GObject *object)
 {
-    devel_debug (NULL);
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+
+	/* restauration de la variable w_etat->form_date_force_prev_year */
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (object));
+	if (priv->form_date_force_prev_year)
+	{
+		GrisbiWinEtat *w_etat;
+
+		w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+		w_etat->form_date_force_prev_year = TRUE;
+	}
 
     /* libération de l'objet prefs */
     G_OBJECT_CLASS (etats_prefs_parent_class)->dispose (object);
@@ -1483,8 +1505,7 @@ static void etats_prefs_dispose (GObject *object)
 static void etats_prefs_finalize (GObject *object)
 {
     devel_debug (NULL);
-/*    etats_prefs_dialog = NULL;
-*/
+/*    etats_prefs_dialog = NULL; */
     /* libération de l'objet prefs */
     G_OBJECT_CLASS (etats_prefs_parent_class)->finalize (object);
 }
