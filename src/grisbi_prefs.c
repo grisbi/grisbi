@@ -142,7 +142,6 @@ static gboolean grisbi_prefs_notebook_size_allocate (GtkWidget *notebook_prefs,
 													 GtkAllocation *allocation,
 													 GrisbiAppConf *a_conf)
 {
-   printf ("notebook_prefs width = %d\n", allocation->width);
 	a_conf->prefs_notebook_width = allocation->width;
 
 	return FALSE;
