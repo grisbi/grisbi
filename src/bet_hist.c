@@ -1756,16 +1756,19 @@ void bet_hist_populate_data (gint account_number)
 		tmp_list = tmp_list->next;
 
 		tmp_account_number =  gsb_data_transaction_get_account_number (transaction_number);
-		if (garray == NULL)
-		{
 		if (tmp_account_number != account_number)
-			continue;
-		}
-		else
 		{
-			if (!bet_hist_valid_card_data_to_aggregate (tmp_account_number, transaction_number, garray))
+			if (garray == NULL)
+			{
 				continue;
+			}
+			else
+			{
+				if (!bet_hist_valid_card_data_to_aggregate (tmp_account_number, transaction_number, garray))
+					continue;
+			}
 		}
+
 		date = gsb_data_transaction_get_date (transaction_number);
 
 		/* ignore transaction which are before date_min */
