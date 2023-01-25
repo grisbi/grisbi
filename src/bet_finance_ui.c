@@ -2357,6 +2357,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 	str_date = gsb_format_gdate (date);
 	if (strlen (str_date) == 0)
 	{
+		g_free(str_date);
 		return;
 	}
 
