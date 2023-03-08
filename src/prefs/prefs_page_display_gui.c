@@ -88,12 +88,12 @@ static gboolean prefs_page_display_gui_active_scrolling_left_pane (GtkWidget *to
 {
 	if (a_conf->active_scrolling_left_pane)
 		g_signal_handlers_unblock_by_func (gsb_gui_navigation_get_tree_view (),
-										   G_CALLBACK (gsb_gui_navigation_check_scroll),
-										   NULL);
+				G_CALLBACK (gsb_gui_navigation_check_scroll),
+				NULL);
 	else
 		g_signal_handlers_block_by_func (gsb_gui_navigation_get_tree_view (),
-										 G_CALLBACK (gsb_gui_navigation_check_scroll),
-										 NULL);
+				G_CALLBACK (gsb_gui_navigation_check_scroll),
+				NULL);
 
 	return FALSE;
 }
