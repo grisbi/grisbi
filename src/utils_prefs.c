@@ -755,6 +755,8 @@ gboolean utils_prefs_encryption_toggled (GtkWidget *checkbox,
     }
 	else
 		w_run->new_crypted_file = FALSE;
+
+	gsb_file_set_modified(TRUE);
 #else
 	gchar *text = _("This build of Grisbi does not support encryption.\n"
 					"Please recompile Grisbi with OpenSSL encryption enabled.");
