@@ -101,13 +101,12 @@ AC_ARG_ENABLE(debug,
 
 # make DEBUG = 1 for master and odd minor version
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
-	AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
 	enable_debug=yes
-	CFLAGS="$CFLAGS -g"
 fi
 
 if test "x$enable_debug" = xyes; then
 	AC_DEFINE(DEBUG,1,[Defined if Grisbi is a developmeent version])
+	CFLAGS="$CFLAGS -g"
 	git_hash=`git rev-parse --short HEAD`
 	if test [ -z "$git_hash"]; then
 		AC_DEFINE_UNQUOTED(GIT_HASH, ["$grisbi_git_hash"], [git head short hash])
