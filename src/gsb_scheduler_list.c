@@ -33,6 +33,7 @@
 #include "include.h"
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
+#include <stdbool.h>
 
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
@@ -1714,6 +1715,7 @@ static void gsb_scheduler_list_remove_orphan_list (GSList *orphan_scheduled,
     GSList *tmp_list;
     gchar *string = NULL;
     GArray *garray;
+	static bool on_going = false;
 
     garray = g_array_new (FALSE, FALSE, sizeof (gint));
     tmp_list = orphan_scheduled;
@@ -1745,11 +1747,12 @@ static void gsb_scheduler_list_remove_orphan_list (GSList *orphan_scheduled,
 
     /* if string is not null, there is still some children
      * which didn't find their mother. show them now */
-    if (string)
+    if (string && ! on_going)
     {
         gchar *message;
         gint result;
 
+		on_going = true;
         message = g_strdup_printf (_("Some scheduled children didn't find their mother in the list, "
 									 "this shouldn't happen and there is probably a bug behind that.\n\n"
 									 "The concerned children number are:\n %s\n\n"
@@ -1770,6 +1773,8 @@ static void gsb_scheduler_list_remove_orphan_list (GSList *orphan_scheduled,
         g_free (message);
         g_free (string);
         g_array_free (garray, TRUE);
+
+		on_going = false;
     }
 }
 
