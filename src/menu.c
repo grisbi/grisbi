@@ -1216,6 +1216,7 @@ void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
         "file-close",
         "new-acc",
         "show-closed-acc",
+		"search-acc",
         NULL
     };
     const gchar **tmp = items;
