@@ -272,6 +272,7 @@ GtkWidget *utils_buttons_button_new_from_image (const gchar *image_name)
 
         image = gtk_image_new_from_file (filename);
         g_free (filename);
+		gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
         gtk_button_set_image (GTK_BUTTON (button), image);
     }
 
@@ -297,6 +298,7 @@ GtkWidget *utils_buttons_button_new_from_resource (const gchar *image_name)
 
 	image = gtk_image_new_from_resource (resource);
 	g_free (resource);
+	gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
 	gtk_button_set_image (GTK_BUTTON (button), image);
 
 	return button;
@@ -317,6 +319,7 @@ GtkWidget *utils_buttons_button_new_from_stock (const gchar *icon_name,
 
     image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
     button = gtk_button_new_with_mnemonic (label_name);
+	gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
     gtk_button_set_image (GTK_BUTTON (button), image);
 
     return button;

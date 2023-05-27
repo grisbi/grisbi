@@ -613,8 +613,8 @@ static void prefs_page_reconcile_sort_setup_button_collapse_all (GtkWidget *butt
 	image = gtk_image_new_from_file (filename);
 	g_free (filename);
 
-	gtk_button_set_image (GTK_BUTTON (button), image);
 	gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+	gtk_button_set_image (GTK_BUTTON (button), image);
 	gtk_widget_set_sensitive (button, FALSE);
 	expand_number = 0;
 }

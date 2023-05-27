@@ -607,6 +607,7 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 
     /* button to delete an archive and free the transactions */
     tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-24.png", NULL);
+	gtk_button_set_always_show_image (GTK_BUTTON (priv->button_archives_delete), TRUE);
     gtk_button_set_image (GTK_BUTTON (priv->button_archives_delete),
 						  gtk_image_new_from_file (tmp_str));
     g_free (tmp_str);
@@ -617,7 +618,8 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 
 	/* button to delete an archive and delete the transactions */
     tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-24.png", NULL);
-    gtk_button_set_image (GTK_BUTTON (priv->button_archives_destroy),
+	gtk_button_set_always_show_image (GTK_BUTTON (priv->button_archives_destroy), TRUE);
+	gtk_button_set_image (GTK_BUTTON (priv->button_archives_destroy),
 						  gtk_image_new_from_file (tmp_str));
     g_free (tmp_str);
     g_signal_connect (G_OBJECT (priv->button_archives_destroy),

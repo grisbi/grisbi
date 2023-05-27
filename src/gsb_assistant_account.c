@@ -299,6 +299,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 	pixbuf = gsb_data_account_get_account_standard_pixbuf (0);
     image = gtk_image_new_from_pixbuf (pixbuf);
 	g_object_unref (G_OBJECT (pixbuf));
+	gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
     gtk_button_set_image ( GTK_BUTTON ( button ), image);
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
     gtk_grid_attach (GTK_GRID (table), button, 3, 0, 1, 3);
@@ -450,6 +451,7 @@ gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 	pixbuf = gsb_data_account_get_account_standard_pixbuf (account_kind);
     image = gtk_image_new_from_pixbuf (pixbuf);
 	g_object_unref (G_OBJECT (pixbuf));
+	gtk_button_set_always_show_image (GTK_BUTTON (bouton_icon), TRUE);
     gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image);
     return FALSE;
 }
@@ -482,6 +484,9 @@ void gsb_assistant_account_change_account_icon ( GtkWidget *button, gpointer dat
 		image = gtk_image_new_from_pixbuf ( pixbuf );
 		g_object_unref (G_OBJECT (pixbuf));
 		if ( image )
+		{
+			gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
 			gtk_button_set_image ( GTK_BUTTON ( button ), image );
+		}
     }
 }

@@ -1323,6 +1323,7 @@ void widget_account_property_fill (void)
 
 	/* set account_icon */
 	image = gsb_data_account_get_account_icon_image (account_number);
+	gtk_button_set_always_show_image (GTK_BUTTON (priv->bouton_icon), TRUE);
 	gtk_button_set_image (GTK_BUTTON (priv->bouton_icon), image);
 	gtk_widget_set_halign (image, GTK_ALIGN_CENTER);
 	gtk_widget_set_valign (image, GTK_ALIGN_CENTER);
