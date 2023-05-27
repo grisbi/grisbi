@@ -2147,26 +2147,6 @@ gboolean gsb_form_clean (gint account_number)
 }
 
 /**
- * Determine element is expandable or not in a GtkTable.
- *
- * \param element_number
- *
- * \return
- */
-gint gsb_form_get_element_expandable (gint element_number)
-{
-    switch (element_number)
-    {
-		case TRANSACTION_FORM_OP_NB:
-		case TRANSACTION_FORM_MODE:
-			return GTK_SHRINK;
-
-		default:
-			return GTK_EXPAND | GTK_FILL;
-    }
-}
-
-/**
  * called when an entry get the focus, if the entry is free,
  * set it normal and erase the help content
  *
