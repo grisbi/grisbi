@@ -1174,7 +1174,8 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances (gint account_num
 			const GDate *date;
 
 			date = gsb_data_transaction_get_value_date_or_date (transaction_number);
-			res = g_date_compare (date_jour, date);
+			if (date && g_date_valid (date))
+				res = g_date_compare (date_jour, date);
 		}
 
 		if (gsb_data_transaction_get_account_number (transaction_number) == account_number
