@@ -553,7 +553,6 @@ static void prefs_page_archives_setup_treeview_archives (PrefsPageArchives *page
 static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 {
 	GtkWidget *head_page;
-	gchar* tmp_str;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
 	PrefsPageArchivesPrivate *priv;
@@ -606,22 +605,12 @@ static void prefs_page_archives_setup_page (PrefsPageArchives *page)
 							priv->treeview_archives);
 
     /* button to delete an archive and free the transactions */
-    tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-24.png", NULL);
-	gtk_button_set_always_show_image (GTK_BUTTON (priv->button_archives_delete), TRUE);
-    gtk_button_set_image (GTK_BUTTON (priv->button_archives_delete),
-						  gtk_image_new_from_file (tmp_str));
-    g_free (tmp_str);
     g_signal_connect (G_OBJECT (priv->button_archives_delete),
                       "clicked",
                       G_CALLBACK (prefs_page_archives_delete_archive),
                       priv->treeview_archives);
 
 	/* button to delete an archive and delete the transactions */
-    tmp_str = g_build_filename (gsb_dirs_get_pixmaps_dir (), "gsb-import-24.png", NULL);
-	gtk_button_set_always_show_image (GTK_BUTTON (priv->button_archives_destroy), TRUE);
-	gtk_button_set_image (GTK_BUTTON (priv->button_archives_destroy),
-						  gtk_image_new_from_file (tmp_str));
-    g_free (tmp_str);
     g_signal_connect (G_OBJECT (priv->button_archives_destroy),
                       "clicked",
                       G_CALLBACK (prefs_page_archives_destroy_archive),

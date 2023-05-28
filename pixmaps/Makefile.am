@@ -46,7 +46,6 @@ grisbi_pixmaps_DATA = \
 	gsb-grille-16.png \
 	gsb-help-16.png \
 	gsb-import-16.png \
-	gsb-import-24.png \
 	gsb-import-32.png \
 	gsb-jump-16.png \
 	gsb-new-categ-16.png \

@@ -556,7 +556,7 @@ static GtkWidget *etats_onglet_create_reports_toolbar (void)
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
     /* Import button */
-    item = utils_buttons_tool_button_new_from_image_label ("gsb-import-24.png", _("Import"));
+    item = utils_buttons_tool_button_new_from_image_resource ("gsb-import-24.png", _("Import"));
     gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Import a Grisbi report file (.egsb)"));
     g_signal_connect (G_OBJECT (item),
 					  "clicked",

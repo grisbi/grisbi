@@ -622,7 +622,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
-    item = utils_buttons_tool_button_new_from_image_label ("gsb-import-24.png", _("Import"));
+    item = utils_buttons_tool_button_new_from_image_resource ("gsb-import-24.png", _("Import"));
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Import a Grisbi budgetary line file (.igsb)"
                         " or create from a list of categories (.cgsb)" ) );
