@@ -580,7 +580,7 @@ static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page,
 								G_TYPE_STRING,			/* FYEAR_NAME_COLUMN */
 								G_TYPE_STRING,			/* FYEAR_BEGIN_DATE_COLUMN */
 								G_TYPE_STRING,			/* FYEAR_END_DATE_COLUMN */
-								G_TYPE_STRING,			/* FYEAR_INVALID_COLUMN */
+								G_TYPE_STRING,			/* FYEAR_INVALID_COLUMN affiche une icone */
 								G_TYPE_INT,				/* FYEAR_NUMBER_COLUMN */
 								GDK_TYPE_RGBA);			/* FYEAR_ROW_COLOR */
 
@@ -605,7 +605,7 @@ static void prefs_page_fyear_setup_tree_view (PrefsPageFyear *page,
 		{
 			column = gtk_tree_view_column_new_with_attributes (title[i],
 															   gtk_cell_renderer_pixbuf_new (),
-															   "stock-id", i,
+															   "icon-name", i,
 															   "cell-background-rgba", FYEAR_ROW_COLOR,
 															   NULL);
 		}

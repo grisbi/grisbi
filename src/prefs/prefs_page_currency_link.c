@@ -369,7 +369,7 @@ static void prefs_page_currency_link_setup_treeview (PrefsPageCurrencyLink *page
 		{
 			column = gtk_tree_view_column_new_with_attributes (gettext (title[i]),
 															   gtk_cell_renderer_pixbuf_new (),
-															   "stock-id", i,
+															   "icon-name", i,
 															   "cell-background-rgba", LINK_BACKGROUND_COLOR,
 															   NULL);
 		}
