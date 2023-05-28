@@ -353,6 +353,30 @@ GtkToolItem *utils_buttons_tool_button_new_from_image_label ( const gchar *image
 }
 
 /**
+ * Création d'un GtkToolButton à partir d'une ressource et d'un label
+ *
+ * \param image_name    resource of button
+ * \param label_name    label for button
+ *
+ * \return a GtkToolItem or NULL
+ * */
+GtkToolItem *utils_buttons_tool_button_new_from_image_resource (const gchar *image_name,
+																const gchar *label_name)
+{
+	GtkToolItem *button = NULL;
+	GtkWidget *image;
+	gchar *resource;
+
+	resource = g_strconcat ("/org/gtk/grisbi/images/", image_name, NULL);
+
+	image = gtk_image_new_from_resource (resource);
+	g_free (resource);
+	button = gtk_tool_button_new (image, label_name);
+
+    return button;
+}
+
+/**
  * Création d'un GtkMenuToolButton à partir d'une image et d'un label
  *
  * \param image_name    filename

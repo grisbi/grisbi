@@ -15,6 +15,8 @@ gboolean        utils_buttons_sensitive_by_checkbutton			(GtkWidget *check_butto
 																 GtkWidget *widget);
 GtkToolItem *   utils_buttons_tool_button_new_from_image_label  (const gchar *image_name,
                                                                  const gchar *label_name);
+GtkToolItem *	utils_buttons_tool_button_new_from_image_resource	(const gchar *image_name,
+																	const gchar *label_name);
 GtkToolItem *   utils_buttons_tool_menu_new_from_image_label    (const gchar *image_name,
                                                                  const gchar *label_name);
 gint            utils_radiobutton_get_active_index              (GtkWidget *radiobutton);
