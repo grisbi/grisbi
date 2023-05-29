@@ -174,22 +174,22 @@ to add at the selection</property>
                     <child>
                       <object class="GtkBox" id="hbox9">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">5</property>
-                        <property name="margin_bottom">5</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-top">5</property>
+                        <property name="margin-bottom">5</property>
                         <property name="homogeneous">True</property>
                         <child>
                           <object class="GtkButton" id="button_first_payee">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="tooltip_text" translatable="yes">First item</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="tooltip-text" translatable="yes">First item</property>
                             <property name="relief">half</property>
                             <child>
                               <object class="GtkImage" id="image_first_payee">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="stock">gtk-goto-top</property>
+                                <property name="can-focus">False</property>
+                                <property name="icon-name">gtk-goto-top</property>
                               </object>
                             </child>
                           </object>
@@ -202,15 +202,15 @@ to add at the selection</property>
                         <child>
                           <object class="GtkButton" id="button_previous_payee">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="tooltip_text" translatable="yes">Prévious</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="tooltip-text" translatable="yes">Prévious</property>
                             <property name="relief">half</property>
                             <child>
                               <object class="GtkImage" id="image_previous_payee">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="stock">gtk-go-up</property>
+                                <property name="can-focus">False</property>
+                                <property name="icon-name">gtk-go-up</property>
                               </object>
                             </child>
                           </object>
@@ -224,16 +224,16 @@ to add at the selection</property>
                         <child>
                           <object class="GtkButton" id="button_next_payee">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="tooltip_text" translatable="yes">Following</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="tooltip-text" translatable="yes">Following</property>
                             <property name="relief">half</property>
-                            <property name="image_position">right</property>
+                            <property name="image-position">right</property>
                             <child>
                               <object class="GtkImage" id="image_next_payee">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="stock">gtk-go-down</property>
+                                <property name="can-focus">False</property>
+                                <property name="icon-name">gtk-go-down</property>
                               </object>
                             </child>
                           </object>
@@ -247,15 +247,15 @@ to add at the selection</property>
                         <child>
                           <object class="GtkButton" id="button_last_payee">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="tooltip_text" translatable="yes">Last item</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="tooltip-text" translatable="yes">Last item</property>
                             <property name="relief">half</property>
                             <child>
                               <object class="GtkImage" id="image_last_payee">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="stock">gtk-goto-bottom</property>
+                                <property name="can-focus">False</property>
+                                <property name="icon-name">gtk-goto-bottom</property>
                               </object>
                             </child>
                           </object>
