@@ -763,8 +763,9 @@ static void etats_config_initialise_onglet_affichage_generalites ( gint report_n
 	gboolean activ;
 
 	report_name = gsb_data_report_get_report_name (report_number);
-    gtk_entry_set_text ( GTK_ENTRY ( etats_prefs_widget_get_widget_by_name ( "entree_nom_etat", NULL ) ),
-                        report_name);
+	widget = etats_prefs_widget_get_widget_by_name ("entree_nom_etat", NULL);
+	gtk_entry_set_has_frame (GTK_ENTRY (widget), TRUE);
+    gtk_entry_set_text (GTK_ENTRY (widget), report_name);
 
     /* on initialise le complément du nom si actif */
 	checkbutton = etats_prefs_widget_get_widget_by_name ("check_button_compl_name", NULL);

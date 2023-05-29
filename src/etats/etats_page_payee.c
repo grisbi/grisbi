@@ -636,6 +636,9 @@ static void etats_page_payee_setup_page (EtatsPagePayee *page,
 	/* on rend insensible les bouton premier et précédent car on est positionné sur le 1er item sélectionné */
 	etats_page_payee_show_hide_prev_next_buttons (0, -1, priv);
 
+	/* on met une frama autour de entry_search_payee (pour gtk4) */
+	gtk_entry_set_has_frame (GTK_ENTRY (priv->entry_search_payee), TRUE);
+
 	/* on rend les boutons premier, précédent, suivant et dernier actifs */
 	g_object_set_data (G_OBJECT (priv->button_first_payee), "ptr_sens", GINT_TO_POINTER (GDK_LEFTBUTTON));
 	g_signal_connect (G_OBJECT (priv->button_first_payee),
