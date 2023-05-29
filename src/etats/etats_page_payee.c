@@ -432,60 +432,6 @@ static void etats_page_payee_selection_changed (GtkTreeSelection *selection,
 }
 
 /**
- * positionne le tree_view sur le premier tiers sélectionné
- *
- * \param tree_view
- * \param event
- * \param user_data = priv
- *
- * \return
- **/
-static gboolean etats_page_payee_show_first_row_selected (GtkWidget *tree_view,
-														  GdkEventVisibility  *event,
-														  EtatsPagePayeePrivate *priv)
-{
-	GtkTreeSelection *selection;
-	GtkTreePath *start_path;
-	GtkTreePath *end_path;
-	GtkTreePath *tmp_payee_selected;
-	GList *liste;
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-	liste = gtk_tree_selection_get_selected_rows (selection, NULL);
-	if (liste)
-		tmp_payee_selected = (GtkTreePath *) liste->data;
-	else
-	{
-		/* on ajoute un callback pour gérer le changement de sélection */
-		g_signal_connect (G_OBJECT (selection),
-						  "changed",
-						  G_CALLBACK (etats_page_payee_selection_changed),
-						  priv);
-
-		return FALSE;
-	}
-
-	if (gtk_tree_view_get_visible_range (GTK_TREE_VIEW (tree_view), &start_path, &end_path))
-	{
-		if (tmp_payee_selected && gtk_tree_path_compare (tmp_payee_selected, end_path) == 1)
-			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), tmp_payee_selected, NULL, FALSE, 0., 0.);
-
-		gtk_tree_path_free (start_path);
-		gtk_tree_path_free (end_path);
-	}
-	else if (tmp_payee_selected)
-		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), tmp_payee_selected, NULL, FALSE, 0., 0.);
-
-	/* on ajoute un callback pour gérer le changement de sélection */
-	g_signal_connect (G_OBJECT (selection),
-					  "changed",
-					  G_CALLBACK (etats_page_payee_selection_changed),
-					  priv);
-
-	return TRUE;
-}
-
-/**
  * récupère l'index l'iter selectionné
  *
  * \param nom du tree_view
@@ -595,12 +541,6 @@ static void etats_page_payee_setup_treeview (EtatsPagePayee *page)
 	/* set selection */
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_payee));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
-
-	/* on ajoute un callback pour aller au premier item sélectionné */
-	g_signal_connect (G_OBJECT (priv->treeview_payee),
-					  "visibility-notify-event",
-					  G_CALLBACK (etats_page_payee_show_first_row_selected),
-					  priv);
 }
 
 /**
@@ -831,6 +771,68 @@ void etats_page_payee_get_info (GtkWidget *etats_prefs,
 			gsb_data_report_set_payee_numbers_list (report_number,
 													etats_page_payee_get_rows_selected (priv->treeview_payee));
 	}
+}
+
+/**
+ * positionne le tree_view sur le premier tiers sélectionné
+ *
+ * \param tree_view
+ * \param event
+ * \param user_data = priv
+ *
+ * \return
+ **/
+gboolean etats_page_payee_show_first_row_selected (GtkWidget *etats_prefs)
+{
+	GtkTreeSelection *selection;
+	GtkTreePath *start_path;
+	GtkTreePath *end_path;
+	GtkTreePath *tmp_payee_selected;
+	GList *liste;
+	EtatsPagePayee *page;
+	EtatsPagePayeePrivate *priv;
+
+	page = ETATS_PAGE_PAYEE (etats_prefs_get_page_by_number (etats_prefs, PAYEE_PAGE_TYPE));
+	priv = etats_page_payee_get_instance_private (page);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_payee));
+	liste = gtk_tree_selection_get_selected_rows (selection, NULL);
+	if (liste)
+		tmp_payee_selected = (GtkTreePath *) liste->data;
+	else
+	{
+		/* on ajoute un callback pour gérer le changement de sélection */
+		g_signal_connect (G_OBJECT (selection),
+						  "changed",
+						  G_CALLBACK (etats_page_payee_selection_changed),
+						  priv);
+
+		return FALSE;
+	}
+
+	if (gtk_tree_view_get_visible_range (GTK_TREE_VIEW (priv->treeview_payee), &start_path, &end_path))
+	{
+		if (tmp_payee_selected && gtk_tree_path_compare (tmp_payee_selected, end_path) == 1)
+			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (priv->treeview_payee),
+			                              tmp_payee_selected,
+			                              NULL,
+			                              FALSE,
+			                              0.,
+			                              0.);
+
+		gtk_tree_path_free (start_path);
+		gtk_tree_path_free (end_path);
+	}
+	else if (tmp_payee_selected)
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (priv->treeview_payee), tmp_payee_selected, NULL, FALSE, 0., 0.);
+
+	/* on ajoute un callback pour gérer le changement de sélection */
+	g_signal_connect (G_OBJECT (selection),
+					  "changed",
+					  G_CALLBACK (etats_page_payee_selection_changed),
+					  priv);
+
+	return TRUE;
 }
 
 /**

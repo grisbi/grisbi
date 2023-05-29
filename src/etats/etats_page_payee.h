@@ -28,14 +28,15 @@ struct _EtatsPagePayeeClass
 };
 
 /* START_DECLARATION */
-GType					etats_page_payee_get_type			(void) G_GNUC_CONST;
+GType				etats_page_payee_get_type					(void) G_GNUC_CONST;
 
-EtatsPagePayee *		etats_page_payee_new				(GtkWidget *etats_prefs);
+EtatsPagePayee *	etats_page_payee_new						(GtkWidget *etats_prefs);
 
-void					etats_page_payee_get_info			(GtkWidget *etats_prefs,
+void				etats_page_payee_get_info					(GtkWidget *etats_prefs,
 															 gint report_number);
-void					etats_page_payee_initialise_onglet	(GtkWidget *etats_prefs,
-															 gint report_number);
+void				etats_page_payee_initialise_onglet			(GtkWidget *etats_prefs,
+																 gint report_number);
+gboolean			etats_page_payee_show_first_row_selected	(GtkWidget *etats_prefs);
 /* END_DECLARATION */
 
 G_END_DECLS

@@ -286,6 +286,45 @@ void new_etats_prefs_tree_view_select_rows_from_list (GSList *liste,
 
 /*LEFT_PANEL*/
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ */
+static gboolean etats_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
+                                                                    EtatsPrefs *prefs)
+{
+	GtkWidget *notebook;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint selected;
+	EtatsPrefsPrivate *priv;
+
+    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
+	{
+        return (FALSE);
+	}
+
+
+	/* on recuper le notebook */
+	priv = etats_prefs_get_instance_private (prefs);
+	notebook = priv->notebook_etats_prefs;
+
+	gtk_tree_model_get (model, &iter, 1, &selected, -1);
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
+	if (selected == PAYEE_PAGE_TYPE)
+	{
+		/* affiche le premier tiers concerné */
+		etats_page_payee_show_first_row_selected (GTK_WIDGET (prefs));
+	}
+
+    /* return */
+    return FALSE;
+}
+
+/**
  * If applicable, update report navigation tree style to reflect which
  * pages have been changed.
  *
@@ -541,8 +580,8 @@ static GtkWidget *etats_prefs_left_panel_create_tree_view (EtatsPrefs *prefs)
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     g_signal_connect (selection,
                         "changed",
-                        G_CALLBACK (utils_prefs_left_panel_tree_view_selection_changed),
-                        notebook);
+                        G_CALLBACK (etats_prefs_left_panel_tree_view_selection_changed),
+                        prefs);
 
     /* Choose which entries will be selectable */
     gtk_tree_selection_set_select_function (selection,
