@@ -1,5 +1,5 @@
-#ifndef __ETATSPAGE_PERIOD_H__
-#define __ETATSPAGE_PERIOD_H__
+#ifndef __ETATS_PAGE_PERIOD_H__
+#define __ETATS_PAGE_PERIOD_H__
 
 #include <gtk/gtk.h>
 #include <glib.h>
@@ -9,9 +9,9 @@
 
 G_BEGIN_DECLS
 
-#define ETATSPAGE_PERIOD_TYPE    	(etats_page_period_get_type ())
-#define ETATSPAGE_PERIOD(obj)    	(G_TYPE_CHECK_INSTANCE_CAST ((obj), ETATSPAGE_PERIOD_TYPE, EtatsPagePeriod))
-#define WIDGET_IS_ETAT_PERIOD(obj) 	(G_TYPE_CHECK_INSTANCE_TYPE((obj), ETATSPAGE_PERIOD_TYPE))
+#define ETATS_PAGE_PERIOD_TYPE    	(etats_page_period_get_type ())
+#define ETATS_PAGE_PERIOD(obj)    	(G_TYPE_CHECK_INSTANCE_CAST ((obj), ETATS_PAGE_PERIOD_TYPE, EtatsPagePeriod))
+#define WIDGET_IS_ETAT_PERIOD(obj) 	(G_TYPE_CHECK_INSTANCE_TYPE((obj), ETATS_PAGE_PERIOD_TYPE))
 
 typedef struct _EtatsPagePeriod			EtatsPagePeriod;
 typedef struct _EtatsPagePeriodClass		EtatsPagePeriodClass;
@@ -40,4 +40,4 @@ void 				etats_page_period_initialise_onglet			(GtkWidget *etats_prefs,
 
 G_END_DECLS
 
-#endif  /* __ETATSPAGE_PERIOD_H__ */
+#endif  /* __ETATS_PAGE_PERIOD_H__ */

@@ -445,7 +445,7 @@ EtatsPagePeriod *etats_page_period_new (GtkWidget *etats_prefs)
 	EtatsPagePeriod *page;
 
 
-  	page = g_object_new (ETATSPAGE_PERIOD_TYPE, NULL);
+  	page = g_object_new (ETATS_PAGE_PERIOD_TYPE, NULL);
 	etats_page_period_setup_page (page, etats_prefs);
 
 	return page;
@@ -466,7 +466,7 @@ void etats_page_period_initialise_onglet (GtkWidget *etats_prefs,
 	EtatsPagePeriodPrivate *priv;
 
 	devel_debug_int (report_number);
-	page = ETATSPAGE_PERIOD (etats_prefs_get_page_by_number (etats_prefs, 0));
+	page = ETATS_PAGE_PERIOD (etats_prefs_get_page_by_number (etats_prefs, DATE_PAGE_TYPE));
 	priv = etats_page_period_get_instance_private (page);
 
     if (gsb_data_report_get_use_financial_year (report_number))
@@ -543,7 +543,7 @@ void etats_page_period_get_info (GtkWidget *etats_prefs,
 	EtatsPagePeriod *page;
 	EtatsPagePeriodPrivate *priv;
 
-	page = ETATSPAGE_PERIOD (etats_prefs_get_page_by_number (etats_prefs, 0));
+	page = ETATS_PAGE_PERIOD (etats_prefs_get_page_by_number (etats_prefs, 0));
 	priv = etats_page_period_get_instance_private (page);
 
 	/* get datas */
