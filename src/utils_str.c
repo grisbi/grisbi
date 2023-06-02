@@ -1460,6 +1460,26 @@ gchar *utils_str_break_form_name_field (const gchar *text,
 }
 
 /**
+ * compare deux chaines avec la fonction strcmp () Quid de l'UTF8 ?
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gint utils_str_search_str_in_string_list (gchar *string_list,
+										  gchar *string_cmp)
+{
+    if (!string_list || strlen (string_list) == 0)
+        return -1;
+
+    if (!string_cmp || strlen (string_cmp) == 0)
+        return 1;
+
+    return (strcmp (string_list, string_cmp));
+}
+
+/**
  *
  *
  * \param

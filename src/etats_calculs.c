@@ -2312,7 +2312,7 @@ GSList *recupere_opes_etat (gint report_number)
 
 						if (!g_slist_find_custom (gsb_data_report_get_method_of_payment_list (report_number),
 												  gsb_data_payment_get_name (payment_number),
-												  (GCompareFunc) cherche_string_equivalente_dans_slist))
+												  (GCompareFunc) utils_str_search_str_in_string_list))
 							goto operation_refusee;
 					}
 
@@ -2471,25 +2471,6 @@ operation_refusee:
     }
 
     return (transactions_report_list);
-}
-/**
- * compare deux chaines avec la fonction strcmp () Quid de l'UTF8 ?
- *
- * \param
- * \param
- *
- * \return
- **/
-gint cherche_string_equivalente_dans_slist (gchar *string_list,
-											gchar *string_cmp)
-{
-    if (!string_list || strlen (string_list) == 0)
-        return -1;
-
-    if (!string_cmp || strlen (string_cmp) == 0)
-        return 1;
-
-    return (strcmp (string_list, string_cmp));
 }
 
 /**

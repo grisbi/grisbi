@@ -123,7 +123,7 @@ void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean
 	    while ( list )
 	    {
 		if ( ! g_slist_find_custom ( category_files, list -> data,
-					     (GCompareFunc) cherche_string_equivalente_dans_slist ) )
+					     (GCompareFunc) utils_str_search_str_in_string_list ) )
 		{
 		    category_files = g_slist_append ( category_files, list -> data );
 		}

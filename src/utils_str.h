@@ -47,6 +47,8 @@ gchar *		utils_str_break_filename 								(const gchar *string,
 									                                 gint trunc);
 gchar *		utils_str_break_form_name_field							(const gchar *text,
 																	 gint trunc);
+gint		utils_str_search_str_in_string_list						(gchar *string_list,
+																	 gchar *string_cmp);
 gint 		utils_str_get_nbre_motifs 								(const gchar *chaine,
 																	 const gchar *motif);
 gchar *		utils_str_itoa 											(gint integer);

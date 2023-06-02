@@ -201,7 +201,7 @@ GtkTreeModel *etats_config_onglet_mode_paiement_get_model ( void )
 
         if ( !g_slist_find_custom ( liste_nom_types,
                         name,
-                        ( GCompareFunc ) cherche_string_equivalente_dans_slist ) )
+                        ( GCompareFunc ) utils_str_search_str_in_string_list ) )
         {
             liste_nom_types = g_slist_append ( liste_nom_types, name );
             gtk_list_store_append ( list_store, &iter );
