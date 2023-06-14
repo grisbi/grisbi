@@ -172,7 +172,6 @@ libgrisbi_la_SOURCES = \
 	utils_dates.c		\
 	utils_editables.c	\
 	utils_files.c		\
-	utils_gtkbuilder.c	\
 	utils_operations.c	\
 	utils_prefs.c	\
 	utils_real.c		\
@@ -200,7 +199,6 @@ libgrisbi_la_SOURCES = \
 	etats_html.h            \
 	etats_onglet.h		\
 	etats_prefs.h	\
-	etats_prefs_private.h	\
 	etats_support.h		\
 	export.h                \
 	export_csv.h            \
@@ -307,7 +305,6 @@ libgrisbi_la_SOURCES = \
 	utils_dates.h		\
 	utils_editables.h	\
 	utils_files.h		\
-	utils_gtkbuilder.h	\
 	utils_operations.h	\
 	utils_prefs.h	\
 	utils_real.h		\

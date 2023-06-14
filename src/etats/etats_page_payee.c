@@ -81,6 +81,9 @@ struct _EtatsPagePayeePrivate
 	GtkWidget *			togglebutton_select_all_payee;
 	GtkWidget *			treeview_payee;
 	GtkWidget *			vbox_detaille_payee;
+
+	/* parent */
+	GtkWidget *			etats_prefs;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EtatsPagePayee, etats_page_payee, GTK_TYPE_BOX)
@@ -559,6 +562,9 @@ static void etats_page_payee_setup_page (EtatsPagePayee *page,
 	devel_debug (NULL);
 	priv = etats_page_payee_get_instance_private (page);
 
+	/* on sauvegarde etats_prefs pour plus tard */
+	priv->etats_prefs = etats_prefs;
+
 	/* set head page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Payees"), "gsb-payees-32.png");
 	gtk_box_pack_start (GTK_BOX (priv->vbox_etats_page_payee), head_page, FALSE, FALSE, 0);
@@ -605,6 +611,7 @@ static void etats_page_payee_setup_page (EtatsPagePayee *page,
 					  priv);
 
 	/* on met la connection pour changer le style de la ligne du panneau de gauche */
+	g_object_set_data (G_OBJECT (priv->button_detaille_payee), "etats_prefs", etats_prefs);
 	g_signal_connect (G_OBJECT (priv->button_detaille_payee),
 					  "toggled",
 					  G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
@@ -711,7 +718,7 @@ void etats_page_payee_initialise_onglet (GtkWidget *etats_prefs,
 
 	if (active)
 	{
-		new_etats_prefs_tree_view_select_rows_from_list (gsb_data_report_get_payee_numbers_list (report_number),
+		etats_prefs_tree_view_select_rows_from_list (gsb_data_report_get_payee_numbers_list (report_number),
 														 priv->treeview_payee,
 														 1);
 
@@ -761,7 +768,7 @@ void etats_page_payee_get_info (GtkWidget *etats_prefs,
 							   "faster without the \"Detail payees used\" option activated."));
 
 			dialogue_hint (text, hint);
-			etats_prefs_button_toggle_set_actif ("togglebutton_select_all_tiers", FALSE);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button_detaille_payee), FALSE);
 			gsb_data_report_set_payee_detail_used (report_number, FALSE);
 
 			g_free (text);

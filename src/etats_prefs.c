@@ -32,7 +32,7 @@
 
 /*START_INCLUDE*/
 #include "etats_prefs.h"
-#include "etats_prefs_private.h"
+#include "dialog.h"
 #include "etats_config.h"
 #include "etats_page_amount.h"
 #include "etats_page_accounts.h"
@@ -43,10 +43,13 @@
 #include "etats_page_text.h"
 #include "etats_page_transfer.h"
 #include "grisbi_app.h"
+#include "gsb_data_payment.h"
+#include "gsb_data_report.h"
+#include "navigation.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_buttons.h"
-#include "utils_gtkbuilder.h"
+#include "utils_dates.h"
 #include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -63,45 +66,43 @@ typedef struct _EtatsPrefsPrivate EtatsPrefsPrivate;
 
 struct _EtatsPrefsPrivate
 {
+	GtkWidget *		vbox_prefs;
+
     GtkWidget *		hpaned;
+	GtkWidget *		treeview_left_panel;
 	GtkWidget *		notebook_etats_prefs;
 
 	gboolean		form_date_force_prev_year;
-};
 
 G_DEFINE_TYPE_WITH_PRIVATE (EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
 
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-/* GTK_BUILDER */
-/**
- * Crée un builder et récupère les widgets du fichier grisbi.ui
- *
- * \param
- *
- * \rerurn
- **/
-static gboolean etats_prefs_initialise_builder (EtatsPrefs *prefs)
-{
-	EtatsPrefsPrivate *priv;
+	GtkWidget *		vbox_marked_buttons;
+	GtkWidget *		radiobutton_marked_No_R;
+	GtkWidget *		bouton_pas_detailler_ventilation;
+	GtkWidget *		radiobutton_marked_all;
+	GtkWidget *		checkbutton_marked_P;
+	GtkWidget *		checkbutton_marked_R;
+	GtkWidget *		checkbutton_marked_T;
 
-	/* Creation d'un nouveau GtkBuilder */
-    etats_prefs_builder = gtk_builder_new ();
+	/*ONGLET_DATA_GROUPING*/
+	GtkWidget *		onglet_data_grouping;
 
-	if (etats_prefs_builder == NULL)
-		return FALSE;
+	GtkWidget *		bouton_group_by_account;
+	GtkWidget *		bouton_group_by_payee;
 
-	/* Chargement du XML dans etats_prefs_builder */
-	if (!utils_gtkbuilder_merge_ui_data_in_builder (etats_prefs_builder, "etats_prefs.ui"))
-		return FALSE;
+	/*ONGLET_DATA_SEPARATION*/
+	GtkWidget *		onglet_data_separation;
+	GtkWidget *		button_split_by_income_expenses;
 
-	priv = etats_prefs_get_instance_private (prefs);
-	priv->hpaned = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "dialog_hpaned"));
-	priv->notebook_etats_prefs = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "notebook_etats_prefs"));
+	/*ONGLET_AFFICHAGE_GENERALITES*/
+	GtkWidget *		affichage_etat_generalites;
+	GtkWidget *		entree_nom_etat;
 
-    return TRUE;
-}
+/*ONGLET_AFFICHAGE_TITLES*/
+	GtkWidget *		affichage_etat_titles;
 
 /*FONCTIONS UTILITAIRES COMMUNES*/
 /**
@@ -1666,17 +1667,8 @@ gboolean etats_prefs_button_toggle_set_actif (const gchar *button_name,
     return TRUE;
 }
 
-/**
- * free the gtk_builder
- *
- * \param
- *
- * \return
- **/
-void etats_prefs_free_all_var (void)
-{
-    g_object_unref (G_OBJECT (etats_prefs_builder));
-}
+        if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &parent_iter))
+            return FALSE;
 
 /**
  * récupère l'index l'iter selectionné

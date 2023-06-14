@@ -76,9 +76,6 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
           <object class="GtkCheckButton" id="togglebutton_exclure_non_transfer">
             <property name="label" translatable="yes">Exclude the transactions which are not transfers</property>
             <property name="visible">True</property>

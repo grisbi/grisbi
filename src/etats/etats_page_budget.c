@@ -96,6 +96,7 @@ static void etats_page_budget_setup_page (EtatsPageBudget *page,
 	gtk_box_pack_start (GTK_BOX (priv->vbox_detaille_budget), priv->widget_list_metatree, TRUE, TRUE, 0);
 
 	/* on met la connection pour changer le style de la ligne du panneau de gauche */
+	g_object_set_data (G_OBJECT (priv->bouton_detaille_budget), "etats_prefs", etats_prefs);
 	g_signal_connect (G_OBJECT (priv->bouton_detaille_budget),
 					  "toggled",
 					  G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),

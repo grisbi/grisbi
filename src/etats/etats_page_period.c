@@ -83,6 +83,9 @@ struct _EtatsPagePeriodPrivate
 	GtkWidget *         sw_exo;
 	GtkWidget *         treeview_exo;
 	GtkWidget *         vbox_utilisation_exo;
+
+	/* parent */
+	GtkWidget *			etats_prefs;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EtatsPagePeriod, etats_page_period, GTK_TYPE_BOX)
@@ -207,11 +210,11 @@ static void etats_page_period_update_style_left_panel (GtkWidget *button,
     index = utils_radiobutton_get_active_index (priv->radio_button_utilise_exo);
     if (index == 0)
     {
-        if (new_etats_prefs_tree_view_get_single_row_selected (priv->treeview_dates) == 1)
+        if (etats_prefs_tree_view_get_single_row_selected (priv->treeview_dates) == 1)
         index = 1;
     }
 
-	tree_view = etats_prefs_widget_get_widget_by_name ("treeview_left_panel", NULL);
+	tree_view = etats_prefs_get_widget_by_name ("treeview_left_panel", priv->etats_prefs);
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
     if (gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (model), &iter, "0:0"))
     {
@@ -341,6 +344,9 @@ static void etats_page_period_setup_page (EtatsPagePeriod *page,
 	devel_debug (NULL);
 
 	priv = etats_page_period_get_instance_private (page);
+
+	/* on sauvegarde etats_prefs pour plus tard */
+	priv->etats_prefs = etats_prefs;
 
 	/* set head page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Date selection"), "gsb-scheduler-32.png");
@@ -480,7 +486,7 @@ void etats_page_period_initialise_onglet (GtkWidget *etats_prefs,
 
         if (financial_year_type == 3)
 		{
-            new_etats_prefs_tree_view_select_rows_from_list (gsb_data_report_get_financial_year_list
+            etats_prefs_tree_view_select_rows_from_list (gsb_data_report_get_financial_year_list
 															 (report_number),
 															 priv->treeview_exo,
 															 1);
@@ -490,7 +496,7 @@ void etats_page_period_initialise_onglet (GtkWidget *etats_prefs,
 			gtk_widget_set_sensitive (priv->sw_exo, FALSE);
 
         /* on initialise le tree_view des dates avec une valeur par défaut (mois en cours) */
-        new_etats_prefs_tree_view_select_single_row (priv->treeview_dates, 3);
+        etats_prefs_tree_view_select_single_row (priv->treeview_dates, 3);
 
 		/* on sensibilise les widgets contenant les datas */
 		gtk_widget_set_sensitive (priv->vbox_utilisation_date, FALSE);
@@ -502,7 +508,7 @@ void etats_page_period_initialise_onglet (GtkWidget *etats_prefs,
 
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->radio_button_utilise_dates), TRUE);
 		date_type = gsb_data_report_get_date_type (report_number);
-		new_etats_prefs_tree_view_select_single_row (priv->treeview_dates, date_type);
+		etats_prefs_tree_view_select_single_row (priv->treeview_dates, date_type);
 
 		/* on sensibilise les widgets contenant les datas */
 		gtk_widget_set_sensitive (priv->vbox_utilisation_date, TRUE);
@@ -559,7 +565,7 @@ void etats_page_period_get_info (GtkWidget *etats_prefs,
         {
             gsb_data_report_free_financial_year_list (report_number);
             gsb_data_report_set_financial_year_list (report_number,
-													 new_etats_prefs_tree_view_get_list_rows_selected
+													 etats_prefs_tree_view_get_list_rows_selected
 													 (priv->treeview_exo));
             if (utils_tree_view_all_rows_are_selected (GTK_TREE_VIEW (priv->treeview_exo)))
             {
@@ -585,7 +591,7 @@ void etats_page_period_get_info (GtkWidget *etats_prefs,
 
         /* Check that custom dates are OK, but only if custom date range
          * has been selected. */
-		item_selected = new_etats_prefs_tree_view_get_single_row_selected (priv->treeview_dates);
+		item_selected = etats_prefs_tree_view_get_single_row_selected (priv->treeview_dates);
         if (item_selected == 1)
         {
             if (!gsb_date_check_entry (priv->entree_date_init_etat))
@@ -628,6 +634,25 @@ void etats_page_period_get_info (GtkWidget *etats_prefs,
         }
         gsb_data_report_set_date_type (report_number, item_selected);
     }
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *etats_page_period_get_radio_button_utilise_exo (GtkWidget *etats_prefs)
+{
+	EtatsPagePeriod *page;
+	EtatsPagePeriodPrivate *priv;
+
+	page = ETATS_PAGE_PERIOD (etats_prefs_get_page_by_number (etats_prefs, 0));
+	priv = etats_page_period_get_instance_private (page);
+
+	return priv->radio_button_utilise_exo;
 }
 
 /**

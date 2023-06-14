@@ -28,14 +28,14 @@ struct _EtatsPagePeriodClass
 };
 
 /* START_DECLARATION */
-GType				etats_page_period_get_type					(void) G_GNUC_CONST;
+GType				etats_page_period_get_type						(void) G_GNUC_CONST;
 
-EtatsPagePeriod * 	etats_page_period_new						(GtkWidget *etats_prefs);
-void				etats_page_period_get_info					(GtkWidget *etats_prefs,
-																 gint report_number);
-
-void 				etats_page_period_initialise_onglet			(GtkWidget *etats_prefs,
-																 gint report_number);
+EtatsPagePeriod * 	etats_page_period_new							(GtkWidget *etats_prefs);
+void				etats_page_period_get_info						(GtkWidget *etats_prefs,
+																	 gint report_number);
+GtkWidget *			etats_page_period_get_radio_button_utilise_exo	(GtkWidget *etats_prefs);
+void 				etats_page_period_initialise_onglet				(GtkWidget *etats_prefs,
+																	 gint report_number);
 /* END_DECLARATION */
 
 G_END_DECLS

@@ -289,6 +289,7 @@ static void etats_page_amount_setup_page (EtatsPageAmount *page,
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_etats_page_amount), head_page, 0);
 
 	/* set signals */
+	g_object_set_data (G_OBJECT (priv->button_detaille_amount), "etats_prefs", etats_prefs);
 	g_signal_connect (G_OBJECT (priv->button_detaille_amount),
 					  "toggled",
 					  G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),

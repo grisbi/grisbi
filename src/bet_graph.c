@@ -45,7 +45,6 @@
 #include "navigation.h"
 #include "structures.h"
 #include "utils.h"
-#include "utils_gtkbuilder.h"
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"

@@ -104,6 +104,7 @@ static void etats_page_accounts_setup_page (EtatsPageAccounts *page,
 	gtk_box_pack_start (GTK_BOX (priv->vbox_generale_comptes), priv->widget_list_accounts, TRUE, TRUE, 0);
 
 	/* on met la connection pour changer le style de la ligne du panneau de gauche */
+	g_object_set_data (G_OBJECT (priv->bouton_detaille_comptes), "etats_prefs", etats_prefs);
     g_signal_connect (G_OBJECT (priv->bouton_detaille_comptes),
 					  "toggled",
 					  G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),

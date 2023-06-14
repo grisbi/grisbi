@@ -5,6 +5,8 @@
   <object class="GtkBox" id="affichage_etat_devises">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="margin-start">5</property>
+    <property name="margin-end">5</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
@@ -25,7 +27,15 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkComboBox" id="combobox_devise_general">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
       <packing>
@@ -52,7 +62,15 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkComboBox" id="combobox_devise_payee">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
       <packing>
@@ -79,7 +97,15 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkComboBox" id="combobox_devise_categ">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
       <packing>
@@ -106,7 +132,15 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkComboBox" id="combobox_devise_ib">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
       <packing>
@@ -133,7 +167,15 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkComboBox" id="combobox_devise_amount">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
       <packing>
@@ -146,6 +188,8 @@
   <object class="GtkBox" id="affichage_etat_generalites">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="margin-start">5</property>
+    <property name="margin-end">5</property>
     <property name="hexpand">True</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
@@ -557,6 +601,8 @@ Grisbi will automatically create transactions for all payees from the report</pr
   <object class="GtkBox" id="affichage_etat_operations">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="margin-start">5</property>
+    <property name="margin-end">5</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
@@ -1168,6 +1214,8 @@ Grisbi will automatically create transactions for all payees from the report</pr
   <object class="GtkBox" id="affichage_etat_titles">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="margin-start">5</property>
+    <property name="margin-end">5</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
@@ -1656,61 +1704,6 @@ Grisbi will automatically create transactions for all payees from the report</pr
       </packing>
     </child>
   </object>
-  <object class="GtkPaned" id="dialog_hpaned">
-    <property name="visible">True</property>
-    <property name="can-focus">True</property>
-    <child>
-      <object class="GtkBox" id="vbox10">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkScrolledWindow" id="sw_dialog">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="hscrollbar-policy">never</property>
-            <property name="shadow-type">in</property>
-            <child>
-              <object class="GtkTreeView" id="treeview_left_panel">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="can-default">True</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
-                <property name="headers-visible">False</property>
-                <property name="reorderable">True</property>
-                <property name="enable-search">False</property>
-                <property name="fixed-height-mode">True</property>
-                <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="resize">False</property>
-        <property name="shrink">True</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkNotebook" id="notebook_etats_prefs">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="show-tabs">False</property>
-      </object>
-      <packing>
-        <property name="resize">True</property>
-        <property name="shrink">True</property>
-      </packing>
-    </child>
-  </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -1721,10 +1714,12 @@ Grisbi will automatically create transactions for all payees from the report</pr
     <property name="can-focus">False</property>
     <property name="resource">/org/gtk/grisbi/images/gsb-down-16.png</property>
   </object>
-  <object class="GtkBox" id="page_data_grouping">
+  <object class="GtkBox" id="onglet_data_grouping">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="valign">start</property>
+    <property name="margin-start">5</property>
+    <property name="margin-end">5</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
@@ -1774,7 +1769,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <property name="halign">start</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkCheckButton" id="bouton_regroupe_ope_compte_etat">
+                  <object class="GtkCheckButton" id="bouton_group_by_account">
                     <property name="label" translatable="yes">Group transactions by account</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
@@ -1789,7 +1784,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="bouton_utilise_tiers_etat">
+                  <object class="GtkCheckButton" id="bouton_group_by_payee">
                     <property name="label" translatable="yes">Group transactions by payee</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
@@ -1819,7 +1814,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="bouton_utilise_ib_etat">
+                  <object class="GtkCheckButton" id="bouton_group_by_ib">
                     <property name="label" translatable="yes">Group transactions by budgetary line</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
@@ -1895,7 +1890,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
               </packing>
             </child>
             <child>
-              <!-- n-columns=2 n-rows=3 -->
+              <!-- n-columns=2 n-rows=2 -->
               <object class="GtkGrid" id="paddingbox_data_grouping2">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -1904,26 +1899,21 @@ Grisbi will automatically create transactions for all payees from the report</pr
                 <property name="row-homogeneous">True</property>
                 <child>
                   <object class="GtkScrolledWindow" id="sw_data_grouping">
+                    <property name="width-request">250</property>
+                    <property name="height-request">120</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
                     <property name="shadow-type">in</property>
                     <child>
-                      <object class="GtkTreeView" id="treeview_data_grouping">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="hexpand">True</property>
-                        <property name="vexpand">True</property>
-                        <property name="headers-visible">False</property>
-                        <child internal-child="selection">
-                          <object class="GtkTreeSelection"/>
-                        </child>
-                      </object>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
                     <property name="top-attach">0</property>
-                    <property name="height">3</property>
+                    <property name="height">2</property>
                   </packing>
                 </child>
                 <child>
@@ -1962,9 +1952,6 @@ Grisbi will automatically create transactions for all payees from the report</pr
                     <property name="top-attach">1</property>
                   </packing>
                 </child>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1987,9 +1974,412 @@ Grisbi will automatically create transactions for all payees from the report</pr
       </packing>
     </child>
   </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">gtk-cancel</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">gtk-ok</property>
+  </object>
+  <template class="EtatsPrefs" parent="GtkDialog">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Report properties</property>
+    <property name="window-position">center-on-parent</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="vbox_prefs">
+        <property name="width-request">850</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <property name="orientation">vertical</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can-focus">False</property>
+            <property name="margin-start">5</property>
+            <property name="margin-end">5</property>
+            <property name="margin-top">5</property>
+            <property name="margin-bottom">5</property>
+            <property name="homogeneous">True</property>
+            <property name="layout-style">end</property>
+            <child>
+              <object class="GtkButton" id="button_cancel">
+                <property name="label" translatable="yes">Cancel</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="margin-end">5</property>
+                <property name="image">image3</property>
+                <property name="always-show-image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_ok">
+                <property name="label" translatable="yes">Validate</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="image">image4</property>
+                <property name="always-show-image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkPaned" id="hpaned">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkBox" id="box">
+                <property name="width-request">250</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkScrolledWindow" id="sw_left">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="shadow-type">in</property>
+                    <child>
+                      <object class="GtkTreeView" id="treeview_left_panel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection"/>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="resize">False</property>
+                <property name="shrink">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkNotebook" id="notebook_etats_prefs">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="show-tabs">False</property>
+                <property name="show-border">False</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="resize">True</property>
+                <property name="shrink">True</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">button_cancel</action-widget>
+      <action-widget response="-5">button_ok</action-widget>
+    </action-widgets>
+  </template>
+  <object class="GtkBox" id="onglet_data_separation">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-start">5</property>
+    <property name="margin-end">5</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">15</property>
+    <child>
+      <object class="GtkBox" id="vbox_paddingbox5">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkLabel" id="title5">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
+            <property name="label" translatable="yes">Data separation</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="hbox23">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel" id="label22">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label">    </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="paddingbox_data_separation">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkCheckButton" id="button_split_by_income_expenses">
+                    <property name="label" translatable="yes">Split incomes and outgoings</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="halign">start</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="button_split_by_fyears">
+                    <property name="label" translatable="yes">Split by financial year</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="halign">start</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="button_split_by_period">
+                    <property name="label" translatable="yes">Split by period</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="halign">start</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="vbox_paddingbox17">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkLabel" id="title17">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
+            <property name="label" translatable="yes">Separation by period</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="hbox24">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel" id="label41">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label">    </property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="paddingbox_data_by_period">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">5</property>
+                <child>
+                  <!-- n-columns=2 n-rows=2 -->
+                  <object class="GtkGrid" id="grid2">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="row-spacing">5</property>
+                    <property name="column-spacing">5</property>
+                    <child>
+                      <object class="GtkLabel" id="label15">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="label" translatable="yes">Separation by time period: </property>
+                        <property name="single-line-mode">True</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label16">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="label" translatable="yes">Beginning of week: </property>
+                        <property name="single-line-mode">True</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="bouton_split_by_type_period">
+                        <property name="width-request">100</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="active">0</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="bouton_debut_semaine">
+                        <property name="width-request">100</property>
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can-focus">False</property>
+                        <property name="active">0</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
   <object class="GtkBox" id="onglet_etat_divers">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="margin-start">5</property>
+    <property name="margin-end">5</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
@@ -2313,6 +2703,8 @@ Grisbi will automatically create transactions for all payees from the report</pr
   <object class="GtkBox" id="onglet_etat_mode_paiement">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="margin-start">5</property>
+    <property name="margin-end">5</property>
     <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
@@ -2369,6 +2761,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
                     <property name="can-focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
+                    <property name="headers-visible">False</property>
                     <child internal-child="selection">
                       <object class="GtkTreeSelection"/>
                     </child>
@@ -2471,272 +2864,6 @@ to add at the selection</property>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkBox" id="page_data_separation">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">15</property>
-    <child>
-      <object class="GtkBox" id="vbox_paddingbox5">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkLabel" id="title5">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="halign">start</property>
-            <property name="valign">center</property>
-            <property name="label" translatable="yes">Data separation</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="hbox23">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <child>
-              <object class="GtkLabel" id="label22">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="label">    </property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="paddingbox_data_separation1">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">5</property>
-                <child>
-                  <object class="GtkCheckButton" id="bouton_separer_revenus_depenses">
-                    <property name="label" translatable="yes">Split incomes and outgoings</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="halign">start</property>
-                    <property name="draw-indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="bouton_separe_exo_etat">
-                    <property name="label" translatable="yes">Split by financial year</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="halign">start</property>
-                    <property name="draw-indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="bouton_separe_plages_etat">
-                    <property name="label" translatable="yes">Split by period</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="halign">start</property>
-                    <property name="draw-indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkBox" id="vbox_paddingbox17">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkLabel" id="title17">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="halign">start</property>
-            <property name="valign">center</property>
-            <property name="label" translatable="yes">Separation by period</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="hbox24">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <child>
-              <object class="GtkLabel" id="label41">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="label">    </property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="paddingbox_data_separation2">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">5</property>
-                <child>
-                  <!-- n-columns=3 n-rows=3 -->
-                  <object class="GtkGrid" id="grid2">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="row-spacing">5</property>
-                    <property name="column-spacing">5</property>
-                    <child>
-                      <object class="GtkLabel" id="label15">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="label" translatable="yes">Separation by time period: </property>
-                        <property name="single-line-mode">True</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label16">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="label" translatable="yes">Beginning of week: </property>
-                        <property name="single-line-mode">True</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBox" id="bouton_type_separe_plages_etat">
-                        <property name="width-request">100</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="active">0</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBox" id="bouton_debut_semaine">
-                        <property name="width-request">100</property>
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="can-focus">False</property>
-                        <property name="active">0</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>

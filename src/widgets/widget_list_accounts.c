@@ -376,7 +376,7 @@ void widget_list_accounts_init_liste (GtkWidget *widget,
 		list = gsb_data_report_get_account_numbers_list (report_number);
 	else
 		list = gsb_data_report_get_transfer_account_numbers_list (report_number);
-	new_etats_prefs_tree_view_select_rows_from_list (list, priv->treeview_list_accounts, 1);
+	etats_prefs_tree_view_select_rows_from_list (list, priv->treeview_list_accounts, 1);
 	if (g_slist_length (list))
 		utils_togglebutton_set_label_position_unselect (priv->togglebutton_select_all_accounts,
 														G_CALLBACK (widget_list_accounts_select_unselect),
@@ -421,13 +421,13 @@ gboolean widget_list_accounts_get_info (GtkWidget *widget,
 		}
 		else
 			gsb_data_report_set_account_numbers_list (report_number,
-													  new_etats_prefs_tree_view_get_list_rows_selected
+													  etats_prefs_tree_view_get_list_rows_selected
 													  (priv->treeview_list_accounts));
 	}
 	else
 	{
 		gsb_data_report_set_transfer_account_numbers_list (report_number,
-														   new_etats_prefs_tree_view_get_list_rows_selected
+														   etats_prefs_tree_view_get_list_rows_selected
 														   (priv->treeview_list_accounts));
 	}
 

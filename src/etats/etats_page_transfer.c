@@ -72,6 +72,9 @@ struct _EtatsPageTransferPrivate
 	GtkWidget *			widget_list_accounts;
 
 	GtkWidget *			togglebutton_exclure_non_transfer;
+
+	/* parent */
+	GtkWidget *			etats_prefs;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EtatsPageTransfer, etats_page_transfer, GTK_TYPE_BOX)
@@ -87,7 +90,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (EtatsPageTransfer, etats_page_transfer, GTK_TYPE_BOX
  * \return
  **/
 static void etats_page_transfer_init_buttons_choix_utilisation_virements (EtatsPageTransfer *page,
-																		   gint num_page)
+																		  gint num_page,
+																		  GtkWidget *etats_prefs)
 {
 	EtatsPageTransferPrivate *priv;
 
@@ -95,31 +99,34 @@ static void etats_page_transfer_init_buttons_choix_utilisation_virements (EtatsP
 	priv = etats_page_transfer_get_instance_private (page);
 
     /* on met la connection pour changer le style de la ligne du panneau de gauche */
+	g_object_set_data (G_OBJECT (priv->bouton_inclusion_transfer_actifs), "etats_prefs", etats_prefs);
     g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_actifs),
                         "toggled",
                         G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
                         GINT_TO_POINTER (num_page));
 
 	/* on connecte le signal pour gérer la sensibilité du bouton bouton_bouton_inclusion_virements_actifs_etat */
-    g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_actifs),
+	g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_actifs),
                         "toggled",
                         G_CALLBACK (sens_desensitive_pointeur),
                         priv->togglebutton_exclure_non_transfer);
 
     /* on met la connection pour changer le style de la ligne du panneau de gauche */
-    g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_hors),
+    g_object_set_data (G_OBJECT (priv->bouton_inclusion_transfer_hors), "etats_prefs", etats_prefs);
+	g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_hors),
                         "toggled",
                         G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
                         GINT_TO_POINTER (num_page));
 
 	/* on connecte le signal pour gérer la sensibilité du bouton_inclusion_virements_hors_etat */
-    g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_hors),
+	g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_hors),
                         "toggled",
                         G_CALLBACK (sens_desensitive_pointeur),
                         priv->togglebutton_exclure_non_transfer);
 
     /* on met la connection pour changer le style de la ligne du panneau de gauche */
-    g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_perso),
+    g_object_set_data (G_OBJECT (priv->bouton_inclusion_transfer_perso), "etats_prefs", etats_prefs);
+	g_signal_connect (G_OBJECT (priv->bouton_inclusion_transfer_perso),
                         "toggled",
                         G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
                         GINT_TO_POINTER (num_page));
@@ -165,7 +172,7 @@ static void etats_page_transfer_setup_page (EtatsPageTransfer *page,
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_etats_page_transfer), priv->widget_list_accounts, 5);
 
     /* on initialise les boutons pour sensibiliser bouton_exclure_non_virements_etat et la liste des comptes */
-    etats_page_transfer_init_buttons_choix_utilisation_virements (page, TRANSFER_PAGE_TYPE);
+    etats_page_transfer_init_buttons_choix_utilisation_virements (page, TRANSFER_PAGE_TYPE, etats_prefs);
 
 }
 
