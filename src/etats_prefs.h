@@ -73,11 +73,11 @@ void 			etats_prefs_tree_view_select_single_row 					(GtkWidget *tree_view,
 
 
 /* TRANSITOIRE */
-void 		new_etats_prefs_tree_view_select_rows_from_list 			(GSList *liste,
-																		 GtkWidget *tree_view,
-																		 gint column);
-void 		new_etats_prefs_tree_view_select_single_row 				(GtkWidget *tree_view,
-												 						 gint numero);
+/*ONGLET_MODE_PAIEMENT*/
+void			etats_prefs_initialise_onglet_mode_paiement					(GtkWidget *etats_prefs,
+																			 gint report_number);
+void			etats_prefs_recupere_info_onglet_mode_paiement				(GtkWidget *etats_prefs,
+																			 gint report_number);
 gint 		new_etats_prefs_tree_view_get_single_row_selected			(GtkWidget *tree_view);
 GtkWidget *	etats_prefs_get_page_by_number								(GtkWidget *etats_prefs,
 																		 gint num_page);

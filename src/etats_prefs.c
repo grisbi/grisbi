@@ -233,44 +233,99 @@ G_DEFINE_TYPE_WITH_PRIVATE (EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
-
-/*FONCTIONS UTILITAIRES COMMUNES*/
+/*RIGHT_PANEL : ONGLET_MODE_PAIEMENT*/
 /**
- * crée un nouveau tree_view initialisé avec model.
- * le modèle comporte deux colonnes : G_TYPE_STRING, G_TYPE_INT
- * le tree_view n'affiche que la colonne texte.
+ *
  *
  * \param
- * \param
  *
- * \return the tree_wiew
+ * \return
  **/
-static GtkWidget *etats_prefs_tree_view_new_with_model (const gchar *treeview_name,
-														GtkTreeModel *model)
+static GtkTreeModel *etats_prefs_onglet_mode_paiement_get_model (void)
 {
-    GtkWidget *tree_view;
-    GtkCellRenderer *cell;
-    GtkTreeViewColumn *column;
+    GtkListStore *list_store;
+    GSList *liste_nom_types = NULL;
+    GSList *list_tmp;
 
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, treeview_name));
-    if (!tree_view)
-        return NULL;
+    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
 
-    gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model));
-    g_object_unref (G_OBJECT (model));
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ), 0, GTK_SORT_ASCENDING );
 
-    /* set the color of selected row */
-	gtk_widget_set_name (tree_view, "tree_view");
+    /* create a list of unique names */
+    list_tmp = gsb_data_payment_get_payments_list ( );
 
-    /* set the column */
-    cell = gtk_cell_renderer_text_new ();
+    while ( list_tmp )
+    {
+        GtkTreeIter iter;
+        gchar *name;
+        gint payment_number;
 
-    column = gtk_tree_view_column_new_with_attributes (NULL, cell, "text", 0, NULL);
-    gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
-    gtk_tree_view_column_set_resizable (column, TRUE);
+        payment_number = gsb_data_payment_get_number (list_tmp -> data);
+        name = my_strdup ( gsb_data_payment_get_name ( payment_number ) );
 
-    return tree_view;
+        if ( !g_slist_find_custom ( liste_nom_types,
+                        name,
+                        ( GCompareFunc ) utils_str_search_str_in_string_list ) )
+        {
+            liste_nom_types = g_slist_append ( liste_nom_types, name );
+            gtk_list_store_append ( list_store, &iter );
+            gtk_list_store_set ( list_store, &iter, 0, name, 1, payment_number, -1 );
+        }
+        else
+            g_free ( name );
+
+        list_tmp = list_tmp -> next;
+    }
+
+    /* on libère la mémoire utilisée par liste_nom_types */
+    g_slist_free_full ( liste_nom_types, ( GDestroyNotify ) g_free );
+
+    return GTK_TREE_MODEL ( list_store );
+}
+
+/**
+ * Sélectionne les iters en fonction des données de la liste
+ *
+ * \param liste des lignes à sélectionner
+ * \param nom du tree_view concerné
+ *
+ * \return
+ **/
+static void etats_prefs_onglet_mode_paiement_select_rows_from_list (GSList *liste,
+															 GtkWidget *tree_view)
+{
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GSList *tmp_list;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
+    {
+        do
+        {
+            gchar *tmp_str;
+
+            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 0, &tmp_str, -1);
+
+            tmp_list = liste;
+            while (tmp_list)
+            {
+                gchar *str;
+
+                str = tmp_list->data;
+
+                if (strcmp (str, tmp_str) == 0)
+                    gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
+
+                tmp_list = tmp_list->next;
+            }
+            g_free (tmp_str);
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    }
 }
 
 /**
@@ -283,176 +338,93 @@ static GtkWidget *etats_prefs_tree_view_new_with_model (const gchar *treeview_na
  *
  * \return
  **/
-static void etats_prefs_tree_view_init (const gchar *treeview_name,
-										GtkTreeModel *(*function) (void),
-										GtkSelectionMode type_selection,
-										GCallback selection_callback)
-{
-    GtkWidget *tree_view;
-    GtkTreeModel *model;
-    GtkTreeSelection *selection;
-
-    /* on récupère le model par appel à function */
-    model = function ();
-
-    tree_view = etats_prefs_tree_view_new_with_model (treeview_name, GTK_TREE_MODEL (model));
-    gtk_tree_view_set_fixed_height_mode (GTK_TREE_VIEW (tree_view), TRUE);
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-    gtk_tree_selection_set_mode (selection, type_selection);
-
-    if (selection_callback)
-        g_signal_connect (G_OBJECT (selection),
-                    	  "changed",
-                		  G_CALLBACK (selection_callback),
-                 		  NULL);
-}
-
-/**
- * Sélectionne les iters en fonction des données de la liste
- *
- * \param liste des lignes à sélectionner
- * \param nom du tree_view concerné
- * \param numéro de la colonne contenant la donnée testée
- *
- * \param
- * \param
- * \param
- *
- * \return
- **/
-void etats_prefs_tree_view_select_rows_from_list (GSList *liste,
-												  const gchar *treeview_name,
-												  gint column)
-{
-    GtkWidget *tree_view;
-    GtkTreeModel *model;
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    GSList *tmp_list;
-
-    if (!liste)
-        return;
-
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, treeview_name));
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-
-    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
-    {
-        do
-        {
-            gint tmp_number;
-
-            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, column, &tmp_number, -1);
-
-            tmp_list = liste;
-            while (tmp_list)
-            {
-                gint result;
-
-                result = GPOINTER_TO_INT (tmp_list->data);
-
-                if (result == tmp_number)
-                    gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
-
-                tmp_list = tmp_list->next;
-            }
-        }
-        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
-    }
-}
-
-/**
- * Sélectionne les iters en fonction des données de la liste
- *
- * \param liste des lignes à sélectionner
- * \param nom du tree_view concerné
- * \param numéro de la colonne contenant la donnée testée
- *
- * \param
- * \param
- * \param
- *
- * \return
- **/
-void new_etats_prefs_tree_view_select_rows_from_list (GSList *liste,
-													  GtkWidget *tree_view,
-													  gint column)
+static void etats_prefs_onglet_mode_paiement_init_tree_view (EtatsPrefs *prefs)
 {
     GtkTreeModel *model;
     GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    GSList *tmp_list;
-
-    if (!liste)
-        return;
-
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-
-    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
-    {
-        do
-        {
-            gint tmp_number;
-
-            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, column, &tmp_number, -1);
-
-            tmp_list = liste;
-            while (tmp_list)
-            {
-                gint result;
-
-                result = GPOINTER_TO_INT (tmp_list->data);
-
-                if (result == tmp_number)
-                    gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
-
-                tmp_list = tmp_list->next;
-            }
-        }
-        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
-    }
-}
-
-/*LEFT_PANEL*/
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- */
-static gboolean etats_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
-                                                                    EtatsPrefs *prefs)
-{
-	GtkWidget *notebook;
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    gint selected;
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
 	EtatsPrefsPrivate *priv;
 
-    if (! gtk_tree_selection_get_selected (selection, &model, &iter))
-	{
-        return (FALSE);
-	}
-
-
-	/* on recuper le notebook */
 	priv = etats_prefs_get_instance_private (prefs);
-	notebook = priv->notebook_etats_prefs;
 
-	gtk_tree_model_get (model, &iter, 1, &selected, -1);
-    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
-	if (selected == PAYEE_PAGE_TYPE)
-	{
-		/* affiche le premier tiers concerné */
-		etats_page_payee_show_first_row_selected (GTK_WIDGET (prefs));
-	}
+	/* on récupère le model par appel à function */
+    model = etats_prefs_onglet_mode_paiement_get_model ();
 
-    /* return */
-    return FALSE;
+    gtk_tree_view_set_fixed_height_mode (GTK_TREE_VIEW (priv->treeview_mode_paiement), TRUE);
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_mode_paiement));
+    gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
+    gtk_tree_view_set_model (GTK_TREE_VIEW (priv->treeview_mode_paiement), GTK_TREE_MODEL (model));
+    g_object_unref (G_OBJECT (model));
+
+    /* set the color of selected row */
+	gtk_widget_set_name (priv->treeview_mode_paiement, "tree_view");
+
+    /* set the column */
+    cell = gtk_cell_renderer_text_new ();
+
+    column = gtk_tree_view_column_new_with_attributes (NULL, cell, "text", 0, NULL);
+    gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
+    gtk_tree_view_append_column (GTK_TREE_VIEW (priv->treeview_mode_paiement), GTK_TREE_VIEW_COLUMN (column));
+    gtk_tree_view_column_set_resizable (column, TRUE);
+}
+
+/**
+ * Création de l'onglet moyens de paiement
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *etats_prefs_onglet_mode_paiement_create_page (EtatsPrefs *prefs,
+                                                                gint page)
+{
+    GtkWidget *vbox;
+	EtatsPrefsPrivate *priv;
+
+    devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (prefs);
+
+    vbox = new_vbox_with_title_and_icon (_("Payment methods"), "gsb-payment-32.png");
+
+    gtk_box_pack_start (GTK_BOX (priv->onglet_etat_mode_paiement), vbox, FALSE, FALSE, 0);
+    gtk_box_reorder_child (GTK_BOX (priv->onglet_etat_mode_paiement), vbox, 0);
+
+    gtk_widget_set_sensitive (priv->vbox_mode_paiement_etat, FALSE);
+
+	/* on adapte le label pour Mac_OSX */
+#ifdef OS_OSX
+	GtkLabel *label;
+
+	label = priv->label_modes_search_help;
+	gtk_label_set_text (label, _(label_search_help));
+	gtk_label_set_justify (label, GTK_JUSTIFY_CENTER);
+#endif /* OS_OSX */
+
+    /* on crée la liste des moyens de paiement */
+	etats_prefs_onglet_mode_paiement_init_tree_view (prefs);
+
+	/* on met la connection pour changer le style de la ligne du panneau de gauche */
+	g_object_set_data (G_OBJECT (priv->bouton_detaille_mode_paiement_etat), "etats_prefs", prefs);
+    g_signal_connect (G_OBJECT (priv->bouton_detaille_mode_paiement_etat),
+					  "toggled",
+					  G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
+					  GINT_TO_POINTER (page));
+
+    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
+    g_signal_connect (G_OBJECT (priv->bouton_detaille_mode_paiement_etat),
+                        "toggled",
+                        G_CALLBACK (sens_desensitive_pointeur),
+                        priv->vbox_mode_paiement_etat);
+
+    /* on met la connection pour (dé)sélectionner tous les tiers */
+    g_signal_connect (G_OBJECT (priv->togglebutton_select_all_mode_paiement),
+                        "toggled",
+                        G_CALLBACK (utils_togglebutton_select_unselect_all_rows),
+                        priv->treeview_mode_paiement);
+
+	return priv->onglet_etat_mode_paiement;
 }
 
 /**
@@ -2320,57 +2292,85 @@ GSList *etats_prefs_tree_view_get_list_rows_selected (GtkWidget *tree_view)
     return tmp_list;
 }
 
-GSList *new_etats_prefs_tree_view_get_list_rows_selected (GtkWidget *tree_view)
+/*ONGLET_MODE_PAIEMENT*/
+/**
+ * Initialise les informations de l'onglet modes de paiement
+ *
+ * \param etats_prefs
+ * \param report_number
+ *
+ * \return
+ **/
+void etats_prefs_initialise_onglet_mode_paiement (GtkWidget *etats_prefs,
+                                                  gint report_number)
 {
-    GtkTreeModel *model;
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    GSList *tmp_list = NULL;
-    GList *rows_list;
+	gint active;
+	EtatsPrefsPrivate *priv;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-    rows_list = gtk_tree_selection_get_selected_rows (selection, &model);
-    while (rows_list)
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+	active = gsb_data_report_get_method_of_payment_used (report_number);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_detaille_mode_paiement_etat), active);
+
+    if (active)
     {
-        GtkTreePath *path;
-        gint index;
+        etats_prefs_onglet_mode_paiement_select_rows_from_list (gsb_data_report_get_method_of_payment_list
+                                                                (report_number ),
+                                                                priv->treeview_mode_paiement);
 
-        path = rows_list->data;
-
-        gtk_tree_model_get_iter (model, &iter, path) ;
-        gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &index, -1);
-        tmp_list = g_slist_append (tmp_list, GINT_TO_POINTER (index));
-
-        rows_list = rows_list->next;
+        if ( g_slist_length (gsb_data_report_get_method_of_payment_list (report_number)))
+            utils_togglebutton_set_label_position_unselect (priv->togglebutton_select_all_mode_paiement,
+															NULL,
+															priv->treeview_mode_paiement);
     }
-    g_list_free_full (rows_list, (GDestroyNotify) gtk_tree_path_free);
-
-    return tmp_list;
 }
 
 /**
- *  rend sensible le widget demandé par son nom en fonction de sensible
+ * Récupère les informations de l'onglet mode de paiement
  *
- *\param widget name
- *\param sensitive
+ * \param numéro d'état à mettre à jour
  *
- * \return TRUE if success FALSE otherwise
+ * \return
  **/
-gboolean etats_prefs_widget_set_sensitive (const gchar *widget_name,
-										   gboolean sensitive)
+void etats_prefs_recupere_info_onglet_mode_paiement (GtkWidget *etats_prefs,
+													 gint report_number)
 {
-    GtkWidget *widget = NULL;
+    gint active;
+	EtatsPrefsPrivate *priv;
 
-    widget = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, widget_name));
-    if (!widget)
-        return FALSE;
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
 
-    gtk_widget_set_sensitive (widget, sensitive);
+    active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_detaille_mode_paiement_etat));
+    gsb_data_report_set_method_of_payment_used (report_number, active);
+    if (active)
+    {
+        gsb_data_report_free_method_of_payment_list (report_number);
 
-    return TRUE;
+        if (utils_tree_view_all_rows_are_selected (GTK_TREE_VIEW (priv->treeview_mode_paiement)))
+        {
+            gchar *text;
+            gchar *hint;
+
+            hint = g_strdup (_("Performance issue."));
+            text = g_strdup (_("All methods of payment have been selected.  Grisbi will run "
+                            "faster without the \"Detail methods of payment used\" option activated."));
+
+            dialogue_hint (text, hint);
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->togglebutton_select_all_mode_paiement),
+                                          FALSE);
+            gsb_data_report_set_method_of_payment_used (report_number, 0);
+
+            g_free (text);
+            g_free (hint);
+        }
+        else
+            gsb_data_report_set_method_of_payment_list (report_number,
+                                                        etats_prefs_onglet_mode_paiement_get_list_rows_selected
+                                                        (priv->treeview_mode_paiement));
+
+    }
 }
 
-/*RIGHT_PANEL : ONGLET_MODE_PAIEMENT*/
 /**
  * récupère la liste des libellés des item sélectionnés
  *
@@ -2378,18 +2378,14 @@ gboolean etats_prefs_widget_set_sensitive (const gchar *widget_name,
  *
  * \return numéro de la ligne sélectionnée
  **/
-GSList *etats_prefs_onglet_mode_paiement_get_list_rows_selected (const gchar *treeview_name)
+GSList *etats_prefs_onglet_mode_paiement_get_list_rows_selected (GtkWidget *tree_view)
 {
-    GtkWidget *tree_view;
+    ;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     GSList *tmp_list = NULL;
     GList *rows_list;
-
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, treeview_name));
-    if (!tree_view)
-        return NULL;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     rows_list = gtk_tree_selection_get_selected_rows (selection, &model);
