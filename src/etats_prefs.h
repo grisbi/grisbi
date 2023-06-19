@@ -84,6 +84,11 @@ void 			etats_prefs_initialise_onglet_divers						(GtkWidget *etats_prefs,
 
 void			etats_prefs_recupere_info_onglet_divers						(GtkWidget *etats_prefs,
 																			 gint report_number);
+/*ONGLET_DATA_GROUPING*/
+void			etats_prefs_initialise_onglet_data_grouping					(GtkWidget *etats_prefs,
+																			 gint report_number);
+void			etats_prefs_recupere_info_onglet_data_grouping				(GtkWidget *etats_prefs,
+																			 gint report_number);
 /* END_DECLARATION */
 
 G_END_DECLS
