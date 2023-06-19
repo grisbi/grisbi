@@ -1133,28 +1133,141 @@ static GtkWidget *etats_prefs_onglet_data_separation_create_page (EtatsPrefs *pr
 
 /*RIGHT_PANEL : ONGLET_AFFICHAGE_GENERALITES*/
 /**
- * Création de l'onglet affichage des generalites
+ * pré visualise le titre avec son complément
  *
+ * \param	report_number
+ * \param	priv
+ *
+ * \return
+ **/
+static void etats_prefs_display_name_with_complement (gint report_number,
+                                                      EtatsPrefsPrivate *priv)
+{
+	gchar **tab;
+	gchar *report_name = NULL;
+	gchar *compl_str;
+	gchar *tmp_str = NULL;
+	gint function;
+	gint position;
+
+	report_name = gsb_data_report_get_report_name (report_number);
+	function = gtk_combo_box_get_active (GTK_COMBO_BOX (priv->combo_box_compl_name_function));
+	position = gtk_combo_box_get_active (GTK_COMBO_BOX (priv->combo_box_compl_name_position));
+	tab = gsb_date_get_date_time_now_local ();
+
+	if (function == 1)
+	{
+		if (position == 2)
+		{
+			compl_str = g_strconcat (tab[0], " ", _("at"), " ", tab[1], NULL);
+		}
+		else
+		{
+			compl_str = g_strconcat (tab[0], " ", tab[1], NULL);
+		}
+	}
+	else
+	{
+		compl_str = g_strdup (tab[0]);
+	}
+
+	switch (position)
+	{
+		case 1:
+			tmp_str = g_strconcat (report_name, " - ", compl_str, NULL);
+			break;
+		case 2:
+			tmp_str = g_strconcat (report_name, "\n(", _("Edited"), " ", compl_str, ")", NULL);
+			break;
+		default:
+			tmp_str = g_strconcat (compl_str, " - ", report_name, NULL);
+	}
+	g_free (compl_str);
+	g_strfreev (tab);
+
+	if (tmp_str)
+	{
+		GtkTextBuffer *buffer;
+
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->textview_compl_name));
+		gtk_text_buffer_set_text (buffer, tmp_str, -1);
+		g_free (tmp_str);
+	}
+}
+
+/**
+ *
+ *
+ * \param
  * \param
  *
  * \return
  **/
-static GtkWidget *etats_prefs_onglet_affichage_generalites_create_page (gint page)
+static gboolean etats_prefs_check_button_compl_name_toggled (GtkWidget *check_button,
+															 EtatsPrefsPrivate *priv)
 {
-    GtkWidget *vbox_onglet;
+	gboolean activ;
+
+	activ = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
+    gtk_widget_set_sensitive (priv->hbox_combo_compl_name, activ);
+
+	if (activ)
+		etats_prefs_display_name_with_complement (gsb_gui_navigation_get_current_report (), priv);
+	else
+	{
+		GtkTextBuffer *buffer;
+
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->textview_compl_name));
+		gtk_text_buffer_set_text (buffer, "", -1);
+	}
+
+	return FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etats_prefs_combo_box_compl_data_changed (GtkComboBox *combo,
+                                                       EtatsPrefsPrivate *priv)
+{
+	gint report_number;
+
+	report_number = gsb_gui_navigation_get_current_report ();
+	etats_prefs_display_name_with_complement (report_number, priv);
+}
+
+/**
+ * Création de l'onglet affichage des generalites
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *etats_prefs_onglet_affichage_generalites_create_page (EtatsPrefs *prefs,
+                                                                        gint page)
+{
     GtkWidget *vbox;
 
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "affichage_etat_generalites"));
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (prefs);
 
     vbox = new_vbox_with_title_and_icon (_("Generalities"), "gsb-generalities-32.png");
 
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
+    gtk_box_pack_start (GTK_BOX (priv->affichage_etat_generalites), vbox, FALSE, FALSE, 0);
+    gtk_box_reorder_child (GTK_BOX (priv->affichage_etat_generalites), vbox, 0);
 
-    gtk_widget_show_all (vbox_onglet);
+	/* on met une frama autour de entry_search_payee (pour gtk4) */
+	gtk_entry_set_has_frame (GTK_ENTRY (priv->entree_nom_etat), TRUE);
 
-    /* return */
-    return vbox_onglet;
+    return priv->affichage_etat_generalites;
 }
 
 /*RIGHT_PANEL : ONGLET_AFFICHAGE_TITLES*/
@@ -2416,6 +2529,134 @@ void etats_prefs_recupere_info_onglet_data_separation (GtkWidget *etats_prefs,
                                                                     (priv->bouton_debut_semaine)));
 }
 
+/*ONGLET_AFFICHAGE_GENERALITES*/
+/**
+ * Initialise les informations de l'onglet généraités
+ *
+ * \param report_number
+ *
+ * \return
+ **/
+void etats_prefs_initialise_onglet_affichage_generalites (GtkWidget *etats_prefs,
+                                                          gint report_number)
+{
+	gchar *report_name = NULL;
+	gboolean activ;
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+	report_name = gsb_data_report_get_report_name (report_number);
+    gtk_entry_set_text (GTK_ENTRY (priv->entree_nom_etat), report_name);
+
+    /* on initialise le complément du nom si actif */
+	activ = gsb_data_report_get_compl_name_used (report_number);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->check_button_compl_name), activ);
+	if (report_name && activ)
+	{
+		utils_buttons_sensitive_by_checkbutton (priv->check_button_compl_name, priv->hbox_combo_compl_name);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_box_compl_name_function),
+								  gsb_data_report_get_compl_name_function (report_number));
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_box_compl_name_position),
+								  gsb_data_report_get_compl_name_position (report_number));
+		etats_prefs_display_name_with_complement (report_number, priv);
+	}
+
+    /* Connect signal */
+    g_signal_connect (priv->check_button_compl_name,
+					  "toggled",
+					  G_CALLBACK (etats_prefs_check_button_compl_name_toggled),
+					  priv);
+
+	g_signal_connect (priv->combo_box_compl_name_function,
+					  "changed",
+					  G_CALLBACK (etats_prefs_combo_box_compl_data_changed),
+					  priv);
+
+    g_signal_connect (priv->combo_box_compl_name_position,
+					  "changed",
+					  G_CALLBACK (etats_prefs_combo_box_compl_data_changed),
+					  priv);
+
+    /* on initialise le type de date à sélectionner */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button_sel_value_date),
+                                  gsb_data_report_get_date_select_value (report_number));
+
+    /* on initialise les autres données */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_ignore_archives),
+                                  gsb_data_report_get_ignore_archives (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_nb_opes),
+                                  gsb_data_report_get_show_report_transaction_amount (report_number));
+
+	/* mémorisation de l'état avant initialisation */
+	payee_last_state = gsb_data_report_get_append_in_payee (report_number);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_inclure_dans_tiers), payee_last_state);
+}
+
+/**
+ * Récupère les informations de l'onglet généralités
+ *
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void etats_prefs_recupere_info_onglet_affichage_generalites (GtkWidget *etats_prefs,
+                                                             gint report_number)
+{
+    const gchar *text;
+	gboolean payee_new_state = FALSE;
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+    /* on récupère le nom de l'état */
+    text = gtk_entry_get_text (GTK_ENTRY (priv->entree_nom_etat));
+
+    if (strlen (text) && strcmp (text, gsb_data_report_get_report_name (report_number)))
+    {
+        gsb_data_report_set_report_name ( report_number, text );
+    }
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->check_button_compl_name)))
+	{
+
+		gsb_data_report_set_compl_name_used (report_number, TRUE);
+		gsb_data_report_set_compl_name_function (report_number,
+												 gtk_combo_box_get_active (GTK_COMBO_BOX
+												                           (priv->combo_box_compl_name_function)));
+		gsb_data_report_set_compl_name_position (report_number,
+												 gtk_combo_box_get_active (GTK_COMBO_BOX
+												                           (priv->combo_box_compl_name_position)));
+	}
+	else
+	{
+		gsb_data_report_set_compl_name_used (report_number, FALSE);
+		gsb_data_report_set_compl_name_function (report_number, 0);
+		gsb_data_report_set_compl_name_function (report_number, 0);
+	}
+
+    /* on récupère les autres informations */
+    gsb_data_report_set_date_select_value (report_number,
+											gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																		  (priv->button_sel_value_date)));
+    gsb_data_report_set_ignore_archives (report_number,
+										 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																	   (priv->bouton_ignore_archives)));
+    gsb_data_report_set_show_report_transaction_amount (report_number,
+														gtk_toggle_button_get_active
+														(GTK_TOGGLE_BUTTON (priv->bouton_afficher_nb_opes)));
+
+	/* recupere le statut du rapport pour maj combo payee dans le formulaire */
+	payee_new_state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_inclure_dans_tiers));
+	gsb_data_report_set_append_in_payee (report_number, payee_new_state);
+	if (payee_last_state != payee_new_state)
+        gsb_form_widget_update_payee_combofix (report_number, payee_new_state);
+
+
+}
 /**
  *
  *

@@ -95,6 +95,11 @@ void			etats_prefs_initialise_onglet_data_separation				(GtkWidget *etats_prefs,
 void			etats_prefs_recupere_info_onglet_data_separation			(GtkWidget *etats_prefs,
 																			 gint report_number);
 /*ONGLET_AFFICHAGE_GENERALITES*/
+void			etats_prefs_initialise_onglet_affichage_generalites			(GtkWidget *etats_prefs,
+																			 gint report_number);
+void			etats_prefs_recupere_info_onglet_affichage_generalites		(GtkWidget *etats_prefs,
+																			 gint report_number);
+/*ONGLET_AFFICHAGE_TITLES*/
 /* END_DECLARATION */
 
 G_END_DECLS
