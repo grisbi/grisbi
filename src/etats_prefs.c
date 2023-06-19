@@ -1055,63 +1055,80 @@ static GtkWidget *etats_prefs_onglet_data_grouping_create_page (EtatsPrefs *pref
 
 /*RIGHT_PANEL : ONGLET_DATA_SEPARATION*/
 /**
+ * fonction de callback appellée quand on change le type de période
+ *
+ * \param combo         le GtkComboBox qui change
+ * \param widget        le widget qu'on rend sensible ou pas.
+ *
+ * \return
+ */
+static void etats_prefs_onglet_data_separation_combo_changed (GtkComboBox *combo,
+															  EtatsPrefsPrivate *priv)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->button_split_by_period)))
+    {
+        if ( gtk_combo_box_get_active (GTK_COMBO_BOX (combo) ) == 1)
+            gtk_widget_set_sensitive ( priv->bouton_debut_semaine, TRUE);
+        else
+            gtk_widget_set_sensitive (priv->bouton_debut_semaine, FALSE);
+    }
+}
+
+/**
  * Création de l'onglet séparation des donnés
  *
  * \param
  *
  * \return
  **/
-static GtkWidget *etats_prefs_onglet_data_separation_create_page (gint page)
+static GtkWidget *etats_prefs_onglet_data_separation_create_page (EtatsPrefs *prefs,
+																  gint page)
 {
-    GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkComboBox *combo_1;
-    GtkComboBox *combo_2;
-    GtkTreeModel *model;
+	GtkWidget *radio_button_utilise_exo;
+	GtkTreeModel *model;
+	EtatsPrefsPrivate *priv;
 
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "page_data_separation"));
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (prefs);
 
     vbox = new_vbox_with_title_and_icon (_("Data separation"), "gsb-organization-32.png");
 
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
+    gtk_box_pack_start (GTK_BOX (priv->onglet_data_separation), vbox, FALSE, FALSE, 0);
+    gtk_box_reorder_child (GTK_BOX (priv->onglet_data_separation), vbox, 0);
 
     /* on met la connexion pour la séparation par exercice avec le bouton radio_button_utilise_exo */
-    //~ g_signal_connect (G_OBJECT (gtk_builder_get_object (etats_prefs_builder, "radio_button_utilise_exo")),
-                        //~ "toggled",
-                        //~ G_CALLBACK (sens_desensitive_pointeur),
-                        //~ gtk_builder_get_object (etats_prefs_builder, "bouton_separe_exo_etat"));
+	radio_button_utilise_exo = etats_page_period_get_radio_button_utilise_exo (GTK_WIDGET (prefs));
+    g_signal_connect (G_OBJECT (radio_button_utilise_exo),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->button_split_by_fyears);
 
-    /* on met la connexion pour rendre sensible la boite avec le bouton bouton_type_separe_plages_etat */
-    g_signal_connect (G_OBJECT (gtk_builder_get_object (etats_prefs_builder, "bouton_separe_plages_etat")),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "paddingbox_data_separation2"));
+    /* on met la connexion pour rendre sensible la boite avec le bouton bouton_split_by_type_period */
+    g_signal_connect (G_OBJECT (priv->button_split_by_period),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->paddingbox_data_by_period);
 
     /* on crée le bouton avec les pérodes pour la séparation de l'état */
     model = GTK_TREE_MODEL (utils_list_store_create_from_string_array (data_separation_periodes));
-    combo_1 = GTK_COMBO_BOX (gtk_builder_get_object (etats_prefs_builder, "bouton_type_separe_plages_etat"));
-    gtk_combo_box_set_model (combo_1, model);
-    utils_gtk_combo_box_set_text_renderer (GTK_COMBO_BOX (combo_1), 0);
+    gtk_combo_box_set_model (GTK_COMBO_BOX (priv->bouton_split_by_type_period), model);
+    utils_gtk_combo_box_set_text_renderer (GTK_COMBO_BOX (priv->bouton_split_by_type_period), 0);
 
     model = GTK_TREE_MODEL (utils_list_store_create_from_string_array (jours_semaine));
-    combo_2 = GTK_COMBO_BOX (gtk_builder_get_object (etats_prefs_builder, "bouton_debut_semaine"));
-    gtk_combo_box_set_model (combo_2, model);
-    utils_gtk_combo_box_set_text_renderer (GTK_COMBO_BOX (combo_2), 0);
+    gtk_combo_box_set_model (GTK_COMBO_BOX (priv->bouton_debut_semaine), model);
+    utils_gtk_combo_box_set_text_renderer (GTK_COMBO_BOX (priv->bouton_debut_semaine), 0);
 
-    /* on connecte le signal "changed" au bouton bouton_type_separe_plages_etat
+    /* on connecte le signal "changed" au bouton bouton_split_by_type_period
      * pour rendre insensible le choix du jour de la semaine pour les choix
      * autres que la semaine. On le met ici pour que l'initialisation se fasse
      * proprement */
-    g_signal_connect (G_OBJECT (combo_1),
-                        "changed",
-                        G_CALLBACK (etats_config_onglet_data_separation_combo_changed),
-                        combo_2);
+    g_signal_connect (G_OBJECT (priv->bouton_split_by_type_period),
+					  "changed",
+					  G_CALLBACK (etats_prefs_onglet_data_separation_combo_changed),
+					  priv);
 
-    gtk_widget_show_all (vbox_onglet);
-
-    /* return */
-    return vbox_onglet;
+    return priv->onglet_data_separation;
 }
 
 /*RIGHT_PANEL : ONGLET_AFFICHAGE_GENERALITES*/
@@ -2318,6 +2335,85 @@ void etats_prefs_recupere_info_onglet_data_grouping (GtkWidget *etats_prefs,
     gsb_data_report_free_sorting_type_list (report_number);
     gsb_data_report_set_sorting_type_list (report_number,
                         etats_config_onglet_data_grouping_get_list (report_number));
+}
+
+/*ONGLET_DATA_SEPARATION*/
+/**
+ * Initialise les informations de l'onglet separation des données
+ *
+ * \param report_number
+ *
+ * \return
+ */
+void etats_prefs_initialise_onglet_data_separation (GtkWidget *etats_prefs,
+													gint report_number )
+{
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button_split_by_income_expenses),
+                                  gsb_data_report_get_split_credit_debit (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button_split_by_fyears),
+                                  gsb_data_report_get_financial_year_split (report_number) );
+
+    /* on initialise le combo bouton_split_by_type_period */
+    gtk_combo_box_set_active (GTK_COMBO_BOX (priv->bouton_split_by_type_period),
+                              gsb_data_report_get_period_split_type (report_number));
+
+    /* on initialise le combo bouton_debut_semaine */
+	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->bouton_debut_semaine),
+	                          gsb_data_report_get_period_split_day (report_number) - G_DATE_MONDAY);
+
+    if (gsb_data_report_get_period_split (report_number))
+    {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button_split_by_period), TRUE);
+
+		if (gtk_combo_box_get_active (GTK_COMBO_BOX (priv->bouton_split_by_type_period)) == TRUE)
+			gtk_widget_set_sensitive (priv->bouton_debut_semaine, TRUE);
+    }
+	else
+	{
+		gtk_widget_set_sensitive (priv->paddingbox_data_by_period, FALSE);
+	}
+}
+
+/**
+ * Récupère les informations de l'onglet separation des données
+ *
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void etats_prefs_recupere_info_onglet_data_separation (GtkWidget *etats_prefs,
+															  gint report_number )
+{
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+	gsb_data_report_set_split_credit_debit (report_number,
+											gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																		  (priv->button_split_by_income_expenses)));
+	gsb_data_report_set_financial_year_split (report_number,
+											  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																			(priv->button_split_by_fyears)));
+    gsb_data_report_set_period_split (report_number,
+                                      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																	(priv->button_split_by_period)));
+
+    /* récupère des index des GtkComboBox */
+    gsb_data_report_set_period_split_type (report_number,
+                                           gtk_combo_box_get_active (GTK_COMBO_BOX
+                                                                     (priv->bouton_split_by_type_period)));
+    gsb_data_report_set_period_split_day (report_number,
+                                          gtk_combo_box_get_active (GTK_COMBO_BOX
+                                                                    (priv->bouton_debut_semaine)));
 }
 
 /**
