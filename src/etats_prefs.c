@@ -43,8 +43,10 @@
 #include "etats_page_text.h"
 #include "etats_page_transfer.h"
 #include "grisbi_app.h"
+#include "gsb_currency.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_report.h"
+#include "gsb_form_widget.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils.h"
@@ -59,6 +61,55 @@
 #ifdef OS_OSX
 static const gchar *label_search_help = N_("Command-click\nto add to the selection");
 #endif /* OS_OSX */
+
+/* necessaire pour le drag and drop dans la liste des tris */
+static GtkWidget *treeview_data_grouping;
+
+/* sert a l'actualisation du combo box payee du formulaire */
+static gboolean payee_last_state;
+
+/* select last_page */
+static gint last_page_number;
+
+/* liste des plages de date possibles */
+static const gchar *jours_semaine[] =
+{
+    N_("Monday"),
+    N_("Tuesday"),
+    N_("Wednesday"),
+    N_("Thursday"),
+    N_("Friday"),
+    N_("Saturday"),
+    N_("Sunday"),
+    NULL,
+};
+
+static const gchar *data_separation_periodes[] =
+{
+    N_("Day"),
+    N_("Week"),
+    N_("Month"),
+    N_("Year"),
+    NULL,
+};
+
+/* données de classement des opérations */
+static const gchar *etats_prefs_classement_operations[] =
+{
+    N_("date"),
+    N_("value date"),
+    N_("transaction number"),
+    N_("payee"),
+    N_("category"),
+    N_("budgetary line"),
+    N_("note"),
+    N_("method of payment"),
+    N_("cheque/transfer number"),
+    N_("voucher"),
+    N_("bank reference"),
+    N_("reconciliation reference"),
+    NULL,
+};
 /*END_STATIC*/
 
 /* Private structure type */
@@ -74,11 +125,17 @@ struct _EtatsPrefsPrivate
 
 	gboolean		form_date_force_prev_year;
 
-G_DEFINE_TYPE_WITH_PRIVATE (EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
+	/*ONGLET_MODE_PAIEMENT*/
+	GtkWidget *		onglet_etat_mode_paiement;
+	GtkWidget *		bouton_detaille_mode_paiement_etat;
+	GtkWidget *		treeview_mode_paiement;
+	GtkWidget *		togglebutton_select_all_mode_paiement;
+	GtkWidget *		label_modes_search_help;
+	GtkWidget *		vbox_mode_paiement_etat;
 
-/******************************************************************************/
-/* Private functions                                                          */
-/******************************************************************************/
+	/*ONGLET_DIVERS*/
+	GtkWidget *		onglet_etat_divers;
+	GtkWidget *		radiobutton_marked;
 	GtkWidget *		vbox_marked_buttons;
 	GtkWidget *		radiobutton_marked_No_R;
 	GtkWidget *		bouton_pas_detailler_ventilation;
@@ -89,20 +146,93 @@ G_DEFINE_TYPE_WITH_PRIVATE (EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
 
 	/*ONGLET_DATA_GROUPING*/
 	GtkWidget *		onglet_data_grouping;
+	GtkWidget *		sw_data_grouping;
+	GtkWidget *		button_data_grouping_down;
+	GtkWidget *		button_data_grouping_up;
 
 	GtkWidget *		bouton_group_by_account;
 	GtkWidget *		bouton_group_by_payee;
+	GtkWidget *		bouton_group_by_categ;
+	GtkWidget *		bouton_group_by_ib;
 
 	/*ONGLET_DATA_SEPARATION*/
 	GtkWidget *		onglet_data_separation;
 	GtkWidget *		button_split_by_income_expenses;
+	GtkWidget *		button_split_by_fyears;
+	GtkWidget *		button_split_by_period;
+	GtkWidget *		bouton_split_by_type_period;
+	GtkWidget *		bouton_debut_semaine;
+	GtkWidget *		paddingbox_data_by_period;
 
 	/*ONGLET_AFFICHAGE_GENERALITES*/
 	GtkWidget *		affichage_etat_generalites;
 	GtkWidget *		entree_nom_etat;
+	GtkWidget *		check_button_compl_name;
+	GtkWidget *		hbox_combo_compl_name;
+	GtkWidget *		combo_box_compl_name_function;
+	GtkWidget *		combo_box_compl_name_position;
+	GtkWidget *		textview_compl_name;
+	GtkWidget *		button_sel_value_date;
+	GtkWidget *		bouton_ignore_archives;
+	GtkWidget *		bouton_afficher_nb_opes;
+	GtkWidget *		bouton_inclure_dans_tiers;
 
 /*ONGLET_AFFICHAGE_TITLES*/
 	GtkWidget *		affichage_etat_titles;
+	GtkWidget *		bouton_afficher_noms_comptes;
+	GtkWidget *		bouton_affiche_sous_total_compte;
+	GtkWidget *		bouton_afficher_noms_tiers;
+	GtkWidget *		bouton_affiche_sous_total_tiers;
+	GtkWidget *		bouton_afficher_noms_categ;
+	GtkWidget *		bouton_affiche_sous_total_categ;
+	GtkWidget *		bouton_afficher_sous_categ;
+	GtkWidget *		bouton_affiche_sous_total_sous_categ;
+	GtkWidget *		bouton_afficher_pas_de_sous_categ;
+	GtkWidget *		bouton_afficher_noms_ib;
+	GtkWidget *		bouton_affiche_sous_total_ib;
+	GtkWidget *		bouton_afficher_sous_ib;
+	GtkWidget *		bouton_affiche_sous_total_sous_ib;
+	GtkWidget *		bouton_afficher_pas_de_sous_ib;
+
+	/*ONGLET_AFFICHAGE_OPERATIONS*/
+	GtkWidget *		affichage_etat_operations;
+	GtkWidget *		bouton_afficher_opes;
+	GtkWidget *		bouton_afficher_no_ope;
+	GtkWidget *		bouton_afficher_date_opes;
+	GtkWidget *		bouton_afficher_value_date_opes;
+	GtkWidget *		bouton_afficher_tiers_opes;
+	GtkWidget *		bouton_afficher_categ_opes;
+	GtkWidget *		bouton_afficher_sous_categ_opes;
+	GtkWidget *		bouton_afficher_ib_opes;
+	GtkWidget *		bouton_afficher_sous_ib_opes;
+	GtkWidget *		bouton_afficher_notes_opes;
+	GtkWidget *		bouton_afficher_type_ope;
+	GtkWidget *		bouton_afficher_no_cheque;
+	GtkWidget *		bouton_afficher_pc_opes;
+	GtkWidget *		bouton_afficher_exo_opes;
+	GtkWidget *		bouton_afficher_infobd_opes;
+	GtkWidget *		bouton_afficher_no_rappr;
+	GtkWidget *		bouton_afficher_titres_colonnes;
+	GtkWidget *		bouton_titre_changement;
+	GtkWidget *		bouton_titre_en_haut;
+	GtkWidget *		bouton_choix_classement_ope_etat;
+	GtkWidget *		bouton_rendre_ope_clickables;
+	GtkWidget *		vbox_show_transactions;
+
+	/*ONGLET_AFFICHAGE_DEVISES*/
+	GtkWidget *		affichage_etat_devises;
+	GtkWidget *		combobox_devise_general;
+	GtkWidget *		combobox_devise_payee;
+	GtkWidget *		combobox_devise_categ;
+	GtkWidget *		combobox_devise_ib;
+	GtkWidget *		combobox_devise_amount;
+};
+
+G_DEFINE_TYPE_WITH_PRIVATE (EtatsPrefs, etats_prefs, GTK_TYPE_DIALOG)
+
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
 
 /*FONCTIONS UTILITAIRES COMMUNES*/
 /**
@@ -1505,6 +1635,16 @@ static void etats_prefs_init (EtatsPrefs *prefs)
                         priv->hpaned, TRUE, TRUE, 0);
 
     gtk_widget_show_all (priv->hpaned);
+/**
+ * Initialise EtatsPrefs
+ *
+ * \param prefs
+ *
+ * \return
+ **/
+static void etats_prefs_init (EtatsPrefs *prefs)
+{
+	gtk_widget_init_template (GTK_WIDGET (prefs));
 }
 
 /**
@@ -1562,8 +1702,118 @@ static void etats_prefs_class_init (EtatsPrefsClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-    object_class->dispose = etats_prefs_dispose;
-    object_class->finalize = etats_prefs_finalize;
+	object_class->dispose = etats_prefs_dispose;
+	object_class->finalize = etats_prefs_finalize;
+
+	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
+												 "/org/gtk/grisbi/ui/etats_prefs.ui");
+
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, vbox_prefs);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, hpaned);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, treeview_left_panel);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, notebook_etats_prefs);
+
+	/*ONGLET_MODE_PAIEMENT*/
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, onglet_etat_mode_paiement);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_detaille_mode_paiement_etat);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, treeview_mode_paiement);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, togglebutton_select_all_mode_paiement);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, label_modes_search_help);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, vbox_mode_paiement_etat);
+
+	/*ONGLET_DIVERS*/
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, onglet_etat_divers);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, radiobutton_marked);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, vbox_marked_buttons);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, radiobutton_marked_No_R);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_pas_detailler_ventilation);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, radiobutton_marked_all);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, checkbutton_marked_P);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, checkbutton_marked_R);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, checkbutton_marked_T);
+
+	/*ONGLET_DATA_GROUPING*/
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, onglet_data_grouping);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, sw_data_grouping);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, button_data_grouping_down);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, button_data_grouping_up);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_group_by_account);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_group_by_payee);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_group_by_categ);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_group_by_ib);
+
+	/*ONGLET_DATA_SEPARATION*/
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, onglet_data_separation);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, button_split_by_income_expenses);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, button_split_by_fyears);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, button_split_by_period);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_split_by_type_period);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_debut_semaine);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, paddingbox_data_by_period);
+
+	/*ONGLET_AFFICHAGE_GENERALITES*/
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, affichage_etat_generalites);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, entree_nom_etat);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, check_button_compl_name);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, hbox_combo_compl_name);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, combo_box_compl_name_function);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, combo_box_compl_name_position);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, textview_compl_name);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, button_sel_value_date);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_ignore_archives);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_nb_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_inclure_dans_tiers);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, affichage_etat_titles);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, affichage_etat_operations);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, affichage_etat_devises);
+
+	/*ONGLET_AFFICHAGE_TITLES*/
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_noms_comptes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_affiche_sous_total_compte);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_noms_tiers);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_affiche_sous_total_tiers);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_noms_categ);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_affiche_sous_total_categ);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_sous_categ);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_affiche_sous_total_sous_categ);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_pas_de_sous_categ);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_noms_ib);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_affiche_sous_total_ib);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_sous_ib);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_affiche_sous_total_sous_ib);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_pas_de_sous_ib);
+
+	/*ONGLET_AFFICHAGE_OPERATIONS*/
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, affichage_etat_operations);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_no_ope);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_date_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_value_date_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_tiers_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_categ_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_sous_categ_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_ib_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_sous_ib_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_notes_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_type_ope);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_no_cheque);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_pc_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_exo_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_infobd_opes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_no_rappr);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_titres_colonnes);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_titre_changement);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_titre_en_haut);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_choix_classement_ope_etat);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_rendre_ope_clickables);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, vbox_show_transactions);
+
+	/*ONGLET_AFFICHAGE_DEVISES*/
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, combobox_devise_general);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, combobox_devise_payee);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, combobox_devise_categ);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, combobox_devise_ib);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, combobox_devise_amount);
 }
 
 /******************************************************************************/
