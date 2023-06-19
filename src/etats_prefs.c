@@ -1579,47 +1579,266 @@ static GtkWidget *etats_prefs_onglet_affichage_devises_create_page (gint page)
 
     gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
     gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
-
-    gtk_widget_show_all (vbox_onglet);
-
-    etats_config_onglet_affichage_devises_make_combobox ();
-
-    gtk_widget_show_all (vbox_onglet);
-
-    return vbox_onglet;
-}
-
-/******************************************************************************/
-/* Fonctions propres à l'initialisation des fenêtres                          */
-/******************************************************************************/
+/*LEFT_PANEL*/
 /**
- * Initialise EtatsPrefs
  *
- * \param prefs
+ *
+ * \param
+ * \param
  *
  * \return
  **/
-static void etats_prefs_init (EtatsPrefs *prefs)
+static gboolean etats_prefs_left_panel_tree_view_selection_changed (GtkTreeSelection *selection,
+                                                                    EtatsPrefs *prefs)
+{
+	GtkWidget *notebook;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint selected;
+	EtatsPrefsPrivate *priv;
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+	{
+        return (FALSE);
+	}
+
+	/* on recuper le notebook */
+	priv = etats_prefs_get_instance_private (prefs);
+	notebook = priv->notebook_etats_prefs;
+
+	gtk_tree_model_get (model, &iter, 1, &selected, -1);
+
+    gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), selected);
+	if (selected == PAYEE_PAGE_TYPE)
+	{
+		/* affiche le premier tiers concerné */
+		etats_page_payee_show_first_row_selected (GTK_WIDGET (prefs));
+	}
+
+    return FALSE;
+}
+
+/**
+ * selectionne la dernière page sélectionnée
+ *
+ * \param
+ *
+ * \return
+ **/
+gboolean etats_prefs_left_panel_tree_view_select_last_page (GtkWidget *prefs)
+{
+	EtatsPrefsPrivate *priv;
+
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (prefs));
+
+    utils_prefs_left_panel_tree_view_select_page (priv->treeview_left_panel, priv->notebook_etats_prefs, last_page_number);
+
+    return FALSE;
+}
+
+static void etats_prefs_left_panel_notebook_change_page (GtkNotebook *notebook,
+														 gpointer npage,
+														 gint page,
+														 gpointer user_data)
+{
+    last_page_number = page;
+}
+
+/**
+ * remplit le model pour la configuration des états
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etats_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model,
+														EtatsPrefs *prefs)
+{
+	GtkWidget *notebook;
+    GtkWidget *widget = NULL;
+    gint page = 0;
+	EtatsPrefsPrivate *priv;
+
+	priv = etats_prefs_get_instance_private (prefs);
+	notebook = priv->notebook_etats_prefs;
+
+    /* append group page */
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Data selection"), -1);
+
+    /* append page Dates */
+	widget = GTK_WIDGET (etats_page_period_new (GTK_WIDGET (prefs)));
+	utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Dates"), DATE_PAGE_TYPE);
+	page++;
+
+    /* append page Transferts */
+    widget = GTK_WIDGET (etats_page_transfer_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Transfers"), TRANSFER_PAGE_TYPE);
+    page++;
+
+    /* append page Accounts */
+    widget = GTK_WIDGET (etats_page_accounts_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Accounts"), ACCOUNT_PAGE_TYPE);
+    page++;
+
+    /* append page Payee */
+    widget = GTK_WIDGET (etats_page_payee_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Payee"), PAYEE_PAGE_TYPE);
+    page++;
+
+    /* append page Categories */
+    widget = GTK_WIDGET (etats_page_category_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Categories"), CATEGORY_PAGE_TYPE);
+    page++;
+
+    /* append page Budgetary lines */
+    widget = GTK_WIDGET (etats_page_budget_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Budgetary lines"), BUDGET_PAGE_TYPE);
+    page++;
+
+    /* append page Text */
+    widget = GTK_WIDGET (etats_page_text_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Texts"), TEXT_PAGE_TYPE);
+    page++;
+
+    /* append page Amounts */
+    widget = GTK_WIDGET (etats_page_amount_new (GTK_WIDGET (prefs)));
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Amounts"), AMOUNT_PAGE_TYPE);
+    page++;
+
+    /* append page Payment methods */
+    widget = etats_prefs_onglet_mode_paiement_create_page (prefs, page);
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Payment methods"), PAYEMENT_PAGE_TYPE);
+    page++;
+
+    /* append page Misc. */
+    widget = etats_prefs_onglet_divers_create_page (prefs, page);
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Miscellaneous"), MISC_PAGE_TYPE);
+    page++;
+
+	/* remplissage de l'onglet d'organisation */
+	utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Data organization"), -1);
+
+    /* Data grouping */
+    widget = etats_prefs_onglet_data_grouping_create_page (prefs, page);
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Data grouping"), DATA_GROUPING_TYPE);
+    page++;
+
+    /* Data separation */
+    widget = etats_prefs_onglet_data_separation_create_page (prefs, page);
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Data separation"), DATA_SEPARATION_TYPE);
+    page++;
+
+    /* remplissage de l'onglet d'affichage */
+    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Data display"), -1);
+
+    /* append page Generalities */
+    widget = etats_prefs_onglet_affichage_generalites_create_page (prefs, page);
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Generalities"), AFFICHAGE_GENERALITES_TYPE);
+    page++;
+
+    /* append page titles */
+    widget = etats_prefs_onglet_affichage_titles_create_page (prefs, page);
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Titles"), AFFICHAGE_TITLES_TYPE);
+    page++;
+
+    /* append page Transactions */
+    widget = etats_prefs_onglet_affichage_operations_create_page (prefs, page);
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Transactions"), AFFICHAGE_OPERATIONS_TYPE);
+    page++;
+
+    /* append page Currencies */
+    widget = etats_prefs_onglet_affichage_devises_create_page (prefs, page);
+    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Currencies"), AFFICHAGE_DEVISES_TYPE);
+}
+
+/**
+ * création du tree_view qui liste les onglets de la fenêtre de dialogue
+ *
+ * \param
+ *
+ *\return tree_view or NULL;
+ **/
+static GtkWidget *etats_prefs_left_panel_init_tree_view (EtatsPrefs *prefs)
+{
+    GtkTreeStore *model = NULL;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    GtkTreeSelection *selection;
+	EtatsPrefsPrivate *priv;
+
+    devel_debug (NULL);
+
+	priv = etats_prefs_get_instance_private (prefs);
+
+    /* Création du model */
+    model = gtk_tree_store_new (LEFT_PANEL_TREE_NUM_COLUMNS,
+								G_TYPE_STRING,		/* LEFT_PANEL_TREE_TEXT_COLUMN */
+								G_TYPE_INT,			/* LEFT_PANEL_TREE_PAGE_COLUMN */
+								G_TYPE_INT,			/* LEFT_PANEL_TREE_BOLD_COLUMN */
+								G_TYPE_INT);		/* LEFT_PANEL_TREE_ITALIC_COLUMN */
+
+    /* Create container + TreeView */
+	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (priv->treeview_left_panel), FALSE);
+    gtk_tree_view_set_model (GTK_TREE_VIEW (priv->treeview_left_panel), GTK_TREE_MODEL (model));
+    g_object_unref (G_OBJECT (model));
+
+    /* set the color of selected row */
+	gtk_widget_set_name (priv->treeview_left_panel, "tree_view");
+
+    /* make column */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ("Categories",
+														cell,
+														"text", LEFT_PANEL_TREE_TEXT_COLUMN,
+														"weight", LEFT_PANEL_TREE_BOLD_COLUMN,
+														"style", LEFT_PANEL_TREE_ITALIC_COLUMN,
+														NULL);
+    gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
+    gtk_tree_view_append_column (GTK_TREE_VIEW (priv->treeview_left_panel), GTK_TREE_VIEW_COLUMN (column));
+
+    /* Handle select */
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_left_panel));
+    g_signal_connect (selection,
+					  "changed",
+					  G_CALLBACK (etats_prefs_left_panel_tree_view_selection_changed),
+					  prefs);
+
+    /* Choose which entries will be selectable */
+    gtk_tree_selection_set_select_function (selection,
+											utils_prefs_left_panel_tree_view_selectable_func,
+											NULL,
+											NULL);
+
+    /* expand all rows after the treeview widget has been realized */
+    g_signal_connect (priv->treeview_left_panel,
+					  "realize",
+					  G_CALLBACK (utils_tree_view_set_expand_all_and_select_path_realize),
+					  (gpointer) "0:0");
+
+    /* remplissage du paned gauche */
+    etats_prefs_left_panel_populate_tree_model (model, prefs);
+
+    return priv->treeview_left_panel;
+}
+
+/**
+ * Création de la page des preferences de l'état
+ *
+ * \param prefs
+ * \param grisbi win
+ *
+ * \return
+ **/
+static void etats_prefs_setup_page (EtatsPrefs *prefs,
+									 GtkWidget *win)
 {
 	GrisbiWinEtat *w_etat;
 	EtatsPrefsPrivate *priv;
 
-	if (!etats_prefs_initialise_builder (prefs))
-		exit (1);
+	devel_debug (NULL);
 
 	priv = etats_prefs_get_instance_private (prefs);
-	gtk_dialog_add_buttons (GTK_DIALOG (prefs),
-							"gtk-cancel",
-							GTK_RESPONSE_CANCEL,
-							"gtk-ok",
-							GTK_RESPONSE_OK,
-							NULL);
-
-    gtk_window_set_title (GTK_WINDOW (prefs), _("Report properties"));
-    gtk_window_set_destroy_with_parent (GTK_WINDOW (prefs), TRUE);
-
-    gtk_container_set_border_width (GTK_CONTAINER (prefs), MARGIN_BOX);
-    gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (prefs))), 2);
 
 	/* memorise la variable w_etat->form_date_force_prev_year */
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
@@ -1629,12 +1848,21 @@ static void etats_prefs_init (EtatsPrefs *prefs)
 		w_etat->form_date_force_prev_year = FALSE;
 	}
 
-    /* Recupération d'un pointeur sur le gtk_tree_view. */
-    etats_prefs_left_panel_create_tree_view (prefs);
-    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (prefs))),
-                        priv->hpaned, TRUE, TRUE, 0);
+	/* initialisation du gtk_tree_view. */
+	etats_prefs_left_panel_init_tree_view (prefs);
 
-    gtk_widget_show_all (priv->hpaned);
+	/* on met la connexion pour mémoriser la dernière page utilisée */
+    g_signal_connect_after (priv->notebook_etats_prefs,
+							"switch-page",
+							G_CALLBACK (etats_prefs_left_panel_notebook_change_page),
+							NULL);
+
+	gtk_widget_show_all (priv->vbox_prefs);
+}
+
+/******************************************************************************/
+/* Fonctions propres à l'initialisation des fenêtres                          */
+/******************************************************************************/
 /**
  * Initialise EtatsPrefs
  *
@@ -1826,129 +2054,126 @@ static void etats_prefs_class_init (EtatsPrefsClass *klass)
  *
  * \return
  **/
-GtkWidget *etats_prefs_new (GtkWidget *parent)
+EtatsPrefs *etats_prefs_new (GtkWidget *win)
 {
-    GtkWidget *dialog = NULL;
+	EtatsPrefs *prefs = NULL;
 
-    dialog = g_object_new (ETATS_PREFS_TYPE, NULL);
-    g_signal_connect (dialog, "destroy", G_CALLBACK (gtk_widget_destroy), NULL);
+	prefs = g_object_new (ETATS_PREFS_TYPE, "transient-for", win, NULL);
+	etats_prefs_setup_page (prefs, win);
 
-    if (GTK_WINDOW (parent) != gtk_window_get_transient_for (GTK_WINDOW (dialog)))
-        gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent));
-
-    return dialog;
+	return prefs;
 }
 
 /*FONCTIONS UTILITAIRES COMMUNES*/
 /**
- * retourne l'index du radiobutton actif.
  *
- * \param nom du radio_button
  *
- * \return index bouton actif
+ * \param
+ * \param
+ *
+ * \return
  **/
-gint etats_prefs_buttons_radio_get_active_index (const gchar *button_name)
+GtkWidget *etats_prefs_get_page_by_number (GtkWidget *etats_prefs,
+										   gint num_page)
 {
-    GtkWidget *radiobutton;
-    gint index = 0;
+	GtkWidget *page = NULL;
+	EtatsPrefsPrivate *priv;
 
-    radiobutton = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, button_name));
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+	page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_etats_prefs), num_page);
 
-    index = utils_radiobutton_get_active_index (radiobutton);
-
-    return index;
+	return page;
 }
 
 /**
- * rend actif le button qui correspond à l'index passé en paramètre.
  *
- * \param nom du radio_button
- * \param index du bouton à rendre actif
  *
- * \return index bouton actif
+ * \param
+ * \param
+ *
+ * \return
  **/
-void etats_prefs_buttons_radio_set_active_index (const gchar *button_name,
-												 gint index)
+GtkWidget *etats_prefs_get_widget_by_name (const gchar *name,
+                                           GtkWidget *etats_prefs)
 {
-    GtkWidget *radiobutton;
+	EtatsPrefsPrivate *priv;
 
-    radiobutton = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, button_name));
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
 
-    utils_radiobutton_set_active_index (radiobutton, index);
+	if (strcmp (name, "notebook_etats_prefs") == 0)
+	    return priv->notebook_etats_prefs;
+	else if (strcmp (name, "treeview_left_panel") == 0)
+	    return priv->treeview_left_panel;
+	else
+		return NULL;
 }
 
 /**
- * retourne l'état du togglebutton dont le nom est passé en paramètre.
+ * If applicable, update report navigation tree style to reflect which
+ * pages have been changed.
  *
- * \param widget name
+ * \param page_number Page that contained an interface element just
+ *                      changed that triggered this event.
  *
- * \return activ
+ * \return      FALSE
  **/
-gboolean etats_prefs_button_toggle_get_actif (const gchar *button_name)
+gboolean etats_prefs_left_panel_tree_view_update_style (GtkWidget *button,
+														gint *page_number)
 {
-    GtkWidget *button = NULL;
+    gint iter_page_number;
 
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, button_name));
-    if (!button)
-        return FALSE;
+    iter_page_number = GPOINTER_TO_INT (page_number);
+devel_debug_int(iter_page_number);
+	if (iter_page_number)
+    {
+		EtatsPrefs *prefs;
+        GtkTreeModel *model;
+        GtkTreeIter parent_iter;
+        gint active;
+        gboolean italic = 0;
+		EtatsPrefsPrivate *priv;
 
-    return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
-}
 
-/**
- *  Positionne letogglebutton demandé par son nom en fonction de actif
- *
- * \param widget name
- * \param actif
- *
- * \return TRUE if success FALSE otherwise
- **/
-gboolean etats_prefs_button_toggle_set_actif (const gchar *button_name,
-											  gboolean actif)
-{
-    GtkWidget *button = NULL;
+		prefs = g_object_get_data (G_OBJECT (button), "etats_prefs");
+		priv = etats_prefs_get_instance_private (ETATS_PREFS (prefs));
 
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, button_name));
-    if (!button)
-        return FALSE;
-
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), actif);
-
-    return TRUE;
-}
+        model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_left_panel));
+        active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
+        italic = active;
 
         if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &parent_iter))
             return FALSE;
 
-/**
- * récupère l'index l'iter selectionné
- *
- * \param nom du tree_view
- *
- * \return numéro de la ligne sélectionnée
- **/
-gint etats_prefs_tree_view_get_single_row_selected (const gchar *treeview_name)
-{
-    GtkWidget *tree_view;
-    GtkTreeModel *model;
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
+        do
+        {
+            GtkTreeIter iter;
 
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, treeview_name));
-    if (!tree_view)
-        return -1;
+            if (gtk_tree_model_iter_children (GTK_TREE_MODEL (model), &iter, &parent_iter))
+            {
+                do
+                {
+                    gint page;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+                    gtk_tree_model_get (GTK_TREE_MODEL (model),
+                                &iter,
+                                LEFT_PANEL_TREE_PAGE_COLUMN, &page,
+                                -1);
 
-    if (gtk_tree_selection_get_selected (selection, &model, &iter))
-    {
-        gint index;
+                    if (page == iter_page_number)
+                        gtk_tree_store_set (GTK_TREE_STORE (model),
+                                &iter,
+                                LEFT_PANEL_TREE_ITALIC_COLUMN, italic,
+                                -1);
+                }
+                while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+            }
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &parent_iter));
 
-        gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &index, -1);
-
-        return index;
+        return TRUE;
     }
-    return -1;
+
+    return FALSE;
 }
 
 /**
@@ -1958,7 +2183,7 @@ gint etats_prefs_tree_view_get_single_row_selected (const gchar *treeview_name)
  *
  * \return numéro de la ligne sélectionnée
  **/
-gint new_etats_prefs_tree_view_get_single_row_selected (GtkWidget *tree_view)
+gint etats_prefs_tree_view_get_single_row_selected (GtkWidget *tree_view)
 {
     GtkTreeModel *model;
     GtkTreeSelection *selection;
@@ -1979,23 +2204,28 @@ gint new_etats_prefs_tree_view_get_single_row_selected (GtkWidget *tree_view)
 }
 
 /**
+ * Sélectionne les iters en fonction des données de la liste
  *
+ * \param liste des lignes à sélectionner
+ * \param nom du tree_view concerné
+ * \param numéro de la colonne contenant la donnée testée
  *
+ * \param
  * \param
  * \param
  *
  * \return
  **/
-void etats_prefs_tree_view_select_single_row (const gchar *treeview_name,
-											  gint numero)
+void etats_prefs_tree_view_select_rows_from_list (GSList *liste,
+												  GtkWidget *tree_view,
+												  gint column)
 {
-    GtkWidget *tree_view;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
+    GSList *tmp_list;
 
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, treeview_name));
-    if (!tree_view)
+    if (!liste)
         return;
 
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
@@ -2005,14 +2235,21 @@ void etats_prefs_tree_view_select_single_row (const gchar *treeview_name,
     {
         do
         {
-            gint index;
+            gint tmp_number;
 
-            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &index, -1);
+            gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, column, &tmp_number, -1);
 
-            if (numero == index)
+            tmp_list = liste;
+            while (tmp_list)
             {
-                gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
-                break;
+                gint result;
+
+                result = GPOINTER_TO_INT (tmp_list->data);
+
+                if (result == tmp_number)
+                    gtk_tree_selection_select_iter (GTK_TREE_SELECTION (selection), &iter);
+
+                tmp_list = tmp_list->next;
             }
         }
         while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
@@ -2027,8 +2264,8 @@ void etats_prefs_tree_view_select_single_row (const gchar *treeview_name,
  *
  * \return
  **/
-void new_etats_prefs_tree_view_select_single_row (GtkWidget *tree_view,
-												  gint numero)
+void etats_prefs_tree_view_select_single_row (GtkWidget *tree_view,
+											  gint numero)
 {
     GtkTreeModel *model;
     GtkTreeSelection *selection;
@@ -2055,39 +2292,13 @@ void new_etats_prefs_tree_view_select_single_row (GtkWidget *tree_view,
     }
 }
 
-/**
- *
- *
- * \param
- * \param
- *
- * \return
- **/
-GtkWidget *etats_prefs_widget_get_widget_by_name (const gchar *parent_name,
-												  const gchar *child_name)
+GSList *etats_prefs_tree_view_get_list_rows_selected (GtkWidget *tree_view)
 {
-    return utils_gtkbuilder_get_widget_by_name (etats_prefs_builder, parent_name, child_name);
-}
-
-/**
- * récupère l'index l'iter selectionné
- *
- * \param nom du tree_view
- *
- * \return numéro de la ligne sélectionnée
- **/
-GSList *etats_prefs_tree_view_get_list_rows_selected (const gchar *treeview_name)
-{
-    GtkWidget *tree_view;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     GSList *tmp_list = NULL;
     GList *rows_list;
-
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, treeview_name));
-    if (!tree_view)
-        return NULL;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     rows_list = gtk_tree_selection_get_selected_rows (selection, &model);
@@ -2100,13 +2311,11 @@ GSList *etats_prefs_tree_view_get_list_rows_selected (const gchar *treeview_name
 
         gtk_tree_model_get_iter (model, &iter, path) ;
         gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &index, -1);
-
         tmp_list = g_slist_append (tmp_list, GINT_TO_POINTER (index));
 
-        gtk_tree_path_free (path);
         rows_list = rows_list->next;
     }
-    g_list_free (rows_list);
+    g_list_free_full (rows_list, (GDestroyNotify) gtk_tree_path_free);
 
     return tmp_list;
 }
