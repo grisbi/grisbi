@@ -427,6 +427,7 @@ static GtkWidget *etats_prefs_onglet_mode_paiement_create_page (EtatsPrefs *pref
 	return priv->onglet_etat_mode_paiement;
 }
 
+/*RIGHT_PANEL : ONGLET_DIVERS*/
 /**
  * If applicable, update report navigation tree style to reflect which
  * pages have been changed.
@@ -436,197 +437,83 @@ static GtkWidget *etats_prefs_onglet_mode_paiement_create_page (EtatsPrefs *pref
  *
  * \return      FALSE
  **/
-gboolean etats_prefs_left_panel_tree_view_update_style (GtkWidget *button,
-															   gint *page_number)
+static gboolean etats_prefs_onglet_divers_update_style_left_panel (GtkWidget *button,
+																   gint *page_number)
 {
-    gint iter_page_number;
-
-    iter_page_number = GPOINTER_TO_INT (page_number);
-
-    if (iter_page_number)
-    {
-        GtkWidget *tree_view;
-        GtkTreeModel *model;
-        GtkTreeIter parent_iter;
-        gint active;
-        gboolean italic = 0;
-
-        tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "treeview_left_panel"));
-        model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-        active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
-        italic = active;
-
-        if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &parent_iter))
-            return FALSE;
-
-        do
-        {
-            GtkTreeIter iter;
-
-            if (gtk_tree_model_iter_children (GTK_TREE_MODEL (model), &iter, &parent_iter))
-            {
-                do
-                {
-                    gint page;
-
-                    gtk_tree_model_get (GTK_TREE_MODEL (model),
-                                &iter,
-                                LEFT_PANEL_TREE_PAGE_COLUMN, &page,
-                                -1);
-
-                    if (page == iter_page_number)
-                        gtk_tree_store_set (GTK_TREE_STORE (model),
-                                &iter,
-                                LEFT_PANEL_TREE_ITALIC_COLUMN, italic,
-                                -1);
-                }
-                while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
-            }
-        }
-        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &parent_iter));
-
-        return TRUE;
-    }
-
-    /* return */
-    return FALSE;
-}
-
-/**
- * selectionne une page
- *
- * \param
- *
- * \return
- **/
-gboolean etats_prefs_left_panel_tree_view_select_last_page (void)
-{
-    GtkWidget *tree_view;
-    GtkWidget *notebook;
-
-    tree_view = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "treeview_left_panel"));
-    notebook = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "notebook_etats_prefs"));
-
-    utils_prefs_left_panel_tree_view_select_page (tree_view, notebook, last_page);
-
-    /* return */
-    return FALSE;
-}
-
-static void etats_prefs_left_panel_notebook_change_page (GtkNotebook *notebook,
-														 gpointer npage,
-														 gint page,
-														 gpointer user_data)
-{
-    last_page = page;
-}
-
-/**
- * remplit le model pour la configuration des états
- *
- * \param
- * \param
- *
- * \return
- **/
-static void etats_prefs_left_panel_populate_tree_model (GtkTreeStore *tree_model,
-														EtatsPrefs *prefs)
-{
-	GtkWidget *notebook;
-    GtkWidget *widget = NULL;
-    gint page = 0;
+    gint active;
+    gint index;
+	EtatsPrefs *prefs;
 	EtatsPrefsPrivate *priv;
 
+	prefs = g_object_get_data (G_OBJECT (button), "etats_prefs");
 	priv = etats_prefs_get_instance_private (prefs);
-	notebook = priv->notebook_etats_prefs;
 
-    /* append group page */
-    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Data selection"), -1);
+    index = utils_radiobutton_get_active_index (priv->radiobutton_marked_all);
+    active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_pas_detailler_ventilation));
 
-    /* append page Dates */
-	widget = GTK_WIDGET (etats_page_period_new (GTK_WIDGET (prefs)));
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Dates"), DATE_PAGE_TYPE);
-    page++;
+    if (GTK_IS_RADIO_BUTTON (button))
+    {
+        if (active == 0)
+            etats_prefs_left_panel_tree_view_update_style (button, page_number);
+    }
+    else
+    {
+        if (index == 0)
+            etats_prefs_left_panel_tree_view_update_style (button, page_number);
+    }
 
-    /* append page Transferts */
-    widget = GTK_WIDGET (etats_page_transfer_new (GTK_WIDGET (prefs)));
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Transfers"), TRANSFER_PAGE_TYPE);
-    page++;
+    return TRUE;
+}
 
-    /* append page Accounts */
-    widget = GTK_WIDGET (etats_page_accounts_new (GTK_WIDGET (prefs)));
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Accounts"), ACCOUNT_PAGE_TYPE);
-    page++;
+/**
+ * Création de l'onglet Divers
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *etats_prefs_onglet_divers_create_page (EtatsPrefs *prefs,
+                                                         gint page)
+{
+    GtkWidget *vbox;
+	EtatsPrefsPrivate *priv;
 
-    /* append page Payee */
-    widget = GTK_WIDGET (etats_page_payee_new (GTK_WIDGET (prefs)));
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Payee"), PAYEE_PAGE_TYPE);
-    page++;
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (prefs);
 
-    /* append page Categories */
-    widget = GTK_WIDGET (etats_page_category_new (GTK_WIDGET (prefs)));
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Categories"), CATEGORY_PAGE_TYPE);
-    page++;
+    vbox = new_vbox_with_title_and_icon (_("Miscellaneous"), "gsb-generalities-32.png");
 
-    /* append page Budgetary lines */
-    widget = GTK_WIDGET (etats_page_budget_new (GTK_WIDGET (prefs)));
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Budgetary lines"), BUDGET_PAGE_TYPE);
-    page++;
+    gtk_box_pack_start (GTK_BOX (priv->onglet_etat_divers), vbox, FALSE, FALSE, 0);
+    gtk_box_reorder_child (GTK_BOX (priv->onglet_etat_divers), vbox, 0);
 
-    /* append page Text */
-    widget = GTK_WIDGET (etats_page_text_new (GTK_WIDGET (prefs)));
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Texts"), TEXT_PAGE_TYPE);
-    page++;
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+	g_object_set_data (G_OBJECT (priv->radiobutton_marked), "etats_prefs", prefs);
+    g_signal_connect (G_OBJECT (priv->radiobutton_marked),
+                        "toggled",
+                        G_CALLBACK (etats_prefs_onglet_divers_update_style_left_panel),
+                        GINT_TO_POINTER (page));
 
-    /* append page Amounts */
-    widget = GTK_WIDGET (etats_page_amount_new (GTK_WIDGET (prefs)));
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Amounts"), AMOUNT_PAGE_TYPE);
-    page++;
+    /* on met la connection pour rendre sensitif la vbox_marked_buttons */
+    g_signal_connect (G_OBJECT (priv->radiobutton_marked),
+                        "toggled",
+                        G_CALLBACK (sens_desensitive_pointeur),
+                        priv->vbox_marked_buttons);
 
-    /* append page Payment methods */
-    widget = etats_prefs_onglet_mode_paiement_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Payment methods"), page);
-    page++;
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+	g_object_set_data (G_OBJECT (priv->radiobutton_marked_No_R), "etats_prefs", prefs);
+    g_signal_connect (G_OBJECT (priv->radiobutton_marked_No_R),
+                        "toggled",
+                        G_CALLBACK (etats_prefs_onglet_divers_update_style_left_panel),
+                        GINT_TO_POINTER (page));
 
-    /* append page Misc. */
-    widget = etats_prefs_onglet_divers_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Miscellaneous"), page);
-    page++;
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+	g_object_set_data (G_OBJECT (priv->bouton_pas_detailler_ventilation), "etats_prefs", prefs);
+    g_signal_connect (G_OBJECT (priv->bouton_pas_detailler_ventilation),
+                        "toggled",
+                        G_CALLBACK (etats_prefs_onglet_divers_update_style_left_panel),
+                        GINT_TO_POINTER (page));
 
-    /* remplissage de l'onglet d'organisation */
-    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Data organization"), -1);
-
-    /* Data grouping */
-    widget = etats_prefs_onglet_data_grouping_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Data grouping"), page);
-    page++;
-
-    /* Data separation */
-    widget = etats_prefs_onglet_data_separation_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Data separation"), page);
-    page++;
-
-    /* remplissage de l'onglet d'affichage */
-    utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Data display"), -1);
-
-    /* append page Generalities */
-    widget = etats_prefs_onglet_affichage_generalites_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Generalities"), page);
-    page++;
-
-    /* append page divers */
-    widget = etats_prefs_onglet_affichage_titles_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Titles"), page);
-    page++;
-
-    /* append page Transactions */
-    widget = etats_prefs_onglet_affichage_operations_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Transactions"), page);
-    page++;
-
-    /* append page Currencies */
-    widget = etats_prefs_onglet_affichage_devises_create_page (page);
-    utils_prefs_left_panel_add_line (tree_model, notebook, widget, _("Currencies"), page);
+    return priv->onglet_etat_divers;
 }
 
 /**
@@ -2407,6 +2294,69 @@ GSList *etats_prefs_onglet_mode_paiement_get_list_rows_selected (GtkWidget *tree
     g_list_free (rows_list);
 
     return tmp_list;
+}
+
+/*ONGLET_DIVERS*/
+/**
+ * Initialise les informations de l'onglet divers
+ *
+ * \param report_number
+ *
+ * \return
+ */
+void etats_prefs_initialise_onglet_divers (GtkWidget *etats_prefs,
+										   gint report_number)
+{
+	gint index;
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+	index = gsb_data_report_get_show_m (report_number);
+	utils_radiobutton_set_active_index (priv->radiobutton_marked_all, index );
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_marked_P),
+								  gsb_data_report_get_show_p (report_number));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_marked_R),
+								  gsb_data_report_get_show_r (report_number));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_marked_T),
+								  gsb_data_report_get_show_t (report_number));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_pas_detailler_ventilation),
+								  gsb_data_report_get_not_detail_split (report_number));
+}
+
+/**
+ * Récupère les informations de l'onglet divers
+ *
+ * \param
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void etats_prefs_recupere_info_onglet_divers (GtkWidget *etats_prefs,
+											  gint report_number)
+{
+	gint index;
+	EtatsPrefsPrivate *priv;
+
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+	index = utils_radiobutton_get_active_index (priv->radiobutton_marked_all);
+	gsb_data_report_set_show_m ( report_number, index );
+
+	gsb_data_report_set_show_p (report_number,
+								gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_marked_P)));
+	gsb_data_report_set_show_r (report_number,
+								gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_marked_R)));
+	gsb_data_report_set_show_t (report_number,
+								gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_marked_T)));
+
+	gsb_data_report_set_not_detail_split (report_number,
+											gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+											                              (priv->bouton_pas_detailler_ventilation)));
 }
 
 /**

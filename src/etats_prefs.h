@@ -78,10 +78,12 @@ void			etats_prefs_initialise_onglet_mode_paiement					(GtkWidget *etats_prefs,
 																			 gint report_number);
 void			etats_prefs_recupere_info_onglet_mode_paiement				(GtkWidget *etats_prefs,
 																			 gint report_number);
-gint 		new_etats_prefs_tree_view_get_single_row_selected			(GtkWidget *tree_view);
-GtkWidget *	etats_prefs_get_page_by_number								(GtkWidget *etats_prefs,
-																		 gint num_page);
-GSList *	new_etats_prefs_tree_view_get_list_rows_selected			(GtkWidget *tree_view);
+/*ONGLET_DIVERS*/
+void 			etats_prefs_initialise_onglet_divers						(GtkWidget *etats_prefs,
+																			 gint report_number);
+
+void			etats_prefs_recupere_info_onglet_divers						(GtkWidget *etats_prefs,
+																			 gint report_number);
 /* END_DECLARATION */
 
 G_END_DECLS
