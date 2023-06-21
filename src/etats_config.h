@@ -15,18 +15,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-void 			etats_config_onglet_affichage_devises_make_combobox 			(void);
-GtkTreeModel *	etats_config_onglet_categ_budget_get_model 						(gboolean is_categ);
-gchar *			etats_config_onglet_data_grouping_get_string 					(gint type_data,
-																				 gint pos);
-void 			etats_config_onglet_data_grouping_move_in_list 					(gint src_pos,
-																				 gint src_type_data,
-																				 gint dst_pos);
-void 			etats_config_onglet_data_separation_combo_changed 				(GtkComboBox *combo,
-																				 GtkWidget *widget);
-
-GtkTreeModel *	etats_config_onglet_mode_paiement_get_model 					(void);
-gint			etats_config_personnalisation_etat								(void);
+gint		etats_config_personnalisation_etat		(void);
 /* END_DECLARATION */
 
 
