@@ -1278,95 +1278,91 @@ static GtkWidget *etats_prefs_onglet_affichage_generalites_create_page (EtatsPre
  *
  * \return
  **/
-static GtkWidget *etats_prefs_onglet_affichage_titles_create_page (gint page)
+static GtkWidget *etats_prefs_onglet_affichage_titles_create_page (EtatsPrefs *prefs,
+                                                                   gint page)
 {
-    GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkWidget *button;
+	EtatsPrefsPrivate *priv;
 
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "affichage_etat_titles"));
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (prefs);
 
     vbox = new_vbox_with_title_and_icon (_("Titles"), "gsb-title-32.png");
 
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
+    gtk_box_pack_start (GTK_BOX (priv->affichage_etat_titles), vbox, FALSE, FALSE, 0);
+    gtk_box_reorder_child (GTK_BOX (priv->affichage_etat_titles), vbox, 0);
 
     /* on met les connexions pour sensibiliser désensibiliser les données associées */
-    g_signal_connect (G_OBJECT (gtk_builder_get_object (etats_prefs_builder, "bouton_regroupe_ope_compte_etat")),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_affiche_sous_total_compte"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_account),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_affiche_sous_total_compte);
 
     /* affichage possible des tiers */
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "bouton_utilise_tiers_etat"));
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_afficher_noms_tiers"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_payee),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_noms_tiers);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_affiche_sous_total_tiers"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_payee),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_affiche_sous_total_tiers);
 
     /* affichage possible des categories */
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "bouton_group_by_categ"));
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_afficher_noms_categ"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_categ),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_noms_categ);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_affiche_sous_total_categ"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_categ),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_affiche_sous_total_categ);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_afficher_sous_categ"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_categ),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_sous_categ);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_affiche_sous_total_sous_categ"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_categ),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_affiche_sous_total_sous_categ);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_afficher_pas_de_sous_categ"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_categ),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_pas_de_sous_categ);
 
     /* affichage possible des ib */
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "bouton_utilise_ib_etat"));
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_afficher_noms_ib"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_ib),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_noms_ib);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_affiche_sous_total_ib"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_ib),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_affiche_sous_total_ib);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_afficher_sous_ib"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_ib),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_sous_ib);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_affiche_sous_total_sous_ib"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_ib),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_affiche_sous_total_sous_ib);
 
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "bouton_afficher_pas_de_sous_ib"));
+    g_signal_connect (G_OBJECT (priv->bouton_group_by_ib),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_pas_de_sous_ib);
 
-    gtk_widget_show_all (vbox_onglet);
+    return priv->affichage_etat_titles;
 
-    /* return */
-    return vbox_onglet;
 }
 
 /*RIGHT_PANEL : ONGLET_AFFICHAGE_OPERATIONS*/
@@ -2656,6 +2652,149 @@ void etats_prefs_recupere_info_onglet_affichage_generalites (GtkWidget *etats_pr
         gsb_form_widget_update_payee_combofix (report_number, payee_new_state);
 
 
+}
+
+/*ONGLET_AFFICHAGE_TITLES*/
+/**
+ * Initialise les informations de l'onglet titres
+ *
+ * \param
+ * \param report_number
+ *
+ * \return
+ */
+void etats_prefs_initialise_onglet_affichage_titres (GtkWidget *etats_prefs,
+													  gint report_number)
+{
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+    /* données des comptes */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_noms_comptes),
+								  gsb_data_report_get_account_show_name (report_number));
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_compte),
+													  gsb_data_report_get_account_show_amount (report_number));
+    sens_desensitive_pointeur (priv->bouton_group_by_account, priv->bouton_affiche_sous_total_compte);
+
+    /* données des tiers */
+    sens_desensitive_pointeur (priv->bouton_group_by_payee, priv->bouton_afficher_noms_tiers);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_noms_tiers),
+								  gsb_data_report_get_payee_show_name (report_number));
+
+    sens_desensitive_pointeur (priv->bouton_group_by_payee, priv->bouton_affiche_sous_total_tiers);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_tiers),
+								  gsb_data_report_get_payee_show_payee_amount (report_number));
+
+    /* données des catégories */
+    sens_desensitive_pointeur (priv->bouton_group_by_categ, priv->bouton_afficher_noms_categ );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (priv->bouton_afficher_noms_categ ),
+								  gsb_data_report_get_category_show_name (report_number));
+
+    sens_desensitive_pointeur (priv->bouton_group_by_categ, priv->bouton_affiche_sous_total_categ );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_categ ),
+								  gsb_data_report_get_category_show_category_amount (report_number));
+
+    sens_desensitive_pointeur (priv->bouton_group_by_categ, priv->bouton_afficher_sous_categ );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (priv->bouton_afficher_sous_categ ),
+								  gsb_data_report_get_category_show_sub_category (report_number));
+
+    sens_desensitive_pointeur (priv->bouton_group_by_categ, priv->bouton_affiche_sous_total_sous_categ );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_sous_categ ),
+								  gsb_data_report_get_category_show_sub_category_amount (report_number));
+
+    sens_desensitive_pointeur (priv->bouton_group_by_categ, priv->bouton_afficher_pas_de_sous_categ );
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_pas_de_sous_categ ),
+								  gsb_data_report_get_category_show_without_category (report_number));
+
+    /* données des IB */
+    sens_desensitive_pointeur ( priv->bouton_group_by_ib, priv->bouton_afficher_noms_ib);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( priv->bouton_afficher_noms_ib),
+								  gsb_data_report_get_budget_show_name (report_number));
+
+    sens_desensitive_pointeur ( priv->bouton_group_by_ib, priv->bouton_affiche_sous_total_ib);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( priv->bouton_affiche_sous_total_ib),
+								  gsb_data_report_get_budget_show_budget_amount (report_number));
+
+    sens_desensitive_pointeur ( priv->bouton_group_by_ib, priv->bouton_afficher_sous_ib);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( priv->bouton_afficher_sous_ib),
+								  gsb_data_report_get_budget_show_sub_budget (report_number));
+
+    sens_desensitive_pointeur ( priv->bouton_group_by_ib, priv->bouton_affiche_sous_total_sous_ib);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( priv->bouton_affiche_sous_total_sous_ib),
+								  gsb_data_report_get_budget_show_sub_budget_amount (report_number));
+
+    sens_desensitive_pointeur ( priv->bouton_group_by_ib, priv->bouton_afficher_pas_de_sous_ib);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( priv->bouton_afficher_pas_de_sous_ib),
+								  gsb_data_report_get_budget_show_without_budget (report_number));
+}
+
+/**
+ * Récupère les informations de l'onglet titres
+ *
+ * \param
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void etats_prefs_recupere_info_onglet_affichage_titres (GtkWidget *etats_prefs,
+														 gint report_number)
+{
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+	/* données des comptes */
+    gsb_data_report_set_account_show_name (report_number,
+										   gtk_toggle_button_get_active
+										   (GTK_TOGGLE_BUTTON (priv->bouton_afficher_noms_comptes)));
+    gsb_data_report_set_account_show_amount (report_number,
+											 gtk_toggle_button_get_active
+											 (GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_compte)));
+
+    /* données des tiers */
+    gsb_data_report_set_payee_show_name (report_number,
+										 gtk_toggle_button_get_active
+										 (GTK_TOGGLE_BUTTON (priv->bouton_afficher_noms_tiers)));
+    gsb_data_report_set_payee_show_payee_amount (report_number,
+												 gtk_toggle_button_get_active
+												 (GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_tiers)));
+
+    /* données des catégories */
+    gsb_data_report_set_category_show_name (report_number,
+											gtk_toggle_button_get_active
+											(GTK_TOGGLE_BUTTON (priv->bouton_afficher_noms_categ)));
+    gsb_data_report_set_category_show_category_amount (report_number,
+													   gtk_toggle_button_get_active
+													   (GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_categ)));
+    gsb_data_report_set_category_show_sub_category (report_number,
+													gtk_toggle_button_get_active
+													(GTK_TOGGLE_BUTTON (priv->bouton_afficher_sous_categ)));
+    gsb_data_report_set_category_show_sub_category_amount (report_number,
+														   gtk_toggle_button_get_active
+														   (GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_sous_categ)));
+    gsb_data_report_set_category_show_without_category (report_number,
+														gtk_toggle_button_get_active
+														(GTK_TOGGLE_BUTTON (priv->bouton_afficher_pas_de_sous_categ)));
+
+    /* données des IB */
+    gsb_data_report_set_budget_show_name (report_number,
+										  gtk_toggle_button_get_active
+										  (GTK_TOGGLE_BUTTON (priv->bouton_afficher_noms_ib)));
+    gsb_data_report_set_budget_show_budget_amount (report_number,
+												   gtk_toggle_button_get_active
+												   (GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_ib)));
+    gsb_data_report_set_budget_show_sub_budget (report_number,
+												gtk_toggle_button_get_active
+												(GTK_TOGGLE_BUTTON (priv->bouton_afficher_sous_ib)));
+    gsb_data_report_set_budget_show_sub_budget_amount (report_number,
+													   gtk_toggle_button_get_active
+													   (GTK_TOGGLE_BUTTON (priv->bouton_affiche_sous_total_ib)));
+    gsb_data_report_set_budget_show_without_budget (report_number,
+													gtk_toggle_button_get_active
+													(GTK_TOGGLE_BUTTON (priv->bouton_afficher_pas_de_sous_ib)));
 }
 /**
  *
