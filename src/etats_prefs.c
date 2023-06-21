@@ -395,11 +395,8 @@ static GtkWidget *etats_prefs_onglet_mode_paiement_create_page (EtatsPrefs *pref
 
 	/* on adapte le label pour Mac_OSX */
 #ifdef OS_OSX
-	GtkLabel *label;
-
-	label = priv->label_modes_search_help;
-	gtk_label_set_text (label, _(label_search_help));
-	gtk_label_set_justify (label, GTK_JUSTIFY_CENTER);
+	gtk_label_set_text (GTK_LABEL (priv->label_modes_search_help), _(label_search_help));
+	gtk_label_set_justify (GTK_LABEL (priv->label_modes_search_help), GTK_JUSTIFY_CENTER);
 #endif /* OS_OSX */
 
     /* on crée la liste des moyens de paiement */

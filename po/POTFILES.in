@@ -80,7 +80,6 @@ src/etats_gtktable.c
 src/etats_html.c
 src/etats_onglet.c
 src/etats_prefs.c
-src/etats_prefs_private.h
 src/etats_support.c
 src/export.c
 src/export_csv.c
@@ -214,7 +213,6 @@ src/utils_buttons.c
 src/utils_dates.c
 src/utils_editables.c
 src/utils_files.c
-src/utils_gtkbuilder.c
 src/utils_operations.c
 src/utils_prefs.c
 src/utils_str.c
