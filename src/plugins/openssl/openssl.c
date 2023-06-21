@@ -134,6 +134,7 @@ encrypt_v3(gchar *password, gchar **file_content, int length)
 		/* Error */
 		EVP_CIPHER_CTX_free(cipher_ctx);
 		alert_debug(ERR_error_string(ERR_get_error(), NULL));
+		g_free ( to_encrypt_content );
 		return 0;
 	}
 	if (!EVP_CipherFinal_ex(cipher_ctx, encrypted_content + output_length, &tmp_length))
@@ -141,6 +142,7 @@ encrypt_v3(gchar *password, gchar **file_content, int length)
 		/* Error */
 		EVP_CIPHER_CTX_free(cipher_ctx);
 		alert_debug(ERR_error_string(ERR_get_error(), NULL));
+		g_free ( to_encrypt_content );
 		return 0;
 	}
 	output_length += tmp_length;
