@@ -104,6 +104,11 @@ void			etats_prefs_initialise_onglet_affichage_titres				(GtkWidget *etats_prefs
 																			 gint report_number);
 void			etats_prefs_recupere_info_onglet_affichage_titres			(GtkWidget *etats_prefs,
 																			 gint report_number);
+/*ONGLET_AFFICHAGE_OPERATIONS*/
+void			etats_prefs_initialise_onglet_affichage_operations			(GtkWidget *etats_prefs,
+																			 gint report_number);
+void			etats_prefs_recupere_info_onglet_affichage_operations		(GtkWidget *etats_prefs,
+																			 gint report_number);
 /* END_DECLARATION */
 
 G_END_DECLS

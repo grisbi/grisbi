@@ -1373,72 +1373,63 @@ static GtkWidget *etats_prefs_onglet_affichage_titles_create_page (EtatsPrefs *p
  *
  * \return
  **/
-static GtkWidget *etats_prefs_onglet_affichage_operations_create_page (gint page)
+static GtkWidget *etats_prefs_onglet_affichage_operations_create_page (EtatsPrefs *prefs,
+																	   gint page)
 {
-    GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkWidget *button;
-    GtkComboBox *combo;
     GtkTreeModel *model;
 
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "affichage_etat_operations"));
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (prefs);
 
     vbox = new_vbox_with_title_and_icon (_("Transactions display"), "gsb-transdisplay-32.png");
 
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
+    gtk_box_pack_start (GTK_BOX (priv->affichage_etat_operations), vbox, FALSE, FALSE, 0);
+    gtk_box_reorder_child (GTK_BOX (priv->affichage_etat_operations), vbox, 0);
 
-    button = GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "bouton_afficher_opes"));
     /* on met la connection pour changer le style de la ligne du panneau de gauche */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
-                        GINT_TO_POINTER (page));
+	g_object_set_data (G_OBJECT (priv->bouton_afficher_opes), "etats_prefs", prefs);
+	g_signal_connect (G_OBJECT (priv->bouton_afficher_opes),
+					  "toggled",
+					  G_CALLBACK (etats_prefs_left_panel_tree_view_update_style),
+					  GINT_TO_POINTER (page));
 
     /* on met la connection pour rendre sensitif la vbox_show_transactions */
-    g_signal_connect (G_OBJECT (button),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (etats_prefs_builder, "vbox_show_transactions"));
+    g_signal_connect (G_OBJECT (priv->bouton_afficher_opes),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->vbox_show_transactions);
 
     /* on crée le bouton avec les types de classement des opérations */
     model = GTK_TREE_MODEL (utils_list_store_create_from_string_array (etats_prefs_classement_operations));
-    combo = GTK_COMBO_BOX (gtk_builder_get_object (etats_prefs_builder, "bouton_choix_classement_ope_etat"));
-    gtk_combo_box_set_model (combo, model);
-    utils_gtk_combo_box_set_text_renderer (GTK_COMBO_BOX (combo), 0);
+    gtk_combo_box_set_model (GTK_COMBO_BOX (priv->bouton_choix_classement_ope_etat), model);
+    utils_gtk_combo_box_set_text_renderer (GTK_COMBO_BOX (priv->bouton_choix_classement_ope_etat), 0);
 
     /* on met les connexions */
-    g_signal_connect (G_OBJECT (gtk_builder_get_object (
-                        etats_prefs_builder, "bouton_afficher_categ_opes")),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (
-                        etats_prefs_builder, "bouton_afficher_sous_categ_opes"));
+    g_signal_connect (G_OBJECT (priv->bouton_afficher_categ_opes),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_sous_categ_opes);
 
-    g_signal_connect (G_OBJECT (gtk_builder_get_object (
-                        etats_prefs_builder, "bouton_afficher_ib_opes")),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (
-                        etats_prefs_builder, "bouton_afficher_sous_ib_opes"));
+    g_signal_connect (G_OBJECT (priv->bouton_afficher_ib_opes),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_sous_ib_opes);
 
-    g_signal_connect (G_OBJECT (gtk_builder_get_object (
-                        etats_prefs_builder, "bouton_afficher_titres_colonnes")),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (
-                        etats_prefs_builder, "bouton_titre_changement"));
+    g_signal_connect (G_OBJECT (priv->bouton_afficher_titres_colonnes),
+					  "toggled",
+ 					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_titre_changement);
 
-    g_signal_connect (G_OBJECT (gtk_builder_get_object (
-                        etats_prefs_builder, "bouton_afficher_titres_colonnes")),
-                        "toggled",
-                        G_CALLBACK (sens_desensitive_pointeur),
-                        gtk_builder_get_object (
-                        etats_prefs_builder, "bouton_titre_en_haut"));
+    g_signal_connect (G_OBJECT (priv->bouton_afficher_titres_colonnes),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_titre_en_haut);
 
-    gtk_widget_show_all (vbox_onglet);
+    return priv->affichage_etat_operations;
 
-    return vbox_onglet;
 }
 
 /*RIGHT_PANEL : ONGLET_AFFICHAGE_DEVISES*/
@@ -2795,6 +2786,196 @@ void etats_prefs_recupere_info_onglet_affichage_titres (GtkWidget *etats_prefs,
     gsb_data_report_set_budget_show_without_budget (report_number,
 													gtk_toggle_button_get_active
 													(GTK_TOGGLE_BUTTON (priv->bouton_afficher_pas_de_sous_ib)));
+}
+
+/*ONGLET_AFFICHAGE_OPERATIONS*/
+/**
+ * Initialise les informations de l'onglet opérations
+ *
+ * \param
+ * \param report_number
+ *
+ * \return
+ */
+void etats_prefs_initialise_onglet_affichage_operations (GtkWidget *etats_prefs,
+														 gint report_number)
+{
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+    /* on affiche ou pas le choix des données des opérations */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_opes),
+								  gsb_data_report_get_show_report_transactions (report_number));
+
+    /* données des opérations à afficher */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_no_ope),
+								  gsb_data_report_get_show_report_transaction_number (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_date_opes),
+								  gsb_data_report_get_show_report_date (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_value_date_opes),
+								  gsb_data_report_get_show_report_value_date (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_tiers_opes),
+								  gsb_data_report_get_show_report_payee (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_categ_opes),
+								  gsb_data_report_get_show_report_category (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_sous_categ_opes),
+								  gsb_data_report_get_show_report_sub_category (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_ib_opes),
+								  gsb_data_report_get_show_report_budget (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_sous_ib_opes),
+                        gsb_data_report_get_show_report_sub_budget (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_notes_opes),
+								  gsb_data_report_get_show_report_note (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_type_ope),
+								  gsb_data_report_get_show_report_method_of_payment (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_no_cheque),
+								  gsb_data_report_get_show_report_method_of_payment_content (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_pc_opes),
+								  gsb_data_report_get_show_report_voucher (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_exo_opes),
+								  gsb_data_report_get_show_report_financial_year (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_infobd_opes),
+								  gsb_data_report_get_show_report_bank_references (report_number));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_no_rappr),
+								  gsb_data_report_get_show_report_marked (report_number));
+
+    /* affichage des titres des colonnes */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_titres_colonnes),
+								  gsb_data_report_get_column_title_show (report_number));
+
+    if ( !gsb_data_report_get_column_title_type (report_number))
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_titre_en_haut), TRUE);
+
+    /* sélectionner le type de classement des opérations */
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->bouton_choix_classement_ope_etat),
+							  gsb_data_report_get_sorting_report (report_number));
+
+    /* rendre les opérations cliquables */
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_rendre_ope_clickables),
+								  gsb_data_report_get_report_can_click (report_number));
+}
+
+
+/**
+ * Récupère les informations de l'onglet opérations
+ *
+ * \param
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void etats_prefs_recupere_info_onglet_affichage_operations (GtkWidget *etats_prefs,
+															gint report_number)
+{
+	gboolean affich_opes = FALSE;
+	gboolean detail_ope;
+	gboolean is_actif = FALSE;
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+	affich_opes = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_opes));
+    gsb_data_report_set_show_report_transactions (report_number, affich_opes);
+
+    /* données des opérations */
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_no_ope));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_transaction_number (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_date_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_date (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_value_date_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_value_date (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_tiers_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_payee (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_categ_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_category (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_sous_categ_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_sub_category (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_ib_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_budget (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_sous_ib_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_sub_budget (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_notes_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_note (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_type_ope));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_method_of_payment (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_no_cheque));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_method_of_payment_content (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_pc_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_voucher (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_exo_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_financial_year (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_infobd_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_bank_references (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_no_rappr));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+    gsb_data_report_set_show_report_marked (report_number, detail_ope);
+
+	if (affich_opes && !is_actif)
+		gsb_data_report_set_show_report_transactions (report_number, FALSE);
+
+    /* titres des colonnes */
+    gsb_data_report_set_column_title_show (report_number,
+										   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																		 (priv->bouton_afficher_titres_colonnes)));
+
+    gsb_data_report_set_column_title_type (report_number,
+										   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																		 (priv->bouton_titre_changement)));
+
+    /* type de classement des opérations */
+    gsb_data_report_set_sorting_report (report_number,
+										gtk_combo_box_get_active ( GTK_COMBO_BOX (priv->bouton_choix_classement_ope_etat)));
+
+    /* opérations cliquables */
+    gsb_data_report_set_report_can_click (report_number,
+										  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
+																		(priv->bouton_rendre_ope_clickables)));
 }
 /**
  *
