@@ -119,7 +119,7 @@ struct _EtatsPrefsPrivate
 {
 	GtkWidget *		vbox_prefs;
 
-    GtkWidget *		hpaned;
+	GtkWidget *		hpaned;
 	GtkWidget *		treeview_left_panel;
 	GtkWidget *		notebook_etats_prefs;
 
@@ -920,7 +920,7 @@ static gboolean etats_prefs_onglet_data_grouping_init_tree_view (EtatsPrefs *pre
 
     /* Enable drag & drop */
     gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (tree_view),
-                        GDK_BUTTON1_MASK,
+											GDK_BUTTON1_MASK,
 											row_targets,
 											1,
 											GDK_ACTION_MOVE);
@@ -1434,23 +1434,54 @@ static GtkWidget *etats_prefs_onglet_affichage_operations_create_page (EtatsPref
 
 /*RIGHT_PANEL : ONGLET_AFFICHAGE_DEVISES*/
 /**
- * Création de l'onglet affichage des devises
+ * ajoute les combobox pour les devises
  *
  * \param
  *
  * \return
- **/
-static GtkWidget *etats_prefs_onglet_affichage_devises_create_page (gint page)
+ */
+static void etats_prefs_onglet_affichage_devises_make_combobox (EtatsPrefsPrivate *priv)
 {
-    GtkWidget *vbox_onglet;
+    gsb_currency_make_combobox_from_ui (priv->combobox_devise_general, FALSE);
+
+    gsb_currency_make_combobox_from_ui (priv->combobox_devise_payee, FALSE);
+
+    gsb_currency_make_combobox_from_ui (priv->combobox_devise_categ, FALSE);
+
+    gsb_currency_make_combobox_from_ui (priv->combobox_devise_ib, FALSE);
+
+    gsb_currency_make_combobox_from_ui (priv->combobox_devise_amount, FALSE);
+}
+
+/**
+ * Création de l'onglet affichage des devises
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static GtkWidget *etats_prefs_onglet_affichage_devises_create_page (EtatsPrefs *prefs,
+                                                                    gint page)
+{
     GtkWidget *vbox;
 
-    vbox_onglet =  GTK_WIDGET (gtk_builder_get_object (etats_prefs_builder, "affichage_etat_devises"));
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (prefs);
 
     vbox = new_vbox_with_title_and_icon (_("Totals currencies"), "gsb-currencies-32.png");
 
-    gtk_box_pack_start (GTK_BOX (vbox_onglet), vbox, FALSE, FALSE, 0);
-    gtk_box_reorder_child (GTK_BOX (vbox_onglet), vbox, 0);
+    gtk_box_pack_start (GTK_BOX (priv->affichage_etat_devises), vbox, FALSE, FALSE, 0);
+    gtk_box_reorder_child (GTK_BOX (priv->affichage_etat_devises), vbox, 0);
+
+    etats_prefs_onglet_affichage_devises_make_combobox (priv);
+
+    return priv->affichage_etat_devises;
+
+}
+
 /*LEFT_PANEL*/
 /**
  *
@@ -1800,7 +1831,7 @@ static void etats_prefs_finalize (GObject *object)
  **/
 static void etats_prefs_class_init (EtatsPrefsClass *klass)
 {
-    GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = etats_prefs_dispose;
 	object_class->finalize = etats_prefs_finalize;
@@ -2977,23 +3008,70 @@ void etats_prefs_recupere_info_onglet_affichage_operations (GtkWidget *etats_pre
 										  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
 																		(priv->bouton_rendre_ope_clickables)));
 }
+
+/*ONGLET_AFFICHAGE_DEVISES*/
 /**
- *
+ * Initialise les informations de l'onglet devises
  *
  * \param
+ * \param report_number
  *
  * \return
- **/
-GtkWidget *etats_prefs_get_page_by_number (GtkWidget *etats_prefs,
-										   gint num_page)
+ */
+void etats_prefs_initialise_onglet_affichage_devises (GtkWidget *etats_prefs,
+													  gint report_number)
 {
-	GtkWidget *page = NULL;
 	EtatsPrefsPrivate *priv;
 
+	devel_debug (NULL);
 	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
-	page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (priv->notebook_etats_prefs), num_page);
 
-	return page;
+    gsb_currency_set_combobox_history (priv->combobox_devise_general,
+									   gsb_data_report_get_currency_general (report_number));
+
+    gsb_currency_set_combobox_history (priv->combobox_devise_payee,
+									   gsb_data_report_get_payee_currency (report_number));
+
+    gsb_currency_set_combobox_history (priv->combobox_devise_categ,
+									   gsb_data_report_get_category_currency (report_number));
+
+    gsb_currency_set_combobox_history (priv->combobox_devise_ib,
+									   gsb_data_report_get_budget_currency (report_number));
+
+    gsb_currency_set_combobox_history (priv->combobox_devise_amount,
+									   gsb_data_report_get_amount_comparison_currency (report_number));
+}
+
+/**
+ * Récupère les informations de l'onglet devises
+ *
+ * \param
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void etats_prefs_recupere_info_onglet_affichage_devises (GtkWidget *etats_prefs,
+														  gint report_number)
+{
+	EtatsPrefsPrivate *priv;
+
+	devel_debug (NULL);
+	priv = etats_prefs_get_instance_private (ETATS_PREFS (etats_prefs));
+
+    gsb_data_report_set_currency_general (report_number,
+										  gsb_currency_get_currency_from_combobox (priv->combobox_devise_general) );
+
+    gsb_data_report_set_payee_currency (report_number,
+										gsb_currency_get_currency_from_combobox (priv->combobox_devise_payee) );
+
+    gsb_data_report_set_category_currency (report_number,
+										   gsb_currency_get_currency_from_combobox (priv->combobox_devise_categ) );
+
+    gsb_data_report_set_budget_currency (report_number,
+										 gsb_currency_get_currency_from_combobox (priv->combobox_devise_ib) );
+
+    gsb_data_report_set_amount_comparison_currency (report_number,
+													gsb_currency_get_currency_from_combobox (priv->combobox_devise_amount) );
 }
 
 /**
