@@ -884,7 +884,6 @@ void grisbi_cmd_show_reconciled_toggle (GSimpleAction *action,
 	if (current_account == -1 || w_run->equilibrage == TRUE)
 		return;
 
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	if (gsb_data_account_get_r (current_account))
 	{
 		gsb_transactions_list_mise_a_jour_affichage_r (FALSE);
