@@ -1747,35 +1747,38 @@ static void gsb_scheduler_list_remove_orphan_list (GSList *orphan_scheduled,
 
     /* if string is not null, there is still some children
      * which didn't find their mother. show them now */
-    if (string && ! on_going)
-    {
-        gchar *message;
-        gint result;
+    if (string)
+	{
+		if (! on_going)
+		{
+			gchar *message;
+			gint result;
 
-		on_going = true;
-        message = g_strdup_printf (_("Some scheduled children didn't find their mother in the list, "
-									 "this shouldn't happen and there is probably a bug behind that.\n\n"
-									 "The concerned children number are:\n %s\n\n"
-									 "Do you want to delete it?"),
-								   string);
+			on_going = true;
+			message = g_strdup_printf (_("Some scheduled children didn't find their mother in the list, "
+										 "this shouldn't happen and there is probably a bug behind that.\n\n"
+										 "The concerned children number are:\n %s\n\n"
+										 "Do you want to delete it?"),
+									   string);
 
-        result = dialogue_yes_no (message, _("Remove orphan children"), GTK_RESPONSE_CANCEL);
+			result = dialogue_yes_no (message, _("Remove orphan children"), GTK_RESPONSE_CANCEL);
 
-        if (result == TRUE)
-        {
-            gint i;
+			if (result == TRUE)
+			{
+				gint i;
 
-            for (i = 0; i < (gint) garray->len; i++)
-                gsb_data_scheduled_remove_scheduled (g_array_index (garray, gint, i));
+				for (i = 0; i < (gint) garray->len; i++)
+					gsb_data_scheduled_remove_scheduled (g_array_index (garray, gint, i));
 
-        }
+			}
 
-        g_free (message);
-        g_free (string);
-        g_array_free (garray, TRUE);
+			g_free (message);
 
-		on_going = false;
-    }
+			on_going = false;
+		}
+		g_free (string);
+		g_array_free (garray, TRUE);
+	}
 }
 
 /**
