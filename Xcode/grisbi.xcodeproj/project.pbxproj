@@ -165,7 +165,6 @@
 		006E68B41DB3E7AD0038B1F0 /* utils_dates.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68191DB3E7AC0038B1F0 /* utils_dates.c */; };
 		006E68B51DB3E7AD0038B1F0 /* utils_editables.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E681B1DB3E7AC0038B1F0 /* utils_editables.c */; };
 		006E68B71DB3E7AD0038B1F0 /* utils_files.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E681F1DB3E7AC0038B1F0 /* utils_files.c */; };
-		006E68B91DB3E7AD0038B1F0 /* utils_gtkbuilder.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */; };
 		006E68BA1DB3E7AD0038B1F0 /* utils_operations.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68251DB3E7AD0038B1F0 /* utils_operations.c */; };
 		006E68BB1DB3E7AD0038B1F0 /* utils_real.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68271DB3E7AD0038B1F0 /* utils_real.c */; };
 		006E68BC1DB3E7AD0038B1F0 /* utils_str.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68291DB3E7AD0038B1F0 /* utils_str.c */; };
@@ -353,7 +352,6 @@
 		006E672E1DB3E7AC0038B1F0 /* etats_html.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etats_html.h; sourceTree = "<group>"; };
 		006E672F1DB3E7AC0038B1F0 /* etats_onglet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = etats_onglet.c; sourceTree = "<group>"; };
 		006E67301DB3E7AC0038B1F0 /* etats_onglet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etats_onglet.h; sourceTree = "<group>"; };
-		006E67311DB3E7AC0038B1F0 /* etats_prefs_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etats_prefs_private.h; sourceTree = "<group>"; };
 		006E67321DB3E7AC0038B1F0 /* etats_prefs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = etats_prefs.c; sourceTree = "<group>"; };
 		006E67331DB3E7AC0038B1F0 /* etats_prefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = etats_prefs.h; sourceTree = "<group>"; };
 		006E67341DB3E7AC0038B1F0 /* etats_support.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = etats_support.c; sourceTree = "<group>"; };
@@ -563,8 +561,6 @@
 		006E681C1DB3E7AC0038B1F0 /* utils_editables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_editables.h; sourceTree = "<group>"; };
 		006E681F1DB3E7AC0038B1F0 /* utils_files.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_files.c; sourceTree = "<group>"; };
 		006E68201DB3E7AD0038B1F0 /* utils_files.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_files.h; sourceTree = "<group>"; };
-		006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_gtkbuilder.c; sourceTree = "<group>"; };
-		006E68241DB3E7AD0038B1F0 /* utils_gtkbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_gtkbuilder.h; sourceTree = "<group>"; };
 		006E68251DB3E7AD0038B1F0 /* utils_operations.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_operations.c; sourceTree = "<group>"; };
 		006E68261DB3E7AD0038B1F0 /* utils_operations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils_operations.h; sourceTree = "<group>"; };
 		006E68271DB3E7AD0038B1F0 /* utils_real.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils_real.c; sourceTree = "<group>"; };
@@ -661,7 +657,6 @@
 		00B47F0B28998C4F00788E40 /* prefs_page_currency_link.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = prefs_page_currency_link.ui; path = prefs/prefs_page_currency_link.ui; sourceTree = "<group>"; };
 		00B77C381DB2A0EC00A5D233 /* grisbi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = grisbi; sourceTree = BUILT_PRODUCTS_DIR; };
 		00B77C431DB2A17600A5D233 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		00BCBD2F1E07018400579172 /* bet_graph.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = bet_graph.ui; path = src/ui/bet_graph.ui; sourceTree = "<group>"; };
 		00BCBD301E07018400579172 /* etats_prefs.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = etats_prefs.ui; path = src/ui/etats_prefs.ui; sourceTree = "<group>"; };
 		00BCBD311E07018400579172 /* grisbi_menu.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = grisbi_menu.ui; path = src/ui/grisbi_menu.ui; sourceTree = "<group>"; };
 		00BCBD321E07018400579172 /* grisbi_win.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = grisbi_win.ui; path = src/ui/grisbi_win.ui; sourceTree = "<group>"; };
@@ -1024,7 +1019,6 @@
 				006E672E1DB3E7AC0038B1F0 /* etats_html.h */,
 				006E672F1DB3E7AC0038B1F0 /* etats_onglet.c */,
 				006E67301DB3E7AC0038B1F0 /* etats_onglet.h */,
-				006E67311DB3E7AC0038B1F0 /* etats_prefs_private.h */,
 				006E67321DB3E7AC0038B1F0 /* etats_prefs.c */,
 				006E67331DB3E7AC0038B1F0 /* etats_prefs.h */,
 				006E67341DB3E7AC0038B1F0 /* etats_support.c */,
@@ -1248,8 +1242,6 @@
 				006E681C1DB3E7AC0038B1F0 /* utils_editables.h */,
 				006E681F1DB3E7AC0038B1F0 /* utils_files.c */,
 				006E68201DB3E7AD0038B1F0 /* utils_files.h */,
-				006E68231DB3E7AD0038B1F0 /* utils_gtkbuilder.c */,
-				006E68241DB3E7AD0038B1F0 /* utils_gtkbuilder.h */,
 				006E68251DB3E7AD0038B1F0 /* utils_operations.c */,
 				006E68261DB3E7AD0038B1F0 /* utils_operations.h */,
 				003AC2211F49DF93007DA275 /* utils_prefs.c */,
@@ -1270,7 +1262,6 @@
 		00BCBD2E1E07016F00579172 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				00BCBD2F1E07018400579172 /* bet_graph.ui */,
 				00EA60F01F91503000569C19 /* csv_template_rule.ui */,
 				00BCBD301E07018400579172 /* etats_prefs.ui */,
 				00BCBD311E07018400579172 /* grisbi_menu.ui */,
@@ -1413,7 +1404,6 @@
 				006E68741DB3E7AD0038B1F0 /* gsb_data_payee.c in Sources */,
 				006E68921DB3E7AD0038B1F0 /* gsb_reconcile.c in Sources */,
 				00C17BA9246DD19600D9E257 /* widget_import_files.c in Sources */,
-				006E68B91DB3E7AD0038B1F0 /* utils_gtkbuilder.c in Sources */,
 				006E68A81DB3E7AD0038B1F0 /* print_report.c in Sources */,
 				006E68511DB3E7AD0038B1F0 /* grisbi_win.c in Sources */,
 				007A1C79261A1FD6003B3311 /* widget_list_metatree.c in Sources */,
