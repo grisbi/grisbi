@@ -9,8 +9,8 @@
 /*START_DECLARATION*/
 GtkWidget *     utils_buttons_button_new_from_image             (const gchar *image_name);
 GtkWidget *     utils_buttons_button_new_from_resource			(const gchar *image_name);
-GtkWidget *     utils_buttons_button_new_from_stock             (const gchar *icon_name,
-                                                                 const gchar *label_name);
+GtkWidget *     utils_buttons_button_new_from_icon_name				(const gchar *icon_name,
+																	const gchar *label_name);
 gboolean        utils_buttons_sensitive_by_checkbutton			(GtkWidget *check_button,
 																 GtkWidget *widget);
 GtkToolItem *   utils_buttons_tool_button_new_from_image_label  (const gchar *image_name,

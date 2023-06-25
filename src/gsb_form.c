@@ -1233,13 +1233,13 @@ void gsb_form_create_widgets (void)
     gtk_box_pack_start (GTK_BOX (hbox_buttons_inner), form_button_recover_split, FALSE, FALSE, 0);
 
     /* create the valid/cancel buttons */
-    form_button_valid = utils_buttons_button_new_from_stock ("gtk-ok", _("V_alidate"));
+    form_button_valid = utils_buttons_button_new_from_icon_name ("gtk-ok", _("V_alidate"));
     gtk_button_set_relief (GTK_BUTTON (form_button_valid), GTK_RELIEF_NONE);
     g_signal_connect (G_OBJECT (form_button_valid), "clicked",
 					  G_CALLBACK (gsb_form_finish_edition), NULL);
     gtk_box_pack_end (GTK_BOX (hbox_buttons_inner), form_button_valid, FALSE, FALSE, 0);
 
-    form_button_cancel = utils_buttons_button_new_from_stock ("gtk-cancel", _("_Cancel"));
+    form_button_cancel = utils_buttons_button_new_from_icon_name ("gtk-cancel", _("_Cancel"));
     gtk_button_set_relief (GTK_BUTTON (form_button_cancel), GTK_RELIEF_NONE);
     g_signal_connect (G_OBJECT (form_button_cancel), "clicked",
 					  G_CALLBACK (gsb_form_escape_form), NULL);

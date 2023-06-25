@@ -1830,7 +1830,7 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
 		gchar *target_value;
 		gchar *basename;
 
-		bouton = utils_buttons_button_new_from_stock ("gtk-open", _("Open"));
+		bouton = utils_buttons_button_new_from_icon_name ("gtk-open", _("Open"));
 		gtk_button_set_image_position (GTK_BUTTON (bouton), GTK_POS_TOP);
 		gtk_widget_set_size_request (bouton, 150, 150);
 		gtk_widget_set_halign (bouton, GTK_ALIGN_CENTER);

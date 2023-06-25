@@ -311,8 +311,8 @@ GtkWidget *utils_buttons_button_new_from_resource (const gchar *image_name)
  *
  * \return GtkWidget
  * */
-GtkWidget *utils_buttons_button_new_from_stock (const gchar *icon_name,
-                                                const gchar *label_name)
+GtkWidget *utils_buttons_button_new_from_icon_name (const gchar *icon_name,
+													const gchar *label_name)
 {
     GtkWidget *button = NULL;
     GtkWidget *image;
