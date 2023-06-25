@@ -2602,6 +2602,7 @@ void gsb_data_account_change_account_icon (GtkWidget *button,
             gsb_data_account_set_account_icon_pixbuf (current_account, NULL);
 
 			image = gsb_data_account_get_account_icon_image (current_account);
+			gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
 			gtk_button_set_image (GTK_BUTTON (button), image);
 			gsb_gui_navigation_update_account (current_account);
         }
@@ -2614,6 +2615,7 @@ void gsb_data_account_change_account_icon (GtkWidget *button,
             gsb_data_account_set_account_icon_pixbuf ( current_account, pixbuf );
 
 			image = gsb_data_account_get_account_icon_image ( current_account );
+			gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
 			gtk_button_set_image ( GTK_BUTTON ( button ), image );
 			gtk_widget_show (image);
 			gsb_gui_navigation_update_account ( current_account );

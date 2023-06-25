@@ -624,6 +624,7 @@ static void widget_account_property_changed (GtkWidget *widget,
 			gsb_gui_navigation_update_account (account_number);
 			image = gsb_data_account_get_account_icon_image (account_number);
 			bouton_icon = g_object_get_data (G_OBJECT (widget),"bouton_icon");
+			gtk_button_set_always_show_image (GTK_BUTTON (bouton_icon), TRUE);
 			gtk_button_set_image (GTK_BUTTON (bouton_icon), image);
 			gsb_form_clean (gsb_form_get_account_number ());
 			break;
