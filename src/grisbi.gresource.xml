@@ -49,7 +49,6 @@
 		<file preprocess="xml-stripblanks">ui/grisbi_menu.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_prefs.ui</file>
 		<file preprocess="xml-stripblanks">ui/grisbi_win.ui</file>
-		<file preprocess="xml-stripblanks">ui/search_transaction.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_account_property.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_assistant.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_bank_details.ui</file>
@@ -68,6 +67,7 @@
 		<file preprocess="xml-stripblanks">widgets/widget_list_metatree.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_loan.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_reconcile.ui</file>
+		<file preprocess="xml-stripblanks">widgets/widget_search_transaction.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_transfer.ui</file>
   </gresource>
 </gresources>

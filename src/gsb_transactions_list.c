@@ -63,7 +63,6 @@
 #include "mouse.h"
 #include "navigation.h"
 #include "print_transactions_list.h"
-#include "search_transaction.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -76,6 +75,7 @@
 #include "utils_real.h"
 #include "utils_str.h"
 #include "widget_reconcile.h"
+#include "widget_search_transaction.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -5027,16 +5027,16 @@ void gsb_transactions_list_set_current_tree_view_width (gint new_tree_view_width
 gboolean gsb_transactions_list_search (GtkWidget *menu_item,
 									   gint *transaction_number)
 {
-	SearchTransaction *search;
+	WidgetSearchTransaction *search;
 	GrisbiWin *win;
 	gint result;
 
 	win = grisbi_app_get_active_window (NULL);
-	search = search_transaction_new (win, transaction_number);
+	search = widget_search_transaction_new (GTK_WIDGET (win), transaction_number);
 	gtk_window_present (GTK_WINDOW (search));
 	gtk_widget_show_all (GTK_WIDGET (search));
 	result = gtk_dialog_run (GTK_DIALOG (search));
-	search_transaction_dialog_response (GTK_DIALOG (search), result);
+	widget_search_transaction_dialog_response (GTK_DIALOG (search), result);
 
 	return FALSE;
 }

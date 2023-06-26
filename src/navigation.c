@@ -62,7 +62,6 @@
 #include "metatree.h"
 #include "mouse.h"
 #include "structures.h"
-#include "search_transaction.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -74,6 +73,7 @@
 #include "utils_str.h"
 #include "widget_account_property.h"
 #include "widget_reconcile.h"
+#include "widget_search_transaction.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

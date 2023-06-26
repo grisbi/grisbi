@@ -7,6 +7,5 @@ ui_DATA = grisbi.css \
 	etats_prefs.ui \
 	grisbi_menu.ui \
 	grisbi_prefs.ui \
-	grisbi_win.ui \
-	search_transaction.ui
+	grisbi_win.ui
 EXTRA_DIST = $(ui_DATA)
