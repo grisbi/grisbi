@@ -411,7 +411,6 @@ typedef enum	_CustomModelOpeColumns	CustomModelOpeColumns;
 typedef enum 	_GsbTransactionType		GsbTransactionType;
 typedef enum 	_GsbTitleType	 		GsbTitleType;
 typedef enum 	_MetatreeContent		MetatreeContent;
-typedef enum 	_SettingsSchema 		SettingsSchema;
 typedef enum	_TransactionsField		TransactionsField;
 
 /* définition du titre de grisbi */
@@ -484,23 +483,6 @@ enum _GsbTransactionType
     GSB_OTHER       /**< Somer other type of transaction */
   };
 
-
-enum _SettingsSchema
-{
-    SETTINGS_ROOT = 0,
-    SETTINGS_FILES_BACKUP,
-    SETTINGS_DISPLAY,
-    SETTINGS_FILES_FILE,
-    SETTINGS_FORM,
-    SETTINGS_GENERAL,
-    SETTINGS_GEOMETRY,
-    SETTINGS_MESSAGES_DELETE,
-    SETTINGS_MESSAGES_TIPS,
-    SETTINGS_MESSAGES_WARNINGS,
-    SETTINGS_PANEL,
-    SETTINGS_PREFS,
-    SETTINGS_SCHEDULED
-};
 
 enum FormatDateOrder
 {
