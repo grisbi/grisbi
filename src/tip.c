@@ -146,10 +146,18 @@ void display_tip ( gboolean force )
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog )  ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
 
-    btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-go-back", 1);
-    btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-go-forward", 2);
-    btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), "gtk-close", 3);
-	(void)btn_close; /* unused value: fix warning -Wunused-but-set-variable */
+	btn_back = gtk_button_new_with_label (_("Prévious"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), btn_back, 1);
+	gtk_widget_show (btn_back);
+
+	btn_forward = gtk_button_new_with_label (_("Following"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), btn_forward, 2);
+	gtk_widget_show (btn_forward);
+
+    btn_close = gtk_button_new_with_label (_("Close"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), btn_close, 3);
+	gtk_widget_show (btn_close);
+	(void) btn_close; /* unused value: fix warning -Wunused-but-set-variable */
 
     gtk_widget_set_size_request ( dialog, 680, 380 );
     /* We iterate as user can select several tips. */
