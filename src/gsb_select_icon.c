@@ -51,6 +51,7 @@
 
 static GtkWidget *dialog;
 static GtkWidget *bouton_OK;
+static GtkWidget *bouton_cancel;
 static GtkWidget *entry_text;
 static GtkWidget *icon_view;
 static GdkPixbuf *pixbuf_logo = NULL;
@@ -485,19 +486,20 @@ gchar *gsb_select_icon_create_window (const gchar *name_icon)
         g_free (path_icon);
 
     path_icon = g_path_get_dirname (name_icon);
-    dialog = gtk_dialog_new_with_buttons (_("Browse icons"),
-                            GTK_WINDOW (grisbi_app_get_active_window (NULL)),
-                            GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                            "gtk-cancel",
-                            GTK_RESPONSE_REJECT,
-                            NULL);
+    dialog = gtk_dialog_new ();
 
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Browse icons"));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog),
+								  GTK_WINDOW (grisbi_app_get_active_window (NULL)));
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
-    bouton_OK = gtk_dialog_add_button (GTK_DIALOG (dialog),
-                                "gtk-ok",
-                                GTK_RESPONSE_ACCEPT);
+	bouton_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), bouton_cancel, GTK_RESPONSE_CANCEL);
+
+	bouton_OK = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), bouton_OK, GTK_RESPONSE_ACCEPT);
 
     content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
