@@ -114,7 +114,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gchar *tmpstr;
     gint width = 140;
 
-    window = GTK_WINDOW (grisbi_app_get_active_window (NULL));
+	window = GTK_WINDOW (grisbi_app_get_active_window (NULL));
     assistant = gtk_dialog_new_with_buttons ( title,
                         GTK_WINDOW ( window ),
                         GTK_DIALOG_MODAL,
@@ -126,25 +126,25 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_window_set_resizable ( GTK_WINDOW ( assistant ), TRUE );
     g_object_set_data ( G_OBJECT ( window ), "assistant", assistant );
 
-    button_select = gtk_toggle_button_new_with_label ( _("Select all") );
+	button_select = gtk_toggle_button_new_with_label ( _("Select all") );
     gtk_widget_set_size_request ( button_select, width, -1 );
-    g_object_set_data ( G_OBJECT(assistant), "button_select", button_select );
+    g_object_set_data (G_OBJECT (assistant), "button_select", button_select);
 
-    button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-                        "gtk-cancel", GTK_RESPONSE_CANCEL );
-    gtk_widget_set_size_request ( button_cancel, width, -1 );
-    g_object_set_data ( G_OBJECT(assistant), "button_cancel", button_cancel );
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (assistant), button_cancel, GTK_RESPONSE_CANCEL);
+    gtk_widget_set_size_request (button_cancel, width, -1 );
+    g_object_set_data (G_OBJECT (assistant), "button_cancel", button_cancel);
 
-    button_prev = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-                        "gtk-go-back", GTK_RESPONSE_NO );
-    gtk_widget_set_size_request ( button_prev, width, -1 );
-    g_object_set_data ( G_OBJECT(assistant), "button_prev", button_prev );
-    gtk_widget_set_sensitive ( button_prev, FALSE );
+	button_prev = gtk_button_new_with_label (_("Prévious"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (assistant), button_prev, GTK_RESPONSE_NO);
+    gtk_widget_set_size_request (button_prev, width, -1);
+    g_object_set_data (G_OBJECT (assistant), "button_prev", button_prev);
+    gtk_widget_set_sensitive (button_prev, FALSE);
 
-    button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-                        "gtk-go-forward", GTK_RESPONSE_YES );
-    gtk_widget_set_size_request ( button_next, width, -1 );
-    g_object_set_data ( G_OBJECT(assistant), "button_next", button_next );
+	button_next = gtk_button_new_with_label (_("Following"));
+    gtk_dialog_add_action_widget (GTK_DIALOG (assistant), button_next, GTK_RESPONSE_YES);
+    gtk_widget_set_size_request (button_next, width, -1);
+    g_object_set_data (G_OBJECT (assistant), "button_next", button_next);
 
     eb = gtk_event_box_new ();
     gtk_widget_set_name (eb, "grey_box");
@@ -154,8 +154,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), BOX_BORDER_WIDTH );
 
     label = gtk_label_new ( NULL );
-    tmpstr = g_markup_printf_escaped (
-                        "<b><span size=\"x-large\">%s</span></b>", title );
+    tmpstr = g_markup_printf_escaped ("<b><span size=\"x-large\">%s</span></b>", title);
     gtk_label_set_markup ( GTK_LABEL(label), tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
@@ -213,8 +212,6 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 
     return assistant;
 }
-
-
 
 /**
  * Add a page to the Grisbi assistant.
@@ -435,15 +432,26 @@ void gsb_assistant_next_page ( GtkWidget *assistant )
  *
  *
  */
-void gsb_assistant_change_button_next ( GtkWidget * assistant, const gchar * title,
-					GtkResponseType response )
+void gsb_assistant_change_button_next (GtkWidget *assistant,
+									   const gchar *title,
+									   GtkResponseType response)
 {
     GtkWidget * button_next;
 
-    button_next = g_object_get_data ( G_OBJECT (assistant), "button_next" );
-    gtk_widget_destroy ( button_next );
-    button_next = gtk_dialog_add_button ( GTK_DIALOG (assistant), title, response );
-    g_object_set_data ( G_OBJECT (assistant), "button_next", button_next );
+    button_next = g_object_get_data (G_OBJECT (assistant), "button_next");
+    gtk_widget_destroy (button_next);
+
+	if (g_strcmp0 (title, "gtk-apply") == 0)
+		button_next = gtk_button_new_with_label (_("Apply"));
+	else if (g_strcmp0 (title, "gtk-close") == 0)
+		button_next = gtk_button_new_with_label (_("Close"));
+	else if (g_strcmp0 (title, "gtk-go-forward") == 0)
+		button_next = gtk_button_new_with_label (_("Following"));
+
+    gtk_dialog_add_action_widget (GTK_DIALOG (assistant), button_next, response);
+	gtk_widget_show (button_next);
+
+	g_object_set_data (G_OBJECT (assistant), "button_next", button_next);
 }
 
 
