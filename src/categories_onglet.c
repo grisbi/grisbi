@@ -449,20 +449,29 @@ void categories_exporter_list ( void )
 void categories_importer_list ( void )
 {
     GtkWidget *dialog;
+	GtkWidget *button_cancel;
+	GtkWidget *button_open;
+	GtkWidget *button_replace;
     gint resultat;
     gchar *category_name;
     gint last_transaction_number;
     GtkFileFilter * filter;
     gchar *tmp_last_directory;
 
-    dialog = gtk_file_chooser_dialog_new ( _("Import categories"),
-					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
-					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-open", GTK_RESPONSE_OK,
-					   NULL);
+    dialog = gtk_file_chooser_dialog_new (_("Import categories"),
+										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+										  GTK_FILE_CHOOSER_ACTION_OPEN,
+										  NULL, NULL, NULL);
 
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_open, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_open, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+	gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     filter = gtk_file_filter_new ();
@@ -475,6 +484,8 @@ void categories_importer_list ( void )
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+
+	gtk_widget_show_all (dialog);
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
@@ -503,17 +514,21 @@ void categories_importer_list ( void )
 				           "You may also decide to replace existing categories with imported ones." ) ),
 				       _("Merge imported categories with existing?") );
 
-    if ( !last_transaction_number)
-	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-				 _("Replace existing"), 2,
-				 NULL );
+    if (!last_transaction_number)
+	{
+		button_replace = gtk_button_new_with_label (_("Replace existing"));
+		gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_replace, 2);
+	}
 
-    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-			     "gtk-cancel", 0,
-			     "gtk-ok", 1,
-			     NULL );
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, 0);
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+	button_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_open, 1);
+	gtk_widget_set_can_default (button_open, TRUE);
+	gtk_widget_show_all (dialog);
+
+	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     switch ( resultat )
