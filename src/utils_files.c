@@ -687,11 +687,12 @@ GtkWidget *utils_files_create_file_chooser (GtkWidget *parent,
 
     bouton_OK = gtk_button_new_with_label (_("Open"));
 	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), bouton_OK, GTK_RESPONSE_ACCEPT);
-	(void)bouton_OK; /* unused value: fix warning -Wunused-but-set-variable */
 
 	gtk_window_set_position (GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (parent));
     gtk_widget_set_size_request (chooser, 600, 750);
+
+	gtk_widget_set_can_default (bouton_OK, TRUE);
 
 	gtk_widget_show_all (chooser);
 
