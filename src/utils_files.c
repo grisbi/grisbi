@@ -673,27 +673,27 @@ GtkWidget *utils_files_create_file_chooser (GtkWidget *parent,
     GtkWidget *chooser;
     GtkWidget *bouton_cancel, *bouton_OK;
 
-    chooser = gtk_file_chooser_dialog_new (titre,
+	chooser = gtk_file_chooser_dialog_new (titre,
                         GTK_WINDOW (parent),
                         GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                         NULL, NULL, NULL);
 
-    bouton_cancel = gtk_dialog_add_button (GTK_DIALOG (chooser),
-                                "gtk-cancel",
-                                GTK_RESPONSE_CANCEL);
+	bouton_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), bouton_cancel, GTK_RESPONSE_CANCEL);
     g_signal_connect (G_OBJECT (bouton_cancel),
 		       "clicked",
 		       G_CALLBACK (utils_files_file_chooser_cancel),
 		       chooser);
 
-    bouton_OK = gtk_dialog_add_button (GTK_DIALOG (chooser),
-                                "gtk-open",
-                                GTK_RESPONSE_ACCEPT);
+    bouton_OK = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), bouton_OK, GTK_RESPONSE_ACCEPT);
 	(void)bouton_OK; /* unused value: fix warning -Wunused-but-set-variable */
 
 	gtk_window_set_position (GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (parent));
     gtk_widget_set_size_request (chooser, 600, 750);
+
+	gtk_widget_show_all (chooser);
 
     return  chooser;
 }
