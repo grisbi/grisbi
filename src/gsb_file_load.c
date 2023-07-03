@@ -4002,6 +4002,8 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 		if (!is_crypt && !g_utf8_validate (tmp_file_content, length, NULL))
 		{
 			GtkWidget *dialog;
+			GtkWidget *button_NO;
+			GtkWidget *button_OK;
 			gchar *text;
 			gchar *hint;
 
@@ -4013,10 +4015,12 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 
 			dialog = dialogue_special_no_run (GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE, text, hint);
 
-			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-									_("Load another file"), GTK_RESPONSE_NO,
-									_("Correct the file"), GTK_RESPONSE_OK,
-										NULL);
+			button_NO = gtk_button_new_with_label (_("Load another file"));
+			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_NO, GTK_RESPONSE_NO);
+
+			button_OK = gtk_button_new_with_label (_("Correct the file"));
+			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+
 			if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
 			{
 				file_content = g_utf8_make_valid (tmp_file_content, length);
