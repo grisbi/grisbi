@@ -307,19 +307,26 @@ static gboolean gsb_file_test_file (const gchar *filename)
  **/
 static gchar *gsb_file_dialog_ask_name (const gchar *filename)
 {
-    gchar *new_name;
     GtkWidget *dialog;
-    gint result;
+	GtkWidget *button_cancel;
+	GtkWidget *button_save;
+    gchar *new_name;
     gchar *tmp_last_directory;
+    gint result;
 
-    dialog = gtk_file_chooser_dialog_new (_("Name the accounts file"),
+	dialog = gtk_file_chooser_dialog_new (_("Name the accounts file"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_FILE_CHOOSER_ACTION_SAVE,
-										  "gtk-cancel", GTK_RESPONSE_CANCEL,
-										  "gtk-save", GTK_RESPONSE_OK,
-										  NULL);
+										  NULL, NULL, NULL);
 
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_save = gtk_button_new_with_label (_("Save"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_save, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_save, TRUE);
+
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
@@ -330,14 +337,16 @@ static gchar *gsb_file_dialog_ask_name (const gchar *filename)
 
 		w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-        tmp_str = g_strconcat (w_etat->accounting_entity, ".gsb", NULL);
-        gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), tmp_str);
-        g_free (tmp_str);
-    }
-    else
+		tmp_str = g_strconcat (w_etat->accounting_entity, ".gsb", NULL);
+		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), tmp_str);
+		g_free (tmp_str);
+	}
+	else
         gtk_file_chooser_select_filename (GTK_FILE_CHOOSER (dialog), filename);
 
-    result = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_show_all (dialog);
+
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
 
     switch (result)
     {
@@ -378,12 +387,15 @@ static gint gsb_file_dialog_save (const gchar *filename,
 								  gint origine)
 {
     GtkWidget *dialog;
+    GtkWidget *button_cancel;
+    GtkWidget *button_close;
+    GtkWidget *button_save;
     gchar *hint = NULL;
     gchar *message = NULL;
     gint result;
 	gchar *basename = NULL;
 
-    dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+	dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
 									 GTK_BUTTONS_NONE,
@@ -407,12 +419,15 @@ static gint gsb_file_dialog_save (const gchar *filename,
 			hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
 									(basename ? basename : _("unnamed")));
 
+			button_close = gtk_button_new_with_label (_("Close without saving"));
+			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_close, GTK_RESPONSE_NO);
 
-			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-									_("Close without saving"), GTK_RESPONSE_NO,
-									"gtk-cancel", GTK_RESPONSE_REJECT,
-									"gtk-save", GTK_RESPONSE_OK,
-									NULL);
+			button_cancel = gtk_button_new_with_label (_("Cancel"));
+			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_REJECT);
+
+			button_save = gtk_button_new_with_label (_("Save"));
+			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_save, GTK_RESPONSE_OK);
+
 			if (difference >= 120)
 			{
 				time_elapsed = g_strdup_printf (_("%d minutes and %d seconds"), difference / 60, difference % 60);
@@ -438,21 +453,26 @@ static gint gsb_file_dialog_save (const gchar *filename,
 			hint = g_strdup_printf (_("Save changes in '%s' file?"),
 									(basename ? basename : _("unnamed")));
 
-			gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-									"gtk-cancel", GTK_RESPONSE_NO,
-									"gtk-save", GTK_RESPONSE_OK,
-									NULL);
+			button_cancel = gtk_button_new_with_label (_("Cancel"));
+			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_NO);
+
+			button_save = gtk_button_new_with_label (_("Save"));
+			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_save, GTK_RESPONSE_OK);
+
 			message = g_strdup("");
 		}
 	}
 	gtk_dialog_set_default_response (GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 	g_object_set (G_OBJECT (dialog), "text", hint, "secondary-text", message, NULL);
 
+	gtk_widget_show_all (dialog);
+
     g_free (message);
     g_free (hint);
     g_free(basename);
 
     gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
 
     result = gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
@@ -730,6 +750,8 @@ gboolean gsb_file_new_finish (void)
 gboolean gsb_file_open_menu (void)
 {
     GtkWidget *selection_fichier;
+	GtkWidget *button_cancel;
+	GtkWidget *button_open;
     GtkFileFilter * filter;
     gboolean result = FALSE;
     gchar *tmp_last_directory;
@@ -738,9 +760,15 @@ gboolean gsb_file_open_menu (void)
     selection_fichier = gtk_file_chooser_dialog_new (_("Open an accounts file"),
 												     GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 												     GTK_FILE_CHOOSER_ACTION_OPEN,
-												     "gtk-cancel", GTK_RESPONSE_CANCEL,
-												     "gtk-open", GTK_RESPONSE_OK,
-												     NULL);
+												     NULL, NULL, NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (selection_fichier), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (selection_fichier), button_open, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_open, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (selection_fichier), GTK_RESPONSE_OK);
 
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection_fichier), gsb_file_get_last_path ());
     gtk_window_set_position (GTK_WINDOW (selection_fichier), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -755,6 +783,8 @@ gboolean gsb_file_open_menu (void)
     gtk_file_filter_set_name (filter, _("All files"));
     gtk_file_filter_add_pattern (filter, "*");
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (selection_fichier), filter);
+
+	gtk_widget_show_all (selection_fichier);
 
     switch (gtk_dialog_run (GTK_DIALOG (selection_fichier)))
     {
