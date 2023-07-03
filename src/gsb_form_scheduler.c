@@ -1247,6 +1247,8 @@ gint gsb_form_scheduler_get_last_day_of_month_dialog (gint scheduled_number,
 													  GDate *date)
 {
 	GtkWidget *dialog = NULL;
+	GtkWidget *button_keep;
+	GtkWidget *button_force;
 	gchar *msg;
 	gchar *tmp_str;
 	GDateDay day;
@@ -1262,10 +1264,16 @@ gint gsb_form_scheduler_get_last_day_of_month_dialog (gint scheduled_number,
 									  msg,
 									  _("This is the last day of the month"));
 
-	gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-							tmp_str, GTK_RESPONSE_NO,
-							_("Force the last day of the month"), GTK_RESPONSE_YES,
-							NULL);
+	button_keep = gtk_button_new_with_label (tmp_str);
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_keep, GTK_RESPONSE_NO);
+
+	button_force = gtk_button_new_with_label (_("Force the last day of the month"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_force, GTK_RESPONSE_YES);
+
+	gtk_widget_set_can_default (button_keep, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
+
+	gtk_widget_show_all (dialog);
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 
