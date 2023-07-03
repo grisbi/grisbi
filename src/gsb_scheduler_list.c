@@ -2930,6 +2930,10 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 				result = (warning+msg_no)->default_answer;
             else
             {
+				GtkWidget *button_all;
+				GtkWidget *button_cancel;
+				GtkWidget *button_one;
+
 				gchar *tmp_date;
 				tmp_str = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
 				tmp_date = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
@@ -2950,11 +2954,16 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 												  occurrences,
 												  _("Delete this scheduled transaction?"));
 
-				gtk_dialog_add_buttons (GTK_DIALOG(dialog),
-										"gtk-cancel", 2,
-								 		_("All the occurrences"), 1,
-								 		_("Only this one"), 0,
-								 		NULL);
+				button_cancel = gtk_button_new_with_label (_("Cancel"));
+				gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, 2);
+
+				button_all = gtk_button_new_with_label (_("All the occurrences"));
+				gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_all, 1);
+
+				button_one = gtk_button_new_with_label (_("Only this one"));
+				gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_one, 0);
+				gtk_widget_set_can_default (button_cancel, TRUE);
+				gtk_dialog_set_default_response (GTK_DIALOG (dialog), 2);
 
 				vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
@@ -2964,7 +2973,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 								  G_CALLBACK (dialogue_update_struct_message),
 								  (warning+msg_no));
 				gtk_box_pack_start (GTK_BOX (vbox), checkbox, TRUE, TRUE, MARGIN_BOX);
-				gtk_widget_show_all (checkbox);
+				gtk_widget_show_all (dialog);
 
 				result = gtk_dialog_run (GTK_DIALOG (dialog));
 
