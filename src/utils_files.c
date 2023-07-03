@@ -671,7 +671,8 @@ GtkWidget *utils_files_create_file_chooser (GtkWidget *parent,
 											gchar *titre)
 {
     GtkWidget *chooser;
-    GtkWidget *bouton_cancel, *bouton_OK;
+    GtkWidget *bouton_cancel;
+    GtkWidget *bouton_open;
 
 	chooser = gtk_file_chooser_dialog_new (titre,
                         GTK_WINDOW (parent),
@@ -685,14 +686,15 @@ GtkWidget *utils_files_create_file_chooser (GtkWidget *parent,
 		       G_CALLBACK (utils_files_file_chooser_cancel),
 		       chooser);
 
-    bouton_OK = gtk_button_new_with_label (_("Open"));
-	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), bouton_OK, GTK_RESPONSE_ACCEPT);
+    bouton_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), bouton_open, GTK_RESPONSE_ACCEPT);
 
 	gtk_window_set_position (GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (parent));
     gtk_widget_set_size_request (chooser, 600, 750);
 
-	gtk_widget_set_can_default (bouton_OK, TRUE);
+	gtk_widget_set_can_default (bouton_open, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (chooser), GTK_RESPONSE_ACCEPT);
 
 	gtk_widget_show_all (chooser);
 
