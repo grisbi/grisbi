@@ -1183,6 +1183,8 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 											   GtkWidget *parent)
 {
     GtkWidget *dialog, *hbox, *go_charmap_sel;
+	GtkWidget *button_cancel;
+	GtkWidget *button_open;
 	GtkWidget *label;
     GtkFileFilter *filter, *default_filter;
     gchar *files;
@@ -1196,11 +1198,18 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 	GrisbiAppConf *a_conf;
 
     dialog = gtk_file_chooser_dialog_new (_("Choose files to import."),
-                        GTK_WINDOW (parent),
-                        GTK_FILE_CHOOSER_ACTION_OPEN,
-                        "gtk-cancel", GTK_RESPONSE_CANCEL,
-                        "gtk-open", GTK_RESPONSE_ACCEPT,
-                        NULL);
+										  GTK_WINDOW (parent),
+										  GTK_FILE_CHOOSER_ACTION_OPEN,
+										  GTK_BUTTONS_NONE,
+										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_open, GTK_RESPONSE_ACCEPT);
+	gtk_widget_set_can_default (button_open, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
     gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
 
@@ -1218,11 +1227,11 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 
     while (tmp_list)
     {
-    format = (struct ImportFormat *) tmp_list->data;
-    old_str = files;
-    files = g_strconcat (files, ", *.", format->extension, NULL);
-    g_free (old_str);
-    tmp_list = tmp_list->next;
+		format = (struct ImportFormat *) tmp_list->data;
+		old_str = files;
+		files = g_strconcat (files, ", *.", format->extension, NULL);
+		g_free (old_str);
+		tmp_list = tmp_list->next;
     }
 
     default_filter = gtk_file_filter_new ();
@@ -1234,36 +1243,37 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     tmp_list = ImportFormats;
     while (tmp_list)
     {
-    GtkFileFilter *format_filter;
+		GtkFileFilter *format_filter;
 
-    format = (struct ImportFormat *) tmp_list->data;
+		format = (struct ImportFormat *) tmp_list->data;
 
-    format_filter = gtk_file_filter_new ();
-    tmp_str = g_strdup_printf (_("%s files (*.%s)"),
-                        format->name,
-                        format->extension);
-    gtk_file_filter_set_name (format_filter, tmp_str);
-    g_free (tmp_str);
-    /* Make it case insensitive */
-    tmp_str = g_strdup ("*.");
-    tmp_char = format->extension;
-    while(*tmp_char != '\0')
-    {
-    old_str=tmp_str;
-    tmp_str = g_strdup_printf ("%s[%c%c]",
-                        tmp_str,
-                        (int)g_ascii_toupper(*tmp_char),
-                        (int)*tmp_char);
-    tmp_char++;
-    g_free (old_str);
-    }
-    gtk_file_filter_add_pattern (format_filter, tmp_str);
-    /* Add this pattern to the global filter as well*/
-    gtk_file_filter_add_pattern (default_filter, tmp_str);
-    g_free (tmp_str);
-    gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), format_filter);
+		format_filter = gtk_file_filter_new ();
+		tmp_str = g_strdup_printf (_("%s files (*.%s)"), format->name, format->extension);
+		gtk_file_filter_set_name (format_filter, tmp_str);
+		g_free (tmp_str);
 
-    tmp_list = tmp_list->next;
+		/* Make it case insensitive */
+		tmp_str = g_strdup ("*.");
+		tmp_char = format->extension;
+		while(*tmp_char != '\0')
+		{
+			old_str=tmp_str;
+			tmp_str = g_strdup_printf ("%s[%c%c]",
+									   tmp_str,
+									   (int)g_ascii_toupper(*tmp_char),
+									   (int)*tmp_char);
+			tmp_char++;
+			g_free (old_str);
+		}
+		gtk_file_filter_add_pattern (format_filter, tmp_str);
+
+		/* Add this pattern to the global filter as well*/
+		gtk_file_filter_add_pattern (default_filter, tmp_str);
+		g_free (tmp_str);
+
+		gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), format_filter);
+
+		tmp_list = tmp_list->next;
     }
 
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), default_filter);
@@ -1277,13 +1287,14 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     /* Add encoding preview */
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), hbox);
-    gtk_box_pack_start (GTK_BOX (hbox), gtk_label_new (_("Encoding: ")),
-                        FALSE, FALSE, 0);
-    go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
+    gtk_box_pack_start (GTK_BOX (hbox), gtk_label_new (_("Encoding: ")), FALSE, FALSE, 0);
+
+	go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
     if (enc && strlen (enc))
         go_charmap_sel_set_encoding ((GOCharmapSel *) go_charmap_sel, enc);
     gtk_box_pack_start (GTK_BOX (hbox), go_charmap_sel, TRUE, TRUE, 0);
-    gtk_widget_show_all (hbox);
+
+	gtk_widget_show_all (dialog);
 
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     filenames = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (dialog));
@@ -1311,7 +1322,8 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
 	g_free (tmp_last_directory);
 
     gtk_widget_destroy (dialog);
-    return filenames;
+
+	return filenames;
 }
 
 /**
@@ -3150,8 +3162,10 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 															   gint account_number,
 															   GtkWindow *parent)
 {
-    GSList *tmp_list;
     GtkWidget *dialog;
+	GtkWidget *button_OK;
+	GtkWidget *button_select_all;
+	GtkWidget *button_unselect_all;
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *scrolled_window;
@@ -3165,6 +3179,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	GtkWidget *image;
 	GSList *list_ope_correspondantes = NULL;
 	GSList *list_ope_doublons = NULL;
+    GSList *tmp_list;
     gchar *tmp_str;
     gchar *tmp_str2;
     gint return_exponent;
@@ -3175,29 +3190,37 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
     if (etat.fusion_import_transactions)
 	{
-        tmp_str = g_strdup_printf (
-                        _("Confirmation of transactions to be merged in: %s"),
-                        gsb_data_account_get_name (account_number));
+        tmp_str = g_strdup_printf (_("Confirmation of transactions to be merged in: %s"),
+								   gsb_data_account_get_name (account_number));
 	}
     else
 	{
-        tmp_str = g_strdup_printf (
-                        _("Confirmation of importation of transactions in: %s"),
-                        gsb_data_account_get_name (account_number));
+        tmp_str = g_strdup_printf (_("Confirmation of importation of transactions in: %s"),
+								   gsb_data_account_get_name (account_number));
 	}
 
 	if (parent == NULL)
 		parent = GTK_WINDOW (grisbi_app_get_active_window (NULL));
 
+
     dialog = gtk_dialog_new_with_buttons (tmp_str,
-                        GTK_WINDOW (parent),
-                        GTK_DIALOG_MODAL,
-                        "gtk-select-all", -12,
-                        _("Unselect all"), -13,
-                        "gtk-ok",
-                        GTK_RESPONSE_OK,
-                        NULL);
+										  GTK_WINDOW (parent),
+										  GTK_DIALOG_MODAL,
+										  GTK_BUTTONS_NONE,
+										  NULL);
     g_free (tmp_str);
+
+	button_select_all = gtk_button_new_with_label (_("Select all"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_select_all, -12);
+
+	button_unselect_all = gtk_button_new_with_label (_("Unselect all"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_unselect_all, -13);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
     gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 500);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
@@ -3217,52 +3240,39 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     }
     label = gtk_label_new (tmp_str);
     utils_labels_set_alignment (GTK_LABEL (label), 0.0, 0.0);
-    gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)),
-			 label,
-			 FALSE,
-			 FALSE,
-			 10);
-    gtk_widget_show (label);
+    gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)), label, FALSE, FALSE, BOX_BORDER_WIDTH);
     g_free (tmp_str);
 
     /* set the decoration */
     frame = gtk_frame_new (NULL);
     gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)), frame, TRUE, TRUE, 0);
-    gtk_widget_show (frame);
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_add (GTK_CONTAINER (frame), vbox);
-    gtk_widget_show (vbox);
 
     scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-                        GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
-    gtk_widget_show (scrolled_window);
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_add (GTK_CONTAINER (scrolled_window), vbox);
     gtk_container_set_border_width (GTK_CONTAINER (vbox), BOX_BORDER_WIDTH);
-    gtk_widget_show (vbox);
 
 	/* On crée la boite d'alerte quand plusieurs transactions sont fusionnées avec une transaction existante */
     frame_alert = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame_alert), GTK_SHADOW_OUT);
     gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)), frame_alert, FALSE, FALSE, MARGIN_BOX);
+	gtk_widget_set_no_show_all (frame_alert, TRUE);
 
 	vbox_alert = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 	gtk_container_add (GTK_CONTAINER (frame_alert), vbox_alert);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox_alert), BOX_BORDER_WIDTH);
-	gtk_widget_show (vbox_alert);
 
 	hbox_alert = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
 	gtk_box_pack_start (GTK_BOX (vbox_alert), hbox_alert, TRUE, TRUE, 0);
-    gtk_widget_show (hbox_alert);
 
 	image = gtk_image_new_from_icon_name ("gtk-dialog-warning", GTK_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_box_pack_start (GTK_BOX (hbox_alert), image, FALSE, FALSE, 0);
-    gtk_widget_show (image);
 
 	label_alert = gtk_label_new (NULL);
 	tmp_str = dialogue_make_pango_attribut ("weight=\"bold\"", _("Duplicate transactions"));
@@ -3271,19 +3281,14 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 
 	gtk_label_set_xalign (GTK_LABEL (label_alert), GSB_CENTER);
 	gtk_box_pack_start (GTK_BOX (hbox_alert), label_alert, TRUE, TRUE, 0);
-	gtk_widget_show (label_alert);
 
 	scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-                        GTK_POLICY_AUTOMATIC,
-                        GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (vbox_alert), scrolled_window);
-    gtk_widget_show (scrolled_window);
 
     vbox_alert_lignes = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_add (GTK_CONTAINER (scrolled_window), vbox_alert_lignes);
     gtk_container_set_border_width (GTK_CONTAINER (vbox_alert_lignes), BOX_BORDER_WIDTH);
-    gtk_widget_show (vbox_alert_lignes);
 
     /* on fait maintenant le tour des opés importées et affichent celles à problème */
     tmp_list = imported_account->operations_importees;
@@ -3307,22 +3312,19 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 
 			hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
 			gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-			gtk_widget_show (hbox);
 
 			ope_import->bouton = gtk_check_button_new ();
 			if (etat.fusion_import_transactions)
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ope_import->bouton), TRUE);
 			g_object_set_data (G_OBJECT (ope_import->bouton), "dialog", dialog);
 			g_signal_connect (ope_import->bouton,
-							"toggled",
-							G_CALLBACK (gsb_import_ope_import_toggled),
-							vbox);
+							  "toggled",
+							  G_CALLBACK (gsb_import_ope_import_toggled),
+							  vbox);
 			gtk_box_pack_start (GTK_BOX (hbox), ope_import->bouton, FALSE, FALSE, 0);
-			gtk_widget_show (ope_import->bouton);
 
 			return_exponent = gsb_data_account_get_currency_floating_point (account_number);
-			tmp_str2 = utils_real_get_string (gsb_real_adjust_exponent (ope_import->montant,
-							return_exponent));
+			tmp_str2 = utils_real_get_string (gsb_real_adjust_exponent (ope_import->montant, return_exponent));
 			tmp_date = gsb_format_gdate (ope_import->date);
 			if (etat.fusion_import_transactions)
 				tmp_str = g_strdup_printf (_("Transaction to be merged: %s ; %s ; %s"),
@@ -3339,15 +3341,12 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			label = gtk_label_new (tmp_str);
 			g_free (tmp_str);
 			gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-			gtk_widget_show (label);
 
 			hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
 			gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-			gtk_widget_show (hbox);
 
 			label = gtk_label_new ("       ");
 			gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-			gtk_widget_show (label);
 
 			/* on garde trace des opérations correspondantes pour avertir l'utilisateur d'un problème de fusion */
 			if (g_slist_find (list_ope_correspondantes, GINT_TO_POINTER (ope_import->ope_correspondante)))
@@ -3370,7 +3369,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 					g_free (tmp_str);
 					g_free (tmp_str2);
 					g_free (tmp_str3);
-					gtk_widget_show (frame_alert);
+					gtk_widget_set_no_show_all (frame_alert, FALSE);
 				}
 			}
 			else
@@ -3414,7 +3413,6 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			}
 
 			gtk_box_pack_start (GTK_BOX (hbox), ope_import->label_ope_find, FALSE, FALSE, 0);
-			gtk_widget_show (ope_import->label_ope_find);
 		}
 		tmp_list = tmp_list->next;
     }
@@ -3422,8 +3420,10 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     /* si on n'a rien a afficher on sort */
     if (!ope_visible)
         gtk_widget_destroy (dialog);
+	else
+		gtk_widget_show_all (dialog);
 
-dialog_return:
+	dialog_return:
     result = gtk_dialog_run (GTK_DIALOG (dialog));
 
     if (result <= -12)
@@ -4246,6 +4246,9 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
                         gint account_number)
 {
 	GtkWidget *liste_ope_celibataires, *dialog, *label, *scrolled_window;
+    GtkWidget *button_cancel;
+    GtkWidget *button_OK;
+	GtkWidget *button_select_all;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
@@ -4258,12 +4261,21 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
     dialog = gtk_dialog_new_with_buttons (tmp_str,
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-										  "gtk-select-all", GTK_RESPONSE_ACCEPT,
-										  "gtk-cancel", GTK_RESPONSE_CANCEL,
-										  "gtk-ok", GTK_RESPONSE_OK,
+										  GTK_BUTTONS_NONE,
 										  NULL);
 
     g_free (tmp_str);
+
+	button_select_all = gtk_button_new_with_label (_("Select all"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_select_all, GTK_RESPONSE_ACCEPT);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
     gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -4369,7 +4381,7 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
                         G_CALLBACK (gsb_import_click_dialog_ope_orphelines),
                         liste_ope_celibataires);
 
-	gtk_widget_show (dialog);
+	gtk_widget_show_all (dialog);
 }
 
 /**
@@ -5127,6 +5139,8 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
 												GrisbiAppConf *a_conf)
 {
     GtkWidget *dialog, *paddingbox, *table;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *check_button;
@@ -5142,11 +5156,16 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
     return NULL;
 
     dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
-                        GTK_WINDOW (grisbi_app_get_active_window (NULL)),
-                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        "gtk-cancel", GTK_RESPONSE_REJECT,
-                        "gtk-ok", GTK_RESPONSE_ACCEPT,
-                        NULL);
+										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+										  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+										  GTK_BUTTONS_NONE,
+										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_REJECT);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_ACCEPT);
 
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
