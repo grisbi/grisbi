@@ -44,17 +44,15 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *dialog;
+static GtkWidget *entry_text;
+static GtkWidget *icon_view;
+static GdkPixbuf *pixbuf_logo = NULL;
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-static GtkWidget *dialog;
-static GtkWidget *bouton_OK;
-static GtkWidget *bouton_cancel;
-static GtkWidget *entry_text;
-static GtkWidget *icon_view;
-static GdkPixbuf *pixbuf_logo = NULL;
 
 static GtkListStore *store = NULL;
 
@@ -80,7 +78,7 @@ enum {
  *
  **/
 static void gsb_select_icon_selection_changed (GtkIconView *view,
-											   gpointer user_data)
+											   GtkWidget *bouton_OK)
 {
     GList *liste;
     GtkTreePath *path;
@@ -180,7 +178,6 @@ static gchar *gsb_select_icon_troncate_name_icon (gchar *name_icon,
  * en paramètre
  **/
 static GtkTreePath *gsb_select_icon_fill_icon_view (const gchar *name_icon)
-
 {
     GDir *dir;
     GError *error = NULL;
@@ -255,7 +252,6 @@ static GtkTreePath *gsb_select_icon_fill_icon_view (const gchar *name_icon)
 	if (tree_path == NULL)
         tree_path = gtk_tree_path_new_from_string ("0");
 
-
     return tree_path;
 }
 
@@ -306,29 +302,40 @@ static gboolean gsb_select_icon_add_path (void)
  *
  **/
 static void gsb_select_icon_create_file_chooser (GtkWidget *button,
-												 gpointer user_data)
+												 GtkWidget *bouton_OK)
 {
     GtkWidget *chooser;
+	GtkWidget *button_cancel;
+	GtkWidget *button_open;
 
  	devel_debug (NULL);
 	chooser = gtk_file_chooser_dialog_new (_("Select icon directory"),
-                        GTK_WINDOW (dialog),
-                        GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                        "gtk-cancel", GTK_RESPONSE_CANCEL,
-                        "gtk-open", GTK_RESPONSE_ACCEPT,
-                        NULL);
+										   GTK_WINDOW (dialog),
+										   GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+										   GTK_BUTTONS_NONE,
+										   NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), button_open, GTK_RESPONSE_ACCEPT);
+	gtk_widget_set_can_default (button_open, TRUE);
 
 	gtk_window_set_position (GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (dialog));
 	gtk_window_set_destroy_with_parent (GTK_WINDOW (chooser), TRUE);
     gtk_widget_set_size_request (chooser, 600, 750);
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (chooser), path_icon);
+
+	gtk_widget_show_all (chooser);
+
     if (gtk_dialog_run (GTK_DIALOG (chooser)) == GTK_RESPONSE_ACCEPT)
     {
         GtkTreePath *path;
 
         path_icon = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
-        //~ devel_debug (path_icon);
         path = gsb_select_icon_fill_icon_view (NULL);
         gtk_icon_view_scroll_to_path (GTK_ICON_VIEW (icon_view),
                             path, TRUE, 0.5, 0);
@@ -349,7 +356,7 @@ static void gsb_select_icon_create_file_chooser (GtkWidget *button,
  *
  **/
 static void gsb_select_icon_entry_text_changed (GtkComboBox *entry,
-												gpointer user_data)
+												GtkWidget *bouton_OK)
 {
     GtkTreePath *path;
     const gchar *tmp_str;
@@ -468,6 +475,8 @@ static GdkPixbuf *gsb_select_icon_resize_logo_pixbuf (GdkPixbuf *pixbuf)
  **/
 gchar *gsb_select_icon_create_window (const gchar *name_icon)
 {
+	GtkWidget *bouton_cancel;
+	GtkWidget *bouton_OK;
     GtkWidget *content_area;
     GtkWidget *hbox;
     GtkWidget *chooser_button;
@@ -496,10 +505,12 @@ gchar *gsb_select_icon_create_window (const gchar *name_icon)
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
 	bouton_cancel = gtk_button_new_with_label (_("Cancel"));
-	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), bouton_cancel, GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), bouton_cancel, GTK_RESPONSE_REJECT);
+	gtk_widget_set_can_default (bouton_cancel, TRUE);
 
-	bouton_OK = gtk_button_new_with_label (_("Open"));
+	bouton_OK = gtk_button_new_with_label (_("Validate"));
 	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), bouton_OK, GTK_RESPONSE_ACCEPT);
+	gtk_widget_set_can_default (bouton_OK, TRUE);
 
     content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
@@ -532,17 +543,17 @@ gchar *gsb_select_icon_create_window (const gchar *name_icon)
     g_signal_connect (G_OBJECT (view),
                         "selection-changed",
                         G_CALLBACK(gsb_select_icon_selection_changed),
-                        NULL);
+                        bouton_OK);
 
     g_signal_connect (G_OBJECT (chooser_button),
                         "clicked",
                         G_CALLBACK(gsb_select_icon_create_file_chooser),
-                        NULL);
+                        bouton_OK);
 
     g_signal_connect (G_OBJECT(entry_text),
                         "changed",
                         G_CALLBACK(gsb_select_icon_entry_text_changed),
-                        NULL);
+                        bouton_OK);
 
     gtk_widget_show_all (dialog);
 
