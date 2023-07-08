@@ -341,6 +341,8 @@ static gboolean etats_onglet_report_export_change_format (GtkWidget *combo,
  **/
 static void etats_onglet_exporter_etat (void)
 {
+	GtkWidget *button_cancel;
+	GtkWidget *button_save;
     GtkWidget *combo;
     GtkWidget *fenetre_nom;
     GtkWidget *hbox;
@@ -356,11 +358,18 @@ static void etats_onglet_exporter_etat (void)
     fenetre_nom = gtk_file_chooser_dialog_new (_("Export report"),
 											   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 											   GTK_FILE_CHOOSER_ACTION_SAVE,
-											   "gtk-cancel", GTK_RESPONSE_CANCEL,
-											   "gtk-save", GTK_RESPONSE_OK,
+											   GTK_BUTTONS_NONE,
 											   NULL);
 
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fenetre_nom), gsb_file_get_last_path ());
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (fenetre_nom), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_save = gtk_button_new_with_label (_("Save"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (fenetre_nom), button_save, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_save, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (fenetre_nom), GTK_RESPONSE_OK);
+
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fenetre_nom), gsb_file_get_last_path ());
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (fenetre_nom), TRUE);
     gtk_window_set_position (GTK_WINDOW (fenetre_nom), GTK_WIN_POS_CENTER_ON_PARENT);
 
@@ -385,10 +394,11 @@ static void etats_onglet_exporter_etat (void)
 					  "changed",
 					  G_CALLBACK (etats_onglet_report_export_change_format),
 					  fenetre_nom);
-    gtk_widget_show_all (hbox);
     gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER(fenetre_nom), hbox);
 
-    resultat = gtk_dialog_run (GTK_DIALOG (fenetre_nom));
+	gtk_widget_show_all (fenetre_nom);
+
+	resultat = gtk_dialog_run (GTK_DIALOG (fenetre_nom));
     if (resultat == GTK_RESPONSE_OK)
     {
 		nom_etat = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (fenetre_nom));
@@ -435,6 +445,8 @@ static void etats_onglet_exporter_etat (void)
  **/
 static void etats_onglet_importer_etat (void)
 {
+	GtkWidget *button_cancel;
+	GtkWidget *button_open;
     GtkWidget *fenetre_nom;
     GtkWidget *notebook_general;
     GtkFileFilter *filter;
@@ -449,9 +461,16 @@ static void etats_onglet_importer_etat (void)
     fenetre_nom = gtk_file_chooser_dialog_new (_("Import a report"),
 											   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 											   GTK_FILE_CHOOSER_ACTION_OPEN,
-											   "gtk-cancel", GTK_RESPONSE_CANCEL,
-											   "gtk-open", GTK_RESPONSE_OK,
+											   GTK_BUTTONS_NONE,
 											   NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (fenetre_nom), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (fenetre_nom), button_open, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_open, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (fenetre_nom), GTK_RESPONSE_OK);
 
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fenetre_nom), gsb_file_get_last_path ());
     gtk_window_set_position (GTK_WINDOW (fenetre_nom), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -467,7 +486,9 @@ static void etats_onglet_importer_etat (void)
     gtk_file_filter_add_pattern (filter, "*");
     gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fenetre_nom), filter);
 
-    resultat = gtk_dialog_run (GTK_DIALOG (fenetre_nom));
+	gtk_widget_show_all (fenetre_nom);
+
+	resultat = gtk_dialog_run (GTK_DIALOG (fenetre_nom));
 
     switch (resultat)
     {
@@ -503,6 +524,8 @@ static void etats_onglet_importer_etat (void)
 static void etats_onglet_bouton_export_pdf_etat_clicked (void)
 {
 	GtkWidget *dialog;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
 	gchar *export_pdf_name;
 	gchar *filename;
 	gint report_number;
@@ -514,11 +537,22 @@ static void etats_onglet_bouton_export_pdf_etat_clicked (void)
 	dialog = gtk_file_chooser_dialog_new (_("Create a pdf file of the report"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_FILE_CHOOSER_ACTION_SAVE,
-										  "gtk-cancel", GTK_RESPONSE_CANCEL,
-										  "gtk-ok", GTK_RESPONSE_OK,
+										  GTK_BUTTONS_NONE,
 										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), export_pdf_name);
 	gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_dirs_get_default_dir ());
+
+	gtk_widget_show_all (dialog);
+
 	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 	if (resultat != GTK_RESPONSE_OK)
 	{
