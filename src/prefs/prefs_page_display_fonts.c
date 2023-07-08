@@ -293,6 +293,8 @@ static gboolean prefs_page_display_fonts_update_preview_logo (GtkFileChooser *fi
 static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayFonts *page)
 {
 	GtkWidget *prefs_dialog;
+	GtkWidget *button_cancel;
+	GtkWidget *button_open;
     GtkWidget *file_selector;
     GtkWidget *preview;
     gchar *tmp_last_directory;
@@ -301,11 +303,18 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
     file_selector = gtk_file_chooser_dialog_new (_("Select a new logo"),
 												 GTK_WINDOW (prefs_dialog),
 												 GTK_FILE_CHOOSER_ACTION_OPEN,
-												 "gtk-cancel", GTK_RESPONSE_CANCEL,
-												 "gtk-open", GTK_RESPONSE_OK,
+												 GTK_BUTTONS_NONE,
 												 NULL);
 
-    if (etat.name_logo)
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (file_selector), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (file_selector), button_open, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_open, TRUE);
+
+	if (etat.name_logo)
 	{
 		gchar *dirname;
 
@@ -328,6 +337,8 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
                         "update-preview",
                         G_CALLBACK (prefs_page_display_fonts_update_preview_logo),
                         preview);
+
+	gtk_widget_show_all (file_selector);
 
     switch (gtk_dialog_run (GTK_DIALOG (file_selector)))
     {
