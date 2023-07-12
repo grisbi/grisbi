@@ -371,6 +371,8 @@ static void bet_array_export_tab (GtkWidget *menu_item,
 								  GtkTreeView *tree_view)
 {
     GtkWidget *dialog;
+	GtkWidget *button_cancel;
+	GtkWidget *button_save;
     gint resultat;
     gchar *filename;
     gchar *tmp_last_directory;
@@ -378,14 +380,23 @@ static void bet_array_export_tab (GtkWidget *menu_item,
     dialog = gtk_file_chooser_dialog_new (_("Export the array of forecast"),
 									      GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									      GTK_FILE_CHOOSER_ACTION_SAVE,
-									   	  "gtk-cancel", GTK_RESPONSE_CANCEL,
-									      "gtk-save", GTK_RESPONSE_OK,
+										  GTK_BUTTONS_NONE,
 									      NULL);
 
-    gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog),  _("forecast.csv"));
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_save = gtk_button_new_with_label (_("Save"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_save, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_save, TRUE);
+
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog),  _("forecast.csv"));
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+
+	gtk_widget_show_all (dialog);
 
     resultat = gtk_dialog_run (GTK_DIALOG (dialog));
 
