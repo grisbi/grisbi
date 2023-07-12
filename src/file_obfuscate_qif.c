@@ -86,15 +86,24 @@ gboolean file_obfuscate_qif_run ( void )
     if (result == GTK_RESPONSE_APPLY)
     {
 	GtkWidget *file_selection;
+	GtkWidget *button_cancel;
+	GtkWidget *button_open;
 	GtkFileFilter * filter;
 	gchar *qif_name;
 
-    file_selection = gtk_file_chooser_dialog_new ( _("Open a QIF file"),
-					   GTK_WINDOW ( assistant ),
-					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-open", GTK_RESPONSE_OK,
-					   NULL);
+    file_selection = gtk_file_chooser_dialog_new (_("Open a QIF file"),
+												  GTK_WINDOW (assistant),
+												  GTK_FILE_CHOOSER_ACTION_OPEN,
+												  GTK_BUTTONS_NONE,
+												  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (file_selection), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_open = gtk_button_new_with_label (_("Open"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (file_selection), button_open, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_open, TRUE);
 
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( file_selection ), gsb_file_get_last_path () );
     gtk_window_set_position ( GTK_WINDOW ( file_selection ), GTK_WIN_POS_CENTER_ON_PARENT );
@@ -109,6 +118,8 @@ gboolean file_obfuscate_qif_run ( void )
 	gtk_file_filter_set_name ( filter, _("All files") );
 	gtk_file_filter_add_pattern ( filter, "*" );
 	gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( file_selection ), filter );
+
+	gtk_widget_show_all (file_selection);
 
 	if ( gtk_dialog_run ( GTK_DIALOG (file_selection) ) == GTK_RESPONSE_OK )
 	{
