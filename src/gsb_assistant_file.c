@@ -644,14 +644,23 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
 						     GtkWidget *entry )
 {
     GtkWidget *dialog;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     gchar *tmpstr;
 
-    dialog = gtk_file_chooser_dialog_new ( _("Create filename"),
-					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
-					   GTK_FILE_CHOOSER_ACTION_SAVE,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-ok", GTK_RESPONSE_ACCEPT,
-					   NULL);
+    dialog = gtk_file_chooser_dialog_new (_("Create filename"),
+										  GTK_WINDOW ( grisbi_app_get_active_window (NULL)),
+										  GTK_FILE_CHOOSER_ACTION_SAVE,
+										  GTK_BUTTONS_NONE,
+										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_ACCEPT);
+	gtk_widget_set_can_default (button_OK, TRUE);
 
     tmpstr = g_path_get_basename (gtk_entry_get_text (GTK_ENTRY (entry)));
     gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmpstr );
@@ -663,6 +672,8 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
 
     gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( dialog ), TRUE);
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+
+	gtk_widget_show_all (dialog);
 
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
