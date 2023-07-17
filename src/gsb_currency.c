@@ -903,6 +903,8 @@ void gsb_currency_exchange_dialog (gint account_currency_number,
 {
     GtkWidget *dialog, *label, *hbox, *paddingbox, *table, *widget;
     GtkWidget *entry, *amount_entry, *amount_1_entry, *amount_2_entry, *fees_entry;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     GtkWidget *combobox_1;
     GtkWidget *combobox_2;
     CachedExchangeRate *cache;
@@ -926,13 +928,20 @@ void gsb_currency_exchange_dialog (gint account_currency_number,
     }
 
     dialog = gtk_dialog_new_with_buttons (_("Enter exchange rate"),
-                        GTK_WINDOW (grisbi_app_get_active_window (NULL)),
-                        GTK_DIALOG_MODAL,
-                        "gtk-cancel", GTK_RESPONSE_CANCEL,
-                        "gtk-ok", GTK_RESPONSE_OK,
-                        NULL);
+										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+										  GTK_DIALOG_MODAL,
+										  NULL, NULL,
+										  NULL);
 
-    gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+
+	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 
     /* text for paddingbox */
