@@ -312,7 +312,7 @@ static void gsb_select_icon_create_file_chooser (GtkWidget *button,
 	chooser = gtk_file_chooser_dialog_new (_("Select icon directory"),
 										   GTK_WINDOW (dialog),
 										   GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-										   GTK_BUTTONS_NONE,
+										   NULL, NULL,
 										   NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));

@@ -1200,7 +1200,7 @@ static GSList *gsb_import_create_file_chooser (const char *enc,
     dialog = gtk_file_chooser_dialog_new (_("Choose files to import."),
 										  GTK_WINDOW (parent),
 										  GTK_FILE_CHOOSER_ACTION_OPEN,
-										  GTK_BUTTONS_NONE,
+										  NULL, NULL,
 										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
@@ -3206,7 +3206,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     dialog = gtk_dialog_new_with_buttons (tmp_str,
 										  GTK_WINDOW (parent),
 										  GTK_DIALOG_MODAL,
-										  GTK_BUTTONS_NONE,
+										  NULL, NULL,
 										  NULL);
     g_free (tmp_str);
 
@@ -4261,7 +4261,7 @@ static void gsb_import_show_orphan_transactions (GSList *orphan_list,
     dialog = gtk_dialog_new_with_buttons (tmp_str,
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-										  GTK_BUTTONS_NONE,
+										  NULL, NULL,
 										  NULL);
 
     g_free (tmp_str);
@@ -5158,7 +5158,7 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
     dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-										  GTK_BUTTONS_NONE,
+										  NULL, NULL,
 										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));

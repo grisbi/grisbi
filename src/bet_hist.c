@@ -861,7 +861,7 @@ static void bet_hist_export_tab (GtkWidget *menu_item,
 	dialog = gtk_file_chooser_dialog_new (_("Export the hist data"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_FILE_CHOOSER_ACTION_SAVE,
-										  GTK_BUTTONS_NONE,
+										  NULL, NULL,
 										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));

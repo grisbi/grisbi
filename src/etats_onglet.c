@@ -358,7 +358,7 @@ static void etats_onglet_exporter_etat (void)
     fenetre_nom = gtk_file_chooser_dialog_new (_("Export report"),
 											   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 											   GTK_FILE_CHOOSER_ACTION_SAVE,
-											   GTK_BUTTONS_NONE,
+											   NULL, NULL,
 											   NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
@@ -461,7 +461,7 @@ static void etats_onglet_importer_etat (void)
     fenetre_nom = gtk_file_chooser_dialog_new (_("Import a report"),
 											   GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 											   GTK_FILE_CHOOSER_ACTION_OPEN,
-											   GTK_BUTTONS_NONE,
+											   NULL, NULL,
 											   NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
@@ -537,7 +537,7 @@ static void etats_onglet_bouton_export_pdf_etat_clicked (void)
 	dialog = gtk_file_chooser_dialog_new (_("Create a pdf file of the report"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_FILE_CHOOSER_ACTION_SAVE,
-										  GTK_BUTTONS_NONE,
+										  NULL, NULL,
 										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));

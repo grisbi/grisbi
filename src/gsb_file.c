@@ -317,7 +317,8 @@ static gchar *gsb_file_dialog_ask_name (const gchar *filename)
 	dialog = gtk_file_chooser_dialog_new (_("Name the accounts file"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_FILE_CHOOSER_ACTION_SAVE,
-										  GTK_BUTTONS_NONE, NULL);
+										  NULL, NULL,
+										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
 	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
@@ -760,7 +761,7 @@ gboolean gsb_file_open_menu (void)
     selection_fichier = gtk_file_chooser_dialog_new (_("Open an accounts file"),
 												     GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 												     GTK_FILE_CHOOSER_ACTION_OPEN,
-												     GTK_BUTTONS_NONE,
+												     NULL, NULL,
 													 NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));

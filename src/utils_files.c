@@ -677,7 +677,7 @@ GtkWidget *utils_files_create_file_chooser (GtkWidget *parent,
 	chooser = gtk_file_chooser_dialog_new (titre,
 										   GTK_WINDOW (parent),
 										   GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-										   GTK_BUTTONS_NONE,
+										   NULL, NULL,
 										   NULL);
 
 	bouton_cancel = gtk_button_new_with_label (_("Cancel"));

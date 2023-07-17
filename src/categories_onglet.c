@@ -416,7 +416,7 @@ void categories_exporter_list ( void )
     dialog = gtk_file_chooser_dialog_new (_("Export categories"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_FILE_CHOOSER_ACTION_SAVE,
-										  GTK_BUTTONS_NONE,
+										  NULL, NULL,
 										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
@@ -472,7 +472,8 @@ void categories_importer_list ( void )
     dialog = gtk_file_chooser_dialog_new (_("Import categories"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_FILE_CHOOSER_ACTION_OPEN,
-										  GTK_BUTTONS_NONE, NULL);
+										  NULL, NULL,
+										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
 	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);

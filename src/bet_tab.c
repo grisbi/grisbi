@@ -380,8 +380,8 @@ static void bet_array_export_tab (GtkWidget *menu_item,
     dialog = gtk_file_chooser_dialog_new (_("Export the array of forecast"),
 									      GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									      GTK_FILE_CHOOSER_ACTION_SAVE,
-										  GTK_BUTTONS_NONE,
-									      NULL);
+										  NULL, NULL,
+										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
 	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);

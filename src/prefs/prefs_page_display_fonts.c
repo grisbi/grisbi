@@ -303,7 +303,7 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
     file_selector = gtk_file_chooser_dialog_new (_("Select a new logo"),
 												 GTK_WINDOW (prefs_dialog),
 												 GTK_FILE_CHOOSER_ACTION_OPEN,
-												 GTK_BUTTONS_NONE,
+												 NULL, NULL,
 												 NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));

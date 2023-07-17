@@ -94,7 +94,7 @@ gboolean file_obfuscate_qif_run ( void )
     file_selection = gtk_file_chooser_dialog_new (_("Open a QIF file"),
 												  GTK_WINDOW (assistant),
 												  GTK_FILE_CHOOSER_ACTION_OPEN,
-												  GTK_BUTTONS_NONE,
+												  NULL, NULL,
 												  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
