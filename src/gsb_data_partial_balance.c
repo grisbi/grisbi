@@ -278,7 +278,7 @@ void gsb_partial_balance_add ( GtkWidget *button, GtkWidget *main_widget )
 dialog_return:
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
-    if ( result == 1)
+    if (result == GTK_RESPONSE_OK)
     {
         GtkTreeView *treeview;
         GtkTreeModel *model;
@@ -397,7 +397,7 @@ void gsb_partial_balance_edit ( GtkWidget *button, GtkWidget *main_widget )
 dialog_return:
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
-    if ( result == 1)
+    if (result == GTK_RESPONSE_OK)
     {
         const gchar *name, *new_liste_cptes;
         gint position;
@@ -1824,25 +1824,34 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
 GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 {
     GtkWidget *dialog, *label, *main_vbox;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     GtkWidget *paddinggrid;
     GtkWidget *entry_name, *entry_list, *account_list, *bouton;
+	gchar *tmp_str;
 
     devel_debug ( NULL);
 
-    if ( action == 1 )
-        dialog = gtk_dialog_new_with_buttons ( _("Add a partial balance"),
-                            GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
-                            GTK_DIALOG_MODAL,
-                            "gtk-cancel", 0,
-                            "gtk-ok", 1,
-                            NULL );
-    else
-        dialog = gtk_dialog_new_with_buttons ( _("Modify a partial balance"),
-                            GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
-                            GTK_DIALOG_MODAL,
-                            "gtk-cancel", 0,
-                            "gtk-ok", 1,
-                            NULL );
+	if (action == 1)
+		tmp_str = g_strdup (_("Add a partial balance"));
+	else
+		tmp_str = g_strdup (_("Modify a partial balance"));
+
+	dialog = gtk_dialog_new_with_buttons (tmp_str,
+										  GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
+										  GTK_DIALOG_MODAL,
+										  NULL, NULL,
+										  NULL);
+	g_free (tmp_str);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "gsb-payment-32.png" );
@@ -1904,7 +1913,6 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
     return dialog;
 }
 
-
 /**
  *
  *
@@ -1912,15 +1920,25 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 {
     GtkWidget *dialog, *hbox, *label, *combo_devise;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     gint currency_nb = 1;	/* Initialisation avec la première devise : fixe bug 1881 */
 
-    dialog = gtk_dialog_new_with_buttons ( _("Enter the currency of the balance part"),
-                            GTK_WINDOW ( parent ),
-                            GTK_DIALOG_MODAL,
-                            "gtk-cancel", 0,
-                            "gtk-ok", 1,
-                            NULL );
-    gtk_widget_set_size_request ( dialog, -1, 150 );
+    dialog = gtk_dialog_new_with_buttons (_("Enter the currency of the balance part"),
+										  GTK_WINDOW (parent),
+										  GTK_DIALOG_MODAL,
+										  NULL, NULL,
+										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+
+	gtk_widget_set_size_request ( dialog, -1, 150 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
