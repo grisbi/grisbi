@@ -929,6 +929,7 @@ static void widget_loan_button_amortization_table_clicked (GtkButton *button,
 														   WidgetLoan *w_loan)
 {
 	GtkWidget *popup;
+	GtkWidget *button_close;
 	GtkWidget *page;
 	GtkWidget *content_area;
 	GtkWidget *prefs;
@@ -949,9 +950,12 @@ static void widget_loan_button_amortization_table_clicked (GtkButton *button,
 	popup = gtk_dialog_new_with_buttons (_("Amortization Table"),
 										 GTK_WINDOW (prefs),
 										 GTK_DIALOG_MODAL,
-										 "Close", GTK_RESPONSE_CLOSE,
+										 NULL, NULL,
 										 NULL);
 	gtk_widget_show (popup);
+
+	button_close = gtk_button_new_with_label (_("Close"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (popup), button_close, GTK_RESPONSE_NO);
 
 	/* set data of loan */
 	page = bet_finance_ui_create_amortization_heading (popup);
@@ -1569,6 +1573,8 @@ static void widget_loan_button_init_scheduled_clicked (GtkButton *button,
 													   WidgetLoan *w_loan)
 {
 	GtkWidget *popup;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
 	GtkWidget *page;
 	GtkWidget *content_area;
 	GtkWidget *prefs;
@@ -1586,9 +1592,16 @@ static void widget_loan_button_init_scheduled_clicked (GtkButton *button,
 	popup = gtk_dialog_new_with_buttons (_("Create new scheduled transaction"),
 										 GTK_WINDOW (prefs),
 										 GTK_DIALOG_MODAL,
-										 "gtk-cancel", GTK_RESPONSE_CANCEL,
-										 "gtk-ok", GTK_RESPONSE_OK,
+										 NULL, NULL,
 										 NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (popup), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (popup), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
 
 	page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (popup));
