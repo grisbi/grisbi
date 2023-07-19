@@ -742,6 +742,8 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
 {
     GtkWidget *dialog, *vbox, *sw, *tree_view;
     GtkWidget *hbox, *warn, *label;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
     GtkTreeModel *model;
@@ -752,11 +754,19 @@ gchar *utils_files_create_sel_charset (GtkWidget *assistant,
     gint result;
 
     dialog = gtk_dialog_new_with_buttons (_("Select a charmap"),
-                            GTK_WINDOW (assistant),
-                            GTK_DIALOG_MODAL,
-                            "gtk-cancel", 0,
-                            "gtk-ok", GTK_RESPONSE_OK,
-                            NULL);
+										  GTK_WINDOW (assistant),
+										  GTK_DIALOG_MODAL,
+										  NULL, NULL,
+										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_widget_set_size_request (dialog, 600, -1);
     gtk_dialog_set_response_sensitive   (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
