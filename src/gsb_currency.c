@@ -1310,6 +1310,7 @@ gint gsb_currency_dialog_list_iso_4217_new (GtkWidget *page_currency,
 											gboolean no_callback)
 {
     GtkWidget *dialog;
+	GtkWidget *button_close;
     GtkWidget *content_area;
     GtkWidget *details;
     GtkWidget *popup;
@@ -1322,8 +1323,12 @@ gint gsb_currency_dialog_list_iso_4217_new (GtkWidget *page_currency,
 	dialog = gtk_dialog_new_with_buttons (_("Add a currency"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL,
-										  "gtk-close", 1,
+										  NULL, NULL,
 										  NULL);
+
+	button_close = gtk_button_new_with_label (_("Close"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_close, GTK_RESPONSE_ACCEPT);
+	gtk_widget_set_can_default (button_close, TRUE);
 
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
