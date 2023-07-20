@@ -1221,6 +1221,8 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
 										 gint scheduled_number)
 {
     GtkWidget *parent_save, *dialog, *hbox;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     GtkWidget *button;
 	GtkWidget *form_transaction_part;
     gint result;
@@ -1234,14 +1236,21 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
     dialog = gtk_dialog_new_with_buttons (_("Enter a scheduled transaction"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL,
-										  "gtk-cancel", GTK_RESPONSE_CANCEL,
-										  "gtk-ok", GTK_RESPONSE_OK,
+										  NULL, NULL,
 										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+    gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_widget_set_size_request (dialog, 700, -1);
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
-    gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	/* first we reparent the form in the dialog */
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -1270,10 +1279,12 @@ static gboolean saisie_echeance_accueil (GtkWidget *event_box,
 									   G_CALLBACK (gsb_form_scheduler_change_account),
 									   NULL);
 
+	gtk_widget_show_all (dialog);
+
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 
     if (result == GTK_RESPONSE_OK)
-	 gsb_form_finish_edition ();
+		gsb_form_finish_edition ();
 
     gtk_container_remove (GTK_CONTAINER (hbox), form_transaction_part);
     gtk_container_add (GTK_CONTAINER (parent_save), form_transaction_part);
