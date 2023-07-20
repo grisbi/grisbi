@@ -178,7 +178,7 @@ decrypt_v3(gchar *password, gchar **file_content, int length)
 	 * first marker. */
 	decrypted_len = encrypted_len + EVP_MAX_BLOCK_LENGTH;
 	decrypted_buf = g_malloc ( decrypted_len );
-	
+
 	/* clean the buffer to avoid problems with an incomplete last block */
 	memset(decrypted_buf, 0, decrypted_len);
 
@@ -428,29 +428,47 @@ return_bad_password:
  *
  * \return a string which is the crypt key or NULL if it was
  * cancelled. */
-gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additional_message,
-                        gboolean encrypt )
+gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name,
+										gchar * additional_message,
+										gboolean encrypt )
 {
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
 	GdkPixbuf *pixbuf_1;
 	GdkPixbuf *pixbuf_2;
     gchar *key = NULL;
     GtkWidget *dialog, *button = NULL, *label, *entry, *hbox, *hbox2, *vbox, *icon;
 	gchar *tmp_msg;
+	gchar *tmp_str;
     gint result;
 	GrisbiWinRun *w_run;
 
 	w_run = grisbi_win_get_w_run ();
 
-    dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
-                        GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
-                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        "gtk-cancel", GTK_RESPONSE_CANCEL,
-                        ( encrypt ? _("Crypt file") : _("Decrypt file") ), GTK_RESPONSE_OK,
-                        NULL );
+    dialog = gtk_dialog_new_with_buttons (_("Grisbi password"),
+										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+										  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+										  NULL, NULL,
+										  NULL);
+
+	if (encrypt)
+		tmp_str = g_strdup (_("Crypt file"));
+	else
+		tmp_str = g_strdup (_("Decrypt file"));
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (tmp_str);
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+    gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+	g_free (tmp_str);
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
-    gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX );
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), hbox, TRUE, TRUE, 6 );
