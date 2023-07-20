@@ -719,6 +719,8 @@ gboolean popup_category_view_mode_menu ( GtkWidget *button )
 gboolean edit_category ( GtkTreeView *tree_view )
 {
     GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
+	GtkWidget *button_cancel;
+	GtkWidget *button_apply;
     gint category_number = -1, sub_category_number = -1;
     GtkTreeSelection * selection;
     GtkTreeModel * model = NULL;
@@ -758,14 +760,21 @@ gboolean edit_category ( GtkTreeView *tree_view )
 		g_free(tmp_str);
 	}
 
-    dialog = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW ( grisbi_app_get_active_window (NULL) ),
-					   GTK_DIALOG_MODAL,
-					   "gtk-cancel", GTK_RESPONSE_NO,
-					   "gtk-apply", GTK_RESPONSE_OK,
-					   NULL );
+    dialog = gtk_dialog_new_with_buttons (title,
+										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+										  GTK_DIALOG_MODAL,
+										  NULL, NULL,
+										  NULL);
 
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_apply = gtk_button_new_with_label (_("Apply"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_apply, GTK_RESPONSE_APPLY);
+	gtk_widget_set_can_default (button_apply, TRUE);
+
+	gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
@@ -821,7 +830,7 @@ gboolean edit_category ( GtkTreeView *tree_view )
 
     while ( 1 )
     {
-	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_OK )
+	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_APPLY)
 	{
         sortie_edit_category = TRUE;
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
