@@ -1482,6 +1482,8 @@ void bet_utils_get_payment_data (GtkWidget *widget,
 static GtkWidget *bet_future_create_dialog (gint account_number)
 {
     GtkWidget *dialog;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     GtkWidget *vbox;
     GtkWidget *table;
 
@@ -1489,13 +1491,20 @@ static GtkWidget *bet_future_create_dialog (gint account_number)
     dialog = gtk_dialog_new_with_buttons (_("Enter a budget line"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL,
-										  "gtk-cancel", GTK_RESPONSE_CANCEL,
-										  "gtk-ok", GTK_RESPONSE_OK,
+										  NULL, NULL,
 										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+    gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
-    gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start (GTK_BOX (dialog_get_content_area (dialog)), vbox, TRUE, TRUE, 0);
@@ -1510,7 +1519,7 @@ static GtkWidget *bet_future_create_dialog (gint account_number)
     bet_form_create_scheduler_part (dialog, table);
     bet_form_create_current_form (dialog, table, account_number);
 
-	gtk_widget_show (vbox);
+	gtk_widget_show_all (dialog);
 
     return dialog;
 }
