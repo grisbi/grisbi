@@ -1190,6 +1190,8 @@ gboolean gsb_assistant_reconcile_config_update_manu_asso (GtkWidget *assistant,
 static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *button,
                         GtkWidget *assistant )
 {
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
     GList *tmp_list;
     GtkTreeIter iter;
     GtkTreeModel *model;
@@ -1264,12 +1266,19 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 
     /* ok, all the transactions belong to the same account, we can
      * show a dialog to select the reconcile */
-    dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
-					   GTK_WINDOW ( assistant ),
-					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   "gtk-cancel", GTK_RESPONSE_CANCEL,
-					   "gtk-ok", GTK_RESPONSE_OK,
-					   NULL );
+    dialog = gtk_dialog_new_with_buttons (_("Selection of a reconciliation"),
+										  GTK_WINDOW (assistant),
+										  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+										  NULL, NULL,
+										  NULL );
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
 
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
