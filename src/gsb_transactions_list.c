@@ -1109,6 +1109,8 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
 											 		gint transaction_number)
 {
     GtkWidget *dialog;
+	GtkWidget *button_cancel;
+	GtkWidget *button_OK;
 	GtkWidget *content_area;
     GtkWidget *label;
     GtkWidget *scrolled_window;
@@ -1133,11 +1135,18 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
     dialog = gtk_dialog_new_with_buttons (_("Selection of a reconciliation"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL,
-										  "gtk-cancel", GTK_RESPONSE_CANCEL,
-										  "gtk-ok", GTK_RESPONSE_OK,
+										  NULL, NULL,
 										  NULL);
 
-    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412);
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+	gtk_widget_set_can_default (button_cancel, TRUE);
+
+	button_OK = gtk_button_new_with_label (_("Validate"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_OK, TRUE);
+
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
     gtk_container_set_border_width (GTK_CONTAINER (dialog), BOX_BORDER_WIDTH);
@@ -1147,14 +1156,12 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
 	label = gtk_label_new (_("Select the reconciliation to associate to the selected transaction: "));
     utils_labels_set_alignment (GTK_LABEL (label), 0.0, 0.0);
     gtk_box_pack_start (GTK_BOX (content_area), label, FALSE, FALSE, MARGIN_BOX);
-    gtk_widget_show (label);
 
     scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 									GTK_POLICY_AUTOMATIC,
 									GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start (GTK_BOX (content_area), scrolled_window, TRUE, TRUE, 0);
-    gtk_widget_show (scrolled_window);
 
     /* set up the tree view */
     store = gtk_list_store_new (RECONCILE_NB_COL,
@@ -1168,7 +1175,6 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
     g_object_unref (G_OBJECT(store));
 
     gtk_container_add (GTK_CONTAINER (scrolled_window), tree_view);
-    gtk_widget_show (tree_view);
 
     /* set the columns */
     for (i = RECONCILE_CHOOSE_NAME ; i<RECONCILE_NUMBER ; i++)
@@ -1255,6 +1261,8 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
         }
         tmp_list = tmp_list->next;
     }
+
+	gtk_widget_show_all (dialog);
 
     /* run the dialog */
     return_value = gtk_dialog_run (GTK_DIALOG (dialog));
