@@ -112,7 +112,7 @@ int main (int argc, char **argv)
 
     app = g_object_new (GRISBI_APP_TYPE,
                         "application-id",   "org.gtk.grisbi",
-                        "flags",            G_APPLICATION_HANDLES_COMMAND_LINE | G_APPLICATION_NON_UNIQUE,
+                        "flags",            G_APPLICATION_NON_UNIQUE,
                         "register-session", TRUE,
                         NULL);
 

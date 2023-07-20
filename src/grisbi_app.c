@@ -783,44 +783,6 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
     return win;
 }
 
-static const GOptionEntry options[] =
-{
-	/* Version */
-	{
-		"version", 'V', 0, G_OPTION_ARG_NONE, NULL,
-		N_("Show the application's version"), NULL
-	},
-
-	/* Open a new window */
-	{
-		"new-window", '\0', 0, G_OPTION_ARG_NONE, NULL,
-		N_("Create a new top-level window in an existing instance of grisbi"),
-		NULL
-	},
-
-    /* debug level */
-    {
-        "debug", 'd', 0, G_OPTION_ARG_STRING, NULL,
-        N_("Debug mode: level 0-5"),
-		N_("DEBUG")
-    },
-
-	/* New instance */
-/*	{
-		"standalone", 's', 0, G_OPTION_ARG_NONE, NULL,
-		N_("Run grisbi in standalone mode"),
-		NULL
-	},
-*/
-	/* collects file arguments */
-	{
-		G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_FILENAME_ARRAY, NULL, NULL,
-		N_("[FILE...]")
-	},
-
-	{ NULL, 0, 0, 0, NULL, NULL, NULL}
-};
-
 /**
  * affiche les information d'environnement
  *
@@ -850,109 +812,6 @@ static gboolean grisbi_app_print_environment_var (void)
     g_free (tmp_str);
 
     return FALSE;
-}
-
-/**
- * gestionnaire des options passées au programme
- *
- * \param GApplication  *app
- * \param GApplicationCommandLine *command_line
- *
- * \return always TRUE
- **/
-static gboolean grisbi_app_cmdline (GApplication *application,
-									GApplicationCommandLine *cmdline)
-{
-	GrisbiAppPrivate *priv;
-	GVariantDict *v_options;
-	gchar *tmp_str = NULL;
-	const gchar **remaining_args;
-
-	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
-
-	/* initialisation de debug_level à -1 */
-	priv->debug_level = -1;
-
-	/* traitement des autres options */
-	v_options = g_application_command_line_get_options_dict (cmdline);
-
-	g_variant_dict_lookup (v_options, "new-window", "b", &priv->new_window);
-	g_variant_dict_lookup (v_options, "debug", "s", &tmp_str);
-	g_variant_dict_lookup (v_options, "d", "s", &tmp_str);
-
-    /* Parse filenames */
-	if (g_variant_dict_lookup (v_options, G_OPTION_REMAINING, "^a&ay", &remaining_args))
-	{
-		gint i;
-
-		for (i = 0; remaining_args[i]; i++)
-		{
-			if (g_file_test (remaining_args[i], G_FILE_TEST_EXISTS))
-			{
-				priv->file_list = g_slist_prepend (priv->file_list, g_strdup (remaining_args[i]));
-			}
-		}
-
-		if (g_slist_length (priv->file_list) > 1)
-			priv->file_list = g_slist_reverse (priv->file_list);
-
-		g_free (remaining_args);
-	}
-
-	/* modification du niveau de débug si besoin */
-	if (tmp_str && strlen (tmp_str) > 0)
-	{
-		gint64 number;
-
-		errno = 0;
-		number = g_ascii_strtoll (tmp_str, NULL, 10);
-		if (number > 0)
-			priv->debug_level = (gint)number;
-		else if (errno == 0 && number == 0)
-			priv->debug_level = (gint)number;
-	}
-
-#ifdef DEBUG
-		/* On peut forcer le niveau 0 (pas de debug) */
-		if (priv->debug_level >= 0 && priv->debug_level < MAX_DEBUG_LEVEL)
-			debug_set_cmd_line_debug_level (priv->debug_level);
-#else
-		if (priv->debug_level > 0)
-		{
-			debug_initialize_debugging (priv->debug_level);
-			grisbi_app_print_environment_var ();
-		}
-#endif
-
-    if (priv->new_window)
-		grisbi_app_create_window (GRISBI_APP (application), NULL);
-
-	g_application_activate (application);
-
-	return FALSE;
-}
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static gint grisbi_app_handle_local_options (GApplication *app,
-											 GVariantDict *v_options)
-{
-    if (g_variant_dict_contains (v_options, "version"))
-    {
-		gchar *extra_support_str = extra_support ();
-        g_print ("%s - Version %s\n", g_get_application_name (), VERSION);
-        g_print("\n\n");
-        g_print("%s", extra_support_str);
-		g_free(extra_support_str);
-        return 0;
-    }
-
-    return -1;
 }
 
 /**
@@ -1257,9 +1116,6 @@ static void grisbi_app_init (GrisbiApp *app)
 #endif
 
     g_set_application_name ("Grisbi");
-
-	/* add options for app */
-    g_application_add_main_option_entries (G_APPLICATION (app), options);
 }
 
 /**
@@ -1352,8 +1208,6 @@ static void grisbi_app_class_init (GrisbiAppClass *klass)
     app_class->startup = grisbi_app_startup;
     app_class->activate = grisbi_app_activate;
     app_class->open = grisbi_app_open;
-    app_class->handle_local_options = grisbi_app_handle_local_options;
-    app_class->command_line = grisbi_app_cmdline;
 
     app_class->shutdown = grisbi_app_shutdown;
     object_class->dispose = grisbi_app_dispose;
