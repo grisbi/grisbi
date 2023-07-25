@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2023 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -66,7 +66,7 @@
 static GtkCssProvider *	css_provider = NULL;    /* css provider */
 static gchar *			css_data = NULL;		/* fichier css sous forme de string */
 gboolean				darkmode = FALSE;		/* use to set darkmode from command_line */
-gboolean				has_started = FALSE;	/* TRUE when grisbi_app_activate() finishes */
+static gboolean			has_started = FALSE;	/* TRUE when grisbi_app_activate() finishes */
 
 static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
                                             GdkScreen *screen);
@@ -75,7 +75,13 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+typedef struct	_GrisbiApp			GrisbiApp;
 typedef struct	_GrisbiAppPrivate	GrisbiAppPrivate;
+
+struct _GrisbiApp
+{
+    GtkApplication parent;
+};
 
 struct _GrisbiAppPrivate
 {
@@ -852,56 +858,33 @@ static void grisbi_app_trappe_signaux (void)
 static gboolean grisbi_app_load_file_if_necessary (GrisbiApp *app)
 {
 	GrisbiWinRun *w_run;
-    GrisbiAppPrivate *priv;
+	GrisbiAppPrivate *priv;
 
 	/* let a chance to events (like grisbi_app_osx_openfile_callback) to be handled */
 	update_gui();
 
-    priv = grisbi_app_get_instance_private (GRISBI_APP (app));
+	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
-    /* check the command line, if there is something to open */
-    if (priv->file_list)
-    {
-		gchar *tmp_str = NULL;
-		GSList *tmp_list;
+	/* open the last file if needed, filename was set while loading the configuration */
+	if ((priv->a_conf)->dernier_fichier_auto && (priv->a_conf)->last_open_file)
+	{
+		if (!gsb_file_open_file ((priv->a_conf)->last_open_file))
+		{
+			g_free ((priv->a_conf)->last_open_file);
+			(priv->a_conf)->last_open_file = NULL;
 
-		tmp_list = 	priv->file_list;
-
-        /* on n'ouvre que le premier fichier de la liste */
-        tmp_str = tmp_list -> data;
-
-        if (gsb_file_open_file (tmp_str))
-        {
-			utils_files_append_name_to_recent_array (tmp_str);
+			return FALSE;
+		}
+		else
+		{
 			w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 			w_run->file_is_loading = TRUE;
-            return TRUE;
-        }
-        else
-            return FALSE;
+
+			return TRUE;
+		}
 	}
-    else
-    {
-        /* open the last file if needed, filename was set while loading the configuration */
-        if ((priv->a_conf)->dernier_fichier_auto && (priv->a_conf)->last_open_file)
-        {
-            if (!gsb_file_open_file ((priv->a_conf)->last_open_file))
-            {
-                g_free ((priv->a_conf)->last_open_file);
-                (priv->a_conf)->last_open_file = NULL;
 
-                return FALSE;
-            }
-            else
-			{
-				w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-				w_run->file_is_loading = TRUE;
-                return TRUE;
-			}
-        }
-    }
-
-    return FALSE;
+	return FALSE;
 }
 
 /**
@@ -914,25 +897,25 @@ static gboolean grisbi_app_load_file_if_necessary (GrisbiApp *app)
 static void grisbi_app_startup (GApplication *application)
 {
 	GrisbiApp *app = GRISBI_APP (application);
-    GFile *file = NULL;
-    GtkSettings* settings;
+	GFile *file = NULL;
+	GtkSettings* settings;
 	gchar *css_filename;
 	gchar *theme_name = NULL;
 	gboolean has_app_menu = FALSE;
-    GrisbiAppPrivate *priv;
+	GrisbiAppPrivate *priv;
 
 	/* Chain up parent's startup */
-    G_APPLICATION_CLASS (grisbi_app_parent_class)->startup (application);
+	G_APPLICATION_CLASS (grisbi_app_parent_class)->startup (application);
 
 	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 
 	/* on commence par détourner le signal SIGSEGV */
-    grisbi_app_trappe_signaux ();
+	grisbi_app_trappe_signaux ();
 
-    /* initialisation de la variable conf */
-    grisbi_app_struct_conf_init (app);
+	/* initialisation de la variable conf */
+	grisbi_app_struct_conf_init (app);
 
-    /* initialisation des variables de configuration globales */
+	/* initialisation des variables de configuration globales */
 	grisbi_conf_load_app_config ();
 
 	/* force dark type */
@@ -942,10 +925,10 @@ static void grisbi_app_startup (GApplication *application)
 	}
 
 	settings = gtk_settings_get_default ();
-    if (settings)
-    {
-        g_object_get (G_OBJECT (settings),
-                      "gtk-shell-shows-app-menu", &has_app_menu,
+	if (settings)
+	{
+		g_object_get (G_OBJECT (settings),
+					  "gtk-shell-shows-app-menu", &has_app_menu,
 					  "gtk-theme-name", &theme_name,
 					  NULL);
 
@@ -966,7 +949,7 @@ static void grisbi_app_startup (GApplication *application)
 			(priv->a_conf)->use_type_theme = gsb_rgba_get_type_theme (theme_name);
 			(priv->a_conf)->force_type_theme = 0;
 		}
-    }
+	}
 
 	/* set language and init locale parameters */
 	gsb_locale_init_language ((priv->a_conf)->language_chosen);
@@ -984,27 +967,32 @@ static void grisbi_app_startup (GApplication *application)
 #endif /* OS_OSX */
 
 	/* load the CSS properties */
-    css_provider = gtk_css_provider_new ();
+	css_provider = gtk_css_provider_new ();
 	css_filename = gsb_css_get_filename ();
-    file = g_file_new_for_path (css_filename);
-    gtk_css_provider_load_from_file (css_provider, file, NULL);
-    g_free (css_filename);
+	file = g_file_new_for_path (css_filename);
+	gtk_css_provider_load_from_file (css_provider, file, NULL);
+	g_free (css_filename);
 	g_object_unref (file);
 
 	/* récupération des données du fichier grisbi.css*/
 	css_data = gtk_css_provider_to_string (css_provider);
 
-    /* initialise les couleurs */
-    gsb_rgba_initialise_couleurs (css_data);
+	/* set the CSS properties */
+	gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+											   GTK_STYLE_PROVIDER (css_provider),
+											   GTK_STYLE_PROVIDER_PRIORITY_USER);
+
+	/* initialise les couleurs */
+	gsb_rgba_initialise_couleurs (css_data);
 
 	/* enregistre les formats d'importation */
-    gsb_import_register_import_formats ();
+	gsb_import_register_import_formats ();
 
-    /* charge les raccourcis claviers */
-    grisbi_app_setup_accelerators (application, has_app_menu);
+	/* charge les raccourcis claviers */
+	grisbi_app_setup_accelerators (application, has_app_menu);
 
 	/* app menu */
-    grisbi_app_set_main_menu (app, has_app_menu);
+	grisbi_app_set_main_menu (app, has_app_menu);
 }
 
 /**
@@ -1016,54 +1004,41 @@ static void grisbi_app_startup (GApplication *application)
  **/
 static void grisbi_app_activate (GApplication *application)
 {
-
 	GrisbiWin *win;
-    //~ gchar *string;
-    gboolean load_file = FALSE;
+	gboolean load_file = FALSE;
 	GrisbiAppPrivate *priv;
 
 	devel_debug (NULL);
 	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 
 	/* création de la fenêtre pincipale */
-    win = grisbi_app_create_window (GRISBI_APP (application), NULL);
+	win = grisbi_app_create_window (GRISBI_APP (application), NULL);
 
-    /* create the icon of grisbi (set in the panel of gnome or other) */
-    //~ string = g_build_filename (gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL);
-    //~ if (g_file_test (string, G_FILE_TEST_EXISTS))
-        //~ gtk_window_set_default_icon_from_file (string, NULL);
-    //~ g_free (string);
+	/* lance un assistant si première utilisation */
+	if ((priv->a_conf)->first_use)
+	{
+		gsb_assistant_first_run ();
+		(priv->a_conf)->first_use = FALSE;
+	}
+	else
+	{
+		/* ouvre un fichier si demandé */
+		load_file = grisbi_app_load_file_if_necessary (GRISBI_APP (application));
+		if (load_file)
+		{
+			display_tip (FALSE);
 
-	/* set the CSS properties */
-    if (css_provider)
-        gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
-                                                   GTK_STYLE_PROVIDER (css_provider),
-                                                   GTK_STYLE_PROVIDER_PRIORITY_USER);
-
-    /* lance un assistant si première utilisation */
-    if ((priv->a_conf)->first_use)
-    {
-        gsb_assistant_first_run ();
-        (priv->a_conf)->first_use = FALSE;
-    }
-    else
-    {
-        /* ouvre un fichier si demandé */
-        load_file = grisbi_app_load_file_if_necessary (GRISBI_APP (application));
-        if (load_file)
-            display_tip (FALSE);
+			/* Si sauvegarde automatique on la lance ici */
+			if ((priv->a_conf)->make_backup_every_minutes
+				&& (priv->a_conf)->make_backup_nb_minutes)
+				gsb_file_automatic_backup_start (NULL, NULL);
+		}
 		else
 		{
 			grisbi_win_stack_box_show (win, "accueil_page");
 			grisbi_win_status_bar_message (_("Start an action!"));
 		}
-    }
-
-    /* Si sauvegarde automatique on la lance ici */
-	if ((priv->a_conf)->make_backup_every_minutes
-        &&
-        (priv->a_conf)->make_backup_nb_minutes)
-        gsb_file_automatic_backup_start (NULL, NULL);
+	}
 
 	has_started = TRUE;
 }
@@ -1080,22 +1055,35 @@ static void grisbi_app_open (GApplication *application,
 							 gint n_files,
 							 const gchar *hint)
 {
-    GList *windows;
-    GrisbiWin *win;
-    int i;
+	GList *windows;
+	GrisbiWin *win;
 
-    windows = gtk_application_get_windows (GTK_APPLICATION (application));
-    if (windows)
-        win = GRISBI_WIN (windows->data);
-    else
-        win = grisbi_app_create_window (GRISBI_APP (application), NULL);
+	windows = gtk_application_get_windows (GTK_APPLICATION (application));
+	if (windows)
+		win = GRISBI_WIN (windows->data);
+	else
+		win = grisbi_app_create_window (GRISBI_APP (application), NULL);
 
-    for (i = 0; i < n_files; i++)
+	if (n_files == 1)
 	{
+		grisbi_win_open (win, files[0]);
+	}
+	else
+	{
+		gchar *msg;
 
-/*        grisbi_win_open (win, files[i]);
-*/	}
-    gtk_window_present (GTK_WINDOW (win));
+		msg = g_strdup (_("Grisbi has detected several character strings "
+						  "separated by one or more spaces.\n\n"
+						  "\t- If it's a filename with spaces, surround it with \"....\"\n\n"
+						  "\t- If there are multiple filenames, keep one."));
+
+		dialogue_warning_hint (msg,_("Inconsistency of the command line."));
+		g_free (msg);
+
+		has_started = TRUE;
+	}
+
+	gtk_window_present (GTK_WINDOW (win));
 }
 
 /******************************************************************************/
@@ -1110,12 +1098,10 @@ static void grisbi_app_open (GApplication *application,
  **/
 static void grisbi_app_init (GrisbiApp *app)
 {
-    /* initialize debugging */
+	/* initialize debugging */
 #ifdef DEBUG
 	debug_initialize_debugging (5);
 #endif
-
-    g_set_application_name ("Grisbi");
 }
 
 /**
@@ -1127,13 +1113,13 @@ static void grisbi_app_init (GrisbiApp *app)
  **/
 static void grisbi_app_dispose (GObject *object)
 {
-    GrisbiAppPrivate *priv;
+	GrisbiAppPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = grisbi_app_get_instance_private (GRISBI_APP (object));
 
-    /* liberation de la mémoire utilisée par les objets de priv*/
+	/* liberation de la mémoire utilisée par les objets de priv*/
 	if (priv->appmenu)
 		g_clear_object (&priv->appmenu);
 	else
@@ -1142,7 +1128,7 @@ static void grisbi_app_dispose (GObject *object)
 	if (priv->recent_array && g_strv_length (priv->recent_array) > 0)
 		g_strfreev (priv->recent_array);
 
-    G_OBJECT_CLASS (grisbi_app_parent_class)->dispose (object);
+	G_OBJECT_CLASS (grisbi_app_parent_class)->dispose (object);
 }
 
 /**
@@ -1154,9 +1140,9 @@ static void grisbi_app_dispose (GObject *object)
  **/
 static void grisbi_app_shutdown (GApplication *application)
 {
-    GrisbiAppPrivate *priv;
+	GrisbiAppPrivate *priv;
 
-    priv = grisbi_app_get_instance_private (GRISBI_APP (application));
+	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 	devel_debug (NULL);
 
 	/* on sauvegarde éventuellement le fichier CSS local */
@@ -1165,61 +1151,73 @@ static void grisbi_app_shutdown (GApplication *application)
 	/* on libère la mémoire utilisée par css_data */
 	g_free (css_data);
 
-    /* on libère la mémoire utilisée par etat */
-    free_variables ();
+	/* on libère la mémoire utilisée par etat */
+	free_variables ();
 
 	/* libération de mémoire utilisée par locale*/
-    gsb_locale_shutdown ();
+	gsb_locale_shutdown ();
 
 	/* on remet la détection du theme en auto si darkmode = TRUE */
 	if (darkmode)
 		(priv->a_conf)->force_type_theme = 0;
 
-    /* Sauvegarde de la configuration générale */
+	/* Sauvegarde de la configuration générale */
 	grisbi_conf_save_app_config ();
 
 	/* libération de mémoire utilisée par gsb_dirs*/
-    gsb_dirs_shutdown ();
+	gsb_dirs_shutdown ();
 
 	/* on libère la mémoire utilisée par conf */
-    grisbi_app_struct_conf_free (GRISBI_APP (application));
+	grisbi_app_struct_conf_free (GRISBI_APP (application));
 
-    /* clean finish of the debug file */
-    if (debug_get_debug_mode ())
+	/* clean finish of the debug file */
+	if (debug_get_debug_mode ())
 	{
-        debug_finish_log ();
+		debug_finish_log ();
 	}
 
-    G_APPLICATION_CLASS (grisbi_app_parent_class)->shutdown (application);
+	G_APPLICATION_CLASS (grisbi_app_parent_class)->shutdown (application);
 }
 
 /**
  * grisbi_app_class_init
  *
- * \param GrisbiAppClass    *class
+ * \param GrisbiAppClass	*class
  *
  * \return
  **/
-static void grisbi_app_class_init (GrisbiAppClass *klass)
+static void grisbi_app_class_init (GrisbiAppClass *class)
 {
-    GObjectClass *object_class = G_OBJECT_CLASS (klass);
-    GApplicationClass *app_class = G_APPLICATION_CLASS (klass);
+	G_APPLICATION_CLASS (class)->startup = grisbi_app_startup;
+	G_APPLICATION_CLASS (class)->activate = grisbi_app_activate;
+	G_APPLICATION_CLASS (class)->open = grisbi_app_open;
 
-    app_class->startup = grisbi_app_startup;
-    app_class->activate = grisbi_app_activate;
-    app_class->open = grisbi_app_open;
-
-    app_class->shutdown = grisbi_app_shutdown;
-    object_class->dispose = grisbi_app_dispose;
+	G_APPLICATION_CLASS (class)->shutdown = grisbi_app_shutdown;
+	G_OBJECT_CLASS (class)->dispose = grisbi_app_dispose;
 }
 
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+/**
+ * création de l"application grisbi
+ *
+ * \param
+ *
+ * \return		grisbi_app
+ **/
+GrisbiApp *grisbi_app_new (void)
+{
+	return g_object_new (GRISBI_APP_TYPE,
+						"application-id",   "org.gtk.grisbi",
+						"flags",			G_APPLICATION_HANDLES_OPEN|G_APPLICATION_NON_UNIQUE,
+						NULL);
+}
+
 void grisbi_app_window_style_updated (GtkWidget *win,
 									  gpointer force)
 {
-    GtkSettings* settings;
+	GtkSettings* settings;
 	gint forced = 0;
 
 	g_signal_handlers_block_by_func (G_OBJECT (win),
@@ -1228,8 +1226,8 @@ void grisbi_app_window_style_updated (GtkWidget *win,
 
 	forced = GPOINTER_TO_INT (force);
 	settings = gtk_settings_get_default ();
-    if (settings)
-    {
+	if (settings)
+	{
 		GFile *file = NULL;
 		gchar *tmp_theme_name;
 		const gchar *css_filename;
@@ -1633,6 +1631,18 @@ void grisbi_app_set_css_data (const gchar *new_css_data)
 {
 	g_free (css_data);
 	css_data = g_strdup (new_css_data);
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_app_set_has_started_true (void)
+{
+	has_started = TRUE;
 }
 
 /**

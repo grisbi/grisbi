@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2001-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2009-2023 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -77,17 +77,14 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+typedef struct	_GrisbiWin			GrisbiWin;
+typedef struct	_GrisbiWinPrivate	GrisbiWinPrivate;
+
 struct _GrisbiWin
 {
   GtkApplicationWindow parent;
 };
 
-struct _GrisbiWinClass
-{
-  GtkApplicationWindowClass parent_class;
-};
-
-typedef struct _GrisbiWinPrivate GrisbiWinPrivate;
 
 struct _GrisbiWinPrivate
 {
@@ -166,7 +163,7 @@ struct _GrisbiWinPrivate
 	 GtkWidget *		reconcile_panel;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW)
 
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 struct _GrisbiWinRun run;
@@ -835,7 +832,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	}
 
 	/* finalisation de no_file_page */
-	gtk_widget_show (priv->no_file_frame);
+	gtk_widget_show_all (priv->no_file_frame);
 }
 
 /* WIN CALLBACK */
@@ -1008,28 +1005,61 @@ static void grisbi_win_finalize (GObject *object)
  *
  * \return
  **/
-static void grisbi_win_class_init (GrisbiWinClass *klass)
+static void grisbi_win_class_init (GrisbiWinClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	G_OBJECT_CLASS (class)->finalize = grisbi_win_finalize;
 
-	object_class->finalize = grisbi_win_finalize;
+	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (class),
+												 "/org/gtk/grisbi/ui/grisbi_win.ui");
 
-	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
-                                                 "/org/gtk/grisbi/ui/grisbi_win.ui");
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, main_box);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, stack_box);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, statusbar);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, no_file_frame);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, no_file_grid);
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, main_box);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, stack_box);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, statusbar);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_frame);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), GrisbiWin, no_file_grid);
-
-    /* signaux */
-    gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), grisbi_win_change_state_window);
+	/* signaux */
+	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (class), grisbi_win_change_state_window);
 }
 
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+/**
+ * unused
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_win_open (GrisbiWin *win,
+					  GFile *file)
+{
+	gchar *filename;
+
+	devel_debug (NULL);
+	filename = g_file_get_path (file);
+
+	if (gsb_file_open_file (filename))
+	{
+		GrisbiWinPrivate *priv;
+		GrisbiAppConf *a_conf;
+
+		a_conf = grisbi_app_get_a_conf ();
+		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+
+		utils_files_append_name_to_recent_array (filename);
+		(priv->w_run)->file_is_loading = TRUE;
+
+		/* Si sauvegarde automatique on la lance ici */
+		if (a_conf->make_backup_every_minutes
+			&& a_conf->make_backup_nb_minutes)
+			gsb_file_automatic_backup_start (NULL, NULL);
+
+		grisbi_app_set_has_started_true ();
+	}
+}
+
 /**
  *
  *

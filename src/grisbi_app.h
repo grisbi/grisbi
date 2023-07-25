@@ -11,23 +11,10 @@ G_BEGIN_DECLS
 
 extern gboolean darkmode;
 
-#define GRISBI_APP_TYPE         (grisbi_app_get_type ())
-#define GRISBI_APP(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), GRISBI_APP_TYPE, GrisbiApp))
+#define GRISBI_APP_TYPE			(grisbi_app_get_type ())
+G_DECLARE_FINAL_TYPE			(GrisbiApp, grisbi_app, GRISBI, APP, GtkApplication)
 
-typedef struct _GrisbiApp       GrisbiApp;
-typedef struct _GrisbiAppClass  GrisbiAppClass;
-
-struct _GrisbiApp
-{
-    GtkApplication parent;
-};
-
-struct _GrisbiAppClass
-{
-    GtkApplicationClass parent_class;
-};
-
-GType				grisbi_app_get_type						(void) G_GNUC_CONST;
+GrisbiApp *			grisbi_app_new							(void);
 
 void				grisbi_app_display_gui_dump_accels		(GtkApplication *application,
 															 GtkWidget *text_view);
@@ -42,6 +29,7 @@ GAction *			grisbi_app_get_prefs_action				(void);
 gchar **			grisbi_app_get_recent_files_array		(void);
 gboolean			grisbi_app_is_duplicated_file			(const gchar *filename);
 void 				grisbi_app_set_css_data			 		(const gchar *new_css_data);
+void				grisbi_app_set_has_started_true			(void);
 void				grisbi_app_set_recent_files_array 		(gchar **recent_array);
 void				grisbi_app_update_recent_files_menu 	(void);
 void				grisbi_app_window_style_updated			(GtkWidget *win,

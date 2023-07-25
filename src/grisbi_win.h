@@ -8,16 +8,10 @@
 
 G_BEGIN_DECLS
 
-#define GRISBI_WIN_TYPE         (grisbi_win_get_type ())
-#define GRISBI_WIN(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), GRISBI_WIN_TYPE, GrisbiWin))
-#define GRISBI_IS_WINDOW(obj)   (G_TYPE_CHECK_INSTANCE_TYPE((obj), GRISBI_WIN_TYPE))
+#define GRISBI_WIN_TYPE			(grisbi_win_get_type ())
+G_DECLARE_FINAL_TYPE			(GrisbiWin, grisbi_win, GRISBI, WIN, GtkApplicationWindow)
 
-typedef struct _GrisbiWin       GrisbiWin;
-typedef struct _GrisbiWinClass  GrisbiWinClass;
-
-GType 			grisbi_win_get_type (void) G_GNUC_CONST;
-
-void			grisbi_win_close_window					(GtkWindow *win);
+void			grisbi_win_close_window						(GtkWindow *win);
 
 void 			grisbi_win_form_expander_hide_frame			(void);
 gboolean 		grisbi_win_form_expander_is_expanded 		(void);
@@ -62,6 +56,8 @@ gboolean 		grisbi_win_on_account_switch_page			(GtkNotebook *notebook,
 															 gpointer page,
 															 guint page_number,
 															 gpointer null);
+void			grisbi_win_open								(GrisbiWin *win,
+															 GFile *file);
 
 void            grisbi_win_set_filename                     (GrisbiWin *win,
                                                              const gchar *filename);
