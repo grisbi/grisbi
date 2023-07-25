@@ -1395,8 +1395,7 @@ gboolean gsb_file_quit (void)
  *
  * \return
  **/
-void gsb_file_remove_account_file (GtkWidget *menu_item,
-								   const gchar *filename)
+void gsb_file_remove_account_file (const gchar *filename)
 {
 	gchar *tmp_str;
 	gint result;

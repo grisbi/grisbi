@@ -697,7 +697,7 @@ static gboolean grisbi_win_account_button_press_event (GtkWidget *button,
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 
 		menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete file")));
-		g_signal_connect (G_OBJECT(menu_item),
+		g_signal_connect_swapped (G_OBJECT(menu_item),
 						  "activate",
 						  G_CALLBACK(gsb_file_remove_account_file),
 						  g_strdup (filename));
