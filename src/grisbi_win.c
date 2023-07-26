@@ -88,26 +88,26 @@ struct _GrisbiWin
 
 struct _GrisbiWinPrivate
 {
-	GtkBuilder *        builder;
+	GtkBuilder *		builder;
 
-    /* box principale */
-    GtkWidget *         main_box;
-	GtkWidget *         stack_box;
+	/* box principale */
+	GtkWidget *			main_box;
+	GtkWidget *			stack_box;
 
-    /* page d'accueil affichée si pas de fichier chargé */
+	/* page d'accueil affichée si pas de fichier chargé */
 	GtkWidget *			no_file_frame;
 	GtkWidget *			no_file_grid;
 	GtkWidget *			bouton_nouveau;
 	GtkWidget *			bouton_ouvrir;
 	GtkWidget *			bouton_importer;
 
-    /* widgets si un fichier est chargé */
-    GtkWidget *         hpaned_general;
-    GtkWidget *         notebook_general;
+	/* widgets si un fichier est chargé */
+	GtkWidget *			hpaned_general;
+	GtkWidget *			notebook_general;
 	GtkWidget *			account_page;					/* account_page est un notebook qui contient les onglets du compte */
 	GtkWidget *			scheduler_calendar;
 	GtkWidget *			sw_general;
-    GtkWidget *         vbox_general;
+	GtkWidget *			vbox_general;
 
 	GtkWidget *			form_general;
 	GtkWidget *			form_frame;						/* frame of form */
@@ -121,28 +121,28 @@ struct _GrisbiWinPrivate
 	/* widget account_property_page */
 	GtkWidget *			account_property_page;
 
-    /* nom du fichier associé à la fenêtre */
-    gchar *             filename;
+	/* nom du fichier associé à la fenêtre */
+	gchar *				filename;
 
-    /* titre de la fenêtre */
-    gchar *             window_title;
+	/* titre de la fenêtre */
+	gchar *				window_title;
 
-    /* Menus et barres d'outils */
-    /* menu move-to-acc */
-    GMenu *             menu;
-    gboolean            init_move_to_acc;		/* Si VRAI le sous menu des comptes est initialisé */
+	/* Menus et barres d'outils */
+	/* menu move-to-acc */
+	GMenu *				menu;
+	gboolean			init_move_to_acc;				/* Si VRAI le sous menu des comptes est initialisé */
 
-    /* statusbar */
-    GtkWidget *         statusbar;
-    GdkWindow *         tracked_window;
-    guint               context_id;
-    guint               message_id;
+	/* statusbar */
+	GtkWidget *			statusbar;
+	GdkWindow *			tracked_window;
+	guint				context_id;
+	guint				message_id;
 	gboolean			wait_state;
 
-    /* headings_bar */
-    GtkWidget *         headings_eb;
-    GtkWidget *         headings_title;          /** Title for the heading bar. */
-    GtkWidget *         headings_suffix;         /** Suffix for the heading bar.  */
+	/* headings_bar */
+	GtkWidget *			headings_eb;
+	GtkWidget *			headings_title;					/* Title for the heading bar. */
+	GtkWidget *			headings_suffix;				/* Suffix for the heading bar. */
 
 	/* paned */
 	gint 				hpaned_general_width;
@@ -150,11 +150,11 @@ struct _GrisbiWinPrivate
 	/* form organization */
 	gpointer 			form_organization;
 
-    /* variables de configuration de la fenêtre */
+	/* variables de configuration de la fenêtre */
 	GrisbiWinEtat		*w_etat;
 
-    /* structure run */
-    GrisbiWinRun		*w_run;
+	/* structure run */
+	GrisbiWinRun		*w_run;
 
 	/* prefs dialog*/
 	GtkWidget *			prefs_dialog;
@@ -164,9 +164,6 @@ struct _GrisbiWinPrivate
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW)
-
-/* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
-struct _GrisbiWinRun run;
 
 /* global "etat" structure shared in the entire program */
 struct _GrisbiWinEtat etat;
@@ -185,18 +182,18 @@ struct _GrisbiWinEtat etat;
  * \return
  **/
 static void grisbi_win_headings_private_update_label_markup (GtkLabel *label,
-                                                             const gchar *text,
-                                                             gboolean escape_text)
+															 const gchar *text,
+															 gboolean escape_text)
 {
-    gchar* tmp_str;
+	gchar* tmp_str;
 
-    if (escape_text)
-        tmp_str = g_markup_printf_escaped ("<b>%s</b>", text);
-    else
-        tmp_str = g_strconcat ("<b>", text, "</b>", NULL);
-    gtk_label_set_markup (label,tmp_str);
+	if (escape_text)
+		tmp_str = g_markup_printf_escaped ("<b>%s</b>", text);
+	else
+		tmp_str = g_strconcat ("<b>", text, "</b>", NULL);
+	gtk_label_set_markup (label,tmp_str);
 
-    g_free (tmp_str);
+	g_free (tmp_str);
 }
 
 /**
@@ -210,15 +207,15 @@ static void grisbi_win_headings_private_update_label_markup (GtkLabel *label,
  * \return  TRUE.
  */
 static gboolean grisbi_win_headings_simpleclick_event_run (GtkWidget *button,
-                        GdkEvent *button_event,
-                        GCallback callback)
+														   GdkEvent *button_event,
+														   GCallback callback)
 {
-    if (button_event->type == GDK_BUTTON_PRESS)
-    {
-        callback ();
-    }
+	if (button_event->type == GDK_BUTTON_PRESS)
+	{
+		callback ();
+	}
 
-    return TRUE;
+	return TRUE;
 }
 
 /**
@@ -232,11 +229,11 @@ static GtkWidget *grisbi_win_get_headings_eb (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
 
-    if (win == NULL)
-        win = grisbi_app_get_active_window (NULL);
+	if (win == NULL)
+		win = grisbi_app_get_active_window (NULL);
 
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-    return priv->headings_eb;
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	return priv->headings_eb;
 }
 
 /**
@@ -248,55 +245,55 @@ static GtkWidget *grisbi_win_get_headings_eb (GrisbiWin *win)
  */
 static void grisbi_win_create_headings_eb (GrisbiWin *win)
 {
-    GtkWidget *grid;
-    GtkWidget *arrow_eb;
-    GtkWidget *arrow_left;
-    GtkWidget *arrow_right;
+	GtkWidget *grid;
+	GtkWidget *arrow_eb;
+	GtkWidget *arrow_left;
+	GtkWidget *arrow_right;
 	GrisbiWinPrivate *priv;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    priv->headings_eb = gtk_event_box_new ();
-    gtk_widget_set_name (priv->headings_eb, "grey_box");
+	priv->headings_eb = gtk_event_box_new ();
+	gtk_widget_set_name (priv->headings_eb, "grey_box");
 	gtk_widget_set_margin_start (priv->headings_eb, MARGIN_BOX);
 	gtk_widget_set_margin_end (priv->headings_eb, MARGIN_BOX);
 
-    grid = gtk_grid_new ();
-    gtk_widget_set_margin_end (grid, MARGIN_BOX);
+	grid = gtk_grid_new ();
+	gtk_widget_set_margin_end (grid, MARGIN_BOX);
 	gtk_grid_set_column_spacing (GTK_GRID (grid), MARGIN_BOX);
 	gtk_widget_set_hexpand (grid, TRUE);
-    gtk_container_set_border_width (GTK_CONTAINER (grid), MARGIN_BOX);
+	gtk_container_set_border_width (GTK_CONTAINER (grid), MARGIN_BOX);
 
-    /* Create two arrows. */
-    arrow_left = gtk_image_new_from_icon_name ("pan-start-symbolic", GTK_ICON_SIZE_BUTTON);
-    arrow_eb = gtk_event_box_new ();
-    gtk_container_add (GTK_CONTAINER (arrow_eb), arrow_left);
-    g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
-                        G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
-                        gsb_gui_navigation_select_prev);
+	/* Create two arrows. */
+	arrow_left = gtk_image_new_from_icon_name ("pan-start-symbolic", GTK_ICON_SIZE_BUTTON);
+	arrow_eb = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (arrow_eb), arrow_left);
+	g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
+					  G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
+					  gsb_gui_navigation_select_prev);
 	gtk_grid_attach (GTK_GRID (grid), arrow_eb, 0,0,1,1);
 
-    arrow_right = gtk_image_new_from_icon_name ("pan-end-symbolic", GTK_ICON_SIZE_BUTTON);
-    arrow_eb = gtk_event_box_new ();
-    gtk_container_add (GTK_CONTAINER (arrow_eb), arrow_right);
-    g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
-                      G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
-                      gsb_gui_navigation_select_next);
+	arrow_right = gtk_image_new_from_icon_name ("pan-end-symbolic", GTK_ICON_SIZE_BUTTON);
+	arrow_eb = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (arrow_eb), arrow_right);
+	g_signal_connect (G_OBJECT (arrow_eb), "button-press-event",
+					  G_CALLBACK (grisbi_win_headings_simpleclick_event_run),
+					  gsb_gui_navigation_select_next);
 	gtk_grid_attach (GTK_GRID (grid), arrow_eb, 1,0,1,1);
 
-    /* Define labels. */
-    priv->headings_title = gtk_label_new (NULL);
-    gtk_label_set_justify (GTK_LABEL(priv->headings_title), GTK_JUSTIFY_LEFT);
-    utils_labels_set_alignment (GTK_LABEL (priv->headings_title), 0.0, 0.5);
+	/* Define labels. */
+	priv->headings_title = gtk_label_new (NULL);
+	gtk_label_set_justify (GTK_LABEL(priv->headings_title), GTK_JUSTIFY_LEFT);
+	utils_labels_set_alignment (GTK_LABEL (priv->headings_title), 0.0, 0.5);
 	gtk_grid_attach (GTK_GRID (grid), priv->headings_title, 2,0,1,1);
 
-    priv->headings_suffix = gtk_label_new (NULL);
+	priv->headings_suffix = gtk_label_new (NULL);
 	utils_labels_set_alignment (GTK_LABEL (priv->headings_suffix), 0.0, 0.5);
 	gtk_widget_set_hexpand (priv->headings_suffix, TRUE);
 	gtk_widget_set_halign (priv->headings_suffix, GTK_ALIGN_END);
-    gtk_grid_attach (GTK_GRID (grid), priv->headings_suffix, 3,0,1,1);
+	gtk_grid_attach (GTK_GRID (grid), priv->headings_suffix, 3,0,1,1);
 
-    gtk_container_add (GTK_CONTAINER (priv->headings_eb), grid);
+	gtk_container_add (GTK_CONTAINER (priv->headings_eb), grid);
 }
 
 /* HPANED_GENERAL */
@@ -315,7 +312,7 @@ static void grisbi_win_hpaned_size_allocate (GtkWidget *hpaned_general,
 {
 	gint position;
 
-    position = gtk_paned_get_position (GTK_PANED (hpaned_general));
+	position = gtk_paned_get_position (GTK_PANED (hpaned_general));
 	a_conf->panel_width = position;
 }
 
@@ -333,17 +330,17 @@ static gboolean grisbi_win_form_expander_activate (GtkWidget *expander,
 {
 	GrisbiAppConf *a_conf;
 
-    devel_debug (NULL);
+	devel_debug (NULL);
 	a_conf = grisbi_app_get_a_conf ();
 
-    if (gtk_expander_get_expanded (GTK_EXPANDER (expander)))
+	if (gtk_expander_get_expanded (GTK_EXPANDER (expander)))
 		gsb_form_expander_is_extanded (expander);
-    else
+	else
 		a_conf->formulaire_toujours_affiche = FALSE;
 
 	gsb_menu_gui_toggle_show_form ();
 
-    return FALSE;
+	return FALSE;
 }
 
 /**
@@ -360,7 +357,7 @@ static GtkWidget *grisbi_win_form_new (GrisbiWin *win)
 	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
-    devel_debug (NULL);
+	devel_debug (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 	a_conf = grisbi_app_get_a_conf ();
 
@@ -368,43 +365,43 @@ static GtkWidget *grisbi_win_form_new (GrisbiWin *win)
 	priv->form_frame = gtk_frame_new ("");
 
 	/* Create the expander */
-    priv->form_expander = gtk_expander_new ("");
+	priv->form_expander = gtk_expander_new ("");
 	utils_widget_set_padding (priv->form_expander, MARGIN_BOX, MARGIN_BOX);
 
-    gtk_expander_set_expanded (GTK_EXPANDER (priv->form_expander), a_conf->formulaire_toujours_affiche);
+	gtk_expander_set_expanded (GTK_EXPANDER (priv->form_expander), a_conf->formulaire_toujours_affiche);
 	gtk_container_add (GTK_CONTAINER (priv->form_frame), priv->form_expander);
 
 	g_object_set_data (G_OBJECT (priv->form_frame), "form_expander", priv->form_expander);
-    g_signal_connect_after (G_OBJECT(priv->form_expander),
+	g_signal_connect_after (G_OBJECT(priv->form_expander),
 							"activate",
 							G_CALLBACK (grisbi_win_form_expander_activate),
 							win);
 
 	/* create the label of expander */
 	/* Expander has a composite label */
-    priv->form_hbox_label = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-    gtk_expander_set_label_widget (GTK_EXPANDER(priv->form_expander), priv->form_hbox_label);
-    gtk_expander_set_label_fill (GTK_EXPANDER(priv->form_expander), FALSE);
+	priv->form_hbox_label = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_expander_set_label_widget (GTK_EXPANDER(priv->form_expander), priv->form_hbox_label);
+	gtk_expander_set_label_fill (GTK_EXPANDER(priv->form_expander), FALSE);
 	gtk_expander_set_resize_toplevel (GTK_EXPANDER(priv->form_expander), FALSE);
 
-    /* set the label transaction form */
-    label = gtk_label_new (NULL);
-    tmp_str = dialogue_make_pango_attribut ("weight=\"bold\"", _("Transaction/Scheduled _form"));
-    gtk_label_set_markup_with_mnemonic (GTK_LABEL (label), tmp_str);
-    g_free (tmp_str);
-    gtk_box_pack_start (GTK_BOX (priv->form_hbox_label), label, FALSE, FALSE, 0);
+	/* set the label transaction form */
+	label = gtk_label_new (NULL);
+	tmp_str = dialogue_make_pango_attribut ("weight=\"bold\"", _("Transaction/Scheduled _form"));
+	gtk_label_set_markup_with_mnemonic (GTK_LABEL (label), tmp_str);
+	g_free (tmp_str);
+	gtk_box_pack_start (GTK_BOX (priv->form_hbox_label), label, FALSE, FALSE, 0);
 
-    /* set the last statement label */
-    priv->form_label_last_statement = gtk_label_new (NULL);
-    gtk_box_pack_end (GTK_BOX (priv->form_hbox_label), priv->form_label_last_statement, FALSE, FALSE, 0);
+	/* set the last statement label */
+	priv->form_label_last_statement = gtk_label_new (NULL);
+	gtk_box_pack_end (GTK_BOX (priv->form_hbox_label), priv->form_label_last_statement, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (priv->form_hbox_label);
 
-    gsb_form_create_widgets ();
+	gsb_form_create_widgets ();
 
 	gtk_widget_hide (priv->form_frame);
 
-    return priv->form_frame;
+	return priv->form_frame;
 }
 
 /* NAVIGATION PANE */
@@ -420,90 +417,90 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
 {
 	GrisbiWinPrivate *priv;
 
-    devel_debug (NULL);
+	devel_debug (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	/* append the main page */
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        creation_onglet_accueil(),
-                        gtk_label_new (_("Main page")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+							  creation_onglet_accueil(),
+							  gtk_label_new (_("Main page")));
 
-    /* append the account page : a notebook with the account configuration
-     * the bet pages and transactions page */
-    priv->account_page = gtk_notebook_new ();
-    gtk_notebook_set_show_border (GTK_NOTEBOOK(priv->account_page), TRUE);
-    gtk_widget_show (priv->account_page);
+	/* append the account page : a notebook with the account configuration
+	 * the bet pages and transactions page */
+	priv->account_page = gtk_notebook_new ();
+	gtk_notebook_set_show_border (GTK_NOTEBOOK(priv->account_page), TRUE);
+	gtk_widget_show (priv->account_page);
 
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        priv->account_page,
-                        gtk_label_new (_("Accounts")));
-
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        gsb_transactions_list_creation_fenetre_operations (),
-                        gtk_label_new (_("Transactions")));
-
-    /* append the balance estimate pages */
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        bet_array_create_page (),
-                        gtk_label_new (_("Forecast")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+							  priv->account_page,
+							  gtk_label_new (_("Accounts")));
 
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        bet_hist_create_page (),
-                        gtk_label_new (_("Historical data")));
+							  gsb_transactions_list_creation_fenetre_operations (),
+							  gtk_label_new (_("Transactions")));
 
-    /* append the amortization page */
+	/* append the balance estimate pages */
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+							  bet_array_create_page (),
+							  gtk_label_new (_("Forecast")));
+
     gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        bet_finance_ui_create_account_amortization_page (),
-                        gtk_label_new (_("Amortization array")));
+							  bet_hist_create_page (),
+							  gtk_label_new (_("Historical data")));
+
+	/* append the amortization page */
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+							  bet_finance_ui_create_account_amortization_page (),
+							  gtk_label_new (_("Amortization array")));
 
 	/* append account_property_page */
 	priv->account_property_page = GTK_WIDGET (widget_account_property_new ());
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
-                        priv->account_property_page,
-                        gtk_label_new (_("Properties")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+							  priv->account_property_page,
+							  gtk_label_new (_("Properties")));
 
-    g_signal_connect (G_OBJECT (priv->account_page),
-                        "switch-page",
-                        G_CALLBACK (grisbi_win_on_account_switch_page),
-                        NULL);
+	g_signal_connect (G_OBJECT (priv->account_page),
+					  "switch-page",
+					  G_CALLBACK (grisbi_win_on_account_switch_page),
+					  NULL);
 
-    /* append the scheduled transactions page */
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        gsb_scheduler_list_create_list (),
-                        gtk_label_new (_("Scheduler")));
+	/* append the scheduled transactions page */
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+							  gsb_scheduler_list_create_list (),
+							  gtk_label_new (_("Scheduler")));
 
-    /* append the payee page */
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        payees_create_list (),
-                        gtk_label_new (_("Payee")));
+	/* append the payee page */
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+							  payees_create_list (),
+							  gtk_label_new (_("Payee")));
 
-    /* append the financial page */
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+	/* append the financial page */
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
 							  bet_finance_ui_create_loan_simulator (),
 							  gtk_label_new (_("Credits simulator")));
 
-    /* append the categories page */
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        categories_create_list (),
-                        gtk_label_new (_("Categories")));
+	/* append the categories page */
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+							  categories_create_list (),
+							  gtk_label_new (_("Categories")));
 
-    /* append the budget page */
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        budgetary_lines_create_list (),
-                        gtk_label_new (_("Budgetary lines")));
+	/* append the budget page */
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+							  budgetary_lines_create_list (),
+							  gtk_label_new (_("Budgetary lines")));
 
-    /* append the reports page */
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
-                        etats_onglet_create_reports_tab (),
-                        gtk_label_new (_("Reports")));
+	/* append the reports page */
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook_general),
+							  etats_onglet_create_reports_tab (),
+							  gtk_label_new (_("Reports")));
 
 	/* Set the signal for the navigation treeview selection when the notebook_general is filled */
 	gsb_gui_navigation_tree_view_selection_changed ();
 
 	/* update toolbars */
-    grisbi_win_update_all_toolbars ();
+	grisbi_win_update_all_toolbars ();
 
-    return FALSE;
+	return FALSE;
 }
 
 /**
@@ -522,39 +519,39 @@ static GtkWidget *grisbi_win_create_general_notebook (GrisbiWin *win)
 	GtkWidget *grid;
 	GrisbiWinPrivate *priv;
 
-    devel_debug ("create_main_notebook");
+	devel_debug ("create_main_notebook");
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    sw_general = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw_general),
-                                    GTK_POLICY_AUTOMATIC,
-                                    GTK_POLICY_AUTOMATIC);
+	sw_general = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw_general),
+									GTK_POLICY_AUTOMATIC,
+									GTK_POLICY_AUTOMATIC);
 
-    /* the main right page is a grid with a notebook on the top and the form on the bottom */
+	/* the main right page is a grid with a notebook on the top and the form on the bottom */
 	grid = gtk_grid_new ();
 	gtk_container_add (GTK_CONTAINER(sw_general), grid);
 	gtk_grid_set_column_homogeneous (GTK_GRID (grid), TRUE);
 
 	/* append the notebook */
-    priv->notebook_general = gtk_notebook_new ();
+	priv->notebook_general = gtk_notebook_new ();
 	gtk_widget_set_margin_end (priv->notebook_general, MARGIN_END);
-    gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook_general), FALSE);
-    gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_general), FALSE);
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook_general), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook_general), FALSE);
   	gtk_grid_attach (GTK_GRID (grid), priv->notebook_general, 0,0,1,1);
 
 
-    /* append the form */
-    priv->form_general = grisbi_win_form_new (win);
+	/* append the form */
+	priv->form_general = grisbi_win_form_new (win);
 	gtk_widget_set_margin_end (priv->form_general, MARGIN_END);
 	gtk_grid_attach (GTK_GRID (grid), priv->form_general, 0,1,1,1);
-    gtk_widget_hide (priv->form_general);
+	gtk_widget_hide (priv->form_general);
 
 	/* show widgets */
 	gtk_widget_show (sw_general);
-    gtk_widget_show (grid);
-    gtk_widget_show (priv->notebook_general);
+	gtk_widget_show (grid);
+	gtk_widget_show (priv->notebook_general);
 
-    return sw_general;
+	return sw_general;
 }
 
 /* VBOX_GENERAL */
@@ -570,10 +567,10 @@ static void grisbi_win_init_general_widgets (GrisbiWin *win)
 	GrisbiWinPrivate *priv;
 
 	devel_debug (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    /* création de vbox_general */
-    priv->vbox_general = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	/* création de vbox_general */
+	priv->vbox_general = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (priv->vbox_general);
 }
 
@@ -592,38 +589,38 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 	a_conf = grisbi_app_get_a_conf ();
 
-    /* création de vbox_general */
+	/* création de vbox_general */
 	if (priv->vbox_general == NULL)
 	{
 		grisbi_win_init_general_widgets (win);
 		gtk_stack_add_named (GTK_STACK (priv->stack_box), priv->vbox_general, "file_page");
 	}
 
-    /* chargement de headings_eb */
-    /* initialisation de headings_eb */
-    grisbi_win_create_headings_eb (GRISBI_WIN (win));
-    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->headings_eb, FALSE, FALSE, 0);
-    if (a_conf->show_headings_bar)
-        gtk_widget_show_all (priv->headings_eb);
-    else
-        gtk_widget_hide (priv->headings_eb);
+	/* chargement de headings_eb */
+	/* initialisation de headings_eb */
+	grisbi_win_create_headings_eb (GRISBI_WIN (win));
+	gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->headings_eb, FALSE, FALSE, 0);
+	if (a_conf->show_headings_bar)
+		gtk_widget_show_all (priv->headings_eb);
+	else
+		gtk_widget_hide (priv->headings_eb);
 
-    /* Then create the main hpaned. */
-    priv->hpaned_general = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
-    g_signal_connect (G_OBJECT (priv->hpaned_general),
-                      "size-allocate",
-                      G_CALLBACK (grisbi_win_hpaned_size_allocate),
-                      a_conf);
-    gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);
+	/* Then create the main hpaned. */
+	priv->hpaned_general = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	g_signal_connect (G_OBJECT (priv->hpaned_general),
+					  "size-allocate",
+					  G_CALLBACK (grisbi_win_hpaned_size_allocate),
+					  a_conf);
+	gtk_box_pack_start (GTK_BOX (priv->vbox_general), priv->hpaned_general, TRUE, TRUE, 0);
 
-    /* fill the main hpaned. */
+	/* fill the main hpaned. */
 	gtk_paned_pack1 (GTK_PANED (priv->hpaned_general),
 					 gsb_gui_navigation_create_navigation_pane (),
 					 TRUE,
 					 FALSE);
 
 	priv->sw_general = grisbi_win_create_general_notebook (win);
-    gtk_paned_pack2 (GTK_PANED (priv->hpaned_general),
+	gtk_paned_pack2 (GTK_PANED (priv->hpaned_general),
 					 priv->sw_general,
 					 TRUE,
 					 FALSE);
@@ -631,19 +628,19 @@ static void grisbi_win_create_general_widgets (GrisbiWin *win)
 	gtk_widget_set_margin_start (priv->hpaned_general, MARGIN_START);
 	gtk_widget_set_margin_top (priv->hpaned_general, MARGIN_TOP);
 
-    if (a_conf->panel_width > PANEL_MIN_WIDTH)
-        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), a_conf->panel_width);
-    else
-    {
-        gint width, height;
+	if (a_conf->panel_width > PANEL_MIN_WIDTH)
+		gtk_paned_set_position (GTK_PANED (priv->hpaned_general), a_conf->panel_width);
+	else
+	{
+		gint width, height;
 
-        gtk_window_get_size (GTK_WINDOW (win), &width, &height);
-        gtk_paned_set_position (GTK_PANED (priv->hpaned_general), (gint) width / 4);
-    }
+		gtk_window_get_size (GTK_WINDOW (win), &width, &height);
+		gtk_paned_set_position (GTK_PANED (priv->hpaned_general), (gint) width / 4);
+	}
 
-    /* show the widgets */
-    gtk_widget_show (priv->hpaned_general);
-    gtk_widget_show (priv->vbox_general);
+	/* show the widgets */
+	gtk_widget_show (priv->hpaned_general);
+	gtk_widget_show (priv->vbox_general);
 }
 
 /* NO_FILE_PAGE */
@@ -691,16 +688,16 @@ static gboolean grisbi_win_account_button_press_event (GtkWidget *button,
 		menu = gtk_menu_new ();
 		menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete button")));
 		g_signal_connect_swapped (G_OBJECT(menu_item),
-						  "activate",
-						  G_CALLBACK(utils_files_remove_name_to_recent_array),
-						  g_strdup (filename));
+								  "activate",
+								  G_CALLBACK (utils_files_remove_name_to_recent_array),
+								  g_strdup (filename));
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 
 		menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-delete-16.png", _("Delete file")));
 		g_signal_connect_swapped (G_OBJECT(menu_item),
-						  "activate",
-						  G_CALLBACK(gsb_file_remove_account_file),
-						  g_strdup (filename));
+								  "activate",
+								  G_CALLBACK (gsb_file_remove_account_file),
+								  g_strdup (filename));
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 
 		gtk_widget_show_all (menu);
@@ -723,12 +720,12 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 {
 	gchar **recent_files_array;
 	gint i;
-    gint col = 0;
-    gint row = 1;
+	gint col = 0;
+	gint row = 1;
 	GrisbiAppConf *a_conf;
 	GrisbiWinPrivate *priv;
 
-    devel_debug (NULL);
+	devel_debug (NULL);
 	a_conf = grisbi_app_get_a_conf ();
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
@@ -784,7 +781,7 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	/* set the recent files buttons */
 	recent_files_array = grisbi_app_get_recent_files_array ();
 	for (i = 0; i < a_conf->nb_derniers_fichiers_ouverts; i++)
-    {
+	{
 		if (g_file_test (recent_files_array[i], G_FILE_TEST_EXISTS))
 		{
 
@@ -863,7 +860,7 @@ static gboolean grisbi_win_change_state_window (GtkWidget *window,
 		a_conf->maximize_screen = !show;
 	}
 
-    return FALSE;
+	return FALSE;
 }
 
 /* FREE STRUCTURES */
@@ -876,7 +873,7 @@ static gboolean grisbi_win_change_state_window (GtkWidget *window,
  **/
 static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
 {
-    devel_debug (NULL);
+	devel_debug (NULL);
 
 	/* variables generales */
 	if (w_etat->accounting_entity)
@@ -888,7 +885,7 @@ static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
 	if (w_etat->date_format)
 		g_free (w_etat->date_format);
 
-    g_free (w_etat);
+	g_free (w_etat);
 }
 
 /**
@@ -934,31 +931,31 @@ static void grisbi_win_init (GrisbiWin *win)
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	/* initialisation des variables chaînes */
-    priv->filename = NULL;
-    priv->window_title = NULL;
+	priv->filename = NULL;
+	priv->window_title = NULL;
 
-    /* initialisations des widgets liés à grisbi_win_new_file_gui */
-    priv->vbox_general = NULL;
-    priv->notebook_general = NULL;
+	/* initialisations des widgets liés à grisbi_win_new_file_gui */
+	priv->vbox_general = NULL;
+	priv->notebook_general = NULL;
 	priv->form_expander = NULL;
 	priv->vbox_transactions_list = NULL;
 
 	priv->account_property_page = NULL;
 
-    /* creation et initialisation de la structure w_run */
-    priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
+	/* creation et initialisation de la structure w_run */
+	priv->w_run = g_malloc0 (sizeof (GrisbiWinRun));
 	(priv->w_run)->account_number_is_0 = FALSE;
 	(priv->w_run)->display_one_line = 0;					/* fixes bug 1875 */
 	(priv->w_run)->new_account_file = FALSE;
 	(priv->w_run)->prefs_expand_tree = TRUE;
 	(priv->w_run)->prefs_selected_row = g_strdup ("0:0");
 
-    /* initialisation de la variable w_etat */
-    priv->w_etat = g_malloc0 (sizeof (GrisbiWinEtat));
+	/* initialisation de la variable w_etat */
+	priv->w_etat = g_malloc0 (sizeof (GrisbiWinEtat));
 	(priv->w_etat)->metatree_add_archive_in_totals = TRUE;	/* add the archived transactions by default */
 	(priv->w_etat)->export_quote_dates = TRUE;				/* "cite les dates" TRUE par défaut */
 
-    /* init widgets in grisbi_win.ui */
+	/* init widgets in grisbi_win.ui */
 	gtk_widget_init_template (GTK_WIDGET (win));
 
 	/* set font size of statusbar */
@@ -1069,7 +1066,7 @@ void grisbi_win_open (GrisbiWin *win,
  **/
 gboolean grisbi_win_file_is_loading (void)
 {
-    GrisbiWin *win;
+	GrisbiWin *win;
 	GrisbiWinPrivate *priv;
 	GrisbiWinRun *w_run;
 
@@ -1118,7 +1115,7 @@ void grisbi_win_set_filename (GrisbiWin *win,
 	GrisbiWinPrivate *priv;
 
 	if (!win)
-        win = grisbi_app_get_active_window (NULL);
+		win = grisbi_app_get_active_window (NULL);
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 	if (priv->filename)
@@ -1143,11 +1140,11 @@ void grisbi_win_set_filename (GrisbiWin *win,
  **/
 gpointer grisbi_win_get_w_etat (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	return priv->w_etat;
 }
@@ -1161,11 +1158,11 @@ gpointer grisbi_win_get_w_etat (void)
  **/
 gpointer grisbi_win_get_w_run (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	return priv->w_run;
 }
@@ -1180,13 +1177,13 @@ gpointer grisbi_win_get_w_run (void)
  **/
 GtkWidget *grisbi_win_get_account_page (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    return priv->account_page;
+	return priv->account_page;
 }
 
 /**
@@ -1198,13 +1195,13 @@ GtkWidget *grisbi_win_get_account_page (void)
  **/
 GtkWidget *grisbi_win_get_account_property_page (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    return priv->account_property_page;
+	return priv->account_property_page;
 }
 
 /**
@@ -1216,11 +1213,11 @@ GtkWidget *grisbi_win_get_account_property_page (void)
  **/
 GtkWidget *grisbi_win_get_form_expander (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	return priv->form_expander;
 }
@@ -1234,13 +1231,13 @@ GtkWidget *grisbi_win_get_form_expander (void)
  **/
 GtkWidget *grisbi_win_get_label_last_statement (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    return priv->form_label_last_statement;
+	return priv->form_label_last_statement;
 }
 
 /**
@@ -1252,11 +1249,11 @@ GtkWidget *grisbi_win_get_label_last_statement (void)
  **/
 GtkWidget *grisbi_win_get_notebook_general (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	return priv->notebook_general;
 }
@@ -1273,11 +1270,11 @@ GtkWidget *grisbi_win_get_prefs_dialog (GrisbiWin *win)
 	GrisbiWinPrivate *priv;
 
 	if (!win)
-        win = grisbi_app_get_active_window (NULL);
+		win = grisbi_app_get_active_window (NULL);
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    return priv->prefs_dialog;
+	return priv->prefs_dialog;
 }
 
 /**
@@ -1294,7 +1291,7 @@ void grisbi_win_set_prefs_dialog (GrisbiWin *win,
 	GrisbiWinPrivate *priv;
 
 	if (!win)
-        win = grisbi_app_get_active_window (NULL);
+		win = grisbi_app_get_active_window (NULL);
 	if (win)
 	{
 		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
@@ -1314,7 +1311,7 @@ GtkWidget *grisbi_win_get_reconcile_panel (GrisbiWin *win)
 	GrisbiWinPrivate *priv = NULL;
 
 	if (!win)
-        win = grisbi_app_get_active_window (NULL);
+		win = grisbi_app_get_active_window (NULL);
 
 	if (win)
 		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
@@ -1339,7 +1336,7 @@ void grisbi_win_set_reconcile_panel (GrisbiWin *win,
 	GrisbiWinPrivate *priv;
 
 	if (!win)
-        win = grisbi_app_get_active_window (NULL);
+		win = grisbi_app_get_active_window (NULL);
 	if (win)
 	{
 		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
@@ -1359,7 +1356,7 @@ GtkWidget *grisbi_win_get_stack_box (GrisbiWin *win)
 	GrisbiWinPrivate *priv;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-    return priv->stack_box;
+	return priv->stack_box;
 }
 
 /**
@@ -1377,7 +1374,7 @@ GtkWidget *grisbi_win_get_vbox_transactions_list (GrisbiWin *win)
 		win = grisbi_app_get_active_window (NULL);
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-    return priv->vbox_transactions_list;
+	return priv->vbox_transactions_list;
 }
 
 /**
@@ -1415,54 +1412,54 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 							  gpointer app)
 {
 	GAction *action;
-    const gchar * items[] = {
-        "save",
-        "save-as",
-        "export-accounts",
-        "create-archive",
-        "export-archive",
-        "debug-acc-file",
-        "obf-acc-file",
-        "debug-mode",
-        "file-close",
-        "edit-ope",
-        "new-ope",
-        "remove-ope",
-        "template-ope",
-        "clone-ope",
-        "convert-ope",
-        "new-acc",
-        "remove-acc",
-        "show-form",
-        "show-reconciled",
-        "show-archived",
-        "show-closed-acc",
-        "show-ope",
-        "reset-width-col",
-        NULL
-    };
-    const gchar **tmp = items;
-    gboolean has_app_menu;
+	const gchar * items[] = {
+		"save",
+		"save-as",
+		"export-accounts",
+		"create-archive",
+		"export-archive",
+		"debug-acc-file",
+		"obf-acc-file",
+		"debug-mode",
+		"file-close",
+		"edit-ope",
+		"new-ope",
+		"remove-ope",
+		"template-ope",
+		"clone-ope",
+		"convert-ope",
+		"new-acc",
+		"remove-acc",
+		"show-form",
+		"show-reconciled",
+		"show-archived",
+		"show-closed-acc",
+		"show-ope",
+		"reset-width-col",
+		NULL
+	};
+	const gchar **tmp = items;
+	gboolean has_app_menu;
 	GrisbiAppConf *a_conf;
 
 	a_conf = grisbi_app_get_a_conf ();
 
 	/* initialisations sub menus */
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-form");
-    g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->formulaire_toujours_affiche));
+	g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->formulaire_toujours_affiche));
 	action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-closed-acc");
-    g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->show_closed_accounts));
+	g_action_change_state (G_ACTION (action), g_variant_new_boolean (a_conf->show_closed_accounts));
 
 	/* disabled menus */
-    while (*tmp)
-    {
-        gsb_menu_gui_sensitive_win_menu_item (*tmp, FALSE);
+	while (*tmp)
+	{
+		gsb_menu_gui_sensitive_win_menu_item (*tmp, FALSE);
 
-        tmp++;
-    }
+		tmp++;
+	}
 
-    /* sensibilise le menu new-window PROVISOIRE*/
-    has_app_menu = grisbi_app_get_has_app_menu (GRISBI_APP (app));
+	/* sensibilise le menu new-window PROVISOIRE*/
+	has_app_menu = grisbi_app_get_has_app_menu (GRISBI_APP (app));
 	if (!has_app_menu)
 		gsb_menu_gui_sensitive_win_menu_item ("new-window", FALSE);
 }
@@ -1476,40 +1473,40 @@ void grisbi_win_init_menubar (GrisbiWin *win,
  **/
 void grisbi_win_menu_move_to_acc_delete (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
-    GMenu *menu;
-    GSList *tmp_list;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
+	GMenu *menu;
+	GSList *tmp_list;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    if (priv->init_move_to_acc == FALSE)
-        return;
+	if (priv->init_move_to_acc == FALSE)
+		return;
 
-    tmp_list = gsb_data_account_get_list_accounts ();
-    while (tmp_list)
-    {
-        gint i;
+	tmp_list = gsb_data_account_get_list_accounts ();
+	while (tmp_list)
+	{
+		gint i;
 
-        i = gsb_data_account_get_no_account (tmp_list->data);
+		i = gsb_data_account_get_no_account (tmp_list->data);
 
-        if (!gsb_data_account_get_closed_account (i))
-        {
-            gchar *tmp_name;
+		if (!gsb_data_account_get_closed_account (i))
+		{
+			gchar *tmp_name;
 
-            tmp_name = g_strdup_printf ("move-to-acc%d", i);
-            g_action_map_remove_action (G_ACTION_MAP (win), tmp_name);
+			tmp_name = g_strdup_printf ("move-to-acc%d", i);
+			g_action_map_remove_action (G_ACTION_MAP (win), tmp_name);
 
-            g_free (tmp_name);
-        }
-        tmp_list = tmp_list->next;
-    }
+			g_free (tmp_name);
+		}
+		tmp_list = tmp_list->next;
+	}
 
-    menu = grisbi_app_get_menu_edit ();
+	menu = grisbi_app_get_menu_edit ();
 
-    g_menu_remove (menu, 3);
-    priv->init_move_to_acc = FALSE;
+	g_menu_remove (menu, 3);
+	priv->init_move_to_acc = FALSE;
 }
 
 /**
@@ -1521,66 +1518,66 @@ void grisbi_win_menu_move_to_acc_delete (void)
  **/
 void grisbi_win_menu_move_to_acc_new (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
-    GAction *action;
-    GMenu *menu;
-    GMenu *submenu;
-    GMenuItem *menu_item;
-    GSList *tmp_list;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
+	GAction *action;
+	GMenu *menu;
+	GMenu *submenu;
+	GMenuItem *menu_item;
+	GSList *tmp_list;
 
 	win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    menu = grisbi_app_get_menu_edit ();
+	menu = grisbi_app_get_menu_edit ();
 
-    submenu = g_menu_new ();
+	submenu = g_menu_new ();
 
-    tmp_list = gsb_data_account_get_list_accounts ();
-    while (tmp_list)
-    {
-        gint i;
+	tmp_list = gsb_data_account_get_list_accounts ();
+	while (tmp_list)
+	{
+		gint i;
 
-        i = gsb_data_account_get_no_account (tmp_list->data);
+		i = gsb_data_account_get_no_account (tmp_list->data);
 
-        if (!gsb_data_account_get_closed_account (i))
-        {
-            gchar *tmp_name;
-            gchar *account_name;
-            gchar *action_name;
+		if (!gsb_data_account_get_closed_account (i))
+		{
+			gchar *tmp_name;
+			gchar *account_name;
+			gchar *action_name;
 
-            tmp_name = g_strdup_printf ("move-to-acc%d", i);
-            account_name = gsb_data_account_get_name (i);
-            if (!account_name)
-                account_name = _("Unnamed account");
+			tmp_name = g_strdup_printf ("move-to-acc%d", i);
+			account_name = gsb_data_account_get_name (i);
+			if (!account_name)
+				account_name = _("Unnamed account");
 
-            action = (GAction *) g_simple_action_new (tmp_name, NULL);
-            g_signal_connect (action,
-                        "activate",
-                        G_CALLBACK (grisbi_cmd_move_to_account_menu),
-                        GINT_TO_POINTER (i));
-            g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
+			action = (GAction *) g_simple_action_new (tmp_name, NULL);
+			g_signal_connect (action,
+						"activate",
+						G_CALLBACK (grisbi_cmd_move_to_account_menu),
+						GINT_TO_POINTER (i));
+			g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
-            g_action_map_add_action (G_ACTION_MAP (grisbi_app_get_active_window (NULL)), action);
-            g_object_unref (G_OBJECT (action));
+			g_action_map_add_action (G_ACTION_MAP (grisbi_app_get_active_window (NULL)), action);
+			g_object_unref (G_OBJECT (action));
 
-            action_name = g_strconcat ("win.", tmp_name, NULL);
-            g_menu_append (submenu, account_name, action_name);
+			action_name = g_strconcat ("win.", tmp_name, NULL);
+			g_menu_append (submenu, account_name, action_name);
 
-            g_free (tmp_name);
-            g_free (action_name);
-        }
+			g_free (tmp_name);
+			g_free (action_name);
+		}
 
-        tmp_list = tmp_list->next;
-    }
+		tmp_list = tmp_list->next;
+	}
 
-    menu_item = g_menu_item_new_submenu (_("Move transaction to another account"), (GMenuModel*) submenu);
-    g_menu_item_set_detailed_action (menu_item, "win.move-to-acc");
+	menu_item = g_menu_item_new_submenu (_("Move transaction to another account"), (GMenuModel*) submenu);
+	g_menu_item_set_detailed_action (menu_item, "win.move-to-acc");
 
-    g_menu_insert_item (G_MENU (menu), 3, menu_item);
-    g_object_unref (menu_item);
-    g_object_unref (submenu);
-    priv->init_move_to_acc = TRUE;
+	g_menu_insert_item (G_MENU (menu), 3, menu_item);
+	g_object_unref (menu_item);
+	g_object_unref (submenu);
+	priv->init_move_to_acc = TRUE;
 }
 
 /**
@@ -1592,41 +1589,41 @@ void grisbi_win_menu_move_to_acc_new (void)
  **/
 void grisbi_win_menu_move_to_acc_update (gboolean active)
 {
-    GrisbiWin *win;
-    GAction *action;
-    GSList *tmp_list;
+	GrisbiWin *win;
+	GAction *action;
+	GSList *tmp_list;
 
-    win = grisbi_app_get_active_window (NULL);
+	win = grisbi_app_get_active_window (NULL);
 
-    tmp_list = gsb_data_account_get_list_accounts ();
-    while (tmp_list)
-    {
-        gint i;
+	tmp_list = gsb_data_account_get_list_accounts ();
+	while (tmp_list)
+	{
+		gint i;
 
-        i = gsb_data_account_get_no_account (tmp_list->data);
+		i = gsb_data_account_get_no_account (tmp_list->data);
 
-        if (!gsb_data_account_get_closed_account (i))
-        {
-            gchar *tmp_name;
+		if (!gsb_data_account_get_closed_account (i))
+		{
+			gchar *tmp_name;
 
-            tmp_name = g_strdup_printf ("move-to-acc%d", i);
-            action = g_action_map_lookup_action (G_ACTION_MAP (win), tmp_name);
+			tmp_name = g_strdup_printf ("move-to-acc%d", i);
+			action = g_action_map_lookup_action (G_ACTION_MAP (win), tmp_name);
 
-            if (gsb_gui_navigation_get_current_account () == i)
-            {
-                g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
-                tmp_list = tmp_list->next;
-                continue;
-            }
-            if (active)
-                g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
-            else
-                g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
+			if (gsb_gui_navigation_get_current_account () == i)
+			{
+				g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
+				tmp_list = tmp_list->next;
+				continue;
+			}
+			if (active)
+				g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
+			else
+				g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
-            g_free (tmp_name);
-        }
-        tmp_list = tmp_list->next;
-    }
+			g_free (tmp_name);
+		}
+		tmp_list = tmp_list->next;
+	}
 }
 
 /* MAIN WINDOW */
@@ -1639,7 +1636,7 @@ void grisbi_win_menu_move_to_acc_update (gboolean active)
  * \return
  **/
 void grisbi_win_stack_box_show (GrisbiWin *win,
-							    const gchar *page_name)
+								const gchar *page_name)
 {
 	GrisbiWinPrivate *priv;
 
@@ -1676,12 +1673,12 @@ gboolean grisbi_win_set_window_title (gint account_number)
 
 	filename = grisbi_win_get_filename (NULL);
 	if (filename == NULL)
-    {
-        titre_grisbi = g_strdup (_("Grisbi"));
-        return_value = TRUE;
-    }
-    else
-    {
+	{
+		titre_grisbi = g_strdup (_("Grisbi"));
+		return_value = TRUE;
+	}
+	else
+	{
 		gchar *titre = NULL;
 		gint tmp_number;
 		GrisbiAppConf *a_conf;
@@ -1691,60 +1688,60 @@ gboolean grisbi_win_set_window_title (gint account_number)
 		a_conf = grisbi_app_get_a_conf ();
 		w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-        switch (a_conf->display_window_title)
-        {
-            case GSB_ACCOUNT_ENTITY:
-                if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))
-                    titre = g_strdup (w_etat->accounting_entity);
-            break;
-            case GSB_ACCOUNT_HOLDER:
-            {
-                if (account_number == -1)
-                    tmp_number = gsb_data_account_first_number ();
-                else
-                    tmp_number = account_number;
+		switch (a_conf->display_window_title)
+		{
+			case GSB_ACCOUNT_ENTITY:
+				if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))
+					titre = g_strdup (w_etat->accounting_entity);
+			break;
+			case GSB_ACCOUNT_HOLDER:
+			{
+				if (account_number == -1)
+					tmp_number = gsb_data_account_first_number ();
+				else
+					tmp_number = account_number;
 
-                if (tmp_number == -1)
-                {
-                    if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))
-                        titre = g_strdup (w_etat->accounting_entity);
-                }
-                else
-                {
-                    titre = g_strdup (gsb_data_account_get_holder_name (tmp_number));
+				if (tmp_number == -1)
+				{
+					if (w_etat->accounting_entity && strlen (w_etat->accounting_entity))
+						titre = g_strdup (w_etat->accounting_entity);
+				}
+				else
+				{
+					titre = g_strdup (gsb_data_account_get_holder_name (tmp_number));
 
-                    if (titre == NULL)
-                        titre = g_strdup (gsb_data_account_get_name (tmp_number));
-                }
+					if (titre == NULL)
+						titre = g_strdup (gsb_data_account_get_name (tmp_number));
+				}
 				break;
-            }
-            case GSB_ACCOUNT_FILENAME:
-                if (filename && strlen (filename))
-                    titre = g_path_get_basename (filename);
+			}
+			case GSB_ACCOUNT_FILENAME:
+				if (filename && strlen (filename))
+					titre = g_path_get_basename (filename);
 				break;
-        }
+		}
 
-        if (titre && strlen (titre) > 0)
-        {
-            titre_grisbi = g_strconcat (titre, " - ", _("Grisbi"), NULL);
-            return_value = TRUE;
-        }
-        else
-        {
-            titre_grisbi = g_strconcat ("<", _("unnamed"), ">", NULL);
-            return_value = FALSE;
-        }
+		if (titre && strlen (titre) > 0)
+		{
+			titre_grisbi = g_strconcat (titre, " - ", _("Grisbi"), NULL);
+			return_value = TRUE;
+		}
+		else
+		{
+			titre_grisbi = g_strconcat ("<", _("unnamed"), ">", NULL);
+			return_value = FALSE;
+		}
 		g_free (titre);
-    }
-    gtk_window_set_title (GTK_WINDOW (grisbi_app_get_active_window (NULL)), titre_grisbi);
+	}
+	gtk_window_set_title (GTK_WINDOW (grisbi_app_get_active_window (NULL)), titre_grisbi);
 
-    if (titre_grisbi && strlen (titre_grisbi) > 0)
-    {
-        gsb_main_page_update_homepage_title (titre_grisbi);
-        g_free (titre_grisbi);
-    }
+	if (titre_grisbi && strlen (titre_grisbi) > 0)
+	{
+		gsb_main_page_update_homepage_title (titre_grisbi);
+		g_free (titre_grisbi);
+	}
 
-    return return_value;
+	return return_value;
 }
 
 /**
@@ -1760,22 +1757,22 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
 
 	a_conf = grisbi_app_get_a_conf ();
 
-    /* set the size of the window */
-    if (a_conf->main_width && a_conf->main_height)
-        gtk_window_set_default_size (GTK_WINDOW (win), a_conf->main_width, a_conf->main_height);
-    else
-        gtk_window_set_default_size (GTK_WINDOW (win), WIN_MIN_WIDTH, WIN_MIN_HEIGHT);
+	/* set the size of the window */
+	if (a_conf->main_width && a_conf->main_height)
+		gtk_window_set_default_size (GTK_WINDOW (win), a_conf->main_width, a_conf->main_height);
+	else
+		gtk_window_set_default_size (GTK_WINDOW (win), WIN_MIN_WIDTH, WIN_MIN_HEIGHT);
 
-    /* display window at position */
-    gtk_window_move (GTK_WINDOW (win), a_conf->x_position, a_conf->y_position);
+	/* display window at position */
+	gtk_window_move (GTK_WINDOW (win), a_conf->x_position, a_conf->y_position);
 
-    /* set the full screen if necessary */
-    if (a_conf->full_screen)
-        gtk_window_fullscreen (GTK_WINDOW (win));
+	/* set the full screen if necessary */
+	if (a_conf->full_screen)
+		gtk_window_fullscreen (GTK_WINDOW (win));
 
-    /* put up the screen if necessary */
-    if (a_conf->maximize_screen)
-        gtk_window_maximize (GTK_WINDOW (win));
+	/* put up the screen if necessary */
+	if (a_conf->maximize_screen)
+		gtk_window_maximize (GTK_WINDOW (win));
 }
 
 /**
@@ -1790,21 +1787,21 @@ void grisbi_win_close_window (GtkWindow *win)
 {
 	GrisbiWinPrivate *priv;
 
-    devel_debug (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	devel_debug (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    g_free (priv->filename);
-    priv->filename = NULL;
+	g_free (priv->filename);
+	priv->filename = NULL;
 
-    g_free (priv->window_title);
-    priv->window_title = NULL;
+	g_free (priv->window_title);
+	priv->window_title = NULL;
 
 	g_free (priv->form_organization);
 
-    g_clear_object (&priv->builder);
-    g_clear_object (&priv->menu);
+	g_clear_object (&priv->builder);
+	g_clear_object (&priv->menu);
 
-    /* libération de la mémoiré utilisée par w_etat */
+	/* libération de la mémoiré utilisée par w_etat */
 	grisbi_win_free_w_etat (priv->w_etat);
 
 	/* libération mémoire de la structure run */
@@ -1908,17 +1905,17 @@ void grisbi_win_no_file_page_update (GrisbiWin *win)
  **/
 void grisbi_win_free_general_vbox (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    if (priv->vbox_general)
-    {
-        gtk_widget_destroy (priv->vbox_general);
-        priv->vbox_general = NULL;
-    }
+	if (priv->vbox_general)
+	{
+		gtk_widget_destroy (priv->vbox_general);
+		priv->vbox_general = NULL;
+	}
 }
 
 /* NOTEBOOK_GENERAL */
@@ -1931,13 +1928,13 @@ void grisbi_win_free_general_vbox (void)
  **/
 void grisbi_win_general_notebook_set_page (gint page)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_general), page);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook_general), page);
 }
 
 /**
@@ -1949,17 +1946,17 @@ void grisbi_win_general_notebook_set_page (gint page)
  **/
 void grisbi_win_free_general_notebook (void)
 {
-    GrisbiWin *win = NULL;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win = NULL;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    if (win == NULL)
-        return;
+	win = grisbi_app_get_active_window (NULL);
+	if (win == NULL)
+		return;
 
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    if (priv->notebook_general)
-        priv->notebook_general = NULL;
+	if (priv->notebook_general)
+		priv->notebook_general = NULL;
 }
 
 /* ACCOUNT_PAGE */
@@ -1972,13 +1969,13 @@ void grisbi_win_free_general_notebook (void)
  **/
 void grisbi_win_free_account_property_page (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    priv->account_property_page = NULL;
+	priv->account_property_page = NULL;
 }
 
 /**
@@ -1997,47 +1994,47 @@ gboolean grisbi_win_on_account_switch_page (GtkNotebook *notebook,
 											guint page_number,
 											gpointer null)
 {
-    gint account_number;
+	gint account_number;
 
-    grisbi_win_menu_move_to_acc_update  (FALSE);
-    if (page_number != GSB_TRANSACTIONS_PAGE)
-    {
-        gsb_menu_set_menus_view_account_sensitive (FALSE);
-        gsb_menu_gui_sensitive_win_menu_item ("new-ope", FALSE);
-    }
+	grisbi_win_menu_move_to_acc_update  (FALSE);
+	if (page_number != GSB_TRANSACTIONS_PAGE)
+	{
+		gsb_menu_set_menus_view_account_sensitive (FALSE);
+		gsb_menu_gui_sensitive_win_menu_item ("new-ope", FALSE);
+	}
 
-    switch (page_number)
-    {
-    case GSB_TRANSACTIONS_PAGE:
-        grisbi_win_set_form_expander_visible (TRUE, TRUE);
-        gsb_menu_set_menus_view_account_sensitive (TRUE);
-        gsb_menu_gui_sensitive_win_menu_item ("new-ope", TRUE);
-        break;
-    case GSB_ESTIMATE_PAGE:
-        grisbi_win_set_form_expander_visible (FALSE, FALSE);
-        account_number = gsb_gui_navigation_get_current_account ();
-        if (gsb_data_account_get_bet_maj (account_number))
-            bet_data_update_bet_module (account_number, GSB_ESTIMATE_PAGE);
+	switch (page_number)
+	{
+	case GSB_TRANSACTIONS_PAGE:
+		grisbi_win_set_form_expander_visible (TRUE, TRUE);
+		gsb_menu_set_menus_view_account_sensitive (TRUE);
+		gsb_menu_gui_sensitive_win_menu_item ("new-ope", TRUE);
+		break;
+	case GSB_ESTIMATE_PAGE:
+		grisbi_win_set_form_expander_visible (FALSE, FALSE);
+		account_number = gsb_gui_navigation_get_current_account ();
+		if (gsb_data_account_get_bet_maj (account_number))
+			bet_data_update_bet_module (account_number, GSB_ESTIMATE_PAGE);
 		gsb_menu_gui_sensitive_win_menu_item ("reset-width-col", TRUE);
-        break;
-    case GSB_HISTORICAL_PAGE:
-        grisbi_win_set_form_expander_visible (FALSE, FALSE);
-        account_number = gsb_gui_navigation_get_current_account ();
-        if (gsb_data_account_get_bet_maj (account_number))
-            bet_data_update_bet_module (account_number, GSB_HISTORICAL_PAGE);
-        bet_hist_set_page_title (account_number);
-        break;
-    case GSB_FINANCE_PAGE:
-        grisbi_win_set_form_expander_visible (FALSE, FALSE);
-        account_number = gsb_gui_navigation_get_current_account ();
-        bet_finance_update_amortization_tab (account_number);
+		break;
+	case GSB_HISTORICAL_PAGE:
+		grisbi_win_set_form_expander_visible (FALSE, FALSE);
+		account_number = gsb_gui_navigation_get_current_account ();
+		if (gsb_data_account_get_bet_maj (account_number))
+			bet_data_update_bet_module (account_number, GSB_HISTORICAL_PAGE);
+		bet_hist_set_page_title (account_number);
+		break;
+	case GSB_FINANCE_PAGE:
+		grisbi_win_set_form_expander_visible (FALSE, FALSE);
+		account_number = gsb_gui_navigation_get_current_account ();
+		bet_finance_update_amortization_tab (account_number);
 		/* FALLTHRU */
-    case GSB_PROPERTIES_PAGE:
-        grisbi_win_set_form_expander_visible (FALSE, FALSE);
-        break;
-    }
+	case GSB_PROPERTIES_PAGE:
+		grisbi_win_set_form_expander_visible (FALSE, FALSE);
+		break;
+	}
 
-    return (FALSE);
+	return (FALSE);
 }
 
 /* FILE_GUI */
@@ -2052,49 +2049,49 @@ void grisbi_win_new_file_gui (void)
 {
 	GtkWidget *sw_transaction_list;
 	GtkWidget *vbox_transactions_list;
-    GrisbiWin *win;
+	GrisbiWin *win;
 	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    /* dégrise les menus nécessaire */
-    gsb_menu_set_menus_with_file_sensitive (TRUE);
+	/* dégrise les menus nécessaire */
+	gsb_menu_set_menus_with_file_sensitive (TRUE);
 
-    /* récupère l'organisation des colonnes */
+	/* récupère l'organisation des colonnes */
 	gsb_transactions_list_set_titles_tips_col_list_ope ();
 
-    /* Create main widget. */
-    grisbi_win_status_bar_message (_("Creating main window"));
+	/* Create main widget. */
+	grisbi_win_status_bar_message (_("Creating main window"));
 
-    /* création de grid_general */
-    grisbi_win_create_general_widgets (GRISBI_WIN (win));
+	/* création de grid_general */
+	grisbi_win_create_general_widgets (GRISBI_WIN (win));
 	grisbi_win_stack_box_show (win, "file_page");
 
-    /* fill the general notebook */
-    grisbi_win_fill_general_notebook (GRISBI_WIN (win));
+	/* fill the general notebook */
+	grisbi_win_fill_general_notebook (GRISBI_WIN (win));
 
-    /* create the model */
-    if (!transaction_list_create ())
-    {
+	/* create the model */
+	if (!transaction_list_create ())
+	{
 		dialogue_error (_("The model of the list couldn't be created... "
 						  "Bad things will happen very soon..."));
 		return;
-    }
+	}
 
-    /* Create transaction list. */
-    sw_transaction_list = gsb_transactions_list_make_gui_list ();
+	/* Create transaction list. */
+	sw_transaction_list = gsb_transactions_list_make_gui_list ();
 	vbox_transactions_list = grisbi_win_get_vbox_transactions_list (win);
-    gtk_box_pack_start (GTK_BOX (vbox_transactions_list), sw_transaction_list, TRUE, TRUE, 0);
-    gtk_widget_show (sw_transaction_list);
+	gtk_box_pack_start (GTK_BOX (vbox_transactions_list), sw_transaction_list, TRUE, TRUE, 0);
+	gtk_widget_show (sw_transaction_list);
 
 	/* Display accounts in menus */
 	grisbi_win_menu_move_to_acc_delete ();
 	grisbi_win_menu_move_to_acc_new ();
 
-    gtk_notebook_set_current_page (GTK_NOTEBOOK(priv->notebook_general), GSB_HOME_PAGE);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK(priv->notebook_general), GSB_HOME_PAGE);
 
-    gtk_widget_show (priv->notebook_general);
+	gtk_widget_show (priv->notebook_general);
 }
 
 /* FORM_GENERAL */
@@ -2108,10 +2105,10 @@ void grisbi_win_new_file_gui (void)
 void grisbi_win_form_expander_hide_frame (void)
 {
 	GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	gtk_widget_hide (priv->form_frame);
 }
@@ -2126,12 +2123,12 @@ void grisbi_win_form_expander_hide_frame (void)
 gboolean grisbi_win_form_expander_is_expanded (void)
 {
 	GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    return gtk_expander_get_expanded (GTK_EXPANDER (priv->form_expander));
+	return gtk_expander_get_expanded (GTK_EXPANDER (priv->form_expander));
 }
 /**
  * show the frame
@@ -2143,10 +2140,10 @@ gboolean grisbi_win_form_expander_is_expanded (void)
 void grisbi_win_form_expander_show_frame (void)
 {
 	GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	gtk_widget_show (priv->form_frame);
 }
@@ -2186,13 +2183,13 @@ void grisbi_win_form_label_align_right (GtkAllocation *allocation)
  **/
 gpointer grisbi_win_get_form_organization (void)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    return priv->form_organization;
+	return priv->form_organization;
 }
 
 /**
@@ -2206,14 +2203,14 @@ gpointer grisbi_win_get_form_organization (void)
 gboolean grisbi_win_set_form_expander_visible (gboolean visible,
 											   gboolean transactions_list)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    if (visible)
-    {
+	if (visible)
+	{
 		gtk_widget_show (priv->form_expander);
 		gtk_widget_show (priv->form_frame);
 
@@ -2221,14 +2218,14 @@ gboolean grisbi_win_set_form_expander_visible (gboolean visible,
 			gtk_widget_show (priv->form_label_last_statement);
 		else
 			gtk_widget_hide (priv->form_label_last_statement);
-    }
-    else
+	}
+	else
 	{
 		gtk_widget_hide (priv->form_expander);
 		gtk_widget_hide (priv->form_frame);
 	}
 
-    return FALSE;
+	return FALSE;
 }
 
 /**
@@ -2240,15 +2237,15 @@ gboolean grisbi_win_set_form_expander_visible (gboolean visible,
  * */
 gboolean grisbi_win_set_form_organization (gpointer form_organization)
 {
-    GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWin *win;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
-    priv->form_organization = form_organization;
+	priv->form_organization = form_organization;
 
-    return TRUE;
+	return TRUE;
 }
 
 /**
@@ -2263,18 +2260,18 @@ gboolean grisbi_win_switch_form_expander (void)
 {
 	gboolean is_visible;
 	GrisbiWin *win;
-    GrisbiWinPrivate *priv;
+	GrisbiWinPrivate *priv;
 
-    win = grisbi_app_get_active_window (NULL);
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	win = grisbi_app_get_active_window (NULL);
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	if (!priv->form_expander)
 		return FALSE;
 
 	is_visible = gtk_expander_get_expanded (GTK_EXPANDER (priv->form_expander));
-    gtk_expander_set_expanded (GTK_EXPANDER (priv->form_expander), !is_visible);
+	gtk_expander_set_expanded (GTK_EXPANDER (priv->form_expander), !is_visible);
 
-    return FALSE;
+	return FALSE;
 }
 
 /* HEADINGS */
@@ -2287,10 +2284,10 @@ gboolean grisbi_win_switch_form_expander (void)
  * */
 void grisbi_win_headings_sensitive_headings (gboolean sensitive)
 {
-    GtkWidget *headings_eb;
+	GtkWidget *headings_eb;
 
-    headings_eb = grisbi_win_get_headings_eb (NULL);
-    gtk_widget_set_sensitive (headings_eb, sensitive);
+	headings_eb = grisbi_win_get_headings_eb (NULL);
+	gtk_widget_set_sensitive (headings_eb, sensitive);
 }
 
 /**
@@ -2302,20 +2299,20 @@ void grisbi_win_headings_sensitive_headings (gboolean sensitive)
  */
 gboolean grisbi_win_headings_update_show_headings (void)
 {
-    GtkWidget *headings_eb;
+	GtkWidget *headings_eb;
 	GrisbiAppConf *a_conf;
 
 	a_conf = grisbi_app_get_a_conf ();
-    headings_eb = grisbi_win_get_headings_eb (NULL);
-    if (a_conf->show_headings_bar)
-    {
-        gtk_widget_show_all (headings_eb);
-    }
-    else
-    {
-        gtk_widget_hide (headings_eb);
-    }
-    return FALSE;
+	headings_eb = grisbi_win_get_headings_eb (NULL);
+	if (a_conf->show_headings_bar)
+	{
+		gtk_widget_show_all (headings_eb);
+	}
+	else
+	{
+		gtk_widget_hide (headings_eb);
+	}
+	return FALSE;
 }
 
 /**
@@ -2335,7 +2332,7 @@ void grisbi_win_headings_update_title (gchar *title)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
 
-    grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_title), title, TRUE);
+	grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_title), title, TRUE);
 }
 
 /**
@@ -2354,7 +2351,7 @@ void grisbi_win_headings_update_suffix (const gchar *suffix)
 		return;
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
-    grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_suffix), suffix, FALSE);
+	grisbi_win_headings_private_update_label_markup (GTK_LABEL (priv->headings_suffix), suffix, FALSE);
 }
 
 /* STATUS_BAR */
@@ -2381,8 +2378,8 @@ void grisbi_win_status_bar_init (GrisbiWin *win)
 	priv->wait_state = FALSE;
 
 	/* set status_bar PROVISOIRE */
-    priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
-    priv->message_id = G_MAXUINT;
+	priv->context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "Grisbi");
+	priv->message_id = G_MAXUINT;
 
 	/* set visible statusbar if necessary */
 	if (a_conf->low_definition_screen)
@@ -2406,17 +2403,17 @@ void grisbi_win_status_bar_clear (void)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
 	a_conf = grisbi_app_get_a_conf ();
-    if (a_conf->low_definition_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
-        return;
+	if (a_conf->low_definition_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+		return;
 
-    if (priv->message_id < G_MAXUINT)
-    {
-        gtk_statusbar_remove (GTK_STATUSBAR (priv->statusbar), priv->context_id, priv->message_id);
-        priv->message_id = G_MAXUINT;
-    }
+	if (priv->message_id < G_MAXUINT)
+	{
+		gtk_statusbar_remove (GTK_STATUSBAR (priv->statusbar), priv->context_id, priv->message_id);
+		priv->message_id = G_MAXUINT;
+	}
 
-    /* force status message to be displayed NOW */
-    update_gui ();
+	/* force status message to be displayed NOW */
+	update_gui ();
 }
 
 /**
@@ -2433,16 +2430,16 @@ void grisbi_win_status_bar_message (gchar *message)
 
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (grisbi_app_get_active_window (NULL)));
 	a_conf = grisbi_app_get_a_conf ();
-    if (a_conf->low_definition_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
-        return;
+	if (a_conf->low_definition_screen || !priv->statusbar || !GTK_IS_STATUSBAR (priv->statusbar))
+		return;
 
-    if (priv->message_id < G_MAXUINT)
-        gtk_statusbar_remove (GTK_STATUSBAR (priv->statusbar), priv->context_id, priv->message_id);
+	if (priv->message_id < G_MAXUINT)
+		gtk_statusbar_remove (GTK_STATUSBAR (priv->statusbar), priv->context_id, priv->message_id);
 
-    priv->message_id = gtk_statusbar_push (GTK_STATUSBAR (priv->statusbar), priv->context_id, message);
+	priv->message_id = gtk_statusbar_push (GTK_STATUSBAR (priv->statusbar), priv->context_id, message);
 
-    /* force status message to be displayed NOW */
-    update_gui ();
+	/* force status message to be displayed NOW */
+	update_gui ();
 }
 
 /**
@@ -2450,28 +2447,28 @@ void grisbi_win_status_bar_message (gchar *message)
  * by environment).
  *
  * \param force_update		Call a gtk iteration to ensure cursor
- *			                is updated.  May cause trouble if
- *				            called from some signal handlers.
+ *							is updated.  May cause trouble if
+ *							called from some signal handlers.
  *
  * \return
  **/
 void grisbi_win_status_bar_wait (gboolean force_update)
 {
-    GdkCursor *cursor;
-    GdkDevice *device;
-    GdkDisplay *display;
+	GdkCursor *cursor;
+	GdkDevice *device;
+	GdkDisplay *display;
 	GdkSeat *default_seat;
-    GdkWindow *current_window;
-    GdkWindow *run_window;
+	GdkWindow *current_window;
+	GdkWindow *run_window;
 	GrisbiAppConf *a_conf;
-    GrisbiWin *win;
+	GrisbiWin *win;
 	GrisbiWinPrivate *priv;
 
 	a_conf = grisbi_app_get_a_conf ();
 	if (a_conf->low_definition_screen)
 		return;
 
-    win = grisbi_app_get_active_window (NULL);
+	win = grisbi_app_get_active_window (NULL);
 	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 	/* set wait_state */
@@ -2479,43 +2476,43 @@ void grisbi_win_status_bar_wait (gboolean force_update)
 
 	run_window = gtk_widget_get_window (GTK_WIDGET (win));
 	display = gdk_window_get_display (run_window);
-    cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
-    gdk_window_set_cursor (run_window, cursor);
+	cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
+	gdk_window_set_cursor (run_window, cursor);
 
 	default_seat = gdk_display_get_default_seat (display);
 	device = gdk_seat_get_pointer (default_seat);
 
-    current_window = gdk_device_get_window_at_position (device, NULL, NULL);
-    if (current_window && GDK_IS_WINDOW (current_window) && current_window != run_window)
-    {
-        GdkWindow *parent;
+	current_window = gdk_device_get_window_at_position (device, NULL, NULL);
+	if (current_window && GDK_IS_WINDOW (current_window) && current_window != run_window)
+	{
+		GdkWindow *parent;
 
 		parent = gdk_window_get_toplevel (current_window);
 		if (parent && parent != current_window)
-        {
-            current_window = parent;
-        }
-        gdk_window_set_cursor (current_window, cursor);
+		{
+			current_window = parent;
+		}
+		gdk_window_set_cursor (current_window, cursor);
 
-        priv->tracked_window = current_window;
-    }
+		priv->tracked_window = current_window;
+	}
 
-    if (force_update)
-        update_gui ();
+	if (force_update)
+		update_gui ();
 }
 
 /**
  * Change current cursor to default cursor.
  *
  * \param force_update		Call a gtk iteration to ensure cursor
- *				            is updated.  May cause trouble if
- *				            called from some signal handlers.
+ *							is updated.  May cause trouble if
+ *							called from some signal handlers.
  *
  * \return
  **/
 void grisbi_win_status_bar_stop_wait (gboolean force_update)
 {
-    GrisbiWin *win;
+	GrisbiWin *win;
 	GrisbiWinPrivate *priv;
 	GrisbiAppConf *a_conf;
 
@@ -2523,16 +2520,16 @@ void grisbi_win_status_bar_stop_wait (gboolean force_update)
 	if (a_conf->low_definition_screen)
 		return;
 
-    win = grisbi_app_get_active_window (NULL);
-    if (!win)
-        return;
+	win = grisbi_app_get_active_window (NULL);
+	if (!win)
+		return;
 
-    priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-    if (priv->tracked_window && gdk_window_is_visible (priv->tracked_window))
-    {
-        gdk_window_set_cursor (priv->tracked_window, NULL);
-        priv->tracked_window = NULL;
-    }
+	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
+	if (priv->tracked_window && gdk_window_is_visible (priv->tracked_window))
+	{
+		gdk_window_set_cursor (priv->tracked_window, NULL);
+		priv->tracked_window = NULL;
+	}
 
 	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (win)), NULL);
 
@@ -2572,7 +2569,7 @@ void grisbi_win_status_bar_set_font_size (gint font_size)
 	gchar *font_size_str;
 	GrisbiAppConf *a_conf;
 
-    devel_debug (NULL);
+	devel_debug (NULL);
 	a_conf = grisbi_app_get_a_conf ();
 	if (a_conf->low_definition_screen)
 		return;
@@ -2595,35 +2592,35 @@ void grisbi_win_status_bar_set_font_size (gint font_size)
  **/
 void grisbi_win_update_all_toolbars (void)
 {
-    gint toolbar_style = 0;
+	gint toolbar_style = 0;
 	GrisbiAppConf *a_conf;
 
 	a_conf = grisbi_app_get_a_conf ();
-    switch (a_conf->display_toolbar)
-    {
-        case GTK_TOOLBAR_TEXT:
-            toolbar_style = GTK_TOOLBAR_TEXT;
-            break;
-        case GTK_TOOLBAR_ICONS:
-            toolbar_style = GTK_TOOLBAR_ICONS;
-            break;
-        case GTK_TOOLBAR_BOTH:
-            toolbar_style = GTK_TOOLBAR_BOTH;
-            break;
-        case GTK_TOOLBAR_BOTH_HORIZ:
-            toolbar_style = GTK_TOOLBAR_BOTH_HORIZ;
-            break;
-    }
+	switch (a_conf->display_toolbar)
+	{
+		case GTK_TOOLBAR_TEXT:
+			toolbar_style = GTK_TOOLBAR_TEXT;
+			break;
+		case GTK_TOOLBAR_ICONS:
+			toolbar_style = GTK_TOOLBAR_ICONS;
+			break;
+		case GTK_TOOLBAR_BOTH:
+			toolbar_style = GTK_TOOLBAR_BOTH;
+			break;
+		case GTK_TOOLBAR_BOTH_HORIZ:
+			toolbar_style = GTK_TOOLBAR_BOTH_HORIZ;
+			break;
+	}
 
-    gsb_gui_transaction_toolbar_set_style (toolbar_style);
-    gsb_gui_scheduler_toolbar_set_style (toolbar_style);
-    gsb_gui_payees_toolbar_set_style (toolbar_style);
-    gsb_gui_categories_toolbar_set_style (toolbar_style);
-    gsb_gui_budgetary_lines_toolbar_set_style (toolbar_style);
-    etats_onglet_reports_toolbar_set_style (toolbar_style);
-    bet_array_update_toolbar (toolbar_style);
-    bet_hist_update_toolbar (toolbar_style);
-    bet_finance_ui_update_all_finance_toolbars (toolbar_style);
+	gsb_gui_transaction_toolbar_set_style (toolbar_style);
+	gsb_gui_scheduler_toolbar_set_style (toolbar_style);
+	gsb_gui_payees_toolbar_set_style (toolbar_style);
+	gsb_gui_categories_toolbar_set_style (toolbar_style);
+	gsb_gui_budgetary_lines_toolbar_set_style (toolbar_style);
+	etats_onglet_reports_toolbar_set_style (toolbar_style);
+	bet_array_update_toolbar (toolbar_style);
+	bet_hist_update_toolbar (toolbar_style);
+	bet_finance_ui_update_all_finance_toolbars (toolbar_style);
 }
 
 /**
