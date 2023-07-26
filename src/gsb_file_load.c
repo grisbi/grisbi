@@ -1969,7 +1969,7 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
         {
             case 'A':
                 if (!strcmp (attribute_names[i], "Automatic_amount_separator"))
-                    etat.automatic_separator = utils_str_atoi(attribute_values[i]);
+                    w_etat->automatic_separator = utils_str_atoi(attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Archive_file"))
                     w_etat->is_archive = utils_str_atoi (attribute_values[i]);
@@ -1983,22 +1983,22 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
 
             case 'B':
                 if (!strcmp (attribute_names[i], "Bet_capital"))
-                    etat.bet_capital = utils_str_safe_strtod (attribute_values[i], NULL);
+                    w_etat->bet_capital = utils_str_safe_strtod (attribute_values[i], NULL);
 
                 else if (!strcmp (attribute_names[i], "Bet_currency"))
-                    etat.bet_currency = utils_str_atoi (attribute_values[i]);
+                    w_etat->bet_currency = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Bet_taux_annuel"))
-                    etat.bet_taux_annuel = utils_str_safe_strtod (attribute_values[i], NULL);
+                    w_etat->bet_taux_annuel = utils_str_safe_strtod (attribute_values[i], NULL);
 
                 else if (!strcmp (attribute_names[i], "Bet_index_duree"))
-                    etat.bet_index_duree = utils_str_atoi (attribute_values[i]);
+                    w_etat->bet_index_duree = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Bet_frais"))
-                    etat.bet_frais = utils_str_safe_strtod (attribute_values[i], NULL);
+                    w_etat->bet_frais = utils_str_safe_strtod (attribute_values[i], NULL);
 
                 else if (!strcmp (attribute_names[i], "Bet_type_taux"))
-                    etat.bet_type_taux = utils_str_atoi (attribute_values[i]);
+                    w_etat->bet_type_taux = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Budget_list_currency_number"))
                     w_etat->no_devise_totaux_ib = utils_str_atoi (attribute_values[i]);
@@ -2015,28 +2015,28 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                     w_etat->no_devise_totaux_categ = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Combofix_mixed_sort"))
-                    etat.combofix_mixed_sort = utils_str_atoi(attribute_values[i]);
+                    w_etat->combofix_mixed_sort = utils_str_atoi(attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Combofix_case_sensitive"))
-                    etat.combofix_case_sensitive = utils_str_atoi(attribute_values[i]);
+                    w_etat->combofix_case_sensitive = utils_str_atoi(attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Combofix_force_payee"))
-                    etat.combofix_force_payee = utils_str_atoi(attribute_values[i]);
+                    w_etat->combofix_force_payee = utils_str_atoi(attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Combofix_force_category"))
-                    etat.combofix_force_category = utils_str_atoi(attribute_values[i]);
+                    w_etat->combofix_force_category = utils_str_atoi(attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Crypt_file"))
                     w_etat->crypt_file = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "CSV_force_date_valeur_with_date"))
-                    etat.csv_force_date_valeur_with_date = utils_str_atoi(attribute_values[i]);
+                    w_etat->csv_force_date_valeur_with_date = utils_str_atoi(attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "CSV_separator"))
                 {
-                    g_free (etat.csv_separator);
-                    etat.csv_separator = my_strdup (attribute_values[i]);
-					gsb_csv_export_set_csv_separator (etat.csv_separator);
+                    g_free (w_etat->csv_separator);
+                    w_etat->csv_separator = my_strdup (attribute_values[i]);
+					gsb_csv_export_set_csv_separator (w_etat->csv_separator);
                 }
 
                 else if (!strcmp (attribute_names[i], "CSV_skipped_lines"))
@@ -2048,7 +2048,7 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
 
                         while (pointeur_char[line])
                         {
-                            etat.csv_skipped_lines[line] = utils_str_atoi (pointeur_char[line]);
+                            w_etat->csv_skipped_lines[line] = utils_str_atoi (pointeur_char[line]);
                             line ++;
                         }
                         g_strfreev (pointeur_char);
@@ -2072,16 +2072,16 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
 
             case 'E':
                 if (!strcmp (attribute_names[i], "Export_file_format"))
-                    etat.export_file_format = utils_str_atoi (attribute_values[i]);
+                    w_etat->export_file_format = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Export_files_traitement"))
-                    etat.export_files_traitement = utils_str_atoi (attribute_values[i]);
+                    w_etat->export_files_traitement = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Export_force_US_dates"))
-                    etat.export_force_US_dates = utils_str_atoi (attribute_values[i]);
+                    w_etat->export_force_US_dates = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Export_force_US_numbers"))
-                    etat.export_force_US_numbers = utils_str_atoi (attribute_values[i]);
+                    w_etat->export_force_US_numbers = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Export_quote_dates"))
                     w_etat->export_quote_dates = utils_str_atoi (attribute_values[i]);
@@ -2158,28 +2158,28 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
 
             case 'I':
                 if (!strcmp (attribute_names[i], "Import_interval_search"))
-					etat.import_files_nb_days = utils_str_atoi (attribute_values[i]);
+					w_etat->import_files_nb_days = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Import_copy_payee_in_note"))
-                    etat.copy_payee_in_note = utils_str_atoi (attribute_values[i]);
+                    w_etat->copy_payee_in_note = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Import_extract_number_for_check"))
-                    etat.extract_number_for_check = utils_str_atoi (attribute_values[i]);
+                    w_etat->extract_number_for_check = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Import_fusion_transactions"))
-                    etat.fusion_import_transactions = utils_str_atoi (attribute_values[i]);
+                    w_etat->fusion_import_transactions = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Import_categorie_for_payee"))
-                    etat.associate_categorie_for_payee = utils_str_atoi (attribute_values[i]);
+                    w_etat->associate_categorie_for_payee = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Import_fyear_by_value_date"))
-                    etat.get_fyear_by_value_date = utils_str_atoi (attribute_values[i]);
+                    w_etat->get_fyear_by_value_date = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Import_qif_no_import_categories"))
-                    etat.qif_no_import_categories = utils_str_atoi (attribute_values[i]);
+                    w_etat->qif_no_import_categories = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Import_qif_use_field_extract_method_payment"))
-                    etat.qif_use_field_extract_method_payment = utils_str_atoi (attribute_values[i]);
+                    w_etat->qif_use_field_extract_method_payment = utils_str_atoi (attribute_values[i]);
 
                 else
                     unknown = 1;
@@ -2207,8 +2207,8 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                 {
 					GdkPixbuf *pixbuf = NULL;
 
-					etat.name_logo = my_strdup (attribute_values[i]);
-					pixbuf = gdk_pixbuf_new_from_file (etat.name_logo, NULL);
+					w_etat->name_logo = my_strdup (attribute_values[i]);
+					pixbuf = gdk_pixbuf_new_from_file (w_etat->name_logo, NULL);
 					if (pixbuf)
 					{
 						gtk_window_set_default_icon (pixbuf);
@@ -2255,25 +2255,25 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                 }
 
                 else if (!strcmp (attribute_names[i], "Scheduler_view"))
-                    etat.affichage_echeances = utils_str_atoi (attribute_values[i]);
+                    w_etat->affichage_echeances = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Scheduler_custom_number"))
-                    etat.affichage_echeances_perso_nb_libre = utils_str_atoi (attribute_values[i]);
+                    w_etat->affichage_echeances_perso_nb_libre = utils_str_atoi (attribute_values[i]);
 
                 else if (!strcmp (attribute_names[i], "Scheduler_custom_menu"))
-                    etat.affichage_echeances_perso_j_m_a = utils_str_atoi (attribute_values[i]);
+                    w_etat->affichage_echeances_perso_j_m_a = utils_str_atoi (attribute_values[i]);
 
 				else if (!strcmp (attribute_names[i], "Scheduler_set_default_account"))
-                    etat.scheduler_set_default_account = utils_str_atoi (attribute_values[i]);
+                    w_etat->scheduler_set_default_account = utils_str_atoi (attribute_values[i]);
 
 				else if (!strcmp (attribute_names[i], "Scheduler_default_account_number"))
-                    etat.scheduler_default_account_number = utils_str_atoi (attribute_values[i]);
+                    w_etat->scheduler_default_account_number = utils_str_atoi (attribute_values[i]);
 
 				else if (!strcmp (attribute_names[i], "Scheduler_set_fixed_date"))
-                    etat.scheduler_set_fixed_date = utils_str_atoi (attribute_values[i]);
+                    w_etat->scheduler_set_fixed_date = utils_str_atoi (attribute_values[i]);
 
 				else if (!strcmp (attribute_names[i], "Scheduler_default_fixed_date"))
-                    etat.scheduler_set_fixed_date_day = utils_str_atoi (attribute_values[i]);
+                    w_etat->scheduler_set_fixed_date_day = utils_str_atoi (attribute_values[i]);
 
                 else
                     unknown = 1;
@@ -2322,8 +2322,8 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
 				}
                 else if (!strcmp (attribute_names[i], "Use_logo"))
 				{
-                    etat.utilise_logo = utils_str_atoi (attribute_values[i]);
-					if (etat.utilise_logo)
+                    w_etat->utilise_logo = utils_str_atoi (attribute_values[i]);
+					if (w_etat->utilise_logo)
 					{
 						GdkPixbuf *pixbuf;
 

@@ -129,7 +129,7 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
 
 	/* set automatic_separator variable */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_automatic_separator),
-								  etat.automatic_separator);
+								  w_etat->automatic_separator);
 
 	/* set Selected transaction after validate split transaction */
 	button = gsb_automem_radiobutton_gsettings_new (_("selects new transaction"),
@@ -149,7 +149,7 @@ static void prefs_page_form_options_setup_form_options_page (PrefsPageFormOption
     g_signal_connect (priv->checkbutton_automatic_separator,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.automatic_separator);
+					  &w_etat->automatic_separator);
 }
 
 /******************************************************************************/

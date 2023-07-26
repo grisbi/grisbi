@@ -43,7 +43,6 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
@@ -178,6 +177,7 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
     GdkPixbuf *pixbuf;
 	const gchar *selected_filename;
 	gchar *chemin_logo;
+	GrisbiWinEtat *w_etat;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	if (!gsb_data_account_get_number_of_accounts ())
@@ -203,22 +203,23 @@ static void prefs_page_display_fonts_change_logo_accueil (GtkWidget *file_select
 	}
 	else
 	{
+		w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 		if (g_strcmp0 (g_path_get_dirname (chemin_logo), gsb_dirs_get_pixmaps_dir ()) == 0)
 		{
 			gchar *name_logo;
 
 			name_logo = g_path_get_basename (chemin_logo);
 			if (g_strcmp0 (name_logo, "grisbi.svg") != 0)
-				etat.name_logo = chemin_logo;
+				w_etat->name_logo = chemin_logo;
 			else
-				etat.name_logo = NULL;
+				w_etat->name_logo = NULL;
 		}
 		else
 		{
-			if (etat.name_logo && strlen (etat.name_logo))
+			if (w_etat->name_logo && strlen (w_etat->name_logo))
 			{
-				g_free (etat.name_logo);
-				etat.name_logo = chemin_logo;
+				g_free (w_etat->name_logo);
+				w_etat->name_logo = chemin_logo;
 			}
 		}
 	}
@@ -298,6 +299,9 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
     GtkWidget *file_selector;
     GtkWidget *preview;
     gchar *tmp_last_directory;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
 	prefs_dialog = grisbi_win_get_prefs_dialog (NULL);
     file_selector = gtk_file_chooser_dialog_new (_("Select a new logo"),
@@ -314,13 +318,13 @@ static gboolean prefs_page_display_fonts_logo_accueil_changed (PrefsPageDisplayF
 	gtk_dialog_add_action_widget (GTK_DIALOG (file_selector), button_open, GTK_RESPONSE_OK);
 	gtk_widget_set_can_default (button_open, TRUE);
 
-	if (etat.name_logo)
+	if (w_etat->name_logo)
 	{
 		gchar *dirname;
 
-		dirname = g_path_get_dirname (etat.name_logo);
+		dirname = g_path_get_dirname (w_etat->name_logo);
 		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector), dirname);
-		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_selector), etat.name_logo);
+		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_selector), w_etat->name_logo);
 	}
     else
 	{
@@ -426,10 +430,13 @@ static void prefs_page_display_fonts_init_combo_force_theme (PrefsPageDisplayFon
 static gboolean prefs_page_display_fonts_utilise_logo_checked (GtkWidget *check_button,
 															   GtkWidget *hbox)
 {
-    etat.utilise_logo = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
-    gtk_widget_set_sensitive (hbox, etat.utilise_logo);
+	GrisbiWinEtat *w_etat;
 
-    if (etat.utilise_logo)
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+	w_etat->utilise_logo = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
+    gtk_widget_set_sensitive (hbox, w_etat->utilise_logo);
+
+    if (w_etat->utilise_logo)
     {
 		GtkWidget *logo_accueil;
 
@@ -484,12 +491,14 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	GdkPixbuf *pixbuf = NULL;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run = NULL;
 	PrefsPageDisplayFontsPrivate *priv;
 
 	devel_debug (NULL);
 	priv = prefs_page_display_fonts_get_instance_private (page);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Fonts & logo"), "gsb-fonts-32.png");
@@ -497,10 +506,10 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	gtk_box_reorder_child (GTK_BOX (priv->vbox_display_fonts), head_page, 0);
 
     /* set the elements for logo */
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_display_logo), etat.utilise_logo);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_display_logo), w_etat->utilise_logo);
 
 	/* le logo est grisé ou non suivant qu'on l'utilise ou pas */
-    gtk_widget_set_sensitive (priv->hbox_display_logo, etat.utilise_logo);
+    gtk_widget_set_sensitive (priv->hbox_display_logo, w_etat->utilise_logo);
 
 	/* set the logo */
 	pixbuf = gsb_select_icon_get_logo_pixbuf ();

@@ -201,8 +201,10 @@ gchar*  csv_field_info_bank  = NULL; /*!< bank references (string) */
 static gchar *csv_real_get_string_from_us_option (GsbReal number)
 {
 	gchar *tmp_str;
+	GrisbiWinEtat *w_etat;
 
-	if (etat.export_force_US_numbers)
+	w_etat = grisbi_win_get_w_etat ();
+	if (w_etat->export_force_US_numbers)
 	{
 		tmp_str = utils_real_get_string_intl (number);
 	}
@@ -479,7 +481,9 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 	gint financial_year_number;
 	gint payment_method;
 	gint reconcile_number;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     account_number = gsb_data_transaction_get_account_number (transaction_number);
 
     /* Si c'est une ventilation d'opération (càd une opération fille),
@@ -494,8 +498,8 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 	date = gsb_data_transaction_get_date (transaction_number);
 	if (date)
 	{
-	    CSV_CLEAR_FIELD (csv_field_date);
-		if (etat.export_force_US_dates)
+		CSV_CLEAR_FIELD (csv_field_date);
+		if (w_etat->export_force_US_dates)
 		{
 			csv_field_date = gsb_format_gdate_safe (date);
 		}
@@ -512,7 +516,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 	if (value_date)
 	{
 	    CSV_CLEAR_FIELD (csv_field_date_val);
-		if (etat.export_force_US_dates)
+		if (w_etat->export_force_US_dates)
 		{
 			csv_field_date_val = gsb_format_gdate_safe (date);
 		}

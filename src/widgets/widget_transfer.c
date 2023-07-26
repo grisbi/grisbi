@@ -867,10 +867,12 @@ static void widget_transfer_setup_card_part (WidgetTransfer *dialog,
 	GtkWidget *combo;
 	GtkWidget *icon;
 	GSList *tmp_list;
+	GrisbiWinEtat *w_etat;
 	WidgetTransferPrivate *priv;
 
 	devel_debug (NULL);
 	priv = widget_transfer_get_instance_private (dialog);
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* set entry_date_bascule */
 	gsb_calendar_entry_new_from_ui (priv->entry_date_bascule, FALSE);
@@ -906,8 +908,8 @@ static void widget_transfer_setup_card_part (WidgetTransfer *dialog,
 
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
 	combo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_payee,
-											  etat.combofix_case_sensitive,
+											  w_etat->combofix_force_payee,
+											  w_etat->combofix_case_sensitive,
 											  FALSE,
 											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
@@ -941,9 +943,9 @@ static void widget_transfer_setup_card_part (WidgetTransfer *dialog,
 	/* set categories */
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	combo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
 
@@ -969,9 +971,9 @@ static void widget_transfer_setup_card_part (WidgetTransfer *dialog,
 	/* set budget */
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	combo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
 	gtk_grid_attach (GTK_GRID (priv->grid_card_div), combo, 2, 1, 1, 1);
@@ -1010,10 +1012,12 @@ static void widget_transfer_setup_main_part (WidgetTransfer *dialog,
 	GtkWidget *combo;
 	GtkWidget *icon;
 	GSList *tmp_list;
+	GrisbiWinEtat *w_etat;
 	WidgetTransferPrivate *priv;
 
 	devel_debug (NULL);
 	priv = widget_transfer_get_instance_private (dialog);
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* entry_date_debit */
 	gsb_calendar_entry_new_from_ui (priv->entry_date_debit, FALSE);
@@ -1028,8 +1032,8 @@ static void widget_transfer_setup_main_part (WidgetTransfer *dialog,
 
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
 	combo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_payee,
-											  etat.combofix_case_sensitive,
+											  w_etat->combofix_force_payee,
+											  w_etat->combofix_case_sensitive,
 											  FALSE,
 											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
@@ -1069,9 +1073,9 @@ static void widget_transfer_setup_main_part (WidgetTransfer *dialog,
 	/* set categories */
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	combo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
 
@@ -1097,9 +1101,9 @@ static void widget_transfer_setup_main_part (WidgetTransfer *dialog,
 	/* set budget */
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	combo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
 

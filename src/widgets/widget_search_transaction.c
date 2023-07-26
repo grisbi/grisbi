@@ -1036,6 +1036,7 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 {
 	const gchar *currency_code;
 	gint currency;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 	WidgetSearchTransactionPrivate *priv;
 
@@ -1061,7 +1062,8 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
     g_object_set_data (G_OBJECT (priv->radiobutton_search_amount), "pointer", GINT_TO_POINTER (2));
 
 	/* init ignore_case comme dans les preferences du formulaire */
-	if (etat.combofix_case_sensitive)
+	w_etat = grisbi_win_get_w_etat ();
+	if (w_etat->combofix_case_sensitive)
 	{
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), FALSE);
 		priv->ignore_case = FALSE;

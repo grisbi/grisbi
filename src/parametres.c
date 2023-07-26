@@ -326,7 +326,9 @@ void gsb_localisation_decimal_point_changed ( GtkComboBoxText *widget, gpointer 
     GtkWidget *entry;
     gchar *str_capital;
     const gchar *text;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     text = gtk_combo_box_text_get_active_text ( widget );
     combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
 
@@ -357,8 +359,8 @@ void gsb_localisation_decimal_point_changed ( GtkComboBoxText *widget, gpointer 
     /* reset capital */
     entry = bet_finance_ui_get_capital_entry ( );
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
-                    etat.bet_capital ),
-                    etat.bet_currency,
+                    w_etat->bet_capital ),
+                    w_etat->bet_currency,
                     FALSE );
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
@@ -380,7 +382,9 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer 
     GtkWidget *entry;
     gchar *str_capital;
     const gchar *text;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     text = gtk_combo_box_text_get_active_text ( widget );
     combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
 
@@ -418,8 +422,8 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer 
     /* reset capital */
     entry = bet_finance_ui_get_capital_entry ( );
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
-                    etat.bet_capital ),
-                    etat.bet_currency,
+                    w_etat->bet_capital ),
+                    w_etat->bet_currency,
                     FALSE );
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );

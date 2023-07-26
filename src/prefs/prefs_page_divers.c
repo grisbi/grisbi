@@ -175,6 +175,9 @@ static void prefs_page_divers_choose_thousands_sep_changed (GtkComboBoxText *wid
     GtkWidget *entry;
     gchar *str_capital;
     const gchar *text;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
     text = gtk_combo_box_text_get_active_text (widget);
     combo_box = g_object_get_data (G_OBJECT (widget), "separator");
@@ -209,8 +212,8 @@ static void prefs_page_divers_choose_thousands_sep_changed (GtkComboBoxText *wid
     /* reset capital */
     entry = bet_finance_ui_get_capital_entry ();
     str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (
-                    etat.bet_capital),
-                    etat.bet_currency,
+                    w_etat->bet_capital),
+                    w_etat->bet_currency,
                     FALSE);
 
     gtk_entry_set_text (GTK_ENTRY (entry), str_capital);
@@ -226,8 +229,11 @@ static void prefs_page_divers_choose_decimal_point_changed (GtkComboBoxText *wid
     GtkWidget *entry;
     gchar *str_capital;
     const gchar *text;
+	GrisbiWinEtat *w_etat;
 
-    text = gtk_combo_box_text_get_active_text (widget);
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+	text = gtk_combo_box_text_get_active_text (widget);
     combo_box = g_object_get_data (G_OBJECT (widget), "separator");
 
     if (g_strcmp0 (text, ",") == 0)
@@ -253,8 +259,8 @@ static void prefs_page_divers_choose_decimal_point_changed (GtkComboBoxText *wid
     /* reset capital */
     entry = bet_finance_ui_get_capital_entry ();
     str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (
-                    etat.bet_capital),
-                    etat.bet_currency,
+                    w_etat->bet_capital),
+                    w_etat->bet_currency,
                     FALSE);
 
     gtk_entry_set_text (GTK_ENTRY (entry), str_capital);
@@ -448,7 +454,11 @@ static gboolean prefs_page_divers_scheduler_set_fixed_day_changed (GtkWidget *ch
  * */
 static gboolean prefs_page_divers_scheduler_change_account (GtkWidget *combo)
 {
-	etat.scheduler_default_account_number = gsb_account_get_combo_account_number (combo);
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+	w_etat->scheduler_default_account_number = gsb_account_get_combo_account_number (combo);
 
     return FALSE;
 }
@@ -615,12 +625,14 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 	gint combo_index;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 	PrefsPageDiversPrivate *priv;
 
 	devel_debug (NULL);
 
 	priv = prefs_page_divers_get_instance_private (page);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	is_loading = grisbi_win_file_is_loading ();
 
 	/* On récupère le nom de la page */
@@ -679,12 +691,12 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 
 	/* Init checkbutton set fixed date */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_fixed_date),
-								  etat.scheduler_set_fixed_date);
+								  w_etat->scheduler_set_fixed_date);
 	gtk_widget_set_sensitive (priv->checkbutton_scheduler_set_fixed_date, is_loading);
 
 	/* Adding and init widgets select defaut compte */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_scheduler_set_default_account),
-								  etat.scheduler_set_default_account);
+								  w_etat->scheduler_set_default_account);
 
 	if (is_loading)
 		combo = gsb_account_create_combo_list (G_CALLBACK (prefs_page_divers_scheduler_change_account), NULL, FALSE);
@@ -695,8 +707,8 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 	gtk_box_pack_start (GTK_BOX (priv->hbox_launch_scheduler_set_default_account), combo, FALSE, FALSE, 0);
 	g_object_set_data (G_OBJECT (priv->checkbutton_scheduler_set_default_account), "widget", combo);
 
-	if (etat.scheduler_set_default_account)
-		gsb_account_set_combo_account_number (combo, etat.scheduler_default_account_number);
+	if (w_etat->scheduler_set_default_account)
+		gsb_account_set_combo_account_number (combo, w_etat->scheduler_default_account_number);
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 
@@ -761,13 +773,13 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 	g_signal_connect (priv->checkbutton_scheduler_set_fixed_date,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.scheduler_set_fixed_date);
+					  &w_etat->scheduler_set_fixed_date);
 
     /* callback for checkbutton_scheduler_set_default_account */
     g_signal_connect (priv->checkbutton_scheduler_set_default_account,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.scheduler_set_default_account);
+					  &w_etat->scheduler_set_default_account);
 
 	/* set the localization parameters */
 	/* set the language */

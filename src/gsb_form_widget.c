@@ -303,7 +303,9 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 {
     GtkWidget *widget;
     GSList *tmp_list;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
 	if (!element_number)
 		return NULL;
 
@@ -350,8 +352,8 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 		case TRANSACTION_FORM_PARTY:
 			tmp_list = gsb_data_payee_get_name_and_report_list ();
 			widget = gtk_combofix_new_with_properties (tmp_list,
-													   etat.combofix_force_payee,
-													   etat.combofix_case_sensitive,
+													   w_etat->combofix_force_payee,
+													   w_etat->combofix_case_sensitive,
 													   FALSE,
 													   METATREE_PAYEE);
 			gsb_data_payee_free_name_and_report_list (tmp_list);
@@ -360,9 +362,9 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 		case TRANSACTION_FORM_CATEGORY:
         	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 			widget = gtk_combofix_new_with_properties (tmp_list,
-													   etat.combofix_force_category,
-													   etat.combofix_case_sensitive,
-													   etat.combofix_mixed_sort,
+													   w_etat->combofix_force_category,
+													   w_etat->combofix_case_sensitive,
+													   w_etat->combofix_mixed_sort,
 													   METATREE_CATEGORY);
 			gsb_data_categorie_free_name_list (tmp_list);
 	    	break;
@@ -374,9 +376,9 @@ GtkWidget *gsb_form_widget_create (gint element_number,
 		case TRANSACTION_FORM_BUDGET:
 			tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 			widget = gtk_combofix_new_with_properties (tmp_list,
-													   etat.combofix_force_category,
-													   etat.combofix_case_sensitive,
-													   etat.combofix_mixed_sort,
+													   w_etat->combofix_force_category,
+													   w_etat->combofix_case_sensitive,
+													   w_etat->combofix_mixed_sort,
 													   METATREE_BUDGET);
 			gsb_data_categorie_free_name_list (tmp_list);
 			break;

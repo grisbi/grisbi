@@ -81,7 +81,11 @@ G_DEFINE_TYPE_WITH_PRIVATE (WidgetImportFiles, widget_import_files, GTK_TYPE_BOX
 static gboolean widget_import_files_spinbutton_import_files_nb_days_changed (GtkWidget *spinbutton,
 																				 gpointer null)
 {
-    etat.import_files_nb_days = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+
+    w_etat->import_files_nb_days = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
 
     gsb_file_set_modified (TRUE);
 
@@ -97,37 +101,39 @@ static gboolean widget_import_files_spinbutton_import_files_nb_days_changed (Gtk
  */
 static void widget_import_files_setup_import_files_page (WidgetImportFiles *page)
 {
+	GrisbiWinEtat *w_etat;
 	WidgetImportFilesPrivate *priv;
 
 	devel_debug (NULL);
 
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 	priv = widget_import_files_get_instance_private (page);
 
 	/* set the variables for import of files*/
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_import_files_nb_days),
-							   etat.import_files_nb_days);
+							   w_etat->import_files_nb_days);
 
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_fusion_import_transactions),
-								  etat.fusion_import_transactions);
+								  w_etat->fusion_import_transactions);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_associate_categorie_for_payee),
-								  etat.associate_categorie_for_payee);
+								  w_etat->associate_categorie_for_payee);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_extract_number_for_check),
-								  etat.extract_number_for_check);
+								  w_etat->extract_number_for_check);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_copy_payee_in_note),
-								  etat.copy_payee_in_note);
+								  w_etat->copy_payee_in_note);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_csv_force_date_valeur_with_date),
-								  etat.csv_force_date_valeur_with_date);
+								  w_etat->csv_force_date_valeur_with_date);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_qif_no_import_categories),
-								  etat.qif_no_import_categories);
+								  w_etat->qif_no_import_categories);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_qif_use_field_extract_method_payment),
-								  etat.qif_use_field_extract_method_payment);
+								  w_etat->qif_use_field_extract_method_payment);
 
 	/* set the choice of date for the financial year */
 	gsb_automem_radiobutton_new_with_title (priv->vbox_import_files,
 											_("Set the financial year"),
 											_("According to the date"),
 											_("According to the value date (if fail, try with the date)"),
-											&etat.get_fyear_by_value_date,
+											&w_etat->get_fyear_by_value_date,
 											NULL,
 											NULL);
 
@@ -141,7 +147,7 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
     g_signal_connect (priv->checkbutton_fusion_import_transactions,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.fusion_import_transactions);
+					  &w_etat->fusion_import_transactions);
     g_signal_connect_after (priv->checkbutton_fusion_import_transactions,
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
@@ -151,7 +157,7 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
     g_signal_connect (priv->checkbutton_associate_categorie_for_payee,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.associate_categorie_for_payee);
+					  &w_etat->associate_categorie_for_payee);
     g_signal_connect_after (priv->checkbutton_associate_categorie_for_payee,
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
@@ -161,7 +167,7 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
     g_signal_connect (priv->checkbutton_extract_number_for_check,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.extract_number_for_check);
+					  &w_etat->extract_number_for_check);
     g_signal_connect_after (priv->checkbutton_extract_number_for_check,
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
@@ -171,7 +177,7 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
     g_signal_connect (priv->checkbutton_copy_payee_in_note,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.copy_payee_in_note);
+					  &w_etat->copy_payee_in_note);
     g_signal_connect_after (priv->checkbutton_copy_payee_in_note,
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
@@ -181,7 +187,7 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
     g_signal_connect (priv->checkbutton_csv_force_date_valeur_with_date,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.csv_force_date_valeur_with_date);
+					  &w_etat->csv_force_date_valeur_with_date);
     g_signal_connect_after (priv->checkbutton_csv_force_date_valeur_with_date,
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
@@ -191,7 +197,7 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
     g_signal_connect (priv->checkbutton_qif_no_import_categories,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.qif_no_import_categories);
+					  &w_etat->qif_no_import_categories);
     g_signal_connect_after (priv->checkbutton_qif_no_import_categories,
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),
@@ -201,7 +207,7 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
     g_signal_connect (priv->checkbutton_qif_use_field_extract_method_payment,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.qif_use_field_extract_method_payment);
+					  &w_etat->qif_use_field_extract_method_payment);
     g_signal_connect_after (priv->checkbutton_qif_use_field_extract_method_payment,
 							"toggled",
 							G_CALLBACK (utils_prefs_gsb_file_set_modified),

@@ -201,7 +201,7 @@ static GtkWidget *export_options_widget_new (GtkWidget *assistant)
 											   _("CSV format"));
 	gtk_grid_attach (GTK_GRID (grid), button2, 0, 1, 1, 1);
 
-	if (etat.export_file_format)
+	if (w_etat->export_file_format)
 	{
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button2), TRUE);
 	}
@@ -220,14 +220,14 @@ static GtkWidget *export_options_widget_new (GtkWidget *assistant)
 
 	/* Adding options for export in US data */
     button = gsb_automem_checkbutton_new (_("Force US dates"),
-										  &etat.export_force_US_dates,
+										  &w_etat->export_force_US_dates,
 										  NULL,
 										  NULL);
     gtk_box_pack_start (GTK_BOX (hbox1), button, FALSE, FALSE, MARGIN_BOX);
 	gtk_size_group_add_widget (size_group, button);
 
     button = gsb_automem_checkbutton_new (_("Force US numbers"),
-										  &etat.export_force_US_numbers,
+										  &w_etat->export_force_US_numbers,
 										  NULL,
 										  NULL);
     gtk_box_pack_start (GTK_BOX (hbox1), button, FALSE, FALSE, MARGIN_BOX);
@@ -240,7 +240,7 @@ static GtkWidget *export_options_widget_new (GtkWidget *assistant)
 													  assistant);
     gtk_grid_attach (GTK_GRID (grid), csv_separators, 2, 1, 1, 1);
 	g_object_set_data (G_OBJECT(button2), "widget", csv_separators);
-	gtk_widget_set_sensitive (csv_separators, etat.export_file_format);
+	gtk_widget_set_sensitive (csv_separators, w_etat->export_file_format);
 
 	button = gsb_automem_checkbutton_new (_("Quote the dates"),
 										  &w_etat->export_quote_dates,
@@ -252,13 +252,13 @@ static GtkWidget *export_options_widget_new (GtkWidget *assistant)
 		gtk_widget_set_tooltip_text (button, _("Check to write a date field with quotes"));
     gtk_grid_attach (GTK_GRID (grid), button, 3, 1, 1, 1);
 	g_object_set_data (G_OBJECT(button2), "button_quote_dates", button);
-	gtk_widget_set_sensitive (button, etat.export_file_format);
+	gtk_widget_set_sensitive (button, w_etat->export_file_format);
 
 	/* set signals */
 	g_signal_connect (G_OBJECT (button2),
 					  "toggled",
 					  G_CALLBACK (export_account_radiobutton_format_changed),
-					  &etat.export_file_format);
+					  &w_etat->export_file_format);
 
 	gtk_box_pack_start (GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
@@ -471,7 +471,9 @@ static GtkWidget *export_create_selection_page (GtkWidget *assistant)
     GtkCellRenderer *cell;
     GtkListStore *model;
     GSList *tmp_list;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
     padding_box = new_paddingbox_with_title (vbox, TRUE, _("Select accounts to export"));
@@ -545,12 +547,12 @@ static GtkWidget *export_create_selection_page (GtkWidget *assistant)
     gtk_box_pack_start (GTK_BOX(padding_box), options_box, TRUE, TRUE, 0);
 
 	entry = g_object_get_data (G_OBJECT(assistant), "entry");
-	gtk_entry_set_text (GTK_ENTRY (entry), etat.csv_separator);
+	gtk_entry_set_text (GTK_ENTRY (entry), w_etat->csv_separator);
 
 
 	/* Adding treat all files button */
     button = gsb_automem_checkbutton_new (_("Treat all files as the first"),
-										  &etat.export_files_traitement,
+										  &w_etat->export_files_traitement,
 										  NULL,
 										  NULL);
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
@@ -647,7 +649,9 @@ static GtkWidget *create_export_account_resume_page (struct ExportedAccount *acc
 {
     GtkWidget *vbox, *hbox, *label, *combo;
     gchar *tmpstr;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
@@ -684,7 +688,7 @@ static GtkWidget *create_export_account_resume_page (struct ExportedAccount *acc
 					  G_CALLBACK (export_account_file_chooser_dir_changed),
 					  NULL);
 
-    gtk_combo_box_set_active (GTK_COMBO_BOX(combo), etat.export_file_format);
+    gtk_combo_box_set_active (GTK_COMBO_BOX(combo), w_etat->export_file_format);
 
     return vbox;
 }
@@ -714,6 +718,9 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 
     if (selected_accounts && g_slist_length (selected_accounts))
     {
+		GrisbiWinEtat *w_etat;
+
+		w_etat = grisbi_win_get_w_etat ();
 		gtk_text_buffer_insert_with_tags_by_name (buffer,
 												  &iter,
 												  _("Accounts to export"),
@@ -753,13 +760,13 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 
 			account = g_malloc0 (sizeof (struct ExportedAccount));
 			account->account_nb = i;
-			if (etat.export_file_format)
+			if (w_etat->export_file_format)
 				account->extension = g_strdup ("csv");
 			else
 				account->extension = g_strdup ("qif");
 			exported_accounts = g_slist_append (exported_accounts, account);
 
-			if (!etat.export_files_traitement || g_slist_length (selected_accounts) == 1)
+			if (!w_etat->export_files_traitement || g_slist_length (selected_accounts) == 1)
 			{
 				gsb_assistant_add_page (assistant,
 										create_export_account_resume_page (account),
@@ -860,7 +867,7 @@ void export_accounts (void)
 
             account = (struct ExportedAccount *) list->data;
 
-            if (etat.export_files_traitement && g_slist_length (selected_accounts) > 1)
+            if (w_etat->export_files_traitement && g_slist_length (selected_accounts) > 1)
             {
                 const gchar *title;
                 gchar *tmp_str;

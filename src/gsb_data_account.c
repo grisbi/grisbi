@@ -2773,6 +2773,7 @@ GsbReal gsb_data_account_calculate_current_day_balance (gint account_number,
 GDate *gsb_data_account_get_bet_start_date (gint account_number)
 {
     GDate *date = NULL;
+	GrisbiWinEtat *w_etat;
     AccountStruct *account;
 
     account = gsb_data_account_get_structure (account_number);
@@ -2781,12 +2782,13 @@ GDate *gsb_data_account_get_bet_start_date (gint account_number)
 
     date = account->bet_start_date;
 
+	w_etat = grisbi_win_get_w_etat ();
     if (date && g_date_valid (date))
         return gsb_date_copy (date);
     else
     {
         date = gdate_today ();
-        if (etat.bet_debut_period == 1)
+        if (w_etat->bet_debut_period == 1)
             g_date_set_day (date, 1);
 
         return date;
@@ -2819,9 +2821,11 @@ gboolean gsb_data_account_set_bet_start_date (gint account_number,
     else
     {
         GDate *date_new;
+		GrisbiWinEtat *w_etat;
 
+		w_etat = grisbi_win_get_w_etat ();
         date_new = gdate_today ();
-        if (etat.bet_debut_period == 1)
+        if (w_etat->bet_debut_period == 1)
             g_date_set_day (date_new, 1);
         account->bet_start_date = date_new;
 

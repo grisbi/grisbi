@@ -1769,10 +1769,12 @@ GtkWidget *creation_onglet_accueil (void)
     GtkWidget *base_scroll;
     GtkWidget *eb;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_etat = grisbi_win_get_w_etat ();
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
@@ -1789,7 +1791,7 @@ GtkWidget *creation_onglet_accueil (void)
     g_object_add_weak_pointer (G_OBJECT (label_accounting_entity),
                                 (gpointer*)&label_accounting_entity);
 
-    if (etat.utilise_logo)
+    if (w_etat->utilise_logo)
     {
         logo_accueil =  gtk_image_new_from_pixbuf (gsb_select_icon_get_logo_pixbuf ());
         gtk_box_pack_start (GTK_BOX (hbox_title), logo_accueil, FALSE, FALSE, 20);
@@ -2237,12 +2239,15 @@ gboolean gsb_main_page_set_logo_accueil (GtkWidget *logo)
 	}
 	else
     {
-        gtk_widget_destroy (logo_accueil);
+		GrisbiWinEtat *w_etat;
+
+		w_etat = grisbi_win_get_w_etat ();
+		gtk_widget_destroy (logo_accueil);
 		logo_accueil = NULL;
         gtk_widget_set_size_request (hbox_title, -1, -1);
-        if (etat.name_logo && strlen (etat.name_logo))
-            g_free (etat.name_logo);
-        etat.name_logo = NULL;
+        if (w_etat->name_logo && strlen (w_etat->name_logo))
+            g_free (w_etat->name_logo);
+        w_etat->name_logo = NULL;
     }
 
 	return (FALSE);

@@ -1785,7 +1785,9 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
     GSList *tmp_list;
 	gchar *tmp_str;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
@@ -1912,7 +1914,7 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 	/* adding option for import of categories for qif files */
     paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Select options to import"));
 	qif_button = gsb_automem_checkbutton_new (_("Don't imported the categories"),
-										  &etat.qif_no_import_categories,
+										  &w_etat->qif_no_import_categories,
 										  NULL,
 										  NULL);
 	g_object_set_data (G_OBJECT (assistant), "qif_button", qif_button);
@@ -2256,8 +2258,11 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
     gint div_number;
     gint payment_number = 0;
     gchar *tmp_str = NULL;
+	GrisbiWinEtat *w_etat;
 
-    if (etat.fusion_import_transactions && imported_transaction->ope_correspondante > 0)
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+    if (w_etat->fusion_import_transactions && imported_transaction->ope_correspondante > 0)
         transaction_number = imported_transaction->ope_correspondante;
     else
         /* we create the new transaction */
@@ -2276,17 +2281,17 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
         gsb_data_transaction_set_value_date (transaction_number, imported_transaction->date_de_valeur);
 
         /* set the financial year according to the date or value date */
-        if (etat.get_fyear_by_value_date)
+        if (w_etat->get_fyear_by_value_date)
             fyear = gsb_data_fyear_get_from_date (imported_transaction->date_de_valeur);
     }
 	else if (origine && g_ascii_strcasecmp (origine, "CSV") == 0)
 	{
-		if (etat.csv_force_date_valeur_with_date)
+		if (w_etat->csv_force_date_valeur_with_date)
 		{
 			gsb_data_transaction_set_value_date (transaction_number, imported_transaction->date);
 
 			/* set the financial year according to the date or value date */
-			if (etat.get_fyear_by_value_date)
+			if (w_etat->get_fyear_by_value_date)
 			{
 				fyear = gsb_data_fyear_get_from_date (imported_transaction->date_de_valeur);
 			}
@@ -2305,12 +2310,12 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 	if (imported_transaction->tiers && strlen (imported_transaction->tiers))
 	{
 		/* Before leaving, we retrieve the data from payee */
-		if (etat.copy_payee_in_note)
+		if (w_etat->copy_payee_in_note)
 		{
 			if (gsb_data_transaction_get_notes (transaction_number) == NULL)
 				gsb_data_transaction_set_notes (transaction_number, imported_transaction->tiers);
 		}
-		if (!imported_transaction->cheque && etat.extract_number_for_check)
+		if (!imported_transaction->cheque && w_etat->extract_number_for_check)
 		{
 			gchar *str_to_free = NULL;
 
@@ -2331,7 +2336,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 		}
 
     	/* on sort de la fonction si on a fusionné des opérations */
-		if (etat.fusion_import_transactions && imported_transaction->ope_correspondante > 0)
+		if (w_etat->fusion_import_transactions && imported_transaction->ope_correspondante > 0)
 		{
 			if (imported_transaction->cheque)
 			{
@@ -2412,7 +2417,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
                 g_strfreev(tab_str);
             }
         }
-        else if (payee_number && etat.associate_categorie_for_payee &&  !imported_transaction->cheque)
+        else if (payee_number && w_etat->associate_categorie_for_payee &&  !imported_transaction->cheque)
         {
             /* associate the class and the budgetary line to the payee except checks */
             last_transaction_number = gsb_form_transactions_look_for_last_party (payee_number,
@@ -2456,7 +2461,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
     /* définition des moyens de payement des fichiers OFX et QIF*/
     if (origine
 		&& (g_ascii_strcasecmp (origine, "OFX") == 0
-			|| (g_ascii_strcasecmp (origine, "QIF") == 0 && etat.qif_use_field_extract_method_payment)))
+			|| (g_ascii_strcasecmp (origine, "QIF") == 0 && w_etat->qif_use_field_extract_method_payment)))
     {
         switch (imported_transaction->type_de_transaction)
         {
@@ -2932,8 +2937,10 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 	GDateYear year;
 	gint account_number;
 	gint nbre_resultat = 0;
+	GrisbiWinEtat *w_etat;
 
 	devel_debug (NULL);
+	w_etat = grisbi_win_get_w_etat ();
 	account_number = gsb_data_transaction_get_account_number (ope_import->ope_correspondante);
 
 	/* on calcule l'intervalle de recherche */
@@ -2942,10 +2949,10 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 	year = g_date_get_year (ope_import->date);
 
 	date_debut_comparaison = g_date_new_dmy (day, month, year);
-	g_date_subtract_days (date_debut_comparaison, etat.import_files_nb_days);
+	g_date_subtract_days (date_debut_comparaison, w_etat->import_files_nb_days);
 
 	date_fin_comparaison = g_date_new_dmy (day, month, year);
-	g_date_add_days (date_fin_comparaison, etat.import_files_nb_days);
+	g_date_add_days (date_fin_comparaison, w_etat->import_files_nb_days);
 
 	/* on récupère la liste des opérations à partir de l'opération correspondante trouvée */
 	list_ope_retenues = gsb_data_transaction_get_list_for_import (account_number, date_debut_comparaison);
@@ -2974,7 +2981,7 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
              &&
              !ope_import->ope_de_ventilation
              &&
-             (!etat.fusion_import_transactions
+             (!w_etat->fusion_import_transactions
              ||
              !gsb_data_transaction_get_id (transaction_number)))
             {
@@ -3078,6 +3085,9 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 	GSList *tmp_list_ope;
     gchar *tmp_str2;
 	gchar *tmp_date;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* traitement des opérations */
 	tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (transaction_number));
@@ -3111,7 +3121,7 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 
 			/* Opération importée */
 			tmp_date = gsb_format_gdate (ope_import->date);
-			if (etat.fusion_import_transactions)
+			if (w_etat->fusion_import_transactions)
 				tmp_str = g_strdup_printf (_("Transaction to be merged: %s ; %s ; %s"),
 										   tmp_date,
 										   ope_import->tiers,
@@ -3186,9 +3196,12 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     gint action_derniere_ventilation;
     gint result;
     gboolean ope_visible = FALSE;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
-    if (etat.fusion_import_transactions)
+    if (w_etat->fusion_import_transactions)
 	{
         tmp_str = g_strdup_printf (_("Confirmation of transactions to be merged in: %s"),
 								   gsb_data_account_get_name (account_number));
@@ -3226,7 +3239,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
     gtk_container_set_border_width (GTK_CONTAINER(dialog), BOX_BORDER_WIDTH);
 
-    if (etat.fusion_import_transactions)
+    if (w_etat->fusion_import_transactions)
     {
         gtk_dialog_set_response_sensitive   (GTK_DIALOG (dialog), -12, FALSE);
         tmp_str = g_strdup ( _("Please select the transactions to be merged"));
@@ -3314,7 +3327,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 
 			ope_import->bouton = gtk_check_button_new ();
-			if (etat.fusion_import_transactions)
+			if (w_etat->fusion_import_transactions)
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ope_import->bouton), TRUE);
 			g_object_set_data (G_OBJECT (ope_import->bouton), "dialog", dialog);
 			g_signal_connect (ope_import->bouton,
@@ -3326,7 +3339,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 			return_exponent = gsb_data_account_get_currency_floating_point (account_number);
 			tmp_str2 = utils_real_get_string (gsb_real_adjust_exponent (ope_import->montant, return_exponent));
 			tmp_date = gsb_format_gdate (ope_import->date);
-			if (etat.fusion_import_transactions)
+			if (w_etat->fusion_import_transactions)
 				tmp_str = g_strdup_printf (_("Transaction to be merged: %s ; %s ; %s"),
 							tmp_date,
 							ope_import->tiers,
@@ -3473,7 +3486,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
             if (ope_import->operation_ventilee)
                 action_derniere_ventilation = 0;
         }
-        else if (etat.fusion_import_transactions &&
+        else if (w_etat->fusion_import_transactions &&
                         ope_import->ope_correspondante > 0)
         {
             ope_import->action = 0;
@@ -3508,6 +3521,9 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
     GSList *list_ope_retenues;
     GSList *tmp_list;
     gint demande_confirmation = FALSE;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* on récupère la liste des opérations dans l'intervalle de recherche pour l'import */
     list_ope_retenues = gsb_data_transaction_get_list_for_import (account_number, first_date_import);
@@ -3553,7 +3569,7 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
                 tmp_str = gsb_data_transaction_get_method_of_payment_content (transaction_number);
                 if (tmp_str && strcmp (imported_transaction->cheque, tmp_str) == 0)
                 {
-                    if (etat.fusion_import_transactions)
+                    if (w_etat->fusion_import_transactions)
                     {
                         imported_transaction->action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
                         imported_transaction->ope_correspondante = transaction_number;
@@ -3576,10 +3592,10 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
             year = g_date_get_year (imported_transaction->date);
 
             date_debut_comparaison = g_date_new_dmy (day, month, year);
-            g_date_subtract_days (date_debut_comparaison, etat.import_files_nb_days);
+            g_date_subtract_days (date_debut_comparaison, w_etat->import_files_nb_days);
 
             date_fin_comparaison = g_date_new_dmy (day, month, year);
-            g_date_add_days (date_fin_comparaison, etat.import_files_nb_days);
+            g_date_add_days (date_fin_comparaison, w_etat->import_files_nb_days);
 
             if (!gsb_real_cmp (gsb_data_transaction_get_amount (
              transaction_number), imported_transaction->montant)
@@ -3592,7 +3608,7 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
              &&
              !imported_transaction->ope_de_ventilation
              &&
-             (!etat.fusion_import_transactions
+             (!w_etat->fusion_import_transactions
              ||
              !gsb_data_transaction_get_id (transaction_number)))
             {
@@ -3626,6 +3642,9 @@ static GDate *gsb_import_get_first_date (GSList *import_list)
 {
     GSList *tmp_list;
     GDate *first_date = NULL;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     tmp_list = import_list;
 
@@ -3644,7 +3663,7 @@ static GDate *gsb_import_get_first_date (GSList *import_list)
     }
 
     first_date = gsb_date_copy (first_date);
-    g_date_subtract_days (first_date, etat.import_files_nb_days);
+    g_date_subtract_days (first_date, w_etat->import_files_nb_days);
 
     return first_date;
 }
@@ -3717,6 +3736,9 @@ static void gsb_import_add_imported_transactions (struct ImportAccount *imported
     GSList *tmp_list;
     GDate *first_date_import = NULL;
     gint demande_confirmation;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* check the imported account id, and set it in the grisbi account if it doesn't
      * exist or if it's wrong */
@@ -3776,7 +3798,7 @@ static void gsb_import_add_imported_transactions (struct ImportAccount *imported
 																account_number,
 																imported_account->origine);
 
-			if (etat.fusion_import_transactions
+			if (w_etat->fusion_import_transactions
 				&& imported_transaction->ope_correspondante > 0)
         {
             gsb_transactions_list_update_transaction (transaction_number);
@@ -4402,6 +4424,9 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
     GSList *list_ope_retenues;
     GSList *tmp_list_ope_importees;
     GDate *first_date_import = NULL;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* si le compte importé a une id, on la vérifie ici */
     /* si elle est absente, on met celle importée */
@@ -4483,10 +4508,10 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
             year = g_date_get_year (ope_import->date);
 
             date_debut_comparaison = g_date_new_dmy (day, month, year);
-            g_date_subtract_days (date_debut_comparaison, etat.import_files_nb_days);
+            g_date_subtract_days (date_debut_comparaison, w_etat->import_files_nb_days);
 
             date_fin_comparaison = g_date_new_dmy (day, month, year);
-            g_date_add_days (date_fin_comparaison, etat.import_files_nb_days);
+            g_date_add_days (date_fin_comparaison, w_etat->import_files_nb_days);
 
 			/* si on doit inverser le montant on le fait maintenant */
             if (imported_account->invert_transaction_amount)
@@ -4506,7 +4531,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 
 				/* on récupère la date de valeur si besoin */
 				if (ope_import->date_de_valeur == NULL
-					&& etat.csv_force_date_valeur_with_date
+					&& w_etat->csv_force_date_valeur_with_date
 					&& imported_account->origine
 					&& g_ascii_strcasecmp (imported_account->origine, "CSV") == 0)
 				{
@@ -4539,7 +4564,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 					gsb_data_transaction_set_marked_transaction (transaction_number, OPERATION_TELEPOINTEE);
 
 					/* on traite la fusion des opérations si besoin */
-					if (etat.fusion_import_transactions && ope_import->ope_correspondante > 0)
+					if (w_etat->fusion_import_transactions && ope_import->ope_correspondante > 0)
 					{
 						transaction_number = gsb_import_create_transaction (ope_import,
 																			account_number,
@@ -4552,7 +4577,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 			{
 				/* récupération de la date de valeur si besoin */
 				if (ope_import->date_de_valeur == NULL
-					&& etat.csv_force_date_valeur_with_date
+					&& w_etat->csv_force_date_valeur_with_date
 					&& imported_account->origine
 					&& g_ascii_strcasecmp (imported_account->origine, "CSV") == 0)
 				{
@@ -4589,10 +4614,12 @@ static void traitement_operations_importees (GtkWindow *parent)
     GSList *tmp_list;
     gint new_file;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* when come here, all the currencies are already created
      * and init_variables is already called
@@ -4718,7 +4745,7 @@ static void traitement_operations_importees (GtkWindow *parent)
 			gsb_data_import_rule_set_csv_fields_str (rule_number, compte->csv_fields_str);
 			gsb_data_import_rule_set_csv_first_line_data (rule_number, compte->csv_first_line_data);
 			gsb_data_import_rule_set_csv_headers_present (rule_number, compte->csv_headers_present);
-			gsb_data_import_rule_set_csv_separator (rule_number, etat.csv_separator);
+			gsb_data_import_rule_set_csv_separator (rule_number, w_etat->csv_separator);
 			gsb_data_import_rule_set_csv_spec_lines_list (rule_number, compte->csv_spec_lines_list);
 			csv_spec_nbre_lines = g_slist_length (compte->csv_spec_lines_list);
 			if (csv_spec_nbre_lines)

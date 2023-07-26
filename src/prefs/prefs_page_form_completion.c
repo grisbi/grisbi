@@ -91,7 +91,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageFormCompletion, prefs_page_form_completion,
  * update the combofix in the form if they exists
  * as we don't know what was changed, update all the parameter (not a problem
  * because very fast)
- * at this level, the etat.___ variable has already been changed
+ * at this level, the w_etat->___ variable has already been changed
  *
  * \param
  *
@@ -102,6 +102,10 @@ static void prefs_page_form_completion_update_combofix (GtkWidget *checkbutton,
 {
     GtkWidget *combofix;
 	gint metatree_content;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
 
 	metatree_content = GPOINTER_TO_INT (metatree_content_ptr);
 	switch (metatree_content)
@@ -110,7 +114,7 @@ static void prefs_page_form_completion_update_combofix (GtkWidget *checkbutton,
 			combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
 			if (combofix && GTK_IS_COMBOFIX (combofix))
 			{
-				prefs_page_metatree_sensitive_widget ("metatree_unarchived_payees", etat.combofix_force_payee);
+				prefs_page_metatree_sensitive_widget ("metatree_unarchived_payees", w_etat->combofix_force_payee);
 				gtk_combofix_set_properties (combofix);
 			}
 			break;
@@ -230,6 +234,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	GtkWidget *head_page;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 	PrefsPageFormCompletionPrivate *priv;
 
 	devel_debug (NULL);
@@ -237,6 +242,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	priv = prefs_page_form_completion_get_instance_private (page);
 	is_loading = grisbi_win_file_is_loading ();
 	a_conf = grisbi_app_get_a_conf ();
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
 	/* On récupère le nom de la page */
 	head_page = utils_prefs_head_page_new_with_title_and_icon (_("Form completion"), "gsb-form-32.png");
@@ -250,18 +256,18 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
 	/* set active widgets if is_loading = TRUE else set sensitive widget*/
 	if (is_loading)
 	{
-		/* set etat.combofix_mixed_sort */
+		/* set w_etat->combofix_mixed_sort */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_mixed_sort),
-									  etat.combofix_mixed_sort);
-		/* set etat.combofix_case_sensitive */
+									  w_etat->combofix_mixed_sort);
+		/* set w_etat->combofix_case_sensitive */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_case_sensitive),
-									  etat.combofix_case_sensitive);
-		/* set etat.combofix_force_payee */
+									  w_etat->combofix_case_sensitive);
+		/* set w_etat->combofix_force_payee */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_force_payee),
-									  etat.combofix_force_payee);
-		/* set etat.combofix_force_category */
+									  w_etat->combofix_force_payee);
+		/* set w_etat->combofix_force_category */
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_combofix_force_category),
-									  etat.combofix_force_category);
+									  w_etat->combofix_force_category);
 	}
 	else
 	{
@@ -292,7 +298,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
     g_signal_connect (priv->checkbutton_combofix_case_sensitive,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.combofix_case_sensitive);
+					  &w_etat->combofix_case_sensitive);
 
     g_signal_connect_after (priv->checkbutton_combofix_case_sensitive,
 							"toggled",
@@ -343,7 +349,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
     g_signal_connect (priv->checkbutton_combofix_force_payee,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.combofix_force_payee);
+					  &w_etat->combofix_force_payee);
 
     g_signal_connect_after (priv->checkbutton_combofix_force_payee,
 							"toggled",
@@ -354,7 +360,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
     g_signal_connect (priv->checkbutton_combofix_mixed_sort,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.combofix_mixed_sort);
+					  &w_etat->combofix_mixed_sort);
 
     g_signal_connect_after (priv->checkbutton_combofix_mixed_sort,
 							"toggled",
@@ -365,7 +371,7 @@ static void prefs_page_form_completion_setup_form_completion_page (PrefsPageForm
     g_signal_connect (priv->checkbutton_combofix_force_category,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
-					  &etat.combofix_force_category);
+					  &w_etat->combofix_force_category);
 
     g_signal_connect_after (priv->checkbutton_combofix_force_category,
 							"toggled",

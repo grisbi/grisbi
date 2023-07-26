@@ -592,6 +592,7 @@ static gboolean gsb_file_save_file (gint origine)
     gchar *nouveau_nom_enregistrement;
 	gchar *filename;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 
     devel_debug_int (origine);
 
@@ -605,12 +606,13 @@ static gboolean gsb_file_save_file (gint origine)
     }
 
 	a_conf = grisbi_app_get_a_conf ();
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* on récupère le nom du fichier */
 	filename = g_strdup (grisbi_win_get_filename (NULL));
 
 	/* on vérifie que le fichier n'est pas locké si il l'est on sort */
-    if (etat.fichier_deja_ouvert && !a_conf->force_enregistrement && origine != -2)
+    if (w_etat->fichier_deja_ouvert && !a_conf->force_enregistrement && origine != -2)
     {
         gchar* tmp_str1;
         gchar* tmp_str2;
@@ -677,7 +679,7 @@ static gboolean gsb_file_save_file (gint origine)
         gsb_file_util_modify_lock (nouveau_nom_enregistrement, TRUE);
 
         /* update variables */
-        etat.fichier_deja_ouvert = 0;
+        w_etat->fichier_deja_ouvert = 0;
         gsb_file_set_modified (FALSE);
         grisbi_win_set_window_title (gsb_gui_navigation_get_current_account ());
 
@@ -1168,12 +1170,13 @@ gboolean gsb_file_close (void)
 
     if (!gsb_file_get_modified ())
     {
-	     /* remove the lock */
-	    if (!etat.fichier_deja_ouvert
-			&&
-			gsb_data_account_get_number_of_accounts ()
-			&&
-			filename)
+		GrisbiWinEtat *w_etat;
+
+		/* remove the lock */
+		w_etat = grisbi_win_get_w_etat ();
+	    if (!w_etat->fichier_deja_ouvert
+			&& gsb_data_account_get_number_of_accounts ()
+			&& filename)
 		{
 			gsb_file_util_modify_lock (filename, FALSE);
 		}
@@ -1363,8 +1366,11 @@ gboolean gsb_file_quit (void)
 
     if (!gsb_file_get_modified ())
     {
-	     /* remove the lock */
-	    if (!etat.fichier_deja_ouvert
+		GrisbiWinEtat *w_etat;
+
+		/* remove the lock */
+		w_etat = grisbi_win_get_w_etat ();
+	    if (!w_etat->fichier_deja_ouvert
 			&&
 			gsb_data_account_get_number_of_accounts ()
 			&&

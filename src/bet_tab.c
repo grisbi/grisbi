@@ -1777,18 +1777,20 @@ static gboolean bet_array_list_replace_line_by_transfert (GtkTreeModel *tab_mode
         gint transaction_number;
         gint origine;
         gboolean trouve = FALSE;
+		GrisbiWinEtat *w_etat;
 
+		w_etat = grisbi_win_get_w_etat ();
         date_debut_comparaison = g_date_new_dmy (g_date_get_day (transfert->date_debit),
                     g_date_get_month (transfert->date_debit),
                     g_date_get_year (transfert->date_debit));
         g_date_subtract_days (date_debut_comparaison,
-                    etat.import_files_nb_days);
+                    w_etat->import_files_nb_days);
 
         date_fin_comparaison = g_date_new_dmy (g_date_get_day (transfert->date_debit),
                     g_date_get_month (transfert->date_debit),
                     g_date_get_year (transfert->date_debit));
         g_date_add_days (date_fin_comparaison,
-                    etat.import_files_nb_days);
+                    w_etat->import_files_nb_days);
 
         do
         {
@@ -3020,17 +3022,19 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
     GDateYear year;
     gboolean find = FALSE;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_etat = grisbi_win_get_w_etat ();
     day = g_date_get_day (transfert->date_debit);
     month = g_date_get_month (transfert->date_debit);
     year = g_date_get_year (transfert->date_debit);
 
     date_debut_comparaison = g_date_new_dmy (day, month, year);
-    g_date_subtract_days (date_debut_comparaison, etat.import_files_nb_days);
+    g_date_subtract_days (date_debut_comparaison, w_etat->import_files_nb_days);
 
     date_fin_comparaison = g_date_new_dmy (day, month, year);
-    g_date_add_days (date_fin_comparaison, etat.import_files_nb_days);
+    g_date_add_days (date_fin_comparaison, w_etat->import_files_nb_days);
 
     date_jour = gdate_today ();
     date_exec = g_date_new_dmy (day, month, year);

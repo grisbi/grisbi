@@ -1666,10 +1666,12 @@ static void gtk_combofix_create_entry (GtkComboFix *combofix)
 	GtkEntryCompletion *completion;
 	GtkListStore *completion_store;
 	GrisbiAppConf *a_conf;
-    GtkComboFixPrivate *priv;
+	GrisbiWinEtat *w_etat;
+	GtkComboFixPrivate *priv;
 
     priv = gtk_combofix_get_instance_private (combofix);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* create entry */
     priv->entry = gtk_entry_new ();
@@ -1677,7 +1679,7 @@ static void gtk_combofix_create_entry (GtkComboFix *combofix)
 	/* set completion */
 	completion = gtk_entry_completion_new ();
 	gtk_entry_completion_set_inline_selection (completion, TRUE);
-	if (etat.combofix_case_sensitive)
+	if (w_etat->combofix_case_sensitive)
 		gtk_entry_completion_set_match_func (completion,
 											 (GtkEntryCompletionMatchFunc) gtk_combofix_completion_match_func,
 											 NULL,
@@ -2079,26 +2081,28 @@ void gtk_combofix_set_text (GtkComboFix *combofix,
 void gtk_combofix_set_properties (GtkWidget *combofix)
 {
 	gint old_case_sensitive = 0;
-    GtkComboFixPrivate *priv;
+	GrisbiWinEtat *w_etat;
+	GtkComboFixPrivate *priv;
 
     g_return_if_fail (combofix);
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
-    priv = gtk_combofix_get_instance_private (GTK_COMBOFIX (combofix));
+	priv = gtk_combofix_get_instance_private (GTK_COMBOFIX (combofix));
+	w_etat = grisbi_win_get_w_etat ();
 	old_case_sensitive = priv->case_sensitive;
 
 	if (priv->type)
 	{
-		priv->force = etat.combofix_force_category;
-		priv->mixed_sort = etat.combofix_mixed_sort;
+		priv->force = w_etat->combofix_force_category;
+		priv->mixed_sort = w_etat->combofix_mixed_sort;
 	}
 	else
 	{
-		priv->force = etat.combofix_force_payee;
+		priv->force = w_etat->combofix_force_payee;
 		priv->mixed_sort = FALSE;
 	}
-    priv->case_sensitive = etat.combofix_case_sensitive;
-	if (old_case_sensitive - etat.combofix_case_sensitive)
+    priv->case_sensitive = w_etat->combofix_case_sensitive;
+	if (old_case_sensitive - w_etat->combofix_case_sensitive)
 	{
 		GtkEntryCompletion *completion;
 
@@ -2515,6 +2519,7 @@ void gtk_combofix_remove_report (GtkComboFix *combofix,
     gchar *tmp_str;
     gchar *tmp_str2;
     gboolean valid;
+	GrisbiWinEtat *w_etat;
     GtkComboFixPrivate *priv;
 
     /* on récupère le nom de l'état */
@@ -2583,13 +2588,14 @@ void gtk_combofix_remove_report (GtkComboFix *combofix,
 	/* update completion */
 	completion = gtk_entry_get_completion (GTK_ENTRY (priv->entry));
 	completion_model = gtk_entry_completion_get_model (completion);
-    valid = gtk_tree_model_get_iter_first (completion_model, &iter);
+	valid = gtk_tree_model_get_iter_first (completion_model, &iter);
+	w_etat = grisbi_win_get_w_etat ();
 
     while (valid)
     {
         gtk_tree_model_get (completion_model, &iter, 0, &tmp_str, -1);
 
-        if (etat.combofix_case_sensitive && !strcmp (tmp_str2, tmp_str))
+        if (w_etat->combofix_case_sensitive && !strcmp (tmp_str2, tmp_str))
         {
             g_free (tmp_str);
             break;

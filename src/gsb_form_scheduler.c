@@ -36,6 +36,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_scheduler.h"
+#include "grisbi_win.h"
 #include "gsb_account.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_combo_box.h"
@@ -122,12 +123,15 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 {
     gint row, column;
     FormElement *element;
+	GrisbiWinEtat *w_etat;
 
-    devel_debug (NULL);
-    if (!table)
-        return FALSE;
+	devel_debug (NULL);
+	if (!table)
+		return FALSE;
 
-    /* just in case... be sure that not created */
+	w_etat = grisbi_win_get_w_etat ();
+
+	/* just in case... be sure that not created */
     if (scheduled_element_list)
         gsb_form_scheduler_free_list ( );
 
@@ -151,10 +155,10 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 		case SCHEDULED_FORM_ACCOUNT:
 			widget = gsb_account_create_combo_list (G_CALLBACK (gsb_form_scheduler_change_account), NULL, FALSE);
 			gtk_widget_set_hexpand (widget, TRUE);
-			if (etat.scheduler_set_default_account)
+			if (w_etat->scheduler_set_default_account)
 			{
 				g_signal_handlers_block_by_func (widget, gsb_form_scheduler_change_account, NULL);
-				gsb_account_set_combo_account_number (widget, etat.scheduler_default_account_number);
+				gsb_account_set_combo_account_number (widget, w_etat->scheduler_default_account_number);
 				g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_change_account, NULL);
 			}
 			else
@@ -599,12 +603,13 @@ gboolean gsb_form_scheduler_clean ( void )
 {
     gint column;
     GtkWidget *widget;
+	GrisbiWinEtat *w_etat;
 
     devel_debug (NULL);
+	w_etat = grisbi_win_get_w_etat ();
 
     /* set to NULL the execute flag */
-    g_object_set_data ( G_OBJECT (gsb_form_get_form_widget ()),
-			"execute_scheduled", NULL );
+    g_object_set_data ( G_OBJECT (gsb_form_get_form_widget ()), "execute_scheduled", NULL );
 
     /* first we show it, becaus hidden when execute a scheduled transaction */
     if (gsb_form_get_origin () == ORIGIN_VALUE_SCHEDULED)
@@ -613,54 +618,54 @@ gboolean gsb_form_scheduler_clean ( void )
     /* clean the scheduled widget */
     for ( column = 0 ; column < SCHEDULED_FORM_MAX_WIDGETS ; column++ )
     {
-	widget = gsb_form_scheduler_get_element_widget (column);
+		widget = gsb_form_scheduler_get_element_widget (column);
 
-	/* some widgets can be set unsensitive because of the children of splits,
-	 * so resensitive all to be sure */
-	if (widget)
-	{
-	    switch (column)
-	    {
-		case SCHEDULED_FORM_ACCOUNT:
-			if (etat.scheduler_set_default_account)
+		/* some widgets can be set unsensitive because of the children of splits,
+		 * so resensitive all to be sure */
+		if (widget)
+		{
+			switch (column)
 			{
-				g_signal_handlers_block_by_func (widget, gsb_form_scheduler_change_account, NULL);
-				gsb_account_set_combo_account_number (widget, etat.scheduler_default_account_number);
-				g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_change_account, NULL);
+			case SCHEDULED_FORM_ACCOUNT:
+				if (w_etat->scheduler_set_default_account)
+				{
+					g_signal_handlers_block_by_func (widget, gsb_form_scheduler_change_account, NULL);
+					gsb_account_set_combo_account_number (widget, w_etat->scheduler_default_account_number);
+					g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_change_account, NULL);
+				}
+				else
+					gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+				gtk_widget_set_sensitive ( widget, FALSE );
+				break;
+
+			case SCHEDULED_FORM_AUTO:
+			case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
+				gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
+				gtk_widget_set_sensitive ( widget, FALSE );
+				break;
+
+			case SCHEDULED_FORM_FREQUENCY_BUTTON:
+				g_signal_handlers_block_by_func (widget, gsb_form_scheduler_frequency_button_changed, NULL);
+				gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
+				gtk_widget_set_sensitive ( widget, FALSE );
+				g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_frequency_button_changed, NULL);
+				break;
+
+			case SCHEDULED_FORM_LIMIT_DATE:
+				gsb_form_widget_set_empty ( widget, TRUE );
+				gtk_entry_set_text ( GTK_ENTRY ( widget ),
+						 _("Limit date") );
+				gtk_widget_set_sensitive ( widget, TRUE );
+				break;
+
+			case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
+				gsb_form_widget_set_empty ( widget, TRUE );
+				gtk_entry_set_text ( GTK_ENTRY ( widget ),
+						 _("Own frequency") );
+				gtk_widget_set_sensitive ( widget, TRUE );
+				break;
 			}
-			else
-				gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
-			gtk_widget_set_sensitive ( widget, FALSE );
-			break;
-
-		case SCHEDULED_FORM_AUTO:
-		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
-		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
-		    gtk_widget_set_sensitive ( widget, FALSE );
-		    break;
-
-		case SCHEDULED_FORM_FREQUENCY_BUTTON:
-			g_signal_handlers_block_by_func (widget, gsb_form_scheduler_frequency_button_changed, NULL);
-			gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
-			gtk_widget_set_sensitive ( widget, FALSE );
-			g_signal_handlers_unblock_by_func (widget, gsb_form_scheduler_frequency_button_changed, NULL);
-		    break;
-
-		case SCHEDULED_FORM_LIMIT_DATE:
-		    gsb_form_widget_set_empty ( widget, TRUE );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Limit date") );
-		    gtk_widget_set_sensitive ( widget, TRUE );
-		    break;
-
-		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
-		    gsb_form_widget_set_empty ( widget, TRUE );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Own frequency") );
-		    gtk_widget_set_sensitive ( widget, TRUE );
-		    break;
-	    }
-	}
+		}
     }
     return FALSE;
 }

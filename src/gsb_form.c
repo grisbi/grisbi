@@ -2543,8 +2543,10 @@ void gsb_form_check_auto_separator (GtkWidget *entry)
     gchar *mon_decimal_point;
     gunichar decimal_point;
     gsize i;
+	GrisbiWinEtat *w_etat;
 
-	if (!etat.automatic_separator || !entry)
+	w_etat = grisbi_win_get_w_etat ();
+	if (!w_etat->automatic_separator || !entry)
 		return;
 
     /* we need a my_strdup to permit to do the g_free later
@@ -2988,6 +2990,7 @@ gboolean gsb_form_finish_edition (void)
     gint transaction_number;
     gboolean execute_scheduled = FALSE;
     gboolean is_transaction;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
     devel_debug (NULL);
@@ -3331,7 +3334,8 @@ gboolean gsb_form_finish_edition (void)
 	}
 
 	/* c'est une opération planifiée et l'option fixer le jour de fin de mois est positionnée */
-	if (!is_transaction && etat.scheduler_set_fixed_date)
+	w_etat = grisbi_win_get_w_etat ();
+	if (!is_transaction && w_etat->scheduler_set_fixed_date)
 	{
 		GDateDay day;
 

@@ -142,7 +142,9 @@ static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     GtkWidget *label;
     GtkWidget *paddingbox;
     int i;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     dialog = gtk_dialog_new_with_buttons (_("Show scheduled transactions"),
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL,
@@ -172,7 +174,7 @@ static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 
     label = gtk_label_new (_("Show transactions for the next: "));
     gtk_box_pack_start (GTK_BOX (hbox2), label, FALSE, FALSE, 0);
-    entry = gsb_automem_spin_button_new (&etat.affichage_echeances_perso_nb_libre, NULL, NULL);
+    entry = gsb_automem_spin_button_new (&w_etat->affichage_echeances_perso_nb_libre, NULL, NULL);
     gtk_box_pack_start (GTK_BOX (hbox2), entry, FALSE, FALSE, MARGIN_BOX);
 
     /* combobox for userdefined frequency */
@@ -183,15 +185,15 @@ static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     {
         gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), g_dgettext (NULL, j_m_a_names[i]));
     }
-    gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), etat.affichage_echeances_perso_j_m_a);
+    gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), w_etat->affichage_echeances_perso_j_m_a);
 
     gtk_widget_show_all (dialog);
 
     switch (gtk_dialog_run (GTK_DIALOG (dialog)))
     {
 		case GTK_RESPONSE_APPLY:
-			etat.affichage_echeances_perso_j_m_a = gtk_combo_box_get_active (GTK_COMBO_BOX (combobox));
-			etat.affichage_echeances_perso_nb_libre = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY(entry)));
+			w_etat->affichage_echeances_perso_j_m_a = gtk_combo_box_get_active (GTK_COMBO_BOX (combobox));
+			w_etat->affichage_echeances_perso_nb_libre = utils_str_atoi (gtk_entry_get_text (GTK_ENTRY(entry)));
 			gtk_widget_destroy (dialog);
 			return TRUE;
     }
@@ -213,9 +215,11 @@ static void gsb_scheduler_list_change_scheduler_view (GtkWidget *item,
 {
     gchar *tmp_str;
     gint periodicity;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     periodicity = GPOINTER_TO_INT (pointer_periodicity);
-    if (view_menu_block_cb || periodicity == etat.affichage_echeances)
+    if (view_menu_block_cb || periodicity == w_etat->affichage_echeances)
         return;
 
     if (periodicity == SCHEDULER_PERIODICITY_CUSTOM_VIEW)
@@ -231,7 +235,7 @@ static void gsb_scheduler_list_change_scheduler_view (GtkWidget *item,
     grisbi_win_headings_update_suffix ("");
     g_free (tmp_str);
 
-    etat.affichage_echeances = periodicity;
+    w_etat->affichage_echeances = periodicity;
     gsb_scheduler_list_fill_list ();
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
     gsb_scheduler_list_select (-1);
@@ -274,35 +278,38 @@ static gboolean gsb_scheduler_list_edit_transaction_by_pointer (gint *scheduled_
  */
 static gboolean gsb_scheduler_list_show_notes (GtkWidget *item)
 {
-    if (scheduler_display_hide_notes)
-    {
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+	if (scheduler_display_hide_notes)
+	{
 		GrisbiAppConf *a_conf;
 
 		a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 		if (a_conf->display_toolbar != GTK_TOOLBAR_ICONS)
         {
-            if (etat.affichage_commentaire_echeancier)
+            if (w_etat->affichage_commentaire_echeancier)
                 gtk_tool_button_set_label (GTK_TOOL_BUTTON (item), _("Frequency/Mode"));
             else
                 gtk_tool_button_set_label (GTK_TOOL_BUTTON (item), _("Notes"));
         }
 
-        if (etat.affichage_commentaire_echeancier)
+        if (w_etat->affichage_commentaire_echeancier)
             gtk_widget_set_tooltip_text (GTK_WIDGET (item),
 										 _("Display the frequency and mode of scheduled transactions"));
         else
             gtk_widget_set_tooltip_text (GTK_WIDGET (item),
 										 _("Display the notes of scheduled transactions"));
-    }
+	}
 
     gtk_tree_view_column_set_visible (GTK_TREE_VIEW_COLUMN (scheduler_list_column[COL_NB_FREQUENCY]),
-									  !etat.affichage_commentaire_echeancier);
+									  !w_etat->affichage_commentaire_echeancier);
     gtk_tree_view_column_set_visible (GTK_TREE_VIEW_COLUMN (scheduler_list_column[COL_NB_MODE]),
-									  !etat.affichage_commentaire_echeancier);
+									  !w_etat->affichage_commentaire_echeancier);
     gtk_tree_view_column_set_visible (GTK_TREE_VIEW_COLUMN (scheduler_list_column[COL_NB_NOTES]),
-									  etat.affichage_commentaire_echeancier);
+									  w_etat->affichage_commentaire_echeancier);
 
-    etat.affichage_commentaire_echeancier = !etat.affichage_commentaire_echeancier;
+    w_etat->affichage_commentaire_echeancier = !w_etat->affichage_commentaire_echeancier;
 
     return FALSE;
 }
@@ -323,7 +330,9 @@ static void gsb_scheduler_list_popup_scheduled_context_menu (GtkWidget *tree_vie
     GtkTreeIter iter;
     gint scheduled_number;
 	gint virtual_transaction;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
 	menu = gtk_menu_new ();
 
 	/* Récupération des données de la ligne sélectionnée */
@@ -388,7 +397,7 @@ static void gsb_scheduler_list_popup_scheduled_context_menu (GtkWidget *tree_vie
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new ());
 
     /* Display/hide notes */
-    if (etat.affichage_commentaire_echeancier)
+    if (w_etat->affichage_commentaire_echeancier)
         menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-comments-16.png", _("Displays notes")));
     else
         menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gsb-comments-16.png",
@@ -545,7 +554,9 @@ static gboolean gsb_scheduler_list_popup_scheduler_view (GtkWidget *button,
     GSList *group = NULL;
     gint nbre_echeances;
     gint i;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     view_menu_block_cb = TRUE;
     menu = gtk_menu_new ();
 
@@ -556,16 +567,16 @@ static gboolean gsb_scheduler_list_popup_scheduler_view (GtkWidget *button,
     {
         gchar *tmp_str;
 
-        if (i == etat.affichage_echeances)
+        if (i == w_etat->affichage_echeances)
         {
             if (i == SCHEDULER_PERIODICITY_CUSTOM_VIEW)
             {
                 tmp_str = g_strdup_printf ("%s (%d - %d %s)",
 										   g_dgettext (NULL, periodicity_names[i]),
                                 		   nbre_echeances,
-                                		   etat.affichage_echeances_perso_nb_libre,
+                                		   w_etat->affichage_echeances_perso_nb_libre,
                                 		   g_dgettext (NULL,
-                                		   j_m_a_names[etat.affichage_echeances_perso_j_m_a]));
+                                		   j_m_a_names[w_etat->affichage_echeances_perso_j_m_a]));
             }
             else
             {
@@ -581,7 +592,7 @@ static gboolean gsb_scheduler_list_popup_scheduler_view (GtkWidget *button,
             item = gtk_radio_menu_item_new_with_label (group, g_dgettext (NULL, periodicity_names[i]));
 
         group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
-        if (i == etat.affichage_echeances)
+        if (i == w_etat->affichage_echeances)
             gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
 
         g_signal_connect (G_OBJECT (item),
@@ -2672,15 +2683,17 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
 {
     GDate *end_date;
 	GrisbiAppConf *a_conf;
+	GrisbiWinEtat *w_etat;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* on récupère la date du jour et la met dans end_date pour les
     * vérifications ultérieures */
     end_date = gdate_today ();
 
     /* on calcule la date de fin de l'affichage */
-    switch (etat.affichage_echeances)
+    switch (w_etat->affichage_echeances)
     {
 		case SCHEDULER_PERIODICITY_ONCE_VIEW:
 			return NULL;
@@ -2717,18 +2730,18 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
 			break;
 
 		case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
-			switch (etat.affichage_echeances_perso_j_m_a)
+			switch (w_etat->affichage_echeances_perso_j_m_a)
 			{
 				case PERIODICITY_DAYS:
-					g_date_add_days (end_date, etat.affichage_echeances_perso_nb_libre);
+					g_date_add_days (end_date, w_etat->affichage_echeances_perso_nb_libre);
 					break;
 
 				case PERIODICITY_WEEKS:
-					g_date_add_days (end_date, etat.affichage_echeances_perso_nb_libre * 7);
+					g_date_add_days (end_date, w_etat->affichage_echeances_perso_nb_libre * 7);
 					break;
 
 				case PERIODICITY_MONTHS:
-					g_date_add_months (end_date, etat.affichage_echeances_perso_nb_libre);
+					g_date_add_months (end_date, w_etat->affichage_echeances_perso_nb_libre);
 					if (a_conf->execute_scheduled_of_month)	/* dans ce cas on affiche toutes les transactions du mois */
 					{
 						GDate *tmp_date;
@@ -2740,7 +2753,7 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
 					break;
 
 				case PERIODICITY_YEARS:
-					g_date_add_years (end_date, etat.affichage_echeances_perso_nb_libre);
+					g_date_add_years (end_date, w_etat->affichage_echeances_perso_nb_libre);
 					break;
 			}
     }

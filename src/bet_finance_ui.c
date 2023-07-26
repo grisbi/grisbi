@@ -671,7 +671,9 @@ static gboolean bet_finance_ui_capital_entry_key_press_event (GtkWidget *widget,
 															  GtkWidget *page)
 {
     gchar *str_capital;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     switch (ev->keyval)
     {
         case GDK_KEY_1:
@@ -687,8 +689,8 @@ static gboolean bet_finance_ui_capital_entry_key_press_event (GtkWidget *widget,
             break;
 
         case GDK_KEY_Escape :
-            str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (etat.bet_capital),
-															   etat.bet_currency,
+            str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (w_etat->bet_capital),
+															   w_etat->bet_currency,
 															   FALSE);
             gtk_entry_set_text (GTK_ENTRY (widget), str_capital);
             gtk_editable_set_position (GTK_EDITABLE (widget), -1);
@@ -697,20 +699,20 @@ static gboolean bet_finance_ui_capital_entry_key_press_event (GtkWidget *widget,
             break;
 
         case GDK_KEY_ISO_Left_Tab:
-            etat.bet_capital = bet_finance_get_number_from_string (page, "capital");
+            w_etat->bet_capital = bet_finance_get_number_from_string (page, "capital");
             bet_finance_ui_calculer_clicked (NULL, page);
             return TRUE;
             break;
 
         case GDK_KEY_Tab :
-            etat.bet_capital = bet_finance_get_number_from_string (page, "capital");
+            w_etat->bet_capital = bet_finance_get_number_from_string (page, "capital");
             bet_finance_ui_calculer_clicked (NULL, page);
             return TRUE;
             break;
 
         case GDK_KEY_KP_Enter :
         case GDK_KEY_Return :
-            etat.bet_capital = bet_finance_get_number_from_string (page, "capital");
+            w_etat->bet_capital = bet_finance_get_number_from_string (page, "capital");
             bet_finance_ui_calculer_clicked (NULL, page);
             return TRUE;
             break;
@@ -1267,7 +1269,9 @@ static GtkWidget *bet_finance_ui_create_duration_widget (GtkWidget *parent)
 									 N_("Between 1 and 15 years"),
     								 N_("Between 15 and 30 years"),
     								 NULL};
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     combobox = gsb_combo_box_new_with_index (text_duration,
 											 G_CALLBACK (bet_finance_ui_duration_button_changed),
 											 parent);
@@ -1275,7 +1279,7 @@ static GtkWidget *bet_finance_ui_create_duration_widget (GtkWidget *parent)
     g_signal_handlers_block_by_func (G_OBJECT (combobox),
 									 G_CALLBACK (bet_finance_ui_duration_button_changed),
 									 parent);
-    gsb_combo_box_set_index (combobox, etat.bet_index_duree);
+    gsb_combo_box_set_index (combobox, w_etat->bet_index_duree);
     g_signal_handlers_unblock_by_func (G_OBJECT (combobox),
 									   G_CALLBACK (bet_finance_ui_duration_button_changed),
 									   parent);
@@ -1294,7 +1298,10 @@ static GtkWidget *bet_finance_ui_create_duration_widget (GtkWidget *parent)
 static void bet_finance_ui_spin_button_fees_changed (GtkSpinButton *spinbutton,
 													 GtkWidget *page)
 {
-    etat.bet_frais = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton));
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+    w_etat->bet_frais = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton));
     bet_finance_ui_calculer_clicked (NULL, page);
 }
 
@@ -1309,7 +1316,10 @@ static void bet_finance_ui_spin_button_fees_changed (GtkSpinButton *spinbutton,
 static void bet_finance_ui_spin_button_taux_changed (GtkSpinButton *spinbutton,
 													 GtkWidget *page)
 {
-    etat.bet_taux_annuel = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton));
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+    w_etat->bet_taux_annuel = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton));
     bet_finance_ui_calculer_clicked (NULL, page);
 }
 
@@ -1326,8 +1336,11 @@ static void bet_finance_ui_type_taux_changed (GtkWidget *togglebutton,
 											  GdkEventButton *event,
 											  GtkWidget *widget)
 {
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (togglebutton), TRUE);
-    etat.bet_type_taux = !etat.bet_type_taux;
+    w_etat->bet_type_taux = !w_etat->bet_type_taux;
     bet_finance_ui_calculer_clicked (NULL, widget);
 }
 
@@ -1346,6 +1359,9 @@ static void bet_finance_ui_create_saisie_widget (GtkWidget *page,
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
     gchar *tmp_str;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* taux */
     label = gtk_label_new (_("Annual interest: "));
@@ -1355,7 +1371,7 @@ static void bet_finance_ui_create_saisie_widget (GtkWidget *page,
 
     spin_button = gtk_spin_button_new_with_range (0.0, 100,
                         bet_data_finance_get_bet_taux_step (BET_TAUX_DIGITS));
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), etat.bet_taux_annuel);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), w_etat->bet_taux_annuel);
     g_object_set_data (G_OBJECT (page), "taux", spin_button);
 	gtk_grid_attach (GTK_GRID (grid), spin_button, 1, 1, 1 ,1);
     g_signal_connect (spin_button,
@@ -1377,7 +1393,7 @@ static void bet_finance_ui_create_saisie_widget (GtkWidget *page,
     spin_button = gtk_spin_button_new_with_range (0.0,
 												  100,
 												  bet_data_finance_get_bet_taux_step (BET_TAUX_DIGITS));
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), etat.bet_frais);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), w_etat->bet_frais);
     g_object_set_data (G_OBJECT (page), "frais", spin_button);
 	gtk_grid_attach (GTK_GRID (grid), spin_button, 4, 1, 1 ,1);
     g_signal_connect (spin_button,
@@ -1406,7 +1422,7 @@ static void bet_finance_ui_create_saisie_widget (GtkWidget *page,
 															_("Proportional rate"));
     g_object_set_data (G_OBJECT (page), "type_taux", button_2);
 
-    if (etat.bet_type_taux)
+    if (w_etat->bet_type_taux)
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_2), TRUE);
     else
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_1), TRUE);
@@ -1434,7 +1450,10 @@ static void bet_finance_ui_create_saisie_widget (GtkWidget *page,
 static void bet_finance_ui_currency_changed (GtkComboBox *combo_box,
 											 GtkWidget *page)
 {
-    etat.bet_currency = gsb_currency_get_currency_from_combobox (GTK_WIDGET (combo_box));
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+    w_etat->bet_currency = gsb_currency_get_currency_from_combobox (GTK_WIDGET (combo_box));
     bet_finance_ui_calculer_clicked (NULL, page);
 }
 
@@ -1455,7 +1474,9 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
     GtkWidget *label;
     GtkWidget *tree_view;
     gchar *str_capital;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     page = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
 
     /* frame pour la barre d'outils */
@@ -1480,8 +1501,8 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1 ,1);
 
-    str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (etat.bet_capital),
-													   etat.bet_currency,
+    str_capital = utils_real_get_string_with_currency (gsb_real_double_to_real (w_etat->bet_capital),
+													   w_etat->bet_currency,
 													   FALSE);
 
     widget = gtk_entry_new ();
@@ -1501,7 +1522,7 @@ static GtkWidget *bet_finance_ui_create_simulator_page (void)
 
     /* Set the devises */
     widget = gsb_currency_make_combobox (FALSE);
-    gsb_currency_set_combobox_history (widget, etat.bet_currency);
+    gsb_currency_set_combobox_history (widget, w_etat->bet_currency);
     g_object_set_data (G_OBJECT (page), "devise", widget);
 	gtk_grid_attach (GTK_GRID (grid), widget, 2, 0, 1 ,1);
     g_signal_connect (G_OBJECT ( widget),
@@ -2287,7 +2308,9 @@ gdouble bet_finance_get_number_from_string (GtkWidget *parent,
     {
         const gchar *entry;
         gchar *tmp_str;
+		GrisbiWinEtat *w_etat;
 
+		w_etat = grisbi_win_get_w_etat ();
         entry = gtk_entry_get_text (GTK_ENTRY (widget));
 
         if (entry && strlen (entry) > 0)
@@ -2295,7 +2318,7 @@ gdouble bet_finance_get_number_from_string (GtkWidget *parent,
             number = utils_str_strtod (entry, NULL);
 
             tmp_str = utils_real_get_string_with_currency (gsb_real_double_to_real (number),
-														   etat.bet_currency,
+														   w_etat->bet_currency,
 														   FALSE);
             gtk_entry_set_text (GTK_ENTRY (widget), tmp_str);
             g_free (tmp_str);

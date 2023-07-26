@@ -725,11 +725,13 @@ static void widget_import_asso_setup_import_asso_page (WidgetImportAsso *page)
 {
 	GtkWidget *entry;
 	GSList *tmp_list;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 	WidgetImportAssoPrivate *priv;
 
 	devel_debug (NULL);
 	priv = widget_import_asso_get_instance_private (page);
+	w_etat = grisbi_win_get_w_etat ();
 	w_run = grisbi_win_get_w_run ();
 
 	/* set sensitive button_import_asso_remove */
@@ -738,7 +740,7 @@ static void widget_import_asso_setup_import_asso_page (WidgetImportAsso *page)
 	/* Create entry liste des tiers */
 	tmp_list = gsb_data_payee_get_name_and_report_list();
 	priv->combo_import_asso_payee = gtk_combofix_new_with_properties (tmp_list,
-														   etat.combofix_force_payee,
+														   w_etat->combofix_force_payee,
 														   !w_run->import_asso_case_insensitive,
 														   FALSE,
 														   METATREE_PAYEE);

@@ -618,18 +618,20 @@ static gint *csv_import_guess_fields_config (GArray *lines_tab,
 	gboolean date_validated = 0;
 	gboolean is_credit = FALSE;
 	gboolean is_debit = FALSE;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     default_config = (gint *) g_malloc0 ((size + 1) * sizeof (int));
 
 	/* force skip first lines */
 	for (i = 0; i <= first_line_with_cols; i++)
 	{
-		etat.csv_skipped_lines [i] = 1;
+		w_etat->csv_skipped_lines [i] = 1;
 	}
 	/* init other lines to 0 */
 	for (; i <CSV_MAX_TOP_LINES; i++)
 	{
-		etat.csv_skipped_lines [i] = 0;
+		w_etat->csv_skipped_lines [i] = 0;
 	}
 
     list = g_array_index (lines_tab, GSList *, first_line_with_cols);
@@ -1019,7 +1021,9 @@ static void skip_line_toggled (GtkCellRendererToggle *cell,
     gint *indices;
     GtkTreePath *path;
     GtkTreeModel *tree_model;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
 	path = gtk_tree_path_new_from_string (path_str);
 	tree_model = gtk_tree_view_get_model (tree_preview);
 
@@ -1029,7 +1033,7 @@ static void skip_line_toggled (GtkCellRendererToggle *cell,
     gtk_tree_store_set (GTK_TREE_STORE (tree_model), &iter, 0, !toggle_item, -1);
 
     indices = gtk_tree_path_get_indices (path);
-    etat.csv_skipped_lines [indices[0]] = !toggle_item;
+    w_etat->csv_skipped_lines [indices[0]] = !toggle_item;
 }
 
 /**
@@ -1233,9 +1237,11 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
     GtkTreeView *tree_preview;
     GSList *list;
     gint line = 0;
+	GrisbiWinEtat *w_etat;
 	GrisbiWinRun *w_run;
 
 	devel_debug (NULL);
+	w_etat = grisbi_win_get_w_etat ();
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     separator = g_object_get_data (G_OBJECT(assistant), "separator");
     tree_preview = g_object_get_data (G_OBJECT(assistant), "tree_preview");
@@ -1285,7 +1291,7 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
             list = list->next;
         }
 
-		if (etat.csv_skipped_lines [line])
+		if (w_etat->csv_skipped_lines [line])
         {
             gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, TRUE, -1);
         }
@@ -1482,8 +1488,10 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 	GArray *lines_tab;
     GSList *list;
     gint index = 0;
+	GrisbiWinEtat *w_etat;
 
 	devel_debug (imported->name);
+	w_etat = grisbi_win_get_w_etat ();
 	compte = g_malloc0 (sizeof (struct ImportAccount));
     compte->nom_de_compte = gsb_import_unique_imported_name (_("Imported CSV account"));
     compte->origine = my_strdup ("CSV");
@@ -1569,7 +1577,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
         gint i;
 
         /* Check if this line was specified as to be skipped earlier. */
-        if (index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [index])
+        if (index < CSV_MAX_TOP_LINES && w_etat->csv_skipped_lines [index])
         {
             /* g_print ("Skipping line %d\n", index ); */
             index++;
@@ -1750,6 +1758,9 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
     gchar *contents;
     gchar *filename = NULL;
     struct ImportFile *imported = NULL;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* Find first CSV to import. */
     files = gsb_import_import_selected_files (assistant);
@@ -1773,15 +1784,15 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 	g_object_set_data_full (G_OBJECT(assistant), "contents", contents, g_free);
 
 	/* itialisation de separator */
-	if (etat.csv_separator)
-		g_free (etat.csv_separator);
-	etat.csv_separator = csv_import_guess_separator (contents);
+	if (w_etat->csv_separator)
+		g_free (w_etat->csv_separator);
+	w_etat->csv_separator = csv_import_guess_separator (contents);
 
 	/* on initialise first_line_with_cols */
 	first_line_with_cols = 0;
 
     entry = g_object_get_data (G_OBJECT(assistant), "entry");
-	gtk_entry_set_text (GTK_ENTRY (entry), etat.csv_separator);
+	gtk_entry_set_text (GTK_ENTRY (entry), w_etat->csv_separator);
 
     return FALSE;
 }
@@ -1829,8 +1840,10 @@ gboolean csv_import_change_separator (GtkEntry *entry,
     GtkWidget *combobox;
     gchar *separator;
     gint index = 0;
+	GrisbiWinEtat *w_etat;
 
 	devel_debug (NULL);
+	w_etat = grisbi_win_get_w_etat ();
     combobox = g_object_get_data (G_OBJECT(entry), "combobox");
     separator = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 
@@ -1840,9 +1853,9 @@ gboolean csv_import_change_separator (GtkEntry *entry,
 		GArray *lines_tab;
 
         g_object_set_data (G_OBJECT(assistant), "separator", separator);
-		if (etat.csv_separator && strlen (etat.csv_separator) > 0)
-			g_free (etat.csv_separator);
-		etat.csv_separator = separator;
+		if (w_etat->csv_separator && strlen (w_etat->csv_separator) > 0)
+			g_free (w_etat->csv_separator);
+		w_etat->csv_separator = separator;
 		contents = g_object_get_data (G_OBJECT(assistant), "contents");
 		if (!contents || strlen (contents) == 0)
 			return FALSE;
@@ -1851,16 +1864,16 @@ gboolean csv_import_change_separator (GtkEntry *entry,
 		if (lines_tab)
 			csv_import_free_lines_tab (lines_tab);
 
-		lines_tab = csv_import_init_lines_tab (&contents, etat.csv_separator);
+		lines_tab = csv_import_init_lines_tab (&contents, w_etat->csv_separator);
 		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
 		first_line_with_cols = 0;
         csv_import_update_preview (assistant);
     }
     else
     {
-		if (etat.csv_separator)
-			g_free (etat.csv_separator);
-        etat.csv_separator = (gchar*)"";
+		if (w_etat->csv_separator)
+			g_free (w_etat->csv_separator);
+        w_etat->csv_separator = (gchar*)"";
         g_object_set_data (G_OBJECT(assistant), "separator", NULL);
     }
 

@@ -337,7 +337,7 @@ static void prefs_page_metatree_setup_metatree_page (PrefsPageMetatree *page)
 									  w_etat->metatree_assoc_mode);
 
 		/* set for metatree_unarchived_payees */
-		if (etat.combofix_force_payee)
+		if (w_etat->combofix_force_payee)
 		{
 			gtk_widget_set_sensitive (priv->checkbutton_metatree_unarchived_payees, FALSE);
 			w_etat->metatree_unarchived_payees = FALSE;

@@ -259,13 +259,15 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
     gchar *dir_part;
     gchar *file_part;
 	gboolean ret_code = TRUE; /* success by default */
+	GrisbiWinEtat *w_etat;
 
     devel_debug_int (create_lock);
 	if (!filename)
 		return TRUE;
 
     /* if the file was already opened we do nothing */
-    if ((etat.fichier_deja_ouvert) || strlen (filename) == 0)
+	w_etat = grisbi_win_get_w_etat ();
+    if ((w_etat->fichier_deja_ouvert) || strlen (filename) == 0)
         return TRUE;
 
     /* Check if filename exists.  If not, this is a new
@@ -294,12 +296,12 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
             dialogue_message ("account-already-opened", filename);
 
             /* the lock is already created, return TRUE */
-            etat.fichier_deja_ouvert = 1;
+            w_etat->fichier_deja_ouvert = 1;
 
 			goto out;
         }
 
-        etat.fichier_deja_ouvert = 0;
+        w_etat->fichier_deja_ouvert = 0;
 
         fichier = utils_files_utf8_fopen (lock_filename, "w");
 
@@ -322,7 +324,7 @@ gboolean gsb_file_util_modify_lock (const gchar *filename,
     }
     else
 	{
-		if (etat.fichier_deja_ouvert == 0)
+		if (w_etat->fichier_deja_ouvert == 0)
 		{
 			/* delete the lock file */
 			gint result;

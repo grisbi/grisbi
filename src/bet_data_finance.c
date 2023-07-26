@@ -329,12 +329,12 @@ void bet_data_finance_data_simulator_init (void)
 	GrisbiWinEtat *w_etat;
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
-    etat.bet_capital = 1000.0;
-    etat.bet_currency = w_etat->no_devise_totaux_categ;
-    etat.bet_taux_annuel = 4.0;
-    etat.bet_index_duree = 0;
-    etat.bet_frais = 0;
-    etat.bet_type_taux = 1;
+    w_etat->bet_capital = 1000.0;
+    w_etat->bet_currency = w_etat->no_devise_totaux_categ;
+    w_etat->bet_taux_annuel = 4.0;
+    w_etat->bet_index_duree = 0;
+    w_etat->bet_frais = 0;
+    w_etat->bet_type_taux = 1;
 }
 
 /**

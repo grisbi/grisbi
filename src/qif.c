@@ -34,6 +34,7 @@
 /*START_INCLUDE*/
 #include "qif.h"
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
 #include "gsb_data_category.h"
@@ -449,8 +450,10 @@ static GDate *gsb_qif_get_date (gchar *date_string, gint order)
  **/
 static gboolean qif_traite_champs_n (struct ImportTransaction *imported_transaction)
 {
-    //~ printf ("Champs N = %s champ P = %s\n", imported_transaction->cheque, imported_transaction->tiers);
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
+    //~ printf ("Champs N = %s champ P = %s\n", imported_transaction->cheque, imported_transaction->tiers);
     if (!imported_transaction->cheque)
     {
 		if (strncmp (imported_transaction->tiers, "VIR RECU", 8) == 0)
@@ -489,7 +492,7 @@ static gboolean qif_traite_champs_n (struct ImportTransaction *imported_transact
     }
 
     /* Ici on traie le fichier type SG voir si généralisable */
-    if (etat.qif_use_field_extract_method_payment)
+    if (w_etat->qif_use_field_extract_method_payment)
     {
         if (strcmp (imported_transaction->cheque, "Prélvmt") == 0)
         {
@@ -733,13 +736,15 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
     gint returned_value;
     struct ImportTransaction *imported_splitted = NULL;
     struct ImportTransaction *imported_transaction;
+	GrisbiWinEtat *w_etat;
 
-    imported_transaction = g_try_malloc0 (sizeof (struct ImportTransaction));
+	imported_transaction = g_try_malloc0 (sizeof (struct ImportTransaction));
 	if (!imported_transaction)
 		return 0;
 
-    do
-    {
+	w_etat = grisbi_win_get_w_etat ();
+	do
+	{
         returned_value = utils_files_get_utf8_line_from_file (qif_file, &string, coding_system);
 
         /* a transaction never begin with ^ and !*/
@@ -791,7 +796,7 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
             {
                 imported_transaction->tiers = my_strdup (string + 1);
                 /* ici on appelle la fonction de traitement du champs N qui dépend de P */
-				if (etat.qif_use_field_extract_method_payment)
+				if (w_etat->qif_use_field_extract_method_payment)
                 	qif_traite_champs_n (imported_transaction);
             }
 
@@ -893,7 +898,7 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
                 g_free (new_str);
             }
         }
-    }
+	}
     while (returned_value != EOF && string[0] != '^' && string[0] != '!');
 
     /* either we are at the end of a transaction, either at the end of the file */
@@ -966,9 +971,10 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
 {
     gchar *tmp_str;
     gint returned_value;
+	GrisbiWinEtat *w_etat;
 
 	devel_debug (NULL);
-
+	w_etat = grisbi_win_get_w_etat ();
 	returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
     do
     {
@@ -1011,7 +1017,7 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
             {
                 tab_str[0] = g_strstrip (tab_str[0]);
                 category_number = gsb_data_category_get_number_by_name (tab_str[0],
-																		etat.qif_no_import_categories,
+																		w_etat->qif_no_import_categories,
 																		type_category);
 
                 if (tab_str[1])
@@ -1020,7 +1026,7 @@ static gint gsb_qif_recupere_categories (FILE *qif_file,
 
                     gsb_data_category_get_sub_category_number_by_name (category_number,
 																	   tab_str[1],
-																	   etat.qif_no_import_categories);
+																	   w_etat->qif_no_import_categories);
                 }
             }
 
@@ -1544,6 +1550,7 @@ gboolean qif_export (const gchar *filename,
     gint beginning;
     gint floating_point;
 	gint payment_number;
+	GrisbiWinEtat *w_etat;
 
     if (!gsb_file_util_test_overwrite (filename))
 		return FALSE;
@@ -1556,6 +1563,8 @@ gboolean qif_export (const gchar *filename,
 
 		return FALSE;
     }
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* get the floating point of the currency of the amount,
      * ie the number of digits after the . */
@@ -1604,7 +1613,7 @@ gboolean qif_export (const gchar *filename,
 			{
 				/* this is the beginning of the qif file, we set some beginnings things */
 				date = gsb_data_transaction_get_date (transaction_number_tmp);
-				if (etat.export_force_US_dates)
+				if (w_etat->export_force_US_dates)
 				{
 					tmp_str = gsb_format_gdate_safe (date);
 					fprintf (fichier_qif,"D%s\n", tmp_str);
@@ -1620,7 +1629,7 @@ gboolean qif_export (const gchar *filename,
 				}
 
 				/* met le solde initial */
-				if (etat.export_force_US_numbers)
+				if (w_etat->export_force_US_numbers)
 				{
 					tmp_str = utils_real_get_string_intl (gsb_data_account_get_init_balance (account_nb, -1));
 				}
@@ -1646,7 +1655,7 @@ gboolean qif_export (const gchar *filename,
 			{
 				/* met la date */
 				date = gsb_data_transaction_get_date (transaction_number_tmp);
-				if (etat.export_force_US_dates)
+				if (w_etat->export_force_US_dates)
 				{
 					tmp_str = gsb_format_gdate_safe (date);
 					fprintf (fichier_qif,"D%s\n", tmp_str);
@@ -1681,7 +1690,7 @@ gboolean qif_export (const gchar *filename,
 							 gsb_data_transaction_get_notes (transaction_number_tmp));
 
 				/* met le montant, transforme la devise si necessaire */
-				if (etat.export_force_US_numbers)
+				if (w_etat->export_force_US_numbers)
 				{
 					tmp_str = utils_real_get_string_intl (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp, floating_point));
 				}
@@ -1785,7 +1794,7 @@ gboolean qif_export (const gchar *filename,
 									 gsb_data_transaction_get_notes (transaction_number_tmp_2));
 
 							/* set the amount of the split child */
-							if (etat.export_force_US_numbers)
+							if (w_etat->export_force_US_numbers)
 							{
 								tmp_str = utils_real_get_string_intl (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
 							}
@@ -1838,7 +1847,7 @@ gboolean qif_export (const gchar *filename,
 		/* there is no transaction in the account, so do the opening of the account, bug no date */
 		/* met le solde initial */
 
-		if (etat.export_force_US_numbers)
+		if (w_etat->export_force_US_numbers)
 		{
 			tmp_str = utils_real_get_string_intl (gsb_data_account_get_init_balance (account_nb, -1));
 		}

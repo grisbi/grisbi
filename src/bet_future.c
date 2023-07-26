@@ -826,9 +826,11 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
     gint element_number;
     gint row = 2;
     gint column = 0;
-    FormElement *element;
     GSList *tmp_list;
+    FormElement *element;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     account_number = gsb_gui_navigation_get_current_account ();
 
     element_number = TRANSACTION_FORM_DATE;
@@ -845,7 +847,7 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
 	widget = gtk_combofix_new_with_properties (tmp_list,
 											   TRUE,							/* on ne peut pas créer d'item */
-											   etat.combofix_case_sensitive,
+											   w_etat->combofix_case_sensitive,
 											   FALSE,
 											   METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
@@ -906,8 +908,8 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	widget = gtk_combofix_new_with_properties (tmp_list,
 											   TRUE,							/* on ne peut pas créer d'item */
-											   etat.combofix_case_sensitive,
-											   etat.combofix_mixed_sort,
+											   w_etat->combofix_case_sensitive,
+											   w_etat->combofix_mixed_sort,
 											   METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_widget_show (widget);
@@ -939,8 +941,8 @@ static gboolean bet_form_create_current_form (GtkWidget *dialog,
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	widget = gtk_combofix_new_with_properties (tmp_list,
 											   TRUE,							/* on ne peut pas créer d'item */
-											   etat.combofix_case_sensitive,
-											   etat.combofix_mixed_sort,
+											   w_etat->combofix_case_sensitive,
+											   w_etat->combofix_mixed_sort,
 											   METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_widget_show (widget);

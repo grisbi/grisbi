@@ -1530,6 +1530,9 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 {
     gchar **tab_char;
     gint budget_number;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* the simpliest is to split in 2 parts, transaction and scheduled,
      * but the 2 parts are exactly the same, exept the call to the functions */
@@ -1546,7 +1549,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 
         /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
         budget_number = gsb_data_budget_get_number_by_name ( g_strstrip ( tab_char[0] ),
-                                !etat.combofix_force_category,
+                                !w_etat->combofix_force_category,
                                 gsb_data_transaction_get_amount ( transaction_number ).mantissa < 0 );
         gsb_data_transaction_set_budgetary_number ( transaction_number, budget_number );
 
@@ -1554,7 +1557,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
             gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
                                 gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
                                                         g_strstrip (tab_char[1]),
-                                                        !etat.combofix_force_category));
+                                                        !w_etat->combofix_force_category));
     }
     else
     {
@@ -1571,7 +1574,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 
         /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
         budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
-                                     !etat.combofix_force_category,
+                                     !w_etat->combofix_force_category,
                                      gsb_data_scheduled_get_amount (transaction_number).mantissa <0 );
         gsb_data_scheduled_set_budgetary_number ( transaction_number,
                                 budget_number );
@@ -1579,7 +1582,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
             gsb_data_scheduled_set_sub_budgetary_number ( transaction_number,
                                   gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
                                                           tab_char[1],
-                                                          !etat.combofix_force_category));
+                                                          !w_etat->combofix_force_category));
     }
     g_strfreev (tab_char);
 }

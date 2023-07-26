@@ -1244,7 +1244,7 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 
     combo = gtk_combofix_new_with_properties (tmp_list,
 											  TRUE,
-											  etat.combofix_case_sensitive,
+											  w_etat->combofix_case_sensitive,
 											  FALSE,
 											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);

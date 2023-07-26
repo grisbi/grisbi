@@ -165,9 +165,6 @@ struct _GrisbiWinPrivate
 
 G_DEFINE_TYPE_WITH_PRIVATE (GrisbiWin, grisbi_win, GTK_TYPE_APPLICATION_WINDOW)
 
-/* global "etat" structure shared in the entire program */
-struct _GrisbiWinEtat etat;
-
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/

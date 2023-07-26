@@ -686,7 +686,9 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
 {
     gchar **tab_char;
     gint category_number = 0;
+	GrisbiWinEtat *w_etat;
 
+	w_etat = grisbi_win_get_w_etat ();
     if (!string
 	||
 	!strlen (string))
@@ -705,7 +707,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     if (tab_char[0])
     {
         category_number = gsb_data_category_get_number_by_name ( tab_char[0],
-                            !etat.combofix_force_category,
+                            !w_etat->combofix_force_category,
                             gsb_data_mix_get_amount (
                             transaction_number, is_transaction).mantissa <0 );
 	    gsb_data_mix_set_category_number ( transaction_number,
@@ -718,7 +720,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
         gsb_data_mix_set_sub_category_number ( transaction_number,
 					        gsb_data_category_get_sub_category_number_by_name ( category_number,
 																			   tab_char[1],
-																			   !etat.combofix_force_category ),
+																			   !w_etat->combofix_force_category ),
 					        is_transaction );
     }
     else
@@ -1814,6 +1816,9 @@ void gsb_data_category_set_category_from_string (gint transaction_number,
 {
     gchar **tab_char;
     gint category_number;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
 
     /* the simpliest is to split in 2 parts, transaction and scheduled,
      * but the 2 parts are exactly the same, exept the call to the functions */
@@ -1830,7 +1835,7 @@ void gsb_data_category_set_category_from_string (gint transaction_number,
 
         /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
         category_number = gsb_data_category_get_number_by_name (g_strstrip (tab_char[0]),
-																!etat.combofix_force_category,
+																!w_etat->combofix_force_category,
 																gsb_data_transaction_get_amount
 																(transaction_number).mantissa < 0);
         gsb_data_transaction_set_category_number (transaction_number, category_number);
@@ -1840,7 +1845,7 @@ void gsb_data_category_set_category_from_string (gint transaction_number,
 														  gsb_data_category_get_sub_category_number_by_name
 														  (category_number,
 														   g_strstrip (tab_char[1]),
-														   !etat.combofix_force_category));
+														   !w_etat->combofix_force_category));
     }
     else
     {
@@ -1855,7 +1860,7 @@ void gsb_data_category_set_category_from_string (gint transaction_number,
 
         /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
         category_number = gsb_data_category_get_number_by_name (tab_char[0],
-																!etat.combofix_force_category,
+																!w_etat->combofix_force_category,
 																gsb_data_scheduled_get_amount
 																(transaction_number).mantissa <0);
         gsb_data_scheduled_set_category_number (transaction_number, category_number);
@@ -1864,7 +1869,7 @@ void gsb_data_category_set_category_from_string (gint transaction_number,
 														gsb_data_category_get_sub_category_number_by_name
 														(category_number,
 														 tab_char[1],
-														 !etat.combofix_force_category));
+														 !w_etat->combofix_force_category));
     }
     g_strfreev (tab_char);
 }

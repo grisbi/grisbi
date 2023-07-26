@@ -53,6 +53,7 @@
 #include "ofx.h"
 
 #include "dialog.h"
+#include "grisbi_win.h"
 #include "gsb_real.h"
 #include "structures.h"
 #include "utils_str.h"
@@ -365,6 +366,10 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 	/* mais tout n'est pas utilisé par les banques... */
 	if (data.transactiontype_valid)
 	{
+		GrisbiWinEtat *w_etat;
+
+		w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
 		switch (data.transactiontype)
 		{
 			case OFX_CHECK:
@@ -427,7 +432,7 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 			case OFX_DEBIT:
 			case OFX_CREDIT:
 			case OFX_OTHER:
-				if (etat.extract_number_for_check)
+				if (w_etat->extract_number_for_check)
 				{
 					gchar *str_to_free = NULL;
 

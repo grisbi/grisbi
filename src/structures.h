@@ -102,7 +102,6 @@
 /*START_EXTERN*/
 /* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
 extern struct _GrisbiWinRun run;				/* declared in grisbi_win.c */
-extern struct _GrisbiWinEtat etat;				/* declared in grisbi_win.c */
 /*END_EXTERN*/
 
 /******************************************************************************/

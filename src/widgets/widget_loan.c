@@ -1056,12 +1056,15 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 	gint tmp_number = 0;
 	gint tmp_number2 = 0;
 	gint scheduled_number = 0;
+	GrisbiWinEtat *w_etat;
 	DialogScheduled *s_sch_dialog;
 	LoanStruct *s_loan;
 	WidgetLoanPrivate *priv;
 
 	devel_debug (NULL);
 	priv = widget_loan_get_instance_private (w_loan);
+	w_etat = grisbi_win_get_w_etat ();
+
 	s_loan = priv->s_loan;
 	s_sch_dialog = widget_loan_scheduled_dialog_struct_init ();
 
@@ -1118,8 +1121,8 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 
 	tmp_list = gsb_data_payee_get_name_and_report_list ();
 	s_sch_dialog->APayeeCombo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_payee,
-											  etat.combofix_case_sensitive,
+											  w_etat->combofix_force_payee,
+											  w_etat->combofix_case_sensitive,
 											  FALSE,
 											  METATREE_PAYEE);
 	gsb_data_payee_free_name_and_report_list (tmp_list);
@@ -1149,9 +1152,9 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	s_sch_dialog->ACategCombo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->ACategCombo, TRUE, TRUE, 0);
@@ -1208,9 +1211,9 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	s_sch_dialog->FCategCombo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->FCategCombo, FALSE, FALSE, 0);
@@ -1242,9 +1245,9 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 	/* saisie IB */
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	s_sch_dialog->FBudgetCombo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->FBudgetCombo, FALSE, FALSE, 0);
@@ -1298,9 +1301,9 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	s_sch_dialog->SCategCombo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->SCategCombo, FALSE, FALSE, 0);
@@ -1335,9 +1338,9 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 	/* saisie (sous)IB */
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	s_sch_dialog->SBudgetCombo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->SBudgetCombo, FALSE, FALSE, 0);
@@ -1391,9 +1394,9 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 
 	tmp_list = gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE);
 	s_sch_dialog->TCategCombo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_CATEGORY);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->TCategCombo, FALSE, FALSE, 0);
@@ -1427,9 +1430,9 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 	/* saisie (sous)IB */
 	tmp_list = gsb_data_budget_get_name_list (TRUE, TRUE);
 	s_sch_dialog->TBudgetCombo = gtk_combofix_new_with_properties (tmp_list,
-											  etat.combofix_force_category,
-											  etat.combofix_case_sensitive,
-											  etat.combofix_mixed_sort,
+											  w_etat->combofix_force_category,
+											  w_etat->combofix_case_sensitive,
+											  w_etat->combofix_mixed_sort,
 											  METATREE_BUDGET);
 	gsb_data_categorie_free_name_list (tmp_list);
     gtk_box_pack_start (GTK_BOX (hbox), s_sch_dialog->TBudgetCombo, FALSE, FALSE, 0);

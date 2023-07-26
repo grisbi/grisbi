@@ -183,20 +183,20 @@ void init_variables (void)
 
     orphan_child_transactions = NULL;
 
-    etat.affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
-    etat.affichage_echeances_perso_nb_libre = 0;
-    etat.affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
+	/* raz variables of  w_etat */
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+    w_etat->affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
+    w_etat->affichage_echeances_perso_nb_libre = 0;
+    w_etat->affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
 	/* raz variables of etat */
-    if (etat.name_logo && strlen (etat.name_logo))
-        g_free (etat.name_logo);
-    etat.name_logo = NULL;
-    etat.utilise_logo = 1;
+    if (w_etat->name_logo && strlen (w_etat->name_logo))
+        g_free (w_etat->name_logo);
+    w_etat->name_logo = NULL;
+    w_etat->utilise_logo = 1;
 
     gsb_select_icon_init_logo_variables ();
 
-	/* raz variables of  w_etat */
-	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
     w_etat->retient_affichage_par_compte = 0;
 	w_etat->use_icons_file_dir = FALSE;
 
@@ -219,14 +219,14 @@ void init_variables (void)
     w_run->display_two_lines = 0;
     w_run->display_three_lines = 0;
 
-    etat.import_files_nb_days = 2;
-    etat.get_fyear_by_value_date = FALSE;
+    w_etat->import_files_nb_days = 2;
+    w_etat->get_fyear_by_value_date = FALSE;
 
     /* init default combofix values */
-    etat.combofix_mixed_sort = FALSE;
-    etat.combofix_case_sensitive = FALSE;
-    etat.combofix_force_payee = FALSE;
-    etat.combofix_force_category = FALSE;
+    w_etat->combofix_mixed_sort = FALSE;
+    w_etat->combofix_case_sensitive = FALSE;
+    w_etat->combofix_force_payee = FALSE;
+    w_etat->combofix_force_category = FALSE;
 
     /* the main notebook is set to NULL,
      * important because it's the checked variable in a new file
@@ -248,8 +248,8 @@ void init_variables (void)
     gsb_form_scheduler_free_list ();
 
     /* divers */
-	etat.affichage_commentaire_echeancier = 0;	/* RAZ option utile si chargement d'un deuxième fichier */
-    etat.get_fyear_by_value_date = 0;           /* By default use transaction-date */
+	w_etat->affichage_commentaire_echeancier = 0;	/* RAZ option utile si chargement d'un deuxième fichier */
+    w_etat->get_fyear_by_value_date = 0;           /* By default use transaction-date */
 
     /* remove the timeout if necessary */
     if (id_timeout)
@@ -263,7 +263,7 @@ void init_variables (void)
     bet_data_variables_init ();
     /* initialisation des boites de dialogue */
     bet_future_initialise_dialog (TRUE);
-    etat.bet_debut_period = 1;
+    w_etat->bet_debut_period = 1;
     /* defaut value for width of columns */
     bet_array_init_largeur_col_treeview (NULL);
 
@@ -282,7 +282,10 @@ void init_variables (void)
  * */
 void free_variables (void)
 {
+	GrisbiWinEtat *w_etat;
+
 	devel_debug (NULL);
+	w_etat = grisbi_win_get_w_etat ();
 
 	/* free functions */
     gsb_data_archive_init_variables ();
@@ -323,12 +326,12 @@ void free_variables (void)
 
 	/* reset csv separator */
 	gsb_csv_export_set_csv_separator (NULL);
-	if (etat.csv_separator)
-		g_free (etat.csv_separator);
+	if (w_etat->csv_separator)
+		g_free (w_etat->csv_separator);
 
 	/* raz variables of etat */
-	if (etat.name_logo && strlen (etat.name_logo))
-		g_free (etat.name_logo);
+	if (w_etat->name_logo && strlen (w_etat->name_logo))
+		g_free (w_etat->name_logo);
 
     /* free the variables for the estimate balance module */
     bet_data_variables_free ();
