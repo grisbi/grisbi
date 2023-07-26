@@ -147,8 +147,6 @@ static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 										  GTK_DIALOG_MODAL,
 										  NULL, NULL,
-										  //~ "gtk-cancel", GTK_RESPONSE_CANCEL,
-										  //~ "gtk-apply", GTK_RESPONSE_OK,
 										  NULL);
 
 	button_cancel = gtk_button_new_with_label (_("Cancel"));
