@@ -100,8 +100,6 @@
 #define TRANSACTION_LIST_ROWS_NB 		4		/* definition of the number of max rows for a line, for now limit to 4 */
 
 /*START_EXTERN*/
-/* variables initialisées lors de l'exécution de grisbi PROVISOIRE */
-extern struct _GrisbiWinRun run;				/* declared in grisbi_win.c */
 /*END_EXTERN*/
 
 /******************************************************************************/
