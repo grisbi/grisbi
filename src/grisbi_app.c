@@ -1065,8 +1065,8 @@ static void grisbi_app_open (GApplication *application,
 
 		msg = g_strdup (_("Grisbi has detected several character strings "
 						  "separated by one or more spaces.\n\n"
-						  "\t- If it's a filename with spaces, surround it with \"....\"\n\n"
-						  "\t- If there are multiple filenames, keep one."));
+						  "\t- If it's a file name with spaces, surround it with \"....\"\n\n"
+						  "\t- If there are multiple file names, keep one."));
 
 		dialogue_warning_hint (msg,_("Inconsistency of the command line."));
 		g_free (msg);
