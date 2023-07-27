@@ -324,6 +324,16 @@ void free_variables (void)
     gsb_form_widget_free_list_without_widgets ();
     gsb_form_scheduler_free_list ();
 
+	/* variables generales */
+	if (w_etat->accounting_entity)
+		g_free (w_etat->accounting_entity);
+	if (w_etat->adr_common)
+		g_free (w_etat->adr_common);
+	if (w_etat->adr_secondary)
+		g_free (w_etat->adr_secondary);
+	if (w_etat->date_format)
+		g_free (w_etat->date_format);
+
 	/* reset csv separator */
 	gsb_csv_export_set_csv_separator (NULL);
 	if (w_etat->csv_separator)

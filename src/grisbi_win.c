@@ -60,6 +60,7 @@
 #include "navigation.h"
 #include "tiers_onglet.h"
 #include "structures.h"
+#include "traitement_variables.h"
 #include "transaction_list.h"
 #include "utils.h"
 #include "utils_buttons.h"
@@ -872,15 +873,8 @@ static void grisbi_win_free_w_etat (GrisbiWinEtat *w_etat)
 {
 	devel_debug (NULL);
 
-	/* variables generales */
-	if (w_etat->accounting_entity)
-		g_free (w_etat->accounting_entity);
-	if (w_etat->adr_common)
-		g_free (w_etat->adr_common);
-	if (w_etat->adr_secondary)
-		g_free (w_etat->adr_secondary);
-	if (w_etat->date_format)
-		g_free (w_etat->date_format);
+	/* on libère la mémoire utilisée par etat */
+	free_variables ();
 
 	g_free (w_etat);
 }
@@ -986,9 +980,9 @@ static void grisbi_win_init (GrisbiWin *win)
  *
  * \return
  **/
-static void grisbi_win_finalize (GObject *object)
+static void grisbi_win_dispose (GObject *object)
 {
-	G_OBJECT_CLASS (grisbi_win_parent_class)->finalize (object);
+	G_OBJECT_CLASS (grisbi_win_parent_class)->dispose (object);
 }
 
 
@@ -1001,7 +995,7 @@ static void grisbi_win_finalize (GObject *object)
  **/
 static void grisbi_win_class_init (GrisbiWinClass *class)
 {
-	G_OBJECT_CLASS (class)->finalize = grisbi_win_finalize;
+	G_OBJECT_CLASS (class)->dispose = grisbi_win_dispose;
 
 	gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (class),
 												 "/org/gtk/grisbi/ui/grisbi_win.ui");

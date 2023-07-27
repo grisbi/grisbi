@@ -1142,9 +1142,6 @@ static void grisbi_app_shutdown (GApplication *application)
 	/* on libère la mémoire utilisée par css_data */
 	g_free (css_data);
 
-	/* on libère la mémoire utilisée par etat */
-	free_variables ();
-
 	/* libération de mémoire utilisée par locale*/
 	gsb_locale_shutdown ();
 
