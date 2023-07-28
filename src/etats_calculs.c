@@ -2,8 +2,8 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2019 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          2008-2023 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -1395,6 +1395,7 @@ pas_decalage:
     {
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_date (current_report_number);
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_value_date (current_report_number);
+		nb_colonnes = nb_colonnes + gsb_data_report_get_account_show_name (current_report_number);
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_payee (current_report_number);
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_category (current_report_number);
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_budget (current_report_number);

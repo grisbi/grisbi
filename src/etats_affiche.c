@@ -3,9 +3,10 @@
 /*                                                                            */
 /*                            etats_affiche.c                                 */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/*			https://www.grisbi.org				      */
+/*     Copyright (C) 2000-2008 Cédric Auger (cedric@grisbi.org)               */
+/*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2008-2023 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          https://www.grisbi.org                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -56,8 +57,8 @@
 
 /*START_STATIC*/
 static void etat_affiche_attach_hsep ( int x, int x2, int y, int y2);
-static void etat_affiche_attach_label ( gchar * text, gint properties, int x, int x2, int y, int y2,
-									   GtkJustification align, gint transaction_number );
+static void etat_affiche_attach_label (gchar * text, gint properties, int x, int x2, int y, int y2,
+									   GtkJustification align, gint transaction_number);
 static void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
 /*END_STATIC*/
 
@@ -1323,6 +1324,24 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		g_free (text);
 	}
 
+	if (gsb_data_report_get_account_show_name (current_report_number))
+	{
+		text = my_strdup (gsb_data_account_get_name (gsb_data_transaction_get_account_number ( transaction_number)));
+
+		if ( gsb_data_report_get_report_can_click (current_report_number))
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, GTK_JUSTIFY_LEFT, transaction_number );
+		}
+		else
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, GTK_JUSTIFY_LEFT, 0 );
+		}
+		g_free (text);
+
+		etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
+	}
+
 	if ( gsb_data_report_get_show_report_financial_year (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_financial_year_number ( transaction_number))
@@ -1343,7 +1362,6 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	    colonne = colonne + 2;
 	}
-
 
 	if ( gsb_data_report_get_show_report_payee (current_report_number))
 	{
@@ -2441,6 +2459,13 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 	etat_affiche_attach_label ( _("Value date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
+    }
+
+	if (gsb_data_report_get_account_show_name (current_report_number))
+    {
+		etat_affiche_attach_label (_("Account name"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, GTK_JUSTIFY_CENTER, 0);
+		etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+		colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_financial_year (current_report_number))
