@@ -433,7 +433,7 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
 							  priv->account_page,
 							  gtk_label_new (_("Accounts")));
 
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
 							  gsb_transactions_list_creation_fenetre_operations (),
 							  gtk_label_new (_("Transactions")));
 
@@ -442,7 +442,7 @@ static gboolean grisbi_win_fill_general_notebook (GrisbiWin *win)
 							  bet_array_create_page (),
 							  gtk_label_new (_("Forecast")));
 
-    gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->account_page),
 							  bet_hist_create_page (),
 							  gtk_label_new (_("Historical data")));
 
