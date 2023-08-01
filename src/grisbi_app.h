@@ -11,7 +11,7 @@ G_BEGIN_DECLS
 
 extern gboolean darkmode;
 
-#define GRISBI_APP_TYPE			(grisbi_app_get_type ())
+#define GRISBI_TYPE_APP			(grisbi_app_get_type ())
 G_DECLARE_FINAL_TYPE			(GrisbiApp, grisbi_app, GRISBI, APP, GtkApplication)
 
 GrisbiApp *			grisbi_app_new							(void);

@@ -711,7 +711,7 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 
 	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
-	win = g_object_new (GRISBI_WIN_TYPE, "application", app, NULL);
+	win = g_object_new (GRISBI_TYPE_WIN, "application", app, NULL);
 
 	g_signal_connect (win,
 					  "delete_event",
@@ -1196,7 +1196,7 @@ static void grisbi_app_class_init (GrisbiAppClass *class)
  **/
 GrisbiApp *grisbi_app_new (void)
 {
-	return g_object_new (GRISBI_APP_TYPE,
+	return g_object_new (GRISBI_TYPE_APP,
 						 "application-id",   "org.gtk.grisbi",
 						 "flags",			G_APPLICATION_HANDLES_OPEN|G_APPLICATION_NON_UNIQUE,
 						 NULL);

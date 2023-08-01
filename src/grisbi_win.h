@@ -8,7 +8,7 @@
 
 G_BEGIN_DECLS
 
-#define GRISBI_WIN_TYPE			(grisbi_win_get_type ())
+#define GRISBI_TYPE_WIN			(grisbi_win_get_type ())
 G_DECLARE_FINAL_TYPE			(GrisbiWin, grisbi_win, GRISBI, WIN, GtkApplicationWindow)
 
 void			grisbi_win_close_window						(GtkWindow *win);
