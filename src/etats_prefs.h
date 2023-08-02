@@ -11,9 +11,9 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define ETATS_PREFS_TYPE              (etats_prefs_get_type())
-#define ETATS_PREFS(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), ETATS_PREFS_TYPE, EtatsPrefs))
-#define ETATS_IS_PREFS(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), ETATS_PREFS_TYPE))
+#define ETATS_PREFS_TYPE			(etats_prefs_get_type())
+#define ETATS_PREFS(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), ETATS_PREFS_TYPE, EtatsPrefs))
+#define ETATS_IS_PREFS(obj)			(G_TYPE_CHECK_INSTANCE_TYPE((obj), ETATS_PREFS_TYPE))
 
 /* Main object structure */
 typedef struct _EtatsPrefs EtatsPrefs;
@@ -21,12 +21,12 @@ typedef struct _EtatsPrefsClass EtatsPrefsClass;
 
 struct _EtatsPrefs
 {
-    GtkDialog dialog;
+	GtkDialog dialog;
 };
 
 struct _EtatsPrefsClass
 {
-    GtkDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 enum EtatsPrefsPageType
