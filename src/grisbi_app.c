@@ -1093,6 +1093,8 @@ static void grisbi_app_init (GrisbiApp *app)
 #ifdef DEBUG
 	debug_initialize_debugging (5);
 #endif
+
+	g_set_prgname ("grisbi");
 }
 
 /**
