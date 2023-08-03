@@ -81,9 +81,6 @@ static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebut
 static void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer user_data );
 /*END_STATIC*/
 
-GtkWidget *fenetre_preferences = NULL;
-
-
 /*START_EXTERN*/
 /*END_EXTERN*/
 

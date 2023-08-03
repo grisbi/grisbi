@@ -49,7 +49,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *fenetre_preferences;
 /*END_EXTERN*/
 
 /*START_GLOBAL*/
