@@ -1135,9 +1135,9 @@ static gulong gsb_file_save_import_rule_part (gulong iterator,
 				tmp_list = gsb_data_import_rule_get_csv_spec_lines_list (import_rule_number);
 				while (tmp_list)
 				{
-					SpecConfData *spec_conf_data;
+					CsvSpecConfData *spec_conf_data;
 
-					spec_conf_data = (SpecConfData *) tmp_list->data;
+					spec_conf_data = (CsvSpecConfData *) tmp_list->data;
 					new_string = g_markup_printf_escaped ("\t<Special_line Nb=\"%d\" NuR=\"%d\" SpA=\"%d\" "
 														  "SpAD=\"%d\" SpUD=\"%d\" SpUT=\"%s\" />\n",
 														  index,

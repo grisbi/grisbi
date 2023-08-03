@@ -2535,12 +2535,12 @@ static void gsb_file_load_import_rule_spec_line_part (const gchar **attribute_na
     gint i=0;
 	gint index =0;
     gint import_rule_number = 0;
-	SpecConfData *spec_conf_data;
+	CsvSpecConfData *spec_conf_data;
 
 	if (!attribute_names[i])
 		return;
 
-	spec_conf_data = g_malloc0 (sizeof (SpecConfData));
+	spec_conf_data = g_malloc0 (sizeof (CsvSpecConfData));
     do
     {
 		/* we test at the beginning if the attribute_value is NULL, if yes, */

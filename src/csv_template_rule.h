@@ -18,10 +18,8 @@ G_BEGIN_DECLS
 typedef struct _CsvTemplateRule			CsvTemplateRule;
 typedef struct _CsvTemplateRuleClass	CsvTemplateRuleClass;
 
-
-typedef struct _CSVImportRule 			CSVImportRule;	/* structure pour les regles d'import des fichiers CSV */
-
-typedef struct _SpecConfData			SpecConfData;	/* Données des regles d'import des fichiers CSV */
+typedef struct _CSVImportRule 			CSVImportRule;		/* structure pour les regles d'import des fichiers CSV */
+typedef struct _CsvSpecConfData			CsvSpecConfData;	/* Données des regles d'import des fichiers CSV */
 
 struct _CsvTemplateRule
 {
@@ -44,7 +42,7 @@ struct _CSVImportRule
 	GSList *		csv_spec_lines_list;		/* liste de structures contenant les éléments de la ligne spéciale action */
 };
 
-struct _SpecConfData
+struct _CsvSpecConfData
 {
 	guint			csv_spec_conf_action;		/* action a effectuer */
 	guint			csv_spec_conf_action_data;	/* colonne de la donnée à traiter par l'action */
@@ -60,7 +58,7 @@ CsvTemplateRule * 	csv_template_rule_new							(GtkWidget *assistant);
 CsvTemplateRule * 	csv_template_rule_edit							(GtkWindow *parent,
 															 gint rule_number);
 void				csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *rule);
-SpecConfData *		csv_template_rule_spec_conf_data_struct_copy	(SpecConfData *spec_conf_data,
+CsvSpecConfData *	csv_template_rule_spec_conf_data_struct_copy	(CsvSpecConfData *spec_conf_data,
 																	 gpointer data);
 
 /* END_DECLARATION */

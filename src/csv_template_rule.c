@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2018 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org/                                               */
+/*          https://www.grisbi.org/                                              */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -44,7 +44,6 @@
 #include "utils_prefs.h"
 #include "utils_str.h"
 #include "erreur.h"
-
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -808,9 +807,9 @@ static void csv_template_dialog_response  (GtkDialog *dialog,
 				if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (line_struct->checkbutton)))
 				{
 					GtkWidget *widget;
-					SpecConfData *spec_conf_data;
+					CsvSpecConfData *spec_conf_data;
 
-					spec_conf_data = g_malloc0 (sizeof (SpecConfData));
+					spec_conf_data = g_malloc0 (sizeof (CsvSpecConfData));
 					widget = line_struct->combobox_action;
 					spec_conf_data->csv_spec_conf_action = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
 					if (spec_conf_data->csv_spec_conf_action == 1)
@@ -862,9 +861,9 @@ static void csv_template_dialog_response  (GtkDialog *dialog,
 					if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (line_struct->checkbutton)))
 					{
 						GtkWidget *widget;
-						SpecConfData *spec_conf_data;
+						CsvSpecConfData *spec_conf_data;
 
-						spec_conf_data = g_malloc0 (sizeof (SpecConfData));
+						spec_conf_data = g_malloc0 (sizeof (CsvSpecConfData));
 						widget = line_struct->combobox_action;
 						spec_conf_data->csv_spec_conf_action = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
 						if (spec_conf_data->csv_spec_conf_action == 1)
@@ -1087,9 +1086,9 @@ static void csv_template_rule_edit_dialog (CsvTemplateRule *template_rule,
 		while (list)
 		{
 			SpecWidgetLine *line_struct;
-			SpecConfData *spec_conf_data;
+			CsvSpecConfData *spec_conf_data;
 
-			spec_conf_data = (SpecConfData *) list->data;
+			spec_conf_data = (CsvSpecConfData *) list->data;
 
 			/* set the spec line */
 			line_struct = csv_template_rule_spec_conf_new_line (template_rule, index);
@@ -1281,7 +1280,7 @@ void csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *rule)
 	list = rule->csv_spec_lines_list;
 	while (list)
 	{
-		SpecConfData *spec_conf_data;
+		CsvSpecConfData *spec_conf_data;
 
 		spec_conf_data = list->data;
 		if (spec_conf_data)
@@ -1301,12 +1300,12 @@ void csv_template_rule_csv_import_rule_struct_free	(CSVImportRule *rule)
  *
  * \return
  **/
-SpecConfData *csv_template_rule_spec_conf_data_struct_copy (SpecConfData *spec_conf_data,
-															 gpointer data)
+CsvSpecConfData *csv_template_rule_spec_conf_data_struct_copy (CsvSpecConfData *spec_conf_data,
+															   gpointer data)
 {
-	SpecConfData *new_struct;
+	CsvSpecConfData *new_struct;
 
-	new_struct = g_malloc0 (sizeof (SpecConfData));
+	new_struct = g_malloc0 (sizeof (CsvSpecConfData));
 	new_struct->csv_spec_conf_action = spec_conf_data->csv_spec_conf_action;
 	new_struct->csv_spec_conf_action_data = spec_conf_data->csv_spec_conf_action_data;
 	new_struct->csv_spec_conf_used_data = spec_conf_data->csv_spec_conf_used_data;

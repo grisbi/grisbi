@@ -273,7 +273,7 @@ static gchar *csv_import_button_rule_get_account_id (GArray *lines_tab,
  *
  * \return
  **/
-static GArray *csv_import_button_rule_traite_spec_line (SpecConfData *spec_conf_data,
+static GArray *csv_import_button_rule_traite_spec_line (CsvSpecConfData *spec_conf_data,
 														GArray *lines_tab,
 														gint index)
 {
@@ -396,7 +396,7 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 	{
 		GSList *list;
 		gint i = 0;
-		SpecConfData *spec_conf_data;
+		CsvSpecConfData *spec_conf_data;
 
 		csv_create_rule = TRUE;
 		g_object_set_data (G_OBJECT (assistant), "csv-import-rule", csv_import_rule);
@@ -407,7 +407,7 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 			return;
 		}
 
-		spec_conf_data = (SpecConfData *) list->data;
+		spec_conf_data = (CsvSpecConfData *) list->data;
 		if (spec_conf_data->csv_spec_conf_used_text)
 		{
 			GArray *lines_tab;
@@ -418,7 +418,7 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 				gint action;
 				gint index;
 				if (i)
-					spec_conf_data = (SpecConfData *) list->data;
+					spec_conf_data = (CsvSpecConfData *) list->data;
 
 				/* détermination de la première transaction du fichier */
 				action = spec_conf_data->csv_spec_conf_action;
@@ -1382,9 +1382,9 @@ gboolean csv_import_file_by_rule (gint rule,
 		list = gsb_data_import_rule_get_csv_spec_lines_list (rule);
 		while (list)
 		{
-			SpecConfData *spec_conf_data;
+			CsvSpecConfData *spec_conf_data;
 
-			spec_conf_data = (SpecConfData *) list->data;
+			spec_conf_data = (CsvSpecConfData *) list->data;
 			lines_tab = csv_import_button_rule_traite_spec_line (spec_conf_data, lines_tab, index);
 			list = list->next;
 		};
@@ -1515,7 +1515,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 		gchar *csv_fields_str;
 		gint i;
 		CSVImportRule *csv_import_rule;
-		SpecConfData *spec_conf_data;
+		CsvSpecConfData *spec_conf_data;
 
 		csv_import_rule = g_object_get_data (G_OBJECT (assistant), "csv-import-rule");
 		compte->csv_rule_name = csv_import_rule->csv_rule_name;
@@ -1554,7 +1554,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 		lines_list = csv_import_rule->csv_spec_lines_list;
 		if (lines_list)
 		{
-			spec_conf_data = (SpecConfData *) lines_list->data;
+			spec_conf_data = (CsvSpecConfData *) lines_list->data;
 			if (spec_conf_data->csv_spec_conf_used_text)
 			{
 				compte->csv_spec_lines_list = g_slist_copy_deep (lines_list,

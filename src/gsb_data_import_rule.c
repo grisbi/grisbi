@@ -69,9 +69,9 @@ static void _gsb_data_import_rule_free_csv_spec_lines_list (GSList *csv_spec_lin
 	tmp_list = csv_spec_lines_list;
     while (tmp_list)
     {
-		SpecConfData *spec_conf_data;
+		CsvSpecConfData *spec_conf_data;
 
-		spec_conf_data = (SpecConfData *) tmp_list->data;
+		spec_conf_data = (CsvSpecConfData *) tmp_list->data;
 		tmp_list = tmp_list->next;
 
 		if (spec_conf_data->csv_spec_conf_used_text)
@@ -1213,9 +1213,9 @@ void gsb_data_import_rule_free_csv_spec_lines_list (gint import_rule_number)
 	tmp_list = import_rule->csv_spec_lines_list;
     while (tmp_list)
     {
-		SpecConfData *spec_conf_data;
+		CsvSpecConfData *spec_conf_data;
 
-		spec_conf_data = (SpecConfData *) tmp_list->data;
+		spec_conf_data = (CsvSpecConfData *) tmp_list->data;
 		if (spec_conf_data->csv_spec_conf_used_text)
 			g_free (spec_conf_data->csv_spec_conf_used_text);
 		g_free (spec_conf_data);
