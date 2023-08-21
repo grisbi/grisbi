@@ -5,12 +5,17 @@ desktop_in_files = grisbi.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
-EXTRA_DIST = $(desktop_in_files) grisbi.xml grisbi.nsi.in
+appstreamdir = $(datadir)/metainfo/
+appstream_in_files = grisbi.metainfo.xml.in
+appstream_DATA = $(appstream_in_files:.xml.in=.xml)
+@INTLTOOL_XML_RULE@
+
+EXTRA_DIST = $(desktop_in_files) grisbi.xml grisbi.nsi.in $(appstream_in_files)
 
 mimedir = $(datadir)/mime/packages
 mime_DATA = grisbi.xml
 
-DISTCLEANFILES = $(desktop_DATA)
+DISTCLEANFILES = $(desktop_DATA) $(appstream_DATA)
 
 # Key variable for a very own packaging; basically, I use:
 # ./configure --prefix=~/my-inst && make && make install
