@@ -57,6 +57,7 @@
 [type: gettext/glade]src/widgets/widget_search_transaction.ui
 [type: gettext/glade]src/widgets/widget_transfer.ui
 share/grisbi.desktop.in
+share/grisbi.metainfo.xml.in
 src/accueil.c
 src/bet_data.c
 src/bet_data_finance.c
