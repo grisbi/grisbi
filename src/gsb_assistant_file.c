@@ -46,6 +46,7 @@
 #include "gsb_data_form.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_file_util.h"
 #include "gsb_select_icon.h"
 #include "import.h"
 #include "parametres.h"
@@ -253,6 +254,10 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 	grisbi_win_set_filename (NULL, nom_fichier_comptes);
 	if (nom_fichier_comptes)
 		g_free (nom_fichier_comptes);
+
+	/* check the file does not already exist */
+	if (! gsb_file_util_test_overwrite(grisbi_win_get_filename (NULL)))
+		return GTK_RESPONSE_CANCEL;
 
 	/* RAZ w_run->new_account_file */
 	w_run = grisbi_win_get_w_run ();
