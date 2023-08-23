@@ -111,7 +111,6 @@ gboolean gsb_account_new ( KindAccount account_type,
         if (pixbuf)
 		{
             gsb_data_account_set_account_icon_pixbuf ( account_number, pixbuf );
-			g_object_unref (G_OBJECT (pixbuf));
 		}
     }
 
