@@ -87,7 +87,6 @@ void gsb_dirs_init (char* gsb_bin_path)
 
     user_config_dir = g_build_filename (g_get_user_config_dir (), "grisbi", NULL);
     user_data_dir = g_build_filename (g_get_user_data_dir (), "grisbi", NULL);
-    user_default_dir = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
 }
 #else
 {
@@ -97,7 +96,6 @@ void gsb_dirs_init (char* gsb_bin_path)
                         "Library/Application Support/Grisbi/config", NULL);
         user_data_dir = g_build_filename (g_get_home_dir (),
                         "Library/Application Support/Grisbi/data", NULL);
-        user_default_dir = g_strdup (g_get_home_dir());
 
         #ifdef GTKOSXAPPLICATION
         {
@@ -136,9 +134,10 @@ void gsb_dirs_init (char* gsb_bin_path)
 
         user_config_dir = g_build_filename (g_get_user_config_dir (), "grisbi", NULL);
         user_data_dir = g_build_filename (g_get_user_data_dir (), "grisbi", NULL);
-        user_default_dir = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
     }
     #endif /* OS_OSX */
+
+	user_default_dir = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
 }
 #endif /* G_OS_WIN32 */
 
