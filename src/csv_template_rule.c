@@ -49,8 +49,17 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+#define GSB_RESPONSE_EDIT 5
+
+typedef struct _CsvTemplateRule			CsvTemplateRule;
+
 typedef struct _CsvTemplateRulePrivate	CsvTemplateRulePrivate;
 typedef struct _SpecWidgetLine			SpecWidgetLine;
+
+struct _CsvTemplateRule
+{
+    GtkDialog 		parent;
+};
 
 struct _CsvTemplateRulePrivate
 {

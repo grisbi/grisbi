@@ -9,27 +9,10 @@
 
 G_BEGIN_DECLS
 
-#define CSV_TEMPLATE_RULE_TYPE    	(csv_template_rule_get_type ())
-#define CSV_TEMPLATE_RULE(obj)    	(G_TYPE_CHECK_INSTANCE_CAST ((obj), CSV_TEMPLATE_RULE_TYPE, CsvTemplateRule))
-#define CSV_IS_TEMPLATE_RULE(obj) 	(G_TYPE_CHECK_INSTANCE_TYPE((obj), CSV_TEMPLATE_RULE_TYPE))
-
-#define GSB_RESPONSE_EDIT 5
-
-typedef struct _CsvTemplateRule			CsvTemplateRule;
-typedef struct _CsvTemplateRuleClass	CsvTemplateRuleClass;
+#define CSV_TEMPLATE_RULE_TYPE			(csv_template_rule_get_type ())
 
 typedef struct _CSVImportRule 			CSVImportRule;		/* structure pour les regles d'import des fichiers CSV */
 typedef struct _CsvSpecConfData			CsvSpecConfData;	/* Données des regles d'import des fichiers CSV */
-
-struct _CsvTemplateRule
-{
-    GtkDialog 		parent;
-};
-
-struct _CsvTemplateRuleClass
-{
-    GtkDialogClass 	parent_class;
-};
 
 struct _CSVImportRule
 {
@@ -50,10 +33,9 @@ struct _CsvSpecConfData
 	gchar *			csv_spec_conf_used_text;	/* donnée générant l'action */
 };
 
-/*structure pour les regles d'import des fichiers CSV */
-/* START_DECLARATION */
-GType               csv_template_rule_get_type						(void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (CsvTemplateRule, csv_template_rule, CSV_TEMPLATE, RULE, GtkDialog)
 
+/* START_DECLARATION */
 CsvTemplateRule * 	csv_template_rule_new							(GtkWidget *assistant);
 CsvTemplateRule * 	csv_template_rule_edit							(GtkWindow *parent,
 															 gint rule_number);
