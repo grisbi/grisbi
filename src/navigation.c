@@ -612,7 +612,7 @@ static void gsb_gui_navigation_set_navigation_pages (GtkTreeModel *model,
 {
 	GdkPixbuf *pixbuf;
 	GtkTreeIter iter;
-	gchar *str_color = (gchar*) "black";
+	gchar *str_color;
 	gchar *title = NULL;
 	gchar *tmp_str = NULL;
 
@@ -861,7 +861,7 @@ static void gsb_gui_navigation_update_account_iter (GtkTreeModel *model,
 {
 	GdkPixbuf * pixbuf = NULL;
 	gboolean closed_account;
-	gchar *str_color = (gchar*)"black";
+	gchar *str_color;
 	gchar *tmp_name;
 
 	closed_account = gsb_data_account_get_closed_account (account_number);
@@ -935,7 +935,7 @@ static void gsb_gui_navigation_update_report_iter (GtkTreeModel *model,
 												   GtkTreeIter *report_iter,
 												   gint report_number)
 {
-	gchar *str_color = (gchar*)"black";
+	gchar *str_color;
 
 	str_color = gsb_rgba_get_couleur_with_indice_to_str ("color_text", 0);
 	gtk_tree_store_set(GTK_TREE_STORE(model),
@@ -1530,7 +1530,7 @@ void gsb_gui_navigation_create_report_list (GtkTreeModel *model)
 	GtkTreeIter child;
 	GtkTreeIter parent;
 	GtkTreePath *path;
-	gchar *str_color = (gchar*)"black";
+	gchar *str_color;
 
 	path = gsb_gui_navigation_get_page_path (model, GSB_REPORTS_PAGE);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &parent, path);
