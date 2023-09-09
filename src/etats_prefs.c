@@ -1258,7 +1258,7 @@ static GtkWidget *etats_prefs_onglet_affichage_generalites_create_page (EtatsPre
 	gtk_box_pack_start (GTK_BOX (priv->affichage_etat_generalites), vbox, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (priv->affichage_etat_generalites), vbox, 0);
 
-	/* on met une frama autour de entry_search_payee (pour gtk4) */
+	/* on met une frame autour de entry_search_payee (pour gtk4) */
 	gtk_entry_set_has_frame (GTK_ENTRY (priv->entree_nom_etat), TRUE);
 
 	return priv->affichage_etat_generalites;
