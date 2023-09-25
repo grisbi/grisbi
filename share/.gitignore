@@ -1,4 +1,5 @@
 Makefile
 Makefile.in*
 grisbi.desktop
+grisbi.metainfo.xml
 grisbi.nsi
