@@ -246,8 +246,9 @@ void init_variables (void)
     /* free the form */
     gsb_form_widget_free_list ();
     gsb_form_scheduler_free_list ();
+	gsb_date_free_last_date ();		/* fix crash bug 2236 */
 
-    /* divers */
+		/* divers */
 	w_etat->affichage_commentaire_echeancier = 0;	/* RAZ option utile si chargement d'un deuxième fichier */
     w_etat->get_fyear_by_value_date = 0;           /* By default use transaction-date */
 
