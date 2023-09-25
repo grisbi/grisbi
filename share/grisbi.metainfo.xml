@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.grisbi.Grisbi</id>
+  <metadata_license>CC0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <name>Grisbi</name>
+  <name xml:lang="cs">Grisbi</name>
+  <name xml:lang="da">Grisbi</name>
+  <name xml:lang="de">Grisbi</name>
+  <name xml:lang="el">Grisbi</name>
+  <name xml:lang="es">Grisbi</name>
+  <name xml:lang="fr">Grisbi</name>
+  <name xml:lang="he">גריסבי</name>
+  <name xml:lang="lv">Grisbi</name>
+  <name xml:lang="nl">Grisbi</name>
+  <name xml:lang="pl">Grisbi</name>
+  <name xml:lang="pt_BR">Grisbi</name>
+  <name xml:lang="ro">Grisbi</name>
+  <name xml:lang="ru">Grisbi</name>
+  <name xml:lang="zh_CN">Grisbi</name>
+  <summary>Personal finances manager</summary>
+  <summary xml:lang="fr">Gestionnaire de finances personnelles</summary>
+  <description>
+    <p>Grisbi is a very functional personal financial management program with a lot of features: checking, cash and liabilities accounts, several accounts with automatic contra entries, several currencies, including euro, arbitrary currency for every operation, money interchange fees, switch to euro account per account, description of the transactions with third parties, categories, sub-categories, financial year, notes, breakdown, transfers between accounts, even for accounts of different currencies, bank reconciliation, scheduled transactions, automatic recall of last transaction for every third party, nice and easy user interface, user manual, QIF import/export.</p>
+    <p xml:lang="fr">Grisbi est un logiciel libre de comptabilité personnelle très fonctionnel comprenant de nombreuses fonctionnalités : compte bancaires, de caisse et de passif, comptes multiples avec contre-opérations automatiques, devises multiples incluant l'euro, devise arbitraire pour chaque opération, frais de conversion, passage à l'euro par compte, description des transactions externes,catégories, sous-catégories, année fiscale, notes, résumés, transfers entre comptes même pour des comptes avec des devises différentes, réconciliation bancaire, transactions programmées, rappel de la dernière transaction pour chaque tiers, interface simple et agréable, manuel utilisateur, import/export QIF.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image width="1039" type="source" height="725">http://grisbi.org/public/Screenshots/screnshot-grisbi1.png</image>
+    </screenshot>
+    <screenshot>
+      <image width="1039" type="source" height="725">http://grisbi.org/public/Screenshots/screnshot-ib.png</image>
+    </screenshot>
+    <screenshot>
+      <image width="1039" type="source" height="725">http://grisbi.org/public/Screenshots/screnshot-report.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://grisbi.org/</url>
+  <content_rating type="oars-1.1"/>
+  <launchable type="desktop-id">org.grisbi.Grisbi.desktop</launchable>
+  <releases>
+    <release version="2.0.5" date="2021-08-31">
+      <artifacts>
+        <artifact type="source">
+          <location>http://downloads.sourceforge.net/project/grisbi/grisbi%20stable/2.0.x/2.0.5/grisbi-2.0.5.tar.bz2</location>
+          <checksum type="sha256">bd3adbabfc4b4dfc05eff62d2b36458a24b0f00d07cf35a29f6af2f203c77a3f</checksum>
+        </artifact>
+      </artifacts>
+    </release>
+  </releases>
+</component>
