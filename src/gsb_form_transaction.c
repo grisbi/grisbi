@@ -3,7 +3,7 @@
 /*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -64,7 +64,9 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * if only the date and payee are filled in the form, fill all the fields with
  * the same datas that the last transaction found with the same payee
@@ -72,179 +74,146 @@
  * \param payee_name
  *
  * \return FALSE if no payee name or problem (and the entry payee will be erased), TRUE if ok
- * */
-gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
+ **/
+gboolean gsb_form_transaction_complete_form_by_payee (const gchar *payee_name)
 {
-    gint payee_number;
-    gint transaction_number = 0;
-    gint account_number;
-    GSList *tmp_list;
+	GSList *tmp_list;
+	gint payee_number;
+	gint transaction_number = 0;
+	gint account_number;
 	GrisbiAppConf *a_conf;
 
-    devel_debug (payee_name);
+	devel_debug (payee_name);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
-    if ( !strlen (payee_name))
-    return FALSE;
+	if (!strlen (payee_name))
+		return FALSE;
 
-    account_number = gsb_form_get_account_number ();
+	account_number = gsb_form_get_account_number ();
 
-    /* check if another field than date and payee is filled */
-    tmp_list = gsb_form_widget_get_list ();
-    while (tmp_list)
-    {
-        FormElement *element;
+	/* check if another field than date and payee is filled */
+	tmp_list = gsb_form_widget_get_list ();
+	while (tmp_list)
+	{
+		FormElement *element;
 
-        element = tmp_list -> data;
+		element = tmp_list->data;
 
-        if ( element -> element_number
-             &&
-             element -> element_number < TRANSACTION_FORM_MAX_WIDGETS
-             &&
-             element -> element_number != TRANSACTION_FORM_DATE
-             &&
-             element -> element_number != TRANSACTION_FORM_PARTY
-             &&
-             element -> element_number != TRANSACTION_FORM_CHEQUE
-             &&
-              ( ( GTK_IS_ENTRY ( element -> element_widget )
-                &&
-                !gsb_form_widget_check_empty ( element -> element_widget ) )
-               ||
-               (GTK_IS_COMBOFIX (element -> element_widget)
-                &&
-                !gsb_form_widget_check_empty (element->element_widget) ) ) )
-            return TRUE;
+		if (element->element_number
+			&& element->element_number < TRANSACTION_FORM_MAX_WIDGETS
+			&& element->element_number != TRANSACTION_FORM_DATE
+			&& element->element_number != TRANSACTION_FORM_PARTY
+			&& element->element_number != TRANSACTION_FORM_CHEQUE
+			&& ((GTK_IS_ENTRY (element->element_widget)
+				 && !gsb_form_widget_check_empty (element->element_widget))
+				|| (GTK_IS_COMBOFIX (element->element_widget)
+					&& !gsb_form_widget_check_empty (element->element_widget))))
+			return TRUE;
 
-        tmp_list = tmp_list -> next;
-    }
+		tmp_list = tmp_list->next;
+	}
 
-    /* get the payee_number */
-    payee_number = gsb_data_payee_get_number_by_name ( payee_name, FALSE );
+	/* get the payee_number */
+	payee_number = gsb_data_payee_get_number_by_name (payee_name, FALSE);
 
-    /* if it's a new payee, go away */
-    if ( !payee_number )
-        return TRUE;
+	/* if it's a new payee, go away */
+	if (!payee_number)
+		return TRUE;
 
-    /* find the last transaction with that payee */
-    if ( a_conf->automatic_completion_payee )
-    	transaction_number = gsb_form_transactions_look_for_last_party (payee_number, 0, account_number);
+	/* find the last transaction with that payee */
+	if (a_conf->automatic_completion_payee)
+		transaction_number = gsb_form_transactions_look_for_last_party (payee_number, 0, account_number);
 
-    /* if no same transaction, go away */
-    if ( !transaction_number )
-        return TRUE;
+	/* if no same transaction, go away */
+	if (!transaction_number)
+		return TRUE;
 
-    /* fill the form */
-    tmp_list = gsb_form_widget_get_list ();
-    while (tmp_list)
-    {
-    FormElement *element;
+	/* fill the form */
+	tmp_list = gsb_form_widget_get_list ();
+	while (tmp_list)
+	{
+		FormElement *element;
 
-    element = tmp_list -> data;
+		element = tmp_list->data;
 
-    if ( element -> element_number != TRANSACTION_FORM_OP_NB
-         &&
-         element -> element_number != TRANSACTION_FORM_DATE
-         &&
-         element -> element_number != TRANSACTION_FORM_VALUE_DATE
-         &&
-         element -> element_number != TRANSACTION_FORM_CREDIT
-         &&
-         element -> element_number != TRANSACTION_FORM_DEBIT
-         &&
-         element -> element_number != TRANSACTION_FORM_EXERCICE
-         &&
-         element -> element_number != TRANSACTION_FORM_PARTY
-         &&
-         element -> element_number != TRANSACTION_FORM_MODE
-         &&
-         element -> element_number != TRANSACTION_FORM_TYPE
-         &&
-         element -> element_number != TRANSACTION_FORM_DEVISE )
-    {
-        gsb_form_fill_element ( element -> element_number,
-                        account_number,
-                        transaction_number,
-                        TRUE );
+		if (element->element_number != TRANSACTION_FORM_OP_NB
+			&& element->element_number != TRANSACTION_FORM_DATE
+			&& element->element_number != TRANSACTION_FORM_VALUE_DATE
+			&& element->element_number != TRANSACTION_FORM_CREDIT
+			&& element->element_number != TRANSACTION_FORM_DEBIT
+			&& element->element_number != TRANSACTION_FORM_EXERCICE
+			&& element->element_number != TRANSACTION_FORM_PARTY
+			&& element->element_number != TRANSACTION_FORM_MODE
+			&& element->element_number != TRANSACTION_FORM_TYPE
+			&& element->element_number != TRANSACTION_FORM_DEVISE)
+		{
+			gsb_form_fill_element (element->element_number, account_number, transaction_number, TRUE);
 
-        /* if split of transaction, propose to recover the children */
-        if (element -> element_number == TRANSACTION_FORM_CATEGORY
-        &&
-        gsb_data_transaction_get_split_of_transaction (transaction_number))
-        {
-			GtkWidget *form_button_recover_split;
+			/* if split of transaction, propose to recover the children */
+			if (element->element_number == TRANSACTION_FORM_CATEGORY
+				&& gsb_data_transaction_get_split_of_transaction (transaction_number))
+			{
+				GtkWidget *form_button_recover_split;
 
-			form_button_recover_split = gsb_form_get_recover_split_button ();
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( form_button_recover_split ),
-                        a_conf->automatic_recover_splits );
-            gtk_widget_show ( form_button_recover_split );
-        }
-    }
-    else if ( ( element -> element_number == TRANSACTION_FORM_CREDIT && !a_conf->automatic_erase_credit_debit )
-         ||
-         ( element -> element_number == TRANSACTION_FORM_DEBIT && !a_conf->automatic_erase_credit_debit ) )
-    {
-        gsb_form_fill_element ( element -> element_number,
-                        account_number,
-                        transaction_number,
-                        TRUE );
-    }
-    else if ( element -> element_number == TRANSACTION_FORM_TYPE )
-    {
-        GtkWidget *widget;
-        gint number;
+				form_button_recover_split = gsb_form_get_recover_split_button ();
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (form_button_recover_split),
+											  a_conf->automatic_recover_splits);
+				gtk_widget_show (form_button_recover_split);
+			}
+		}
+		else if ((element->element_number == TRANSACTION_FORM_CREDIT
+				  && !a_conf->automatic_erase_credit_debit)
+				 || (element->element_number == TRANSACTION_FORM_DEBIT
+					 && !a_conf->automatic_erase_credit_debit))
+		{
+			gsb_form_fill_element (element->element_number, account_number, transaction_number, TRUE);
+		}
+		else if (element->element_number == TRANSACTION_FORM_TYPE)
+		{
+			GtkWidget *widget;
+			gint number;
 
-        number = gsb_data_mix_get_mother_transaction_number (transaction_number, TRUE);
-        if ( !number )
-            /* it's not a child split, so set number to transaction_number */
-            number = transaction_number;
+			number = gsb_data_mix_get_mother_transaction_number (transaction_number, TRUE);
+			if (!number)
+				/* it's not a child split, so set number to transaction_number */
+				number = transaction_number;
 
-        /* ok, now number contains either the transaction_number, either the mother transaction number,
-         * we can check the sign with it */
-        widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
-        if ( gsb_data_mix_get_amount ( number, TRUE ).mantissa < 0 )
-            gsb_payment_method_create_combo_list ( widget,
-                                   GSB_PAYMENT_DEBIT,
-                                   account_number, 0, FALSE );
-        else
-            gsb_payment_method_create_combo_list ( widget, GSB_PAYMENT_CREDIT,
-                        account_number, 0, FALSE );
+			/* ok, now number contains either the transaction_number, either the mother transaction number,
+			 * we can check the sign with it */
+			widget = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
+			if (gsb_data_mix_get_amount (number, TRUE).mantissa < 0)
+				gsb_payment_method_create_combo_list (widget, GSB_PAYMENT_DEBIT, account_number, 0, FALSE);
+			else
+				gsb_payment_method_create_combo_list (widget, GSB_PAYMENT_CREDIT, account_number, 0, FALSE);
 
-        if ( gtk_widget_get_visible (widget))
-        {
-            gint tmp_account;
+			if (gtk_widget_get_visible (widget))
+			{
+				gint tmp_account;
 
-            number = gsb_data_mix_get_method_of_payment_number (transaction_number, TRUE);
-            tmp_account = gsb_data_transaction_get_account_number ( transaction_number );
+				number = gsb_data_mix_get_method_of_payment_number (transaction_number, TRUE);
+				tmp_account = gsb_data_transaction_get_account_number (transaction_number);
 
-            if ( account_number != tmp_account )
-                number = gsb_data_payment_search_number_other_account_by_name ( number,
-                                account_number );
+				if (account_number != tmp_account)
+					number = gsb_data_payment_search_number_other_account_by_name (number, account_number);
 
-            /* we show the cheque entry only for transactions */
-            if (gsb_payment_method_set_combobox_history ( widget, number, TRUE )
-                &&
-                gsb_data_payment_get_show_entry ( number )
-                &&
-                !gsb_data_mix_get_mother_transaction_number (transaction_number, TRUE))
-                {
-                    gsb_form_entry_get_focus ( gsb_form_widget_get_widget (
-                            TRANSACTION_FORM_CHEQUE) );
-                    gtk_widget_show (gsb_form_widget_get_widget (
-                            TRANSACTION_FORM_CHEQUE) );
-                }
-        }
-        else
-            gtk_widget_hide ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE ) );
-    }
+				/* we show the cheque entry only for transactions */
+				if (gsb_payment_method_set_combobox_history (widget, number, TRUE)
+					&& gsb_data_payment_get_show_entry (number)
+					&& !gsb_data_mix_get_mother_transaction_number (transaction_number, TRUE))
+					{
+						gsb_form_entry_get_focus (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+						gtk_widget_show (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+					}
+			}
+			else
+				gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+		}
 
-    tmp_list = tmp_list -> next;
-    }
+		tmp_list = tmp_list->next;
+	}
 
-    return TRUE;
+	return TRUE;
 }
-
-
 
 /**
  * Look for the last transaction with the same party. Begin in the current account,
@@ -256,50 +225,48 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
  * keep it
  *
  * \return the number of the transaction found, or 0
- * */
+ **/
 gint gsb_form_transactions_look_for_last_party (gint no_party,
 												gint no_new_transaction,
 												gint account_number)
 {
-    GSList *list_tmp_transactions;
-    gint last_transaction_with_party_in_account = 0;
-    gint last_transaction_with_party_not_in_account = 0;
+	GSList *list_tmp_transactions;
+	gint last_transaction_with_party_in_account = 0;
+	gint last_transaction_with_party_not_in_account = 0;
 	GrisbiAppConf *a_conf;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+	list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
-    while ( list_tmp_transactions )
-    {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	if ( gsb_data_transaction_get_party_number (transaction_number_tmp) == no_party
-	     &&
-	     transaction_number_tmp != no_new_transaction
-	     &&
-	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
+	while (list_tmp_transactions)
 	{
-	    /* we are on a transaction with the same party, it's also a split, so we keep it */
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
-		last_transaction_with_party_in_account = transaction_number_tmp;
-	    else
-		last_transaction_with_party_not_in_account = transaction_number_tmp;
+		gint transaction_number_tmp;
+
+		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
+
+		if (gsb_data_transaction_get_party_number (transaction_number_tmp) == no_party
+			&& transaction_number_tmp != no_new_transaction
+			&& !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
+		{
+			/* we are on a transaction with the same party, it's also a split, so we keep it */
+			if (gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
+				last_transaction_with_party_in_account = transaction_number_tmp;
+			else
+				last_transaction_with_party_not_in_account = transaction_number_tmp;
+		}
+		list_tmp_transactions = list_tmp_transactions->next;
 	}
-	list_tmp_transactions = list_tmp_transactions -> next;
-    }
 
-    if ( last_transaction_with_party_in_account )
-	return last_transaction_with_party_in_account;
+	if (last_transaction_with_party_in_account)
+		return last_transaction_with_party_in_account;
 
-    /* if we don't want to complete with a transaction in another account,
-     * go away here */
-    if ( a_conf->limit_completion_to_current_account )
-	return 0;
+	/* if we don't want to complete with a transaction in another account,
+	 * go away here */
+	if (a_conf->limit_completion_to_current_account)
+		return 0;
 
-    return last_transaction_with_party_not_in_account;
+	return last_transaction_with_party_not_in_account;
 }
-
 
 /**
  * Clone the children of a split transaction to add the to the new split
@@ -308,47 +275,46 @@ gint gsb_form_transactions_look_for_last_party (gint no_party,
  * \param no_last_split		the no of last split mother
  *
  * \return FALSE
- * */
-gboolean gsb_form_transaction_recover_splits_of_transaction ( gint new_transaction_number,
-                        gint no_last_split )
+ **/
+gboolean gsb_form_transaction_recover_splits_of_transaction (gint new_transaction_number,
+															 gint no_last_split)
 {
-    GSList *list_tmp_transactions;
+	GSList *list_tmp_transactions;
 
-    /* go around the transactions list to get the daughters of the last split */
-    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+	/* go around the transactions list to get the daughters of the last split */
+	list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
-    while ( list_tmp_transactions )
-    {
-	gint transaction_number_tmp;
-
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == no_last_split)
+	while (list_tmp_transactions)
 	{
-	    gint new_child_number;
+		gint transaction_number_tmp;
 
-	    new_child_number = gsb_data_transaction_new_transaction ( gsb_data_transaction_get_account_number (new_transaction_number));
-	    gsb_data_transaction_copy_transaction ( transaction_number_tmp,
-						    new_child_number, TRUE );
-	    gsb_data_transaction_set_mother_transaction_number ( new_child_number,
-								 new_transaction_number);
-	    gsb_data_transaction_set_date ( new_child_number,
-					    gsb_data_transaction_get_date (new_transaction_number));
+		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
 
-	    /* if this is a transfer, create the contra transaction */
-	    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) > 0)
-		gsb_form_transaction_validate_transfer ( new_child_number,
-							 TRUE,
-							 gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp));
+		if (gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == no_last_split)
+		{
+			gint new_child_number;
 
-	    /* add the transaction to the list */
-	    gsb_transactions_list_append_new_transaction (new_child_number, TRUE);
+			new_child_number = gsb_data_transaction_new_transaction (gsb_data_transaction_get_account_number
+																	 (new_transaction_number));
+			gsb_data_transaction_copy_transaction (transaction_number_tmp, new_child_number, TRUE);
+			gsb_data_transaction_set_mother_transaction_number (new_child_number, new_transaction_number);
+			gsb_data_transaction_set_date (new_child_number, gsb_data_transaction_get_date (new_transaction_number));
+
+			/* if this is a transfer, create the contra transaction */
+			if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) > 0)
+			gsb_form_transaction_validate_transfer (new_child_number,
+													TRUE,
+													gsb_data_transaction_get_contra_transaction_account
+													(transaction_number_tmp));
+
+			/* add the transaction to the list */
+			gsb_transactions_list_append_new_transaction (new_child_number, TRUE);
+		}
+		list_tmp_transactions = list_tmp_transactions->next;
 	}
-	list_tmp_transactions = list_tmp_transactions -> next;
-    }
-    return FALSE;
-}
 
+	return FALSE;
+}
 
 /**
  * return a list of numbers of parties if the party in the form is a
@@ -357,75 +323,75 @@ gboolean gsb_form_transaction_recover_splits_of_transaction ( gint new_transacti
  * \param none
  *
  * \return a g_slist, with -1 if it's a normal party or a list of parties if it's a report
- * */
-GSList *gsb_form_transaction_get_parties_list_from_report ( void )
+ **/
+GSList *gsb_form_transaction_get_parties_list_from_report (void)
 {
-    GSList *parties_list;
+	GSList *parties_list;
 
-    parties_list = NULL;
+	parties_list = NULL;
 
-    /*     check that the party's form exist, else, append -1 and go away */
-    if ( gsb_data_form_check_for_value (TRANSACTION_FORM_PARTY))
-    {
-        GtkWidget *combofix;
-        const gchar *string;
+	/*	 check that the party's form exist, else, append -1 and go away */
+	if (gsb_data_form_check_for_value (TRANSACTION_FORM_PARTY))
+	{
+		GtkWidget *combofix;
+		const gchar *string;
 
-        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
-        if ( GTK_IS_COMBOFIX ( combofix ) )
-            string = gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) );
-        else
-        {
-            parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( - 1) );
-            return parties_list;
-        }
+		combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY);
+		if (GTK_IS_COMBOFIX (combofix))
+			string = gtk_combofix_get_text (GTK_COMBOFIX (combofix));
+		else
+		{
+			parties_list = g_slist_append (parties_list, GINT_TO_POINTER (- 1));
 
-        if ( string == NULL || strlen ( string ) == 0 )
-        {
-            parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( - 1) );
-            return parties_list;
-        }
+				return parties_list;
+		}
 
-        if ( strncmp ( string, _("Report: "), 7 ) )
-            /* the party is not a report, set -1 and go away */
-            parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
-        else
-        {
-            /* it's a report */
-            gchar **tab_char;
-            gint report_number;
+		if (string == NULL || strlen (string) == 0)
+		{
+			parties_list = g_slist_append (parties_list, GINT_TO_POINTER (- 1));
 
-            tab_char = g_strsplit ( string, " : ", 2 );
+			return parties_list;
+		}
 
-            report_number = gsb_data_report_get_report_by_name (tab_char[1]);
-            if (report_number)
-            {
-                GSList *list_payees;
-                GSList *list_tmp;
+		if (strncmp (string, _("Report: "), 7))
+			/* the party is not a report, set -1 and go away */
+			parties_list = g_slist_append (parties_list, GINT_TO_POINTER (-1));
+		else
+		{
+			/* it's a report */
+			gchar **tab_char;
+			gint report_number;
 
-                list_payees = gsb_data_report_get_payee_numbers_list ( report_number );
-                list_tmp = list_payees;
-                while ( list_tmp )
-                {
-                    parties_list = g_slist_append ( parties_list, list_tmp->data );
+			tab_char = g_strsplit (string, " : ", 2);
 
-                    list_tmp = list_tmp->next;
-                }
+			report_number = gsb_data_report_get_report_by_name (tab_char[1]);
+			if (report_number)
+			{
+				GSList *list_payees;
+				GSList *list_tmp;
 
-            }
-            else
-                /* the report was not found, set -1 */
-                parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
-			g_strfreev ( tab_char );
-        }
-    }
-    else
-        /* no party so not a report */
-        parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( - 1) );
+				list_payees = gsb_data_report_get_payee_numbers_list (report_number);
+				list_tmp = list_payees;
+				while (list_tmp)
+				{
+					parties_list = g_slist_append (parties_list, list_tmp->data);
 
-    return parties_list;
+					list_tmp = list_tmp->next;
+				}
+
+			}
+			else
+				/* the report was not found, set -1 */
+				parties_list = g_slist_append (parties_list, GINT_TO_POINTER (-1));
+			g_strfreev (tab_char);
+		}
+	}
+	else
+		/* no party so not a report */
+		parties_list = g_slist_append (parties_list, GINT_TO_POINTER (- 1));
+
+	return parties_list;
 }
-
-
 
 /**
  * validate a transfert from a form :
@@ -438,166 +404,154 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
  * \param account_transfer 	the number of the account we want to create the contra-transaction
  *
  * \return the number of the contra-transaction
- * */
-gint gsb_form_transaction_validate_transfer ( gint transaction_number,
-                        gint new_transaction,
-                        gint account_transfer )
+ **/
+gint gsb_form_transaction_validate_transfer (gint transaction_number,
+											 gint new_transaction,
+											 gint account_transfer)
 {
-    GDate *contra_value_date = NULL;
-    const gchar *contra_transaction_content = NULL;
-    gint contra_payment_number = 0;
-    gint contra_transaction_number = 0;
-    gint contra_mother_number = 0;
-    gint contra_marked_transaction = 0;
-    GtkWidget *contra_payment_button;
+	GtkWidget *contra_payment_button;
+	GDate *contra_value_date = NULL;
+	const gchar *contra_transaction_content = NULL;
+	gint contra_payment_number = 0;
+	gint contra_transaction_number = 0;
+	gint contra_mother_number = 0;
+	gint contra_marked_transaction = 0;
 
-    g_return_val_if_fail ( account_transfer >= 0, -1 );
+	g_return_val_if_fail (account_transfer >= 0, -1);
 
-    /* either it's a new transfer or a change of a non-transfer transaction
-     * either it was already a transfer, in that case, if we change the target account,
-     * we delete the contra-transaction and it's the same as a new transfer */
-    if ( !new_transaction )
-    {
-        /* it's a modification of a transaction */
+	/* either it's a new transfer or a change of a non-transfer transaction
+	 * either it was already a transfer, in that case, if we change the target account,
+	 * we delete the contra-transaction and it's the same as a new transfer */
+	if (!new_transaction)
+	{
+		/* it's a modification of a transaction */
 
-        /* as we will do a transfer, the category number is null */
-        gsb_data_transaction_set_category_number ( transaction_number, 0 );
-        gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
-        contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (
-                            transaction_number);
-        if (contra_transaction_number > 0)
-        {
-            const GDate *value_date;
-
-            /* the transaction is a transfer */
-
-            /* if the contra transaction was a child of split, copying/deleting it
-             * will remove the information of the mother, so we get it here */
-            contra_mother_number = gsb_data_transaction_get_mother_transaction_number (
-                            contra_transaction_number );
-
-            /* on récupère le moyen de payement de l'opération fille qui ne doit pas changer */
-            if ( contra_mother_number > 0 )
-                contra_payment_number = gsb_data_transaction_get_method_of_payment_number (
-                        contra_transaction_number );
-
-            /* Copying/deleting remove the marked information, so we get it here */
-            contra_marked_transaction = gsb_data_transaction_get_marked_transaction (
-                            contra_transaction_number );
-
-            /* Copying/deleting remove the content information, so we get it here */
-            contra_transaction_content = gsb_data_transaction_get_method_of_payment_content (
-                            contra_transaction_number );
-
-            /* Copying/deleting remove the value date, so we get it here */
-            value_date = gsb_data_transaction_get_value_date ( contra_transaction_number );
-            if ( value_date )
-                contra_value_date = gsb_date_copy ( value_date );
-
-            /* check if we change the account target */
-            if ( gsb_data_transaction_get_contra_transaction_account (
-                            transaction_number) != account_transfer )
-            {
-                /* it was a transfer and the user changed the target account so we delete
-                 * the last contra transaction contra_transaction_transfer has just been set */
-                gsb_data_transaction_set_contra_transaction_number (
-                                contra_transaction_number, 0);
-                gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE);
-                new_transaction = 1;
-            }
-        }
-        else
-        {
-            /* the transaction was not a transfer, so it's the same as a new transaction, to do the contra-transaction */
-            new_transaction = 1;
-        }
-    }
-
-    /* so, now, it's either a new transfer and new_transaction is TRUE,
-     * either a transfer without changing the target account and in that case, contra_transaction_number is
-     * already set */
-    if ( new_transaction )
-        contra_transaction_number = gsb_data_transaction_new_transaction ( account_transfer );
-
-    gsb_data_transaction_copy_transaction ( transaction_number,
-					    contra_transaction_number, new_transaction );
-
-    /* contra_mother_number contains the mother number of the contra transaction if it was a modification
-     * and that contra-transaction was a child of split, and if not it is 0, and it's a good thing because
-     * now contra-transaction has a mother number if the transaction was a child of split, and we have to
-     * set that mother number to 0 (for the contra-transaction) */
-    gsb_data_transaction_set_mother_transaction_number ( contra_transaction_number,
-							 contra_mother_number );
-
-    /* si la contre opération est une fille et pas rapprochée on change la date */
-    if ( contra_mother_number > 0 && contra_marked_transaction != OPERATION_RAPPROCHEE )
-    {
-        const GDate *date;
-
-        date = gsb_data_transaction_get_date ( transaction_number );
-		if (g_date_valid (date))
+		/* as we will do a transfer, the category number is null */
+		gsb_data_transaction_set_category_number (transaction_number, 0);
+		gsb_data_transaction_set_sub_category_number (transaction_number, 0);
+		contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+		if (contra_transaction_number > 0)
 		{
-			gsb_data_transaction_set_date ( contra_mother_number, date );
-			gsb_transactions_list_update_transaction ( contra_mother_number );
+			const GDate *value_date;
+
+			/* the transaction is a transfer */
+			/* if the contra transaction was a child of split, copying/deleting it
+			 * will remove the information of the mother, so we get it here */
+			contra_mother_number = gsb_data_transaction_get_mother_transaction_number (contra_transaction_number);
+
+			/* on récupère le moyen de payement de l'opération fille qui ne doit pas changer */
+			if (contra_mother_number > 0)
+				contra_payment_number = gsb_data_transaction_get_method_of_payment_number (contra_transaction_number);
+
+			/* Copying/deleting remove the marked information, so we get it here */
+			contra_marked_transaction = gsb_data_transaction_get_marked_transaction (contra_transaction_number);
+
+			/* Copying/deleting remove the content information, so we get it here */
+			contra_transaction_content = gsb_data_transaction_get_method_of_payment_content (contra_transaction_number);
+
+			/* Copying/deleting remove the value date, so we get it here */
+			value_date = gsb_data_transaction_get_value_date (contra_transaction_number);
+			if (value_date)
+				contra_value_date = gsb_date_copy (value_date);
+
+			/* check if we change the account target */
+			if (gsb_data_transaction_get_contra_transaction_account (transaction_number) != account_transfer)
+			{
+				/* it was a transfer and the user changed the target account so we delete
+				 * the last contra transaction contra_transaction_transfer has just been set */
+				gsb_data_transaction_set_contra_transaction_number (contra_transaction_number, 0);
+				gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE);
+				new_transaction = 1;
+			}
 		}
-    }
-
-    /* If this is not a new transaction it restores the marked statement */
-    gsb_data_transaction_set_marked_transaction ( contra_transaction_number,
-                        contra_marked_transaction );
-
-    /* If this is not a new transaction it restores the value date */
-    if ( contra_value_date )
-    {
-		gsb_data_transaction_set_value_date ( contra_transaction_number, contra_value_date );
-
-		g_date_free ( contra_value_date );
+		else
+		{
+			/* the transaction was not a transfer, so it's the same as a new transaction, to do the contra-transaction */
+			new_transaction = 1;
+		}
 	}
 
-    /* we have to change the amount by the opposite */
-    gsb_data_transaction_set_amount (contra_transaction_number,
-				     gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number)));
+	/* so, now, it's either a new transfer and new_transaction is TRUE,
+	 * either a transfer without changing the target account and in that case, contra_transaction_number is
+	 * already set */
+	if (new_transaction)
+		contra_transaction_number = gsb_data_transaction_new_transaction (account_transfer);
+
+	gsb_data_transaction_copy_transaction (transaction_number, contra_transaction_number, new_transaction);
+
+	/* contra_mother_number contains the mother number of the contra transaction if it was a modification
+	 * and that contra-transaction was a child of split, and if not it is 0, and it's a good thing because
+	 * now contra-transaction has a mother number if the transaction was a child of split, and we have to
+	 * set that mother number to 0 (for the contra-transaction) */
+	gsb_data_transaction_set_mother_transaction_number (contra_transaction_number, contra_mother_number);
+
+	/* si la contre opération est une fille et pas rapprochée on change la date */
+	if (contra_mother_number > 0 && contra_marked_transaction != OPERATION_RAPPROCHEE)
+	{
+		const GDate *date;
+
+		date = gsb_data_transaction_get_date (transaction_number);
+		if (g_date_valid (date))
+		{
+			gsb_data_transaction_set_date (contra_mother_number, date);
+			gsb_transactions_list_update_transaction (contra_mother_number);
+		}
+	}
+
+	/* If this is not a new transaction it restores the marked statement */
+	gsb_data_transaction_set_marked_transaction (contra_transaction_number, contra_marked_transaction);
+
+	/* If this is not a new transaction it restores the value date */
+	if (contra_value_date)
+	{
+		gsb_data_transaction_set_value_date (contra_transaction_number, contra_value_date);
+
+		g_date_free (contra_value_date);
+	}
+
+	/* we have to change the amount by the opposite */
+	gsb_data_transaction_set_amount (contra_transaction_number,
+									 gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number)));
 
 
-    /* we have to check the change */
-    gsb_currency_check_for_change ( contra_transaction_number );
+	/* we have to check the change */
+	gsb_currency_check_for_change (contra_transaction_number);
 
-    /* set the contra-method of payment if the contra-transaction was not a child of split,
-     * there is no place into the transaction structure for that, so it was not taken with the form,
-     * we need to get it now from the form */
-    if ( contra_mother_number == 0 )
-    {
-        contra_payment_button = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA );
-        if ( contra_payment_button
-         &&
-         gtk_widget_get_visible ( contra_payment_button ) )
-        gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-                        gsb_payment_method_get_selected_number ( contra_payment_button ) );
-    }
-    else
-        gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-                        contra_payment_number );
+	/* set the contra-method of payment if the contra-transaction was not a child of split,
+	 * there is no place into the transaction structure for that, so it was not taken with the form,
+	 * we need to get it now from the form */
+	if (contra_mother_number == 0)
+	{
+		contra_payment_button = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
+		if (contra_payment_button
+			&& gtk_widget_get_visible (contra_payment_button))
+			gsb_data_transaction_set_method_of_payment_number (contra_transaction_number,
+															   gsb_payment_method_get_selected_number
+															   (contra_payment_button));
+	}
+	else
+		gsb_data_transaction_set_method_of_payment_number (contra_transaction_number,
+														   contra_payment_number);
 
-    /* set the content of the contra-method of paiement if it is not a new transaction */
-    if ( !new_transaction )
-        gsb_data_transaction_set_method_of_payment_content ( contra_transaction_number,
-                        contra_transaction_content );
+	/* set the content of the contra-method of paiement if it is not a new transaction */
+	if (!new_transaction)
+		gsb_data_transaction_set_method_of_payment_content (contra_transaction_number,
+															contra_transaction_content);
 
-    /* set the link between the transactions */
-    gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-							 contra_transaction_number);
-    gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
-							 transaction_number);
+	/* set the link between the transactions */
+	gsb_data_transaction_set_contra_transaction_number (transaction_number,
+														contra_transaction_number);
+	gsb_data_transaction_set_contra_transaction_number (contra_transaction_number,
+														transaction_number);
 
-    /* show the contra_transaction */
-    if ( new_transaction )
-        gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
-    else
-        gsb_transactions_list_update_transaction (contra_transaction_number);
+	/* show the contra_transaction */
+	if (new_transaction)
+		gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
+	else
+		gsb_transactions_list_update_transaction (contra_transaction_number);
 
-    return contra_transaction_number;
+	return contra_transaction_number;
 }
-
 
 /**
  * callback called when the user click on the 'change' button in the form
@@ -607,116 +561,110 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
  * \param null
  *
  * \return FALSE
- * */
-gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
-                        gpointer null )
+ **/
+gboolean gsb_form_transaction_change_clicked (GtkWidget *button,
+											  gpointer null)
 {
-    gint transaction_number;
-    gint account_number;
-    gint currency_number;
-    gint account_currency_number;
+	gint transaction_number;
+	gint account_number;
+	gint currency_number;
+	gint account_currency_number;
 
-    account_number = gsb_form_get_account_number ( );
-    account_currency_number = gsb_data_account_get_currency ( account_number );
-    gtk_widget_grab_focus ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ));
+	account_number = gsb_form_get_account_number ();
+	account_currency_number = gsb_data_account_get_currency (account_number);
+	gtk_widget_grab_focus (gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
 
-    transaction_number = GPOINTER_TO_INT (g_object_get_data (
-                        G_OBJECT ( gsb_form_get_form_widget ( ) ),
-                        "transaction_number_in_form" ));
+	transaction_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (gsb_form_get_form_widget ()),
+															 "transaction_number_in_form"));
+	if (transaction_number == -1)
+	{
+		gint link_number;
 
-    if ( transaction_number == -1 )
-    {
-        gint link_number;
+		currency_number = gsb_currency_get_currency_from_combobox (gsb_form_widget_get_widget
+																   (TRANSACTION_FORM_DEVISE));
+		link_number = gsb_data_currency_link_search (account_currency_number, currency_number);
+		if (link_number
+			&& gsb_data_currency_link_get_first_currency (link_number) == account_currency_number)
+			gsb_currency_exchange_dialog (account_currency_number, currency_number,
+										  1,
+										  gsb_data_currency_link_get_change_rate (link_number),
+										  null_real,
+										  TRUE);
+		else
+			gsb_currency_exchange_dialog (account_currency_number,
+										  currency_number,
+										  0,
+										  gsb_data_currency_link_get_change_rate (link_number),
+										  null_real,
+										  TRUE);
+	}
+	else
+	{
+		currency_number = gsb_data_transaction_get_currency_number (transaction_number);
+		gsb_currency_exchange_dialog (account_currency_number,
+									  currency_number,
+									  gsb_data_transaction_get_change_between (transaction_number),
+									  gsb_data_transaction_get_exchange_rate (transaction_number),
+									  gsb_data_transaction_get_exchange_fees (transaction_number),
+									  TRUE);
+	}
 
-        currency_number = gsb_currency_get_currency_from_combobox (
-                        gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE ) );
-        link_number = gsb_data_currency_link_search ( account_currency_number,
-                        currency_number );
-        if ( link_number
-         &&
-         gsb_data_currency_link_get_first_currency ( link_number )
-         == account_currency_number )
-            gsb_currency_exchange_dialog ( account_currency_number, currency_number,
-                        1,
-                        gsb_data_currency_link_get_change_rate ( link_number ),
-                        null_real,
-                        TRUE );
-        else
-            gsb_currency_exchange_dialog ( account_currency_number, currency_number,
-                        0,
-                        gsb_data_currency_link_get_change_rate ( link_number ),
-                        null_real,
-                        TRUE );
-    }
-    else
-    {
-        currency_number = gsb_data_transaction_get_currency_number ( transaction_number );
-        gsb_currency_exchange_dialog ( account_currency_number, currency_number,
-                        gsb_data_transaction_get_change_between ( transaction_number ),
-                        gsb_data_transaction_get_exchange_rate ( transaction_number ),
-                        gsb_data_transaction_get_exchange_fees ( transaction_number ),
-                        TRUE );
-    }
-
-    return FALSE;
+	return FALSE;
 }
 
-
-void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null )
+void gsb_form_transaction_currency_changed (GtkWidget *widget,
+											gpointer null)
 {
-    gint account_number;
-    gint currency_number;
-    gint account_currency_number;
-    gint transaction_number;
-    gint link_number;
+	gint account_number;
+	gint currency_number;
+	gint account_currency_number;
+	gint transaction_number;
+	gint link_number;
 
-    account_number = gsb_form_get_account_number ( );
-    gtk_widget_grab_focus ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ) );
+	account_number = gsb_form_get_account_number ();
+	gtk_widget_grab_focus (gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
 
-    account_currency_number = gsb_data_account_get_currency ( account_number );
+	account_currency_number = gsb_data_account_get_currency (account_number);
 
-    transaction_number = GPOINTER_TO_INT ( g_object_get_data (
-                        G_OBJECT ( gsb_form_get_form_widget ( ) ),
-                        "transaction_number_in_form" ) );
+	transaction_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (gsb_form_get_form_widget ()),
+															 "transaction_number_in_form"));
 
-    currency_number = gsb_currency_get_currency_from_combobox ( widget );
-    if ( account_currency_number == currency_number )
-        gtk_widget_hide ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHANGE ) );
-    else
-        gtk_widget_show ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHANGE ) );
+	currency_number = gsb_currency_get_currency_from_combobox (widget);
+	if (account_currency_number == currency_number)
+		gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
+	else
+		gtk_widget_show (gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
 
-    link_number = gsb_data_currency_link_search ( account_currency_number,
-                        currency_number );
-    if ( link_number == 0 )
-    {
-        if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE )
-        {
-            gtk_widget_set_sensitive ( widget, FALSE );
-            gtk_widget_hide ( gsb_form_widget_get_widget (
-                        TRANSACTION_FORM_CHANGE ) );
-        }
-        else if ( transaction_number == -1 )
-            gsb_currency_exchange_dialog ( account_currency_number,
-                        currency_number,
-                        0,
-                        null_real,
-                        null_real,
-                        TRUE );
-        else
-        {
-            gsb_currency_exchange_dialog ( account_currency_number,
-                        currency_number,
-                        gsb_data_transaction_get_change_between ( transaction_number ),
-                        gsb_data_transaction_get_exchange_rate ( transaction_number ),
-                        gsb_data_transaction_get_exchange_fees ( transaction_number ),
-                        TRUE );
-        }
-    }
-    else if ( transaction_number > 0 )
-    {
-        gsb_currency_set_current_exchange ( gsb_data_transaction_get_exchange_rate ( transaction_number ) );
-        gsb_currency_set_current_exchange_fees ( gsb_data_transaction_get_exchange_fees ( transaction_number ) );
-    }
+	link_number = gsb_data_currency_link_search (account_currency_number, currency_number);
+	if (link_number == 0)
+	{
+		if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE)
+		{
+			gtk_widget_set_sensitive (widget, FALSE);
+			gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
+		}
+		else if (transaction_number == -1)
+			gsb_currency_exchange_dialog (account_currency_number,
+										  currency_number,
+										  0,
+										  null_real,
+										  null_real,
+										 TRUE);
+		else
+		{
+			gsb_currency_exchange_dialog (account_currency_number,
+										  currency_number,
+										  gsb_data_transaction_get_change_between (transaction_number),
+										  gsb_data_transaction_get_exchange_rate (transaction_number),
+										  gsb_data_transaction_get_exchange_fees (transaction_number),
+										  TRUE);
+		}
+	}
+	else if (transaction_number > 0)
+	{
+		gsb_currency_set_current_exchange (gsb_data_transaction_get_exchange_rate (transaction_number));
+		gsb_currency_set_current_exchange_fees (gsb_data_transaction_get_exchange_fees (transaction_number));
+	}
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */
