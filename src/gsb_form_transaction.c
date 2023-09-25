@@ -70,7 +70,7 @@
 /**
  * if only the date and payee are filled in the form, fill all the fields with
  * the same datas that the last transaction found with the same payee
- *
+ * (ajout de la date de valeur et de la devise dans les champs non
  * \param payee_name
  *
  * \return FALSE if no payee name or problem (and the entry payee will be erased), TRUE if ok
@@ -102,8 +102,10 @@ gboolean gsb_form_transaction_complete_form_by_payee (const gchar *payee_name)
 		if (element->element_number
 			&& element->element_number < TRANSACTION_FORM_MAX_WIDGETS
 			&& element->element_number != TRANSACTION_FORM_DATE
+			&& element->element_number != TRANSACTION_FORM_VALUE_DATE
 			&& element->element_number != TRANSACTION_FORM_PARTY
 			&& element->element_number != TRANSACTION_FORM_CHEQUE
+			&& element->element_number != TRANSACTION_FORM_DEVISE
 			&& ((GTK_IS_ENTRY (element->element_widget)
 				 && !gsb_form_widget_check_empty (element->element_widget))
 				|| (GTK_IS_COMBOFIX (element->element_widget)
