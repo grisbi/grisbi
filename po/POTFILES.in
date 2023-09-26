@@ -167,7 +167,6 @@ src/meta_categories.c
 src/meta_payee.c
 src/metatree.c
 src/navigation.c
-src/parametres.c
 src/plugins/gnucash/gnucash.c
 src/plugins/ofx/ofx.c
 src/plugins/openssl/openssl.c

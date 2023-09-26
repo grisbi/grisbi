@@ -49,13 +49,13 @@
 #include "gsb_file_util.h"
 #include "gsb_select_icon.h"
 #include "import.h"
-#include "parametres.h"
 #include "prefs_page_bank.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_prefs.h"
 #include "utils_str.h"
+#include "utils_widgets.h"
 #include "widget_currency_popup.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -382,10 +382,10 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 #endif
 
     /* date format */
-    gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
+    utils_widget_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
 
     /* decimal and thousands separator */
-    gsb_config_number_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
+    utils_widget_number_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
 
     /* Address */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Your address") );

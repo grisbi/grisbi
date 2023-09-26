@@ -33,5 +33,10 @@ GtkWidget *		utils_widget_origin_data_new					(GtkWidget *notebook,
 																 gint type);
 void			utils_widget_origin_fyear_clicked				(GtkWidget *combo,
 																 gpointer data);
+/* FORMAT DATE AND NUMBER */
+GtkWidget *		utils_widget_date_format_chosen					(GtkWidget *parent,
+																 gint sens);
+GtkWidget *		utils_widget_number_format_chosen				(GtkWidget *parent,
+																 gint sens);
 /* END_DECLARATION */
 #endif
