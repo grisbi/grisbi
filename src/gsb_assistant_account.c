@@ -49,6 +49,7 @@
 #include "utils.h"
 #include "utils_real.h"
 #include "structures.h"
+#include "utils_widgets.h"
 #include "widget_assistant.h"
 #include "erreur.h"
 /*END_INCLUDE*/
