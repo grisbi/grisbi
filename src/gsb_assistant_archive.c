@@ -58,6 +58,7 @@
 #include "utils_str.h"
 #include "etats_calculs.h"
 #include "utils.h"
+#include "utils_widgets.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

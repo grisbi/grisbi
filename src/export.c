@@ -41,6 +41,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_widgets.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

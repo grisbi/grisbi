@@ -67,6 +67,7 @@
 #include "utils_dates.h"
 #include "utils_files.h"
 #include "utils_str.h"
+#include "utils_widgets.h"
 #include "widget_account_property.h"
 #include "erreur.h"
 /*END_INCLUDE*/

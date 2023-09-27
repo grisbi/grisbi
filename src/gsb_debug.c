@@ -40,11 +40,12 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_real.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_real.h"
 #include "utils_str.h"
-#include "structures.h"
+#include "utils_widgets.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

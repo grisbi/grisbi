@@ -37,6 +37,7 @@
 #include "bet_finance_ui.h"
 #include "bet_hist.h"
 #include "grisbi_win.h"
+#include "gsb_automem.h"
 #include "gsb_account.h"
 #include "gsb_combo_box.h"
 #include "gsb_data_account.h"
@@ -71,6 +72,17 @@ static const gchar *import_format_date[] = {
 
 /*START_EXTERN*/
 /*END_EXTERN*/
+
+/*START_GLOBAL*/
+struct CsvSeparators csv_separators[] =			/* Contains all pre-defined CSV separators. */
+{
+    { N_("Comma"),		"," },
+    { N_("Semi-colon"),	";" },
+    { N_("Colon"),		":" },
+    { N_("Tabulation"),	"\t" },
+    { N_("Other"),		NULL },
+};
+/*END_GLOBAL*/
 
 /******************************************************************************/
 /* Private functions                                                          */
@@ -362,6 +374,33 @@ static void utils_widget_localisation_thousands_sep_changed (GtkComboBoxText *wi
 	gsb_gui_navigation_update_localisation (1);
 }
 
+/* IMPORT CSV_SEPARATORS WIDGET */
+/**
+ * Callback triggered when user changed the pre-defined csv separators
+ * combobox.  Update the text entry and thus the preview.
+ *
+ * \param combo		GtkComboBox that triggered event.
+ * \param entry		Associated entry to change.
+ *
+ * \return			FALSE
+ **/
+static gboolean utils_widget_csv_separators_combo_changed (GtkComboBox *combo,
+														   GtkWidget *entry)
+{
+    gint active = gtk_combo_box_get_active (combo);
+
+    if (csv_separators [active].value)
+    {
+		gtk_entry_set_text (GTK_ENTRY (entry), csv_separators [active].value);
+    }
+    else
+    {
+		gtk_entry_set_text (GTK_ENTRY (entry), "");
+    }
+
+    return FALSE;
+}
+
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -378,6 +417,32 @@ void utils_widget_gtk_callback (GtkWidget *widget,
 								gpointer null)
 {
 	gtk_widget_destroy (widget);
+}
+
+/**
+ * set xalign and yalign to label
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ * */
+void utils_widget_set_padding (GtkWidget *widget,
+							   gint xpad,
+							   gint ypad)
+{
+    if (xpad)
+    {
+        gtk_widget_set_margin_start (widget, xpad);
+        gtk_widget_set_margin_end (widget, xpad);
+    }
+
+    if (ypad)
+    {
+        gtk_widget_set_margin_top (widget, ypad);
+        gtk_widget_set_margin_bottom (widget, ypad);
+    }
 }
 
 /* DURATION WIDGET */
@@ -1020,6 +1085,126 @@ GtkWidget *utils_widget_number_format_chosen (GtkWidget *parent,
 					  GINT_TO_POINTER (sens));
 
 	return paddingbox;
+}
+
+/* IMPORT CSV_SEPARATORS WIDGET */
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+guint utils_widget_csv_separators_combo_block_unblock (gpointer instance,
+													   gpointer entry,
+													   gboolean block)
+{
+	guint hid;
+
+	if (block)
+		hid = g_signal_handlers_block_by_func (instance,
+											   utils_widget_csv_separators_combo_changed,
+											   entry);
+	else
+		hid = g_signal_handlers_unblock_by_func (instance,
+												 utils_widget_csv_separators_combo_changed,
+												 entry);
+
+	return hid;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *utils_widget_csv_separators_new (GtkSizeGroup *size_group,
+											GCallback hook_entry,
+											gpointer assistant)
+{
+	GtkWidget *hbox;
+	GtkWidget *combobox;
+	GtkWidget *entry;
+	gint i = 0;
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+
+    combobox = gtk_combo_box_text_new ();
+    do
+    {
+		gchar *complete_name;
+
+		complete_name = g_strdup_printf ("%s : \"%s\"",
+										 _(csv_separators [i].name),
+										 (csv_separators [i].value ?
+										 csv_separators [i].value : ""));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), complete_name);
+		g_free (complete_name);
+
+    }
+    while (csv_separators [i ++].value);
+
+	entry = gsb_automem_entry_new (NULL,
+								   G_CALLBACK (hook_entry),
+								   assistant);
+    g_object_set_data (G_OBJECT(entry), "combobox", combobox);
+    g_object_set_data (G_OBJECT(entry), "assistant", assistant);
+	g_object_set_data (G_OBJECT(assistant), "entry", entry);
+
+	/* set size of widgets */
+	if (size_group)
+	{
+		gtk_size_group_add_widget (size_group, combobox);
+		gtk_size_group_add_widget (size_group, entry);
+		gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, 0);
+	}
+	else
+	{
+		gtk_box_pack_start (GTK_BOX (hbox), combobox, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
+	}
+
+	/* set signals */
+    g_signal_connect (G_OBJECT (combobox),
+					  "changed",
+					  G_CALLBACK (utils_widget_csv_separators_combo_changed),
+					  entry);
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX (combobox), 0);
+
+	gtk_widget_show_all (hbox);
+
+	return hbox;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+gint utils_widget_csv_separators_combo_update (const gchar *separator)
+{
+	gint i = 0;
+
+    while (csv_separators [i].value)
+    {
+        if (strcmp (csv_separators [i].value, separator) == 0)
+        {
+            break;
+        }
+        i ++ ;
+    }
+
+	return i;
 }
 
 /**

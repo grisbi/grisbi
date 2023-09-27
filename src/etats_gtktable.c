@@ -48,6 +48,7 @@
 #include "structures.h"
 #include "etats_config.h"
 #include "etats_affiche.h"
+#include "utils_widgets.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

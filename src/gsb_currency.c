@@ -54,9 +54,10 @@
 #include "utils_files.h"
 #include "utils_prefs.h"
 #include "utils_real.h"
-#include "erreur.h"
+#include "utils_widgets.h"
 #include "widget_account_property.h"
 #include "widget_currency_details.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
  /** This structure holds information needed for exchange rates cache. */

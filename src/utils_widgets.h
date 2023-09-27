@@ -11,6 +11,10 @@
 /*COMMON_FUNCTIONS*/
 void			utils_widget_gtk_callback						(GtkWidget *widget,
 																 gpointer null);
+void			utils_widget_set_padding						(GtkWidget *widget,
+																 gint xpad,
+																 gint ypad);
+
 /* DURATION WIDGET */
 GtkWidget *		utils_widget_get_duration_widget 				(gint origin);
 gboolean 		utils_widget_duration_button_released 			(GtkWidget *togglebutton,
@@ -38,5 +42,14 @@ GtkWidget *		utils_widget_date_format_chosen					(GtkWidget *parent,
 																 gint sens);
 GtkWidget *		utils_widget_number_format_chosen				(GtkWidget *parent,
 																 gint sens);
+
+/* IMPORT CSV_SEPARATORS WIDGET */
+GtkWidget *		utils_widget_csv_separators_new							(GtkSizeGroup *size_group,
+																		 GCallback hook_entry,
+																		 gpointer data);
+guint			utils_widget_csv_separators_combo_block_unblock			(gpointer instance,
+																		 gpointer entry,
+																		 gboolean block);
+gint			utils_widget_csv_separators_combo_update				(const gchar *separator);
 /* END_DECLARATION */
 #endif
