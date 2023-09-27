@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-26 08:56+0200\n"
+"POT-Creation-Date: 2023-09-27 08:14+0200\n"
 "PO-Revision-Date: 2022-10-19 01:29+0200\n"
 "Last-Translator: Marek Donar <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -80,7 +80,7 @@ msgstr "Vyberte plátce/příjemce kteří budou zahrnuti do sestavy: "
 
 #: ../src/etats/etats_page_payee.ui.h:3 ../src/ui/etats_prefs.ui.h:94
 #: ../src/widgets/widget_list_accounts.ui.h:1
-#: ../src/widgets/widget_list_metatree.ui.h:1 ../src/export.c:422
+#: ../src/widgets/widget_list_metatree.ui.h:1 ../src/export.c:423
 #: ../src/gsb_assistant.c:129 ../src/import.c:3226 ../src/import.c:4291
 #: ../src/tiers_onglet.c:1392 ../src/tiers_onglet.c:1410
 #: ../src/utils_buttons.c:125 ../src/widgets/widget_assistant.c:133
@@ -139,7 +139,7 @@ msgstr "Použít rozsah datumů"
 
 #. set the initial date
 #: ../src/etats/etats_page_period.ui.h:2
-#: ../src/prefs/prefs_page_reconcile.ui.h:8 ../src/gsb_assistant_archive.c:496
+#: ../src/prefs/prefs_page_reconcile.ui.h:8 ../src/gsb_assistant_archive.c:497
 #: ../src/gsb_assistant_reconcile_config.c:476
 #: ../src/print_transactions_list.c:183
 msgid "Initial date: "
@@ -147,7 +147,7 @@ msgstr "Počáteční datum: "
 
 #. set the final date
 #: ../src/etats/etats_page_period.ui.h:3
-#: ../src/prefs/prefs_page_reconcile.ui.h:9 ../src/gsb_assistant_archive.c:508
+#: ../src/prefs/prefs_page_reconcile.ui.h:9 ../src/gsb_assistant_archive.c:509
 #: ../src/gsb_assistant_reconcile_config.c:485
 #: ../src/print_transactions_list.c:195
 msgid "Final date: "
@@ -343,8 +343,8 @@ msgstr "Plátci/příjemci"
 #. set head page
 #: ../src/prefs/prefs_page_bet_account.ui.h:9 ../src/ui/etats_prefs.ui.h:53
 #: ../src/bet_hist.c:2150 ../src/bet_hist.c:2156 ../src/categories_onglet.c:370
-#: ../src/etats_prefs.c:1588 ../src/grisbi_win.c:483 ../src/navigation.c:639
-#: ../src/utils_widgets.c:608 ../src/etats/etats_page_category.c:88
+#: ../src/etats_prefs.c:1588 ../src/grisbi_win.c:484 ../src/navigation.c:639
+#: ../src/utils_widgets.c:673 ../src/etats/etats_page_category.c:88
 msgid "Categories"
 msgstr "Kategorie"
 
@@ -352,9 +352,9 @@ msgstr "Kategorie"
 #. set head page
 #: ../src/prefs/prefs_page_bet_account.ui.h:10 ../src/ui/etats_prefs.ui.h:59
 #: ../src/bet_hist.c:2154 ../src/etats_prefs.c:1593 ../src/export_csv.c:406
-#: ../src/grisbi_win.c:488 ../src/import_csv.c:90
+#: ../src/grisbi_win.c:489 ../src/import_csv.c:90
 #: ../src/imputation_budgetaire.c:377 ../src/navigation.c:643
-#: ../src/utils_widgets.c:611 ../src/etats/etats_page_budget.c:90
+#: ../src/utils_widgets.c:676 ../src/etats/etats_page_budget.c:90
 msgid "Budgetary lines"
 msgstr "Rozpočty"
 
@@ -425,7 +425,7 @@ msgstr "Přidat záložku prognóz k hotovostním účtům"
 msgid "Known currencies"
 msgstr "Definované měny"
 
-#: ../src/prefs/prefs_page_currency.ui.h:4 ../src/gsb_currency.c:1323
+#: ../src/prefs/prefs_page_currency.ui.h:4 ../src/gsb_currency.c:1324
 msgid "Add a currency"
 msgstr "Přidat měnu"
 
@@ -442,7 +442,7 @@ msgstr "Přidat měnu"
 #: ../src/etats_onglet.c:467 ../src/etats_onglet.c:543
 #: ../src/file_obfuscate_qif.c:100 ../src/gsb_assistant.c:133
 #: ../src/gsb_assistant_file.c:662 ../src/gsb_assistant_reconcile_config.c:1275
-#: ../src/gsb_bank.c:136 ../src/gsb_currency.c:936
+#: ../src/gsb_bank.c:136 ../src/gsb_currency.c:937
 #: ../src/gsb_data_partial_balance.c:1847
 #: ../src/gsb_data_partial_balance.c:1933 ../src/gsb_file.c:323
 #: ../src/gsb_file.c:426 ../src/gsb_file.c:457 ../src/gsb_file.c:769
@@ -742,7 +742,7 @@ msgstr "transakci ze seznamu"
 msgid "(This change will take effect on the next restart)"
 msgstr "(Tato změna se projeví po příštím restartu)"
 
-#: ../src/prefs/prefs_page_divers.ui.h:30 ../src/grisbi_win.c:468
+#: ../src/prefs/prefs_page_divers.ui.h:30 ../src/grisbi_win.c:469
 #: ../src/navigation.c:627
 msgid "Scheduler"
 msgstr "Plánovač"
@@ -751,8 +751,8 @@ msgstr "Plánovač"
 msgid "Choose the language"
 msgstr "Zvolte jazyk"
 
-#: ../src/prefs/prefs_page_divers.ui.h:32 ../src/utils_widgets.c:870
-#: ../src/utils_widgets.c:878
+#: ../src/prefs/prefs_page_divers.ui.h:32 ../src/utils_widgets.c:935
+#: ../src/utils_widgets.c:943
 msgid "Choose the date format"
 msgstr "Zvolte formát data"
 
@@ -760,11 +760,11 @@ msgstr "Zvolte formát data"
 msgid "Choose decimal and thousands separator"
 msgstr "Zvolte oddělovače desetin a tisíců"
 
-#: ../src/prefs/prefs_page_divers.ui.h:34 ../src/utils_widgets.c:944
+#: ../src/prefs/prefs_page_divers.ui.h:34 ../src/utils_widgets.c:1009
 msgid "Decimal point: "
 msgstr "Oddělovač desetin: "
 
-#: ../src/prefs/prefs_page_divers.ui.h:35 ../src/utils_widgets.c:957
+#: ../src/prefs/prefs_page_divers.ui.h:35 ../src/utils_widgets.c:1022
 msgid "Thousands separator: "
 msgstr "Oddělovač tisíců: "
 
@@ -1522,7 +1522,7 @@ msgid "Make transactions clickable"
 msgstr "Transakce budou reagovat na kliknutí"
 
 #: ../src/ui/etats_prefs.ui.h:47 ../src/etats_prefs.c:1578
-#: ../src/grisbi_win.c:434 ../src/navigation.c:623
+#: ../src/grisbi_win.c:435 ../src/navigation.c:623
 msgid "Accounts"
 msgstr "Účty"
 
@@ -1537,7 +1537,7 @@ msgstr "Zobrazit mezisoučet pro každý účet"
 #. 3
 #: ../src/ui/etats_prefs.ui.h:50 ../src/bet_future.c:547
 #: ../src/etats_affiche.c:287 ../src/etats_prefs.c:587
-#: ../src/etats_prefs.c:1583 ../src/export_csv.c:385 ../src/grisbi_win.c:473
+#: ../src/etats_prefs.c:1583 ../src/export_csv.c:385 ../src/grisbi_win.c:474
 #: ../src/gsb_assistant_reconcile_config.c:656 ../src/gsb_form.c:2021
 #: ../src/gsb_form_widget.c:572 ../src/gsb_scheduler_list.c:946
 #: ../src/gsb_transactions_list.c:113 ../src/import.c:4388
@@ -1628,7 +1628,7 @@ msgstr "Vlastnosti sestavy"
 #: ../src/widgets/widget_transfer.ui.h:4 ../src/accueil.c:1259
 #: ../src/bet_future.c:1503 ../src/etats_onglet.c:546
 #: ../src/gsb_assistant_file.c:666 ../src/gsb_assistant_reconcile_config.c:1279
-#: ../src/gsb_currency.c:940 ../src/gsb_data_partial_balance.c:1851
+#: ../src/gsb_currency.c:941 ../src/gsb_data_partial_balance.c:1851
 #: ../src/gsb_data_partial_balance.c:1937 ../src/gsb_select_icon.c:511
 #: ../src/gsb_transactions_list.c:1145 ../src/import.c:3232
 #: ../src/import.c:4297 ../src/import.c:5194 ../src/utils_files.c:766
@@ -1736,7 +1736,7 @@ msgstr "Nový soubor účtů"
 #: ../src/ui/grisbi_menu.ui.h:7 ../src/categories_onglet.c:481
 #: ../src/categories_onglet.c:538 ../src/etats_onglet.c:470
 #: ../src/file_obfuscate_qif.c:104 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/grisbi_win.c:755 ../src/grisbi_win.c:1851
+#: ../src/grisbi_app.c:137 ../src/grisbi_win.c:756 ../src/grisbi_win.c:1852
 #: ../src/gsb_file.c:772 ../src/gsb_select_icon.c:322 ../src/import.c:1209
 #: ../src/imputation_budgetaire.c:520 ../src/imputation_budgetaire.c:582
 #: ../src/prefs/prefs_page_display_fonts.c:317 ../src/utils_files.c:690
@@ -1769,7 +1769,7 @@ msgid "Export as QIF/CSV file"
 msgstr "Exportovat jako soubor QIF/CSV"
 
 #. create the assistant
-#: ../src/ui/grisbi_menu.ui.h:13 ../src/gsb_assistant_archive.c:1073
+#: ../src/ui/grisbi_menu.ui.h:13 ../src/gsb_assistant_archive.c:1074
 msgid "Archive transactions"
 msgstr "Archivace transakcí"
 
@@ -1798,7 +1798,7 @@ msgstr "Režim ladění"
 #: ../src/widgets/widget_bet_graph_others.ui.h:3
 #: ../src/widgets/widget_bet_graph_pie.ui.h:2 ../src/grisbi_app.c:124
 #: ../src/grisbi_app.c:141 ../src/gsb_assistant.c:447
-#: ../src/gsb_currency.c:1329 ../src/tip.c:157 ../src/widgets/widget_loan.c:957
+#: ../src/gsb_currency.c:1330 ../src/tip.c:157 ../src/widgets/widget_loan.c:957
 msgid "Close"
 msgstr "Zavřít"
 
@@ -2321,7 +2321,7 @@ msgstr "Domů"
 msgid "Transactions list"
 msgstr "Seznam transakcí"
 
-#: ../src/widgets/widget_css_rules.ui.h:5 ../src/grisbi_win.c:443
+#: ../src/widgets/widget_css_rules.ui.h:5 ../src/grisbi_win.c:444
 msgid "Forecast"
 msgstr "Prognóza"
 
@@ -2534,7 +2534,7 @@ msgstr "Od 1 do 600 měsíců nebo 50 let"
 #. partie mensuelle
 #: ../src/widgets/widget_loan.ui.h:11 ../src/bet_finance_ui.c:1016
 #: ../src/bet_finance_ui.c:1534 ../src/bet_finance_ui.c:1790
-#: ../src/utils_widgets.c:416
+#: ../src/utils_widgets.c:481
 msgid "Duration: "
 msgstr "Trvání: "
 
@@ -2629,7 +2629,8 @@ msgid "Searched string :"
 msgstr "Hledaný řetězec:"
 
 #: ../src/widgets/widget_search_transaction.ui.h:4
-msgid "Search a string"
+#, fuzzy
+msgid "Search for a string"
 msgstr "Hledat řetězec"
 
 #: ../src/widgets/widget_search_transaction.ui.h:5
@@ -2736,7 +2737,7 @@ msgid "Allows you to select the working day following the date entered"
 msgstr "Umožní vybrat pracovní den následující po zvoleném datu"
 
 #: ../share/grisbi.desktop.in.h:1 ../share/grisbi.metainfo.xml.in.h:1
-#: ../src/grisbi_win.c:1668 ../src/grisbi_win.c:1717
+#: ../src/grisbi_win.c:1669 ../src/grisbi_win.c:1718
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -3099,7 +3100,7 @@ msgid " of capital"
 msgstr " jistiny"
 
 #. titre de la page
-#: ../src/bet_finance_ui.c:1487 ../src/grisbi_win.c:478 ../src/navigation.c:635
+#: ../src/bet_finance_ui.c:1487 ../src/grisbi_win.c:479 ../src/navigation.c:635
 #: ../src/navigation.c:1983
 msgid "Credits simulator"
 msgstr "Simulace půjčky"
@@ -3149,7 +3150,7 @@ msgstr "Tisk"
 
 #. Export button
 #: ../src/bet_finance_ui.c:2138 ../src/bet_hist.c:961 ../src/bet_tab.c:2142
-#: ../src/categories_onglet.c:615 ../src/etats_onglet.c:602 ../src/export.c:505
+#: ../src/categories_onglet.c:615 ../src/etats_onglet.c:602 ../src/export.c:506
 #: ../src/imputation_budgetaire.c:663
 msgid "Export"
 msgstr "Export"
@@ -3193,7 +3194,7 @@ msgstr "Kategorie : Podkategorie"
 #: ../src/bet_future.c:569 ../src/bet_hist.c:1454 ../src/etats_affiche.c:309
 #: ../src/etats_prefs.c:579 ../src/gsb_form.c:2048 ../src/gsb_form_widget.c:584
 #: ../src/gsb_transactions_list.c:114 ../src/imputation_budgetaire.c:183
-#: ../src/meta_budgetary.c:88 ../src/utils_widgets.c:124
+#: ../src/meta_budgetary.c:88 ../src/utils_widgets.c:136
 #: ../src/widgets/widget_loan.c:1272 ../src/widgets/widget_loan.c:1278
 #: ../src/widgets/widget_loan.c:1365 ../src/widgets/widget_loan.c:1371
 #: ../src/widgets/widget_loan.c:1457 ../src/widgets/widget_loan.c:1463
@@ -3297,7 +3298,7 @@ msgstr ""
 "je neplatné datum."
 
 #: ../src/bet_future.c:1942 ../src/bet_future.c:2006 ../src/bet_future.c:2081
-#: ../src/bet_future.c:2178 ../src/gsb_currency.c:1142
+#: ../src/bet_future.c:2178 ../src/gsb_currency.c:1143
 msgid "One field is not filled in"
 msgstr "Jedno z polí není vyplněné"
 
@@ -3512,7 +3513,7 @@ msgstr "Vybrat"
 #: ../src/bet_hist.c:1280 ../src/bet_hist.c:1461 ../src/categories_onglet.c:180
 #: ../src/etats_affiche.c:298 ../src/etats_prefs.c:575 ../src/export_csv.c:397
 #: ../src/gsb_transactions_list.c:122 ../src/import_csv.c:88
-#: ../src/meta_categories.c:67 ../src/utils_widgets.c:111
+#: ../src/meta_categories.c:67 ../src/utils_widgets.c:123
 msgid "Category"
 msgstr "Kategorie"
 
@@ -3793,7 +3794,7 @@ msgstr "Vytvořit novou podkategorii"
 #. Import button
 #. On récupère le nom de la page
 #: ../src/categories_onglet.c:606 ../src/etats_onglet.c:593
-#: ../src/grisbi_prefs.c:413 ../src/grisbi_win.c:768 ../src/import.c:1856
+#: ../src/grisbi_prefs.c:413 ../src/grisbi_win.c:769 ../src/import.c:1856
 #: ../src/imputation_budgetaire.c:652 ../src/prefs/prefs_page_import.c:88
 #: ../src/utils_files.c:820
 msgid "Import"
@@ -4190,7 +4191,7 @@ msgstr ""
 msgid "Grisbi failed to create the log file..."
 msgstr "Nepodařilo se vytvořit logovací soubor..."
 
-#: ../src/etats_affiche.c:265 ../src/export.c:514 ../src/export_csv.c:364
+#: ../src/etats_affiche.c:265 ../src/export.c:515 ../src/export_csv.c:364
 #: ../src/gsb_data_partial_balance.c:1801
 msgid "Account name"
 msgstr "Název účtu"
@@ -4635,7 +4636,7 @@ msgid "Exporting report..."
 msgstr "Exportování sestavy..."
 
 #: ../src/etats_onglet.c:431 ../src/grisbi_prefs.c:795
-#: ../src/grisbi_prefs.c:819 ../src/gsb_debug.c:845 ../src/gsb_file.c:551
+#: ../src/grisbi_prefs.c:819 ../src/gsb_debug.c:846 ../src/gsb_file.c:551
 #: ../src/gsb_file.c:702 ../src/gsb_file.c:1039
 msgid "Done"
 msgstr "Hotovo"
@@ -4677,7 +4678,7 @@ msgstr "Vytisknout zvolenou sestavu"
 msgid "Delete selected report"
 msgstr "Odstranit zvolenou sestavu"
 
-#: ../src/etats_onglet.c:631 ../src/grisbi_win.c:458
+#: ../src/etats_onglet.c:631 ../src/grisbi_win.c:459
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -4759,7 +4760,7 @@ msgstr "Příjmy a výdaje za minulý měsíc"
 msgid "Unknown report type, creation cancelled"
 msgstr "Neznámý typ sestavy, vytváření bylo zrušeno"
 
-#: ../src/etats_onglet.c:1231 ../src/grisbi_win.c:493 ../src/navigation.c:647
+#: ../src/etats_onglet.c:1231 ../src/grisbi_win.c:494 ../src/navigation.c:647
 #: ../src/navigation.c:2019
 msgid "Reports"
 msgstr "Sestavy"
@@ -4824,11 +4825,11 @@ msgstr "Týden"
 
 #. END_INCLUDE
 #. START_STATIC
-#: ../src/etats_prefs.c:90 ../src/utils_widgets.c:60
+#: ../src/etats_prefs.c:90 ../src/utils_widgets.c:61
 msgid "Month"
 msgstr "Měsíc"
 
-#: ../src/etats_prefs.c:91 ../src/utils_widgets.c:60
+#: ../src/etats_prefs.c:91 ../src/utils_widgets.c:61
 msgid "Year"
 msgstr "Rok"
 
@@ -4887,14 +4888,14 @@ msgstr "Zobrazení dat"
 
 #. append group page "Transactions"
 #: ../src/etats_prefs.c:1644 ../src/export_csv.c:361 ../src/grisbi_prefs.c:456
-#: ../src/grisbi_win.c:438
+#: ../src/grisbi_win.c:439
 msgid "Transactions"
 msgstr "Transakce"
 
 #. echange line label
 #. On récupère le nom de la page
 #: ../src/etats_prefs.c:1649 ../src/grisbi_prefs.c:512
-#: ../src/gsb_currency.c:965 ../src/prefs/prefs_page_currency.c:720
+#: ../src/gsb_currency.c:966 ../src/prefs/prefs_page_currency.c:720
 msgid "Currencies"
 msgstr "Měny"
 
@@ -4981,82 +4982,82 @@ msgstr "od %s %d"
 msgid "to %s %d"
 msgstr "do %s %d"
 
-#: ../src/export.c:69 ../src/export.c:250
+#: ../src/export.c:70 ../src/export.c:251
 msgid "Uncheck to write a date field without quotes"
 msgstr "Odškrtněte pro zápis datumu bez uvozovek"
 
-#: ../src/export.c:71 ../src/export.c:252
+#: ../src/export.c:72 ../src/export.c:253
 msgid "Check to write a date field with quotes"
 msgstr "Zaškrtněte pro zápis datumu s uvozovkami"
 
 #. set radio buttons
-#: ../src/export.c:197 ../src/export.c:675
+#: ../src/export.c:198 ../src/export.c:676
 #: ../src/gsb_assistant_archive_export.c:306
 msgid "QIF format"
 msgstr "Formát QIF"
 
-#: ../src/export.c:201 ../src/export.c:676
+#: ../src/export.c:202 ../src/export.c:677
 #: ../src/gsb_assistant_archive_export.c:307
 msgid "CSV format"
 msgstr "Formát CSV"
 
 #. Adding options for export in US data
-#: ../src/export.c:222
+#: ../src/export.c:223
 msgid "Force US dates"
 msgstr "Vynutit US datumy"
 
-#: ../src/export.c:229
+#: ../src/export.c:230
 msgid "Force US numbers"
 msgstr "Vynutit US čísla"
 
-#: ../src/export.c:245
+#: ../src/export.c:246
 msgid "Quote the dates"
 msgstr "Datum s uvozovkami"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/export.c:417 ../src/import.c:3229 ../src/tiers_onglet.c:1394
+#: ../src/export.c:418 ../src/import.c:3229 ../src/tiers_onglet.c:1394
 #: ../src/tiers_onglet.c:1575 ../src/utils_buttons.c:120
 #: ../src/widgets/widget_list_accounts.c:133
 #: ../src/widgets/widget_list_metatree.c:176
 msgid "Unselect all"
 msgstr "Odznačit vše"
 
-#: ../src/export.c:479
+#: ../src/export.c:480
 msgid "Select accounts to export"
 msgstr "Vyberte účty pro export"
 
 #. set options for export
-#: ../src/export.c:545
+#: ../src/export.c:546
 msgid "Select options to export"
 msgstr "Zvolte možnosti pro export"
 
 #. Adding treat all files button
-#: ../src/export.c:554
+#: ../src/export.c:555
 msgid "Treat all files as the first"
 msgstr "Zacházet se všemi soubory jako s prvním"
 
-#: ../src/export.c:630
+#: ../src/export.c:631
 msgid "Export settings completed successfully"
 msgstr "Export nastavení proběhl v pořádku"
 
-#: ../src/export.c:634
+#: ../src/export.c:635
 msgid "Press the 'Close' button to finish the export."
 msgstr "Stiskněte tlačítko 'Zavřít' pro dokončení exportu."
 
-#: ../src/export.c:659
+#: ../src/export.c:660
 #, c-format
 msgid "Export of: %s"
 msgstr "Export: %s"
 
-#: ../src/export.c:671 ../src/gsb_assistant_archive_export.c:300
+#: ../src/export.c:672 ../src/gsb_assistant_archive_export.c:300
 msgid "Export format: "
 msgstr "Formát exportu: "
 
-#: ../src/export.c:726
+#: ../src/export.c:727
 msgid "Accounts to export"
 msgstr "Účty pro export"
 
-#: ../src/export.c:734
+#: ../src/export.c:735
 msgid ""
 "The following accounts are to be exported. In the next screens, you will "
 "choose what to do with each of them."
@@ -5064,11 +5065,11 @@ msgstr ""
 "Budou vyexportovány následující účty. Na dalších obrazovkách zvolíte, postup "
 "exportu pro každý z nich."
 
-#: ../src/export.c:836
+#: ../src/export.c:837
 msgid "Exporting Grisbi accounts"
 msgstr "Exportování účtů Grisbi"
 
-#: ../src/export.c:837
+#: ../src/export.c:838
 msgid ""
 "This assistant will guide you through the process of exporting Grisbi "
 "accounts into QIF or CSV files.\n"
@@ -5386,7 +5387,7 @@ msgstr "Vietnamský"
 msgid "Western"
 msgstr "Západní"
 
-#: ../src/go-charmap-sel.c:91 ../src/help.c:147 ../src/utils.c:61
+#: ../src/go-charmap-sel.c:91 ../src/help.c:147 ../src/utils_widgets.c:83
 msgid "Other"
 msgstr "Jiný"
 
@@ -5828,7 +5829,7 @@ msgstr "Archivy"
 msgid "Various settings"
 msgstr "Různá nastavení"
 
-#: ../src/grisbi_prefs.c:423 ../src/grisbi_win.c:424
+#: ../src/grisbi_prefs.c:423 ../src/grisbi_win.c:425
 msgid "Main page"
 msgstr "Přehled"
 
@@ -5938,60 +5939,60 @@ msgstr "Detaily účtu"
 msgid "Preferences stop"
 msgstr "Předvolby zastavení"
 
-#: ../src/grisbi_win.c:387
+#: ../src/grisbi_win.c:388
 msgid "Transaction/Scheduled _form"
 msgstr "_Formulář transakce/plánovače"
 
-#: ../src/grisbi_win.c:447
+#: ../src/grisbi_win.c:448
 msgid "Historical data"
 msgstr "Historická data"
 
-#: ../src/grisbi_win.c:452
+#: ../src/grisbi_win.c:453
 msgid "Amortization array"
 msgstr "Tabulka amortizace"
 
-#: ../src/grisbi_win.c:687
+#: ../src/grisbi_win.c:688
 msgid "Delete button"
 msgstr "Odstranit tlačítko"
 
-#: ../src/grisbi_win.c:694
+#: ../src/grisbi_win.c:695
 msgid "Delete file"
 msgstr "Odstranit souborVyberte nové logo"
 
-#: ../src/grisbi_win.c:742
+#: ../src/grisbi_win.c:743
 msgid "New"
 msgstr "Nový"
 
-#: ../src/grisbi_win.c:744
+#: ../src/grisbi_win.c:745
 msgid "Create a new account file"
 msgstr "Vytvořit nový soubor účtů"
 
-#: ../src/grisbi_win.c:757
+#: ../src/grisbi_win.c:758
 msgid "Open an existing account file"
 msgstr "Otevřít existující soubor účtů"
 
-#: ../src/grisbi_win.c:770
+#: ../src/grisbi_win.c:771
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "Importovat soubor CSV, QIF, QFX..."
 
-#: ../src/grisbi_win.c:1543
+#: ../src/grisbi_win.c:1544
 msgid "Unnamed account"
 msgstr "Nepojmenovaný účet"
 
-#: ../src/grisbi_win.c:1565 ../src/gsb_transactions_list.c:526
+#: ../src/grisbi_win.c:1566 ../src/gsb_transactions_list.c:526
 msgid "Move transaction to another account"
 msgstr "Přesunout transakci na jiný účet"
 
-#: ../src/grisbi_win.c:1722 ../src/gsb_file.c:421 ../src/gsb_file.c:455
+#: ../src/grisbi_win.c:1723 ../src/gsb_file.c:421 ../src/gsb_file.c:455
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
 #. Create main widget.
-#: ../src/grisbi_win.c:2056
+#: ../src/grisbi_win.c:2057
 msgid "Creating main window"
 msgstr "Vytváření hlavního okna"
 
-#: ../src/grisbi_win.c:2068
+#: ../src/grisbi_win.c:2069
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -6152,100 +6153,100 @@ msgstr "Majetkový účet"
 msgid "Liabilities account"
 msgstr "Účet závazků"
 
-#: ../src/gsb_assistant_archive.c:258
+#: ../src/gsb_assistant_archive.c:259
 msgid "Please fill the initial date."
 msgstr "Prosím vyplňte počáteční datum."
 
-#: ../src/gsb_assistant_archive.c:261
+#: ../src/gsb_assistant_archive.c:262
 msgid "Please fill the final date."
 msgstr "Prosím vyplňte koncové datum."
 
-#: ../src/gsb_assistant_archive.c:263
+#: ../src/gsb_assistant_archive.c:264
 msgid "The initial date is after the final date."
 msgstr "Počáteční datum je po koncovém datu."
 
-#: ../src/gsb_assistant_archive.c:265
+#: ../src/gsb_assistant_archive.c:266
 msgid "The initial date is not valid."
 msgstr "Počáteční datum není platné."
 
-#: ../src/gsb_assistant_archive.c:267
+#: ../src/gsb_assistant_archive.c:268
 msgid "The final date is not valid."
 msgstr "Koncové datum není platné."
 
-#: ../src/gsb_assistant_archive.c:269
+#: ../src/gsb_assistant_archive.c:270
 msgid "The initial date belongs already to an archive."
 msgstr "Počáteční datum již patří do archivu."
 
-#: ../src/gsb_assistant_archive.c:271
+#: ../src/gsb_assistant_archive.c:272
 msgid "The final date belongs already to an archive."
 msgstr "Koncové datum již patří do archivu."
 
-#: ../src/gsb_assistant_archive.c:324
+#: ../src/gsb_assistant_archive.c:325
 msgid "Please choose a financial year."
 msgstr "Prosím vyberte fiskální rok."
 
-#: ../src/gsb_assistant_archive.c:327
+#: ../src/gsb_assistant_archive.c:328
 msgid "There is already an archive for that financial year."
 msgstr "Pro tento fiskální rok již existuje archiv."
 
-#: ../src/gsb_assistant_archive.c:379
+#: ../src/gsb_assistant_archive.c:380
 msgid "Please choose a report."
 msgstr "Prosím vyberte sestavu."
 
 #. there is some transactions to archive
-#: ../src/gsb_assistant_archive.c:426
+#: ../src/gsb_assistant_archive.c:427
 #, c-format
 msgid "%d transactions out of %d will be archived."
 msgstr "Bude archivováno %d transakcí z %d."
 
 #. set up the menu
-#: ../src/gsb_assistant_archive.c:470
+#: ../src/gsb_assistant_archive.c:471
 msgid "Please select a way to select transactions for this archive"
 msgstr "Prosím zvolte způsob výběru transakcí k archivaci"
 
 #. archive by date
-#: ../src/gsb_assistant_archive.c:475
+#: ../src/gsb_assistant_archive.c:476
 msgid "Archive by date"
 msgstr "Archivovat podle data"
 
-#: ../src/gsb_assistant_archive.c:483
+#: ../src/gsb_assistant_archive.c:484
 msgid "Grisbi will archive all transactions between initial and final dates."
 msgstr "Grisbi zaarchivuje transakce mezi počátečním a koncovým datem."
 
-#: ../src/gsb_assistant_archive.c:522
+#: ../src/gsb_assistant_archive.c:523
 msgid "Archive by financial year"
 msgstr "Archivovat podle fiskálního roku"
 
-#: ../src/gsb_assistant_archive.c:530
+#: ../src/gsb_assistant_archive.c:531
 msgid "Grisbi will archive all transactions belonging to a financial year."
 msgstr "Grisbi zaarchivuje transakce patřící do fiskálního roku."
 
-#: ../src/gsb_assistant_archive.c:543
+#: ../src/gsb_assistant_archive.c:544
 msgid "Financial year: "
 msgstr "Fiskální rok: "
 
-#: ../src/gsb_assistant_archive.c:558
+#: ../src/gsb_assistant_archive.c:559
 msgid "Archive by report"
 msgstr "Archivovat podle sestavy"
 
-#: ../src/gsb_assistant_archive.c:566
+#: ../src/gsb_assistant_archive.c:567
 msgid "Grisbi will archive transactions selected by a report."
 msgstr "Grisbi zaarchivuje transakce podle zvolené sestavy."
 
-#: ../src/gsb_assistant_archive.c:578 ../src/gsb_form_transaction.c:358
+#: ../src/gsb_assistant_archive.c:579 ../src/gsb_form_transaction.c:358
 msgid "Report: "
 msgstr "Sestava: "
 
 #. set up the menu
-#: ../src/gsb_assistant_archive.c:621
+#: ../src/gsb_assistant_archive.c:622
 msgid "Please choose a name for archive: "
 msgstr "Prosím zvolte název archivu: "
 
-#: ../src/gsb_assistant_archive.c:677 ../src/import.c:2038 ../src/import.c:2084
+#: ../src/gsb_assistant_archive.c:678 ../src/import.c:2038 ../src/import.c:2084
 msgid "Congratulations!"
 msgstr "Blahopřejeme!"
 
-#: ../src/gsb_assistant_archive.c:686
+#: ../src/gsb_assistant_archive.c:687
 msgid ""
 "In case grisbi is still too slow after you created archives,remember that "
 "you can configure it no to load the marked transactions (R) at startup, to "
@@ -6261,11 +6262,11 @@ msgstr ""
 "Stiskněte tlačítko 'Zpět' pro vytvoření dalšího archivu nebo 'Zavřít' pro "
 "ukončení pomocníka."
 
-#: ../src/gsb_assistant_archive.c:711
+#: ../src/gsb_assistant_archive.c:712
 msgid "Failed!"
 msgstr "Chyba!"
 
-#: ../src/gsb_assistant_archive.c:720
+#: ../src/gsb_assistant_archive.c:721
 msgid ""
 "An error occurred while creating the archive...\n"
 "Most probably, you are trying to create an empty archive that grisbi "
@@ -6280,22 +6281,22 @@ msgstr ""
 "Klikněte na tlačítko Předchozí pro výběr jiných kritérií nebo na Zrušit pro "
 "ukončení procesu."
 
-#: ../src/gsb_assistant_archive.c:829
+#: ../src/gsb_assistant_archive.c:830
 #, c-format
 msgid "Archive from %s to %s"
 msgstr "Archiv od %s do %s"
 
-#: ../src/gsb_assistant_archive.c:838
+#: ../src/gsb_assistant_archive.c:839
 #, c-format
 msgid "Archive of financial year %s"
 msgstr "Archiv fiskálního roku %s"
 
-#: ../src/gsb_assistant_archive.c:844
+#: ../src/gsb_assistant_archive.c:845
 #, c-format
 msgid "Archive of report %s"
 msgstr "Archiv sestavy %s"
 
-#: ../src/gsb_assistant_archive.c:960
+#: ../src/gsb_assistant_archive.c:961
 #, c-format
 msgid ""
 "Archive '%s' was successfully created and %d transactions out of %d were "
@@ -6306,7 +6307,7 @@ msgstr ""
 "\n"
 
 #. come from check while opening file
-#: ../src/gsb_assistant_archive.c:1052
+#: ../src/gsb_assistant_archive.c:1053
 #, c-format
 msgid ""
 "There are a lot of transactions in your file (%d) and it is advised not to "
@@ -6337,7 +6338,7 @@ msgstr ""
 "Pokud nyní nechcete vytvořit archiv, klikněte na Zrušit.\n"
 
 #. come by menu action
-#: ../src/gsb_assistant_archive.c:1066
+#: ../src/gsb_assistant_archive.c:1067
 msgid ""
 "This assistant will guide you through the process of archiving transactions "
 "to increase the speed of Grisbi.\n"
@@ -6897,36 +6898,36 @@ msgstr "Nelze otevřít soubor kategorií."
 msgid "Unnamed category list"
 msgstr "Nepojmenovaný seznam kategorií"
 
-#: ../src/gsb_currency.c:930
+#: ../src/gsb_currency.c:931
 msgid "Enter exchange rate"
 msgstr "Vložte směnný kurz"
 
 #. text for paddingbox
-#: ../src/gsb_currency.c:948
+#: ../src/gsb_currency.c:949
 #, c-format
 msgid "Please enter data for the transaction"
 msgstr "Prosím zadejte data transakce"
 
 #. echange line label
-#: ../src/gsb_currency.c:977
+#: ../src/gsb_currency.c:978
 msgid "Exchange rate"
 msgstr "Směnný kurz"
 
 #. amount line
-#: ../src/gsb_currency.c:998
+#: ../src/gsb_currency.c:999
 msgid "Amounts: "
 msgstr "Částky: "
 
 #. exchange fees line label
-#: ../src/gsb_currency.c:1067
+#: ../src/gsb_currency.c:1068
 msgid "Exchange fees: "
 msgstr "Poplatky za výměnu: "
 
-#: ../src/gsb_currency.c:1086
+#: ../src/gsb_currency.c:1087
 msgid "Change the link"
 msgstr "Změnit kurz"
 
-#: ../src/gsb_currency.c:1139
+#: ../src/gsb_currency.c:1140
 #, c-format
 msgid "The exchange rate or the transaction amount in %s must be filled."
 msgstr "Musí být zadán směnný kurz nebo částka transakce v %s."
@@ -8443,7 +8444,7 @@ msgid "Partial balance details"
 msgstr "Detaily souhrnného zůstatku"
 
 #. Create paddinggrid
-#: ../src/gsb_data_partial_balance.c:1861 ../src/gsb_debug.c:133
+#: ../src/gsb_data_partial_balance.c:1861 ../src/gsb_debug.c:134
 msgid "Details"
 msgstr "Detaily"
 
@@ -8517,32 +8518,32 @@ msgstr "Převod na zrušený účet"
 msgid "Transfer from a deleted account"
 msgstr "Převod ze zrušeného účtu"
 
-#: ../src/gsb_debug.c:72
+#: ../src/gsb_debug.c:73
 msgid ""
 "Grisbi successfully repaired this account file.  You may now save your "
 "modifications."
 msgstr "Grisbi úspěšně opravilo tento soubor účtů. Nyní můžete změny uložit."
 
-#: ../src/gsb_debug.c:74
+#: ../src/gsb_debug.c:75
 msgid "Fix completed"
 msgstr "Oprava dokončena"
 
-#: ../src/gsb_debug.c:78
+#: ../src/gsb_debug.c:79
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
 "Grisbi se nepodařilo opravit tento soubor účtů. Nebyly provedeny žádné změny."
 
-#: ../src/gsb_debug.c:80
+#: ../src/gsb_debug.c:81
 msgid "Unable to fix account"
 msgstr "Účet nelze opravit"
 
-#: ../src/gsb_debug.c:148
+#: ../src/gsb_debug.c:149
 msgid "Try to fix this inconsistency."
 msgstr "Pokusit se opravit tuto nekonzistenci."
 
-#: ../src/gsb_debug.c:263
+#: ../src/gsb_debug.c:264
 #, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
@@ -8553,12 +8554,12 @@ msgstr ""
 "  Poslední odsouhlasená částka: %s\n"
 "  Vypočtená částka odsouhlasení: %s\n"
 
-#: ../src/gsb_debug.c:349
+#: ../src/gsb_debug.c:350
 #, c-format
 msgid "Transaction %d is linked to transaction %d which does not exist.\n"
 msgstr "Transakce %d je připojena k transakci %d která neexistuje.\n"
 
-#: ../src/gsb_debug.c:375
+#: ../src/gsb_debug.c:376
 #, c-format
 msgid ""
 "Transaction %d is linked to transaction %d which is linked to transaction "
@@ -8568,42 +8569,42 @@ msgstr ""
 "%d.\n"
 
 #. sub-category not found
-#: ../src/gsb_debug.c:440
+#: ../src/gsb_debug.c:441
 #, c-format
 msgid ""
 "Transaction %d has category %d and sub-category %d which does not exist.\n"
 msgstr "Transakce %d má kategorii %d ale neplatnou podkategorii %d.\n"
 
 #. category not found
-#: ../src/gsb_debug.c:455
+#: ../src/gsb_debug.c:456
 #, c-format
 msgid "Transaction %d has category %d which does not exist.\n"
 msgstr "Transakce %d má neexistující kategorii %d.\n"
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:555
+#: ../src/gsb_debug.c:556
 #, c-format
 msgid "Transaction %d has budget %d and sub-budget %d which does not exist.\n"
 msgstr "Transakce %d má rozpočet %d ale neplatný podrozpočet %d.\n"
 
 #. budget not found
-#: ../src/gsb_debug.c:570
+#: ../src/gsb_debug.c:571
 #, c-format
 msgid "Transaction %d has budget %d which does not exist.\n"
 msgstr "Transakce %d má neexistující rozpočet %d.\n"
 
 #. payee not found
-#: ../src/gsb_debug.c:665
+#: ../src/gsb_debug.c:666
 #, c-format
 msgid "Transaction %d has payee %d which does not exist.\n"
 msgstr "Transakce %d má neexistujícího plátce/příjemce %d.\n"
 
 #. Check for reconciliation inconcistency.
-#: ../src/gsb_debug.c:721
+#: ../src/gsb_debug.c:722
 msgid "Incorrect reconciliation totals"
 msgstr "Nesprávné součty odsouhlasení"
 
-#: ../src/gsb_debug.c:722
+#: ../src/gsb_debug.c:723
 msgid ""
 "This test will look at accounts where the reconciled total which does not "
 "match with reconciled transactions."
@@ -8611,7 +8612,7 @@ msgstr ""
 "Tato kontrola vyhledá účty, kde zůstatky na odsouhlasení nesouhlasí se "
 "součtem z transakcí."
 
-#: ../src/gsb_debug.c:723
+#: ../src/gsb_debug.c:724
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions and initial balance.\n"
@@ -8625,15 +8626,15 @@ msgstr ""
 "Příčinou může být rušení nebo změny v odsouhlasení, nebo změny v částkách "
 "odsouhlasení prováděné v okně Možnosti."
 
-#: ../src/gsb_debug.c:729
+#: ../src/gsb_debug.c:730
 msgid "Duplicate sub-categories check"
 msgstr "Kontrola zdvojených podkategorií"
 
-#: ../src/gsb_debug.c:730 ../src/gsb_debug.c:743 ../src/gsb_debug.c:756
+#: ../src/gsb_debug.c:731 ../src/gsb_debug.c:744 ../src/gsb_debug.c:757
 msgid "free"
 msgstr "prázdné"
 
-#: ../src/gsb_debug.c:731
+#: ../src/gsb_debug.c:732
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric identifier in some cases, resulting in transactions having two "
@@ -8651,11 +8652,11 @@ msgstr ""
 "Žádné transakce nebudou ztraceny, ale v některých případech bude potřeba "
 "ručně přiřadit transakce do nové podkategorie."
 
-#: ../src/gsb_debug.c:742
+#: ../src/gsb_debug.c:743
 msgid "Duplicate sub-budgetary lines check"
 msgstr "Kontrola zdvojených podrozpočtů"
 
-#: ../src/gsb_debug.c:744
+#: ../src/gsb_debug.c:745
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -8673,11 +8674,11 @@ msgstr ""
 "Žádné transakce nebudou ztraceny, ale v některých případech bude potřeba "
 "ručně přiřadit transakce do nového podrozpočtu."
 
-#: ../src/gsb_debug.c:755
+#: ../src/gsb_debug.c:756
 msgid "Orphan countra-transactions check"
 msgstr "Kontrola osiřelých protitransakcí"
 
-#: ../src/gsb_debug.c:757
+#: ../src/gsb_debug.c:758
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -8691,18 +8692,18 @@ msgstr ""
 "K nápravě budete muset ručně upravit svůj .gsb soubor (pomocí textového "
 "editoru) a opravit transakce pomocí jejich číselných ID."
 
-#: ../src/gsb_debug.c:763
+#: ../src/gsb_debug.c:764
 msgid "Incorrect category/sub-category number"
 msgstr "Nesprávné číslo kategorie/podkategorie"
 
-#: ../src/gsb_debug.c:764
+#: ../src/gsb_debug.c:765
 msgid ""
 "This test will look for transactions which have non-existent categories/sub-"
 "categories."
 msgstr ""
 "Tento test vyhledá transakce s neexistujícími kategoriemi/podkategoriemi."
 
-#: ../src/gsb_debug.c:765
+#: ../src/gsb_debug.c:766
 msgid ""
 "Grisbi found some transactions with non existents categories/sub-categories "
 "If you choose to continue, Grisbi will remove that category error and that "
@@ -8712,17 +8713,17 @@ msgstr ""
 "Pokud se rozhodnete pokračovat, Grisbi odstraní chybné kategorie a zmíněné "
 "transakce budou bez kategorie."
 
-#: ../src/gsb_debug.c:770
+#: ../src/gsb_debug.c:771
 msgid "Incorrect budget/sub-budget number"
 msgstr "Nesprávné číslo rozpočtu/podrozpočtu"
 
-#: ../src/gsb_debug.c:771
+#: ../src/gsb_debug.c:772
 msgid ""
 "This test will look for transactions which have non-existent budgets/sub-"
 "budgets."
 msgstr "Tento test vyhledá transakce s neexistujícími rozpočty/podrozpočty."
 
-#: ../src/gsb_debug.c:772
+#: ../src/gsb_debug.c:773
 msgid ""
 "Grisbi found some transactions with non existents budgets/sub-budgets If you "
 "choose to continue, Grisbi will remove that budget error and that "
@@ -8732,15 +8733,15 @@ msgstr ""
 "se rozhodnete pokračovat, Grisbi odstraní chybné rozpočty a zmíněné "
 "transakce budou bez rozpočtu."
 
-#: ../src/gsb_debug.c:777
+#: ../src/gsb_debug.c:778
 msgid "Incorrect payee number"
 msgstr "Nesprávné číslo plátce/příjemce"
 
-#: ../src/gsb_debug.c:778
+#: ../src/gsb_debug.c:779
 msgid "This test will look for transactions which have non-existent payees."
 msgstr "Tento test vyhledá transakce s neexistujícími plátci/příjemci."
 
-#: ../src/gsb_debug.c:779
+#: ../src/gsb_debug.c:780
 msgid ""
 "Grisbi found some transactions with non existents payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
@@ -8749,7 +8750,7 @@ msgstr ""
 "rozhodnete pokračovat, Grisbi odstraní chybné plátce/příjemce a zmíněné "
 "transakce budou bez plátce/příjemce."
 
-#: ../src/gsb_debug.c:825
+#: ../src/gsb_debug.c:826
 msgid ""
 "Inconsistencies found\n"
 "\n"
@@ -8757,7 +8758,7 @@ msgstr ""
 "Byly nalezeny nekonzistence\n"
 "\n"
 
-#: ../src/gsb_debug.c:828
+#: ../src/gsb_debug.c:829
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
@@ -8765,7 +8766,7 @@ msgstr ""
 "Následující kontrolní testy nalezly nekonzistence v tomto souboru účtů:\n"
 "\n"
 
-#: ../src/gsb_debug.c:850
+#: ../src/gsb_debug.c:851
 msgid ""
 "No inconsistency found\n"
 "\n"
@@ -8773,19 +8774,19 @@ msgstr ""
 "Nebyla nalezena nekonzistence\n"
 "\n"
 
-#: ../src/gsb_debug.c:853
+#: ../src/gsb_debug.c:854
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr "Gratulujeme, váš soubor účtů je vpořádku!\n"
 
-#: ../src/gsb_debug.c:877
+#: ../src/gsb_debug.c:878
 msgid "Checking file for possible corruption..."
 msgstr "Kontroluji soubor na případné poškození..."
 
-#: ../src/gsb_debug.c:879
+#: ../src/gsb_debug.c:880
 msgid "Grisbi accounts debug"
 msgstr "Kontrola účtů Grisbi"
 
-#: ../src/gsb_debug.c:880
+#: ../src/gsb_debug.c:881
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
@@ -12624,23 +12625,7 @@ msgstr ""
 "Bylo požadováno řazení podle sloupce %d, nicméně tolik viditelných sloupců "
 "není (%d)"
 
-#: ../src/utils.c:57
-msgid "Comma"
-msgstr "Čárka"
-
-#: ../src/utils.c:58
-msgid "Semi-colon"
-msgstr "Středník"
-
-#: ../src/utils.c:59
-msgid "Colon"
-msgstr "Tečka"
-
-#: ../src/utils.c:60
-msgid "Tabulation"
-msgstr "Tabulátor"
-
-#: ../src/utils.c:200
+#: ../src/utils.c:163
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url:\n"
@@ -12653,11 +12638,11 @@ msgstr ""
 "\n"
 "Prosím upravte si nastavení na platný spustitelný soubor."
 
-#: ../src/utils.c:203 ../src/utils.c:241
+#: ../src/utils.c:166 ../src/utils.c:204
 msgid "Cannot execute web browser"
 msgstr "Nelze spustit webový prohlížeč"
 
-#: ../src/utils.c:237
+#: ../src/utils.c:200
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
@@ -12668,7 +12653,7 @@ msgstr ""
 "Použítý příkaz byl: %s.\n"
 "Prosím upravte si nastavení na platný spustitelný soubor."
 
-#: ../src/utils.c:472
+#: ../src/utils.c:435
 #, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
@@ -12677,7 +12662,7 @@ msgstr ""
 "Grisbi nemohl spustit poštovní program a napsat na <tt>%s</tt>.\n"
 "Chyba byla: %s."
 
-#: ../src/utils.c:476
+#: ../src/utils.c:439
 msgid "Cannot execute mailer"
 msgstr "Nelze spustit poštovní program"
 
@@ -12755,49 +12740,65 @@ msgstr "Pokud není žádný návrh správný, můžete vybrat jinou znakovou sa
 msgid "Could not encrypt file"
 msgstr "Nelze rozšifrovat soubor"
 
-#: ../src/utils_widgets.c:62
+#: ../src/utils_widgets.c:63
 msgid "dd/mm/yyyy"
 msgstr "dd/mm/rrrr"
 
-#: ../src/utils_widgets.c:63
+#: ../src/utils_widgets.c:64
 msgid "mm/dd/yyyy"
 msgstr "mm/dd/rrrr"
 
-#: ../src/utils_widgets.c:64
+#: ../src/utils_widgets.c:65
 msgid "yyyy/mm/dd"
 msgstr "rrrr/mm/dd"
 
-#: ../src/utils_widgets.c:65
+#: ../src/utils_widgets.c:66
 msgid "yyyy/dd/mm"
 msgstr "rrrr/dd/mm"
 
-#: ../src/utils_widgets.c:66
+#: ../src/utils_widgets.c:67
 msgid "dd/yyyy/mm"
 msgstr "dd/rrrr/mm"
 
-#: ../src/utils_widgets.c:67
+#: ../src/utils_widgets.c:68
 msgid "mm/yyyy/dd"
 msgstr "mm/rrrr/dd"
 
-#: ../src/utils_widgets.c:650
+#: ../src/utils_widgets.c:79
+msgid "Comma"
+msgstr "Čárka"
+
+#: ../src/utils_widgets.c:80
+msgid "Semi-colon"
+msgstr "Středník"
+
+#: ../src/utils_widgets.c:81
+msgid "Colon"
+msgstr "Tečka"
+
+#: ../src/utils_widgets.c:82
+msgid "Tabulation"
+msgstr "Tabulátor"
+
+#: ../src/utils_widgets.c:715
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 
-#: ../src/utils_widgets.c:745
+#: ../src/utils_widgets.c:810
 msgid "Choose CSV separator"
 msgstr "Vyberte oddělovač CSV"
 
 #. set force date option
 #. set check button
-#: ../src/utils_widgets.c:763
+#: ../src/utils_widgets.c:828
 msgid "Force date format"
 msgstr "Vynutit formát data"
 
-#: ../src/utils_widgets.c:976
+#: ../src/utils_widgets.c:1041
 msgid "Choose the decimal and thousands separator"
 msgstr "Zvolte oddělovače desetin a tisíců"
 
-#: ../src/utils_widgets.c:982
+#: ../src/utils_widgets.c:1047
 msgid "Decimal and thousands separator"
 msgstr "Oddělovače desetin a tisíců"
 
