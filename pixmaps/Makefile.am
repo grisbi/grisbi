@@ -107,7 +107,6 @@ grisbi_pixmaps_DATA = \
 	gtk-remove-16.png \
 	gtk-save-as-16.png \
 	gtk-save-16.png \
-	gtk-search-16.png \
 	gtk-select-color-24.png \
 	gtk-window-new-16.png
 

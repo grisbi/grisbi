@@ -9,6 +9,7 @@
 		<file>images/gsb-import-24.png</file>
 		<file>images/gsb-pdf.svg</file>
 		<file>images/gtk-remove-16.png</file>
+		<file>images/gtk-search-16.png</file>
 		<file>images/gsb-up-16.png</file>
 		<file>images/gtk-warning-16.png</file>
 		<file preprocess="xml-stripblanks">etats/etats_page_amount.ui</file>

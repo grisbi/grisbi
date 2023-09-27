@@ -7,5 +7,6 @@ EXTRA_DIST = \
 	gsb-import-24.png \
 	gsb-pdf.svg \
 	gtk-remove-16.png \
+	gtk-search-16.png \
 	gsb-up-16.png \
 	gtk-warning-16.png

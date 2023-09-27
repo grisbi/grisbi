@@ -546,7 +546,7 @@ static void gsb_transactions_list_popup_context_menu (gboolean full,
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new());
 
 	/* Searching */
-	menu_item = GTK_WIDGET (utils_menu_item_new_from_image_label ("gtk-search-16.png", _("Search")));
+	menu_item = GTK_WIDGET (utils_menu_item_new_from_resource_label ("gtk-search-16.png", _("Search")));
     g_signal_connect (G_OBJECT(menu_item),
 					  "activate",
 					  G_CALLBACK(gsb_transactions_list_search),
