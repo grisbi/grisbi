@@ -149,7 +149,6 @@
 		006E68A31DB3E7AD0038B1F0 /* meta_payee.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67F41DB3E7AC0038B1F0 /* meta_payee.c */; };
 		006E68A41DB3E7AD0038B1F0 /* metatree.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67F61DB3E7AC0038B1F0 /* metatree.c */; };
 		006E68A51DB3E7AD0038B1F0 /* navigation.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67F91DB3E7AC0038B1F0 /* navigation.c */; };
-		006E68A61DB3E7AD0038B1F0 /* parametres.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67FC1DB3E7AC0038B1F0 /* parametres.c */; };
 		006E68A71DB3E7AD0038B1F0 /* print_dialog_config.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67FE1DB3E7AC0038B1F0 /* print_dialog_config.c */; };
 		006E68A81DB3E7AD0038B1F0 /* print_report.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68001DB3E7AC0038B1F0 /* print_report.c */; };
 		006E68A91DB3E7AD0038B1F0 /* print_transactions_list.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68021DB3E7AC0038B1F0 /* print_transactions_list.c */; };
@@ -529,8 +528,6 @@
 		006E67F91DB3E7AC0038B1F0 /* navigation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = navigation.c; sourceTree = "<group>"; };
 		006E67FA1DB3E7AC0038B1F0 /* navigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = navigation.h; sourceTree = "<group>"; };
 		006E67FB1DB3E7AC0038B1F0 /* org.gtk.grisbi.gschema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = org.gtk.grisbi.gschema.xml; sourceTree = "<group>"; };
-		006E67FC1DB3E7AC0038B1F0 /* parametres.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parametres.c; sourceTree = "<group>"; };
-		006E67FD1DB3E7AC0038B1F0 /* parametres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parametres.h; sourceTree = "<group>"; };
 		006E67FE1DB3E7AC0038B1F0 /* print_dialog_config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = print_dialog_config.c; sourceTree = "<group>"; };
 		006E67FF1DB3E7AC0038B1F0 /* print_dialog_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = print_dialog_config.h; sourceTree = "<group>"; };
 		006E68001DB3E7AC0038B1F0 /* print_report.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = print_report.c; sourceTree = "<group>"; };
@@ -1207,8 +1204,6 @@
 				006E67F91DB3E7AC0038B1F0 /* navigation.c */,
 				006E67FA1DB3E7AC0038B1F0 /* navigation.h */,
 				006E67FB1DB3E7AC0038B1F0 /* org.gtk.grisbi.gschema.xml */,
-				006E67FC1DB3E7AC0038B1F0 /* parametres.c */,
-				006E67FD1DB3E7AC0038B1F0 /* parametres.h */,
 				006E68D71DB426B30038B1F0 /* plugins */,
 				003AC2271F49E052007DA275 /* prefs */,
 				006E67FE1DB3E7AC0038B1F0 /* print_dialog_config.c */,
@@ -1489,7 +1484,6 @@
 				006E682D1DB3E7AD0038B1F0 /* accueil.c in Sources */,
 				006E68A41DB3E7AD0038B1F0 /* metatree.c in Sources */,
 				00DB83DE28C11C7900E604D2 /* widget_reconcile.c in Sources */,
-				006E68A61DB3E7AD0038B1F0 /* parametres.c in Sources */,
 				003AC2341F49E06D007DA275 /* prefs_page_archives.c in Sources */,
 				00B77C441DB2A17600A5D233 /* main.c in Sources */,
 				00C17BA1246DD16C00D9E257 /* prefs_page_payment_method.c in Sources */,
