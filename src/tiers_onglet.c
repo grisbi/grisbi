@@ -105,6 +105,23 @@ enum {
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+static gboolean payees_search_equal_function (GtkTreeModel *model,
+											  gint column,
+											  const gchar *key,
+											  GtkTreeIter *iter,
+											  gpointer search_data)
+{
+	gchar *payee_name;
+
+	gtk_tree_model_get (model, iter, column, &payee_name, -1);
+	if (payee_name && g_strstr_len (payee_name, -1, key))
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
 /**
  *
  *
@@ -741,16 +758,24 @@ GtkWidget *payees_create_list (void)
     /* Make amount column */
     cell = gtk_cell_renderer_text_new ();
 	gtk_cell_renderer_set_padding (GTK_CELL_RENDERER (cell), MARGIN_BOX, 0);
-	column = gtk_tree_view_column_new_with_attributes (_("Amount"), cell,
-						       "text", META_TREE_BALANCE_COLUMN,
-						       "weight", META_TREE_FONT_COLUMN,
-						       "xalign", META_TREE_XALIGN_COLUMN,
-                               "cell-background-rgba", META_TREE_BACKGROUND_COLOR,
-						       NULL);
+	column = gtk_tree_view_column_new_with_attributes (_("Amount"),
+													   cell,
+													   "text", META_TREE_BALANCE_COLUMN,
+													   "weight", META_TREE_FONT_COLUMN,
+													   "xalign", META_TREE_XALIGN_COLUMN,
+													   "cell-background-rgba", META_TREE_BACKGROUND_COLOR,
+													   NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (payee_tree), GTK_TREE_VIEW_COLUMN (column));
     gtk_tree_view_column_set_alignment (column, COLUMN_RIGHT);
     gtk_container_add (GTK_CONTAINER (scroll_window), payee_tree);
     gtk_widget_show (payee_tree);
+
+	/* set search data fixes bug 2264 */
+	gtk_tree_view_set_search_column (GTK_TREE_VIEW (payee_tree), 0);
+	gtk_tree_view_set_search_equal_func (GTK_TREE_VIEW (payee_tree),
+										 (GtkTreeViewSearchEqualFunc) payees_search_equal_function,
+										 NULL,
+										 NULL);
 
     /* Connect to signals */
     g_signal_connect (G_OBJECT (payee_tree),
