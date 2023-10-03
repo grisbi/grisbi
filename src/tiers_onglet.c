@@ -111,15 +111,33 @@ static gboolean payees_search_equal_function (GtkTreeModel *model,
 											  GtkTreeIter *iter,
 											  gpointer search_data)
 {
+	gboolean ret = TRUE;
 	gchar *payee_name;
 
 	gtk_tree_model_get (model, iter, column, &payee_name, -1);
-	if (payee_name && g_strstr_len (payee_name, -1, key))
+	if (payee_name)
 	{
-		return FALSE;
+		GrisbiWinEtat *w_etat;
+		w_etat = grisbi_win_get_w_etat ();
+
+		if (w_etat->combofix_case_sensitive)
+		{
+			if (g_strstr_len (payee_name, -1, key))
+				ret = FALSE;
+		}
+		else
+		{
+			/* case insensitive search, so convert to UPPER case first */
+			gchar * payee_name_u = g_utf8_strup(payee_name, -1);
+			gchar * key_u = g_utf8_strup(key, -1);
+			if (g_strstr_len (payee_name_u, -1, key_u))
+				ret = FALSE;
+			g_free(payee_name_u);
+			g_free(key_u);
+		}
 	}
 
-	return TRUE;
+	return ret;
 }
 
 /**
