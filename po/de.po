@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
-# Martin Stromberger <ma.stromberger@gmx.at>, 2007, 2008.
+# SPDX-FileCopyrightText: 2007, 2008, 2023 Martin Stromberger <ma.stromberger@gmx.at>
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2013, 2018.
 # Martin Stromberger <mstromberger@aon.at>, 2018, 2019, 2020, 2021, 2022.
@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-27 08:14+0200\n"
-"PO-Revision-Date: 2022-12-27 09:57+0100\n"
+"PO-Revision-Date: 2023-11-04 13:01+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 23.08.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/etats/etats_page_amount.ui.h:1 ../src/etats/etats_page_text.ui.h:1
@@ -2630,7 +2630,6 @@ msgid "Searched string :"
 msgstr "Suchbegriff:"
 
 #: ../src/widgets/widget_search_transaction.ui.h:4
-#, fuzzy
 msgid "Search for a string"
 msgstr "Suche nach Text"
 
@@ -2751,7 +2750,6 @@ msgid "finance"
 msgstr "Finanzen"
 
 #: ../share/grisbi.metainfo.xml.in.h:2
-#, fuzzy
 msgid "Personal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
 
@@ -2767,6 +2765,17 @@ msgid ""
 "scheduled transactions, automatic recall of last transaction for every third "
 "party, nice and easy user interface, user manual, QIF import/export."
 msgstr ""
+"Grisbi ist ein Programm für die Verwaltung von persönlichen Finanzen mit"
+" einer großen "
+"Fülle an Funktionalität: Bargeldkonten, Girokonten, Sparkonten, Kreditkonten,"
+" automatische "
+"Gegenbuchung bei Umbuchen, Mehrwährungsfähigkeit, Kategorien, Gruppen,"
+" zahlreiche "
+"Detailinformationen für Buchungen, Umbuchungen, Geplante Buchungen,"
+" Splittbuchungen, "
+"Abstimmungen, Berichte, Importe und Exporte im QIF oder CSV Format,"
+" benutzerfreundliche "
+"Oberfläche, Benutzerhandbuch."
 
 #: ../src/accueil.c:129
 #, c-format
@@ -5782,11 +5791,18 @@ msgid ""
 "\n"
 "\t- If there are multiple file names, keep one."
 msgstr ""
+"Es wurden Argumente für Kommandozeile für die Kommandozeile erkannt welche"
+" ein oder mehrere Leerzeichen beinhalten.\n"
+"\n"
+"\t Wenn es sich im einen Dateinamen handelt den Dateinamen mit doppelten"
+" Hochkommas angeben\n"
+"\n"
+"\t Wenn mehrere Dateinamen angegeben werden bitte als Trennzeichen ein"
+" einzelnes Leerzeichen verwenden."
 
 #: ../src/grisbi_app.c:1071
-#, fuzzy
 msgid "Inconsistency of the command line."
-msgstr "Inkonsistenzen gefunden"
+msgstr "Fehler bei Argumente für Kommandozeile."
 
 #: ../src/grisbi_app.c:1346
 msgid "<b>Actions in transaction list :</b>"
@@ -14290,3 +14306,4 @@ msgstr "Die Eingabe in zumindest ein oder zwei Feldern wird empfohlen"
 
 #~ msgid "Behavior"
 #~ msgstr "Einstellungen"
+
