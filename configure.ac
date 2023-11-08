@@ -259,20 +259,16 @@ dnl basic check for msys2 platform
 dnl ================================================================
 
 AC_MSG_CHECKING([for MSYS2 platform])
-case $host_os in
-  *msys* ) MSYS2=yes
+AS_CASE([$host_os],
+  [*msys*], [MSYS2=yes
   	AC_MSG_RESULT([MSYS2])
-  	platform_win=yes
-  ;;
-  *mingw32* ) MINGW32=yes
+  	platform_win=yes],
+  [*mingw32*], [MINGW32=yes
   	AC_MSG_RESULT([MINGW32])
-  	platform_win=yes
-  ;;
-  *)
-    platform_win=no
-    AC_MSG_RESULT([$platform_win])
-    ;;
-esac
+  	platform_win=yes],
+  [*], [platform_win=no
+    AC_MSG_RESULT([$platform_win])]
+)
 
 AS_IF([test "$platform_win" = "yes"],
 	[NSIS_BITS=64bit
@@ -303,18 +299,12 @@ dnl check for osx platform
 dnl ================================================================
 
 AC_MSG_CHECKING([for Mac OS X platform])
-case "$host" in
-  rhapsody* | darwin[1567].*)
-    AC_MSG_RESULT([darwin, but too old])
-    AC_MSG_ERROR([This platform is not supported, please update to latest  darwin])
-    ;;
-  *-*-darwin*)
-    platform_osx=yes
-    ;;
-  *)
-    platform_osx=no
-    ;;
-esac
+AS_CASE(["$host"],
+  [rhapsody* | darwin[1567].*],
+    [AC_MSG_RESULT([darwin, but too old])
+    AC_MSG_ERROR([This platform is not supported, please update to latest  darwin])],
+  [*-*-darwin*], [ platform_osx=yes ],
+  [*], [ platform_osx=no ])
 AC_MSG_RESULT([$platform_osx])
 AM_CONDITIONAL(PLATFORM_OSX, test "$platform_osx" = "yes")
 AS_IF([test "x$platform_osx" = xyes],
