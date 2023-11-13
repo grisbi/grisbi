@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-27 08:14+0200\n"
+"POT-Creation-Date: 2023-11-13 06:13+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -86,7 +86,7 @@ msgstr "Seleccionar los terceros a incluir en este informe:"
 #: ../src/widgets/widget_list_accounts.ui.h:1
 #: ../src/widgets/widget_list_metatree.ui.h:1 ../src/export.c:423
 #: ../src/gsb_assistant.c:129 ../src/import.c:3226 ../src/import.c:4291
-#: ../src/tiers_onglet.c:1392 ../src/tiers_onglet.c:1410
+#: ../src/tiers_onglet.c:1435 ../src/tiers_onglet.c:1453
 #: ../src/utils_buttons.c:125 ../src/widgets/widget_assistant.c:133
 #: ../src/widgets/widget_list_accounts.c:135
 #: ../src/widgets/widget_list_metatree.c:178
@@ -238,7 +238,7 @@ msgstr "Añadir"
 #: ../src/prefs/prefs_page_accueil.ui.h:6 ../src/ui/grisbi_menu.ui.h:48
 #: ../src/categories_onglet.c:636 ../src/gsb_scheduler_list.c:1200
 #: ../src/gsb_transactions_list.c:2546 ../src/imputation_budgetaire.c:685
-#: ../src/tiers_onglet.c:555
+#: ../src/tiers_onglet.c:590
 msgid "Edit"
 msgstr "Editar"
 
@@ -300,7 +300,7 @@ msgstr " transacciones no están archivadas."
 #: ../src/prefs/prefs_page_fyear.ui.h:7 ../src/ui/etats_prefs.ui.h:7
 #: ../src/widgets/widget_bank_details.ui.h:2
 #: ../src/widgets/widget_currency_details.ui.h:1
-#: ../src/gsb_data_partial_balance.c:1866 ../src/tiers_onglet.c:222
+#: ../src/gsb_data_partial_balance.c:1866 ../src/tiers_onglet.c:257
 msgid "Name: "
 msgstr "Nombre: "
 
@@ -347,7 +347,7 @@ msgstr "Por defecto"
 #. on fixe le titre et le suffixe de la barre d'information
 #. set head page
 #: ../src/prefs/prefs_page_bet_account.ui.h:8 ../src/navigation.c:631
-#: ../src/tiers_onglet.c:723 ../src/tiers_onglet.c:962
+#: ../src/tiers_onglet.c:758 ../src/tiers_onglet.c:1005
 #: ../src/etats/etats_page_payee.c:569
 msgid "Payees"
 msgstr "Terceros"
@@ -476,7 +476,7 @@ msgstr "Añadir una moneda"
 #: ../src/import.c:4294 ../src/import.c:5191 ../src/imputation_budgetaire.c:453
 #: ../src/imputation_budgetaire.c:517 ../src/imputation_budgetaire.c:579
 #: ../src/imputation_budgetaire.c:808 ../src/plugins/openssl/openssl.c:459
-#: ../src/prefs/prefs_page_display_fonts.c:313 ../src/tiers_onglet.c:198
+#: ../src/prefs/prefs_page_display_fonts.c:313 ../src/tiers_onglet.c:233
 #: ../src/utils_files.c:683 ../src/utils_files.c:762
 #: ../src/widgets/widget_loan.c:1601
 #, fuzzy
@@ -819,7 +819,7 @@ msgstr "Reconciliación"
 
 #. set options
 #. add the preferences page
-#: ../src/prefs/prefs_page_divers.ui.h:37 ../src/tiers_onglet.c:1265
+#: ../src/prefs/prefs_page_divers.ui.h:37 ../src/tiers_onglet.c:1308
 #: ../src/widgets/widget_bet_graph_others.c:533
 msgid "Options"
 msgstr "Opciones"
@@ -1343,7 +1343,7 @@ msgstr ""
 #: ../src/ui/csv_template_rule.ui.h:2 ../src/categories_onglet.c:773
 #: ../src/gsb_assistant.c:445 ../src/gsb_bank.c:140
 #: ../src/gsb_scheduler_list.c:158 ../src/imputation_budgetaire.c:812
-#: ../src/tiers_onglet.c:202
+#: ../src/tiers_onglet.c:237
 msgid "Apply"
 msgstr ""
 
@@ -1839,8 +1839,8 @@ msgstr "_Nuevo archivo de cuentas..."
 #: ../src/ui/grisbi_menu.ui.h:7 ../src/categories_onglet.c:481
 #: ../src/categories_onglet.c:538 ../src/etats_onglet.c:470
 #: ../src/file_obfuscate_qif.c:104 ../src/grisbi_app.c:120
-#: ../src/grisbi_app.c:137 ../src/grisbi_win.c:756 ../src/grisbi_win.c:1852
-#: ../src/gsb_file.c:772 ../src/gsb_select_icon.c:322 ../src/import.c:1209
+#: ../src/grisbi_app.c:137 ../src/grisbi_win.c:756 ../src/gsb_file.c:772
+#: ../src/gsb_select_icon.c:322 ../src/import.c:1209
 #: ../src/imputation_budgetaire.c:520 ../src/imputation_budgetaire.c:582
 #: ../src/prefs/prefs_page_display_fonts.c:317 ../src/utils_files.c:690
 #, fuzzy
@@ -1970,7 +1970,7 @@ msgstr "_Borrar la cuenta actual"
 #. Change view mode button
 #: ../src/ui/grisbi_menu.ui.h:30 ../src/categories_onglet.c:648
 #: ../src/gsb_scheduler_list.c:1232 ../src/gsb_transactions_list.c:2573
-#: ../src/imputation_budgetaire.c:697 ../src/tiers_onglet.c:567
+#: ../src/imputation_budgetaire.c:697 ../src/tiers_onglet.c:602
 msgid "View"
 msgstr "Vista"
 
@@ -2564,7 +2564,7 @@ msgid "Payee name: "
 msgstr "Nombre de la tercera parte: "
 
 #. search string
-#: ../src/widgets/widget_import_asso.ui.h:8 ../src/tiers_onglet.c:248
+#: ../src/widgets/widget_import_asso.ui.h:8 ../src/tiers_onglet.c:283
 msgid "Search string: "
 msgstr "Cadena de búsqueda: "
 
@@ -2575,13 +2575,13 @@ msgstr "Nombre del archivo"
 
 #. others options for search
 #: ../src/widgets/widget_import_asso.ui.h:10
-#: ../src/widgets/widget_search_transaction.ui.h:10 ../src/tiers_onglet.c:258
-#: ../src/tiers_onglet.c:1277
+#: ../src/widgets/widget_search_transaction.ui.h:10 ../src/tiers_onglet.c:293
+#: ../src/tiers_onglet.c:1320
 msgid "Ignoring case sensitive"
 msgstr ""
 
-#: ../src/widgets/widget_import_asso.ui.h:11 ../src/tiers_onglet.c:262
-#: ../src/tiers_onglet.c:1282
+#: ../src/widgets/widget_import_asso.ui.h:11 ../src/tiers_onglet.c:297
+#: ../src/tiers_onglet.c:1325
 msgid "Use the regular expressions"
 msgstr ""
 
@@ -2602,7 +2602,7 @@ msgstr "Unir las transacciones importadas con la transacción encontrada"
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "Asociar automáticamente la categoría del tercero si es posible"
 
-#: ../src/widgets/widget_import_files.ui.h:5 ../src/tiers_onglet.c:1266
+#: ../src/widgets/widget_import_files.ui.h:5 ../src/tiers_onglet.c:1309
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 "Extrayendo un número y guardándolo en el campo Sin Cheque/Transferencia"
@@ -2843,7 +2843,7 @@ msgstr "Inserte el balance de una cuenta de efectivo"
 #: ../src/widgets/widget_transfer.ui.h:2 ../src/categories_onglet.c:624
 #: ../src/etats_onglet.c:621 ../src/gsb_scheduler_list.c:1189
 #: ../src/gsb_transactions_list.c:2537 ../src/imputation_budgetaire.c:673
-#: ../src/tiers_onglet.c:543
+#: ../src/tiers_onglet.c:578
 msgid "Delete"
 msgstr "Borrar"
 
@@ -3707,7 +3707,7 @@ msgid ""
 "a positive number for a credit"
 msgstr ""
 
-#: ../src/bet_hist.c:1269 ../src/tiers_onglet.c:1525 ../src/utils_buttons.c:151
+#: ../src/bet_hist.c:1269 ../src/tiers_onglet.c:1568 ../src/utils_buttons.c:151
 #: ../src/utils_buttons.c:153
 msgid "Select"
 msgstr "Seleccionar"
@@ -3728,7 +3728,7 @@ msgstr "Categoría"
 #: ../src/etats_affiche.c:385 ../src/gsb_assistant_reconcile_config.c:656
 #: ../src/gsb_scheduler_list.c:947 ../src/gsb_transactions_list.c:118
 #: ../src/import.c:4395 ../src/import_csv.c:92
-#: ../src/imputation_budgetaire.c:204 ../src/tiers_onglet.c:744
+#: ../src/imputation_budgetaire.c:204 ../src/tiers_onglet.c:779
 #: ../src/etats/etats_page_amount.c:287
 msgid "Amount"
 msgstr "Cantidad"
@@ -3923,7 +3923,7 @@ msgstr "Marque la casilla para cambiar automáticamente la fecha de comienzo"
 #: ../src/gsb_assistant_reconcile_config.c:656 ../src/gsb_scheduler_list.c:946
 #: ../src/imputation_budgetaire.c:193 ../src/navigation.c:1820
 #: ../src/prefs/prefs_page_payment_method.c:1252
-#: ../src/prefs/prefs_page_reconcile.c:329 ../src/tiers_onglet.c:733
+#: ../src/prefs/prefs_page_reconcile.c:329 ../src/tiers_onglet.c:768
 msgid "Account"
 msgstr "Cuenta"
 
@@ -4030,7 +4030,7 @@ msgstr "Borrar la categoría seleccionada"
 msgid "Edit selected category"
 msgstr "Editar la categoría seleccionada"
 
-#: ../src/categories_onglet.c:649 ../src/tiers_onglet.c:568
+#: ../src/categories_onglet.c:649 ../src/tiers_onglet.c:603
 msgid "Change view mode"
 msgstr "Cambiar el modo de la vista"
 
@@ -4044,7 +4044,7 @@ msgid "Subcategory view"
 msgstr "Vista de subcategorías"
 
 #: ../src/categories_onglet.c:700 ../src/gsb_transactions_list.c:2445
-#: ../src/imputation_budgetaire.c:749 ../src/tiers_onglet.c:474
+#: ../src/imputation_budgetaire.c:749 ../src/tiers_onglet.c:509
 msgid "Complete view"
 msgstr "Vista completa"
 
@@ -4054,7 +4054,7 @@ msgstr "Sin subcategoría definida"
 
 #: ../src/categories_onglet.c:751 ../src/categories_onglet.c:759
 #: ../src/imputation_budgetaire.c:792 ../src/imputation_budgetaire.c:797
-#: ../src/tiers_onglet.c:190
+#: ../src/tiers_onglet.c:225
 #, c-format
 msgid "Properties for %s"
 msgstr "Propiedades para %s"
@@ -5257,8 +5257,8 @@ msgid "Quote the dates"
 msgstr "Archivar por fecha"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/export.c:418 ../src/import.c:3229 ../src/tiers_onglet.c:1394
-#: ../src/tiers_onglet.c:1575 ../src/utils_buttons.c:120
+#: ../src/export.c:418 ../src/import.c:3229 ../src/tiers_onglet.c:1437
+#: ../src/tiers_onglet.c:1618 ../src/utils_buttons.c:120
 #: ../src/widgets/widget_list_accounts.c:133
 #: ../src/widgets/widget_list_metatree.c:176
 msgid "Unselect all"
@@ -6283,11 +6283,11 @@ msgid "%s (%d of %d)"
 msgstr "%s (%d de %d)"
 
 #. New account
-#: ../src/gsb_assistant_account.c:100 ../src/import.c:751
+#: ../src/gsb_assistant_account.c:101 ../src/import.c:751
 msgid "Create a new account"
 msgstr "Crear una cuenta nueva"
 
-#: ../src/gsb_assistant_account.c:101
+#: ../src/gsb_assistant_account.c:102
 msgid ""
 "This assistant will help you to create a new account.\n"
 "All that you do here can be changed later in the account configuration page."
@@ -6296,7 +6296,7 @@ msgstr ""
 "Todo lo que haga ahora puede cambiarlo más tarde en la página de "
 "configuración de la cuenta."
 
-#: ../src/gsb_assistant_account.c:165
+#: ../src/gsb_assistant_account.c:166
 msgid ""
 "Bank account\n"
 "Standard account with credit card and cheques."
@@ -6304,7 +6304,7 @@ msgstr ""
 "Cuenta bancaria\n"
 "Cuenta estándar con tarjetas de crédito y cheques."
 
-#: ../src/gsb_assistant_account.c:166
+#: ../src/gsb_assistant_account.c:167
 msgid ""
 "Cash account\n"
 "Standard cash account, to use with a cashier."
@@ -6312,7 +6312,7 @@ msgstr ""
 "Cuenta de caja\n"
 "Cuenta de caja estándar, para usar con un cajero."
 
-#: ../src/gsb_assistant_account.c:167
+#: ../src/gsb_assistant_account.c:168
 msgid ""
 "Liabilities account\n"
 "Special account to represent a debt, like a long-term loan."
@@ -6320,7 +6320,7 @@ msgstr ""
 "Cuenta del pasivo\n"
 "Cuenta especial para representar una deuda, como un préstamo a largo plazo."
 
-#: ../src/gsb_assistant_account.c:168
+#: ../src/gsb_assistant_account.c:169
 msgid ""
 "Assets account\n"
 "Special account to represent an asset, like a car or special subscriptions."
@@ -6329,11 +6329,11 @@ msgstr ""
 "Cuenta especial para representar un activo, como un coche o suscripciones "
 "especiales."
 
-#: ../src/gsb_assistant_account.c:174
+#: ../src/gsb_assistant_account.c:175
 msgid "Account type selection"
 msgstr "Selección de tipo de cuenta"
 
-#: ../src/gsb_assistant_account.c:180
+#: ../src/gsb_assistant_account.c:181
 msgid ""
 "Please select type for this account.\n"
 "The account will be created with default payment methods chosen according to "
@@ -6348,27 +6348,27 @@ msgstr ""
 "cuenta bancaria.\n"
 
 #. choose the currency
-#: ../src/gsb_assistant_account.c:245
+#: ../src/gsb_assistant_account.c:246
 msgid "Currency for the account: "
 msgstr "Moneda para la cuenta: "
 
 #. propose to add a currency
-#: ../src/gsb_assistant_account.c:263
+#: ../src/gsb_assistant_account.c:264
 msgid "Add/Change..."
 msgstr "Añadir/cambiar..."
 
 #. choose the bank
-#: ../src/gsb_assistant_account.c:271
+#: ../src/gsb_assistant_account.c:272
 msgid "Bank for the account: "
 msgstr "Banco para la cuenta: "
 
 #. set the initial amount
-#: ../src/gsb_assistant_account.c:288
+#: ../src/gsb_assistant_account.c:289
 msgid "Opening balance: "
 msgstr "Balance inicial: "
 
 #. set up the menu
-#: ../src/gsb_assistant_account.c:346
+#: ../src/gsb_assistant_account.c:347
 msgid ""
 "You are about to validate the new account.\n"
 "You juste have to enter a name and finish the assistant.\n"
@@ -6380,41 +6380,41 @@ msgstr ""
 "Encontrará más opciones en la página de configuración de la cuenta una vez "
 "que la haya creado.\n"
 
-#: ../src/gsb_assistant_account.c:361
+#: ../src/gsb_assistant_account.c:362
 msgid "Please enter the name of the new account: "
 msgstr "Por favor, introduzca el nombre de la nueva cuenta: "
 
 #. Do not use a bank name if no bank is set or if its
 #. * name has not been changed.
 #. create the new bank
-#: ../src/gsb_assistant_account.c:400 ../src/gsb_bank.c:174
+#: ../src/gsb_assistant_account.c:401 ../src/gsb_bank.c:174
 #: ../src/prefs/prefs_page_bank.c:112 ../src/widgets/widget_bank_details.c:377
 #: ../src/widgets/widget_bank_details.c:503
 msgid "New bank"
 msgstr "Nuevo banco"
 
-#: ../src/gsb_assistant_account.c:401
+#: ../src/gsb_assistant_account.c:402
 #, c-format
 msgid "%s account"
 msgstr "%s cuenta"
 
-#: ../src/gsb_assistant_account.c:403 ../src/gsb_data_bank.c:840
+#: ../src/gsb_assistant_account.c:404 ../src/gsb_data_bank.c:840
 #: ../src/gsb_data_partial_balance.c:232 ../src/widgets/widget_transfer.c:784
 msgid "Bank account"
 msgstr "Cuenta bancaria"
 
-#: ../src/gsb_assistant_account.c:408
+#: ../src/gsb_assistant_account.c:409
 #, c-format
 msgid "Cashier"
 msgstr "Cajero"
 
-#: ../src/gsb_assistant_account.c:412 ../src/gsb_data_bank.c:840
+#: ../src/gsb_assistant_account.c:413 ../src/gsb_data_bank.c:840
 #: ../src/gsb_data_partial_balance.c:227
 #, c-format
 msgid "Assets account"
 msgstr "Cuenta de activo"
 
-#: ../src/gsb_assistant_account.c:416 ../src/gsb_data_bank.c:840
+#: ../src/gsb_assistant_account.c:417 ../src/gsb_data_bank.c:840
 #: ../src/gsb_data_partial_balance.c:223 ../src/widgets/widget_transfer.c:790
 #, c-format
 msgid "Liabilities account"
@@ -11345,7 +11345,7 @@ msgstr "Sin subtercero"
 
 #. * Find a unique name for payee
 #. New payee button
-#: ../src/meta_payee.c:371 ../src/navigation.c:233 ../src/tiers_onglet.c:534
+#: ../src/meta_payee.c:371 ../src/navigation.c:233 ../src/tiers_onglet.c:569
 msgid "New payee"
 msgstr "Nuevo tercero"
 
@@ -11547,21 +11547,21 @@ msgstr ""
 msgid "Remove this account"
 msgstr "_Borrar la cuenta actual"
 
-#: ../src/navigation.c:240 ../src/tiers_onglet.c:547
+#: ../src/navigation.c:240 ../src/tiers_onglet.c:582
 msgid "Delete selected payee"
 msgstr "Borrar el tercero seleccionado"
 
-#: ../src/navigation.c:253 ../src/tiers_onglet.c:559
+#: ../src/navigation.c:253 ../src/tiers_onglet.c:594
 msgid "Edit selected payee"
 msgstr "Editar el tercero seleccionado"
 
 #. Manage payees button
-#: ../src/navigation.c:269 ../src/tiers_onglet.c:576
+#: ../src/navigation.c:269 ../src/tiers_onglet.c:611
 msgid "Manage payees"
 msgstr "Administrar terceras partes"
 
 #. Remove unused payees button
-#: ../src/navigation.c:276 ../src/tiers_onglet.c:585
+#: ../src/navigation.c:276 ../src/tiers_onglet.c:620
 msgid "Remove unused payees"
 msgstr "Eliminar terceros que no se usan"
 
@@ -12601,12 +12601,12 @@ msgid "Error opening file '%s'"
 msgstr "Error abriendo el archivo '%s'"
 
 #. Description entry
-#: ../src/tiers_onglet.c:234
+#: ../src/tiers_onglet.c:269
 #, fuzzy
 msgid "Description: "
 msgstr "Descripción"
 
-#: ../src/tiers_onglet.c:295
+#: ../src/tiers_onglet.c:330
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -12615,33 +12615,33 @@ msgstr ""
 "Intenta renombrar el tercero actual a '%s' pero este tercero ya existe.  Por "
 "favor elija otro nombre."
 
-#: ../src/tiers_onglet.c:299
+#: ../src/tiers_onglet.c:334
 msgid "Payee already exists"
 msgstr "El tercero ya existe"
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:466
+#: ../src/tiers_onglet.c:501
 msgid "Payee view"
 msgstr "Vista de terceros"
 
-#: ../src/tiers_onglet.c:488 ../src/tiers_onglet.c:497
+#: ../src/tiers_onglet.c:523 ../src/tiers_onglet.c:532
 #, fuzzy
 msgid "Display unused payees"
 msgstr "Eliminar terceros que no se usan"
 
-#: ../src/tiers_onglet.c:535
+#: ../src/tiers_onglet.c:570
 msgid "Create a new payee"
 msgstr "Crear un nuevo tercero"
 
-#: ../src/tiers_onglet.c:577 ../src/tiers_onglet.c:1884
+#: ../src/tiers_onglet.c:612 ../src/tiers_onglet.c:1927
 msgid "Manage the payees"
 msgstr "Administrar los terceros"
 
-#: ../src/tiers_onglet.c:586 ../src/tiers_onglet.c:833
+#: ../src/tiers_onglet.c:621 ../src/tiers_onglet.c:876
 msgid "Remove orphan payees"
 msgstr "Eliminar terceros huérfanos"
 
-#: ../src/tiers_onglet.c:830
+#: ../src/tiers_onglet.c:873
 #, fuzzy
 msgid ""
 "This will remove all the payees which are not used in any transactions.  "
@@ -12656,29 +12656,29 @@ msgstr ""
 "\n"
 "¿ Está seguro de que quiere hacer esto?"
 
-#: ../src/tiers_onglet.c:845
+#: ../src/tiers_onglet.c:888
 #, c-format
 msgid "Removed %d payees."
 msgstr "%d Terceros eliminados"
 
-#: ../src/tiers_onglet.c:851
+#: ../src/tiers_onglet.c:894
 msgid "There is no payee to remove."
 msgstr "No hay un tercero que borrar"
 
-#: ../src/tiers_onglet.c:1148
+#: ../src/tiers_onglet.c:1191
 msgid "You must choose a payee for searching."
 msgstr "Debe elegir un tercero para la búsqueda."
 
-#: ../src/tiers_onglet.c:1152
+#: ../src/tiers_onglet.c:1195
 msgid "Beware you don't use one of models for the research."
 msgstr "Tenga cuidado y no use uno de los modelos para la búsqueda."
 
 #. get rule
-#: ../src/tiers_onglet.c:1201
+#: ../src/tiers_onglet.c:1244
 msgid "Choose a payee"
 msgstr "Elija una tercera parte"
 
-#: ../src/tiers_onglet.c:1203
+#: ../src/tiers_onglet.c:1246
 #, fuzzy
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
@@ -12695,62 +12695,62 @@ msgstr ""
 "   %string%, string_1%string_2"
 
 #. get new payee
-#: ../src/tiers_onglet.c:1234
+#: ../src/tiers_onglet.c:1277
 msgid "Enter the new payee"
 msgstr "Introduzca la nueva tercera parte"
 
-#: ../src/tiers_onglet.c:1238
+#: ../src/tiers_onglet.c:1281
 #, fuzzy
 msgid "Enter the name of the new payee: "
 msgstr "Introduzca el nombre de la nueva tercera parte"
 
-#: ../src/tiers_onglet.c:1272
+#: ../src/tiers_onglet.c:1315
 msgid "Save the payees in the notes"
 msgstr "Guardar las terceras partes en las notas"
 
-#: ../src/tiers_onglet.c:1459
+#: ../src/tiers_onglet.c:1502
 msgid "List of payees who will be modified"
 msgstr "Lista de terceras partes que serán modificadas"
 
-#: ../src/tiers_onglet.c:1488
+#: ../src/tiers_onglet.c:1531
 #, fuzzy
 msgid "Do you want replace the current rule?"
 msgstr ""
 "¿ Está seguro de que quiere borrar la transacción con la tercera parte '%s' ?"
 
-#: ../src/tiers_onglet.c:1533
+#: ../src/tiers_onglet.c:1576
 msgid "Payee number"
 msgstr "Número de tercero"
 
-#: ../src/tiers_onglet.c:1542 ../src/widgets/widget_import_asso.c:675
+#: ../src/tiers_onglet.c:1585 ../src/widgets/widget_import_asso.c:675
 msgid "Payee name"
 msgstr "Nombre de la tercera parte"
 
-#: ../src/tiers_onglet.c:1557
+#: ../src/tiers_onglet.c:1600
 msgid "Total number of payees: "
 msgstr "Número total de terceras partes:"
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1566
+#: ../src/tiers_onglet.c:1609
 msgid "Number of selected payees: "
 msgstr "Número de terceros seleccionados:"
 
-#: ../src/tiers_onglet.c:1664
+#: ../src/tiers_onglet.c:1707
 #, fuzzy, c-format
 msgid "Payee sought: %s"
 msgstr "Tercera parte buscada : %s"
 
-#: ../src/tiers_onglet.c:1670
+#: ../src/tiers_onglet.c:1713
 #, fuzzy, c-format
 msgid "New payee: %s"
 msgstr "Nuevo tercero : %s"
 
-#: ../src/tiers_onglet.c:1692
+#: ../src/tiers_onglet.c:1735
 #, fuzzy, c-format
 msgid "Current rule: %s"
 msgstr "Balance actual"
 
-#: ../src/tiers_onglet.c:1776
+#: ../src/tiers_onglet.c:1819
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -12761,7 +12761,7 @@ msgstr ""
 "\n"
 "¿Está seguro?"
 
-#: ../src/tiers_onglet.c:1783
+#: ../src/tiers_onglet.c:1826
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -12773,7 +12773,7 @@ msgstr ""
 "\n"
 "¿Está seguro?"
 
-#: ../src/tiers_onglet.c:1826
+#: ../src/tiers_onglet.c:1869
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -12784,7 +12784,7 @@ msgstr ""
 "\n"
 "Si responde Sí, la nota actual será reemplazada por %s."
 
-#: ../src/tiers_onglet.c:1885
+#: ../src/tiers_onglet.c:1928
 #, fuzzy
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
@@ -12800,16 +12800,16 @@ msgstr ""
 "Es mejor que haga una copia de seguridad de su fichero Grisbi si aun no "
 "tiene una. "
 
-#: ../src/tiers_onglet.c:1986
+#: ../src/tiers_onglet.c:2029
 msgid "Warning you will crush the existing note."
 msgstr "cuidado va a eliminar la nota existente."
 
-#: ../src/tiers_onglet.c:2030
+#: ../src/tiers_onglet.c:2073
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr "Se ha reemplazado una tercera parte con otra."
 
-#: ../src/tiers_onglet.c:2034
+#: ../src/tiers_onglet.c:2077
 #, fuzzy, c-format
 msgid ""
 "%d payees were replaced with a new one.\n"
@@ -12817,7 +12817,7 @@ msgid ""
 "%d unaffected payees were removed in addition"
 msgstr "%d terceras partes se reemplazaron con una nueva."
 
-#: ../src/tiers_onglet.c:2041
+#: ../src/tiers_onglet.c:2084
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "%d terceras partes se reemplazaron con una nueva."
