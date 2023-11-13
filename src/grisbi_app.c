@@ -783,6 +783,7 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 	return win;
 }
 
+#ifdef DEBUG
 /**
  * affiche les information d'environnement
  *
@@ -810,6 +811,7 @@ static gboolean grisbi_app_print_environment_var (void)
 
 	return FALSE;
 }
+#endif
 
 /**
  * On detourne les signaux SIGINT, SIGTERM, SIGSEGV
