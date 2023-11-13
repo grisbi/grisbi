@@ -1,3 +1,11 @@
+New in version 3.0.0
+- Changing the payee search
+- Adding new type of consumer loan
+- Adding the all transactions in archive when the account is closed
+- Bug fixes
+- Code cleanup
+- Preparing for the transition to gtk4
+
 New in version 2.0.5
 - Bug fixes
 
