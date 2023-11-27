@@ -821,19 +821,20 @@ gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
  *
  * \return FALSE
  * */
-gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
-                        GdkEventFocus *ev,
-                        gint *ptr_origin )
+gboolean gsb_form_scheduler_entry_lose_focus (GtkWidget *entry,
+											  GdkEventFocus *ev,
+											  gint *ptr_origin )
 {
     gchar *string;
     gint element_number;
 
+	devel_debug (NULL);
     /* remove the selection */
-    gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
-    element_number = GPOINTER_TO_INT ( ptr_origin );
+	gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
+	element_number = GPOINTER_TO_INT ( ptr_origin );
 
-    /* string will be filled only if the field is empty */
-    string = NULL;
+	/* string will be filled only if the field is empty */
+	string = NULL;
 
 	switch ( element_number )
 	{
@@ -858,23 +859,22 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
 			}
 			break;
 
-	case  SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
-	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
-            string = _("Own frequency");
-	    break;
+		case  SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
+			if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
+				string = _("Own frequency");
+			break;
 
-	default :
-	    break;
+		default :
+			break;
     }
 
-    /* if string is not NULL, the entry is empty so set the empty field to TRUE */
-
-    if ( string )
-    {
-        gtk_entry_set_text ( GTK_ENTRY ( entry ), string );
-        gsb_form_widget_set_empty ( entry, TRUE );
-    }
-    return FALSE;
+	/* if string is not NULL, the entry is empty so set the empty field to TRUE */
+	if (string)
+	{
+		gtk_entry_set_text ( GTK_ENTRY (entry), string);
+		gsb_form_widget_set_empty (entry, TRUE);
+	}
+	return FALSE;
 }
 
 
