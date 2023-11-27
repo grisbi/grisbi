@@ -835,15 +835,28 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
     /* string will be filled only if the field is empty */
     string = NULL;
 
-    switch ( element_number )
-    {
-	case  SCHEDULED_FORM_LIMIT_DATE:
-	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
-        {
-            gsb_form_widget_set_empty ( entry, TRUE );
-            string = _("Limit date");
-        }
-	    break;
+	switch ( element_number )
+	{
+		case  SCHEDULED_FORM_LIMIT_DATE:
+			if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
+			{
+				gsb_form_widget_set_empty ( entry, TRUE );
+				string = _("Limit date");
+			}
+			else if (!gsb_date_check_entry (entry))
+			{
+					gchar *tmp_str;
+
+					tmp_str = g_strdup_printf (_("Invalid date %s"),
+											   gtk_entry_get_text (GTK_ENTRY (entry)));
+					dialogue_error (tmp_str);
+					g_free(tmp_str);
+					gtk_editable_delete_text (GTK_EDITABLE (entry), 0, -1);
+					gtk_widget_grab_focus (entry);
+
+					return (FALSE);
+			}
+			break;
 
 	case  SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
