@@ -321,7 +321,16 @@ gboolean gsb_calendar_entry_key_press ( GtkWidget *entry,
 
 	    return TRUE;
 	    break;
-    }
+
+	case GDK_KEY_C:         /* touche C*/
+	case GDK_KEY_c:         /* touche c */
+	if ((ev->state & GDK_MOD1_MASK) == GDK_MOD1_MASK)
+	{
+		gsb_calendar_entry_popup (entry);
+	}
+	return TRUE;
+	break;
+}
     return FALSE;
 }
 
