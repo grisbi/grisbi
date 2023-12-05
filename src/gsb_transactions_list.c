@@ -3880,23 +3880,22 @@ void gsb_transactions_list_splitted_to_scheduled (gint transaction_number,
 												  gint scheduled_number)
 {
     GSList *list_tmp_transactions;
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
+	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
     while (list_tmp_transactions)
     {
 	gint transaction_number_tmp;
+
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
 
 	if (gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number)
-	     &&
-	     gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
+			&& gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
 	{
-	    gint split_scheduled_number;
+			gint split_scheduled_number;
 
-	    split_scheduled_number = gsb_data_scheduled_new_scheduled ();
-
-	    if (!split_scheduled_number)
-		return;
+			split_scheduled_number = gsb_data_scheduled_new_scheduled ();
+			if (!split_scheduled_number)
+				return;
 
 	    gsb_data_scheduled_set_account_number (split_scheduled_number,
 						    gsb_data_transaction_get_account_number (transaction_number_tmp));
@@ -3913,53 +3912,54 @@ void gsb_transactions_list_splitted_to_scheduled (gint transaction_number,
 	    gsb_data_scheduled_set_sub_category_number (split_scheduled_number,
 							 gsb_data_transaction_get_sub_category_number (transaction_number_tmp));
 
-	    /*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
-	    /* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
-	    /*     on va changer ça la prochaine version, dès que c'est pas un virement->-1 */
+			/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
+			/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
+			/*     on va changer ça la prochaine version, dès que c'est pas un virement->-1 */
+			if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) > 0)
+			{
+				/* c'est un virement, on met la relation et on recherche le type de la contre opération */
 
-	    if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) > 0)
-	    {
-		/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
+				gint contra_transaction_number;
 
-		gint contra_transaction_number;
+				gsb_data_scheduled_set_account_number_transfer (split_scheduled_number,
+																gsb_data_transaction_get_contra_transaction_account
+																(transaction_number_tmp));
 
-		gsb_data_scheduled_set_account_number_transfer (split_scheduled_number,
-								 gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp));
+				contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp);
 
-		contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp);
+				gsb_data_scheduled_set_contra_method_of_payment_number (split_scheduled_number,
+																		gsb_data_transaction_get_method_of_payment_number
+																		(contra_transaction_number));
+			}
+			else
+				if (!gsb_data_scheduled_get_category_number (split_scheduled_number))
+					gsb_data_scheduled_set_account_number_transfer (split_scheduled_number, -1);
 
-		gsb_data_scheduled_set_contra_method_of_payment_number (split_scheduled_number,
-									 gsb_data_transaction_get_method_of_payment_number (contra_transaction_number));
-	    }
-	    else
-		if (!gsb_data_scheduled_get_category_number (split_scheduled_number))
-		    gsb_data_scheduled_set_account_number_transfer (split_scheduled_number,
-								     -1);
+			gsb_data_scheduled_set_notes (split_scheduled_number,
+										  gsb_data_transaction_get_notes (transaction_number_tmp));
+			gsb_data_scheduled_set_method_of_payment_number (split_scheduled_number,
+															 gsb_data_transaction_get_method_of_payment_number
+															 (transaction_number_tmp));
+			gsb_data_scheduled_set_method_of_payment_content (split_scheduled_number,
+															  gsb_data_transaction_get_method_of_payment_content
+															  (transaction_number_tmp));
+			gsb_data_scheduled_set_financial_year_number (split_scheduled_number,
+														  gsb_data_transaction_get_financial_year_number
+														  (transaction_number_tmp));
+			gsb_data_scheduled_set_budgetary_number (split_scheduled_number,
+													 gsb_data_transaction_get_budgetary_number (transaction_number_tmp));
+			gsb_data_scheduled_set_sub_budgetary_number (split_scheduled_number,
+														 gsb_data_transaction_get_sub_budgetary_number (transaction_number_tmp));
 
-	    gsb_data_scheduled_set_notes (split_scheduled_number,
-					   gsb_data_transaction_get_notes (transaction_number_tmp));
-	    gsb_data_scheduled_set_method_of_payment_number (split_scheduled_number,
-							      gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp));
-	    gsb_data_scheduled_set_method_of_payment_content (split_scheduled_number,
-							       gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp));
-	    gsb_data_scheduled_set_financial_year_number (split_scheduled_number,
-							   gsb_data_transaction_get_financial_year_number (transaction_number_tmp));
-	    gsb_data_scheduled_set_budgetary_number (split_scheduled_number,
-						      gsb_data_transaction_get_budgetary_number (transaction_number_tmp));
-	    gsb_data_scheduled_set_sub_budgetary_number (split_scheduled_number,
-							  gsb_data_transaction_get_sub_budgetary_number (transaction_number_tmp));
+			gsb_data_scheduled_set_mother_scheduled_number (split_scheduled_number, scheduled_number);
 
-	    gsb_data_scheduled_set_mother_scheduled_number (split_scheduled_number,
-							     scheduled_number);
+			/* par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
+			/* (c'est le cas, à 0 avec g_malloc0) */
+			/* que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
+			/* pour la même raison */
 
-	    /*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
-	    /*     (c'est le cas, à 0 avec g_malloc0) */
-	    /*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
-	    /* 	pour la même raison */
-
-	    gsb_data_scheduled_set_frequency (split_scheduled_number,
-					       2);
-	}
+			gsb_data_scheduled_set_frequency (split_scheduled_number, 2);
+		}
 	list_tmp_transactions = list_tmp_transactions->next;
     }
 }
