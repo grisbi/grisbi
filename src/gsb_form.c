@@ -3010,8 +3010,7 @@ gboolean gsb_form_finish_edition (void)
     /* check if we finish a transaction or a scheduled transaction
      * we have to decide if it's a transaction or a scheduled transaction,
      * and if it's a scheduled, if we execute it (and create transaction) or work on it*/
-    if (gsb_form_get_origin () == ORIGIN_VALUE_SCHEDULED
-		|| gsb_form_get_origin () == ORIGIN_VALUE_HOME)
+    if (gsb_form_get_origin () == ORIGIN_VALUE_SCHEDULED || gsb_form_get_origin () == ORIGIN_VALUE_HOME)
     {
         if (g_object_get_data (G_OBJECT (transaction_form), "execute_scheduled"))
         {
@@ -3219,6 +3218,7 @@ gboolean gsb_form_finish_edition (void)
             {
 				gsb_scheduler_list_append_new_scheduled (transaction_number,
 														 gsb_scheduler_list_get_end_date_scheduled_showed ());
+
 				/* recover if necessary previous children */
 				if (gsb_data_scheduled_get_split_of_scheduled (transaction_number)
 					&&
@@ -3239,7 +3239,10 @@ gboolean gsb_form_finish_edition (void)
 				}
             }
             else
+			{
+				gsb_scheduler_update_children_from_split_scheduled (transaction_number);
 				gsb_scheduler_list_update_transaction_in_list (transaction_number);
+			}
 
             /* needed for the two in case of we change the date */
             gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());

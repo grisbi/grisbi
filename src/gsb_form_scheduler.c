@@ -974,14 +974,39 @@ gboolean gsb_form_scheduler_set (gint scheduled_number)
 	if (scheduled_number < -1)
 		scheduled_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
 
-	gsb_form_scheduler_set_account (gsb_data_scheduled_get_account_number (scheduled_number));
-	gsb_form_scheduler_set_auto (gsb_data_scheduled_get_automatic_scheduled (scheduled_number));
-	gsb_form_scheduler_set_frequency (gsb_data_scheduled_get_frequency (scheduled_number));
-	gsb_form_scheduler_set_limit_date (gsb_data_scheduled_get_limit_date (scheduled_number));
-	gsb_form_scheduler_set_frequency_user (gsb_data_scheduled_get_user_entry (scheduled_number));
-	gsb_form_scheduler_set_frequency_user_button (gsb_data_scheduled_get_user_interval (scheduled_number));
+    gsb_form_scheduler_set_account (gsb_data_scheduled_get_account_number (scheduled_number));
+    gsb_form_scheduler_set_auto (gsb_data_scheduled_get_automatic_scheduled (scheduled_number));
+    gsb_form_scheduler_set_frequency (gsb_data_scheduled_get_frequency (scheduled_number));
+    gsb_form_scheduler_set_limit_date (gsb_data_scheduled_get_limit_date (scheduled_number));
+    gsb_form_scheduler_set_frequency_user (gsb_data_scheduled_get_user_entry (scheduled_number));
+    gsb_form_scheduler_set_frequency_user_button (gsb_data_scheduled_get_user_interval (scheduled_number));
 
 	return FALSE;
+}
+
+/**
+ * set the scheduler part of the form from the mother scheduled given in param
+ *
+ * \param scheduled_number
+ * \param mother_number
+ *
+ * \return
+ **/
+void gsb_form_scheduler_set_from_mother (gint scheduled_number,
+										 gint mother_number)
+{
+	gsb_data_scheduled_set_account_number (scheduled_number,
+										   gsb_data_scheduled_get_account_number (mother_number));
+	gsb_data_scheduled_set_automatic_scheduled (scheduled_number,
+												gsb_data_scheduled_get_automatic_scheduled (mother_number));
+	gsb_data_scheduled_set_frequency (scheduled_number,
+									  gsb_data_scheduled_get_frequency (mother_number));
+	gsb_data_scheduled_set_limit_date (scheduled_number,
+									   gsb_data_scheduled_get_limit_date (mother_number));
+	gsb_data_scheduled_set_user_entry (scheduled_number,
+									   gsb_data_scheduled_get_user_entry (mother_number));
+	gsb_data_scheduled_set_user_interval (scheduled_number,
+										  gsb_data_scheduled_get_user_interval (mother_number));
 }
 
 /**
