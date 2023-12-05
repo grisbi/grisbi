@@ -3884,33 +3884,33 @@ void gsb_transactions_list_splitted_to_scheduled (gint transaction_number,
 	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
     while (list_tmp_transactions)
     {
-	gint transaction_number_tmp;
+		gint transaction_number_tmp;
 
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
+		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
 
-	if (gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number)
+		if (gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number)
 			&& gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
-	{
+		{
 			gint split_scheduled_number;
 
 			split_scheduled_number = gsb_data_scheduled_new_scheduled ();
 			if (!split_scheduled_number)
 				return;
 
-	    gsb_data_scheduled_set_account_number (split_scheduled_number,
-						    gsb_data_transaction_get_account_number (transaction_number_tmp));
-	    gsb_data_scheduled_set_date (split_scheduled_number,
-					  gsb_data_transaction_get_date (transaction_number_tmp));
-	    gsb_data_scheduled_set_amount (split_scheduled_number,
-					    gsb_data_transaction_get_amount (transaction_number_tmp));
-	    gsb_data_scheduled_set_currency_number (split_scheduled_number,
-						     gsb_data_transaction_get_currency_number (transaction_number_tmp));
-	    gsb_data_scheduled_set_party_number (split_scheduled_number,
-						  gsb_data_transaction_get_party_number (transaction_number_tmp));
-	    gsb_data_scheduled_set_category_number (split_scheduled_number,
-						     gsb_data_transaction_get_category_number (transaction_number_tmp));
-	    gsb_data_scheduled_set_sub_category_number (split_scheduled_number,
-							 gsb_data_transaction_get_sub_category_number (transaction_number_tmp));
+			gsb_data_scheduled_set_account_number (split_scheduled_number,
+												   gsb_data_transaction_get_account_number (transaction_number_tmp));
+			gsb_data_scheduled_set_date (split_scheduled_number,
+										 gsb_data_transaction_get_date (transaction_number_tmp));
+			gsb_data_scheduled_set_amount (split_scheduled_number,
+										   gsb_data_transaction_get_amount (transaction_number_tmp));
+			gsb_data_scheduled_set_currency_number (split_scheduled_number,
+													gsb_data_transaction_get_currency_number (transaction_number_tmp));
+			gsb_data_scheduled_set_party_number (split_scheduled_number,
+												 gsb_data_transaction_get_party_number (transaction_number_tmp));
+			gsb_data_scheduled_set_category_number (split_scheduled_number,
+													gsb_data_transaction_get_category_number (transaction_number_tmp));
+			gsb_data_scheduled_set_sub_category_number (split_scheduled_number,
+														gsb_data_transaction_get_sub_category_number (transaction_number_tmp));
 
 			/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
 			/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
@@ -3954,11 +3954,10 @@ void gsb_transactions_list_splitted_to_scheduled (gint transaction_number,
 			gsb_data_scheduled_set_mother_scheduled_number (split_scheduled_number, scheduled_number);
 
 			/* par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
-			/* (c'est le cas, à 0 avec g_malloc0) */
-			/* que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
-			/* pour la même raison */
+			/* (c'est le cas, à 0 avec g_malloc0) et que l'opé soit enregistrée immédiatement */
 
-			gsb_data_scheduled_set_frequency (split_scheduled_number, 2);
+			/* fixes bug : set frequency with frequency of transaction mother */
+			gsb_data_scheduled_set_frequency (split_scheduled_number, gsb_data_scheduled_get_frequency (scheduled_number));
 		}
 	list_tmp_transactions = list_tmp_transactions->next;
     }
