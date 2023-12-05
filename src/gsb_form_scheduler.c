@@ -1169,22 +1169,24 @@ gboolean gsb_form_scheduler_set_frequency (gint frequency)
  *
  * \return FALSE
  **/
-gboolean gsb_form_scheduler_recover_splits_of_transaction (gint scheduled_transaction,
+gboolean gsb_form_scheduler_recover_splits_of_transaction (gint scheduled_number,
 														   gint transaction_number)
 {
 	GSList *tmp_list;
 
 	/* first clone the transactions */
-	gsb_transactions_list_splitted_to_scheduled (transaction_number, scheduled_transaction);
+	gsb_transactions_list_splitted_to_scheduled (transaction_number, scheduled_number);
 
 	/* add the children to the list */
 	tmp_list = gsb_data_scheduled_get_scheduled_list ();
 	while (tmp_list)
 	{
-		gint scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list->data);
+		gint tmp_number;
 
-		if (gsb_data_scheduled_get_mother_scheduled_number (scheduled_number) == scheduled_transaction)
-			gsb_scheduler_list_append_new_scheduled (scheduled_number, NULL);
+		tmp_number = gsb_data_scheduled_get_scheduled_number (tmp_list->data);
+
+		if (gsb_data_scheduled_get_mother_scheduled_number (tmp_number) == scheduled_number)
+			gsb_scheduler_list_append_new_scheduled (tmp_number, NULL);
 
 		tmp_list = tmp_list->next;
 	}
