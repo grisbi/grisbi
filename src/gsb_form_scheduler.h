@@ -47,5 +47,7 @@ gboolean 	gsb_form_scheduler_recover_splits_of_transaction 	(gint scheduled_numb
 gboolean 	gsb_form_scheduler_sensitive_buttons 				(gboolean sensitive);
 gboolean 	gsb_form_scheduler_set								(gint scheduled_number);
 gboolean 	gsb_form_scheduler_set_frequency 					(gint frequency);
+void		gsb_form_scheduler_set_from_mother					(gint scheduled_number,
+																 gint mother_number);
 /* END_DECLARATION */
 #endif

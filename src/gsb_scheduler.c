@@ -43,6 +43,7 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form_scheduler.h"
 #include "gsb_form_transaction.h"
 #include "gsb_file.h"
 #include "gsb_scheduler_list.h"
@@ -558,7 +559,33 @@ devel_debug (NULL);
     return FALSE;
 }
 
+/**
+ * update the children of a split scheduled transaction,
+ *
+ * \param scheduled_number the number of the mother scheduled transaction (the split)
+ *
+ * \return FALSE
+ *
+ **/
+void gsb_scheduler_update_children_from_split_scheduled (gint scheduled_number)
+{
+    GSList *children_numbers_list;
 
+    children_numbers_list = gsb_data_scheduled_get_children (scheduled_number, TRUE);
+    while (children_numbers_list)
+    {
+		gint child_number;
+
+		child_number = GPOINTER_TO_INT (children_numbers_list->data);
+		if (child_number > 0)
+		{
+			gsb_form_scheduler_set_from_mother (child_number, scheduled_number);
+		}
+
+		children_numbers_list = children_numbers_list -> next;
+    }
+    g_slist_free (children_numbers_list);
+}
 
 /**
  * check the scheduled transactions if the are in time limit
