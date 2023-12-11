@@ -597,7 +597,7 @@ static gboolean gsb_form_scheduler_set_limit_date (GDate *date)
 	if (!date)
 	{
 		gsb_form_widget_set_empty (entry, TRUE);
-		gtk_entry_set_text (GTK_ENTRY (entry), _("Limit date"));
+		gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Limit date"));
 	}
 	else
 	{
@@ -905,13 +905,13 @@ gboolean gsb_form_scheduler_clean (void)
 
 				case SCHEDULED_FORM_LIMIT_DATE:
 					gsb_form_widget_set_empty (widget, TRUE);
-					gtk_entry_set_text (GTK_ENTRY (widget), _("Limit date"));
+					gtk_entry_set_placeholder_text (GTK_ENTRY (widget), _("Limit date"));
 					gtk_widget_set_sensitive (widget, TRUE);
 					break;
 
 				case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 					gsb_form_widget_set_empty (widget, TRUE);
-					gtk_entry_set_text (GTK_ENTRY (widget), _("Own frequency"));
+					gtk_entry_set_placeholder_text (GTK_ENTRY (widget), _("Own frequency"));
 					gtk_widget_set_sensitive (widget, TRUE);
 					break;
 			}
@@ -1089,15 +1089,9 @@ gboolean gsb_form_scheduler_entry_lose_focus (GtkWidget *entry,
 											  GdkEventFocus *ev,
 											  gint *ptr_origin)
 {
-	gchar *string;
 	gint element_number;
 
 	devel_debug (NULL);
-	/* remove the selection */
-	gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
-
-	/* string will be filled only if the field is empty */
-	string = NULL;
 
 	element_number = GPOINTER_TO_INT (ptr_origin);
 	switch (element_number)
@@ -1106,7 +1100,7 @@ gboolean gsb_form_scheduler_entry_lose_focus (GtkWidget *entry,
 			if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 			{
 				gsb_form_widget_set_empty (entry, TRUE);
-				string = _("Limit date");
+				gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Limit date"));
 			}
 			else if (!gsb_date_check_entry (entry))
 			{
@@ -1124,18 +1118,11 @@ gboolean gsb_form_scheduler_entry_lose_focus (GtkWidget *entry,
 
 		case  SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 			if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
-				string = _("Own frequency");
+				gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Own frequency"));
 			break;
 
 		default :
 			break;
-	}
-
-	/* if string is not NULL, the entry is empty so set the empty field to TRUE */
-	if (string)
-	{
-		gtk_entry_set_text (GTK_ENTRY (entry), string);
-		gsb_form_widget_set_empty (entry, TRUE);
 	}
 
 	return FALSE;
