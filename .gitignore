@@ -49,5 +49,9 @@ stamp-h1
 tags
 test-driver
 .DS_Store
-
-po/.intltool-merge-cache.lock
+*.mo
+*.gmo
+POTFILES
+grisbi.pot
+stamp-it
+po/Makefile.in.in
