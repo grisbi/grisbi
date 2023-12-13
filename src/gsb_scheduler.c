@@ -143,7 +143,7 @@ static gboolean gsb_scheduler_get_category_for_transaction_from_transaction (gin
  * \return the number of the new transaction
  **/
 static gint gsb_scheduler_create_transaction_from_scheduled_transaction (gint scheduled_number,
-																  gint transaction_mother)
+																		 gint transaction_mother)
 {
 	GDate *date;
 	gint account_number;
@@ -385,10 +385,6 @@ GDate *gsb_scheduler_get_next_date (gint scheduled_number,
 
 		case SCHEDULER_PERIODICITY_WEEK_VIEW:
 			g_date_add_days (return_date, 7);
-			/* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
-			 * it seems fixed but we should wait the stable debian is upgraded to
-			 * remove that [26/10/2008] */
-			g_date_add_months (return_date, 0);
 			break;
 
 		case SCHEDULER_PERIODICITY_MONTH_VIEW:
@@ -459,10 +455,6 @@ GDate *gsb_scheduler_get_next_date (gint scheduled_number,
 				case PERIODICITY_DAYS:
 					g_date_add_days (return_date,
 									 gsb_data_scheduled_get_user_entry (scheduled_number));
-					/* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
-					 * it seems fixed but we should wait the stable debian is upgraded to
-					 * remove that [26/10/2008] */
-					g_date_add_months (return_date, 0);
 					break;
 
 				case PERIODICITY_WEEKS:
@@ -538,6 +530,7 @@ gboolean gsb_scheduler_execute_children_of_scheduled_transaction (gint scheduled
 
 		children_numbers_list = children_numbers_list->next;
 	}
+
 	g_slist_free (children_numbers_list);
 
 	return FALSE;
