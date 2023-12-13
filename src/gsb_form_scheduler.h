@@ -42,10 +42,12 @@ GtkWidget *	gsb_form_scheduler_get_element_widget 				(gint element_number);
 gint 		gsb_form_scheduler_get_last_day_of_month_dialog 	(gint scheduled_number,
 																 GDate *date);
 gboolean 	gsb_form_scheduler_get_scheduler_part 				(gint scheduled_number);
-gboolean 	gsb_form_scheduler_recover_splits_of_transaction 	(gint scheduled_transaction,
+gboolean 	gsb_form_scheduler_recover_splits_of_transaction 	(gint scheduled_number,
 																 gint transaction_number);
 gboolean 	gsb_form_scheduler_sensitive_buttons 				(gboolean sensitive);
 gboolean 	gsb_form_scheduler_set								(gint scheduled_number);
 gboolean 	gsb_form_scheduler_set_frequency 					(gint frequency);
+void		gsb_form_scheduler_set_from_mother					(gint scheduled_number,
+																 gint mother_number);
 /* END_DECLARATION */
 #endif

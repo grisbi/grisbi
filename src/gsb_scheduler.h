@@ -13,5 +13,7 @@ gboolean	gsb_scheduler_execute_children_of_scheduled_transaction	(gint scheduled
 GDate *		gsb_scheduler_get_next_date								(gint scheduled_number,
 				     												 const GDate *date);
 gboolean	gsb_scheduler_increase_scheduled						(gint scheduled_number);
+void		gsb_scheduler_update_children_from_split_scheduled		(gint scheduled_number);
+
 /* END_DECLARATION */
 #endif

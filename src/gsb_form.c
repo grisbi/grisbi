@@ -1063,6 +1063,26 @@ static gboolean gsb_form_validate_form_transaction (gint transaction_number,
 		}
     }
 
+	/* teste la validité de la date de fin d'une opération planifiée */
+	if (!is_transaction)
+	{
+		date_widget = gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_LIMIT_DATE);
+		if (gsb_form_widget_check_empty (date_widget))
+		{
+			return TRUE;
+		}
+		if (!gsb_date_check_entry (date_widget))
+		{
+			tmp_str = g_strdup_printf (_("Invalid date %s"), gtk_entry_get_text (GTK_ENTRY (date_widget)));
+			dialogue_error (tmp_str);
+			g_free(tmp_str);
+			gtk_editable_select_region (GTK_EDITABLE (date_widget), 0, -1);
+			gtk_widget_grab_focus (date_widget);
+
+			return (FALSE);
+		}
+	}
+
 	return (TRUE);
 }
 
@@ -1298,7 +1318,7 @@ gboolean gsb_form_fill_by_transaction (gint transaction_number,
     {
 	/* we need to set up the part of scheduler form here because changing the account
 	 * button will change the form */
-    gsb_form_scheduler_set (transaction_number);
+		gsb_form_scheduler_set (transaction_number);
     }
 
     /* if the transaction is the white line, we set the date and necessary stuff and go away
@@ -3010,8 +3030,7 @@ gboolean gsb_form_finish_edition (void)
     /* check if we finish a transaction or a scheduled transaction
      * we have to decide if it's a transaction or a scheduled transaction,
      * and if it's a scheduled, if we execute it (and create transaction) or work on it*/
-    if (gsb_form_get_origin () == ORIGIN_VALUE_SCHEDULED
-		|| gsb_form_get_origin () == ORIGIN_VALUE_HOME)
+    if (gsb_form_get_origin () == ORIGIN_VALUE_SCHEDULED || gsb_form_get_origin () == ORIGIN_VALUE_HOME)
     {
         if (g_object_get_data (G_OBJECT (transaction_form), "execute_scheduled"))
         {
@@ -3219,6 +3238,7 @@ gboolean gsb_form_finish_edition (void)
             {
 				gsb_scheduler_list_append_new_scheduled (transaction_number,
 														 gsb_scheduler_list_get_end_date_scheduled_showed ());
+
 				/* recover if necessary previous children */
 				if (gsb_data_scheduled_get_split_of_scheduled (transaction_number)
 					&&
@@ -3239,7 +3259,10 @@ gboolean gsb_form_finish_edition (void)
 				}
             }
             else
+			{
+				gsb_scheduler_update_children_from_split_scheduled (transaction_number);
 				gsb_scheduler_list_update_transaction_in_list (transaction_number);
+			}
 
             /* needed for the two in case of we change the date */
             gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
@@ -3430,6 +3453,7 @@ gboolean gsb_form_finish_edition (void)
 	{
 		gsb_scheduler_check_scheduled_transactions_time_limit ();
 		gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
+		gsb_form_widget_set_focus (TRANSACTION_FORM_DATE);
 	}
 
     return FALSE;

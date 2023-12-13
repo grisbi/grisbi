@@ -241,19 +241,7 @@ static void widget_cmp_text_combo_type_text_changed (GtkComboBox *combo,
 
 	devel_debug (NULL);
 	field_type_text = gtk_combo_box_get_active (combo);
-	if (priv->field_type_text < 8 &&  field_type_text < 8)
-	{
-		priv->field_type_text = field_type_text;
-
-		return;
-	}
-	else if (priv->field_type_text > 7 &&  field_type_text > 7)
-	{
-		priv->field_type_text = field_type_text;
-
-		return;
-	}
-	else if (priv->field_type_text < 8 && field_type_text >= 8) /* recherche de nombre */
+	if (field_type_text == 9) /* recherche du numero de cheque */
 	{
 		priv->field_type_text = field_type_text;
 		gtk_widget_hide (priv->hbox_use_text);
@@ -263,7 +251,7 @@ static void widget_cmp_text_combo_type_text_changed (GtkComboBox *combo,
 		widget_cmp_text_display_add_remove_buttons (NUMBER_LINE, priv);
 		gsb_data_report_text_comparison_set_use_text (priv->text_cmp_number, FALSE);
 	}
-	else  /* priv->field_type_text >= 8 && field_type_text < 8 : recherche de texte */
+	else  /* autres choix : recherche de texte */
 	{
 		priv->field_type_text = field_type_text;
 		gtk_widget_show (priv->hbox_use_text);

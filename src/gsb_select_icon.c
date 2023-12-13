@@ -665,6 +665,7 @@ void gsb_select_icon_set_gtk_icon_theme_path (void)
 
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_theme_append_search_path (icon_theme, gsb_dirs_get_pixmaps_dir ());
+	gtk_icon_theme_add_resource_path (icon_theme, "/org/gtk/grisbi/images");
 }
 
 /**
