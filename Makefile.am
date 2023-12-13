@@ -11,10 +11,6 @@ EXTRA_DIST = \
 
 ACLOCAL_AMFLAGS = -I m4
 
-# Fix intltool lock file problem during make distcheck
-DISTCLEANFILES = \
-	po/.intltool-merge-cache.lock
-
 bundle:
 	@if [ "x$(UNDER_JHBUILD)" != "xtrue" ]; then echo "*** Please run this command under JHbuild env."; exit 1; fi
 	@if [ "x$(PREFIX)" != "x$(prefix)" ]; then echo "*** Please use ./configure --prefix=$(PREFIX) to configure Grisbi."; exit 1; fi

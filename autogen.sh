@@ -76,7 +76,10 @@ esac
 
 $LIBTOOLIZE --force --copy
 
-intltoolize --force --copy --automake
+# Copies standard gettext infrastructure files into a source package.
+autopoint --force
+
+touch config.rpath
 
 autoreconf --verbose --force --install
 

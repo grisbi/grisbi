@@ -69,8 +69,8 @@ dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
 
-AM_GLIB_GNU_GETTEXT
-IT_PROG_INTLTOOL([0.40.0])
+AM_GNU_GETTEXT_VERSION([0.21])
+AM_GNU_GETTEXT([external])
 
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
