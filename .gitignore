@@ -16,6 +16,7 @@ Debug/
 MacOS/dist/
 Makefile
 Makefile.in
+TAGS
 TODO*
 Xcode/DerivedData/
 Xcode/grisbi.xcodeproj/project.xcworkspace/xcuserdata
