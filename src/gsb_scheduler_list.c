@@ -2095,7 +2095,9 @@ gboolean gsb_scheduler_list_execute_transaction (gint scheduled_number)
     /* the only difference for now between an execution and a edition of scheduled is here :
      * set the flag to say that we execute the scheduled transaction
      * and hide the scheduler part of the form */
-    g_object_set_data (G_OBJECT (gsb_form_get_form_widget ()), "execute_scheduled", GINT_TO_POINTER (TRUE));
+
+	/* pbiava the execute flag is a gint : set to 1 */
+    g_object_set_data (G_OBJECT (gsb_form_get_form_widget ()), "execute_scheduled", GINT_TO_POINTER (1));
     gtk_widget_hide (gsb_form_get_scheduler_part ());
 
     return FALSE;
