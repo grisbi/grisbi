@@ -708,7 +708,6 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
     GtkTextIter iter;
     GSList *list;
     gint page = 3;
-    gint index = 0;
 
     buffer = g_object_get_data (G_OBJECT (assistant), "text-buffer");
     gtk_text_buffer_set_text (buffer, "\n", -1);
@@ -778,7 +777,6 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 				page ++;
 			}
 
-			index++;
 			list = list->next;
 		}
 
