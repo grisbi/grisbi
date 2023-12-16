@@ -1694,10 +1694,8 @@ void gsb_partial_balance_remove_from_account (gint deleted_account)
 		{
 			gchar **tab;
 			gint i;
-			gint nbre_elements = 0;
 
 			tab = g_strsplit (liste_cptes, ";", 0);
-			nbre_elements = g_strv_length (tab);
 			for ( i = 0; tab[i]; i++ )
 			{
 				gint account_nb;
@@ -1719,7 +1717,6 @@ void gsb_partial_balance_remove_from_account (gint deleted_account)
 					str_to_free_2 = partial_balance->liste_cptes;
 					partial_balance->liste_cptes = gsb_string_remplace_string (str_to_free_2, str_to_free_1, "");
 					g_free(str_to_free_1);
-					nbre_elements--;
 				}
 
 			}
