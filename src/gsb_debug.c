@@ -181,7 +181,6 @@ static gchar *gsb_debug_reconcile_test (void)
 	gchar *tmp_str1;
 	gchar *tmp_str2;
     gint affected_accounts = 0;
-    gint tested_account = 0;
 
     /* S'il n'y a pas de compte, on quitte */
     if (!gsb_data_account_get_number_of_accounts ())
@@ -274,7 +273,6 @@ static gchar *gsb_debug_reconcile_test (void)
 				g_free (tmp_real_str1);
 				g_free (tmp_real_str2);
 			}
-        	tested_account++;
         }
     }
     while (( pUserAccountsList = pUserAccountsList->next));
