@@ -464,7 +464,7 @@ gboolean widget_cmp_text_get_data (GtkWidget *widget,
 											   (GTK_COMBO_BOX (priv->button_field)));
 
 	/* on sépare le traitement en fonction field_type_text */
-	if (priv->field_type_text < 8)
+	if (priv->field_type_text != 9)
 	{
 		/* on récupère l'index de button_operator */
 		gsb_data_report_text_comparison_set_operator (text_cmp_number,
@@ -532,7 +532,7 @@ void widget_cmp_text_init_data (GtkWidget *widget,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->button_field), field_type_text);
 
 	/* on sépare le traitement en fonction field_type_text */
-	if (field_type_text < 8)
+	if (field_type_text != 9)
 	{
 		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->button_operator),
 								  gsb_data_report_text_comparison_get_operator (text_cmp_number));
