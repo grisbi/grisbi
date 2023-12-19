@@ -76,9 +76,6 @@ esac
 
 $LIBTOOLIZE --force --copy
 
-# Copies standard gettext infrastructure files into a source package.
-autopoint --force
-
 autoreconf --verbose --force --install
 
 #
