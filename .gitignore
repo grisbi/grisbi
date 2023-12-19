@@ -5,6 +5,7 @@
 *.new
 *.o
 *.ok
+*.rpath
 *.sha256sum
 *.swp
 *~
@@ -53,5 +54,10 @@ test-driver
 *.gmo
 POTFILES
 grisbi.pot
-stamp-it
+po/*.header
+po/*.sed
+po/*.sin
 po/Makefile.in.in
+po/Makevars.template
+po/Rules-quot
+po/stamp-*
