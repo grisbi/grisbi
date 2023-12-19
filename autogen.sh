@@ -79,8 +79,6 @@ $LIBTOOLIZE --force --copy
 # Copies standard gettext infrastructure files into a source package.
 autopoint --force
 
-touch config.rpath
-
 autoreconf --verbose --force --install
 
 #
