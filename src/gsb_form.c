@@ -3032,15 +3032,15 @@ gboolean gsb_form_finish_edition (void)
      * and if it's a scheduled, if we execute it (and create transaction) or work on it*/
     if (gsb_form_get_origin () == ORIGIN_VALUE_SCHEDULED || gsb_form_get_origin () == ORIGIN_VALUE_HOME)
     {
+	   /* we need to keep the number of scheduled, to check later if there is
+		* some children and modifie the scheduled transaction */
+	   saved_scheduled_number = transaction_number;
         if (g_object_get_data (G_OBJECT (transaction_form), "execute_scheduled"))
         {
            /* we want to execute the scheduled transaction */
            is_transaction = TRUE;
            execute_scheduled = TRUE;
 
-           /* we need to keep the number of scheduled, to check later if there is
-            * some children and modifie the scheduled transaction */
-           saved_scheduled_number = transaction_number;
            /* as it's a new transaction, do the same as a white line */
            transaction_number = -1;
         }
@@ -3261,6 +3261,7 @@ gboolean gsb_form_finish_edition (void)
             else
 			{
 				gsb_scheduler_update_children_from_split_scheduled (transaction_number);
+				gsb_scheduler_list_fill_list ();
 				gsb_scheduler_list_update_transaction_in_list (transaction_number);
 			}
 
@@ -3289,9 +3290,12 @@ gboolean gsb_form_finish_edition (void)
      * and execute the children if it's a split */
     if (execute_scheduled)
     {
-        gint increase_result;
+		gint frequency;
+        gint increase_result = 0;
 
-        /* first, check if it's a scheduled split and execute the childrent */
+		frequency = gsb_data_scheduled_get_frequency (saved_scheduled_number);
+
+		/* first, check if it's a scheduled split and execute the childrent */
         if (gsb_data_scheduled_get_split_of_scheduled (saved_scheduled_number))
 		{
 			gint transfer_account;
@@ -3309,7 +3313,8 @@ gboolean gsb_form_finish_edition (void)
 		}
 
         /* now we can increase the scheduled transaction */
-        increase_result = gsb_scheduler_increase_scheduled (saved_scheduled_number);
+		if (frequency)
+			increase_result = gsb_scheduler_increase_scheduled (saved_scheduled_number);
 
         /* the next step is to update the list, but do it only if we are on the scheduled
          * list, else we needn't because the update will be done when going to that list */
@@ -3317,6 +3322,11 @@ gboolean gsb_form_finish_edition (void)
         {
             if (increase_result)
                 gsb_scheduler_list_update_transaction_in_list (saved_scheduled_number);
+			else
+			{
+				gsb_scheduler_list_delete_scheduled_transaction (saved_scheduled_number, FALSE);
+				gsb_scheduler_list_remove_transaction_from_list (saved_scheduled_number);
+			}
 
             gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
         }

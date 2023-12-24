@@ -5,6 +5,7 @@
 *.new
 *.o
 *.ok
+*.rpath
 *.sha256sum
 *.swp
 *~
@@ -16,6 +17,7 @@ Debug/
 MacOS/dist/
 Makefile
 Makefile.in
+TAGS
 TODO*
 Xcode/DerivedData/
 Xcode/grisbi.xcodeproj/project.xcworkspace/xcuserdata
@@ -48,5 +50,14 @@ stamp-h1
 tags
 test-driver
 .DS_Store
-
-po/.intltool-merge-cache.lock
+*.mo
+*.gmo
+POTFILES
+grisbi.pot
+po/*.header
+po/*.sed
+po/*.sin
+po/Makefile.in.in
+po/Makevars.template
+po/Rules-quot
+po/stamp-*

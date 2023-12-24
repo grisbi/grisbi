@@ -750,7 +750,6 @@ static void widget_transfer_fill_list (GtkWidget *tree_view,
 {
 	GtkTreeModel *model;
 	GSList *tmp_list;
-	gint nbre_rows = 0;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 	tmp_list = gsb_data_account_get_list_accounts ();
@@ -804,7 +803,6 @@ static void widget_transfer_fill_list (GtkWidget *tree_view,
 									2, tmp_account_number,
 									3, FALSE,
 									-1);
-				nbre_rows ++;
 				g_free (tmp_str);
 			}
 		}
@@ -846,7 +844,6 @@ static void widget_transfer_fill_list (GtkWidget *tree_view,
 								2, tmp_number,
 								3, TRUE,
 								-1);
-				nbre_rows ++;
 		}
 
 		tmp_list = tmp_list->next;

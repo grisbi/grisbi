@@ -860,8 +860,8 @@ gboolean gsb_form_scheduler_clean (void)
 	devel_debug (NULL);
 	w_etat = grisbi_win_get_w_etat ();
 
-	/* set to NULL the execute flag */
-	g_object_set_data (G_OBJECT (gsb_form_get_form_widget ()), "execute_scheduled", NULL);
+	/* pbiava the execute flag is a gint : set to 0 */
+	g_object_set_data (G_OBJECT (gsb_form_get_form_widget ()), "execute_scheduled", 0);
 
 	/* first we show it, becaus hidden when execute a scheduled transaction */
 	if (gsb_form_get_origin () == ORIGIN_VALUE_SCHEDULED)

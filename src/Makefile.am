@@ -346,8 +346,6 @@ endif
 grisbi_resources.c: grisbi.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir) $(srcdir)/grisbi.gresource.xml)
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --generate-source --c-name grisbi --sourcedir=$(srcdir) $<
 
-@INTLTOOL_XML_NOMERGE_RULE@
-
 if WIN32
 grisbi_LDFLAGS = -mwindows
 endif

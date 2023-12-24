@@ -2095,7 +2095,9 @@ gboolean gsb_scheduler_list_execute_transaction (gint scheduled_number)
     /* the only difference for now between an execution and a edition of scheduled is here :
      * set the flag to say that we execute the scheduled transaction
      * and hide the scheduler part of the form */
-    g_object_set_data (G_OBJECT (gsb_form_get_form_widget ()), "execute_scheduled", GINT_TO_POINTER (TRUE));
+
+	/* pbiava the execute flag is a gint : set to 1 */
+    g_object_set_data (G_OBJECT (gsb_form_get_form_widget ()), "execute_scheduled", GINT_TO_POINTER (1));
     gtk_widget_hide (gsb_form_get_scheduler_part ());
 
     return FALSE;
@@ -2693,6 +2695,8 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
     end_date = gdate_today ();
 
     /* on calcule la date de fin de l'affichage */
+	/* pbiava ajout d'un mois supplémentaire pour voir n mois effectifs */
+	/* ou une annee a partir de la date du jour */
     switch (w_etat->affichage_echeances)
     {
 		case SCHEDULER_PERIODICITY_ONCE_VIEW:
@@ -2701,29 +2705,28 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
 
 		case SCHEDULER_PERIODICITY_WEEK_VIEW:
 			g_date_add_days (end_date, 7);
-			g_date_add_months (end_date, 0);
 			break;
 
 		case SCHEDULER_PERIODICITY_MONTH_VIEW:
 			g_date_add_months (end_date, 1);
 			end_date->day = 1;
-			g_date_subtract_days (end_date, 1);
+			g_date_subtract_days (end_date, 2);
 			break;
 
 		case SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW:
-			g_date_add_months (end_date, 2);
-			end_date->day = 1;
-			g_date_subtract_days (end_date, 1);
-			break;
-
-		case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
 			g_date_add_months (end_date, 3);
 			end_date->day = 1;
 			g_date_subtract_days (end_date, 1);
 			break;
 
+		case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
+			g_date_add_months (end_date, 4);
+			end_date->day = 1;
+			g_date_subtract_days (end_date, 1);
+			break;
+
 		case SCHEDULER_PERIODICITY_YEAR_VIEW:
-			g_date_add_years (end_date, 1);
+			g_date_add_months (end_date, 13);
 			end_date->day = 1;
 			end_date->month = 1;
 			g_date_subtract_days (end_date, 1);
@@ -2741,8 +2744,8 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
 					break;
 
 				case PERIODICITY_MONTHS:
-					g_date_add_months (end_date, w_etat->affichage_echeances_perso_nb_libre);
-					if (a_conf->execute_scheduled_of_month)	/* dans ce cas on affiche toutes les transactions du mois */
+					g_date_add_months (end_date, w_etat->affichage_echeances_perso_nb_libre + 1);
+					if (a_conf->execute_scheduled_of_month)
 					{
 						GDate *tmp_date;
 
@@ -2757,6 +2760,7 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed (void)
 					break;
 			}
     }
+
     return end_date;
 }
 

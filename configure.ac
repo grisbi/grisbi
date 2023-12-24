@@ -13,7 +13,6 @@ AC_CONFIG_SRCDIR(src/main.c)
 AC_CONFIG_AUX_DIR(.)
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_AUX_DIR(.)
 
 AC_DEFINE(GRISBI_MAJOR_VERSION, grisbi_major_version, [grisbi major version])
 AC_SUBST(GRISBI_MAJOR_VERSION, grisbi_major_version)
@@ -24,7 +23,7 @@ AC_SUBST(GRISBI_MICRO_VERSION, grisbi_micro_version)
 
 # Dependencies
 GLIB_REQUIRED=2.56
-GTK_REQUIRED=3.22
+GTK_REQUIRED=3.24
 LIBGSF_REQUIRED=1.14
 
 # Optionnel
@@ -69,8 +68,8 @@ dnl ================================================================
 dnl Check for NLS support.
 dnl ================================================================
 
-AM_GLIB_GNU_GETTEXT
-IT_PROG_INTLTOOL([0.40.0])
+AM_GNU_GETTEXT_VERSION([0.21])
+AM_GNU_GETTEXT([external])
 
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)

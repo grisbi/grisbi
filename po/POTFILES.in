@@ -1,61 +1,61 @@
-[type: gettext/glade]src/etats/etats_page_amount.ui
-[type: gettext/glade]src/etats/etats_page_accounts.ui
-[type: gettext/glade]src/etats/etats_page_budget.ui
-[type: gettext/glade]src/etats/etats_page_category.ui
-[type: gettext/glade]src/etats/etats_page_payee.ui
-[type: gettext/glade]src/etats/etats_page_period.ui
-[type: gettext/glade]src/etats/etats_page_text.ui
-[type: gettext/glade]src/etats/etats_page_transfer.ui
-[type: gettext/glade]src/prefs/prefs_page_accueil.ui
-[type: gettext/glade]src/prefs/prefs_page_archives.ui
-[type: gettext/glade]src/prefs/prefs_page_bank.ui
-[type: gettext/glade]src/prefs/prefs_page_bet_account.ui
-[type: gettext/glade]src/prefs/prefs_page_bet_general.ui
-[type: gettext/glade]src/prefs/prefs_page_currency.ui
-[type: gettext/glade]src/prefs/prefs_page_currency_link.ui
-[type: gettext/glade]src/prefs/prefs_page_display_adr.ui
-[type: gettext/glade]src/prefs/prefs_page_display_fonts.ui
-[type: gettext/glade]src/prefs/prefs_page_display_form.ui
-[type: gettext/glade]src/prefs/prefs_page_display_gui.ui
-[type: gettext/glade]src/prefs/prefs_page_display_ope.ui
-[type: gettext/glade]src/prefs/prefs_page_divers.ui
-[type: gettext/glade]src/prefs/prefs_page_files.ui
-[type: gettext/glade]src/prefs/prefs_page_form_completion.ui
-[type: gettext/glade]src/prefs/prefs_page_form_options.ui
-[type: gettext/glade]src/prefs/prefs_page_fyear.ui
-[type: gettext/glade]src/prefs/prefs_page_import.ui
-[type: gettext/glade]src/prefs/prefs_page_metatree.ui
-[type: gettext/glade]src/prefs/prefs_page_msg_delete.ui
-[type: gettext/glade]src/prefs/prefs_page_msg_warning.ui
-[type: gettext/glade]src/prefs/prefs_page_options_ope.ui
-[type: gettext/glade]src/prefs/prefs_page_payment_method.ui
-[type: gettext/glade]src/prefs/prefs_page_reconcile.ui
-[type: gettext/glade]src/prefs/prefs_page_reconcile_sort.ui
-[type: gettext/glade]src/ui/csv_template_rule.ui
-[type: gettext/glade]src/ui/etats_prefs.ui
-[type: gettext/glade]src/ui/grisbi_menu.ui
-[type: gettext/glade]src/ui/grisbi_prefs.ui
-[type: gettext/glade]src/ui/grisbi_win.ui
-[type: gettext/glade]src/widgets/widget_account_property.ui
-[type: gettext/glade]src/widgets/widget_assistant.ui
-[type: gettext/glade]src/widgets/widget_bank_details.ui
-[type: gettext/glade]src/widgets/widget_bet_graph_options.ui
-[type: gettext/glade]src/widgets/widget_bet_graph_others.ui
-[type: gettext/glade]src/widgets/widget_bet_graph_pie.ui
-[type: gettext/glade]src/widgets/widget_cmp_amount.ui
-[type: gettext/glade]src/widgets/widget_cmp_text.ui
-[type: gettext/glade]src/widgets/widget_css_rules.ui
-[type: gettext/glade]src/widgets/widget_currency_details.ui
-[type: gettext/glade]src/widgets/widget_currency_link.ui
-[type: gettext/glade]src/widgets/widget_currency_popup.ui
-[type: gettext/glade]src/widgets/widget_import_asso.ui
-[type: gettext/glade]src/widgets/widget_import_files.ui
-[type: gettext/glade]src/widgets/widget_list_accounts.ui
-[type: gettext/glade]src/widgets/widget_list_metatree.ui
-[type: gettext/glade]src/widgets/widget_loan.ui
-[type: gettext/glade]src/widgets/widget_reconcile.ui
-[type: gettext/glade]src/widgets/widget_search_transaction.ui
-[type: gettext/glade]src/widgets/widget_transfer.ui
+src/etats/etats_page_amount.ui
+src/etats/etats_page_accounts.ui
+src/etats/etats_page_budget.ui
+src/etats/etats_page_category.ui
+src/etats/etats_page_payee.ui
+src/etats/etats_page_period.ui
+src/etats/etats_page_text.ui
+src/etats/etats_page_transfer.ui
+src/prefs/prefs_page_accueil.ui
+src/prefs/prefs_page_archives.ui
+src/prefs/prefs_page_bank.ui
+src/prefs/prefs_page_bet_account.ui
+src/prefs/prefs_page_bet_general.ui
+src/prefs/prefs_page_currency.ui
+src/prefs/prefs_page_currency_link.ui
+src/prefs/prefs_page_display_adr.ui
+src/prefs/prefs_page_display_fonts.ui
+src/prefs/prefs_page_display_form.ui
+src/prefs/prefs_page_display_gui.ui
+src/prefs/prefs_page_display_ope.ui
+src/prefs/prefs_page_divers.ui
+src/prefs/prefs_page_files.ui
+src/prefs/prefs_page_form_completion.ui
+src/prefs/prefs_page_form_options.ui
+src/prefs/prefs_page_fyear.ui
+src/prefs/prefs_page_import.ui
+src/prefs/prefs_page_metatree.ui
+src/prefs/prefs_page_msg_delete.ui
+src/prefs/prefs_page_msg_warning.ui
+src/prefs/prefs_page_options_ope.ui
+src/prefs/prefs_page_payment_method.ui
+src/prefs/prefs_page_reconcile.ui
+src/prefs/prefs_page_reconcile_sort.ui
+src/ui/csv_template_rule.ui
+src/ui/etats_prefs.ui
+src/ui/grisbi_menu.ui
+src/ui/grisbi_prefs.ui
+src/ui/grisbi_win.ui
+src/widgets/widget_account_property.ui
+src/widgets/widget_assistant.ui
+src/widgets/widget_bank_details.ui
+src/widgets/widget_bet_graph_options.ui
+src/widgets/widget_bet_graph_others.ui
+src/widgets/widget_bet_graph_pie.ui
+src/widgets/widget_cmp_amount.ui
+src/widgets/widget_cmp_text.ui
+src/widgets/widget_css_rules.ui
+src/widgets/widget_currency_details.ui
+src/widgets/widget_currency_link.ui
+src/widgets/widget_currency_popup.ui
+src/widgets/widget_import_asso.ui
+src/widgets/widget_import_files.ui
+src/widgets/widget_list_accounts.ui
+src/widgets/widget_list_metatree.ui
+src/widgets/widget_loan.ui
+src/widgets/widget_reconcile.ui
+src/widgets/widget_search_transaction.ui
+src/widgets/widget_transfer.ui
 share/grisbi.desktop.in
 share/grisbi.metainfo.xml.in
 src/accueil.c

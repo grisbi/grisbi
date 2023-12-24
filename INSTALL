@@ -3,8 +3,8 @@ How to install Grisbi :
 
 Requirements:
 
-GLIB_REQUIRED=2.44
-GTK_REQUIRED=3.16
+GLIB_REQUIRED=2.56
+GTK_REQUIRED=3.24
 LIBGSF_REQUIRED=1.14
 
 # Optional

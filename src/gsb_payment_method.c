@@ -295,7 +295,6 @@ gint gsb_payment_method_get_selected_number (GtkWidget *combo_box)
 void gsb_payment_method_set_payment_position (GtkWidget *combo_box,
 											  gint payment_number)
 {
-    gint i = 0;
     GtkTreeModel *model;
     GtkTreeIter iter;
 
@@ -315,7 +314,6 @@ void gsb_payment_method_set_payment_position (GtkWidget *combo_box,
 				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combo_box), &iter);
 				return;
 			}
-			i++;
 		}
 		while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
     }

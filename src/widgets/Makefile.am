@@ -82,12 +82,8 @@ EXTRA_DIST = \
 	widget_loan.ui \
 	widget_reconcile.ui \
 	widget_search_transaction.ui \
-	widget_transfer.ui
-
-if HAVE_GOFFICE
-EXTRA_DIST += \
+	widget_transfer.ui \
 	widget_bet_graph_options.ui \
 	widget_bet_graph_others.ui \
 	widget_bet_graph_pie.ui
-endif
 

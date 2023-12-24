@@ -1,7 +1,7 @@
 [Desktop Entry]
-_Name=Grisbi
-_Comment=Personnal finances manager
-_Keywords=finance
+Name=Grisbi
+Comment=Personnal finances manager
+Keywords=finance
 Exec=grisbi %f
 Icon=grisbi
 Terminal=false

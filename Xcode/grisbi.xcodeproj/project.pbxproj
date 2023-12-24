@@ -42,6 +42,7 @@
 		005BC3401F6C1943006DB25E /* prefs_page_display_adr.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC33F1F6C1943006DB25E /* prefs_page_display_adr.c */; };
 		005BC3431F6C196D006DB25E /* prefs_page_display_gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 005BC3421F6C196D006DB25E /* prefs_page_display_gui.c */; };
 		0065DB3628EB4CC900908929 /* widget_assistant.c in Sources */ = {isa = PBXBuildFile; fileRef = 0065DB3328EB4CA100908929 /* widget_assistant.c */; };
+		006792E32B370CAA006AC2ED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 006792E22B370CAA006AC2ED /* libxml2.tbd */; };
 		00684E772A4C741200F12C83 /* widget_search_transaction.c in Sources */ = {isa = PBXBuildFile; fileRef = 00684E762A4C735400F12C83 /* widget_search_transaction.c */; };
 		0069D0C02498C36600C4BDAB /* widget_css_rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 0069D0BD2498C36600C4BDAB /* widget_css_rules.c */; };
 		006E682D1DB3E7AD0038B1F0 /* accueil.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E67011DB3E7AC0038B1F0 /* accueil.c */; };
@@ -305,6 +306,7 @@
 		0065DB3328EB4CA100908929 /* widget_assistant.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = widget_assistant.c; sourceTree = "<group>"; };
 		0065DB3428EB4CA100908929 /* widget_assistant.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = widget_assistant.ui; sourceTree = "<group>"; };
 		0065DB3528EB4CA100908929 /* widget_assistant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = widget_assistant.h; sourceTree = "<group>"; };
+		006792E22B370CAA006AC2ED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		00684E742A4C735400F12C83 /* widget_search_transaction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = widget_search_transaction.h; sourceTree = "<group>"; };
 		00684E752A4C735400F12C83 /* widget_search_transaction.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = widget_search_transaction.ui; sourceTree = "<group>"; };
 		00684E762A4C735400F12C83 /* widget_search_transaction.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = widget_search_transaction.c; sourceTree = "<group>"; };
@@ -722,6 +724,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				006792E32B370CAA006AC2ED /* libxml2.tbd in Frameworks */,
 				0099AD8129340C1300ECDBAA /* libpango-1.0.a in Frameworks */,
 				0099AD7F29340BD500ECDBAA /* libintl.a in Frameworks */,
 				00EA60EC1F914DF200569C19 /* libgtkmacintegration-gtk3.4.dylib in Frameworks */,
@@ -895,6 +898,7 @@
 		006E68BE1DB3E96C0038B1F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				006792E22B370CAA006AC2ED /* libxml2.tbd */,
 				006E68C11DB3E9C20038B1F0 /* libcairo.a */,
 				003AC2131F49DDE9007DA275 /* libcrypto.a */,
 				006E68CD1DB425720038B1F0 /* libgdk_pixbuf-2.0.a */,
