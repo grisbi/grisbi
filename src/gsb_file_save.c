@@ -2601,6 +2601,7 @@ gulong gsb_file_save_report_part (gulong iterator,
 											  "\t\tShow_transaction_payee=\"%d\"\n"
 											  "\t\tShow_transaction_categ=\"%d\"\n"
 											  "\t\tShow_transaction_sub_categ=\"%d\"\n"
+											  "\t\tShow_transaction_account_name=\"%d\"\n"
 											  "\t\tShow_transaction_payment=\"%d\"\n"
 											  "\t\tShow_transaction_budget=\"%d\"\n"
 											  "\t\tShow_transaction_sub_budget=\"%d\"\n"
@@ -2686,6 +2687,7 @@ gulong gsb_file_save_report_part (gulong iterator,
 											  gsb_data_report_get_show_report_payee (report_number),
 											  gsb_data_report_get_show_report_category (report_number),
 											  gsb_data_report_get_show_report_sub_category (report_number),
+											  gsb_data_report_get_show_report_account_name (report_number),
 											  gsb_data_report_get_show_report_method_of_payment (report_number),
 											  gsb_data_report_get_show_report_budget (report_number),
 											  gsb_data_report_get_show_report_sub_budget (report_number),

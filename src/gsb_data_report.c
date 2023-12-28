@@ -84,6 +84,7 @@ struct _ReportStruct {
     gint show_report_method_of_payment_content;
     gint show_report_marked;
     gint show_report_financial_year;
+    gint show_report_account_name;
 
     /** @name stuff showed in the report */
     gint sorting_report;                            /**< 0=date, 1=tr number, 2=payee, 3=categ, 4=budget, 5=notes, 6=method payment, 7=method paym content, 8=voucher, 9=bank ref, 10=marked number */
@@ -1237,6 +1238,50 @@ gboolean gsb_data_report_set_show_report_marked ( gint report_number,
 
     return TRUE;
 }
+
+
+/**
+ * get the  show_report_account_name
+ *
+ * \param report_number the number of the report
+ *
+ * \return the show_report_account_name  of the report, -1 if problem
+ * */
+gint gsb_data_report_get_show_report_account_name ( gint report_number )
+{
+    ReportStruct *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if ( !report )
+	return -1;
+
+    return report -> show_report_account_name;
+}
+
+/**
+ * set the show_report_account_name
+ *
+ * \param report_number number of the report
+ * \param show_report_account_name
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_report_set_show_report_account_name ( gint report_number,
+                        gint show_report_account_name )
+{
+    ReportStruct *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if ( !report )
+	return FALSE;
+
+    report -> show_report_account_name = show_report_account_name;
+
+    return TRUE;
+}
+
 
 
 /**
