@@ -211,7 +211,7 @@ static gint gsb_scheduler_create_transaction_from_scheduled_transaction (gint sc
 	/* ask for change if necessary, only for normal transaction ; a child must have the same currency number
 	 * than the mother */
 	if (!transaction_mother)
-	gsb_currency_check_for_change (transaction_number);
+		gsb_currency_check_for_change (transaction_number);
 
 	gsb_data_transaction_set_method_of_payment_number (transaction_number,
 													   gsb_data_scheduled_get_method_of_payment_number
@@ -343,7 +343,11 @@ gboolean gsb_scheduler_increase_scheduled (gint scheduled_number)
 		/* update the main page */
 		gsb_main_page_update_finished_scheduled_transactions (scheduled_number);
 
-		/* remove the scheduled transaction */
+		/* remove the scheduled transaction and children (bug 2255 */
+		if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
+		{
+			gsb_data_scheduled_remove_child_scheduled (scheduled_number);
+		}
 		gsb_data_scheduled_remove_scheduled (scheduled_number);
 
 		return FALSE;
@@ -650,15 +654,11 @@ void gsb_scheduler_check_scheduled_transactions_time_limit (void)
 				/* all again, i don't think it will have thousand of scheduled transactions, */
 				/* so no much waste of time...) */
 
-				/* On protège tmp_list si gsb_scheduler_increase_scheduled () return FALSE */
-				tmp_list = tmp_list->next;
-
+				/* fixe probablement le bug bug 2255 */
 				if (gsb_scheduler_increase_scheduled (scheduled_number))
-				{
 					scheduled_transactions_to_take = NULL;
-					tmp_list = gsb_data_scheduled_get_scheduled_list ();
 
-				}
+				tmp_list = gsb_data_scheduled_get_scheduled_list ();
 			}
 			else
 			{
