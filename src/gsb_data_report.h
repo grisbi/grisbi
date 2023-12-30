@@ -97,6 +97,7 @@ gboolean	gsb_data_report_get_search_report							(gint report_number);
 gint 		gsb_data_report_get_show_m 									(gint report_number);
 gint 		gsb_data_report_get_show_p 									(gint report_number);
 gint 		gsb_data_report_get_show_r 									(gint report_number);
+gint 		gsb_data_report_get_show_report_account_name				(gint report_number);
 gint 		gsb_data_report_get_show_report_bank_references 			(gint report_number);
 gint 		gsb_data_report_get_show_report_budget 						(gint report_number);
 gint 		gsb_data_report_get_show_report_category 					(gint report_number);
@@ -254,6 +255,8 @@ gboolean 	gsb_data_report_set_show_p 									(gint report_number,
                         												 gint show_p);
 gboolean 	gsb_data_report_set_show_r 									(gint report_number,
                         												 gint show_r);
+gboolean 	gsb_data_report_set_show_report_account_name				(gint report_number,
+                        												 gint show_report_account_name);
 gboolean 	gsb_data_report_set_show_report_bank_references 			(gint report_number,
                         												 gint show_report_bank_references);
 gboolean 	gsb_data_report_set_show_report_budget 						(gint report_number,

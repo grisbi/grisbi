@@ -308,7 +308,7 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
     if (!gsb_gui_navigation_get_current_report ())
 	return FALSE;
 
-    html_safe (etats_titre(gsb_gui_navigation_get_current_report ()));
+    html_safe (etats_support_get_titre (gsb_gui_navigation_get_current_report ()));
     fprintf (html_out,
 	     "</title>\n"
 	     "  </head>\n\n"

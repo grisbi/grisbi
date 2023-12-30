@@ -8,6 +8,6 @@
 
 
 /* START_DECLARATION */
-gchar *	etats_titre 	(gint report_number);
+gchar *		etats_support_get_titre 	(gint report_number);
 /* END_DECLARATION */
 #endif
