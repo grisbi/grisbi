@@ -929,7 +929,7 @@ static gboolean gsb_assistant_archive_switch_to_success (GtkWidget *assistant,
 		gint report_number;
 
 		report_number = gsb_report_get_report_from_combobox (report_button);
-		gsb_data_archive_set_report_title (archive_number, etats_titre (report_number));
+		gsb_data_archive_set_report_title (archive_number, etats_support_get_titre (report_number));
 	}
 
 	/* mark the transactions as archived */

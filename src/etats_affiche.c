@@ -179,7 +179,7 @@ gint etat_affiche_affiche_titre_etat (gint ligne)
 	gint report_number;
 
 	report_number = gsb_gui_navigation_get_current_report ();
-	titre = etats_titre (report_number);
+	titre = etats_support_get_titre (report_number);
 
 	if (gsb_data_report_get_compl_name_used (report_number)
 		&& gsb_data_report_get_compl_name_function (report_number) == 1)

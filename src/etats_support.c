@@ -118,7 +118,7 @@ static void etats_support_set_export_pdf_name (gint report_number,
  *
  * \return
  **/
-gchar *etats_titre ( gint report_number)
+gchar *etats_support_get_titre (gint report_number)
 {
 	gchar **tab;
     gchar *titre;
