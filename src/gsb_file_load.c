@@ -4746,6 +4746,13 @@ void gsb_file_load_report_part (const gchar **attribute_names,
         continue;
     }
 
+    if (!strcmp (attribute_names[i], "Show_transaction_account_name"))
+    {
+        gsb_data_report_set_show_report_account_name (report_number, utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
     if (!strcmp (attribute_names[i], "Show_transaction_payment"))
     {
         gsb_data_report_set_show_report_method_of_payment (report_number,

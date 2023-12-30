@@ -894,6 +894,20 @@ Grisbi will automatically create transactions for all payees from the report</pr
                             <property name="top-attach">4</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkCheckButton" id="bouton_afficher_nom_compte_opes">
+                            <property name="label" translatable="yes">nom du compte</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="halign">start</property>
+                            <property name="draw-indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">5</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>

@@ -260,7 +260,7 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 		colonne = colonne + 2;
 	}
 
-	if (gsb_data_report_get_account_show_name (current_report_number))
+	if (gsb_data_report_get_show_report_account_name (current_report_number))
 	{
 		etat_affiche_attach_label (_("Account name"),
 								   TEXT_BOLD,
@@ -607,7 +607,7 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 			g_free (text);
 	}
 
-	if (gsb_data_report_get_account_show_name (current_report_number))
+	if (gsb_data_report_get_show_report_account_name (current_report_number))
 	{
 
 		text = my_strdup (gsb_data_account_get_name (gsb_data_transaction_get_account_number

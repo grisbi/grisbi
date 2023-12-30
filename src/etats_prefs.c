@@ -211,6 +211,7 @@ struct _EtatsPrefsPrivate
 	GtkWidget *		bouton_afficher_exo_opes;
 	GtkWidget *		bouton_afficher_infobd_opes;
 	GtkWidget *		bouton_afficher_no_rappr;
+	GtkWidget *     bouton_afficher_nom_compte_opes;
 	GtkWidget *		bouton_afficher_titres_colonnes;
 	GtkWidget *		bouton_titre_changement;
 	GtkWidget *		bouton_titre_en_haut;
@@ -1926,6 +1927,7 @@ static void etats_prefs_class_init (EtatsPrefsClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_exo_opes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_infobd_opes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_no_rappr);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_nom_compte_opes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_afficher_titres_colonnes);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_titre_changement);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), EtatsPrefs, bouton_titre_en_haut);
@@ -2868,6 +2870,8 @@ void etats_prefs_initialise_onglet_affichage_operations (GtkWidget *etats_prefs,
 								  gsb_data_report_get_show_report_bank_references (report_number));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_no_rappr),
 								  gsb_data_report_get_show_report_marked (report_number));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_nom_compte_opes),
+								  gsb_data_report_get_show_report_account_name (report_number));
 
 	/* affichage des titres des colonnes */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_titres_colonnes),
@@ -2983,6 +2987,11 @@ void etats_prefs_recupere_info_onglet_affichage_operations (GtkWidget *etats_pre
 	if (detail_ope && !is_actif)
 		is_actif = TRUE;
 	gsb_data_report_set_show_report_marked (report_number, detail_ope);
+
+	detail_ope = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->bouton_afficher_nom_compte_opes));
+	if (detail_ope && !is_actif)
+		is_actif = TRUE;
+	gsb_data_report_set_show_report_account_name (report_number, detail_ope);
 
 	if (affich_opes && !is_actif)
 		gsb_data_report_set_show_report_transactions (report_number, FALSE);

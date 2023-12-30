@@ -1395,7 +1395,7 @@ pas_decalage:
 	{
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_date (current_report_number);
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_value_date (current_report_number);
-		nb_colonnes = nb_colonnes + gsb_data_report_get_account_show_name (current_report_number);
+		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_account_name (current_report_number);
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_payee (current_report_number);
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_category (current_report_number);
 		nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_budget (current_report_number);
