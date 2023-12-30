@@ -1291,6 +1291,10 @@ static GtkWidget *etats_prefs_onglet_affichage_titles_create_page (EtatsPrefs *p
 	g_signal_connect (G_OBJECT (priv->bouton_group_by_account),
 					  "toggled",
 					  G_CALLBACK (sens_desensitive_pointeur),
+					  priv->bouton_afficher_noms_comptes);
+	g_signal_connect (G_OBJECT (priv->bouton_group_by_account),
+					  "toggled",
+					  G_CALLBACK (sens_desensitive_pointeur),
 					  priv->bouton_affiche_sous_total_compte);
 
 	/* affichage possible des tiers */
