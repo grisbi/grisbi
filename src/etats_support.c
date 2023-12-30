@@ -1,23 +1,29 @@
-/*  Fonctions utilitaires à destination des plugins d'état  */
-/*      etats.c */
-
-/*     Copyright (C) 2002  Benjamin Drieu */
-/* 			benj@april.org */
-/* 			https://www.grisbi.org/*/
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
+/* *******************************************************************************/
+/*                                 GRISBI                                        */
+/*              Programme de gestion financière personnelle                      */
+/*                              license : GPLv2                                  */
+/*                                                                               */
+/*                      2002-2008 Benjamin Drieu (bdrieu@april.org)              */
+/*          https://www.grisbi.org/                                              */
+/*                                                                               */
+/*     This program is free software; you can redistribute it and/or modify      */
+/*     it under the terms of the GNU General Public License as published by      */
+/*     the Free Software Foundation; either version 2 of the License, or         */
+/*     (at your option) any later version.                                       */
+/*                                                                               */
+/*     This program is distributed in the hope that it will be useful,           */
+/*     but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*     GNU General Public License for more details.                              */
+/*                                                                               */
+/*     You should have received a copy of the GNU General Public License         */
+/*     along with this program; if not, write to the Free Software               */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                               */
+/* *******************************************************************************/
+
+/* Fonctions utilitaires à destination des plugins d'état  */
+/* etats.c */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -37,9 +43,6 @@
 
 /*START_STATIC*/
 /*END_STATIC*/
-
-
-
 
 /*START_EXTERN*/
 /*END_EXTERN*/
@@ -121,397 +124,302 @@ static void etats_support_set_export_pdf_name (gint report_number,
 gchar *etats_support_get_titre (gint report_number)
 {
 	gchar **tab;
-    gchar *titre;
-    GDate *today_date;
+	gchar *titre;
+	GDate *today_date;
 	gchar *tmp_titre = NULL;
 
-    titre = g_strdup(gsb_data_report_get_report_name (report_number));
-    today_date = gdate_today ();
+	titre = g_strdup(gsb_data_report_get_report_name (report_number));
+	today_date = gdate_today ();
 
-    if ( gsb_data_report_get_use_financial_year (report_number))
-    {
-	GSList *tmp_list;
-	gint fyear_number;
-	gint last_fyear_number;
-
-	switch (gsb_data_report_get_financial_year_type (report_number))
+	if (gsb_data_report_get_use_financial_year (report_number))
 	{
-	    case 0:
-		/* all the financial years */
+		GSList *tmp_list;
+		gint fyear_number;
+		gint last_fyear_number;
 
-		tmp_titre = g_strconcat ( titre,
-				      ", ", _("all financial years"),
-				      NULL );
-		g_free(titre);
-		titre = tmp_titre;
-		break;
-
-	    case 1:
-		/* current financial year */
-		fyear_number = gsb_data_fyear_get_from_date (today_date);
-
-		if (fyear_number)
-			tmp_titre = g_strconcat ( titre,
-					  ", ", _("current financial year") , " (",
-					  gsb_data_fyear_get_name (fyear_number),
-					  ")",
-					  NULL );
-		else
-			tmp_titre = g_strconcat ( titre,
-					  ", ", _("current financial year"),
-					  NULL );
-
-		g_free(titre);
-		titre = tmp_titre;
-		break;
-
-	    case 2:
-		/* last financial year */
-
-		fyear_number = gsb_data_fyear_get_from_date (today_date);
-		last_fyear_number = 0;
-
-		tmp_list = gsb_data_fyear_get_fyears_list ();
-		while (tmp_list)
+		switch (gsb_data_report_get_financial_year_type (report_number))
 		{
-		    gint tmp_fyear_number;
+			case 0:
+				/* all the financial years */
+				tmp_titre = g_strconcat (titre, ", ", _("all financial years"), NULL);
+				g_free (titre);
+				titre = tmp_titre;
+				break;
 
-		    tmp_fyear_number = gsb_data_fyear_get_no_fyear (tmp_list -> data);
+			case 1:
+				/* current financial year */
+				fyear_number = gsb_data_fyear_get_from_date (today_date);
 
-		    if (gsb_data_fyear_compare (fyear_number, tmp_fyear_number) == 1)
-		    {
-			if (last_fyear_number)
-			{
-			    if (gsb_data_fyear_compare (last_fyear_number, tmp_fyear_number) == -1)
-				last_fyear_number = tmp_fyear_number;
-			}
-			else
-			{
-			    last_fyear_number = tmp_fyear_number;
-			}
-		    }
-		    tmp_list = tmp_list -> next;
+				if (fyear_number)
+					tmp_titre = g_strconcat (titre,
+											 ", ", _("current financial year") , " (",
+											 gsb_data_fyear_get_name (fyear_number),
+											 ")",
+											 NULL);
+				else
+					tmp_titre = g_strconcat (titre, ", ", _("current financial year"), NULL);
+
+				g_free (titre);
+				titre = tmp_titre;
+				break;
+
+			case 2:
+				/* last financial year */
+				fyear_number = gsb_data_fyear_get_from_date (today_date);
+				last_fyear_number = 0;
+
+				tmp_list = gsb_data_fyear_get_fyears_list ();
+				while (tmp_list)
+				{
+					gint tmp_fyear_number;
+
+					tmp_fyear_number = gsb_data_fyear_get_no_fyear (tmp_list -> data);
+
+					if (gsb_data_fyear_compare (fyear_number, tmp_fyear_number) == 1)
+					{
+						if (last_fyear_number)
+						{
+							if (gsb_data_fyear_compare (last_fyear_number, tmp_fyear_number) == -1)
+								last_fyear_number = tmp_fyear_number;
+						}
+						else
+						{
+							last_fyear_number = tmp_fyear_number;
+						}
+					}
+					tmp_list = tmp_list -> next;
+				}
+
+				/* here, last_fyear_number is on the last financial year */
+
+				if (last_fyear_number)
+					tmp_titre = g_strconcat (titre,
+											 ", ", _("former financial year") , " (",
+											 gsb_data_fyear_get_name (last_fyear_number),
+											 ")",
+											 NULL);
+				else
+					tmp_titre = g_strconcat (titre, ", ", _("former financial year"), NULL);
+
+				g_free (titre);
+				titre = tmp_titre;
+				break;
+
+			case 3:
+				/* personal selection of financial years */
+				tmp_list = gsb_data_report_get_financial_year_list (report_number);
+
+				if (g_slist_length (tmp_list) > 1)
+					tmp_titre = g_strconcat (titre, ", ", _("financial years"), " ", NULL);
+				else
+					tmp_titre = g_strconcat (titre, ", ", _("financial year"), " ", NULL);
+
+				g_free (titre);
+				titre = tmp_titre;
+
+				while (tmp_list)
+				{
+					gint tmp_fyear_number;
+
+					tmp_fyear_number = GPOINTER_TO_INT (tmp_list -> data);
+
+					if (tmp_list == g_slist_last (gsb_data_report_get_financial_year_list (report_number)))
+						tmp_titre = g_strconcat (titre,
+												 gsb_data_fyear_get_name (tmp_fyear_number),
+												 NULL);
+					else
+						tmp_titre = g_strconcat (titre,
+												 gsb_data_fyear_get_name (tmp_fyear_number),
+												 ", ",
+												 NULL);
+
+					g_free (titre);
+					titre = tmp_titre;
+
+					tmp_list = tmp_list -> next;
+				}
+				break;
 		}
+	}
+	else
+	{
+		/* c'est une plage de dates qui a été entrée */
+		gchar buffer_date[256];
+		gchar buffer_date_2[256];
+		gsize rc;
+		GDate *date_tmp;
+		gchar *date_str1;
+		gchar *date_str2;
+		gchar *tmp_str;
+		gchar *tmp_str2;
 
-		/* here, last_fyear_number is on the last financial year */
-
-		if (last_fyear_number)
-			tmp_titre = g_strconcat ( titre,
-					  ", ", _("former financial year") , " (",
-					  gsb_data_fyear_get_name (last_fyear_number),
-					  ")",
-					  NULL );
-		else
-			tmp_titre = g_strconcat ( titre,
-					  ", ", _("former financial year"),
-					  NULL );
-
-		g_free(titre);
-		titre = tmp_titre;
-		break;
-
-	    case 3:
-		/* personal selection of financial years */
-
-		tmp_list = gsb_data_report_get_financial_year_list (report_number);
-
-		if ( g_slist_length ( tmp_list ) > 1 )
-			tmp_titre = g_strconcat ( titre,
-					  ", ", _("financial years"), " ",
-					  NULL );
-		else
-			tmp_titre = g_strconcat ( titre,
-					  ", ", _("financial year"), " ",
-					  NULL );
-
-		g_free(titre);
-		titre = tmp_titre;
-
-		while ( tmp_list )
+		switch (gsb_data_report_get_date_type (report_number))
 		{
-		    gint tmp_fyear_number;
+			case 0:
+				/* toutes */
+				tmp_titre = g_strconcat (titre, ", ", _("all dates"), NULL);
+				break;
 
-		    tmp_fyear_number = GPOINTER_TO_INT (tmp_list -> data);
+			case 1:
+				/* plage perso */
+				if (gsb_data_report_get_personal_date_start (report_number)
+					&& gsb_data_report_get_personal_date_end (report_number))
+				{
+					date_str1 = gsb_format_gdate (gsb_data_report_get_personal_date_start (report_number));
+					date_str2 = gsb_format_gdate (gsb_data_report_get_personal_date_end (report_number));
+					tmp_str = g_strdup_printf (_("Result from %s to %s"), date_str1, date_str2);
+					tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+					g_free (date_str1);
+					g_free (date_str2);
+					g_free (tmp_str);
+				}
+				else
+					tmp_titre = g_strconcat (titre, ", ", _("Custom dates ranges not filled"), NULL);
+				break;
 
-		    if ( tmp_list == g_slist_last (gsb_data_report_get_financial_year_list (report_number)))
-				tmp_titre = g_strconcat ( titre,
-					      gsb_data_fyear_get_name (tmp_fyear_number),
-					      NULL );
-		    else
-				tmp_titre = g_strconcat ( titre,
-					      gsb_data_fyear_get_name (tmp_fyear_number),
-					      ", ",
-					      NULL );
+			case 2:
+				/* cumul à ce jour */
+				date_str1 = gsb_format_gdate (today_date);
+				tmp_str = g_strdup_printf (_("total at %s"), date_str1);
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+				g_free (tmp_str);
+				g_free (date_str1);
+				break;
 
-			g_free(titre);
+			case 3:
+				/* mois en cours */
+				rc = g_date_strftime (buffer_date, sizeof(buffer_date), "%B", today_date);
+				if (rc == 0)
+					strcpy (buffer_date, "???");
+
+				tmp_str = g_strdup_printf (_("%s %d"), buffer_date, g_date_get_year (today_date));
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+				g_free (tmp_str);
+				break;
+
+			case 4:
+				/* année en cours */
+				tmp_str = g_strdup_printf (_("year %d"), g_date_get_year (today_date));
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+				g_free (tmp_str);
+				break;
+
+			case 5:
+				/* cumul mensuel */
+				date_str1 = gsb_format_gdate (today_date);
+				tmp_str = g_strdup_printf (_("month total at %s"), date_str1);
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+				g_free (tmp_str);
+				g_free (date_str1);
+				break;
+
+			case 6:
+				/* cumul annuel */
+				date_str1 = gsb_format_gdate (today_date);
+				tmp_str = g_strdup_printf (_("year total at %s"), date_str1);
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+				g_free (tmp_str);
+				g_free (date_str1);
+				break;
+
+			case 7:
+				/* mois précédent */
+				g_date_subtract_months (today_date, 1);
+				rc = g_date_strftime (buffer_date, sizeof(buffer_date), "%B", today_date);
+				if (rc == 0)
+					strcpy(buffer_date, "???");
+
+				tmp_str = g_strdup_printf (_("%s %d"), buffer_date, g_date_get_year (today_date));
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+				g_free (tmp_str);
+				break;
+
+			case 8:
+				/* année précédente */
+				tmp_str = g_strdup_printf (_("year %d"), g_date_get_year (today_date) - 1);
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+				g_free (tmp_str);
+				break;
+
+			case 9:
+				/* 30 derniers jours */
+				date_tmp = gdate_today ();
+
+				g_date_subtract_days (date_tmp, 30);
+
+				date_str1 = gsb_format_gdate (date_tmp);
+				date_str2 = gsb_format_gdate (today_date);
+				tmp_str = g_strdup_printf (_("Result from %s to %s"), date_str1, date_str2);
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, NULL);
+				g_free (tmp_str);
+				g_free (date_str1);
+				g_free (date_str2);
+				break;
+
+			case 10:
+				/* 3 derniers mois */
+				date_tmp = gdate_today ();
+				g_date_subtract_months (date_tmp, 3);
+				rc = g_date_strftime (buffer_date_2, sizeof(buffer_date_2), "%B", date_tmp);
+				if (rc == 0)
+					strcpy(buffer_date_2, "???");
+
+				rc = g_date_strftime (buffer_date, sizeof(buffer_date), "%B", today_date);
+				if (rc == 0)
+					strcpy(buffer_date, "???");
+
+				tmp_str = g_strdup_printf (_("from %s %d"), buffer_date_2, g_date_get_year (date_tmp));
+				tmp_str2 = g_strdup_printf (_("to %s %d"), buffer_date, g_date_get_year (today_date));
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, " ", tmp_str2, NULL);
+				g_free (tmp_str);
+				g_free (tmp_str2);
+				break;
+
+			case 11:
+				/* 6 derniers mois */
+				date_tmp = gdate_today ();
+				g_date_subtract_months (date_tmp, 6);
+				rc = g_date_strftime (buffer_date_2, sizeof(buffer_date_2), "%B", date_tmp);
+				if (rc == 0)
+					strcpy(buffer_date_2, "???");
+
+				rc = g_date_strftime (buffer_date, sizeof(buffer_date), "%B", today_date);
+				if (rc == 0)
+					strcpy(buffer_date, "???");
+
+				tmp_str = g_strdup_printf (_("from %s %d"), buffer_date_2, g_date_get_year (date_tmp));
+				tmp_str2 = g_strdup_printf (_("to %s %d"), buffer_date, g_date_get_year (today_date));
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, " ", tmp_str2, NULL);
+				g_free (tmp_str);
+				g_free (tmp_str2);
+				break;
+
+			case 12:
+				/* 12 derniers mois */
+				date_tmp = gdate_today ();
+				g_date_subtract_months (date_tmp, 12);
+				rc = g_date_strftime (buffer_date_2, sizeof(buffer_date_2), "%B", date_tmp);
+				if (rc == 0)
+					strcpy(buffer_date_2, "???");
+
+				rc = g_date_strftime (buffer_date, sizeof(buffer_date), "%B", today_date);
+				if (rc == 0)
+					strcpy(buffer_date, "???");
+
+				tmp_str = g_strdup_printf (_("from %s %d"), buffer_date_2, g_date_get_year (date_tmp));
+				tmp_str2 = g_strdup_printf (_("to %s %d"), buffer_date, g_date_get_year (today_date));
+				tmp_titre = g_strconcat (titre, ", ", tmp_str, " ", tmp_str2, NULL);
+				g_free (tmp_str);
+				g_free (tmp_str2);
+				break;
+
+			default:
+				tmp_titre = g_strdup("???");
+				break;
+		}
+			g_free (titre);
 			titre = tmp_titre;
-
-		    tmp_list = tmp_list -> next;
-		}
-		break;
 	}
-    }
-    else
-    {
-	/* c'est une plage de dates qui a été entrée */
-
-	gchar buffer_date[256];
-	gchar buffer_date_2[256];
-	gsize rc;
-	GDate *date_tmp;
-	gchar *date_str1, *date_str2;
-	gchar *tmp_str, *tmp_str2;
-
-	switch ( gsb_data_report_get_date_type (report_number))
-	{
-	    case 0:
-		/* toutes */
-
-		tmp_titre = g_strconcat ( titre,
-				      ", ",
-				      _("all dates"),
-				      NULL );
-		break;
-
-	    case 1:
-		/* plage perso */
-
-		if ( gsb_data_report_get_personal_date_start (report_number)
-		     &&
-		     gsb_data_report_get_personal_date_end (report_number))
-		{
-			date_str1 = gsb_format_gdate ( gsb_data_report_get_personal_date_start (report_number));
-			date_str2 = gsb_format_gdate ( gsb_data_report_get_personal_date_end (report_number));
-			tmp_str = g_strdup_printf ( _("Result from %s to %s"),
-									   date_str1, date_str2 );
-			tmp_titre = g_strconcat ( titre,
-					  ", ",
-					  tmp_str,
-					  NULL );
-			g_free(date_str1);
-			g_free(date_str2);
-			g_free(tmp_str);
-		}
-		else
-			tmp_titre = g_strconcat ( titre,
-					  ", ", _("Custom dates ranges not filled"),
-					  NULL );
-		break;
-
-	    case 2:
-		/* cumul à ce jour */
-
-		date_str1 = gsb_format_gdate (today_date);
-		tmp_str = g_strdup_printf ( _("total at %s"),
-								   date_str1);
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, NULL );
-		g_free(tmp_str);
-		g_free(date_str1);
-		break;
-
-	    case 3:
-		/* mois en cours */
-
-		rc = g_date_strftime ( buffer_date,
-				  sizeof(buffer_date),
-				  "%B",
-				  today_date );
-		if (rc == 0)
-		    strcpy(buffer_date, "???");
-
-		tmp_str = g_strdup_printf ( _("%s %d"),
-								   buffer_date,
-								   g_date_get_year (today_date));
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, NULL );
-		g_free(tmp_str);
-		break;
-
-	    case 4:
-		/* année en cours */
-
-		tmp_str = g_strdup_printf ( _("year %d"),
-								   g_date_get_year (today_date));
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, NULL );
-		g_free(tmp_str);
-		break;
-
-	    case 5:
-		/* cumul mensuel */
-
-		date_str1 = gsb_format_gdate (today_date);
-		tmp_str = g_strdup_printf ( _("month total at %s"),
-								   date_str1);
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, NULL );
-		g_free(tmp_str);
-		g_free(date_str1);
-		break;
-
-	    case 6:
-		/* cumul annuel */
-
-		date_str1 = gsb_format_gdate (today_date);
-		tmp_str = g_strdup_printf ( _("year total at %s"),
-								   date_str1);
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, NULL );
-		g_free(tmp_str);
-		g_free(date_str1);
-		break;
-
-	    case 7:
-		/* mois précédent */
-
-		g_date_subtract_months ( today_date,
-					 1 );
-		rc = g_date_strftime ( buffer_date,
-				  sizeof(buffer_date),
-				  "%B",
-				  today_date );
-		if (rc == 0)
-		    strcpy(buffer_date, "???");
-
-		tmp_str = g_strdup_printf ( _("%s %d"),
-								   buffer_date,
-								   g_date_get_year (today_date));
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, NULL );
-		g_free(tmp_str);
-		break;
-
-	    case 8:
-		/* année précédente */
-
-		tmp_str = g_strdup_printf ( _("year %d"),
-								   g_date_get_year (today_date) - 1);
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, NULL );
-		g_free(tmp_str);
-		break;
-
-	    case 9:
-		/* 30 derniers jours */
-
-		date_tmp = gdate_today ( );
-
-		g_date_subtract_days ( date_tmp,
-				       30 );
-
-		date_str1 = gsb_format_gdate ( date_tmp );
-		date_str2 = gsb_format_gdate (today_date);
-		tmp_str = g_strdup_printf ( _("Result from %s to %s"),
-								   date_str1, date_str2);
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, NULL );
-		g_free(tmp_str);
-		g_free(date_str1);
-		g_free(date_str2);
-		break;
-
-	    case 10:
-		/* 3 derniers mois */
-
-		date_tmp = gdate_today ( );
-		g_date_subtract_months ( date_tmp,
-					 3 );
-		rc = g_date_strftime ( buffer_date_2,
-				  sizeof(buffer_date_2),
-				  "%B",
-				  date_tmp );
-		if (rc == 0)
-		    strcpy(buffer_date_2, "???");
-		rc = g_date_strftime ( buffer_date,
-				  sizeof(buffer_date),
-				  "%B",
-				  today_date);
-		if (rc == 0)
-		    strcpy(buffer_date, "???");
-
-		tmp_str = g_strdup_printf ( _("from %s %d"),
-								   buffer_date_2,
-								   g_date_get_year ( date_tmp ));
-		tmp_str2 = g_strdup_printf ( _("to %s %d"),
-									buffer_date,
-									g_date_get_year (today_date));
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, " ", tmp_str2, NULL );
-		g_free(tmp_str);
-		g_free(tmp_str2);
-		break;
-
-	    case 11:
-		/* 6 derniers mois */
-
-		date_tmp = gdate_today ( );
-		g_date_subtract_months ( date_tmp,
-					 6 );
-		rc = g_date_strftime ( buffer_date_2,
-				  sizeof(buffer_date_2),
-				  "%B",
-				  date_tmp );
-		if (rc == 0)
-		    strcpy(buffer_date_2, "???");
-		rc = g_date_strftime ( buffer_date,
-				  sizeof(buffer_date),
-				  "%B",
-				  today_date);
-		if (rc == 0)
-		    strcpy(buffer_date, "???");
-
-
-		tmp_str = g_strdup_printf ( _("from %s %d"),
-								   buffer_date_2,
-								   g_date_get_year ( date_tmp ));
-		tmp_str2 = g_strdup_printf ( _("to %s %d"),
-									buffer_date,
-									g_date_get_year (today_date));
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, " ", tmp_str2, NULL );
-		g_free(tmp_str);
-		g_free(tmp_str2);
-		break;
-
-	    case 12:
-		/* 12 derniers mois */
-
-		date_tmp = gdate_today ( );
-		g_date_subtract_months ( date_tmp,
-					 12 );
-		rc = g_date_strftime ( buffer_date_2,
-				  sizeof(buffer_date_2),
-				  "%B",
-				  date_tmp );
-		if (rc == 0)
-		    strcpy(buffer_date_2, "???");
-		rc = g_date_strftime ( buffer_date,
-				  sizeof(buffer_date),
-				  "%B",
-				  today_date);
-		if (rc == 0)
-		    strcpy(buffer_date, "???");
-
-		tmp_str = g_strdup_printf ( _("from %s %d"),
-								   buffer_date_2,
-								   g_date_get_year ( date_tmp ));
-		tmp_str2 = g_strdup_printf ( _("to %s %d"),
-									buffer_date,
-									g_date_get_year (today_date));
-		tmp_titre = g_strconcat ( titre,
-				      ", ", tmp_str, " ", tmp_str2, NULL );
-		g_free(tmp_str);
-		g_free(tmp_str2);
-		break;
-
-		default:
-			tmp_titre = g_strdup("???");
-			break;
-	}
-		g_free(titre);
-		titre = tmp_titre;
-    }
 
 	/* set complement for the filename of export pdf */
 	tab = gsb_date_get_date_time_now_local ();
