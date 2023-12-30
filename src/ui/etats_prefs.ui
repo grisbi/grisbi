@@ -675,7 +675,7 @@ Grisbi will automatically create transactions for all payees from the report</pr
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <child>
-                      <!-- n-columns=3 n-rows=5 -->
+                      <!-- n-columns=3 n-rows=6 -->
                       <object class="GtkGrid" id="grid1">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
