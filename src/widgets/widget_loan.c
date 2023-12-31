@@ -807,9 +807,8 @@ static void widget_loan_entry_focus_out (GtkWidget *widget,
  * \return
  **/
 static void widget_loan_entry_deleted (GtkEditable *entry,
-									   guint position,
-									   gchar *chars,
-									   guint n_chars,
+									   gint start_pos,
+									   gint end_pos,
 									   WidgetLoan *w_loan)
 {
 	if (gtk_entry_get_text_length (GTK_ENTRY (entry)) == 1)
