@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2023-12-30 07:53+0100\n"
+"POT-Creation-Date: 2023-12-31 17:25+0100\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -35,7 +35,7 @@ msgstr ""
 #: src/widgets/widget_currency_details.ui:141
 #: src/widgets/widget_currency_link.ui:220
 #: src/widgets/widget_currency_popup.ui:113
-#: src/widgets/widget_import_asso.ui:381 src/widgets/widget_import_files.ui:500
+#: src/widgets/widget_import_asso.ui:386 src/widgets/widget_import_files.ui:500
 #: src/widgets/widget_list_accounts.ui:218 src/widgets/widget_loan.ui:620
 msgid "Title"
 msgstr ""
@@ -202,7 +202,7 @@ msgstr ""
 #: src/prefs/prefs_page_payment_method.ui:81
 #: src/prefs/prefs_page_payment_method.ui:391
 #: src/widgets/widget_cmp_amount.ui:301 src/widgets/widget_cmp_text.ui:437
-#: src/widgets/widget_import_asso.ui:114
+#: src/widgets/widget_import_asso.ui:128
 msgid "Add"
 msgstr ""
 
@@ -219,7 +219,7 @@ msgstr ""
 #: src/prefs/prefs_page_display_form.ui:122
 #: src/prefs/prefs_page_payment_method.ui:94
 #: src/widgets/widget_cmp_amount.ui:317 src/widgets/widget_cmp_text.ui:454
-#: src/widgets/widget_import_asso.ui:128
+#: src/widgets/widget_import_asso.ui:142
 msgid "Remove"
 msgstr ""
 
@@ -323,7 +323,7 @@ msgstr ""
 #: src/prefs/prefs_page_bet_account.ui:412
 #: src/prefs/prefs_page_bet_account.ui:497 src/ui/etats_prefs.ui:1452
 #: src/bet_hist.c:2150 src/bet_hist.c:2156 src/categories_onglet.c:370
-#: src/etats_prefs.c:1589 src/grisbi_win.c:484 src/navigation.c:639
+#: src/etats_prefs.c:1593 src/grisbi_win.c:484 src/navigation.c:639
 #: src/utils_widgets.c:673 src/etats/etats_page_category.c:88
 msgid "Categories"
 msgstr ""
@@ -331,7 +331,7 @@ msgstr ""
 #: src/prefs/prefs_page_bet_account.ui:341
 #: src/prefs/prefs_page_bet_account.ui:427
 #: src/prefs/prefs_page_bet_account.ui:512 src/ui/etats_prefs.ui:1595
-#: src/bet_hist.c:2154 src/etats_prefs.c:1594 src/export_csv.c:406
+#: src/bet_hist.c:2154 src/etats_prefs.c:1598 src/export_csv.c:406
 #: src/grisbi_win.c:489 src/import_csv.c:90 src/imputation_budgetaire.c:377
 #: src/navigation.c:643 src/utils_widgets.c:676
 #: src/etats/etats_page_budget.c:90
@@ -428,7 +428,7 @@ msgstr ""
 #: src/imputation_budgetaire.c:517 src/imputation_budgetaire.c:579
 #: src/imputation_budgetaire.c:808 src/plugins/openssl/openssl.c:459
 #: src/prefs/prefs_page_display_fonts.c:313 src/tiers_onglet.c:233
-#: src/utils_files.c:683 src/utils_files.c:762 src/widgets/widget_loan.c:1601
+#: src/utils_files.c:683 src/utils_files.c:762 src/widgets/widget_loan.c:1600
 msgid "Cancel"
 msgstr ""
 
@@ -639,7 +639,7 @@ msgid "Help display"
 msgstr ""
 
 #: src/prefs/prefs_page_divers.ui:392 src/widgets/widget_bank_details.ui:30
-#: src/etats_prefs.c:1257 src/etats_prefs.c:1635 src/grisbi_prefs.c:397
+#: src/etats_prefs.c:1257 src/etats_prefs.c:1639 src/grisbi_prefs.c:397
 msgid "Generalities"
 msgstr ""
 
@@ -939,7 +939,7 @@ msgstr ""
 msgid "End: "
 msgstr ""
 
-#: src/prefs/prefs_page_metatree.ui:30 src/etats_prefs.c:1469
+#: src/prefs/prefs_page_metatree.ui:30 src/etats_prefs.c:1473
 msgid "Totals currencies"
 msgstr ""
 
@@ -1422,7 +1422,7 @@ msgstr ""
 msgid "voucher"
 msgstr ""
 
-#: src/ui/etats_prefs.ui:857 src/etats_support.c:224
+#: src/ui/etats_prefs.ui:857 src/etats_support.c:215
 msgid "financial year"
 msgstr ""
 
@@ -1464,7 +1464,7 @@ msgstr ""
 msgid "Make transactions clickable"
 msgstr ""
 
-#: src/ui/etats_prefs.ui:1256 src/etats_prefs.c:1579 src/grisbi_win.c:435
+#: src/ui/etats_prefs.ui:1256 src/etats_prefs.c:1583 src/grisbi_win.c:435
 #: src/navigation.c:623
 msgid "Accounts"
 msgstr ""
@@ -1478,11 +1478,11 @@ msgid "Display a sub-total for each account"
 msgstr ""
 
 #: src/ui/etats_prefs.ui:1354 src/bet_future.c:547 src/etats_affiche.c:287
-#: src/etats_prefs.c:588 src/etats_prefs.c:1584 src/export_csv.c:385
+#: src/etats_prefs.c:588 src/etats_prefs.c:1588 src/export_csv.c:385
 #: src/grisbi_win.c:474 src/gsb_assistant_reconcile_config.c:656
 #: src/gsb_form.c:2041 src/gsb_form_widget.c:572 src/gsb_scheduler_list.c:946
 #: src/gsb_transactions_list.c:113 src/import.c:4388 src/import_csv.c:85
-#: src/meta_payee.c:79 src/widgets/widget_loan.c:1142
+#: src/meta_payee.c:79 src/widgets/widget_loan.c:1141
 #: src/widgets/widget_transfer.c:916 src/widgets/widget_transfer.c:1040
 #: src/widgets/widget_transfer.c:1471 src/widgets/widget_transfer.c:1570
 msgid "Payee"
@@ -1571,11 +1571,11 @@ msgstr ""
 #: src/gsb_data_partial_balance.c:1848 src/gsb_data_partial_balance.c:1934
 #: src/gsb_select_icon.c:511 src/gsb_transactions_list.c:1145 src/import.c:3232
 #: src/import.c:4297 src/import.c:5194 src/utils_files.c:766
-#: src/widgets/widget_loan.c:1605
+#: src/widgets/widget_loan.c:1604
 msgid "Validate"
 msgstr ""
 
-#: src/ui/etats_prefs.ui:2164 src/etats_prefs.c:1090 src/etats_prefs.c:1627
+#: src/ui/etats_prefs.ui:2164 src/etats_prefs.c:1090 src/etats_prefs.c:1631
 msgid "Data separation"
 msgstr ""
 
@@ -1737,7 +1737,7 @@ msgstr ""
 #: src/widgets/widget_bet_graph_others.ui:37
 #: src/widgets/widget_bet_graph_pie.ui:26 src/grisbi_app.c:124
 #: src/grisbi_app.c:141 src/gsb_assistant.c:447 src/gsb_currency.c:1330
-#: src/tip.c:157 src/widgets/widget_loan.c:957
+#: src/tip.c:157 src/widgets/widget_loan.c:956
 msgid "Close"
 msgstr ""
 
@@ -2232,7 +2232,7 @@ msgid "the biggest"
 msgstr ""
 
 #: src/widgets/widget_cmp_text.ui:197 src/widgets/widget_cmp_text.ui:289
-#: src/etats_prefs.c:1157 src/etats_support.c:68
+#: src/etats_prefs.c:1157 src/etats_support.c:71
 msgid "at"
 msgstr ""
 
@@ -2327,7 +2327,7 @@ msgstr ""
 msgid "Import associations"
 msgstr ""
 
-#: src/widgets/widget_import_asso.ui:70
+#: src/widgets/widget_import_asso.ui:71
 msgid ""
 "This will associate a search string to a payee every time you import a "
 "file.\n"
@@ -2335,29 +2335,33 @@ msgid ""
 "specific payee representing your landlord."
 msgstr ""
 
-#: src/widgets/widget_import_asso.ui:191
+#: src/widgets/widget_import_asso.ui:87
+msgid "Warning: you cannot create a payee from this tab"
+msgstr ""
+
+#: src/widgets/widget_import_asso.ui:205
 msgid "Details of associations"
 msgstr ""
 
-#: src/widgets/widget_import_asso.ui:239
+#: src/widgets/widget_import_asso.ui:253
 msgid "Payee name: "
 msgstr ""
 
-#: src/widgets/widget_import_asso.ui:251 src/tiers_onglet.c:283
+#: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:283
 msgid "Search string: "
 msgstr ""
 
-#: src/widgets/widget_import_asso.ui:262
+#: src/widgets/widget_import_asso.ui:276
 msgid "Rule"
 msgstr ""
 
-#: src/widgets/widget_import_asso.ui:296
+#: src/widgets/widget_import_asso.ui:301
 #: src/widgets/widget_search_transaction.ui:247 src/tiers_onglet.c:293
 #: src/tiers_onglet.c:1320
 msgid "Ignoring case sensitive"
 msgstr ""
 
-#: src/widgets/widget_import_asso.ui:311 src/tiers_onglet.c:297
+#: src/widgets/widget_import_asso.ui:316 src/tiers_onglet.c:297
 #: src/tiers_onglet.c:1325
 msgid "Use the regular expressions"
 msgstr ""
@@ -2888,7 +2892,7 @@ msgid "Print the array"
 msgstr ""
 
 #: src/bet_finance_ui.c:982 src/bet_finance_ui.c:1753 src/bet_finance_ui.c:2463
-#: src/widgets/widget_loan.c:950
+#: src/widgets/widget_loan.c:949
 msgid "Amortization Table"
 msgstr ""
 
@@ -3031,8 +3035,8 @@ msgid "Own frequency"
 msgstr ""
 
 #: src/bet_future.c:563 src/gsb_form.c:2059 src/gsb_form_widget.c:576
-#: src/widgets/widget_loan.c:1328 src/widgets/widget_loan.c:1334
-#: src/widgets/widget_loan.c:1420 src/widgets/widget_loan.c:1426
+#: src/widgets/widget_loan.c:1327 src/widgets/widget_loan.c:1333
+#: src/widgets/widget_loan.c:1419 src/widgets/widget_loan.c:1425
 #: src/widgets/widget_transfer.c:951 src/widgets/widget_transfer.c:1081
 #: src/widgets/widget_transfer.c:1512 src/widgets/widget_transfer.c:1597
 msgid "Categories : Sub-categories"
@@ -3042,9 +3046,9 @@ msgstr ""
 #: src/etats_prefs.c:580 src/gsb_form.c:2068 src/gsb_form_widget.c:584
 #: src/gsb_transactions_list.c:114 src/imputation_budgetaire.c:183
 #: src/meta_budgetary.c:88 src/utils_widgets.c:136
-#: src/widgets/widget_loan.c:1272 src/widgets/widget_loan.c:1278
-#: src/widgets/widget_loan.c:1365 src/widgets/widget_loan.c:1371
-#: src/widgets/widget_loan.c:1457 src/widgets/widget_loan.c:1463
+#: src/widgets/widget_loan.c:1271 src/widgets/widget_loan.c:1277
+#: src/widgets/widget_loan.c:1364 src/widgets/widget_loan.c:1370
+#: src/widgets/widget_loan.c:1456 src/widgets/widget_loan.c:1462
 #: src/widgets/widget_transfer.c:978 src/widgets/widget_transfer.c:1109
 #: src/widgets/widget_transfer.c:1527 src/widgets/widget_transfer.c:1615
 msgid "Budgetary line"
@@ -3055,7 +3059,7 @@ msgid "Choose the financial year"
 msgstr ""
 
 #: src/bet_future.c:929 src/gsb_form_widget.c:395
-#: src/widgets/widget_loan.c:1189 src/widgets/widget_transfer.c:1064
+#: src/widgets/widget_loan.c:1188 src/widgets/widget_transfer.c:1064
 #: src/widgets/widget_transfer.c:1197 src/widgets/widget_transfer.c:1486
 msgid "Choose the method of payment"
 msgstr ""
@@ -3066,7 +3070,7 @@ msgid "Weekly"
 msgstr ""
 
 #: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
-#: src/gsb_scheduler_list.c:1614 src/widgets/widget_loan.c:1055
+#: src/gsb_scheduler_list.c:1614 src/widgets/widget_loan.c:1054
 msgid "Monthly"
 msgstr ""
 
@@ -3076,12 +3080,12 @@ msgid "Bimonthly"
 msgstr ""
 
 #: src/bet_future.c:1062 src/gsb_form_scheduler.c:651
-#: src/gsb_scheduler_list.c:1615 src/widgets/widget_loan.c:1055
+#: src/gsb_scheduler_list.c:1615 src/widgets/widget_loan.c:1054
 msgid "Quarterly"
 msgstr ""
 
 #: src/bet_future.c:1062 src/gsb_form_scheduler.c:651
-#: src/gsb_scheduler_list.c:1615 src/widgets/widget_loan.c:1055
+#: src/gsb_scheduler_list.c:1615 src/widgets/widget_loan.c:1054
 msgid "Yearly"
 msgstr ""
 
@@ -3957,7 +3961,7 @@ msgstr ""
 msgid "Financial year"
 msgstr ""
 
-#: src/etats_affiche.c:331 src/etats_prefs.c:387 src/etats_prefs.c:1609
+#: src/etats_affiche.c:331 src/etats_prefs.c:387 src/etats_prefs.c:1613
 #: src/grisbi_prefs.c:534 src/prefs/prefs_page_payment_method.c:1327
 msgid "Payment methods"
 msgstr ""
@@ -4208,7 +4212,7 @@ msgstr ""
 #: src/etats_affiche.c:2516 src/export_csv.c:649 src/gsb_data_category.c:1090
 #: src/gsb_data_transaction.c:2687 src/gsb_form.c:245 src/gsb_form.c:918
 #: src/gsb_form.c:1621 src/gsb_form.c:2502 src/gsb_form_scheduler.c:807
-#: src/widgets/widget_loan.c:1165
+#: src/widgets/widget_loan.c:1164
 msgid "Split of transaction"
 msgstr ""
 
@@ -4520,136 +4524,136 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
-#: src/etats_prefs.c:479 src/etats_prefs.c:1614
+#: src/etats_prefs.c:479 src/etats_prefs.c:1618
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/etats_prefs.c:1030 src/etats_prefs.c:1622
+#: src/etats_prefs.c:1030 src/etats_prefs.c:1626
 msgid "Data grouping"
 msgstr ""
 
-#: src/etats_prefs.c:1175 src/etats_support.c:68 src/etats_support.c:70
+#: src/etats_prefs.c:1175 src/etats_support.c:71 src/etats_support.c:73
 msgid "Edited"
 msgstr ""
 
-#: src/etats_prefs.c:1285 src/etats_prefs.c:1640
+#: src/etats_prefs.c:1285 src/etats_prefs.c:1644
 msgid "Titles"
 msgstr ""
 
-#: src/etats_prefs.c:1382
+#: src/etats_prefs.c:1386
 msgid "Transactions display"
 msgstr ""
 
-#: src/etats_prefs.c:1565
+#: src/etats_prefs.c:1569
 msgid "Data selection"
 msgstr ""
 
-#: src/etats_prefs.c:1569
+#: src/etats_prefs.c:1573
 msgid "Dates"
 msgstr ""
 
-#: src/etats_prefs.c:1574 src/etats/etats_page_transfer.c:165
+#: src/etats_prefs.c:1578 src/etats/etats_page_transfer.c:165
 msgid "Transfers"
 msgstr ""
 
-#: src/etats_prefs.c:1599
+#: src/etats_prefs.c:1603
 msgid "Texts"
 msgstr ""
 
-#: src/etats_prefs.c:1604
+#: src/etats_prefs.c:1608
 msgid "Amounts"
 msgstr ""
 
-#: src/etats_prefs.c:1618
+#: src/etats_prefs.c:1622
 msgid "Data organization"
 msgstr ""
 
-#: src/etats_prefs.c:1631
+#: src/etats_prefs.c:1635
 msgid "Data display"
 msgstr ""
 
-#: src/etats_prefs.c:1645 src/export_csv.c:361 src/grisbi_prefs.c:456
+#: src/etats_prefs.c:1649 src/export_csv.c:361 src/grisbi_prefs.c:456
 #: src/grisbi_win.c:439
 msgid "Transactions"
 msgstr ""
 
-#: src/etats_prefs.c:1650 src/grisbi_prefs.c:512 src/gsb_currency.c:966
+#: src/etats_prefs.c:1654 src/grisbi_prefs.c:512 src/gsb_currency.c:966
 #: src/prefs/prefs_page_currency.c:720
 msgid "Currencies"
 msgstr ""
 
-#: src/etats_prefs.c:2283 src/etats/etats_page_budget.c:219
+#: src/etats_prefs.c:2287 src/etats/etats_page_budget.c:219
 #: src/etats/etats_page_category.c:217 src/etats/etats_page_payee.c:766
 #: src/etats/etats_page_period.c:575 src/widgets/widget_list_accounts.c:410
 msgid "Performance issue."
 msgstr ""
 
-#: src/etats_prefs.c:2284
+#: src/etats_prefs.c:2288
 msgid ""
 "All methods of payment have been selected.  Grisbi will run faster without "
 "the \"Detail methods of payment used\" option activated."
 msgstr ""
 
-#: src/etats_support.c:143
+#: src/etats_support.c:144
 msgid "all financial years"
 msgstr ""
 
-#: src/etats_support.c:155 src/etats_support.c:161
+#: src/etats_support.c:155 src/etats_support.c:160
 msgid "current financial year"
 msgstr ""
 
-#: src/etats_support.c:200 src/etats_support.c:206
+#: src/etats_support.c:197 src/etats_support.c:202
 msgid "former financial year"
 msgstr ""
 
-#: src/etats_support.c:220
+#: src/etats_support.c:213
 msgid "financial years"
 msgstr ""
 
-#: src/etats_support.c:272
+#: src/etats_support.c:260
 msgid "all dates"
 msgstr ""
 
-#: src/etats_support.c:285 src/etats_support.c:405
+#: src/etats_support.c:270 src/etats_support.c:352
 #, c-format
 msgid "Result from %s to %s"
 msgstr ""
 
-#: src/etats_support.c:297
+#: src/etats_support.c:277
 msgid "Custom dates ranges not filled"
 msgstr ""
 
-#: src/etats_support.c:305
+#: src/etats_support.c:283
 #, c-format
 msgid "total at %s"
 msgstr ""
 
-#: src/etats_support.c:323 src/etats_support.c:377
+#: src/etats_support.c:295 src/etats_support.c:332
 #, c-format
 msgid "%s %d"
 msgstr ""
 
-#: src/etats_support.c:334 src/etats_support.c:388
+#: src/etats_support.c:302 src/etats_support.c:339
 #, c-format
 msgid "year %d"
 msgstr ""
 
-#: src/etats_support.c:345
+#: src/etats_support.c:310
 #, c-format
 msgid "month total at %s"
 msgstr ""
 
-#: src/etats_support.c:357
+#: src/etats_support.c:319
 #, c-format
 msgid "year total at %s"
 msgstr ""
 
-#: src/etats_support.c:433 src/etats_support.c:465 src/etats_support.c:496
+#: src/etats_support.c:371 src/etats_support.c:390 src/etats_support.c:409
 #, c-format
 msgid "from %s %d"
 msgstr ""
 
-#: src/etats_support.c:436 src/etats_support.c:468 src/etats_support.c:499
+#: src/etats_support.c:372 src/etats_support.c:391 src/etats_support.c:410
 #, c-format
 msgid "to %s %d"
 msgstr ""
@@ -7866,8 +7870,8 @@ msgid "Credit card"
 msgstr ""
 
 #: src/gsb_data_payment.c:720 src/gsb_form.c:2968 src/import.c:2516
-#: src/import.c:2539 src/widgets/widget_loan.c:1179
-#: src/widgets/widget_loan.c:1182
+#: src/import.c:2539 src/widgets/widget_loan.c:1178
+#: src/widgets/widget_loan.c:1181
 msgid "Direct debit"
 msgstr ""
 
@@ -8458,8 +8462,8 @@ msgid "Configure the form"
 msgstr ""
 
 #: src/gsb_form.c:190 src/gsb_form.c:1652 src/gsb_form_widget.c:109
-#: src/gtk_combofix.c:158 src/widgets/widget_loan.c:1231
-#: src/widgets/widget_loan.c:1237
+#: src/gtk_combofix.c:158 src/widgets/widget_loan.c:1230
+#: src/widgets/widget_loan.c:1236
 msgid "Transfer : "
 msgstr ""
 
@@ -11196,7 +11200,7 @@ msgstr ""
 msgid "Payee number"
 msgstr ""
 
-#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:675
+#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:724
 msgid "Payee name"
 msgstr ""
 
@@ -11816,19 +11820,23 @@ msgid ""
 "Continue anyway?"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:490
+#: src/widgets/widget_import_asso.c:493
 msgid "You will be redirected to the payee management module"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:491
+#: src/widgets/widget_import_asso.c:494
 msgid ""
 "You cannot directly create a new payee and its rule like this.\n"
 "If you continue, you will use the payee management module to do so.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:688
+#: src/widgets/widget_import_asso.c:737
 msgid "Search string"
+msgstr ""
+
+#: src/widgets/widget_import_asso.c:799
+msgid "Select a payee from the list of payees"
 msgstr ""
 
 #: src/widgets/widget_import_files.c:133
@@ -11865,52 +11873,52 @@ msgstr ""
 msgid "Outgoing categories"
 msgstr ""
 
-#: src/widgets/widget_loan.c:1072
+#: src/widgets/widget_loan.c:1071
 msgid "Associated account"
 msgstr ""
 
-#: src/widgets/widget_loan.c:1078
+#: src/widgets/widget_loan.c:1077
 msgid "Associated account: "
 msgstr ""
 
-#: src/widgets/widget_loan.c:1093
+#: src/widgets/widget_loan.c:1092
 msgid "Frequency: "
 msgstr ""
 
-#: src/widgets/widget_loan.c:1112
+#: src/widgets/widget_loan.c:1111
 #, fuzzy
 msgid "Mother transaction:"
 msgstr "Clôture des comptes de passifs"
 
-#: src/widgets/widget_loan.c:1119 src/widgets/widget_transfer.c:903
+#: src/widgets/widget_loan.c:1118 src/widgets/widget_transfer.c:903
 #: src/widgets/widget_transfer.c:1027
 msgid "This field is required"
 msgstr ""
 
-#: src/widgets/widget_loan.c:1150 src/widgets/widget_loan.c:1209
-#: src/widgets/widget_loan.c:1299 src/widgets/widget_loan.c:1392
+#: src/widgets/widget_loan.c:1149 src/widgets/widget_loan.c:1208
+#: src/widgets/widget_loan.c:1298 src/widgets/widget_loan.c:1391
 #: src/widgets/widget_transfer.c:1067
 msgid "One of the two fields is required"
 msgstr ""
 
-#: src/widgets/widget_loan.c:1202
+#: src/widgets/widget_loan.c:1201
 msgid "First split transaction: Capital"
 msgstr ""
 
-#: src/widgets/widget_loan.c:1292
+#: src/widgets/widget_loan.c:1291
 msgid "Second split transaction: Interests"
 msgstr ""
 
-#: src/widgets/widget_loan.c:1385
+#: src/widgets/widget_loan.c:1384
 msgid "Third split transaction: Fees"
 msgstr ""
 
-#: src/widgets/widget_loan.c:1556 src/widgets/widget_loan.c:1595
-#: src/widgets/widget_loan.c:1820 src/widgets/widget_loan.c:2052
+#: src/widgets/widget_loan.c:1555 src/widgets/widget_loan.c:1594
+#: src/widgets/widget_loan.c:1819 src/widgets/widget_loan.c:2051
 msgid "Create new scheduled transaction"
 msgstr ""
 
-#: src/widgets/widget_loan.c:1779 src/widgets/widget_loan.c:2050
+#: src/widgets/widget_loan.c:1778 src/widgets/widget_loan.c:2049
 #, fuzzy
 msgid "Delete scheduled transaction"
 msgstr "Clôture des comptes de passifs"
