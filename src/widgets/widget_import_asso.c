@@ -394,23 +394,26 @@ static void widget_import_asso_add_button_clicked (GtkWidget *button,
 
 		payees_manage_payees ();
 		payee_number = gsb_import_associations_get_last_payee_number ();
-		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
+		if (payee_number)
+		{
+			model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->treeview_import_asso));
 
-		/* Fill the model */
-		g_signal_handlers_block_by_func (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso))),
-										 G_CALLBACK (widget_import_asso_select_asso),
-										 page);
+			/* Fill the model */
+			g_signal_handlers_block_by_func (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso))),
+					G_CALLBACK (widget_import_asso_select_asso),
+					page);
 
-		widget_import_asso_fill_model (GTK_LIST_STORE (model));
-		g_signal_handlers_unblock_by_func (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso))),
-										   G_CALLBACK (widget_import_asso_select_asso),
-										   page);
+			widget_import_asso_fill_model (GTK_LIST_STORE (model));
+			g_signal_handlers_unblock_by_func (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->treeview_import_asso))),
+					G_CALLBACK (widget_import_asso_select_asso),
+					page);
 
-		/*colorize the tree_view */
-		utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
+			/*colorize the tree_view */
+			utils_set_list_store_background_color (priv->treeview_import_asso, ASSO_BACKGROUND_COLOR);
 
-		/* select the new ruls */
-		widget_import_asso_select_row (priv->treeview_import_asso, model, payee_number);
+			/* select the new ruls */
+			widget_import_asso_select_row (priv->treeview_import_asso, model, payee_number);
+		}
 	}
 	g_free (hint);
 }

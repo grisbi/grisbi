@@ -400,7 +400,7 @@ void gsb_import_associations_free_liste (void)
  **/
 gint gsb_import_associations_get_last_payee_number (void)
 {
-	return last_added_assoc->payee_number;
+	return last_added_assoc ? last_added_assoc->payee_number : 0;
 }
 
 /******************************************************************************/
