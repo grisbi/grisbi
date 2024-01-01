@@ -292,7 +292,7 @@ For instance, all QIF labels containing 'Rent' could be associated with a specif
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="checkbutton_import_asso_case_insensitive">
+                          <object class="GtkCheckButton" id="checkbutton_import_asso_case_sensitive">
                             <property name="label" translatable="yes">Ignoring case sensitive</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>

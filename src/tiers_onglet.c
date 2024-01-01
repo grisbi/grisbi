@@ -1263,7 +1263,7 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
 	tmp_list = gsb_data_payee_get_name_and_report_list();
 	combo = gtk_combofix_new_with_properties (tmp_list,
 											  FALSE,
-											  !w_run->import_asso_case_insensitive,
+											  !w_run->import_asso_case_sensitive,
 											  FALSE,
 											  METATREE_PAYEE);
     gtk_box_pack_start (GTK_BOX (paddingbox), combo, FALSE, FALSE, MARGIN_BOX);
@@ -1318,7 +1318,7 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
     g_object_set_data (G_OBJECT (assistant), "check_option_2", check_option);
 
 	check_option = gtk_check_button_new_with_label (_("Ignoring case sensitive"));
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_option), w_run->import_asso_case_insensitive);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_option), w_run->import_asso_case_sensitive);
     gtk_box_pack_start (GTK_BOX (paddingbox), check_option, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (assistant), "check_option_3", check_option);
 
