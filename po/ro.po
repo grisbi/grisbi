@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2023-12-31 17:25+0100\n"
+"POT-Creation-Date: 2024-01-01 17:38+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -251,7 +251,8 @@ msgstr "Selecţionaţi conturile bancare:"
 #: src/prefs/prefs_page_payment_method.ui:81
 #: src/prefs/prefs_page_payment_method.ui:391
 #: src/widgets/widget_cmp_amount.ui:301 src/widgets/widget_cmp_text.ui:437
-#: src/widgets/widget_import_asso.ui:128
+#: src/widgets/widget_import_asso.ui:128 src/widgets/widget_import_asso.c:108
+#: src/widgets/widget_import_asso.c:262
 msgid "Add"
 msgstr "Adăuga"
 
@@ -12303,7 +12304,7 @@ msgstr ""
 msgid "Payee number"
 msgstr "numărul de cec"
 
-#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:724
+#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:745
 #, fuzzy
 msgid "Payee name"
 msgstr "Total general"
@@ -12956,34 +12957,28 @@ msgstr "Numele devizei"
 msgid "Sign"
 msgstr "Simbol"
 
-#: src/widgets/widget_import_asso.c:385
-msgid "You are creating a new payee with a rule"
-msgstr ""
+#: src/widgets/widget_import_asso.c:110 src/widgets/widget_import_asso.c:340
+#: src/widgets/widget_import_asso.c:611
+msgid "Update"
+msgstr "dată"
 
-#: src/widgets/widget_import_asso.c:386
-msgid ""
-"If you continue, you will use the payee management module to create a new "
-"third party and its rule.\n"
-"Continue anyway?"
-msgstr ""
-
-#: src/widgets/widget_import_asso.c:493
+#: src/widgets/widget_import_asso.c:470
 msgid "You will be redirected to the payee management module"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:494
+#: src/widgets/widget_import_asso.c:471
 msgid ""
 "You cannot directly create a new payee and its rule like this.\n"
 "If you continue, you will use the payee management module to do so.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:737
+#: src/widgets/widget_import_asso.c:758
 #, fuzzy
 msgid "Search string"
 msgstr "Căutare"
 
-#: src/widgets/widget_import_asso.c:799
+#: src/widgets/widget_import_asso.c:820
 msgid "Select a payee from the list of payees"
 msgstr ""
 
@@ -14165,9 +14160,6 @@ msgstr ""
 
 #~ msgid "Two years"
 #~ msgstr "Ani"
-
-#~ msgid "Update"
-#~ msgstr "dată"
 
 #~ msgid "Solde"
 #~ msgstr "Mod"

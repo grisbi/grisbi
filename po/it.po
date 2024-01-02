@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2023-12-31 17:25+0100\n"
+"POT-Creation-Date: 2024-01-01 17:38+0100\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -219,7 +219,8 @@ msgstr "Seleziona conti bancari:"
 #: src/prefs/prefs_page_payment_method.ui:81
 #: src/prefs/prefs_page_payment_method.ui:391
 #: src/widgets/widget_cmp_amount.ui:301 src/widgets/widget_cmp_text.ui:437
-#: src/widgets/widget_import_asso.ui:128
+#: src/widgets/widget_import_asso.ui:128 src/widgets/widget_import_asso.c:108
+#: src/widgets/widget_import_asso.c:262
 msgid "Add"
 msgstr "Aggiungi"
 
@@ -12217,7 +12218,7 @@ msgstr "Vuoi cancellare solo questa correnza o tutta la sua schedulazione?"
 msgid "Payee number"
 msgstr "il numero dell'assegno"
 
-#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:724
+#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:745
 #, fuzzy
 msgid "Payee name"
 msgstr "Totale generale"
@@ -12870,34 +12871,28 @@ msgstr "Nome moneta"
 msgid "Sign"
 msgstr "Simbolo"
 
-#: src/widgets/widget_import_asso.c:385
-msgid "You are creating a new payee with a rule"
-msgstr ""
+#: src/widgets/widget_import_asso.c:110 src/widgets/widget_import_asso.c:340
+#: src/widgets/widget_import_asso.c:611
+msgid "Update"
+msgstr "data"
 
-#: src/widgets/widget_import_asso.c:386
-msgid ""
-"If you continue, you will use the payee management module to create a new "
-"third party and its rule.\n"
-"Continue anyway?"
-msgstr ""
-
-#: src/widgets/widget_import_asso.c:493
+#: src/widgets/widget_import_asso.c:470
 msgid "You will be redirected to the payee management module"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:494
+#: src/widgets/widget_import_asso.c:471
 msgid ""
 "You cannot directly create a new payee and its rule like this.\n"
 "If you continue, you will use the payee management module to do so.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:737
+#: src/widgets/widget_import_asso.c:758
 #, fuzzy
 msgid "Search string"
 msgstr "Cerca"
 
-#: src/widgets/widget_import_asso.c:799
+#: src/widgets/widget_import_asso.c:820
 msgid "Select a payee from the list of payees"
 msgstr ""
 
@@ -14024,9 +14019,6 @@ msgstr ""
 
 #~ msgid "Two years"
 #~ msgstr "Anni"
-
-#~ msgid "Update"
-#~ msgstr "data"
 
 #~ msgid "Solde"
 #~ msgstr "Modalità"

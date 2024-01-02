@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2023-12-31 17:25+0100\n"
+"POT-Creation-Date: 2024-01-01 17:38+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -227,7 +227,8 @@ msgstr "Selecteer bankrekeningen:"
 #: src/prefs/prefs_page_payment_method.ui:81
 #: src/prefs/prefs_page_payment_method.ui:391
 #: src/widgets/widget_cmp_amount.ui:301 src/widgets/widget_cmp_text.ui:437
-#: src/widgets/widget_import_asso.ui:128
+#: src/widgets/widget_import_asso.ui:128 src/widgets/widget_import_asso.c:108
+#: src/widgets/widget_import_asso.c:262
 msgid "Add"
 msgstr "Toevoegen"
 
@@ -12374,7 +12375,7 @@ msgstr ""
 msgid "Payee number"
 msgstr "het cheque nummer"
 
-#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:724
+#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:745
 #, fuzzy
 msgid "Payee name"
 msgstr "Totaal algemeen"
@@ -13027,34 +13028,28 @@ msgstr "Valuta naam"
 msgid "Sign"
 msgstr "Symbool"
 
-#: src/widgets/widget_import_asso.c:385
-msgid "You are creating a new payee with a rule"
-msgstr ""
+#: src/widgets/widget_import_asso.c:110 src/widgets/widget_import_asso.c:340
+#: src/widgets/widget_import_asso.c:611
+msgid "Update"
+msgstr "datum"
 
-#: src/widgets/widget_import_asso.c:386
-msgid ""
-"If you continue, you will use the payee management module to create a new "
-"third party and its rule.\n"
-"Continue anyway?"
-msgstr ""
-
-#: src/widgets/widget_import_asso.c:493
+#: src/widgets/widget_import_asso.c:470
 msgid "You will be redirected to the payee management module"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:494
+#: src/widgets/widget_import_asso.c:471
 msgid ""
 "You cannot directly create a new payee and its rule like this.\n"
 "If you continue, you will use the payee management module to do so.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:737
+#: src/widgets/widget_import_asso.c:758
 #, fuzzy
 msgid "Search string"
 msgstr "Zoeken"
 
-#: src/widgets/widget_import_asso.c:799
+#: src/widgets/widget_import_asso.c:820
 msgid "Select a payee from the list of payees"
 msgstr ""
 
@@ -14259,9 +14254,6 @@ msgstr ""
 
 #~ msgid "Two years"
 #~ msgstr "Jaren"
-
-#~ msgid "Update"
-#~ msgstr "datum"
 
 #~ msgid "Solde"
 #~ msgstr "Stand"

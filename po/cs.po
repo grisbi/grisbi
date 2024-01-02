@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2023-12-31 17:25+0100\n"
+"POT-Creation-Date: 2024-01-01 17:38+0100\n"
 "PO-Revision-Date: 2022-10-19 01:29+0200\n"
 "Last-Translator: Marek Donar <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -206,7 +206,8 @@ msgstr "Je-li to možné, umístit částečný součet pod jeho účty"
 #: src/prefs/prefs_page_payment_method.ui:81
 #: src/prefs/prefs_page_payment_method.ui:391
 #: src/widgets/widget_cmp_amount.ui:301 src/widgets/widget_cmp_text.ui:437
-#: src/widgets/widget_import_asso.ui:128
+#: src/widgets/widget_import_asso.ui:128 src/widgets/widget_import_asso.c:108
+#: src/widgets/widget_import_asso.c:262
 msgid "Add"
 msgstr "Přidat"
 
@@ -11889,7 +11890,7 @@ msgstr "Chcete nahradit aktuální pravidlo?"
 msgid "Payee number"
 msgstr "Číslo plátce/příjemce"
 
-#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:724
+#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:745
 msgid "Payee name"
 msgstr "Jméno plátce/příjemce"
 
@@ -12627,25 +12628,18 @@ msgstr "Název měny"
 msgid "Sign"
 msgstr "Symbol"
 
-#: src/widgets/widget_import_asso.c:385
-msgid "You are creating a new payee with a rule"
-msgstr "Vytváříte nového plátce/příjemce s pravidlem"
+#: src/widgets/widget_import_asso.c:110 src/widgets/widget_import_asso.c:340
+#: src/widgets/widget_import_asso.c:611
+#, fuzzy
+#| msgid "date"
+msgid "Update"
+msgstr "datum"
 
-#: src/widgets/widget_import_asso.c:386
-msgid ""
-"If you continue, you will use the payee management module to create a new "
-"third party and its rule.\n"
-"Continue anyway?"
-msgstr ""
-"Pokud budete pokračovat, budete přesměrován(a) do modulu správy plátců / "
-"příjemců pro vytvoření třetí strany s pravidlem.\n"
-"Přesto pokračovat?"
-
-#: src/widgets/widget_import_asso.c:493
+#: src/widgets/widget_import_asso.c:470
 msgid "You will be redirected to the payee management module"
 msgstr "Budete přesměrován(a) do správy plátců / příjemců"
 
-#: src/widgets/widget_import_asso.c:494
+#: src/widgets/widget_import_asso.c:471
 msgid ""
 "You cannot directly create a new payee and its rule like this.\n"
 "If you continue, you will use the payee management module to do so.\n"
@@ -12655,11 +12649,11 @@ msgstr ""
 "Pokud budete pokračovat, budete přesměrován(a) do modulu správy plátců.\n"
 "Přesto pokračovat?"
 
-#: src/widgets/widget_import_asso.c:737
+#: src/widgets/widget_import_asso.c:758
 msgid "Search string"
 msgstr "Vyhledávací řetězec"
 
-#: src/widgets/widget_import_asso.c:799
+#: src/widgets/widget_import_asso.c:820
 msgid "Select a payee from the list of payees"
 msgstr ""
 
@@ -12852,6 +12846,18 @@ msgstr "Souhrnný zůstatek"
 #: src/widgets/widget_transfer.c:936
 msgid "One of the two fields is recommended"
 msgstr "Jedno ze dvou polí je doporučené"
+
+#~ msgid "You are creating a new payee with a rule"
+#~ msgstr "Vytváříte nového plátce/příjemce s pravidlem"
+
+#~ msgid ""
+#~ "If you continue, you will use the payee management module to create a new "
+#~ "third party and its rule.\n"
+#~ "Continue anyway?"
+#~ msgstr ""
+#~ "Pokud budete pokračovat, budete přesměrován(a) do modulu správy plátců / "
+#~ "příjemců pro vytvoření třetí strany s pravidlem.\n"
+#~ "Přesto pokračovat?"
 
 #, fuzzy
 #~ msgid "Personal finances manager"

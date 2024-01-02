@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2023-12-31 17:25+0100\n"
+"POT-Creation-Date: 2024-01-01 17:38+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -217,7 +217,8 @@ msgstr "Выберите основную валюту для своего сч�
 #: src/prefs/prefs_page_payment_method.ui:81
 #: src/prefs/prefs_page_payment_method.ui:391
 #: src/widgets/widget_cmp_amount.ui:301 src/widgets/widget_cmp_text.ui:437
-#: src/widgets/widget_import_asso.ui:128
+#: src/widgets/widget_import_asso.ui:128 src/widgets/widget_import_asso.c:108
+#: src/widgets/widget_import_asso.c:262
 msgid "Add"
 msgstr "Добавить"
 
@@ -11868,7 +11869,7 @@ msgstr "Заменить существующие"
 msgid "Payee number"
 msgstr "Номер получателя"
 
-#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:724
+#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:745
 msgid "Payee name"
 msgstr "Название получателя"
 
@@ -12503,33 +12504,27 @@ msgstr "Название валюты"
 msgid "Sign"
 msgstr "Знак"
 
-#: src/widgets/widget_import_asso.c:385
-msgid "You are creating a new payee with a rule"
-msgstr ""
+#: src/widgets/widget_import_asso.c:110 src/widgets/widget_import_asso.c:340
+#: src/widgets/widget_import_asso.c:611
+msgid "Update"
+msgstr "Обновить"
 
-#: src/widgets/widget_import_asso.c:386
-msgid ""
-"If you continue, you will use the payee management module to create a new "
-"third party and its rule.\n"
-"Continue anyway?"
-msgstr ""
-
-#: src/widgets/widget_import_asso.c:493
+#: src/widgets/widget_import_asso.c:470
 msgid "You will be redirected to the payee management module"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:494
+#: src/widgets/widget_import_asso.c:471
 msgid ""
 "You cannot directly create a new payee and its rule like this.\n"
 "If you continue, you will use the payee management module to do so.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/widgets/widget_import_asso.c:737
+#: src/widgets/widget_import_asso.c:758
 msgid "Search string"
 msgstr "Строка поиска"
 
-#: src/widgets/widget_import_asso.c:799
+#: src/widgets/widget_import_asso.c:820
 msgid "Select a payee from the list of payees"
 msgstr ""
 
@@ -13615,9 +13610,6 @@ msgstr ""
 
 #~ msgid "Each account has his own form"
 #~ msgstr "У каждого счёта свой формуляр"
-
-#~ msgid "Update"
-#~ msgstr "Обновить"
 
 #~ msgid "Category line"
 #~ msgstr "Линия категории"

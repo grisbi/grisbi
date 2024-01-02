@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2023-12-31 17:25+0100\n"
-"PO-Revision-Date: 2022-06-25 13:16+0200\n"
+"POT-Creation-Date: 2024-01-01 17:38+0100\n"
+"PO-Revision-Date: 2024-01-02 06:48+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
 "Language: fr\n"
@@ -23,7 +23,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: src\n"
+"X-Poedit-SearchPath-1: po\n"
 
 #: src/etats/etats_page_amount.ui:17 src/etats/etats_page_text.ui:16
 msgid "Select transactions according to content"
@@ -214,7 +217,8 @@ msgstr "Placer si possible le solde partiel sous ses comptes"
 #: src/prefs/prefs_page_payment_method.ui:81
 #: src/prefs/prefs_page_payment_method.ui:391
 #: src/widgets/widget_cmp_amount.ui:301 src/widgets/widget_cmp_text.ui:437
-#: src/widgets/widget_import_asso.ui:128
+#: src/widgets/widget_import_asso.ui:128 src/widgets/widget_import_asso.c:108
+#: src/widgets/widget_import_asso.c:262
 msgid "Add"
 msgstr "Ajouter"
 
@@ -2378,7 +2382,7 @@ msgstr ""
 
 #: src/widgets/widget_import_asso.ui:87
 msgid "Warning: you cannot create a payee from this tab"
-msgstr "Attention : vous ne pouvez pas créer de tiers à partir de cette page."
+msgstr "Attention : vous ne pouvez pas créer un tiers à partir de cette page"
 
 #: src/widgets/widget_import_asso.ui:205
 msgid "Details of associations"
@@ -2590,7 +2594,7 @@ msgstr "Chercher"
 
 #: src/widgets/widget_search_transaction.ui:92
 msgid "Searched string :"
-msgstr "Chaîne recherchée : "
+msgstr "Chaîne recherchée :"
 
 #: src/widgets/widget_search_transaction.ui:102
 msgid "Search for a string"
@@ -7927,7 +7931,7 @@ msgstr "Florin des Antilles néerlandaises"
 
 #: src/gsb_data_currency.c:215
 msgid "Netherlands Antilles"
-msgstr "Curaçao e.a."
+msgstr "Curaçao e.a"
 
 #: src/gsb_data_currency.c:216
 msgid "Trinidad and Tobago Dollar"
@@ -11803,7 +11807,7 @@ msgid ""
 "This shouldn't happen. Please contact the Grisbi team to try to add your "
 "strange format into Grisbi"
 msgstr ""
-"La date % s semble contenir plus de 2 séparateurs.\n"
+"La date %s semble contenir plus de 2 séparateurs.\n"
 "Cela ne devrait pas se produire. S'il vous plaît contacter l'équipe de "
 "Grisbi pour essayer d'ajouter cet étrange format à Grisbi"
 
@@ -12003,7 +12007,7 @@ msgstr "Voulez vous remplacer cette règle d'importation ?"
 msgid "Payee number"
 msgstr "N° du tiers"
 
-#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:724
+#: src/tiers_onglet.c:1585 src/widgets/widget_import_asso.c:745
 msgid "Payee name"
 msgstr "Nom du tiers"
 
@@ -12774,25 +12778,17 @@ msgstr "Nom de la devise"
 msgid "Sign"
 msgstr "Symbole"
 
-#: src/widgets/widget_import_asso.c:385
-msgid "You are creating a new payee with a rule"
-msgstr "Vous êtes en train de créer un nouveau tiers avec une règle"
+#: src/widgets/widget_import_asso.c:110 src/widgets/widget_import_asso.c:340
+#: src/widgets/widget_import_asso.c:611
+#| msgid "date"
+msgid "Update"
+msgstr "Modifier"
 
-#: src/widgets/widget_import_asso.c:386
-msgid ""
-"If you continue, you will use the payee management module to create a new "
-"third party and its rule.\n"
-"Continue anyway?"
-msgstr ""
-"Si vous continuez vous allez utiliser le module de gestion des tiers  pour "
-"créer un nouveau tiers ainsi que sa règle.\n"
-"Continuer quand même ?"
-
-#: src/widgets/widget_import_asso.c:493
+#: src/widgets/widget_import_asso.c:470
 msgid "You will be redirected to the payee management module"
 msgstr "Vous allez être redirigé vers le module de gestion des tiers"
 
-#: src/widgets/widget_import_asso.c:494
+#: src/widgets/widget_import_asso.c:471
 msgid ""
 "You cannot directly create a new payee and its rule like this.\n"
 "If you continue, you will use the payee management module to do so.\n"
@@ -12804,11 +12800,11 @@ msgstr ""
 "faire.\n"
 "Continuer quand même ?"
 
-#: src/widgets/widget_import_asso.c:737
+#: src/widgets/widget_import_asso.c:758
 msgid "Search string"
 msgstr "Chaîne recherchée"
 
-#: src/widgets/widget_import_asso.c:799
+#: src/widgets/widget_import_asso.c:820
 msgid "Select a payee from the list of payees"
 msgstr "Selectionnez un tiers dans la liste des tiers"
 
