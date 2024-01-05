@@ -874,6 +874,11 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 
 				break;
 			}
+			else
+			{
+				if (col_date_present && i != num_col_date)
+					continue;
+			}
 
 			array = gsb_date_get_date_content (tmp_str);
 			if (array)
@@ -920,60 +925,57 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 
 				if (col_date_present)
 				{
-					if (i == num_col_date)
+					if (g_date_valid_dmy (day, month, year))
 					{
-						if (g_date_valid_dmy (day, month, year))
+						/* the date is valid, go to the next date */
+						if (day > 12)
+							nbre_dates_OK ++;
+						g_strfreev (array);
+						break;
+					}
+					else
+					{
+						/* the date is not valid, change the order or go away */
+						date_wrong[order] = (gchar*) list->data;
+						order++;
+
+						if (order < ORDER_MAX)
 						{
-							/* the date is valid, go to the next date */
-							if (day > 12)
-								nbre_dates_OK ++;
+							/* we try again with the new order */
+							nbre_dates_OK = 0;
 							g_strfreev (array);
 							break;
 						}
 						else
 						{
-							/* the date is not valid, change the order or go away */
-							date_wrong[order] = (gchar*) list->data;
-							order++;
+							/* the order was already changed for all the formats, we show the problem and leave */
+							gint j;
+							gchar *string;
 
-							if (order < ORDER_MAX)
+							string = g_strdup (_("The order cannot be determined,\n"));
+
+							for (j = 0; j < ORDER_MAX; j++)
 							{
-								/* we try again with the new order */
-								nbre_dates_OK = 0;
-								g_strfreev (array);
-								break;
-							}
-							else
-							{
-								/* the order was already changed for all the formats, we show the problem and leave */
-								gint j;
-								gchar *string;
+								gchar *tmp_str2;
 
-								string = g_strdup (_("The order cannot be determined,\n"));
-
-								for (j = 0; j < ORDER_MAX; j++)
-								{
-									gchar *tmp_str2;
-
-									tmp_str2 = g_strconcat (string,
-															_("Date wrong for the order "),
-															order_names[j], " : ",
-															date_wrong[j], "\n", NULL);
-									g_free (string);
-									string = tmp_str2;
-								}
-
-								dialogue_error (string);
+								tmp_str2 = g_strconcat (string,
+														_("Date wrong for the order "),
+														order_names[j], " : ",
+														date_wrong[j], "\n", NULL);
 								g_free (string);
-								g_strfreev (array);
-								import_format = NULL;
-								g_free (tmp_str);
-
-								return;
+								string = tmp_str2;
 							}
+
+							dialogue_error (string);
+							g_free (string);
+							g_strfreev (array);
+							import_format = NULL;
+							g_free (tmp_str);
+
+							return;
 						}
-						break;
 					}
+					break;
 				}
 				else
 				{
@@ -1040,11 +1042,32 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 
 	if (nbre_dates_OK < 3)
 	{
-		/* the order was already changed for all the formats, we show the problem and leave */
 		gchar *tmp_str;
 
-		tmp_str = g_strdup (_("Grisbi could not determine the format of the dates.\n\n"
-							  "Please force it!"));
+		if (nbre_dates_OK > 0)
+		{
+			if (nbre_dates_OK == 1)
+			{
+				/* grisbi a trouvé 1 date correspondant au motif %s. Vérifiez si c'est correct */
+				tmp_str = g_strdup_printf (_("grisbi found 1 date matching pattern %s.\n\n"
+											 "Check if it is correct!"),
+										   order_names[order]);
+			}
+			else
+			{
+				/* grisbi a trouvé plusieurs dates correspondant au motif %s. Vérifiez si c'est correct */
+				tmp_str = g_strdup_printf (_("grisbi found %d date matching pattern %s.\n\n"
+											 "Check if it is correct!"),
+										   nbre_dates_OK,
+										   order_names[order]);
+			}
+		}
+		else
+		{
+			/* the order was already changed for all the formats, we show the problem and leave */
+			tmp_str = g_strdup (_("Grisbi could not determine the format of the dates.\n\n"
+								  "Please force it!"));
+		}
 
 		dialogue_warning_hint (tmp_str, _("The dates format is indeterminate"));
 		g_free (tmp_str);
