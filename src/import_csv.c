@@ -738,7 +738,14 @@ static gint *csv_import_guess_fields_config (GArray *lines_tab,
 		}
 		list = list->next;
 	}
-	default_config [i] = -1;
+	if (i != size)
+	{
+		gchar *tmp_str;
+
+		tmp_str = g_strdup_printf (_("The number of columns is not the same on all useful lines in the file"));
+		dialogue_warning_hint (tmp_str, _("Inconsistency in number of columns"));
+		g_free (tmp_str);
+	}
 
     return default_config;
 }
