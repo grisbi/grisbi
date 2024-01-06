@@ -118,16 +118,16 @@ static gboolean gsb_menu_help_manual (void)
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
 	if (a_conf->display_help)
-		string = g_build_filename (gsb_dirs_get_help_dir (), lang, "manual.pdf", NULL);
+		string = g_build_filename (gsb_dirs_get_help_dir (), lang, "grisbi-manuel.pdf", NULL);
 	else
-    	string = g_build_filename (gsb_dirs_get_help_dir (), lang, "manual.html", NULL);
+    	string = g_build_filename (gsb_dirs_get_help_dir (), lang, "grisbi-manuel.html", NULL);
 
 	if (!g_file_test (string, G_FILE_TEST_EXISTS))
     {
 		gchar *str_to_free;
 
 		str_to_free = string;
-		string = gsb_string_remplace_string (str_to_free, "manual.", "grisbi-manuel.");
+		string = g_strconcat(str_to_free, ".gz", NULL);
 		g_free (str_to_free);
     }
 	lance_navigateur_web (string);
