@@ -1113,18 +1113,7 @@ static GtkTreeModel *csv_import_create_model (GtkTreeView *tree_preview,
 														"strikethrough", 0,
 														NULL);
 
-        if (csv_fields_config[i] > 0)
-        {
-            name = g_strconcat ("<b><u>",
-								_(csv_fields [csv_fields_config[i]].name),
-								"</u></b>",
-								NULL);
-        }
-        else
-        {
-            name = my_strdup (_(csv_fields [csv_fields_config[i]].name));
-        }
-
+		name = my_strdup (_(csv_fields [csv_fields_config[i]].name));
         label = gtk_label_new (NULL);
         gtk_label_set_markup (GTK_LABEL(label), name);
         gtk_widget_show (label);
