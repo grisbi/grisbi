@@ -2640,18 +2640,28 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 																	imported_transaction->cheque);
             }
         }
-        else
-        {
-            /* comme ce n'est pas un chèque, on met sur le type par défaut */
-            if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
-                gsb_data_transaction_set_method_of_payment_number (transaction_number,
-																   gsb_data_account_get_default_debit
-																   (account_number));
-            else
-                gsb_data_transaction_set_method_of_payment_number (transaction_number,
-																   gsb_data_account_get_default_credit
-																   (account_number));
-        }
+        else /* on regarde si on a un moyen de paiement */
+		{
+			if (imported_transaction->payment_method)
+			{
+				payment_number = gsb_data_payment_get_number_by_name (_(imported_transaction->payment_method),
+																	  account_number);
+				gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																   payment_number);
+			}
+			else
+			{
+				/* comme on en pas, on met le type par défaut */
+				if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
+					gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																	   gsb_data_account_get_default_debit
+																	   (account_number));
+				else
+					gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																	   gsb_data_account_get_default_credit
+																	   (account_number));
+			}
+		}
     }
 
     /* récupération du pointé */

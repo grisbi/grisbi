@@ -86,7 +86,7 @@ struct ImportTransaction
     gchar *tiers;
     gchar *notes;
     gchar *cheque;
-
+    gchar *payment_method;		/* Ajout pour l'importation des fichiers CSV */
     gchar *categ;
 	gchar *budget;
 

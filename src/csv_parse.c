@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2005-2006 Benjamin Drieu (bdrieu@april.org)           */
 /*          2008-2017 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -548,6 +548,33 @@ gboolean csv_import_parse_split (struct ImportTransaction *ope,
 }
 
 
+/**
+ * Valide et integre la chaine passée en paramètre
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gboolean csv_import_parse_payment_method (struct ImportTransaction *ope,
+										  gchar *string)
+{
+	g_return_val_if_fail (string, FALSE);
+	if (ope->payment_method)
+		g_free (ope->payment_method);
+
+	ope->payment_method = my_strdup (string);
+
+	return TRUE;
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

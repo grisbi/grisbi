@@ -26,6 +26,8 @@ gboolean 	csv_import_parse_p_r 			(struct ImportTransaction *ope,
 											 gchar *string);
 gboolean 	csv_import_parse_payee 			(struct ImportTransaction *ope,
 											 gchar *string);
+gboolean 	csv_import_parse_payment_method	(struct ImportTransaction *ope,
+											 gchar *string);
 gboolean 	csv_import_parse_split 			(struct ImportTransaction *ope,
 											 gchar *string);
 gboolean 	csv_import_parse_sub_budget 	(struct ImportTransaction *ope,

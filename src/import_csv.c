@@ -77,24 +77,25 @@ struct CsvField {
 
 /** Contain configuration of CSV fields.  */
 /* NAME, ALIGNMENT, VALIDATE FUNCTION, PARSE FUNCTION, ALIAS */
-struct CsvField csv_fields[18] = {
-	{ N_("Unknown field"),  	0.0, NULL,			     		 NULL		     ,				"" },				/* 0 */
-	{ N_("Currency"),	    	0.0, csv_import_validate_string, csv_import_parse_currency, 	"" },				/* 1 */
-	{ N_("Date"),	    		0.0, csv_import_validate_date,   csv_import_parse_date, 		"" },				/* 2 */
-	{ N_("Value date"),	    	0.0, csv_import_validate_date,   csv_import_parse_value_date, 	"" },				/* 3 */
-	{ N_("Payee"),	    		0.0, csv_import_validate_string, csv_import_parse_payee, 		N_("Wording") },	/* 4 */
-	{ N_("Notes"),	    		0.0, csv_import_validate_string, csv_import_parse_notes, 		"" },				/* 5 */
-	{ N_("Cheque number"), 		0.0, csv_import_validate_number, csv_import_parse_cheque, 		"" },				/* 6 */
-	{ N_("Category"),	    	0.0, csv_import_validate_string, csv_import_parse_category, 	"" },				/* 7 */
-	{ N_("Sub-categories"),   	0.0, csv_import_validate_string, csv_import_parse_sub_category, "" },				/* 8 */
-	{ N_("Budgetary lines"), 	0.0, csv_import_validate_string, csv_import_parse_budget, 		"" },				/* 9 */
-	{ N_("Sub-budgetary lines"),0.0, csv_import_validate_string, csv_import_parse_sub_budget,	"" },				/* 10 */
-	{ N_("Amount"),        		0.0, csv_import_validate_amount, csv_import_parse_balance, 		"" },				/* 11 */
-	{ N_("Credit"), 			0.0, csv_import_validate_amount, csv_import_parse_credit, 		"" },				/* 12 */
-	{ N_("Debit (absolute)"),	0.0, csv_import_validate_amount, csv_import_parse_debit, 		N_("Debit") },		/* 13 */
-	{ N_("Debit (negative)"),	0.0, csv_import_validate_amount, csv_import_parse_credit, 		"" },				/* 14 */
-	{ N_("C/R"),	    		0.0, csv_import_validate_string, csv_import_parse_p_r, 			"" },				/* 15 */
-	{ N_("Split"),	    		0.0, csv_import_validate_string, csv_import_parse_split, 		"" },				/* 16 */
+struct CsvField csv_fields[19] = {
+	{ N_("Unknown field"),  	0.0, NULL,			     		 NULL		     ,					"" },				/* 0 */
+	{ N_("Currency"),	    	0.0, csv_import_validate_string, csv_import_parse_currency, 		"" },				/* 1 */
+	{ N_("Date"),	    		0.0, csv_import_validate_date,   csv_import_parse_date, 			"" },				/* 2 */
+	{ N_("Value date"),	    	0.0, csv_import_validate_date,   csv_import_parse_value_date, 		"" },				/* 3 */
+	{ N_("Payee"),	    		0.0, csv_import_validate_string, csv_import_parse_payee, 			N_("Wording") },	/* 4 */
+	{ N_("Notes"),	    		0.0, csv_import_validate_string, csv_import_parse_notes, 			"" },				/* 5 */
+	{ N_("Cheque number"), 		0.0, csv_import_validate_number, csv_import_parse_cheque, 			"" },				/* 6 */
+	{ N_("Category"),	    	0.0, csv_import_validate_string, csv_import_parse_category, 		"" },				/* 7 */
+	{ N_("Sub-categories"),   	0.0, csv_import_validate_string, csv_import_parse_sub_category,		"" },				/* 8 */
+	{ N_("Budgetary lines"), 	0.0, csv_import_validate_string, csv_import_parse_budget, 			"" },				/* 9 */
+	{ N_("Sub-budgetary lines"),0.0, csv_import_validate_string, csv_import_parse_sub_budget,		"" },				/* 10 */
+	{ N_("Amount"),        		0.0, csv_import_validate_amount, csv_import_parse_balance, 			"" },				/* 11 */
+	{ N_("Credit"), 			0.0, csv_import_validate_amount, csv_import_parse_credit, 			"" },				/* 12 */
+	{ N_("Debit (absolute)"),	0.0, csv_import_validate_amount, csv_import_parse_debit, 			N_("Debit") },		/* 13 */
+	{ N_("Debit (negative)"),	0.0, csv_import_validate_amount, csv_import_parse_credit, 			"" },				/* 14 */
+	{ N_("C/R"),	    		0.0, csv_import_validate_string, csv_import_parse_p_r, 				"" },				/* 15 */
+	{ N_("Split"),	    		0.0, csv_import_validate_string, csv_import_parse_split, 			"" },				/* 16 */
+	{ N_("Payment method"),	    0.0, csv_import_validate_string, csv_import_parse_payment_method,	"" },				/* 17 */
 	{ NULL, 0.0, NULL, NULL, NULL },
 };
 
