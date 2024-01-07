@@ -2647,7 +2647,7 @@ GSList *gsb_data_transaction_get_list_for_import (gint account_number,
 		{
 			ope_list = g_slist_insert_sorted (ope_list,
 											  transaction,
-											  (GCompareFunc) classement_sliste_transactions_par_date);
+											  (GCompareFunc) classement_sliste_transactions_par_date_decroissante);
 		}
 
 		tmp_list = tmp_list->next;
