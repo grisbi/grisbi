@@ -540,7 +540,7 @@ gboolean csv_import_parse_split (struct ImportTransaction *ope,
 
     if (! strcmp (string, "V"))
     {
-        ope->ope_de_ventilation = 1;
+        ope->ope_de_ventilation = TRUE;
         return TRUE;
     }
 

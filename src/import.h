@@ -97,8 +97,8 @@ struct ImportTransaction
     gint type_de_transaction;   /* Utilisé pour les fichiers OFX étendu à certains fichiers QIF (Champs N du fichier QIF) */
 	gboolean ope_memorized;		/* memorized transaction voir à quoi ça sert */
 
-    gint operation_ventilee;	/* à 1 si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à 1 */
-    gint ope_de_ventilation;
+    gboolean operation_ventilee;/* TRUE si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à TRUE */
+    gboolean ope_de_ventilation;
 
 	gboolean transfert;			/* Pour fichier QIF */
 	gchar *dest_account_name;	/* Nom du compte destinataire */

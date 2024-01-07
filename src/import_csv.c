@@ -1421,9 +1421,9 @@ gboolean csv_import_file_by_rule (gint rule,
 
 								ope_tmp = (struct ImportTransaction *) g_slist_nth_data  (compte->operations_importees,
 																						  nbre_element -1);
-								if (ope_tmp->operation_ventilee == 0 && ope_tmp->ope_de_ventilation == 0)
-									ope_tmp->operation_ventilee = 1;
-								ope->ope_de_ventilation = 1;
+								if (ope_tmp->operation_ventilee == FALSE && ope_tmp->ope_de_ventilation == FALSE)
+									ope_tmp->operation_ventilee = TRUE;
+								ope->ope_de_ventilation = TRUE;
 							}
 						}
 						else if (!field->parse (ope, list->data))
@@ -1611,9 +1611,9 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 
 								ope_tmp = (struct ImportTransaction *) g_slist_nth_data  (compte->operations_importees,
 																						  nbre_element -1);
-								if (ope_tmp->operation_ventilee == 0 && ope_tmp->ope_de_ventilation == 0)
-									ope_tmp->operation_ventilee = 1;
-								ope->ope_de_ventilation = 1;
+								if (ope_tmp->operation_ventilee == FALSE && ope_tmp->ope_de_ventilation == FALSE)
+									ope_tmp->operation_ventilee = TRUE;
+								ope->ope_de_ventilation = TRUE;
 							}
 						}
 						else if (csv_fields_config[i] == 7)
