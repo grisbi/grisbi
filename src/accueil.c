@@ -1361,7 +1361,7 @@ static void update_liste_echeances_manuelles_accueil (gboolean force)
 		gtk_widget_destroy (label);
 
 		pointeur_liste = g_slist_sort_with_data (scheduled_transactions_to_take,
-												 (GCompareDataFunc) classement_sliste_echeance_par_date,
+												 (GCompareDataFunc) classement_gslist_echeance_par_date,
 												 GINT_TO_POINTER (manual));
 
 		while (pointeur_liste)
@@ -1499,7 +1499,7 @@ static void update_liste_echeances_auto_accueil (gboolean force)
 		gtk_widget_show (vbox);
 
 		pointeur_liste = g_slist_sort_with_data (scheduled_transactions_taken,
-												 (GCompareDataFunc) classement_sliste_echeance_par_date,
+												 (GCompareDataFunc) classement_gslist_echeance_par_date,
 												 GINT_TO_POINTER (manual));
 
 		while (pointeur_liste)

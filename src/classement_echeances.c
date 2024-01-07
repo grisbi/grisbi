@@ -49,7 +49,7 @@
 /* ************************************************************************* */
 /* Classement de deux échéances d'opérations par date                        */
 /* ************************************************************************* */
-gint classement_sliste_echeance_par_date ( gpointer data_1,
+gint classement_gslist_echeance_par_date ( gpointer data_1,
                         gpointer data_2,
                         gpointer manual )
 {
@@ -82,7 +82,7 @@ gint classement_sliste_echeance_par_date ( gpointer data_1,
 /* ************************************************************************* */
 /* Classement de deux opérations par date croissante                           */
 /* ************************************************************************* */
-gint classement_sliste_transactions_par_date ( gpointer transaction_pointer_1,
+gint classement_gslist_transactions_par_date ( gpointer transaction_pointer_1,
                         gpointer transaction_pointer_2 )
 {
     const GDate *date;
@@ -108,7 +108,7 @@ gint classement_sliste_transactions_par_date ( gpointer transaction_pointer_1,
  *
  *
  * */
-gint classement_sliste_transactions_par_date_decroissante ( gpointer transaction_pointer_1,
+gint classement_gslist_transactions_par_date_decroissante ( gpointer transaction_pointer_1,
                         gpointer transaction_pointer_2 )
 {
     const GDate *date;
@@ -138,7 +138,7 @@ gint classement_sliste_transactions_par_date_decroissante ( gpointer transaction
  *
  * \return
  **/
-gint classement_sliste_transactions_par_number (gpointer number_pointer_1,
+gint classement_gslist_transactions_par_number (gpointer number_pointer_1,
 												gpointer number_pointer_2,
 												GtkSortType sens)
 {
