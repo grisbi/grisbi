@@ -41,6 +41,7 @@
 #include "gsb_calendar_entry.h"
 #include "gsb_form_widget.h"
 #include "gsb_regex.h"
+#include "import_csv.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils_str.h"
@@ -871,6 +872,7 @@ void gsb_date_set_import_format_date (const GArray *lines_tab,
 			{
 				num_col_date = i;
 				col_date_present = TRUE;
+				csv_import_set_first_data_line (index);
 
 				break;
 			}

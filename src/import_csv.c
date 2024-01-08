@@ -523,6 +523,13 @@ static gint csv_import_count_columns (GArray *lines_tab)
 	if (!lines_tab)
 		return 0;
 
+	if (first_line_with_cols)
+	{
+		list = g_array_index (lines_tab, GSList *, first_line_with_cols);
+
+		return g_slist_length (list);
+	}
+
 	do
 	{
 		list = g_array_index (lines_tab, GSList *, i);
@@ -1873,6 +1880,17 @@ gboolean csv_import_change_separator (GtkEntry *entry,
 	return FALSE;
 }
 
+/**
+ * renvoi du numero de ligne contenant "date" en titre de colonne
+ *
+ * \param
+ *
+ * \return
+ **/
+void csv_import_set_first_data_line (gint first_data_line)
+{
+	first_line_with_cols = first_data_line;
+}
 /**
  *
  *
