@@ -8,14 +8,14 @@
 
 
 /* START_DECLARATION */
-gint	classement_sliste_echeance_par_date 					(gpointer scheduled_number_1,
+gint	classement_gslist_echeance_par_date 					(gpointer scheduled_number_1,
 																 gpointer scheduled_number_2,
 																 gpointer manual);
-gint 	classement_sliste_transactions_par_date 				(gpointer transaction_pointer_1,
+gint 	classement_gslist_transactions_par_date 				(gpointer transaction_pointer_1,
 																 gpointer transaction_pointer_2);
-gint 	classement_sliste_transactions_par_date_decroissante 	(gpointer transaction_pointer_1,
+gint 	classement_gslist_transactions_par_date_decroissante 	(gpointer transaction_pointer_1,
 																 gpointer transaction_pointer_2);
-gint	classement_sliste_transactions_par_number				(gpointer number_pointer_1,
+gint	classement_gslist_transactions_par_number				(gpointer number_pointer_1,
 																 gpointer number_pointer_2,
 																 GtkSortType sens);
 /* END_DECLARATION */

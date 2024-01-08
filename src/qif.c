@@ -864,14 +864,14 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
 
                 if (imported_transaction)
                 {
-                    imported_transaction->operation_ventilee = 1;
+                    imported_transaction->operation_ventilee = TRUE;
 
                     /* get the data of the transaction */
                     imported_splitted->date_tmp = my_strdup (imported_transaction->date_tmp);
                     imported_splitted->tiers = imported_transaction->tiers;
                     imported_splitted->cheque = imported_transaction->cheque;
                     imported_splitted->p_r = imported_transaction->p_r;
-                    imported_splitted->ope_de_ventilation = 1;
+                    imported_splitted->ope_de_ventilation = TRUE;
                 }
 
                 imported_splitted->categ = my_strdup (string + 1);

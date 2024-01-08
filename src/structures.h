@@ -365,7 +365,7 @@ struct _GrisbiWinRun
 	gboolean	block_update_links;							/* block la mise à jour des liens en cas d'ajout ou de suppression de devise */
 
 	/* payees: variables pour les associations de tiers */
-	gboolean 	import_asso_case_insensitive;				/* TRUE = ne tient pas compte de la casse */
+	gboolean 	import_asso_case_sensitive;					/* TRUE = ne tient pas compte de la casse */
 	gboolean	import_asso_use_regex;						/* TRUE = la chaine de recherche est une expression régulière */
 	gboolean	import_asso_replace_rule;					/* TRUE = remplacela règle existante */
 

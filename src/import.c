@@ -400,7 +400,7 @@ void gsb_import_associations_free_liste (void)
  **/
 gint gsb_import_associations_get_last_payee_number (void)
 {
-	return last_added_assoc->payee_number;
+	return last_added_assoc ? last_added_assoc->payee_number : 0;
 }
 
 /******************************************************************************/
@@ -2640,18 +2640,28 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 																	imported_transaction->cheque);
             }
         }
-        else
-        {
-            /* comme ce n'est pas un chèque, on met sur le type par défaut */
-            if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
-                gsb_data_transaction_set_method_of_payment_number (transaction_number,
-																   gsb_data_account_get_default_debit
-																   (account_number));
-            else
-                gsb_data_transaction_set_method_of_payment_number (transaction_number,
-																   gsb_data_account_get_default_credit
-																   (account_number));
-        }
+        else /* on regarde si on a un moyen de paiement */
+		{
+			if (imported_transaction->payment_method)
+			{
+				payment_number = gsb_data_payment_get_number_by_name (_(imported_transaction->payment_method),
+																	  account_number);
+				gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																   payment_number);
+			}
+			else
+			{
+				/* comme on en pas, on met le type par défaut */
+				if (gsb_data_transaction_get_amount (transaction_number).mantissa < 0)
+					gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																	   gsb_data_account_get_default_debit
+																	   (account_number));
+				else
+					gsb_data_transaction_set_method_of_payment_number (transaction_number,
+																	   gsb_data_account_get_default_credit
+																	   (account_number));
+			}
+		}
     }
 
     /* récupération du pointé */
@@ -3298,6 +3308,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (vbox_alert), scrolled_window);
+	gtk_widget_set_size_request (scrolled_window, -1, SW_MIN_HEIGHT);
 
     vbox_alert_lignes = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_add (GTK_CONTAINER (scrolled_window), vbox_alert_lignes);

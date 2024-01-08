@@ -2382,7 +2382,7 @@ gint gsb_data_transaction_find_by_id (gchar *id,
 
 	tmp_list = g_slist_copy (transactions_list);
 
-	tmp_list = g_slist_sort (tmp_list, (GCompareFunc) classement_sliste_transactions_par_date_decroissante);
+	tmp_list = g_slist_sort (tmp_list, (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
 
 	while (tmp_list)
 	{
@@ -2497,11 +2497,11 @@ GSList *gsb_data_transaction_get_metatree_transactions_list (void)
 	switch (w_etat->metatree_sort_transactions)
 	{
 		case 1 :
-			list_tmp = g_slist_sort (list_tmp, (GCompareFunc) classement_sliste_transactions_par_date);
+			list_tmp = g_slist_sort (list_tmp, (GCompareFunc) classement_gslist_transactions_par_date);
 			break;
 
 		case 2 :
-			list_tmp = g_slist_sort (list_tmp, (GCompareFunc) classement_sliste_transactions_par_date_decroissante);
+			list_tmp = g_slist_sort (list_tmp, (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
 			break;
 
 		default :
@@ -2544,7 +2544,7 @@ GsbReal gsb_data_transaction_get_last_transaction_with_div_sub_div (gint account
 	GSList *tmp_list;
 
 	tmp_list = g_slist_copy (transactions_list);
-	tmp_list = g_slist_sort (tmp_list, (GCompareFunc) classement_sliste_transactions_par_date_decroissante);
+	tmp_list = g_slist_sort (tmp_list, (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
 	while (tmp_list)
 	{
 		TransactionStruct *transaction;
@@ -2647,7 +2647,7 @@ GSList *gsb_data_transaction_get_list_for_import (gint account_number,
 		{
 			ope_list = g_slist_insert_sorted (ope_list,
 											  transaction,
-											  (GCompareFunc) classement_sliste_transactions_par_date);
+											  (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
 		}
 
 		tmp_list = tmp_list->next;

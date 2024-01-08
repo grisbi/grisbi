@@ -747,8 +747,8 @@ static void recuperation_donnees_gnucash_transaction (xmlNodePtr transaction_nod
 	/* Create transaction */
 	split = split_list->data;
 	transaction = new_transaction_from_split (split, tiers, date);
-	transaction->operation_ventilee = 0;
-	transaction->ope_de_ventilation = 0;
+	transaction->operation_ventilee = FALSE;
+	transaction->ope_de_ventilation = FALSE;
 	account = find_imported_account_by_name (split->account);
 	if (account)
 		account->operations_importees = g_slist_append (account->operations_importees, transaction);
@@ -764,7 +764,7 @@ static void recuperation_donnees_gnucash_transaction (xmlNodePtr transaction_nod
 	{
 		if (transaction)
 		{
-			transaction->operation_ventilee = 1;
+			transaction->operation_ventilee = TRUE;
 			transaction->montant = total;
 		}
 
@@ -774,7 +774,7 @@ static void recuperation_donnees_gnucash_transaction (xmlNodePtr transaction_nod
 			account = NULL;
 
 			transaction = new_transaction_from_split (split, tiers, date);
-			transaction->ope_de_ventilation = 1;
+			transaction->ope_de_ventilation = TRUE;
 
 			account = find_imported_account_by_name (split->account);
 			if (account)
