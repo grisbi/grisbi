@@ -471,7 +471,7 @@ static GSList *csv_get_next_line (gchar **contents,
 
 	do
 	{
-		list = csv_parse_line (contents, separator);
+		list = csv_import_parse_line (contents, separator);
 	}
 	while (list == GINT_TO_POINTER(-1));
 

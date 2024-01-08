@@ -104,7 +104,7 @@ static gchar *sanitize_field (gchar *begin,
  *
  * \return
  **/
-GSList *csv_parse_line (gchar **contents,
+GSList *csv_import_parse_line (gchar **contents,
 						const gchar *separator)
 {
 	GSList *list = NULL;
