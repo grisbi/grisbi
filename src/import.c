@@ -3308,6 +3308,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (vbox_alert), scrolled_window);
+	gtk_widget_set_size_request (scrolled_window, -1, SW_MIN_HEIGHT);
 
     vbox_alert_lignes = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_add (GTK_CONTAINER (scrolled_window), vbox_alert_lignes);
