@@ -1,3 +1,7 @@
+New in version 3.0.2
+- Bug fixes
+- Do not use intltool to build Grisbi
+
 New in version 3.0.1
 - Bug fixes
 
