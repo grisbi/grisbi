@@ -137,9 +137,9 @@ void gsb_dirs_init (char* gsb_bin_path)
     }
     #endif /* OS_OSX */
 
-	user_default_dir = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
 }
 #endif /* G_OS_WIN32 */
+	user_default_dir = g_strdup (g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS));
 
 	/* corrige un bug si un répertoire ui existe dans le compte de l'utilisateur */
 	if (g_strcmp0 (gsb_bin_path, "grisbi") == 0)
