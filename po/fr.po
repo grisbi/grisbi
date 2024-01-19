@@ -8980,14 +8980,14 @@ msgstr ""
 #, c-format
 msgid "Cannot write lock file: '%s': %s"
 msgstr ""
-"Impossible d'écrire le fichier : « %s »\n"
+"Impossible d'écrire le fichier verrou : « %s »\n"
 "%s"
 
 #: src/gsb_file_util.c:344
 #, c-format
 msgid "Cannot erase lock file: '%s': %s"
 msgstr ""
-"Impossible d'effacer le fichier : « %s »\n"
+"Impossible d'effacer le fichier verrou : « %s »\n"
 "%s"
 
 #: src/gsb_form.c:157
