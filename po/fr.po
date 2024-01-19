@@ -5659,7 +5659,7 @@ msgstr "(Dé)Pointe une opération%s-> <Ctrl>p, <Ctrl>F12\n"
 #: src/grisbi_conf.c:1181
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
-msgstr "Impossible de sauvegarder le fichier « %s » : %s"
+msgstr "Impossible de sauvegarder le fichier de configuration « %s » : %s"
 
 #: src/grisbi_prefs.c:401 src/prefs/prefs_page_files.c:217
 msgid "Files"
