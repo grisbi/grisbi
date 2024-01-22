@@ -76,6 +76,15 @@ case "$RUNNER_OS" in
 
 	"Windows")
 		echo "Windows"
+
+		# ignore undefined macro
+# 		D:/a/_temp/msys64/tmp/inst/include/libgoffice-0.10/goffice/math/go-math.h:116:5: error: "_MSC_VER" is not defined, evaluates to 0 [-Werror=undef]
+#   116 | #if _MSC_VER
+#       |     ^~~~~~~~
+# D:/a/_temp/msys64/tmp/inst/include/libgoffice-0.10/goffice/math/go-math.h:120:7: error: "GOFFICE_WITH_WINREG" is not defined, evaluates to 0 [-Werror=undef]
+#   120 |  #if (GOFFICE_WITH_WINREG==1)
+#       |       ^~~~~~~~~~~~~~~~~~~
+		CFLAGS+=" -Wno-undef"
 		;;
 
 	"Linux")
