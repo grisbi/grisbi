@@ -395,7 +395,6 @@ echo "
                 Install french user doc:   $enable_frenchdoc
                 Enable Debug:              $enable_debug
                 Enable Early Debug:        $enable_early_debug
-                Enable Config file:        $enable_config_file
                 Enable fail on error:      $enable_real_werror
                 Enable nooptim:            $enable_nooptim
                 Compiler flags:            $CFLAGS
