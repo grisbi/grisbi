@@ -72,9 +72,6 @@ case "$RUNNER_OS" in
 		# from brew
 		export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig
 		export PATH="$PATH:/usr/local/opt/gettext/bin"
-
-		mkdir m4
-		ln -sf /usr/local/opt/gettext/share/aclocal/nls.m4 m4
 		;;
 
 	"Windows")
