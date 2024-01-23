@@ -85,6 +85,13 @@ case "$RUNNER_OS" in
 #   120 |  #if (GOFFICE_WITH_WINREG==1)
 #       |       ^~~~~~~~~~~~~~~~~~~
 		CFLAGS+=" -Wno-undef"
+
+#  CCLD     grisbi.exe
+#./.libs/lt-grisbi.c: In function 'lt_fatal':
+#./.libs/lt-grisbi.c:615:1: error: function might be candidate for attribute 'noreturn' [-Werror=suggest-attribute=noreturn]
+#  615 | lt_fatal (const char *file, int line, const char *message, ...)
+#      | ^~~~~~~~
+		CFLAGS+=" -Wno-suggest-attribute"
 		;;
 
 	"Linux")
