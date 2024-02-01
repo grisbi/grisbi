@@ -5,6 +5,7 @@
   <project_license>GPL-2.0-or-later</project_license>
   <name>Grisbi</name>
   <summary>Personal finances manager</summary>
+  <developer_name>Grisbi Team</developer_name>
   <description>
     <p>
       Grisbi is a very functional personal financial management program
