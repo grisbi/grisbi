@@ -91,7 +91,7 @@ case "$RUNNER_OS" in
 #./.libs/lt-grisbi.c:615:1: error: function might be candidate for attribute 'noreturn' [-Werror=suggest-attribute=noreturn]
 #  615 | lt_fatal (const char *file, int line, const char *message, ...)
 #      | ^~~~~~~~
-		CFLAGS+=" -Wno-suggest-attribute"
+		CFLAGS+=" -Wno-suggest-attribute=noreturn"
 		;;
 
 	"Linux")
