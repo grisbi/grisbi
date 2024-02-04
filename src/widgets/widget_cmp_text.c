@@ -322,12 +322,6 @@ static void widget_cmp_text_setup_widget (WidgetCmpText *widget,
 					   GINT_TO_POINTER (text_cmp_number));
 
 	/* set signals */
-	/* action a faire lorsque l'on change le choix du combobox button_field */
-	g_signal_connect (G_OBJECT (priv->button_field),
-					  "changed",
-					  G_CALLBACK (widget_cmp_text_combo_type_text_changed),
-					  priv);
-
 	/* action a faire lorsque l'on change le choix du combobox button_first_comparison */
 	g_signal_connect (G_OBJECT (priv->button_first_comparison),
 					  "changed",
@@ -572,6 +566,12 @@ void widget_cmp_text_init_data (GtkWidget *widget,
 			g_free (tmp_str);
 		}
 	}
+	/* setting signal after init data : fix eventual crash */
+	/* action a faire lorsque l'on change le choix du combobox button_field */
+	g_signal_connect (G_OBJECT (priv->button_field),
+					  "changed",
+					  G_CALLBACK (widget_cmp_text_combo_type_text_changed),
+					  priv);
 }
 
 /**
