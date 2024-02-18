@@ -360,8 +360,7 @@ share/grisbi.nsi
 share/categories/Makefile
 share/categories/C/Makefile
 share/categories/fr/Makefile
-share/categories/de_DE/Makefile
-share/categories/de_AT/Makefile
+share/categories/de/Makefile
 share/categories/it/Makefile
 share/categories/ru/Makefile
 src/Makefile
