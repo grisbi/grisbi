@@ -73,6 +73,7 @@
 	<Sub_category Nbc="12" Nb="14" Na="Salarié à domicile" />
 	<Sub_category Nbc="12" Nb="15" Na="Téléphone" />
 	<Sub_category Nbc="12" Nb="16" Na="Téléphone portable" />
+	<Sub_category Nbc="12" Nb="17" Na="Internet" />
 	<Category Nb="13" Na="Loisirs" Kd="1" />
 	<Sub_category Nbc="13" Nb="1" Na="Billard" />
 	<Sub_category Nbc="13" Nb="2" Na="Bowling" />
