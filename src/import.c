@@ -3443,7 +3443,10 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 
     /* si on n'a rien a afficher on sort */
     if (!ope_visible)
+    {
         gtk_widget_destroy (dialog);
+        return;
+    }
 	else
 		gtk_widget_show_all (dialog);
 
