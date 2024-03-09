@@ -9,7 +9,7 @@ set -e
 source /appveyor.environment
 export MSYSTEM
 
-libofx_version="0.9.15"
+libofx_version="0.10.9"
 libgoffice_version="2019.10.16-19"
 
 bits="32bit"
@@ -17,7 +17,7 @@ if [ $MSYSTEM = "MINGW64" ]; then
 	bits="64bit"
 fi
 
-git_src="https://github.com/xfred81"
+git_src="https://github.com/LudovicRousseau"
 
 pwd
 cd /
