@@ -1,0 +1,16 @@
+//
+//  Config.xcconfig
+//  grisbi
+//
+//  Created by Ludovic Rousseau on 28/03/2024.
+//  Copyright © 2024 grisbi. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// configuration for ARM
+HOMEBREW_PATH[arch=arm64] = /opt/homebrew
+
+// configration for Intel
+HOMEBREW_PATH[arch=x86_64] = /usr/local
