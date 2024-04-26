@@ -87,7 +87,7 @@ make %{?_smp_mflags}
 %{_datadir}/doc/%{name}-%{version}/de/*
 %{_datadir}/doc/%{name}-%{version}/en/*
 %{_datadir}/doc/%{name}-%{version}/fr/*
-%{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/org.grisbi.Grisbi.desktop
 %{_datadir}/glib-2.0/schemas/org.gtk.%{name}.gschema.xml
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/%{name}/ui/%{name}-*.css
