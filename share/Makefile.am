@@ -2,8 +2,8 @@ SUBDIRS = categories
 
 desktopdir = $(datadir)/applications
 desktop_in_files = grisbi.desktop.in
-desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-grisbi.desktop: grisbi.desktop.in
+desktop_DATA = $(desktop_in_files:grisbi.desktop.in=org.grisbi.Grisbi.desktop)
+org.grisbi.Grisbi.desktop: grisbi.desktop.in
 	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 if ! WIN32
