@@ -14,9 +14,14 @@ jobs:
         with:
           msystem: UCRT64
           update: true
-          pacboy: >-
+          install: >-
             autoconf
             automake
+            libtool
+            make
+            pkg-config
+            unzip
+          pacboy: >-
             cairo:p
             freetype:p
             gcc:p
@@ -24,12 +29,8 @@ jobs:
             gtk3:p
             libgsf:p
             librsvg:p
-            libtool
             libxslt:p
-            make
             openssl:p
-            pkg-config
-            unzip
 
       - name: install_extra
         run: |
