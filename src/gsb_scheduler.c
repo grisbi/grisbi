@@ -26,9 +26,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 /*START_INCLUDE*/
 #include "gsb_scheduler.h"

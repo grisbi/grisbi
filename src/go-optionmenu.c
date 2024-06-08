@@ -31,9 +31,7 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #ifndef HAVE_GOFFICE
 #include "go-optionmenu.h"

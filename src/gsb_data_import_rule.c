@@ -26,9 +26,7 @@
  * work with the importing rule, no gui here
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 

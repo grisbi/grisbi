@@ -25,9 +25,7 @@
  * \file data_partial_balance.c
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <gdk/gdkkeysyms.h>
