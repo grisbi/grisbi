@@ -725,7 +725,7 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
     if ( selection && gtk_tree_selection_get_selected ( selection, &model, &parent_iter ) )
     {
 	GtkTreePath * path = gtk_tree_model_get_path ( model, &parent_iter );
-	gint div_id;
+	gint div_id = 0;
 
 	/* Get parent division id */
 	metatree_get_row_properties ( model, path, NULL, &div_id, NULL, NULL, NULL ) ;

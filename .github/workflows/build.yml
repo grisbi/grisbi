@@ -19,7 +19,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job
       # can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: setup prerequisites
         shell: bash
@@ -30,15 +30,15 @@ jobs:
         run: |
           ./autogen.sh
           github-actions/build.sh --without-goffice --without-openssl --without-ofx --without-libxml2
-          make
+          time make --jobs=4
 
       - name: compile
         shell: bash
         run: |
           github-actions/build.sh
-          make
+          time make --jobs=4
 
       - name: distcheck
         shell: bash
         if: matrix.os == 'ubuntu-22.04'
-        run: make distcheck
+        run: time make distcheck

@@ -2262,7 +2262,10 @@ gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
 				else
 					vstring = gsb_date_today ();
 				gtk_entry_set_text (GTK_ENTRY (entry), vstring);
-				g_free (vstring);
+				if (save_form_date)
+					// gsb_date_today() does not create a new string
+					// so do not free it
+					g_free (vstring);
 				string = NULL;
 			}
 			break;

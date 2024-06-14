@@ -2,6 +2,9 @@
 
 # env
 
+# exit on error
+set -e
+
 # Warnings enabled
 CFLAGS=""
 CFLAGS="-Wall"
@@ -61,37 +64,52 @@ configure_args="$@"
 # fail on warning
 configure_args+=" --enable-real-werror"
 
-if [ "$RUNNER_OS" = "macOS" ]
-then
-	# do nothing
-	echo
-else
-	if [ $(lsb_release -rs) = "20.04" ]
-	then
-		# disable on Ubuntu 20.04
-		# /usr/include/libgsf-1/gsf/gsf-utils.h:303:9: error: 'GParameter' is deprecated [-Werror=deprecated-declarations]
-		CFLAGS+=" -Wno-deprecated-declarations"
-	fi
+echo "RUNNER_OS: $RUNNER_OS"
+case "$RUNNER_OS" in
+	"macOS")
+		echo "macOS"
 
-	# runs the standard link-time optimizer
-	CFLAGS+=" -flto=auto"
-fi
+		# from brew
+		export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig
+		export PATH="$PATH:/usr/local/opt/gettext/bin"
+
+# /usr/local/Cellar/goffice/0.10.57/include/libgoffice-0.10/goffice/math/goffice-math.h:37:5: error: 'GOFFICE_WITH_DECIMAL64' is not defined, evaluates to 0 [-Werror,-Wundef]
+# #if GOFFICE_WITH_DECIMAL64
+#     ^
+# 1 error generated.
+		CFLAGS+=" -Wno-undef"
+		;;
+
+	"Windows")
+		echo "Windows"
+
+		# ignore undefined macro
+# 		D:/a/_temp/msys64/tmp/inst/include/libgoffice-0.10/goffice/math/go-math.h:116:5: error: "_MSC_VER" is not defined, evaluates to 0 [-Werror=undef]
+#   116 | #if _MSC_VER
+#       |     ^~~~~~~~
+# D:/a/_temp/msys64/tmp/inst/include/libgoffice-0.10/goffice/math/go-math.h:120:7: error: "GOFFICE_WITH_WINREG" is not defined, evaluates to 0 [-Werror=undef]
+#   120 |  #if (GOFFICE_WITH_WINREG==1)
+#       |       ^~~~~~~~~~~~~~~~~~~
+		CFLAGS+=" -Wno-undef"
+
+#  CCLD     grisbi.exe
+#./.libs/lt-grisbi.c: In function 'lt_fatal':
+#./.libs/lt-grisbi.c:615:1: error: function might be candidate for attribute 'noreturn' [-Werror=suggest-attribute=noreturn]
+#  615 | lt_fatal (const char *file, int line, const char *message, ...)
+#      | ^~~~~~~~
+		CFLAGS+=" -Wno-suggest-attribute=noreturn"
+		;;
+
+	"Linux")
+		echo "Linux"
+
+		# runs the standard link-time optimizer
+		CFLAGS+=" -flto=auto"
+		;;
+esac
 
 export CFLAGS
 echo "CFLAGS: $CFLAGS"
-
-if [ "$RUNNER_OS" = "macOS" ]
-then
-	# from brew
-	export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig
-	export PATH="$PATH:/usr/local/opt/gettext/bin"
-
-	mkdir m4
-	ln -sf /usr/local/opt/gettext/share/aclocal/nls.m4 m4
-fi
-
-# exit on error
-set -e
 
 echo "configure_args: $configure_args"
 ./configure $configure_args

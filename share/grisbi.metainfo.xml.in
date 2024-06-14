@@ -3,8 +3,9 @@
   <id>org.grisbi.Grisbi</id>
   <metadata_license>CC0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
-  <_name>Grisbi</_name>
-  <_summary>Personal finances manager</_summary>
+  <name>Grisbi</name>
+  <summary>Personal finances manager</summary>
+  <developer_name>Grisbi Team</developer_name>
   <description>
     <p>
       Grisbi is a very functional personal financial management program

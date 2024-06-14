@@ -82,9 +82,6 @@ struct _WidgetCmpTextPrivate
 	gboolean			hide_button_link;
 	gint				text_cmp_number;
 	gint				field_type_text;		/* selecteur de type de champ recherché */
-
-	/* position de hbox_buttons_line */
-	gint				old_position;
 };
 
 enum ButtonsPosition
@@ -243,24 +240,27 @@ static void widget_cmp_text_combo_type_text_changed (GtkComboBox *combo,
 	field_type_text = gtk_combo_box_get_active (combo);
 	if (field_type_text == 9) /* recherche du numero de cheque */
 	{
-		priv->field_type_text = field_type_text;
 		gtk_widget_hide (priv->hbox_use_text);
 		gtk_widget_show (priv->vbox_use_number);
-
-		/* on réaffecte la boite de boutons hbox_buttons_line */
-		widget_cmp_text_display_add_remove_buttons (NUMBER_LINE, priv);
 		gsb_data_report_text_comparison_set_use_text (priv->text_cmp_number, FALSE);
+
+		/* on réaffecte la boite de boutons hbox_buttons_line si necessaire */
+		if (priv->field_type_text != field_type_text)
+			widget_cmp_text_display_add_remove_buttons (NUMBER_LINE, priv);
 	}
 	else  /* autres choix : recherche de texte */
 	{
-		priv->field_type_text = field_type_text;
 		gtk_widget_show (priv->hbox_use_text);
 		gtk_widget_hide (priv->vbox_use_number);
-
-		/* on réaffecte la boite de boutons hbox_buttons_line */
-		widget_cmp_text_display_add_remove_buttons (TEXT_LINE, priv);
 		gsb_data_report_text_comparison_set_use_text (priv->text_cmp_number, TRUE);
+
+		/* on réaffecte la boite de boutons hbox_buttons_line si necessaire */
+		if (priv->field_type_text == 9)
+			widget_cmp_text_display_add_remove_buttons (TEXT_LINE, priv);
 	}
+
+	/* on memorise le nouvau type de text recherche */
+	priv->field_type_text = field_type_text;
 }
 
 /**

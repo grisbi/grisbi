@@ -98,6 +98,7 @@
 	<Sub_category Nbc="18" Nb="14" Na="House keeper" />
 	<Sub_category Nbc="18" Nb="15" Na="Phone" />
 	<Sub_category Nbc="18" Nb="16" Na="Mobile Phone" />
+	<Sub_category Nbc="18" Nb="17" Na="Internet" />
 	<Category Nb="19" Na="Leisures" Kd="1" />
 	<Sub_category Nbc="19" Nb="1" Na="Snooker" />
 	<Sub_category Nbc="19" Nb="2" Na="Bowling" />

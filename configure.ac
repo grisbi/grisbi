@@ -360,9 +360,7 @@ share/grisbi.nsi
 share/categories/Makefile
 share/categories/C/Makefile
 share/categories/fr/Makefile
-share/categories/fr_FR/Makefile
-share/categories/de_DE/Makefile
-share/categories/de_AT/Makefile
+share/categories/de/Makefile
 share/categories/it/Makefile
 share/categories/ru/Makefile
 src/Makefile
@@ -395,7 +393,6 @@ echo "
                 Install french user doc:   $enable_frenchdoc
                 Enable Debug:              $enable_debug
                 Enable Early Debug:        $enable_early_debug
-                Enable Config file:        $enable_config_file
                 Enable fail on error:      $enable_real_werror
                 Enable nooptim:            $enable_nooptim
                 Compiler flags:            $CFLAGS

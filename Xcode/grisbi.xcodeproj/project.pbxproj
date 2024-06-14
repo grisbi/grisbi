@@ -717,6 +717,7 @@
 		00FEBE1424965A5000F6405D /* widget_transfer.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_transfer.ui; sourceTree = "<group>"; };
 		00FEBE1524965A5000F6405D /* widget_transfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_transfer.h; sourceTree = "<group>"; };
 		00FEBE1624965A5000F6405D /* widget_transfer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_transfer.c; sourceTree = "<group>"; };
+		1F0C89E02BB5C5900062E4CB /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = Xcode/Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -966,6 +967,7 @@
 		00B77C3A1DB2A0EC00A5D233 /* grisbi */ = {
 			isa = PBXGroup;
 			children = (
+				1F0C89E02BB5C5900062E4CB /* Config.xcconfig */,
 				003553ED259E4F8800619AB8 /* Info.plist */,
 				00EA60711F91016000569C19 /* po */,
 				00BCBD2E1E07016F00579172 /* ui */,
@@ -1367,7 +1369,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = grisbi;
 				TargetAttributes = {
 					00B77C371DB2A0EC00A5D233 = {
@@ -1599,6 +1601,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1663,6 +1666,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1718,39 +1722,40 @@
 		};
 		00B77C401DB2A0EC00A5D233 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F0C89E02BB5C5900062E4CB /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				DEAD_CODE_STRIPPING = YES;
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/opt/gtk+3/include/gtk-3.0",
-					"/usr/local/opt/glib/include/glib-2.0",
-					"/usr/local/opt/glib/lib/glib-2.0/include",
-					"/usr/local/opt/pango/include/pango-1.0",
-					/usr/local/opt/cairo/include/cairo,
-					"/usr/local/opt/gdk-pixbuf/include/gdk-pixbuf-2.0",
-					"/usr/local/opt/atk/include/atk-1.0",
-					/usr/local/opt/gettext/include,
-					"/usr/local/opt/libgsf/include/libgsf-1",
-					/usr/local/opt/libxml2/include/libxml2,
-					/usr/local/opt/libofx/include,
-					"/usr/local/opt/goffice/include/libgoffice-0.10",
-					/usr/local/opt/cairo/include,
-					/usr/local/opt/openssl/include,
-					"/usr/local/opt/gtk-mac-integration/include/gtkmacintegration",
-					/usr/local/opt/harfbuzz/include/harfbuzz,
+					"$HOMEBREW_PATH/opt/gtk+3/include/gtk-3.0",
+					"$HOMEBREW_PATH/opt/glib/include/glib-2.0",
+					"$HOMEBREW_PATH/opt/glib/lib/glib-2.0/include",
+					"$HOMEBREW_PATH/opt/pango/include/pango-1.0",
+					$HOMEBREW_PATH/opt/cairo/include/cairo,
+					"$HOMEBREW_PATH/opt/gdk-pixbuf/include/gdk-pixbuf-2.0",
+					"$HOMEBREW_PATH/opt/atk/include/atk-1.0",
+					$HOMEBREW_PATH/opt/gettext/include,
+					"$HOMEBREW_PATH/opt/libgsf/include/libgsf-1",
+					$HOMEBREW_PATH/opt/libxml2/include/libxml2,
+					$HOMEBREW_PATH/opt/libofx/include,
+					"$HOMEBREW_PATH/opt/goffice/include/libgoffice-0.10",
+					$HOMEBREW_PATH/opt/cairo/include,
+					$HOMEBREW_PATH/opt/openssl/include,
+					"$HOMEBREW_PATH/opt/gtk-mac-integration/include/gtkmacintegration",
+					$HOMEBREW_PATH/opt/harfbuzz/include/harfbuzz,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/opt/openssl/lib,
-					/usr/local/opt/gettext/lib,
-					"/usr/local/opt/gtk-mac-integration/lib",
-					/usr/local/opt/goffice/lib,
-					/usr/local/opt/pango/lib,
-					/usr/local/opt/libofx/lib,
-					"/usr/local/opt/gdk-pixbuf/lib",
-					"/usr/local/opt/gtk+3/lib",
-					/usr/local/opt/glib/lib,
-					/usr/local/opt/cairo/lib,
+					$HOMEBREW_PATH/opt/openssl/lib,
+					$HOMEBREW_PATH/opt/gettext/lib,
+					"$HOMEBREW_PATH/opt/gtk-mac-integration/lib",
+					$HOMEBREW_PATH/opt/goffice/lib,
+					$HOMEBREW_PATH/opt/pango/lib,
+					$HOMEBREW_PATH/opt/libofx/lib,
+					"$HOMEBREW_PATH/opt/gdk-pixbuf/lib",
+					"$HOMEBREW_PATH/opt/gtk+3/lib",
+					$HOMEBREW_PATH/opt/glib/lib,
+					$HOMEBREW_PATH/opt/cairo/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1758,39 +1763,40 @@
 		};
 		00B77C411DB2A0EC00A5D233 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F0C89E02BB5C5900062E4CB /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				DEAD_CODE_STRIPPING = YES;
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/opt/gtk+3/include/gtk-3.0",
-					"/usr/local/opt/glib/include/glib-2.0",
-					"/usr/local/opt/glib/lib/glib-2.0/include",
-					"/usr/local/opt/pango/include/pango-1.0",
-					/usr/local/opt/cairo/include/cairo,
-					"/usr/local/opt/gdk-pixbuf/include/gdk-pixbuf-2.0",
-					"/usr/local/opt/atk/include/atk-1.0",
-					/usr/local/opt/gettext/include,
-					"/usr/local/opt/libgsf/include/libgsf-1",
-					/usr/local/opt/libxml2/include/libxml2,
-					/usr/local/opt/libofx/include,
-					"/usr/local/opt/goffice/include/libgoffice-0.10",
-					/usr/local/opt/cairo/include,
-					/usr/local/opt/openssl/include,
-					"/usr/local/opt/gtk-mac-integration/include/gtkmacintegration",
-					/usr/local/opt/harfbuzz/include/harfbuzz,
+					"$HOMEBREW_PATH/opt/gtk+3/include/gtk-3.0",
+					"$HOMEBREW_PATH/opt/glib/include/glib-2.0",
+					"$HOMEBREW_PATH/opt/glib/lib/glib-2.0/include",
+					"$HOMEBREW_PATH/opt/pango/include/pango-1.0",
+					$HOMEBREW_PATH/opt/cairo/include/cairo,
+					"$HOMEBREW_PATH/opt/gdk-pixbuf/include/gdk-pixbuf-2.0",
+					"$HOMEBREW_PATH/opt/atk/include/atk-1.0",
+					$HOMEBREW_PATH/opt/gettext/include,
+					"$HOMEBREW_PATH/opt/libgsf/include/libgsf-1",
+					$HOMEBREW_PATH/opt/libxml2/include/libxml2,
+					$HOMEBREW_PATH/opt/libofx/include,
+					"$HOMEBREW_PATH/opt/goffice/include/libgoffice-0.10",
+					$HOMEBREW_PATH/opt/cairo/include,
+					$HOMEBREW_PATH/opt/openssl/include,
+					"$HOMEBREW_PATH/opt/gtk-mac-integration/include/gtkmacintegration",
+					$HOMEBREW_PATH/opt/harfbuzz/include/harfbuzz,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/opt/openssl/lib,
-					/usr/local/opt/gettext/lib,
-					"/usr/local/opt/gtk-mac-integration/lib",
-					/usr/local/opt/goffice/lib,
-					/usr/local/opt/pango/lib,
-					/usr/local/opt/libofx/lib,
-					"/usr/local/opt/gdk-pixbuf/lib",
-					"/usr/local/opt/gtk+3/lib",
-					/usr/local/opt/glib/lib,
-					/usr/local/opt/cairo/lib,
+					$HOMEBREW_PATH/opt/openssl/lib,
+					$HOMEBREW_PATH/opt/gettext/lib,
+					"$HOMEBREW_PATH/opt/gtk-mac-integration/lib",
+					$HOMEBREW_PATH/opt/goffice/lib,
+					$HOMEBREW_PATH/opt/pango/lib,
+					$HOMEBREW_PATH/opt/libofx/lib,
+					"$HOMEBREW_PATH/opt/gdk-pixbuf/lib",
+					"$HOMEBREW_PATH/opt/gtk+3/lib",
+					$HOMEBREW_PATH/opt/glib/lib,
+					$HOMEBREW_PATH/opt/cairo/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -521,7 +521,7 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
     gtk_container_set_border_width ( GTK_CONTAINER (page), BOX_BORDER_WIDTH );
 
     vbox = new_vbox_with_title_and_icon ( _("Configuration finished!"),
-					  "reconciliation-32.png" );
+					  "gsb-reconciliation-32.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );

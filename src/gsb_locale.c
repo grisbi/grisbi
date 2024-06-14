@@ -279,8 +279,6 @@ void gsb_locale_init_language (const gchar *new_language)
 
 	if (!new_language)
 	{
-		const gchar *tmp_language = NULL;
-
 #ifdef G_OS_WIN32
 		tmp_str = g_win32_getlocale ();
 		if (tmp_str)
@@ -305,7 +303,8 @@ void gsb_locale_init_language (const gchar *new_language)
 			return;
 		}
 #else
-		tmp_language = g_getenv ("LANGUAGE");
+		const gchar *tmp_language = g_getenv ("LANGUAGE");
+
 		if (tmp_language && strlen (tmp_language))
 		{
 			language = g_strdup (tmp_language);
