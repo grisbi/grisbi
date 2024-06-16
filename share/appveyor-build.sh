@@ -32,6 +32,10 @@ unzip /goffice.zip
 PATH=$PATH:/tmp/inst/bin
 export PATH
 
+# add missing archive.dir.tar.xz
+mkdir -p /usr/share/gettext/
+wget https://ftp.gnu.org/pub/gnu/gettext/gettext-0.21.tar.xz -O /usr/share/gettext/archive.dir.tar.xz
+
 cd /c/projects/grisbi-src
 ./autogen.sh
 
