@@ -172,7 +172,7 @@ install_data() {
 	echo "Copying data files for libofx";  \
 	mkdir -p $prefix/share/libofx/dtd; \
 	cp -rf /tmp/inst/share/libofx/dtd/* $prefix/share/libofx/dtd; \
-	echo "Copying data files & plugins for libgoffice";  \	
+	echo "Copying data files & plugins for libgoffice";  \
 	cp -rf /tmp/inst/lib/goffice $prefix/lib
 	
 	# patch Grisbi CSS for the dark mode
