@@ -69,4 +69,4 @@ jobs:
           time make --jobs=4
           time make install
 
-          # /nsis-3.04/makensis.exe share/grisbi.nsi
+          /nsis-3.04/makensis.exe share/grisbi.nsi
