@@ -16,7 +16,7 @@ RequestExecutionLevel admin
 !endif
 
 
-!define MUI_ICON "@NSIS_SRCDIR@/pixmaps/grisbi-32.ico"
+!define MUI_ICON "@NSIS_SRCDIR@/win32/grisbi.ico"
 /* !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP "path\to\InstallerLogo.bmp"
 */
@@ -27,7 +27,7 @@ RequestExecutionLevel admin
 !define DATE "@NSIS_DATE@"
 
 Name "Grisbi @NSIS_BITS@"
-Icon "${SRCDIR}\win32-msys2\grisbi.ico"
+Icon "${SRCDIR}\win32\grisbi.ico"
 OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
 !define COMPANYNAME "Grisbi"
 
