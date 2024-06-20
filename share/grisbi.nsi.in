@@ -27,7 +27,7 @@ RequestExecutionLevel admin
 !define DATE "@NSIS_DATE@"
 
 Name "Grisbi @NSIS_BITS@"
-Icon "${SRCDIR}\win32\grisbi.ico"
+Icon "${SRCDIR}\win32-msys2\grisbi.ico"
 OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
 !define COMPANYNAME "Grisbi"
 
