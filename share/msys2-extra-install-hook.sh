@@ -44,10 +44,9 @@ install_libs() {
 
 install_extra_libs() {
 	echo "Copying extra (non-detected) libraries"
-	libcroco=$(pacman -Ql mingw-$msys2_arch-libcroco | grep ".dll$" | cut -f2 -d' ')
 	librsvg=$(pacman -Ql mingw-w64-ucrt-x86_64-librsvg | grep "rsvg\-.*\.dll$" | cut -f2 -d' ')
 
-	for i in $libcroco $librsvg /tmp/inst/bin/*.dll; do
+	for i in $librsvg /tmp/inst/bin/*.dll; do
 		cp $i $prefix/bin || exit 1
 		echo "  * $i"
 	done
