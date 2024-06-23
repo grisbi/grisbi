@@ -4,9 +4,6 @@
 /* Gettext package. */
 #define GETTEXT_PACKAGE "grisbi"
 
-/* Defined if app is GtkOSXApplication */
-/* #undef GTKOSXAPPLICATION */
-
 /* Define to 1 if you have the `backtrace' function. */
 #define HAVE_BACKTRACE 1
 
