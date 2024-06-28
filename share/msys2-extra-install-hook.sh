@@ -35,7 +35,7 @@ detect_arch() {
 }
 
 install_libs() {	
-	auto_dependencies=$(ntldd -R $prefix/bin/grisbi.exe | grep "mingw64\|mingw32" | cut -f2 -d'>' | cut -f2 -d' ')
+	auto_dependencies=$(ntldd -R $prefix/bin/grisbi.exe | grep "ucrt64" | cut -f2 -d'>' | cut -f2 -d' ')
 	for i in $auto_dependencies; do
 		cp $i $prefix/bin || exit 1
 		echo "  * $i"
