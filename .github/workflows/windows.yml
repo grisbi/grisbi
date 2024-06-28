@@ -71,7 +71,7 @@ jobs:
           time make install
 
           /nsis-3.04/makensis.exe share/grisbi.nsi
-
-          uses: actions/upload-artifact@v3
-            with:
-              path: D:\a\grisbi\grisbi\share\
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: D:\a\grisbi\grisbi\share\
