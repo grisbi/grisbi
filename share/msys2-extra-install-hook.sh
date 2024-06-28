@@ -44,9 +44,11 @@ install_libs() {
 
 install_extra_libs() {
 	echo "Copying extra (non-detected) libraries"
+	libgsf=$(pacman -Ql mingw-w64-ucrt-x86_64-libgsf | grep "gsf\-.*\.dll$" | cut -f2 -d' ')
 	librsvg=$(pacman -Ql mingw-w64-ucrt-x86_64-librsvg | grep "rsvg\-.*\.dll$" | cut -f2 -d' ')
+	libxslt=$(pacman -Ql mingw-w64-ucrt-x86_64-libxslt | grep "xslt\-.*\.dll$" | cut -f2 -d' ')
 
-	for i in $librsvg /tmp/inst/bin/*.dll; do
+	for i in $libgsf $librsvg $libxslt /tmp/inst/bin/*.dll; do
 		cp $i $prefix/bin || exit 1
 		echo "  * $i"
 	done
