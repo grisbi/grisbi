@@ -16,6 +16,7 @@ conf_data = configuration_data({
   'HAVE_OFX' : true,
   'HAVE_SSL' : true,
   'HAVE_XML2' : true,
+  'EARLY_DEBUG' : get_option('early-debug'),
   })
 localdir = join_paths(get_option('prefix'), get_option('datadir'))
 pixmaps_dir = join_paths(localdir, 'pixmaps', 'grisbi')

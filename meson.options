@@ -1,0 +1,4 @@
+option('early-debug',
+  type : 'boolean',
+  value : false,
+  description : 'enable early debug code in a file')
