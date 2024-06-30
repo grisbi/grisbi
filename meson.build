@@ -25,7 +25,8 @@ conf_data.set_quoted('DATA_PATH', join_paths(localdir, 'grisbi'))
 conf_data.set_quoted('HELP_PATH', join_paths(get_option('prefix'), 'doc', 'grisbi'))
 conf_data.set_quoted('UI_DIR', join_paths(localdir, 'grisbi', 'ui'))
 
-if get_option('debug')
+minor_version = meson.project_version().split('.')[1].to_int()
+if get_option('debug') or minor_version % 2 == 1
   conf_data.set('DEBUG', true)
   r = run_command('git','rev-parse', '--short', 'HEAD', check : true)
   conf_data.set_quoted('GIT_HASH', r.stdout().strip())
