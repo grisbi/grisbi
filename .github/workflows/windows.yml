@@ -50,7 +50,7 @@ jobs:
           wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-$libgoffice_version/goffice-$bits-$libgoffice_version-archive.zip"
           unzip /goffice.zip
 
-          wget -O /nsis.zip 'https://downloads.sourceforge.net/project/nsis/NSIS 3/3.04/nsis-3.04.zip'
+          wget -O /nsis.zip 'https://downloads.sourceforge.net/project/nsis/NSIS 3/3.10/nsis-3.10.zip'
           unzip nsis.zip
 
       - uses: actions/checkout@v4
