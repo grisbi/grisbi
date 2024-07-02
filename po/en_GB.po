@@ -5919,7 +5919,7 @@ msgid ""
 "dialog.\n"
 "\n"
 "Once the file created, you will be able to create a new account or to import "
-"some previous datas"
+"some previous data"
 msgstr ""
 
 #: src/gsb_assistant_file.c:141
