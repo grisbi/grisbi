@@ -563,7 +563,7 @@ msgstr "Résolution écran"
 #: src/prefs/prefs_page_display_gui.ui:65
 msgid "Use a low resolution screen (Close and reopen preferences)"
 msgstr ""
-"Utiliser un écran  basse résolution (Fermer et ré-ouvrir les préférences)"
+"Utiliser un écran basse résolution (Fermer et ré-ouvrir les préférences)"
 
 #: src/prefs/prefs_page_display_gui.ui:123
 msgid "Headings bar"
@@ -1964,7 +1964,7 @@ msgstr "N° IBAN : "
 
 #: src/widgets/widget_account_property.ui:609
 msgid "Inconsistency between Iban and selected bank"
-msgstr "Incohérence entre  le code banque déduit du Iban et celui de la banque"
+msgstr "Incohérence entre le code banque déduit de l'IBAN et celui de la banque"
 
 #: src/widgets/widget_account_property.ui:610
 msgid "Inconsistency in data"
@@ -3929,7 +3929,7 @@ msgid ""
 "cannot help you."
 msgstr ""
 "Grisbi chiffre ses fichiers d'une manière totalement sécurisée qui ne permet "
-"pas de récupérer le fichier sans le mot de passe.  Cela signifie que si vous "
+"pas de récupérer le fichier sans le mot de passe. Cela signifie que si vous "
 "oubliez votre mot de passe, vous perdrez toutes vos données. C'est à "
 "utiliser avec précaution.\n"
 "\n"
@@ -4904,7 +4904,7 @@ msgid ""
 "The following accounts are to be exported. In the next screens, you will "
 "choose what to do with each of them."
 msgstr ""
-"Les comptes suivants vont être exportés.  Dans les écrans suivants, vous "
+"Les comptes suivants vont être exportés. Dans les écrans suivants, vous "
 "pourrez choisir ce qu'il faut faire de chacun d'entre eux."
 
 #: src/export.c:835
@@ -8303,7 +8303,7 @@ msgid ""
 "Grisbi successfully repaired this account file.  You may now save your "
 "modifications."
 msgstr ""
-"Grisbi a réparé votre fichier de comptes avec succès.  Vous pouvez "
+"Grisbi a réparé votre fichier de comptes avec succès. Vous pouvez "
 "maintenant sauvegarder vos modifications."
 
 #: src/gsb_debug.c:75
@@ -8757,7 +8757,7 @@ msgid ""
 "The original file was saved saved as:\n"
 "\"%s\"."
 msgstr ""
-"Le fichier original a été sauvegardé sous  le nom :\n"
+"Le fichier original a été sauvegardé sous le nom :\n"
 "« %s »."
 
 #: src/gsb_file.c:1411
@@ -8824,7 +8824,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 "Vous avez ouvert une archive.\n"
-"Il n'y a pas de limite dans Grisbi, vous pouvez faire ce que vous voulez  et "
+"Il n'y a pas de limite dans Grisbi, vous pouvez faire ce que vous voulez et "
 "l'enregistrer plus tard (nouveaux rapports, ...) mais n'oubliez pas que "
 "c'est une archive avant de modifier certaines opérations ou informations "
 "importantes."
@@ -9120,7 +9120,7 @@ msgstr ""
 
 #: src/gsb_form.c:1051
 msgid "The word \"Report\" is reserved. Please use another one."
-msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
+msgstr "Le mot « État » est réservé. Veuillez en utiliser un autre."
 
 #: src/gsb_form.c:1058
 msgid "Invalid multiple payee."
@@ -9700,7 +9700,7 @@ msgstr ""
 "L'opération a disparu de la liste...\n"
 "Ne vous inquiétez pas, c'est parce que vous avez l'avez rapprochée, et que "
 "vous avez choisi de ne pas montrer les opérations rapprochées dans la liste. "
-"Il vous suffit de les faire apparaître (alt+R) pour vérifier ce que  vous "
+"Il vous suffit de les faire apparaître (alt+R) pour vérifier ce que vous "
 "avez fait."
 
 #: src/gsb_transactions_list.c:1593
@@ -10106,7 +10106,7 @@ msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
-"L'importation des fichiers s'est bien déroulée.  Les dialogues suivants vont "
+"L'importation des fichiers s'est bien déroulée. Les dialogues suivants vont "
 "vous permettre de fixer les paramètres d'importation des données pour les "
 "fichiers suivants"
 
@@ -10159,7 +10159,7 @@ msgstr "Plusieurs opérations ont été trouvées"
 #: src/import.c:2885
 #, c-format
 msgid "Transaction N° %d found: %s ; %s ; %s"
-msgstr "Opération %d trouvée  : %s ; %s ; %s"
+msgstr "Opération %d trouvée : %s ; %s ; %s"
 
 #: src/import.c:3007
 msgid ""
@@ -10611,7 +10611,7 @@ msgid ""
 "already exists.  Please choose another name."
 msgstr ""
 "Vous avez tenté de renommer l'imputation sélectionnée en '%s' mais elle "
-"existe déjà.  Veuillez choisir un autre nom."
+"existe déjà. Veuillez choisir un autre nom."
 
 #: src/imputation_budgetaire.c:907
 msgid "Budgetary line already exists"
@@ -10736,7 +10736,7 @@ msgid ""
 "them to another %s.  Otherwise, transactions can be simply deleted along "
 "with their division."
 msgstr ""
-"Si vous voulez la supprimer tout en conservant les  opérations associées, "
+"Si vous voulez la supprimer tout en conservant les opérations associées, "
 "vous pouvez les transférer vers un autre %s. Sinon, les opérations peuvent "
 "être simplement supprimées."
 
@@ -10747,7 +10747,7 @@ msgid ""
 "them to another (sub-)%s.  Otherwise, transactions can be simply deleted "
 "along with their division."
 msgstr ""
-"Si vous voulez la supprimer tout en conservant les  opérations associées, "
+"Si vous voulez la supprimer tout en conservant les opérations associées, "
 "vous pouvez les transférer vers une autre (sous-)%s. Sinon, les opérations "
 "peuvent être simplement supprimées."
 
@@ -11183,7 +11183,7 @@ msgstr ""
 "lui sont liées.\n"
 "\n"
 "Si vous continuez toutes les opérations qui lui sont liées seront "
-"supprimées  et les soldes seront ajustés.\n"
+"supprimées et les soldes seront ajustés.\n"
 "Toutes les informations caractérisant cette archive seront perdues.\n"
 "Vous pouvez aussi exporter cette archive dans un autre fichier...\n"
 "\n"
@@ -11359,7 +11359,7 @@ msgid ""
 "columns to add the elements."
 msgstr ""
 "Il n'y a pas assez de place pour mettre deux éléments (vous avez cliqué sur "
-"un élément qui en contient deux).  Vous devez augmenter le nombre de lignes "
+"un élément qui en contient deux). Vous devez augmenter le nombre de lignes "
 "ou de colonnes pour ajouter les éléments."
 
 #: src/prefs/prefs_page_display_form.c:815
@@ -11906,7 +11906,7 @@ msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
-"Vous avez tenté de renommer ce tiers en '%s' mais il existe déjà.  Veuillez "
+"Vous avez tenté de renommer ce tiers en '%s' mais il existe déjà. Veuillez "
 "choisir un autre nom."
 
 #: src/tiers_onglet.c:334
@@ -12154,7 +12154,7 @@ msgid ""
 msgstr ""
 "Vous pouvez organiser les opérations en imputations budgétaires, qui sont "
 "des postes budgétaires (<i>pourquoi</i> l'argent est dépensé) vous "
-"permettant de classer vos dépenses.  \n"
+"permettant de classer vos dépenses.\n"
 "\n"
 "En combinaison avec les catégories (<i>comment</i> l'argent est dépensé), "
 "les imputations budgétaires sont une manière d'analyser un budget et de "
@@ -12187,7 +12187,7 @@ msgstr ""
 "Vous pouvez chiffrer vos fichiers Grisbi pour protéger votre vie privée.\n"
 "\n"
 "Sélectionnez l'option \"Chiffrer le fichier Grisbi\" dans l'onglet "
-"<i>Fichiers</i>  des «Préférences» et entrez un mot de passe la prochaine "
+"<i>Fichiers</i> des «Préférences» et entrez un mot de passe la prochaine "
 "fois que vous enregistrez votre fichier.\n"
 "\n"
 "Le chiffrement est irréversible, si vous perdez votre mot de passe, il n'y a "
@@ -12496,7 +12496,7 @@ msgstr ""
 
 #: src/utils_prefs.c:765
 msgid "Could not encrypt file"
-msgstr "Impossible de crypter le fichier"
+msgstr "Impossible de chiffrer le fichier"
 
 #: src/utils_widgets.c:63
 msgid "dd/mm/yyyy"
