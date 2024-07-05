@@ -41,4 +41,4 @@ jobs:
       - name: distcheck
         shell: bash
         if: matrix.os == 'ubuntu-22.04'
-        run: time make distcheck
+        run: time make distcheck --jobs=4
