@@ -1343,7 +1343,7 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 	}
 
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
-	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list :</b>"), -1);
+	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list:</b>"), -1);
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
 #ifdef GTKOSXAPPLICATION
 	tmp_str = g_strdup_printf (_("(Un)Pointing a transaction%s-> <Command>p, <Command>F12\n"), tab);

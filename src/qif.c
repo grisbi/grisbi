@@ -1494,7 +1494,7 @@ gboolean gsb_qif_export_archive (const gchar *filename,
 
 		string = g_strdup_printf (_("There were many accounts to export in the archive,\n"
 									"but the QIF format only support one file per account,\n"
-									"so Grisbi created %d files, one per account :\n"),
+									"so Grisbi created %d files, one per account:\n"),
 								  g_slist_length (name_list));
 
 		/* add the name to the string */

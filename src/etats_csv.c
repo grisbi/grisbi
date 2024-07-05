@@ -172,7 +172,7 @@ gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
     {
         gchar *sMessage = NULL;
 
-        sMessage = g_strdup_printf ( _("Unable to create file \"%s\" :\n%s"),
+        sMessage = g_strdup_printf ( _("Unable to create file \"%s\":\n%s"),
                          filename, g_strerror ( errno ) );
         dialogue ( sMessage );
 

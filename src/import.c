@@ -2627,7 +2627,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
                 if (gsb_data_transaction_check_content_payment (payment_number,
 																imported_transaction->cheque))
                 {
-                    tmp_str = g_strdup_printf (_("Warning : the cheque number %s is already used.\n"
+                    tmp_str = g_strdup_printf (_("Warning: the cheque number %s is already used.\n"
 												 "We skip it"),
 											   imported_transaction->cheque);
                     dialogue_warning (tmp_str);

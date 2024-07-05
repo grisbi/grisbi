@@ -967,7 +967,7 @@ gboolean gsb_file_open_file (const gchar *filename)
         {
             dialogue_error_hint (_("The version of your file is less than 0.6. "
                                    "This file can not be imported by Grisbi."),
-                                 _("Version of Grisbi file too old :"));
+                                 _("Version of Grisbi file too old:"));
             grisbi_win_status_bar_stop_wait (TRUE);
 			w_run->file_modification = 0;
 

@@ -1756,7 +1756,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
 
     /* create the box to move change the division and sub-div of the transactions */
 	if (sub_division)
-		hint = g_strdup_printf (_("'%s : %s' still contains transactions or archived transactions."),
+		hint = g_strdup_printf (_("'%s: %s' still contains transactions or archived transactions."),
 								iface -> div_name (division),
 								iface -> sub_div_name (division, sub_division));
 	else

@@ -170,7 +170,7 @@ static gboolean transaction_list_update_white_child (CustomRecord *white_record)
 
 	if (variance.mantissa)
     {
-		white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
+		white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance: %s)"),
 														amount_string,
 														variance_string);
 		mother_text_color = gsb_rgba_get_couleur ("text_unfinished_split");
@@ -478,7 +478,7 @@ void transaction_list_append_transaction (gint transaction_number)
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
+	white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance: %s)"),
 							   amount_string,
 							   variance_string);
 	g_free (amount_string);
@@ -1397,7 +1397,7 @@ gboolean transaction_list_update_transaction (gint transaction_number)
                                    gsb_data_transaction_get_currency_number (transaction_number), TRUE);
         variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
                                      gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-        white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
+        white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance: %s)"),
                                    amount_string,
                                    variance_string);
         g_free (amount_string);

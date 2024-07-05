@@ -247,7 +247,7 @@ static void prefs_page_metatree_unarchived_payees_toggled (GtkWidget *checkbutto
 			text = g_strdup_printf (_("The ratio of the number of payees of the archived transactions "
 									  "(%d) to the number of payees of non-archived transactions (%d) "
 									  "is greater than or equal to two.\n"
-									  "It is advisable to use this feature: Answer YES"),
+									  "It is advisable to use this feature: answer YES"),
 									nbre_payees,
 									nbre_unarchived);
 			hint = g_strdup (_("This feature can be useful"));
@@ -258,7 +258,7 @@ static void prefs_page_metatree_unarchived_payees_toggled (GtkWidget *checkbutto
 			text = g_strdup_printf (_("The ratio of the number of payees of the archived transactions "
 									  "(%d) to the number of payees of non-archived transactions (%d) "
 									  "is less than two.\n"
-									  "It is not recommended to use this feature : Answer NO"),
+									  "It is not recommended to use this feature: answer NO"),
 									nbre_payees,
 									nbre_unarchived);
 			hint = g_strdup (_("This feature is useless"));

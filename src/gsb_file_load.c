@@ -4565,7 +4565,7 @@ void gsb_file_load_error (GMarkupParseContext *context,
 	valid_utf8 = g_utf8_make_valid (error->message, -1);
 
 	/* the first time we come here, we check if it's a Grisbi file */
-    tmp_str = g_strdup_printf (_("An error occurred while parsing the file :\nError number : %d\n%s"),
+    tmp_str = g_strdup_printf (_("An error occurred while parsing the file :\nError number: %d\n%s"),
 							   error->code,
 							   valid_utf8);
     dialogue_error (tmp_str);

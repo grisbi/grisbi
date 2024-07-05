@@ -259,8 +259,8 @@ static gchar *gsb_debug_reconcile_test (void)
 																	 gsb_data_account_get_currency (account_nb),
 																	 TRUE);
 				tmp_str1 = g_strdup_printf (_("<span weight=\"bold\">%s</span>\n"
-											  "  Last reconciliation amount : %s\n"
-											  "  Computed reconciliation amount : %s\n"),
+											  "  Last reconciliation amount: %s\n"
+											  "  Computed reconciliation amount: %s\n"),
 											gsb_data_account_get_name (account_nb),
 											tmp_real_str1,
 											tmp_real_str2);

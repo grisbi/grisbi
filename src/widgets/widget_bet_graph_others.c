@@ -98,7 +98,7 @@ static gboolean widget_bet_graph_options_motion_notify_event (GtkWidget *event_b
 
 			gog_series_get_xy_data (series, &x, &y);
 			tmp_str = utils_real_get_string_with_currency_from_double (y[index], self->currency_number);
-			buf = g_strdup_printf (_("date %s : value %s"), self->tab_vue_libelle[index], tmp_str);
+			buf = g_strdup_printf (_("date %s: value %s"), self->tab_vue_libelle[index], tmp_str);
 			g_free(tmp_str);
 		}
 	}
@@ -131,7 +131,7 @@ static gboolean widget_bet_graph_options_motion_notify_event (GtkWidget *event_b
 			index = gog_axis_map_from_view (x_map, event->x);
 
 			tmp_str = utils_real_get_string_with_currency_from_double (self->tab_Y[index-1], self->currency_number);
-			buf = g_strdup_printf (_("date %s : value %s"), self->tab_vue_libelle[index-1], tmp_str);
+			buf = g_strdup_printf (_("date %s: value %s"), self->tab_vue_libelle[index-1], tmp_str);
 			g_free(tmp_str);
 		}
 		gog_chart_map_free (map);
