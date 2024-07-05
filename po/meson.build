@@ -1,3 +1,11 @@
+# To generate the grisbi.pot file
+# meson compile grisbi-pot
+#
+# to update the .po files
+# meson compile grisbi-update-po
+#
+# See https://mesonbuild.com/Localisation.html
+
 i18n = import('i18n')
 # define GETTEXT_PACKAGE
 add_project_arguments('-DGETTEXT_PACKAGE="grisbi"', language:'c')
