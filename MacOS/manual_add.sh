@@ -76,9 +76,9 @@ fi
 
 for file in $EXTRA_FILES
 do
-	echo $file
-	mkdir -p $DEST/$(dirname $file)
-	cp -a $PREFIX/$file $DEST/$file
+	echo "$file"
+	mkdir -p "$DEST"/$(dirname "$file")
+	cp -a "$PREFIX/$file" "$DEST/$file"
 done
 
 # the icons are NOT found in "ui/" directory. So make them available in
@@ -90,4 +90,4 @@ done
 
 # patch Grisbi CSS for the dark mode
 DARK='@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");'
-echo $DARK >> $DEST/share/grisbi/ui/grisbi-dark.css
+echo "$DARK" >> "$DEST"/share/grisbi/ui/grisbi-dark.css
