@@ -6,7 +6,7 @@
 # meson setup --reconfigure --wipe
 
 project('grisbi', 'c',
-  version : '3.1.0')
+  version : '3.1.1')
 
 # for config.h
 conf_data = configuration_data({
