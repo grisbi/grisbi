@@ -29,8 +29,13 @@ conf_data.set_quoted('UI_DIR', join_paths(localdir, 'grisbi', 'ui'))
 minor_version = meson.project_version().split('.')[1].to_int()
 if get_option('debug') or minor_version % 2 == 1
   conf_data.set('DEBUG', true)
-  r = run_command('git', 'rev-parse', '--short', 'HEAD', check : false)
-  conf_data.set_quoted('GIT_HASH', r.stdout().strip())
+  git = find_program('git', required : false)
+  if git.found()
+    r = run_command(git, 'rev-parse', '--short', 'HEAD', check : false)
+    conf_data.set_quoted('GIT_HASH', r.stdout().strip())
+  else
+    conf_data.set_quoted('GIT_HASH', 'unset')
+  endif
 endif
 
 # dependencies
