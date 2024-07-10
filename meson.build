@@ -268,6 +268,34 @@ if host_machine.system() == 'darwin'
   grisbi_dep += gtk_mac_integration_dep
 endif
 
+# special for Windows
+if host_machine.system() == 'windows'
+  confgen_data = configuration_data({
+    'VERSION' : meson.project_version(),
+    'NSIS_BITS' : '64bit',
+    'NSIS_DEFAULTINSTDIR' : 'Program Files',
+    'NSIS_INSTDIR' : get_option('prefix').replace('/', '\\'),
+    'TOP_SRCDIR_WINBS' : meson.source_root(),
+    'NSIS_SRCDIR' : meson.source_root().replace('/', '\\'),
+    })
+
+  r = run_command('date', '+-%Y.%m.%d-%H', check : true)
+  confgen_data.set('NSIS_DATE', r.stdout().strip())
+
+  versions = meson.project_version().split('.')
+  confgen_data.set('GRISBI_MAJOR_VERSION', versions[0])
+  confgen_data.set('GRISBI_MINOR_VERSION', versions[1])
+  confgen_data.set('GRISBI_MICRO_VERSION', versions[2])
+
+  # generate files from .in
+  configure_file(output : 'grisbi.nsi',
+    input : 'share/grisbi.nsi.in',
+    configuration : confgen_data
+    )
+
+  meson.add_install_script('share/msys2-extra-install-hook.sh', get_option('prefix'))
+endif
+
 # grisbi target
 executable('grisbi',
   sources : grisbi_src,
