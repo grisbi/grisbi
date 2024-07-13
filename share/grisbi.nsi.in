@@ -25,6 +25,7 @@ RequestExecutionLevel admin
 !define PACKAGERDIR "@NSIS_INSTDIR@"
 !define SRCDIR "@NSIS_SRCDIR@"
 !define DATE "@NSIS_DATE@"
+!define DEFAULTINSTDIR "@NSIS_DEFAULTINSTDIR@"
 
 Name "Grisbi @NSIS_BITS@"
 Icon "${SRCDIR}\win32\grisbi.ico"
@@ -34,7 +35,7 @@ OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
 Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
 
 # $PROGRAMFILES
-InstallDir "C:\@NSIS_DEFAULTINSTDIR@\Grisbi-${VERSION}${DATE}"
+InstallDir "C:\${DEFAULTINSTDIR}\Grisbi-${VERSION}${DATE}"
 
 
 InstType "full"
@@ -143,7 +144,7 @@ SectionEnd
 
 Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
-  Delete "$DESKTOP\Grisbi-1.2.lnk"
+  Delete "$DESKTOP\Grisbi.lnk"
   Delete "$SMPROGRAMS\${COMPANYNAME}\Grisbi @NSIS_BITS@-bit @VERSION@.lnk"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
 
