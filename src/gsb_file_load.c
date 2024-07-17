@@ -3962,6 +3962,7 @@ gboolean gsb_file_load_open_file (const gchar *filename)
         GMarkupParseContext *context;
 		gboolean is_crypt = FALSE;
 		GrisbiWinRun *w_run;
+		const gchar* end;
 
 		/* first, we check if the file is crypted, if it is, we decrypt it */
 		if (!strncmp (tmp_file_content, "Grisbi encrypted file ", 22) ||
@@ -3997,14 +3998,19 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 		}
 
 		/* si le fichier n'a pas été chiffré et n'est pas un fichier UTF8 valide on le corrige si possible */
-		if (!is_crypt && !g_utf8_validate (tmp_file_content, length, NULL))
+		if (!is_crypt && !g_utf8_validate (tmp_file_content, length, &end))
 		{
 			GtkWidget *dialog;
 			gchar *text;
 			gchar *hint;
+			int line = 1;
 
-			hint = g_strdup_printf (_("'%s' is not a valid UTF8 file"), filename);
+			/* compute the line number with the encoding problem */
+			for (const char *p = tmp_file_content; p<end; p++)
+				if ('\n' == *p)
+					line++;
 
+			hint = g_strdup_printf (_("'%s' is not a valid UTF8 file.\nProblem at line %d."), filename, line);
 
 			text = g_strdup_printf (_("You can choose to fix the file with the substitution character? "
 									  "or return to the file choice.\n"));
