@@ -10,7 +10,7 @@ and receipt categories, budgetary lines, financial years, budget
 estimates, bankcard management and other information that make Grisbi
 adapted for associations.
 
-The complete manual is [available on line](https://sourceforge.net/projects/grisbi/files/Documentation/manual_1.0/). The version that comes with
+The complete manual is [available on line](https://grisbi.sourceforge.net/html/). The version that comes with
 the software is illustrated, but you can replace it by the
 non-illustrated version at any time, which is available for download on
 line.
