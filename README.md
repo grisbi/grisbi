@@ -24,5 +24,4 @@ Website :     https://www.grisbi.org/
 
 Bug reports : https://www.grisbi.org/bugsreports/
 
-[![Windows 64-bit](https://ci.appveyor.com/api/projects/status/k0hlhmde559ju7e2?svg=true)](https://ci.appveyor.com/project/LudovicRousseau/grisbi)
 [![CodeFactor](https://www.codefactor.io/repository/github/grisbi/grisbi/badge)](https://www.codefactor.io/repository/github/grisbi/grisbi)

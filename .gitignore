@@ -12,7 +12,6 @@
 *.bak
 .anjuta/
 .anjuta*
-appveyor.yml.*
 grisbi.anjuta
 Debug/
 MacOS/dist/
