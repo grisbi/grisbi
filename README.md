@@ -23,5 +23,3 @@ use in the OpenSSL Toolkit (http://www.openssl.org/).
 Website :     https://www.grisbi.org/
 
 Bug reports : https://www.grisbi.org/bugsreports/
-
-[![CodeFactor](https://www.codefactor.io/repository/github/grisbi/grisbi/badge)](https://www.codefactor.io/repository/github/grisbi/grisbi)
