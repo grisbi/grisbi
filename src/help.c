@@ -189,7 +189,7 @@ NULL};
                         "along with this program; if not, write to the Free Software "
                         "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n\n"
                         "This product includes software developed by the OpenSSL Project "
-                        "for use in the OpenSSL Toolkit.\n(http://www.openssl.org/)";
+                        "for use in the OpenSSL Toolkit.\n(https://www.openssl.org/)";
 
     /* Others info */
     gchar *comments;

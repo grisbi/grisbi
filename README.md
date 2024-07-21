@@ -18,7 +18,7 @@ line.
 Grisbi is free software, any contribution is welcome.
 
 This product includes software developed by the OpenSSL Project for
-use in the OpenSSL Toolkit (http://www.openssl.org/).
+use in the OpenSSL Toolkit (https://www.openssl.org/).
 
 Website :     https://www.grisbi.org/
 

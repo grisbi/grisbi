@@ -10,7 +10,7 @@ Group		:	Application
 Packager	:	Osukiss Project	<build-ok@osukiss.org>
 
 License		:	GPLv2+
-URL		:	http://www.grisbi.org
+URL		:	https://www.grisbi.org
 			#https://sourceforge.net/projects/grisbi/files/stable
 
 Source0		:	%{name}-%{version}.tar.bz2
