@@ -12,6 +12,9 @@
 *.bak
 .anjuta/
 .anjuta*
+.vscode/
+Pierre.code-profile
+appveyor.yml.*
 grisbi.anjuta
 Debug/
 MacOS/dist/
