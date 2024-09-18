@@ -829,36 +829,6 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	gtk_widget_show_all (priv->no_file_frame);
 }
 
-/* WIN CALLBACK */
-/**
- * check on any change on the main window
- * for now, only to check if we set/unset the full-screen
- *
- * \param window
- * \param event
- * \param null
- *
- * \return FALSE
- * */
-static gboolean grisbi_win_change_state_window (GtkWidget *window,
-												GdkEventWindowState *event,
-												gpointer null)
-{
-	GrisbiAppConf *a_conf;
-
-	a_conf = grisbi_app_get_a_conf ();
-
-	/* en premier on fixe a_conf->maximize_screen */
-	if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
-	{
-		gboolean show;
-
-		show = !(event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED);
-		a_conf->maximize_screen = !show;
-	}
-
-	return FALSE;
-}
 
 /* FREE STRUCTURES */
 /**
@@ -1004,9 +974,6 @@ static void grisbi_win_class_init (GrisbiWinClass *class)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, statusbar);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, no_file_frame);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, no_file_grid);
-
-	/* signaux */
-	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (class), grisbi_win_change_state_window);
 }
 
 /******************************************************************************/
@@ -1755,14 +1722,6 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
 
 	/* display window at position */
 	gtk_window_move (GTK_WINDOW (win), a_conf->x_position, a_conf->y_position);
-
-	/* set the full screen if necessary */
-	if (a_conf->full_screen)
-		gtk_window_fullscreen (GTK_WINDOW (win));
-
-	/* put up the screen if necessary */
-	if (a_conf->maximize_screen)
-		gtk_window_maximize (GTK_WINDOW (win));
 }
 
 /**

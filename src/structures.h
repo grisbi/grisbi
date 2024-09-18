@@ -283,8 +283,6 @@ struct _GrisbiAppConf
     gint        main_width;                                 /* main_window width */
     gint        main_height;                                /* main_window height */
 	gboolean	low_definition_screen;						/* TRUE use a low resolution screen */
-    gboolean    full_screen;                                /* TRUE to full screen, 0 else */
-    gboolean    maximize_screen;                            /* TRUE to maximize screen, 0 else */
 
 /* panel part */
     gboolean 	active_scrolling_left_pane;                 /* TRUE active mouse scrolling in the left_pane. */

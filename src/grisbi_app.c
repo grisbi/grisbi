@@ -274,14 +274,11 @@ static void grisbi_app_save_win_geometry_data (GrisbiApp *app,
 
 	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
-	if ((priv->a_conf)->full_screen == 0 && (priv->a_conf)->maximize_screen == 0)
-	{
-		/* sauvegarde la position de la fenetre principale */
-		gtk_window_get_position (GTK_WINDOW (win), &(priv->a_conf)->x_position, &(priv->a_conf)->y_position);
+	/* sauvegarde la position de la fenetre principale */
+	gtk_window_get_position (GTK_WINDOW (win), &(priv->a_conf)->x_position, &(priv->a_conf)->y_position);
 
-		/* sauvegarde de la taille de la fenêtre si nécessaire */
-		gtk_window_get_size (GTK_WINDOW (win), &(priv->a_conf)->main_width, &(priv->a_conf)->main_height);
-	}
+	/* sauvegarde de la taille de la fenêtre si nécessaire */
+	gtk_window_get_size (GTK_WINDOW (win), &(priv->a_conf)->main_width, &(priv->a_conf)->main_height);
 }
 
 /**
@@ -306,15 +303,9 @@ static void grisbi_app_change_fullscreen_state (GSimpleAction *action,
 
 	win = GTK_WINDOW (grisbi_app_get_active_window (app));
 	if (g_variant_get_boolean (state))
-	{
-		(priv->a_conf)->full_screen = TRUE;
 		gtk_window_fullscreen (win);
-	}
 	else
-	{
-		(priv->a_conf)->full_screen = FALSE;
 		gtk_window_unfullscreen (win);
-	}
 
 	g_simple_action_set_state (action, state);
 }
