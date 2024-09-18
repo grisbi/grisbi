@@ -134,10 +134,8 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
     a_conf->transactions_list_secondary_sorting = 0;		/* "Sort by transaction number" */
 
     /* settings_geometry */
-	a_conf->full_screen = FALSE;
     a_conf->main_height = WIN_MIN_HEIGHT;
     a_conf->main_width = WIN_MIN_WIDTH;
-    a_conf->maximize_screen = FALSE;
     a_conf->x_position = WIN_POS_X;
    	a_conf->y_position= WIN_POS_Y;
 
@@ -589,10 +587,6 @@ gboolean grisbi_conf_load_app_config (void)
 															"Geometry",
 													    	"low-definition-screen",
 													    	NULL);
-	a_conf->full_screen = g_key_file_get_boolean (config,
-												  "Geometry",
-												  "fullscreen",
-												  NULL);
     a_conf->main_height = g_key_file_get_integer (config,
 												  "Geometry",
 												  "main-height",
@@ -601,10 +595,6 @@ gboolean grisbi_conf_load_app_config (void)
 												 "Geometry",
 												 "main-width",
 												 NULL);
-    a_conf->maximize_screen = g_key_file_get_boolean (config,
-													  "Geometry",
-													  "maximized",
-													  NULL);
     a_conf->x_position = g_key_file_get_integer (config,
 												 "Geometry",
 												 "x-position",
@@ -1044,10 +1034,6 @@ gboolean grisbi_conf_save_app_config (void)
 							"Geometry",
 							"low-definition-screen",
 							a_conf->low_definition_screen);
-	g_key_file_set_boolean (config,
-							"Geometry",
-							"fullscreen",
-                        	a_conf->full_screen);
     g_key_file_set_integer (config,
 							"Geometry",
                         	"main-height",
@@ -1056,10 +1042,6 @@ gboolean grisbi_conf_save_app_config (void)
 							"Geometry",
                         	"main-width",
                         	a_conf->main_width);
-    g_key_file_set_boolean (config,
-							"Geometry",
-                        	"maximized",
-                        	a_conf->maximize_screen);
     g_key_file_set_integer (config,
 							"Geometry",
                         	"x-position",
