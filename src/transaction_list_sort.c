@@ -89,7 +89,12 @@ void transaction_list_sort (void)
     /* resort */
     if (custom_list -> user_sort_reconcile)
 	{
-        g_sort_array (custom_list->visibles_rows,
+#ifdef HAVE_G_SORT_ARRAY
+    g_sort_array
+#else
+    g_qsort_with_data
+#endif
+                     (custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_reconcile_list_sort_func,
@@ -112,7 +117,12 @@ void transaction_list_sort (void)
 		gsb_transactions_list_set_secondary_sort (a_conf->transactions_list_secondary_sorting);
 
 		/* sort of the list */
-		g_sort_array (custom_list->visibles_rows,
+#ifdef HAVE_G_SORT_ARRAY
+    g_sort_array
+#else
+    g_qsort_with_data
+#endif
+		             (custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_transactions_list_sort,

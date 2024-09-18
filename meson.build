@@ -58,6 +58,12 @@ if compiler.has_function('backtrace')
   conf_data.set('HAVE_BACKTRACE', true)
 endif
 
+# Ubuntu 22.04 provides an old libglib without g_sort_array()
+if compiler.has_function('g_sort_array',
+  dependencies : gtk_dep)
+  conf_data.set('HAVE_G_SORT_ARRAY', true)
+endif
+
 gnome = import('gnome')
 grisbi_resources = gnome.compile_resources(
     'grisbi_resources',

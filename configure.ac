@@ -86,6 +86,11 @@ AS_IF([test "$have_zlib_pc" = "no"],
 	[AC_CHECK_LIB([z],[gzwrite])
 	 AC_SUBST(GRISBI_LIBS)])
 
+old_libs=$LIBS
+LIBS=$GLIB_LIBS
+AC_CHECK_FUNCS(g_sort_array)
+LIBS=$old_libs
+
 # $LIBM courtesy of LT_LIB_M
 GRISBI_LIBS="$LIBM $GRISBI_LIBS"
 
