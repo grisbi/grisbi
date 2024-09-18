@@ -10,6 +10,9 @@
 /* Define if goffice support is enabled */
 #define HAVE_GOFFICE 1
 
+/* Define to 1 if you have the 'g_sort_array' function. */
+#define HAVE_G_SORT_ARRAY 1
+
 /* Build with ofx support */
 #define HAVE_OFX 1
 
