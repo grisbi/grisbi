@@ -578,8 +578,10 @@ gboolean grisbi_conf_load_app_config (void)
         a_conf->transactions_list_secondary_sorting = 1;
     else if (g_strcmp0 (tmp_str, "Sort by payee name") == 0)
         a_conf->transactions_list_secondary_sorting = 2;
-    else
+    else if (g_strcmp0 (tmp_str, "Sort by date and then by transaction number") == 0)
         a_conf->transactions_list_secondary_sorting = 3;
+    else
+        a_conf->transactions_list_secondary_sorting = 4;
     g_free (tmp_str);
 
     /* settings_geometry */
@@ -1020,6 +1022,9 @@ gboolean grisbi_conf_save_app_config (void)
             break;
         case 2:
             tmp_str = "Sort by payee name";
+            break;
+        case 3:
+            tmp_str = "Sort by date and then by transaction number";
             break;
         default:
             tmp_str = "default";

@@ -1113,6 +1113,39 @@ gint gsb_transactions_list_sort_by_chq ( gint transaction_number_1,
 	return gsb_transactions_list_sort_by_date_and_no ( transaction_number_1, transaction_number_2 );
 }
 
+/** used to compare 2 iters and sort the by value date first and date if not exist
+ * always put the white line below
+ *
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ *
+ * \return -1 if iter_1 is above iter_2
+ * */
+static gint gsb_transactions_list_secondary_sort_by_value_date_and_date  (gint transaction_number_1,
+																		  gint transaction_number_2)
+{
+    const GDate *value_date_1 = NULL;
+    const GDate *value_date_2 = NULL;
+
+   /* if we compare 2 transactions and 1 has no value date, set the value date before */
+    value_date_1 = gsb_data_transaction_get_value_date (transaction_number_1);
+    value_date_2 = gsb_data_transaction_get_value_date (transaction_number_2);
+
+    if (value_date_1)
+    {
+        if (value_date_2)
+            return gsb_transactions_list_sort_by_date_and_no (transaction_number_1, transaction_number_2);
+        else
+            return -1;
+    }
+    else if (value_date_2)
+    {  
+            return 1;
+    }
+    else
+        return 1;
+}
 
 /**
  * Called to sort transactions by key primary and secondary key
@@ -1198,6 +1231,9 @@ gint gsb_transactions_list_sort_initial_by_secondary_key ( gint transaction_numb
     else if (transactions_list_secondary_sorting == 3 )
         return gsb_transactions_list_sort_by_date_and_no (
                         transaction_number_1, transaction_number_2 );
+    else if (transactions_list_secondary_sorting == 4)
+		return gsb_transactions_list_secondary_sort_by_value_date_and_date  (transaction_number_1,
+																			 transaction_number_2);
     else
         return transaction_number_1 - transaction_number_2;
 }

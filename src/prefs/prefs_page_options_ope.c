@@ -135,9 +135,37 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     {
         case PRIMARY_SORT:
             a_conf->transactions_list_primary_sorting = value;
+			if (value == 1)
+			{
+				GtkWidget *combo;
+
+				combo = g_object_get_data (G_OBJECT (widget), "secondary_combo");
+				g_signal_handlers_block_by_func (G_OBJECT (combo),
+												 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+												 pointeur);
+				a_conf->transactions_list_secondary_sorting = 4;
+				gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_secondary_sorting);
+				g_signal_handlers_unblock_by_func (G_OBJECT (combo),
+												   G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+												   pointeur);
+			}
             break;
         case SECONDARY_SORT:
             a_conf->transactions_list_secondary_sorting = value;
+			if (value == 4)
+			{
+				GtkWidget *combo;
+
+				combo = g_object_get_data (G_OBJECT (widget), "primary_combo");
+				g_signal_handlers_block_by_func (G_OBJECT (combo),
+												 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+												 pointeur);
+				a_conf->transactions_list_primary_sorting = 1;
+				gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_primary_sorting);
+				g_signal_handlers_unblock_by_func (G_OBJECT (combo),
+												   G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+												   pointeur);
+			}
             break;
     }
     gsb_file_set_modified (TRUE);
@@ -179,6 +207,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 		_("Sort by type of amount (credit debit)"),
 		_("Sort by payee name (if fail, by transaction number)"),
 		_("Sort by date and then by transaction number"),
+		_("Sort by value date and then by date"),
 		NULL
     };
 	gint i = 0;
@@ -216,7 +245,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 
 	/* Secondary sorting option for the transactions */
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 5; i++)
 	{
         gtk_list_store_append (store, &iter);
         gtk_list_store_set (store, &iter, 0, options_tri_secondaire[i], 1, i, 2, str_color, -1);
@@ -281,6 +310,12 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
 
 	/* set combos sorting */
 	prefs_page_options_ope_init_combo_sorting (page, a_conf);
+	g_object_set_data (G_OBJECT (priv->combo_transactions_list_primary_sorting),
+					   "secondary_combo",
+					   priv->combo_transactions_list_secondary_sorting),
+	g_object_set_data (G_OBJECT (priv->combo_transactions_list_secondary_sorting),
+					   "primary_combo",
+					   priv->combo_transactions_list_primary_sorting);
 
 	/* set combo display lines */
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->combo_display_one_line), w_run->display_one_line);
