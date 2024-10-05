@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <template class="GrisbiWin" parent="GtkApplicationWindow">
@@ -8,7 +8,6 @@
     <property name="window-position">center</property>
     <property name="default-width">1200</property>
     <property name="default-height">600</property>
-    <signal name="window-state-event" handler="grisbi_win_change_state_window" swapped="no"/>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="visible">True</property>
