@@ -281,8 +281,8 @@ if host_machine.system() == 'windows'
     'NSIS_BITS' : '64bit',
     'NSIS_DEFAULTINSTDIR' : 'Program Files',
     'NSIS_INSTDIR' : get_option('prefix').replace('/', '\\'),
-    'TOP_SRCDIR_WINBS' : meson.source_root(),
-    'NSIS_SRCDIR' : meson.source_root().replace('/', '\\'),
+    'TOP_SRCDIR_WINBS' : meson.global_source_root(),
+    'NSIS_SRCDIR' : meson.global_source_root().replace('/', '\\'),
     })
 
   r = run_command('date', '+-%Y.%m.%d-%H', check : true)
