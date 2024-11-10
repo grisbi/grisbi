@@ -4639,11 +4639,11 @@ static void traitement_operations_importees (GtkWindow *parent)
 
     /* if new file, init grisbi */
     if (gsb_data_account_get_number_of_accounts ())
-    new_file = 0;
+    	new_file = 0;
     else
     {
-    /* Create initial lists. */
-    new_file = 1;
+		/* Create initial lists. */
+		new_file = 1;
     }
 
     /* for now, no marked transactions imported */
@@ -4654,140 +4654,139 @@ static void traitement_operations_importees (GtkWindow *parent)
 
     while (tmp_list)
     {
-    struct ImportAccount *compte;
-    gint account_number = 0;
+		struct ImportAccount *compte;
+		gint account_number = 0;
 
-    compte = tmp_list->data;
+		compte = tmp_list->data;
 
-    switch (compte->action)
-    {
-        case IMPORT_CREATE_ACCOUNT:
-        account_number = gsb_import_create_imported_account (compte);
-
-        if (account_number == -1)
-        {
-            gchar *tmp_str = g_strdup_printf (_("An error occurred while creating the new "
-                                                "account %s,\nWe try to continue to import "
-                                                "but bad things can happen..."),
-                                                compte->nom_de_compte);
-            dialogue_error (tmp_str);
-            g_free (tmp_str);
-            continue;
-        }
-
-        /* the next functions will add the transaction to the tree view list
-         * so if we create a new file, we need to finish the gui here to append
-         * the transactions */
-        if (new_file)
-        {
-            /* this should be the same as the end of gsb_file_new */
-            /* init the gui */
-            grisbi_win_new_file_gui ();
-
-            new_file = 0;
-        }
-        else
-            gsb_gui_navigation_add_account (account_number, FALSE);
-
-		gsb_import_create_imported_transactions (compte, account_number);
-        break;
-
-        case IMPORT_ADD_TRANSACTIONS:
-        account_number = gsb_account_get_combo_account_number (compte->bouton_compte_add);
-        gsb_import_add_imported_transactions (compte,account_number, parent);
-
-        break;
-
-        case IMPORT_MARK_TRANSACTIONS:
-        account_number = gsb_account_get_combo_account_number (compte->bouton_compte_mark);
-        gsb_import_pointe_opes_importees (compte, account_number);
-        transaction_list_update_element (ELEMENT_MARK);
-        break;
-    }
-
-    /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
-    if (a_conf->balances_with_scheduled == FALSE)
-        gsb_data_account_set_balances_are_dirty (account_number);
-    /* MAJ des données du module bet */
-    gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
-
-    /* first, we create the rule if asked */
-    if (compte->create_rule
-		&&
-		(compte->action != IMPORT_CREATE_ACCOUNT || !strcmp (compte->origine, "CSV")))
-    {
-        /* ok, we create the rule */
-        gchar *name;
-        gint rule_number = 0;
-		gint csv_spec_nbre_lines = 0;
-
-        name = (gchar *) gtk_entry_get_text (GTK_ENTRY (compte->entry_name_rule));
-        if (!strlen (name))
-        {
-			/* the user didn't enter a name, propose now */
-			gchar *tmp_str;
-
-			tmp_str = g_strdup_printf (_("You want to create an import rule for the account %s "
-										 "but didn't give a name to that rule. Please set a "
-										 "name or let it empty to cancel the rule creation."),
-										gsb_data_account_get_name (account_number));
-			name = dialogue_hint_with_entry (tmp_str, _("No name for the import rule"),
-													 _("Name of the rule: "));
-			g_free (tmp_str);
-
-			if (!strlen (name))
-				break;
-        }
-		else
-			name = g_strdup (name);
-
-        rule_number = gsb_data_import_rule_new (name);
-		g_free (name);
-        gsb_data_import_rule_set_account (rule_number, account_number);
-        gsb_data_import_rule_set_currency (rule_number, gsb_currency_get_currency_from_combobox (compte->bouton_devise));
-        gsb_data_import_rule_set_invert (rule_number, compte->invert_transaction_amount);
-        gsb_data_import_rule_set_charmap (rule_number, charmap_imported);
-        gsb_data_import_rule_set_last_file_name (rule_number, compte->real_filename);
-        gsb_data_import_rule_set_action (rule_number, compte->action);
-		gsb_data_import_rule_set_type (rule_number, compte->origine);
-		if (!strcmp (compte->origine, "CSV"))
+		switch (compte->action)
 		{
-			gsb_data_import_rule_set_csv_account_id_col (rule_number, compte->csv_account_id_col);
-			gsb_data_import_rule_set_csv_account_id_row (rule_number, compte->csv_account_id_row);
-			gsb_data_import_rule_set_csv_fields_str (rule_number, compte->csv_fields_str);
-			gsb_data_import_rule_set_csv_first_line_data (rule_number, compte->csv_first_line_data);
-			gsb_data_import_rule_set_csv_headers_present (rule_number, compte->csv_headers_present);
-			gsb_data_import_rule_set_csv_separator (rule_number, w_etat->csv_separator);
-			gsb_data_import_rule_set_csv_spec_lines_list (rule_number, compte->csv_spec_lines_list);
-			csv_spec_nbre_lines = g_slist_length (compte->csv_spec_lines_list);
-			if (csv_spec_nbre_lines)
-				gsb_data_import_rule_set_csv_spec_nbre_lines (rule_number, csv_spec_nbre_lines);
-			gsb_data_import_rule_set_csv_spec_cols_name (rule_number, compte->csv_spec_cols_name);
+			case IMPORT_CREATE_ACCOUNT:
+			account_number = gsb_import_create_imported_account (compte);
+
+			if (account_number == -1)
+			{
+				gchar *tmp_str = g_strdup_printf (_("An error occurred while creating the new "
+													"account %s,\nWe try to continue to import "
+													"but bad things can happen..."),
+													compte->nom_de_compte);
+				dialogue_error (tmp_str);
+				g_free (tmp_str);
+				continue;
+			}
+
+			/* the next functions will add the transaction to the tree view list
+			 * so if we create a new file, we need to finish the gui here to append
+			 * the transactions */
+			if (new_file)
+			{
+				/* this should be the same as the end of gsb_file_new */
+				/* init the gui */
+				grisbi_win_new_file_gui ();
+
+				new_file = 0;
+			}
+			else
+				gsb_gui_navigation_add_account (account_number, FALSE);
+
+			gsb_import_create_imported_transactions (compte, account_number);
+			break;
+
+			case IMPORT_ADD_TRANSACTIONS:
+			account_number = gsb_account_get_combo_account_number (compte->bouton_compte_add);
+			gsb_import_add_imported_transactions (compte,account_number, parent);
+
+			break;
+
+			case IMPORT_MARK_TRANSACTIONS:
+			account_number = gsb_account_get_combo_account_number (compte->bouton_compte_mark);
+			gsb_import_pointe_opes_importees (compte, account_number);
+			transaction_list_update_element (ELEMENT_MARK);
+			break;
 		}
-    }
-    tmp_list = tmp_list->next;
-    }
+
+		/* MAJ du solde du compte nécessaire suivant date des opérations existantes */
+		if (a_conf->balances_with_scheduled == FALSE)
+			gsb_data_account_set_balances_are_dirty (account_number);
+
+		/* MAJ des données du module bet */
+		gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
+
+		/* first, we create the rule if asked */
+		if (compte->create_rule
+			&& (compte->action != IMPORT_CREATE_ACCOUNT || !strcmp (compte->origine, "CSV")))
+		{
+			/* ok, we create the rule */
+			gchar *name;
+			gint rule_number = 0;
+			gint csv_spec_nbre_lines = 0;
+
+			name = (gchar *) gtk_entry_get_text (GTK_ENTRY (compte->entry_name_rule));
+			if (!strlen (name))
+			{
+				/* the user didn't enter a name, propose now */
+				gchar *tmp_str;
+
+				tmp_str = g_strdup_printf (_("You want to create an import rule for the account %s "
+											 "but didn't give a name to that rule. Please set a "
+		nemangezrienoujevousbattraisviolemmentgrosbeta									 "name or let it empty to cancel the rule creation."),
+											gsb_data_account_get_name (account_number));
+				name = dialogue_hint_with_entry (tmp_str, _("No name for the import rule"),
+														 _("Name of the rule: "));
+				g_free (tmp_str);
+
+				if (!strlen (name))
+					break;
+			}
+			else
+				name = g_strdup (name);
+
+			rule_number = gsb_data_import_rule_new (name);
+			g_free (name);
+			gsb_data_import_rule_set_account (rule_number, account_number);
+			gsb_data_import_rule_set_currency (rule_number, gsb_currency_get_currency_from_combobox (compte->bouton_devise));
+			gsb_data_import_rule_set_invert (rule_number, compte->invert_transaction_amount);
+			gsb_data_import_rule_set_charmap (rule_number, charmap_imported);
+			gsb_data_import_rule_set_last_file_name (rule_number, compte->real_filename);
+			gsb_data_import_rule_set_action (rule_number, compte->action);
+			gsb_data_import_rule_set_type (rule_number, compte->origine);
+			if (!strcmp (compte->origine, "CSV"))
+			{
+				gsb_data_import_rule_set_csv_account_id_col (rule_number, compte->csv_account_id_col);
+				gsb_data_import_rule_set_csv_account_id_row (rule_number, compte->csv_account_id_row);
+				gsb_data_import_rule_set_csv_fields_str (rule_number, compte->csv_fields_str);
+				gsb_data_import_rule_set_csv_first_line_data (rule_number, compte->csv_first_line_data);
+				gsb_data_import_rule_set_csv_headers_present (rule_number, compte->csv_headers_present);
+				gsb_data_import_rule_set_csv_separator (rule_number, w_etat->csv_separator);
+				gsb_data_import_rule_set_csv_spec_lines_list (rule_number, compte->csv_spec_lines_list);
+				csv_spec_nbre_lines = g_slist_length (compte->csv_spec_lines_list);
+				if (csv_spec_nbre_lines)
+					gsb_data_import_rule_set_csv_spec_nbre_lines (rule_number, csv_spec_nbre_lines);
+				gsb_data_import_rule_set_csv_spec_cols_name (rule_number, compte->csv_spec_cols_name);
+			}
+		}
+		tmp_list = tmp_list->next;
+	}
 
     /* if no account created, there is a problem
      * show an error and go away */
     if (!gsb_data_account_get_number_of_accounts ())
     {
-    dialogue_error (_("No account in memory now, this is bad...\nBetter to leave "
-                      "the import before a crash.\n\nPlease contact the Grisbi team "
-                      "to find the problem."));
-    return;
+		dialogue_error (_("No account in memory now, this is bad...\nBetter to leave "
+						  "the import before a crash.\n\nPlease contact the Grisbi team "
+						  "to find the problem."));
+		return;
     }
 
     /* create the links between transactions (transfer) */
     if (virements_a_chercher)
-    gsb_import_cree_liens_virements_ope_import ();
+	    gsb_import_cree_liens_virements_ope_import ();
 
     grisbi_win_status_bar_message (_("Please wait"));
 
     /* update the name of accounts in scheduler form */
-    gsb_account_update_combo_list (
-                        gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
-                        FALSE);
+    gsb_account_update_combo_list (gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+								   FALSE);
 
     /* set the rule button if necessary */
 	gsb_transactions_list_show_menu_import_rule (gsb_gui_navigation_get_current_account ());
@@ -4806,9 +4805,9 @@ static void traitement_operations_importees (GtkWindow *parent)
 
     /* if some R marked transactions are imported, show a message */
     if (marked_r_transactions_imported)
-    dialogue (_("You have just imported reconciled transactions but they not associated "
-                 "with any reconcile number yet.  You may associate them with a reconcilation "
-                 "later via the preferences windows."));
+		dialogue (_("You have just imported reconciled transactions but they not associated "
+					 "with any reconcile number yet.  You may associate them with a reconcilation "
+					 "later via the preferences windows."));
 
     gsb_file_set_modified (TRUE);
 }
