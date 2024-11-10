@@ -4729,7 +4729,7 @@ static void traitement_operations_importees (GtkWindow *parent)
 
 				tmp_str = g_strdup_printf (_("You want to create an import rule for the account %s "
 											 "but didn't give a name to that rule. Please set a "
-		nemangezrienoujevousbattraisviolemmentgrosbeta									 "name or let it empty to cancel the rule creation."),
+											 "name or let it empty to cancel the rule creation."),
 											gsb_data_account_get_name (account_number));
 				name = dialogue_hint_with_entry (tmp_str, _("No name for the import rule"),
 														 _("Name of the rule: "));
@@ -4808,6 +4808,9 @@ static void traitement_operations_importees (GtkWindow *parent)
 		dialogue (_("You have just imported reconciled transactions but they not associated "
 					 "with any reconcile number yet.  You may associate them with a reconcilation "
 					 "later via the preferences windows."));
+
+	/* force le tri des opérations */
+	gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account (), TRUE);
 
     gsb_file_set_modified (TRUE);
 }
