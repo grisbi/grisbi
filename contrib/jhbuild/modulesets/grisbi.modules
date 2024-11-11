@@ -35,7 +35,7 @@
 	</autotools>
 
 	<autotools id="gmp">
-		<branch repo="gmplib.org" module="gmp-6.2.1.tar.xz" version="6.2.1"/>
+		<branch repo="gmplib.org" module="gmp-6.3.0.tar.xz" version="6.3.0"/>
 	</autotools>
 
 	<autotools id='readline' >
