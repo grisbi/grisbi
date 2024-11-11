@@ -11,10 +11,6 @@
 		href="https://gmplib.org/download/gmp/"/>
 	<repository type='tarball' name='sourceforge'
 		href="http://downloads.sourceforge.net/"/>
-	<repository type='tarball' name='download.grisbi.org'
-		href="http://download.grisbi.org/"/>
-	<repository type='git' name='grisbi.git.sourceforge.net'
-		href="git://grisbi.git.sourceforge.net/gitroot/"/>
 	<repository type='git' name='libofx.git.sourceforge.net'
 		href="git://libofx.git.sourceforge.net/gitroot/"/>
 	<repository type='tarball' name='ftp.gnome.org'
@@ -91,33 +87,6 @@
 
 	<autotools id="gtk-mac-bundler">
 		<branch repo="gnomegit" module="gtk-mac-bundler" />
-	</autotools>
-
-	<autotools id="grisbi" autogen-sh="configure">
-		<branch repo="sourceforge" version="1.2.2" module="grisbi/grisbi-1.2.2.tar.bz2" />
-		<dependencies>
-			<dep package="jhbuild build meta-gtk-osx-gtk3"/>
-			<dep package="libofx"/>
-			<dep package="goffice"/>
-		</dependencies>
-	</autotools>
-
-	<autotools id="grisbi-testing" autogen-sh="configure">
-		<branch repo="sourceforge" version="1.9.96" module="grisbi/grisbi-1.9.96.tar.bz2" />
-		<dependencies>
-			<dep package="jhbuild build meta-gtk-osx-gtk3"/>
-			<dep package="libofx"/>
-			<dep package="goffice"/>
-		</dependencies>
-	</autotools>
-
-	<autotools id="grisbi-devel" autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s">
-		<branch repo="github" module="grisbi/grisbi" checkoudir="grisbi" />
-		<dependencies>
-			<dep package="jhbuild build meta-gtk-osx-gtk3"/>
-			<dep package="libofx"/>
-			<dep package="goffice"/>
-		</dependencies>
 	</autotools>
 
 </moduleset>
