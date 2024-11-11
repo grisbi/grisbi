@@ -76,7 +76,7 @@
 	</autotools>
 
 	<autotools id="guile" autogen-sh="configure">
-		<branch repo="ftp.gnu.org" module="guile/guile-3.0.4.tar.xz" version="3.0.4" />
+		<branch repo="ftp.gnu.org" module="guile/guile-3.0.10.tar.xz" version="3.0.6" />
 		<dependencies>
 			<dep package='readline'/>
 			<dep package="gmp"/>
