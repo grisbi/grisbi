@@ -11,8 +11,6 @@
 		href="https://gmplib.org/download/gmp/"/>
 	<repository type='tarball' name='sourceforge'
 		href="http://downloads.sourceforge.net/"/>
-	<repository type='git' name='libofx.git.sourceforge.net'
-		href="git://libofx.git.sourceforge.net/gitroot/"/>
 	<repository type='tarball' name='ftp.gnome.org'
 		href="ftp://ftp.gnome.org/pub/gnome/sources/"/>
 	<repository type="git" name="github"
@@ -56,14 +54,6 @@
 		</dependencies>
 	</autotools>
 
-	<autotools id="libofx-devel" autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s --with-opensp-includes=%(prefix)s/include/OpenSP --with-opensp-libs=%(prefix)s/include">
-		<branch repo="libofx.git.sourceforge.net" module="libofx/libofx" checkoudir="libofx" />
-		<dependencies>
-			<dep package='guile'/>
-			<dep package="OpenSP"/>
-		</dependencies>
-	</autotools>
-	
 	<autotools id="goffice" autogen-sh="autogen.sh">
 		<branch repo="gnomegit" module="goffice" />
 		<dependencies>
