@@ -1713,6 +1713,7 @@ void gsb_form_fill_element (gint element_number,
 			}
 			/* don't show the cheque entry for a child of split */
 			tmp_widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
+			gboolean show_widget = FALSE;
 			if (gtk_widget_get_visible (widget))
 			{
 				/* we show the cheque entry only for transactions */
@@ -1734,12 +1735,13 @@ void gsb_form_fill_element (gint element_number,
 						if (tmp_content)
 							gtk_entry_set_text (GTK_ENTRY (tmp_widget), tmp_content);
 
-						gtk_widget_show (tmp_widget);
+						show_widget = TRUE;
 					}
 				}
-				else
-					gtk_widget_hide (tmp_widget);
 			}
+
+			if (show_widget)
+				gtk_widget_show (tmp_widget);
 			else
 				gtk_widget_hide (tmp_widget);
 			break;
