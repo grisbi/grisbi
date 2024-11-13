@@ -27,7 +27,7 @@ rm -f MacOS/Grisbi-*.dmg
 rm -rf MacOS/dist
 
 # extract version from config.h
-GRISBI_VERSION=$(grep VERSION config.h | cut -f 3 -d ' ' | tr -d '"')
+GRISBI_VERSION=$(grep VERSION $BUILD_DIR/config.h | cut -f 3 -d ' ' | tr -d '"')
 
 sed -e "s/VERSION/$GRISBI_VERSION/" MacOS/Info.plist.in > MacOS/Info.plist
 
