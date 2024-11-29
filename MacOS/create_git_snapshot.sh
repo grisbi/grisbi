@@ -26,6 +26,9 @@ meson install -C "$BUILD_DIR"
 rm -f MacOS/Grisbi-*.dmg
 rm -rf MacOS/dist
 
+# CPU architecture
+ARCH=$(uname -m)
+
 # extract version from config.h
 GRISBI_VERSION=$(grep VERSION $BUILD_DIR/config.h | cut -f 3 -d ' ' | tr -d '"')
 
@@ -43,7 +46,7 @@ GRIBSI_BUNDLE_PATH=. gtk-mac-bundler MacOS/Grisbi.bundle
 	--icon-size 96 \
 	--app-drop-link 500 250 \
 	--icon "Grisbi.app" 150 250 \
-   	MacOS/Grisbi-"$GRISBI_VERSION".dmg \
+   	MacOS/Grisbi-"$GRISBI_VERSION"-"$ARCH".dmg \
 	MacOS/dist
 
 rm -r "$BUILD_DIR"
