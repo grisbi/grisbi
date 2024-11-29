@@ -58,6 +58,7 @@
 		<branch repo="gnomegit" module="goffice" />
 		<dependencies>
 			<dep package='libgsf'/>
+			<dep package='libxslt'/>
 		</dependencies>
 	</autotools>
 
