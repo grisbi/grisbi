@@ -954,7 +954,7 @@ static gchar *bet_array_list_get_description (gint account_number,
 
 				g_free(desc);
                 desc = g_strdup (gsb_data_payee_get_name
-								 (gsb_data_transaction_get_party_number (transaction_number),
+								 (gsb_data_transaction_get_payee_number (transaction_number),
 								  TRUE));
                 if (desc && strlen (desc))
                     break;
@@ -976,7 +976,7 @@ static gchar *bet_array_list_get_description (gint account_number,
 
 			case 1:
                 desc = g_strdup (gsb_data_payee_get_name
-								 (gsb_data_transaction_get_party_number (transaction_number),
+								 (gsb_data_transaction_get_payee_number (transaction_number),
 								  TRUE));
 				break;
 
@@ -1008,7 +1008,7 @@ static gchar *bet_array_list_get_description (gint account_number,
 
 				g_free(desc);
                 desc = g_strdup (gsb_data_payee_get_name (
-                                    gsb_data_scheduled_get_party_number (
+                                    gsb_data_scheduled_get_payee_number (
                                     scheduled_number), TRUE));
                 if (desc && strlen (desc))
                     break;
@@ -1232,7 +1232,7 @@ static gint bet_array_list_schedule_line (gint origine,
         gsb_data_scheduled_set_amount (scheduled_number, scheduled->amount);
         gsb_data_scheduled_set_currency_number (scheduled_number,
 												gsb_data_account_get_currency (account_number));
-        gsb_data_scheduled_set_party_number (scheduled_number, scheduled->party_number);
+        gsb_data_scheduled_set_payee_number (scheduled_number, scheduled->party_number);
         gsb_data_scheduled_set_category_number (scheduled_number, scheduled->category_number);
         gsb_data_scheduled_set_sub_category_number (scheduled_number, scheduled->sub_category_number);
         gsb_data_scheduled_set_notes (scheduled_number, scheduled->notes);
@@ -1827,9 +1827,9 @@ static gboolean bet_array_list_replace_line_by_transfert (GtkTreeModel *tab_mode
 
 			/* On cherche une opération par tiers */
 			if (origin_data == SPP_ORIGIN_TRANSACTION)
-				tmp_payee_number = gsb_data_transaction_get_party_number (transaction_number);
+				tmp_payee_number = gsb_data_transaction_get_payee_number (transaction_number);
 			else
-				tmp_payee_number = gsb_data_scheduled_get_party_number (transaction_number);
+				tmp_payee_number = gsb_data_scheduled_get_payee_number (transaction_number);
 
 			if (transfert->main_payee_number == tmp_payee_number)
 			{
@@ -3073,7 +3073,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
                 continue;
 
             /* find the transaction which has the same payee */
-            if (gsb_data_transaction_get_party_number (transaction_number) == transfert->main_payee_number)
+            if (gsb_data_transaction_get_payee_number (transaction_number) == transfert->main_payee_number)
             {
                 if (transfert->main_category_number)
                 {
@@ -3168,7 +3168,7 @@ void bet_array_create_transaction_from_transfert (TransfertData *transfert)
                 continue;
 
             /* find the transaction which has the same payee */
-            if (gsb_data_scheduled_get_party_number (scheduled_number) == transfert->main_payee_number)
+            if (gsb_data_scheduled_get_payee_number (scheduled_number) == transfert->main_payee_number)
             {
                 if (transfert->main_category_number)
                 {

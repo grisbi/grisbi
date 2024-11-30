@@ -311,7 +311,7 @@ static gboolean widget_search_transaction_str_is_valide (gint transaction_number
 			if (mother_number)
 				return FALSE;
 
-			tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+			tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 											  (transaction_number),
 											  TRUE);
 			if (tmp_str && g_strstr_len (tmp_str, -1, text))
@@ -332,7 +332,7 @@ static gboolean widget_search_transaction_str_is_valide (gint transaction_number
 		case 3:		/* ignore case = FALSE search_type = all */
 			if (!mother_number)
 			{
-				tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 												  (transaction_number),
 												  TRUE);
 				if (tmp_str && g_strstr_len (tmp_str, -1, text))
@@ -349,7 +349,7 @@ static gboolean widget_search_transaction_str_is_valide (gint transaction_number
 			if (mother_number)
 				return FALSE;
 
-			tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+			tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 											  (transaction_number),
 											  TRUE);
 			if (tmp_str && utils_str_my_case_strstr (tmp_str, text))
@@ -366,7 +366,7 @@ static gboolean widget_search_transaction_str_is_valide (gint transaction_number
 		default:		/* ignore case = TRUE search_type = all */
 			if (!mother_number)
 			{
-				tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 												  (transaction_number),
 												  TRUE);
 				if (tmp_str && g_strstr_len (tmp_str, -1, text))

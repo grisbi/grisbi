@@ -1154,7 +1154,7 @@ gboolean gsb_data_transaction_set_exchange_fees (gint transaction_number,
  *
  * \return the currency number of the transaction
  **/
-gint gsb_data_transaction_get_party_number (gint transaction_number)
+gint gsb_data_transaction_get_payee_number (gint transaction_number)
 {
 	TransactionStruct *transaction;
 
@@ -1174,7 +1174,7 @@ gint gsb_data_transaction_get_party_number (gint transaction_number)
  *
  * \return TRUE if ok
  **/
-gboolean gsb_data_transaction_set_party_number (gint transaction_number,
+gboolean gsb_data_transaction_set_payee_number (gint transaction_number,
 												gint no_party)
 {
 	TransactionStruct *transaction;
@@ -2094,7 +2094,7 @@ gint gsb_data_transaction_new_white_line (gint mother_transaction_number)
 	{
 		transaction->transaction_number = gsb_data_transaction_get_last_white_number () - 1;
 		transaction->date = gsb_date_copy (gsb_data_transaction_get_date (mother_transaction_number));
-		transaction->party_number = gsb_data_transaction_get_party_number (mother_transaction_number);
+		transaction->party_number = gsb_data_transaction_get_payee_number (mother_transaction_number);
 		transaction->mother_transaction_number = mother_transaction_number;
 	}
 	else

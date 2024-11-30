@@ -165,23 +165,23 @@ gboolean gsb_data_mix_set_currency_number ( gint transaction_number,
 }
 
 
-gint gsb_data_mix_get_party_number ( gint transaction_number,
+gint gsb_data_mix_get_payee_number ( gint transaction_number,
                         gboolean is_transaction )
 {
     if ( is_transaction )
-        return ( gsb_data_transaction_get_party_number ( transaction_number ) );
+        return ( gsb_data_transaction_get_payee_number ( transaction_number ) );
     else
-        return ( gsb_data_scheduled_get_party_number ( transaction_number ) );
+        return ( gsb_data_scheduled_get_payee_number ( transaction_number ) );
 }
 
-gboolean gsb_data_mix_set_party_number ( gint transaction_number,
+gboolean gsb_data_mix_set_payee_number ( gint transaction_number,
                         gint no_party,
                         gboolean is_transaction )
 {
     if ( is_transaction )
-        return ( gsb_data_transaction_set_party_number ( transaction_number, no_party ) );
+        return ( gsb_data_transaction_set_payee_number ( transaction_number, no_party ) );
     else
-        return ( gsb_data_scheduled_set_party_number ( transaction_number, no_party ) );
+        return ( gsb_data_scheduled_set_payee_number ( transaction_number, no_party ) );
 }
 
 gint gsb_data_mix_get_category_number ( gint transaction_number,

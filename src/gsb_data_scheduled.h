@@ -32,7 +32,7 @@ gchar *		gsb_data_scheduled_get_method_of_payment_content 			(gint scheduled_num
 gint 		gsb_data_scheduled_get_method_of_payment_number 			(gint scheduled_number);
 gint 		gsb_data_scheduled_get_mother_scheduled_number 				(gint scheduled_number);
 gchar *		gsb_data_scheduled_get_notes 								(gint scheduled_number);
-gint 		gsb_data_scheduled_get_party_number 						(gint scheduled_number);
+gint 		gsb_data_scheduled_get_payee_number 						(gint scheduled_number);
 GSList *	gsb_data_scheduled_get_scheduled_list 						(void);
 gint 		gsb_data_scheduled_get_scheduled_number 					(gpointer scheduled_pointer);
 gint 		gsb_data_scheduled_get_split_of_scheduled 					(gint scheduled_number);
@@ -83,7 +83,7 @@ gboolean 	gsb_data_scheduled_set_mother_scheduled_number 				(gint scheduled_num
 																		 gint mother_scheduled_number);
 gboolean 	gsb_data_scheduled_set_notes 								(gint scheduled_number,
 																		 const gchar *notes);
-gboolean 	gsb_data_scheduled_set_party_number 						(gint scheduled_number,
+gboolean 	gsb_data_scheduled_set_payee_number 						(gint scheduled_number,
 																		 gint no_party);
 gboolean 	gsb_data_scheduled_set_split_of_scheduled 					(gint scheduled_number,
 																		 gint is_split);

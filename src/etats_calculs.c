@@ -219,14 +219,14 @@ static gint classement_ope_perso_etat (gpointer transaction_1,
 
 		case 3:
 			/* tiers  */
-			if (!gsb_data_transaction_get_party_number (transaction_number_1)
-				|| !gsb_data_transaction_get_party_number (transaction_number_2))
-				return_value = gsb_data_transaction_get_party_number (transaction_number_2) -
-								gsb_data_transaction_get_party_number (transaction_number_1);
+			if (!gsb_data_transaction_get_payee_number (transaction_number_1)
+				|| !gsb_data_transaction_get_payee_number (transaction_number_2))
+				return_value = gsb_data_transaction_get_payee_number (transaction_number_2) -
+								gsb_data_transaction_get_payee_number (transaction_number_1);
 			else
-				return_value = my_strcasecmp (gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				return_value = my_strcasecmp (gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 																	   (transaction_number_1), TRUE),
-											  gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+											  gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 																	   (transaction_number_2), TRUE));
 			break;
 
@@ -719,9 +719,9 @@ classement_suivant:
 				const gchar *party_name_1;
 				const gchar *party_name_2;
 
-				party_name_1 = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				party_name_1 = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 														(transaction_number_1), TRUE);
-				party_name_2 = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				party_name_2 = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 														(transaction_number_2), TRUE);
 				return_value = my_strcasecmp (party_name_1, party_name_2);
 
@@ -909,12 +909,12 @@ static const gchar *recupere_texte_test_etat (gint transaction_number,
 	{
 		case 0:
 			/* tiers  */
-			texte = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), TRUE);
+			texte = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (transaction_number), TRUE);
 			break;
 
 		case 1:
 			/* info du tiers */
-			texte = gsb_data_payee_get_description (gsb_data_transaction_get_party_number (transaction_number));
+			texte = gsb_data_payee_get_description (gsb_data_transaction_get_payee_number (transaction_number));
 			break;
 
 		case 2:
@@ -2296,7 +2296,7 @@ GSList *recupere_opes_etat (gint report_number)
 					if (gsb_data_report_get_payee_detail_used (report_number)
 						&&
 						g_slist_index (gsb_data_report_get_payee_numbers_list (report_number),
-									   GINT_TO_POINTER (gsb_data_transaction_get_party_number
+									   GINT_TO_POINTER (gsb_data_transaction_get_payee_number
 														(transaction_number_tmp))) == -1)
 						goto operation_refusee;
 

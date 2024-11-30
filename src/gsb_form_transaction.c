@@ -231,8 +231,8 @@ gint gsb_form_transactions_look_for_last_party (gint no_party,
 												gint account_number)
 {
 	GSList *list_tmp_transactions;
-	gint last_transaction_with_party_in_account = 0;
-	gint last_transaction_with_party_not_in_account = 0;
+	gint last_transaction_with_payee_in_account = 0;
+	gint last_transaction_with_payee_not_in_account = 0;
 	GrisbiAppConf *a_conf;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
@@ -244,28 +244,28 @@ gint gsb_form_transactions_look_for_last_party (gint no_party,
 
 		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
 
-		if (gsb_data_transaction_get_party_number (transaction_number_tmp) == no_party
+		if (gsb_data_transaction_get_payee_number (transaction_number_tmp) == no_party
 			&& transaction_number_tmp != no_new_transaction
 			&& !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
 		{
 			/* we are on a transaction with the same party, it's also a split, so we keep it */
 			if (gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
-				last_transaction_with_party_in_account = transaction_number_tmp;
+				last_transaction_with_payee_in_account = transaction_number_tmp;
 			else
-				last_transaction_with_party_not_in_account = transaction_number_tmp;
+				last_transaction_with_payee_not_in_account = transaction_number_tmp;
 		}
 		list_tmp_transactions = list_tmp_transactions->next;
 	}
 
-	if (last_transaction_with_party_in_account)
-		return last_transaction_with_party_in_account;
+	if (last_transaction_with_payee_in_account)
+		return last_transaction_with_payee_in_account;
 
 	/* if we don't want to complete with a transaction in another account,
 	 * go away here */
 	if (a_conf->limit_completion_to_current_account)
 		return 0;
 
-	return last_transaction_with_party_not_in_account;
+	return last_transaction_with_payee_not_in_account;
 }
 
 /**

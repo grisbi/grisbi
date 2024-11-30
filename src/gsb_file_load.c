@@ -2690,7 +2690,7 @@ static void gsb_file_load_partial_balance_part (const gchar **attribute_names,
  *
  * \return
  **/
-static void gsb_file_load_party_part (const gchar **attribute_names,
+static void gsb_file_load_payee_part (const gchar **attribute_names,
 									  const gchar **attribute_values)
 {
     gint i=0;
@@ -3223,7 +3223,7 @@ static void gsb_file_load_scheduled_transactions_part (const gchar **attribute_n
 
     if (!strcmp (attribute_names[i], "Pa"))
     {
-        gsb_data_scheduled_set_party_number (scheduled_number, utils_str_atoi (attribute_values[i]));
+        gsb_data_scheduled_set_payee_number (scheduled_number, utils_str_atoi (attribute_values[i]));
         i++;
         continue;
     }
@@ -3582,7 +3582,7 @@ static void gsb_file_load_transactions_part (const gchar **attribute_names,
 
                 else if (!strcmp (attribute_names[i], "Pa"))
                 {
-                    gsb_data_transaction_set_party_number (transaction_number,
+                    gsb_data_transaction_set_payee_number (transaction_number,
 														   utils_str_atoi (attribute_values[i]));
                 }
 
@@ -3819,7 +3819,7 @@ static void gsb_file_load_start_element (GMarkupParseContext *context,
 
             else if (!strcmp (element_name, "Party"))
             {
-                gsb_file_load_party_part (attribute_names, attribute_values);
+                gsb_file_load_payee_part (attribute_names, attribute_values);
             }
 
             else

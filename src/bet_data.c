@@ -2154,7 +2154,7 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 															   gsb_data_account_get_default_credit (std->card_account_number));
 
 		/* set the payee */
-		gsb_data_transaction_set_party_number (transaction_number, std->main_payee_number);
+		gsb_data_transaction_set_payee_number (transaction_number, std->main_payee_number);
 
 		/* set the category sub_category */
 		if (std->card_category_number)
@@ -2215,7 +2215,7 @@ static void bet_data_transfert_create_reset_credit_card (TransfertData *std)
 																   gsb_data_account_get_default_credit (account_number));
 
 			/* set the payee */
-			gsb_data_transaction_set_party_number (transaction_number, std->main_payee_number);
+			gsb_data_transaction_set_payee_number (transaction_number, std->main_payee_number);
 
 			/* set the category sub_category */
 			if (std->card_category_number)
@@ -2370,7 +2370,7 @@ void bet_data_transfert_create_new_transaction (TransfertData *std)
 	gsb_data_transaction_set_method_of_payment_number (transaction_number, std->main_payment_number);
 
 	/* set the payee */
-	gsb_data_transaction_set_party_number (transaction_number, std->main_payee_number);
+	gsb_data_transaction_set_payee_number (transaction_number, std->main_payee_number);
 
 	/* set the category sub_category */
 	if (std->main_category_number)

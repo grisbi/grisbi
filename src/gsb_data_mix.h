@@ -39,7 +39,7 @@ gint 			gsb_data_mix_get_mother_transaction_number 		(gint transaction_number,
 																 gboolean is_transaction);
 const gchar *	gsb_data_mix_get_notes 							(gint transaction_number,
 																 gboolean is_transaction);
-gint 			gsb_data_mix_get_party_number 					(gint transaction_number,
+gint 			gsb_data_mix_get_payee_number 					(gint transaction_number,
 																 gboolean is_transaction);
 gint 			gsb_data_mix_get_split_of_transaction 			(gint transaction_number,
 																 gboolean is_transaction);
@@ -89,7 +89,7 @@ gboolean 		gsb_data_mix_set_mother_transaction_number 		(gint transaction_number
 gboolean 		gsb_data_mix_set_notes 							(gint transaction_number,
 																 const gchar *notes,
 																 gboolean is_transaction);
-gboolean 		gsb_data_mix_set_party_number 					(gint transaction_number,
+gboolean 		gsb_data_mix_set_payee_number 					(gint transaction_number,
 																 gint no_party,
 																 gboolean is_transaction);
 gboolean 		gsb_data_mix_set_split_of_transaction 			(gint transaction_number,

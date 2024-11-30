@@ -655,7 +655,7 @@ static gchar *gsb_debug_payee_test  (void)
 		gint payee_number;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		payee_number = gsb_data_transaction_get_party_number (transaction_number);
+		payee_number = gsb_data_transaction_get_payee_number (transaction_number);
 		if (!gsb_data_payee_get_structure (payee_number))
 		{
 			/* payee not found */
@@ -700,10 +700,10 @@ static gboolean gsb_debug_payee_test_fix (void)
 		gint payee_number;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		payee_number = gsb_data_transaction_get_party_number (transaction_number);
+		payee_number = gsb_data_transaction_get_payee_number (transaction_number);
 
 		if (!gsb_data_payee_get_structure (payee_number))
-			gsb_data_transaction_set_party_number (transaction_number, 0);
+			gsb_data_transaction_set_payee_number (transaction_number, 0);
 
 		tmp_list = tmp_list->next;
     }

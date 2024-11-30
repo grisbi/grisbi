@@ -166,8 +166,8 @@ static gint gsb_scheduler_create_transaction_from_scheduled_transaction (gint sc
 	/* begin to fill the new transaction */
 	gsb_data_transaction_set_date (transaction_number, date);
 
-	gsb_data_transaction_set_party_number (transaction_number,
-										   gsb_data_scheduled_get_party_number (scheduled_number));
+	gsb_data_transaction_set_payee_number (transaction_number,
+										   gsb_data_scheduled_get_payee_number (scheduled_number));
 	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number)
 		&& gsb_data_account_get_bet_init_sch_with_loan (transfer_account))
 	{

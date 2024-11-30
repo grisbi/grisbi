@@ -523,7 +523,7 @@ void fill_transaction_row ( GtkTreeModel *model,
     else
     {
         notes = my_strdup (gsb_data_payee_get_name (
-                        gsb_data_transaction_get_party_number ( transaction_number),
+                        gsb_data_transaction_get_payee_number ( transaction_number),
                         TRUE));
     }
 
@@ -3819,7 +3819,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     g_free ( hint );
     g_free ( text );
 
-    number = gsb_data_transaction_get_party_number ( transaction_number );
+    number = gsb_data_transaction_get_payee_number ( transaction_number );
     tmp_str_1 = g_strdup_printf ( _("Use payee: \"%s\" to find the transactions"),
                     gsb_data_payee_get_name ( number, FALSE ) );
     button_1 = gsb_automem_checkbutton_new ( tmp_str_1,
@@ -4025,7 +4025,7 @@ void metatree_transfer_identical_transactions ( GtkWidget *tree_view )
     if ( metatree_find_payee )
     {
         tmp_str = g_strdup ( gsb_data_payee_get_name (
-                        gsb_data_transaction_get_party_number ( no_transaction ), TRUE ) );
+                        gsb_data_transaction_get_payee_number ( no_transaction ), TRUE ) );
         if ( tmp_str )
             search_str_1 = g_utf8_collate_key ( tmp_str, -1 );
         g_free ( tmp_str );
@@ -4057,7 +4057,7 @@ void metatree_transfer_identical_transactions ( GtkWidget *tree_view )
                 gchar *tmp_key = NULL;
 
                 tmp_str = g_strdup ( gsb_data_payee_get_name (
-                        gsb_data_transaction_get_party_number ( transaction_number_tmp ), TRUE ) );
+                        gsb_data_transaction_get_payee_number ( transaction_number_tmp ), TRUE ) );
 
                 if ( tmp_str )
                     tmp_key = g_utf8_collate_key ( tmp_str, -1 );

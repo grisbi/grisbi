@@ -1617,7 +1617,7 @@ static gboolean gsb_scheduler_list_fill_transaction_text (gint scheduled_number,
 		}
 		line[COL_NB_ACCOUNT] = g_strdup (gsb_data_account_get_name (gsb_data_scheduled_get_account_number
 																	(scheduled_number)));
-		line[COL_NB_PARTY] = g_strdup (gsb_data_payee_get_name (gsb_data_scheduled_get_party_number
+		line[COL_NB_PARTY] = g_strdup (gsb_data_payee_get_name (gsb_data_scheduled_get_payee_number
 																(scheduled_number), TRUE));
 
 		if (gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
@@ -2886,7 +2886,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
             /* ask all the time for a child */
             tmp_str = g_strdup_printf (_("Do you really want to delete the child of the "
 										 "scheduled transaction with party '%s' ?"),
-									   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number
+									   gsb_data_payee_get_name (gsb_data_scheduled_get_payee_number
 															    (scheduled_number),
 															    FALSE));
             if (!dialogue_conditional_yes_no_with_items ("tab_delete_msg", "delete-child-scheduled", tmp_str))
@@ -2903,7 +2903,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
              * have another dialog to delete the occurence or the transaction */
             tmp_str = g_strdup_printf (_("Do you really want to delete the scheduled "
 										 "transaction with party '%s' ?"),
-									   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number
+									   gsb_data_payee_get_name (gsb_data_scheduled_get_payee_number
 															    (scheduled_number),
 															    FALSE));
             if (!gsb_data_scheduled_get_frequency (scheduled_number)
@@ -2964,7 +2964,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction (gint scheduled_number,
 				occurrences = g_strdup_printf (_("Do you want to delete just this occurrence or "
 												 "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
 											   tmp_date,
-											   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number
+											   gsb_data_payee_get_name (gsb_data_scheduled_get_payee_number
 																		(scheduled_number),
 																		FALSE),
 											   tmp_str,

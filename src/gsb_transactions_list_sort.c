@@ -159,8 +159,8 @@ static gint gsb_transactions_list_sort_by_party (gint transaction_number_1,
     gint party_number_1;
     gint party_number_2;
 
-    party_number_1 = gsb_data_transaction_get_party_number (transaction_number_1);
-    party_number_2 = gsb_data_transaction_get_party_number (transaction_number_2);
+    party_number_1 = gsb_data_transaction_get_payee_number (transaction_number_1);
+    party_number_2 = gsb_data_transaction_get_payee_number (transaction_number_2);
 
     if (party_number_1 == party_number_2)
 	    return_value = gsb_transactions_list_sort_by_date_and_no (transaction_number_1, transaction_number_2);

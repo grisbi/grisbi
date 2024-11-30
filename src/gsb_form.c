@@ -534,13 +534,13 @@ static void gsb_form_take_datas_from_form (gint transaction_number,
 
 			case TRANSACTION_FORM_PARTY:
 			if (gsb_form_widget_check_empty (element->element_widget))
-				gsb_data_mix_set_party_number (transaction_number, 0, is_transaction);
+				gsb_data_mix_set_payee_number (transaction_number, 0, is_transaction);
 			else
 			{
 				const gchar *tmp_name;
 
 				tmp_name = gtk_combofix_get_text (GTK_COMBOFIX (element->element_widget));
-				gsb_data_mix_set_party_number (transaction_number,
+				gsb_data_mix_set_payee_number (transaction_number,
 											   gsb_data_payee_get_number_by_name (tmp_name, TRUE),
 											   is_transaction);
 			}
@@ -1566,7 +1566,7 @@ void gsb_form_fill_element (gint element_number,
 			break;
 
 		case TRANSACTION_FORM_PARTY:
-			number = gsb_data_mix_get_party_number (transaction_number, is_transaction);
+			number = gsb_data_mix_get_payee_number (transaction_number, is_transaction);
 			if (number)
 			{
 				const gchar *tmp_name;
@@ -3107,7 +3107,7 @@ gboolean gsb_form_finish_edition (void)
 
                     gsb_data_transaction_copy_transaction (source_transaction_number,
 														   transaction_number, TRUE);
-                    gsb_data_transaction_set_party_number (transaction_number,
+                    gsb_data_transaction_set_payee_number (transaction_number,
 														   GPOINTER_TO_INT (list_tmp->data));
 
                     /* if it's not the first party and the method of payment has to change its number (cheque),
@@ -3211,7 +3211,7 @@ gboolean gsb_form_finish_edition (void)
 					&& !execute_scheduled
 					&& gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
 					&& (split_transaction_number = gsb_form_transactions_look_for_last_party
-						(gsb_data_transaction_get_party_number (transaction_number),
+						(gsb_data_transaction_get_payee_number (transaction_number),
 						 transaction_number,
 														 gsb_data_transaction_get_account_number(transaction_number))))
 					gsb_form_transaction_recover_splits_of_transaction (transaction_number,
@@ -3252,7 +3252,7 @@ gboolean gsb_form_finish_edition (void)
 					gint split_transaction_number = 0;
 
 					tmp_account_number = gsb_data_scheduled_get_account_number(transaction_number);
-					party_number = gsb_data_scheduled_get_party_number (transaction_number);
+					party_number = gsb_data_scheduled_get_payee_number (transaction_number);
 					split_transaction_number = gsb_form_transactions_look_for_last_party (party_number,
 																						  0,
 																						  tmp_account_number);

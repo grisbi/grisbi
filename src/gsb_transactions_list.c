@@ -2638,8 +2638,8 @@ static gint gsb_transactions_list_convert_to_scheduled (gint transaction_number)
 								   gsb_data_transaction_get_amount (transaction_number));
     gsb_data_scheduled_set_currency_number (scheduled_number,
 											gsb_data_transaction_get_currency_number (transaction_number));
-    gsb_data_scheduled_set_party_number (scheduled_number,
-										 gsb_data_transaction_get_party_number (transaction_number));
+    gsb_data_scheduled_set_payee_number (scheduled_number,
+										 gsb_data_transaction_get_payee_number (transaction_number));
     gsb_data_scheduled_set_category_number (scheduled_number,
 											gsb_data_transaction_get_category_number (transaction_number));
     gsb_data_scheduled_set_sub_category_number (scheduled_number,
@@ -3006,7 +3006,7 @@ gchar *gsb_transactions_list_grep_cell_content (gint transaction_number,
 
 		/* mise en forme du tiers */
 		case ELEMENT_PARTY:
-			return (my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+			return (my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 														(transaction_number),
 														TRUE)));
 
@@ -3560,7 +3560,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
 			tmp_struct_name = "delete-child-transaction";
             tmp_str = g_strdup_printf (_("Do you really want to delete the child of the transaction "
 										"with party '%s' ?"),
-									  gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+									  gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 															   (transaction_number),
 															   FALSE));
         }
@@ -3568,7 +3568,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
         {
 			tmp_struct_name = "delete-transaction";
             tmp_str = g_strdup_printf (_("Do you really want to delete transaction with party '%s' ?"),
-                         			   gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+                         			   gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 																(transaction_number),
 																FALSE));
         }
@@ -3903,8 +3903,8 @@ void gsb_transactions_list_splitted_to_scheduled (gint transaction_number,
 										   gsb_data_transaction_get_amount (transaction_number_tmp));
 			gsb_data_scheduled_set_currency_number (split_scheduled_number,
 													gsb_data_transaction_get_currency_number (transaction_number_tmp));
-			gsb_data_scheduled_set_party_number (split_scheduled_number,
-												 gsb_data_transaction_get_party_number (transaction_number_tmp));
+			gsb_data_scheduled_set_payee_number (split_scheduled_number,
+												 gsb_data_transaction_get_payee_number (transaction_number_tmp));
 			gsb_data_scheduled_set_category_number (split_scheduled_number,
 													gsb_data_transaction_get_category_number (transaction_number_tmp));
 			gsb_data_scheduled_set_sub_category_number (split_scheduled_number,

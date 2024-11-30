@@ -1713,7 +1713,7 @@ gboolean qif_export (const gchar *filename,
 				/* met le tiers */
 				fprintf (fichier_qif,
 						 "P%s\n",
-						 gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number_tmp),
+						 gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (transaction_number_tmp),
 												  FALSE));
 
 				/*  on met soit un virement, soit une ventil, soit les catégories */

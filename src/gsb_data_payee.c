@@ -789,7 +789,7 @@ void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
 	}
 
 	/* if no payee in that transaction and it's neither a split transaction, we work with empty_payee */
-    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_party_number (transaction_number));
+    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_payee_number (transaction_number));
 
     /* should not happen, this is if the transaction has a payee which doesn't exists
      * we show a debug warning and get without payee */
@@ -799,7 +799,7 @@ void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
 
         tmpstr = g_strdup_printf ("The transaction %d has a payee %d but it doesn't exist.",
 								  transaction_number,
-								  gsb_data_transaction_get_party_number (transaction_number));
+								  gsb_data_transaction_get_payee_number (transaction_number));
         warning_debug (tmpstr);
         g_free (tmpstr);
         payee = empty_payee;
@@ -824,7 +824,7 @@ void gsb_data_payee_remove_transaction_from_payee (gint transaction_number)
 {
     PayeeStruct *payee;
 
-    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_party_number (transaction_number));
+    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_payee_number (transaction_number));
 
     /* if no payee in that transaction, and it's neither a split, neither a transfer,
      * we work with empty_payee */
@@ -871,7 +871,7 @@ gint gsb_data_payee_remove_unused (void)
 		gint transaction_number;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-        payee_number = gsb_data_transaction_get_party_number (transaction_number);
+        payee_number = gsb_data_transaction_get_payee_number (transaction_number);
         if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
         {
             used = g_slist_append (used, GINT_TO_POINTER (payee_number));
@@ -887,7 +887,7 @@ gint gsb_data_payee_remove_unused (void)
 		gint scheduled_number;
 
 		scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list->data);
-        payee_number = gsb_data_scheduled_get_party_number (scheduled_number);
+        payee_number = gsb_data_scheduled_get_payee_number (scheduled_number);
         if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
         {
             used = g_slist_append (used, GINT_TO_POINTER (payee_number));
@@ -990,7 +990,7 @@ gint gsb_data_payee_get_unused_payees (void)
         {
             gint payee_number;
 
-            payee_number = gsb_data_scheduled_get_party_number (
+            payee_number = gsb_data_scheduled_get_payee_number (
                                 gsb_data_scheduled_get_scheduled_number (
                                 tmp_list->data));
             if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
@@ -1029,7 +1029,7 @@ gint gsb_data_payee_get_unused_payees (void)
     {
         gint payee_number;
 
-        payee_number = gsb_data_transaction_get_party_number (
+        payee_number = gsb_data_transaction_get_payee_number (
                     gsb_data_transaction_get_transaction_number (tmp_list->data));
         if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
         {
@@ -1044,7 +1044,7 @@ gint gsb_data_payee_get_unused_payees (void)
     {
         gint payee_number;
 
-        payee_number = gsb_data_scheduled_get_party_number (
+        payee_number = gsb_data_scheduled_get_payee_number (
                         gsb_data_scheduled_get_scheduled_number (
                         tmp_list->data));
         if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
@@ -1175,7 +1175,7 @@ GSList *gsb_data_payee_get_unarchived_payees_list (void)
 		PayeeStruct *payee;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (transactions_list->data);
-		payee_number = gsb_data_transaction_get_party_number (transaction_number);
+		payee_number = gsb_data_transaction_get_payee_number (transaction_number);
 		payee = gsb_data_payee_get_structure (payee_number);
 
 		if (payee)

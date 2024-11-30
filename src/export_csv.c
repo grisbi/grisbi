@@ -552,7 +552,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 
 	/* met le tiers */
 	CSV_CLEAR_FIELD(csv_field_tiers);
-	csv_field_tiers = g_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), FALSE));
+	csv_field_tiers = g_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (transaction_number), FALSE));
 
 	/* met le numero du rapprochement */
 	reconcile_number = gsb_data_transaction_get_reconcile_number (transaction_number);

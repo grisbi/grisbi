@@ -665,9 +665,9 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 
 	if (gsb_data_report_get_show_report_payee (current_report_number))
 	{
-		if (gsb_data_transaction_get_party_number (transaction_number))
+		if (gsb_data_transaction_get_payee_number (transaction_number))
 		{
-		text = my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+		text = my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 												   (transaction_number),
 												   TRUE));
 
@@ -2842,7 +2842,7 @@ gint etat_affiche_affiche_tiers_etat (gint transaction_number,
 
 	/* affiche le tiers */
 	if (gsb_data_report_get_payee_used (current_report_number)
-		&& gsb_data_transaction_get_party_number (transaction_number) != ancien_tiers_etat)
+		&& gsb_data_transaction_get_payee_number (transaction_number) != ancien_tiers_etat)
 	{
 		/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 		if (!debut_affichage_etat && !changement_de_groupe_etat)
@@ -2860,9 +2860,9 @@ gint etat_affiche_affiche_tiers_etat (gint transaction_number,
 		/*	   si on a demandé de ne pas afficher les noms des tiers, on saute la partie suivante */
 		if (gsb_data_report_get_payee_show_name (current_report_number))
 		{
-			if (gsb_data_transaction_get_party_number (transaction_number))
+			if (gsb_data_transaction_get_payee_number (transaction_number))
 			{
-				nom_tiers_en_cours = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				nom_tiers_en_cours = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 															  (transaction_number),
 															  TRUE);
 
@@ -2883,7 +2883,7 @@ gint etat_affiche_affiche_tiers_etat (gint transaction_number,
 		ligne_debut_partie = ligne;
 		denote_struct_sous_jaccentes (6);
 
-		ancien_tiers_etat = gsb_data_transaction_get_party_number (transaction_number);
+		ancien_tiers_etat = gsb_data_transaction_get_payee_number (transaction_number);
 
 		debut_affichage_etat = 0;
 		changement_de_groupe_etat = 1;

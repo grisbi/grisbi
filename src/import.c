@@ -2351,7 +2351,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 			{
 				payee_number = gsb_data_payee_get_number_by_name (imported_transaction->tiers, TRUE);
 			}
-        	gsb_data_transaction_set_party_number (transaction_number, payee_number);
+        	gsb_data_transaction_set_payee_number (transaction_number, payee_number);
 		}
 	}
 
@@ -2887,7 +2887,7 @@ static gint gsb_import_correct_opes_find_multiples_ope_msg (GtkWidget *parent,
 		gint transaction_number;
 
 		transaction_number = GPOINTER_TO_INT (tmp_list->data);
-		payee = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
+		payee = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (transaction_number),
 										 FALSE);
 		tmp_date = gsb_format_gdate (gsb_data_transaction_get_date (transaction_number));
 		tmp_str = g_strdup_printf (_("Transaction N° %d found: %s ; %s ; %s"),
@@ -3041,7 +3041,7 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 			ope_import->ope_correspondante = result;
 		}
 
-		tiers = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (ope_import->ope_correspondante), FALSE);
+		tiers = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (ope_import->ope_correspondante), FALSE);
 		if (gsb_data_transaction_get_notes (ope_import->ope_correspondante))
 		{
 			tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (
@@ -3112,7 +3112,7 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 			const gchar *tiers;
 
 			/* Opération existante */
-			tiers = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (ope_import->ope_correspondante),
+			tiers = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (ope_import->ope_correspondante),
 											 FALSE);
 			tmp_date = gsb_format_gdate (gsb_data_transaction_get_date
 										 (ope_import->ope_correspondante));
@@ -3400,7 +3400,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 				                                           GINT_TO_POINTER (ope_import->ope_correspondante));
 			}
 
-			tiers = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (
+			tiers = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (
 							ope_import->ope_correspondante), FALSE);
 			if (gsb_data_transaction_get_notes (ope_import->ope_correspondante))
 			{
@@ -3867,7 +3867,7 @@ static gboolean gsb_import_check_transaction_link (gint transaction_number,
 	return FALSE;
 
     /* check same payee */
-    if (gsb_data_transaction_get_party_number (transaction_number) != gsb_data_transaction_get_party_number (tested_transaction))
+    if (gsb_data_transaction_get_payee_number (transaction_number) != gsb_data_transaction_get_payee_number (tested_transaction))
 	return FALSE;
 
     /* check same date */
@@ -4008,8 +4008,8 @@ static void gsb_import_cree_liens_virements_ope_import (void)
 						gint payee_number;
 
 						gsb_data_transaction_set_mother_transaction_number (contra_transaction_number, 0);
-						payee_number = gsb_data_transaction_get_party_number (mother_number);
-						gsb_data_transaction_set_party_number (contra_transaction_number, payee_number);
+						payee_number = gsb_data_transaction_get_payee_number (mother_number);
+						gsb_data_transaction_set_payee_number (contra_transaction_number, payee_number);
 
 					}
 

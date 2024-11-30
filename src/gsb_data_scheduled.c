@@ -593,7 +593,7 @@ gboolean gsb_data_scheduled_set_currency_number (gint scheduled_number,
  *
  * \return the currency number of the scheduled
  **/
-gint gsb_data_scheduled_get_party_number (gint scheduled_number)
+gint gsb_data_scheduled_get_payee_number (gint scheduled_number)
 {
     ScheduledStruct *scheduled;
 
@@ -614,7 +614,7 @@ gint gsb_data_scheduled_get_party_number (gint scheduled_number)
  *
  * \return TRUE if ok
  **/
-gboolean gsb_data_scheduled_set_party_number (gint scheduled_number,
+gboolean gsb_data_scheduled_set_payee_number (gint scheduled_number,
 											  gint no_party)
 {
     ScheduledStruct *scheduled;

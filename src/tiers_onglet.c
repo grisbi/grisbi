@@ -1920,10 +1920,10 @@ static void gsb_assistant_payees_modifie_operations (GSList *sup_payees,
     gchar *nombre;
 	gboolean question = TRUE;
 
-    payee_number = gsb_data_mix_get_party_number (transaction_number, is_transaction);
+    payee_number = gsb_data_mix_get_payee_number (transaction_number, is_transaction);
     if (g_slist_find (sup_payees, GINT_TO_POINTER (payee_number)))
     {
-        gsb_data_mix_set_party_number (transaction_number, new_payee_number, is_transaction);
+        gsb_data_mix_set_payee_number (transaction_number, new_payee_number, is_transaction);
         if (save_notes)
         {
             tmpstr = g_strdup (gsb_data_mix_get_notes (transaction_number, is_transaction));

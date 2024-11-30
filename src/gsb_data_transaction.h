@@ -66,7 +66,7 @@ const gchar *	gsb_data_transaction_get_method_of_payment_content				(gint transa
 gint 			gsb_data_transaction_get_method_of_payment_number 				(gint transaction_number);
 gint 			gsb_data_transaction_get_mother_transaction_number 				(gint transaction_number);
 const gchar *	gsb_data_transaction_get_notes 									(gint transaction_number);
-gint 			gsb_data_transaction_get_party_number 							(gint transaction_number);
+gint 			gsb_data_transaction_get_payee_number 							(gint transaction_number);
 gpointer 		gsb_data_transaction_get_pointer_of_transaction 				(gint transaction_number);
 gint 			gsb_data_transaction_get_reconcile_number 						(gint transaction_number);
 gint 			gsb_data_transaction_get_split_of_transaction 					(gint transaction_number);
@@ -125,7 +125,7 @@ gboolean 		gsb_data_transaction_set_mother_transaction_number 				(gint transact
                         														 gint mother_transaction_number);
 gboolean 		gsb_data_transaction_set_notes 									(gint transaction_number,
                         														 const gchar *notes);
-gboolean 		gsb_data_transaction_set_party_number 							(gint transaction_number,
+gboolean 		gsb_data_transaction_set_payee_number 							(gint transaction_number,
                         														 gint no_party);
 gboolean 		gsb_data_transaction_set_reconcile_number 						(gint transaction_number,
                         														 gint reconcile_number);
