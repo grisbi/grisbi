@@ -36,6 +36,7 @@
 #include "dialog.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_payee.h"
 #include "gsb_data_report.h"
 #include "gsb_file.h"
 #include "gsb_file_load.h"
@@ -581,6 +582,82 @@ gboolean gsb_file_others_save_budget (gchar *filename)
 
 	/* finish the file */
 	iterator = gsb_file_save_append_part (iterator, &length_calculated, &file_content, "</Grisbi_budget>");
+
+	/* the file is in memory, we can save it */
+	file = utils_files_utf8_fopen (filename, "w");
+
+	if (!file || !fwrite (file_content, sizeof (gchar), iterator, file))
+	{
+		tmp_str = g_strdup_printf (_("Cannot save file '%s': %s"), filename, g_strerror (errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+		ret = FALSE;
+	}
+
+	if (file)
+		fclose (file);
+	g_free (file_content);
+
+	return (ret);
+}
+
+/**
+ * save the payee file
+ * we don't check anything here, all must be done before, here we just write
+ * the file
+ * use the same method as gsb_file_save_save_file
+ *
+ * \param filename the name of the file
+ *
+ * \return TRUE : ok, FALSE : problem
+ * */
+gboolean gsb_file_others_save_payee (gchar *filename)
+{
+	gchar *file_content;
+	gchar *tmp_str;
+	FILE *file;
+	gulong iterator;
+	gulong length_calculated;
+	gulong length_part;
+	gboolean ret;
+
+	devel_debug (filename);
+	ret = TRUE;
+
+	/* we begin to try to reserve enough memory to make the entire file
+	 * if not enough, we will make it growth later
+	 * the data below are about the memory to take for each part and for 1 of this part
+	 * with that i think we will allocate enough memory in one time but not too much */
+	length_part = 500;
+
+	length_calculated = length_part * g_slist_length (gsb_data_payee_get_payees_list ());
+	if (length_calculated == 0)
+	{
+		tmp_str = g_strdup (_("There is no payee line to record. Back."));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+
+		return (TRUE);
+	}
+
+	iterator = 0;
+	file_content = g_malloc0 (length_calculated);
+
+	/* begin the file whit xml markup */
+	iterator = gsb_file_save_append_part (iterator,
+										  &length_calculated,
+										  &file_content,
+										  "<?xml version=\"1.0\"?>\n<Grisbi_payee>\n");
+
+	iterator = gsb_file_others_save_general_part (iterator,
+												  &length_calculated,
+												  &file_content,
+												  VERSION_FICHIER);
+
+	iterator = gsb_file_save_payee_part (iterator, &length_calculated, &file_content);
+
+	/* finish the file */
+	iterator = gsb_file_save_append_part (iterator, &length_calculated, &file_content, "</Grisbi_payee>");
 
 	/* the file is in memory, we can save it */
 	file = utils_files_utf8_fopen (filename, "w");

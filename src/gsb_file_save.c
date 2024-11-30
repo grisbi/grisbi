@@ -1229,60 +1229,6 @@ static gulong gsb_file_save_partial_balance_part (gulong iterator,
 }
 
 /**
- * save the parties
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- *
- * \return the new iterator
- **/
-static gulong gsb_file_save_party_part (gulong iterator,
-										gulong *length_calculated,
-										gchar **file_content)
-{
-    GSList *list_tmp;
-
-    list_tmp = gsb_data_payee_get_payees_list ();
-
-    while (list_tmp)
-    {
-        gchar *new_string;
-        gint payee_number;
-
-        payee_number = gsb_data_payee_get_no_payee (list_tmp->data);
-        /* now we can fill the file content */
-
-        if (gsb_data_payee_get_name (payee_number, TRUE) == NULL)
-        {
-            list_tmp = list_tmp->next;
-            continue;
-        }
-
-        new_string = g_markup_printf_escaped ("\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" "
-											  "Search=\"%s\" IgnCase=\"%d\" UseRegex=\"%d\" />\n",
-											  payee_number,
-											  my_safe_null_str(gsb_data_payee_get_name (payee_number, TRUE)),
-											  my_safe_null_str(gsb_data_payee_get_description (payee_number)),
-											  my_safe_null_str(gsb_data_payee_get_search_string (payee_number)),
-											  gsb_data_payee_get_ignore_case (payee_number),
-											  gsb_data_payee_get_use_regex (payee_number));
-
-		/* append the new string to the file content and take the new iterator */
-		iterator = gsb_file_save_append_part (iterator,
-											  length_calculated,
-											  file_content,
-											  new_string);
-		g_free(new_string);
-
-		list_tmp = list_tmp->next;
-    }
-
-	/* and return the new iterator */
-	return iterator;
-}
-
-/**
  * save the methods of payment
  *
  * \param iterator the current iterator
@@ -2151,6 +2097,59 @@ gulong gsb_file_save_budgetary_part (gulong iterator,
 			sub_list_tmp = sub_list_tmp->next;
 		}
 
+		list_tmp = list_tmp->next;
+    }
+
+	return iterator;
+}
+
+/**
+ * save the payees
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ **/
+gulong gsb_file_save_payee_part (gulong iterator,
+								 gulong *length_calculated,
+								 gchar **file_content)
+{
+    GSList *list_tmp;
+
+    list_tmp = gsb_data_payee_get_payees_list ();
+
+    while (list_tmp)
+    {
+		gchar *new_string;
+		gint payee_number;
+
+		payee_number = gsb_data_payee_get_no_payee (list_tmp->data);
+
+		/* now we can fill the file content */
+        if (gsb_data_payee_get_name (payee_number, TRUE) == NULL)
+        {
+            list_tmp = list_tmp->next;
+
+            continue;
+        }
+
+		new_string = g_markup_printf_escaped ("\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" "
+											  "Search=\"%s\" IgnCase=\"%d\" UseRegex=\"%d\" />\n",
+											  payee_number,
+											  my_safe_null_str(gsb_data_payee_get_name (payee_number, TRUE)),
+											  my_safe_null_str(gsb_data_payee_get_description (payee_number)),
+											  my_safe_null_str(gsb_data_payee_get_search_string (payee_number)),
+											  gsb_data_payee_get_ignore_case (payee_number),
+											  gsb_data_payee_get_use_regex (payee_number));
+
+		/* append the new string to the file content and take the new iterator */
+		iterator = gsb_file_save_append_part (iterator,
+											  length_calculated,
+										      file_content,
+											  new_string);
+		g_free (new_string);
 		list_tmp = list_tmp->next;
     }
 

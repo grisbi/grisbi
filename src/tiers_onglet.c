@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
 /*          2009-2018 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -47,6 +47,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
+#include "gsb_file_others.h"
 #include "gsb_form_widget.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
@@ -60,6 +61,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_editables.h"
+#include "utils_files.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -103,6 +105,60 @@ enum {
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * export des tiers vers un fichier Xml
+ *
+ * \param
+ *
+ * \return
+ **/
+static void payees_export_list (void)
+{
+	GtkWidget *dialog;
+	GtkWidget *button_cancel;
+	GtkWidget *button_save;
+	gint resultat;
+	gchar *payee_filename;
+	gchar *tmp_last_directory;
+
+	dialog = gtk_file_chooser_dialog_new (_("Export payees"),
+										  GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+										  GTK_FILE_CHOOSER_ACTION_SAVE,
+										  NULL, NULL,
+										  NULL);
+
+	button_cancel = gtk_button_new_with_label (_("Cancel"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_CANCEL);
+
+	button_save = gtk_button_new_with_label (_("Save"));
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_save, GTK_RESPONSE_OK);
+	gtk_widget_set_can_default (button_save, TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog),  _("Payees.xml"));
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), gsb_file_get_last_path ());
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+
+	gtk_widget_show_all (dialog);
+
+	resultat = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	if (resultat != GTK_RESPONSE_OK)
+	{
+		gtk_widget_destroy (dialog);
+		return;
+	}
+
+	payee_filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+	tmp_last_directory = utils_files_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE);
+	gsb_file_update_last_path (tmp_last_directory);
+	g_free (tmp_last_directory);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	gsb_file_others_save_payee (payee_filename);
+}
+
 static gboolean payees_search_equal_function (GtkTreeModel *model,
 											  gint column,
 											  const gchar *key,
@@ -570,6 +626,15 @@ static GtkWidget *creation_barre_outils_tiers (void)
 							  "clicked",
 							  G_CALLBACK (appui_sur_ajout_payee),
 							  payee_tree_model);
+    gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
+
+    /* Export button */
+    item = utils_buttons_tool_button_new_from_image_label ("gsb-export-24.png", _("Export"));
+    gtk_widget_set_tooltip_text (GTK_WIDGET (item), _("Export the list of payees"));
+    g_signal_connect (G_OBJECT (item),
+					  "clicked",
+					  G_CALLBACK (payees_export_list),
+					  NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
 
     /* delete button */
