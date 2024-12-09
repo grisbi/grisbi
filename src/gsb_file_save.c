@@ -950,6 +950,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  "\t\tMetatree_sort_transactions=\"%d\"\n"
 										  "\t\tMetatree_unarchived_payees=\"%d\"\n"
 										  "\t\tAdd_archive_in_total_balance=\"%d\"\n"
+										  "\t\tForce-credit-before-debit=\"%d\"\n"
 										  "\t\tBet_array_column_width=\"%s\"\n"
 										  "\t\tBet_capital=\"%s\"\n"
 										  "\t\tBet_currency=\"%d\"\n"
@@ -1018,6 +1019,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  w_etat->metatree_sort_transactions,
 										  w_etat->metatree_unarchived_payees,
 										  w_etat->metatree_add_archive_in_totals,
+										  w_etat->force_credit_before_debit,
 										  my_safe_null_str (bet_array_column_width_write),
 										  my_safe_null_str (string_to_free1),
 										  w_etat->bet_currency,

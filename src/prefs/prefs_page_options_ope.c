@@ -54,6 +54,7 @@ struct _PrefsPageOptionsOpePrivate
 
 	GtkWidget *			checkbutton_retient_affichage_par_compte;
     GtkWidget *			checkbutton_show_transaction_gives_balance;
+	GtkWidget *			checkbutton_force_credit_before_debit;
     GtkWidget *			checkbutton_show_transaction_selected_in_form;
 	GtkWidget *			combo_display_one_line;
 	GtkWidget *			combo_display_two_lines;
@@ -69,6 +70,25 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageOptionsOpe, prefs_page_options_ope, GTK_TYP
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * update the account page if necessary
+ *
+ * \param self
+ * \param NULL
+ *
+ * \return
+ **/
+static void prefs_page_options_ope_checkbutton_force_credit_before_debit_toggled (GtkCheckButton* self,
+																				  gpointer user_data)
+{
+	gint current_page;
+
+	devel_debug (NULL);
+	current_page = gsb_gui_navigation_get_current_page ();
+	if (current_page == GSB_ACCOUNT_PAGE)
+		gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account(), TRUE);
+}
+
 /**
  * called when we change a button for the display mode
  *
@@ -305,6 +325,8 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
 								  w_etat->retient_affichage_par_compte);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_transaction_gives_balance),
 								  a_conf->show_transaction_gives_balance);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_force_credit_before_debit),
+								  w_etat->force_credit_before_debit);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_transaction_selected_in_form),
 								  a_conf->show_transaction_selected_in_form);
 
@@ -321,7 +343,6 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->combo_display_one_line), w_run->display_one_line);
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->combo_display_two_lines), w_run->display_two_lines);
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->combo_display_three_lines), w_run->display_three_lines);
-
 
 	if (!is_loading)
 	{
@@ -351,6 +372,17 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &a_conf->show_transaction_gives_balance);
+    g_signal_connect (priv->checkbutton_force_credit_before_debit,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &w_etat->force_credit_before_debit);
+
+	/* update tree_view if necessary */
+    g_signal_connect (priv->checkbutton_force_credit_before_debit,
+					  "toggled",
+					  G_CALLBACK (prefs_page_options_ope_checkbutton_force_credit_before_debit_toggled),
+					  NULL);
+
     g_signal_connect (priv->checkbutton_show_transaction_selected_in_form,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -386,6 +418,9 @@ static void prefs_page_options_ope_class_init (PrefsPageOptionsOpeClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
 												  PrefsPageOptionsOpe,
 												  checkbutton_show_transaction_gives_balance);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageOptionsOpe,
+												  checkbutton_force_credit_before_debit);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
 												  PrefsPageOptionsOpe,
 												  checkbutton_show_transaction_selected_in_form);

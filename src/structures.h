@@ -11,7 +11,7 @@
 /* the VERSION_FICHIER is in fact the lowest version which can be used to open the */
 /* file, so each time we make an incompatibility issue, VERSION_FICHIER must be set */
 /* to VERSION_GRISBI */
-#define VERSION_FICHIER         "2.0.0"
+#define VERSION_FICHIER         "2.3.1"
 #define OLD_VERSION_FICHIER		"0.6.0"
 
 #define VERSION_FICHIER_ETAT    "0.6.0"
@@ -192,9 +192,12 @@ struct _GrisbiWinEtat
     gint		metatree_sort_transactions;					/* 1 = sorting by increasing date 2 = Sort by date descending */
 	gboolean	metatree_unarchived_payees;					/* TRUE = limit the list of payees for combofix */
 
+	/* variable for sorting the list of transactions */
+	gboolean	force_credit_before_debit;					/* Force the sort by type of amount: credit before debit */
+
     /* variables for the module estimate balance */
     gint		bet_debut_period;
-    gint		bet_cash_account_option;				/* ajoute l'onglet prévision aux comptes de caisse */
+    gint		bet_cash_account_option;					/* ajoute l'onglet prévision aux comptes de caisse */
 
     /* variables pour le simulateur de crédits */
     gdouble		bet_capital;
@@ -205,7 +208,7 @@ struct _GrisbiWinEtat
     gint		bet_type_taux;
 };
 
-/* structure conf variables configured by gsettings or grisbi.conf */
+/* structure conf variables configured by grisbi.conf */
 struct _GrisbiAppConf
 {
 /* root part*/

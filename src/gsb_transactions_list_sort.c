@@ -34,6 +34,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_transactions_list_sort.h"
+#include "grisbi_win.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
 #include "gsb_data_budget.h"
@@ -56,7 +57,7 @@ static gint transactions_list_secondary_sorting = 0;
 
 static gint gsb_transactions_list_sort_initial_by_secondary_key (gint transaction_number_1,
 																 gint transaction_number_2);
- 
+
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -64,7 +65,7 @@ static gint gsb_transactions_list_sort_initial_by_secondary_key (gint transactio
 
 /******************************************************************************/
 /* Private functions                                                          */
-/******************************************************************************/ 
+/******************************************************************************/
 /**
  * used to compare the 2 dates first, and if they are the same
  * the 2 no of transactions to find the good return for sort
@@ -77,7 +78,7 @@ static gint gsb_transactions_list_sort_initial_by_secondary_key (gint transactio
 static gint gsb_transactions_list_sort_by_date_and_no (gint transaction_number_1,
 													   gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 
     if (!gsb_data_transaction_get_date (transaction_number_1))
     {
@@ -103,6 +104,49 @@ static gint gsb_transactions_list_sort_by_date_and_no (gint transaction_number_1
 }
 
 /**
+ * compared by date and by type of amount: debit-credit
+ *
+ * \param iter_1
+ * \param iter_2
+ *
+ * \return -1 if type_amount_2 is above type_amount_number_1
+ **/
+static gint gsb_transactions_list_sort_by_amount_type (gint transaction_number_1,
+													   gint transaction_number_2)
+{
+	GsbReal amount;
+	gint amount_sign_1;
+	gint amount_sign_2;
+	gint return_value = 0;
+
+	devel_debug_int (transaction_number_1);
+	devel_debug_int (transaction_number_2);
+
+	/* get sign of transaction_number_1 */
+	amount = gsb_data_transaction_get_amount (transaction_number_1);
+	if (amount.mantissa < 0)
+		amount_sign_1 = GSB_PAYMENT_DEBIT;
+	else
+		amount_sign_1 = GSB_PAYMENT_CREDIT;
+
+	/* get sign of transaction_number_2 */
+	amount = gsb_data_transaction_get_amount (transaction_number_2);
+	if (amount.mantissa < 0)
+		amount_sign_2 = GSB_PAYMENT_DEBIT;
+	else
+		amount_sign_2 = GSB_PAYMENT_CREDIT;
+
+	if (amount_sign_1 == amount_sign_2)
+		return_value = transaction_number_1 - transaction_number_2;
+	else if (amount_sign_1 == GSB_PAYMENT_CREDIT && amount_sign_2 == GSB_PAYMENT_DEBIT)
+		return_value = -1;
+	else if (amount_sign_1 == GSB_PAYMENT_DEBIT && amount_sign_2 == GSB_PAYMENT_CREDIT)
+		return_value = 1;
+
+    return return_value;
+}
+
+/**
  * compared by date and by amount
  *
  * \param iter_1
@@ -110,12 +154,10 @@ static gint gsb_transactions_list_sort_by_date_and_no (gint transaction_number_1
  *
  * \return -1 if amount_2 is above amount_number_1
  **/
-static gint gsb_transactions_list_sort_by_date_and_amount (gint transaction_number_1,
+static gint gsb_transactions_list_sort_by_date_and_amount_type (gint transaction_number_1,
 														   gint transaction_number_2)
 {
-    gint return_value;
-    GsbReal amount_1;
-    GsbReal amount_2;
+    gint return_value = 0;
 
     if (!gsb_data_transaction_get_date (transaction_number_1))
     {
@@ -132,10 +174,9 @@ static gint gsb_transactions_list_sort_by_date_and_amount (gint transaction_numb
     if (return_value == 0)
     {
         /* no difference in the dates, sort by amount of transaction */
-        amount_1 = gsb_data_transaction_get_amount (transaction_number_1);
-        amount_2 = gsb_data_transaction_get_amount (transaction_number_2);
-        return_value = (gint)(amount_2.mantissa - amount_1.mantissa);
-        if (return_value == 0)
+		return_value = gsb_transactions_list_sort_by_amount_type (transaction_number_1,
+																  transaction_number_2);
+		if (return_value == 0)
             return_value = transaction_number_1 - transaction_number_2;
     }
 
@@ -155,7 +196,7 @@ static gint gsb_transactions_list_sort_by_date_and_amount (gint transaction_numb
 static gint gsb_transactions_list_sort_by_party (gint transaction_number_1,
 												 gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
     gint party_number_1;
     gint party_number_2;
 
@@ -199,7 +240,7 @@ static gint gsb_transactions_list_sort_by_party (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_date_and_party (gint transaction_number_1,
 														  gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 
     if (!gsb_data_transaction_get_date (transaction_number_1))
     {
@@ -252,7 +293,7 @@ static gint gsb_transactions_list_sort_by_date (gint transaction_number_1,
 												gint transaction_number_2)
 {
     if (transactions_list_secondary_sorting == 1)
-        return gsb_transactions_list_sort_by_date_and_amount (transaction_number_1, transaction_number_2);
+        return gsb_transactions_list_sort_by_date_and_amount_type (transaction_number_1, transaction_number_2);
     else if (transactions_list_secondary_sorting == 2)
         return gsb_transactions_list_sort_by_date_and_party (transaction_number_1, transaction_number_2);
     else
@@ -271,43 +312,70 @@ static gint gsb_transactions_list_sort_by_date (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_value_date (gint transaction_number_1,
 													  gint transaction_number_2)
 {
-    gint return_value;
     const GDate *value_date_1 = NULL;
     const GDate *value_date_2 = NULL;
+	gint return_value = 0;
+	GrisbiWinEtat *w_etat;
 
+	/* On force le tri par date si besoin */
 	if (transactions_list_primary_sorting == 2)
 		return gsb_transactions_list_sort_by_date (transaction_number_1, transaction_number_2);
 
-   /* need to work a little more here because value date is not obligatory filled,
-     * if we compare 2 transactions and 1 has no value date, set the value date before */
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+	/* on récupère les dates de valeur */
     value_date_1 = gsb_data_transaction_get_value_date (transaction_number_1);
-    if (!value_date_1 && !transactions_list_primary_sorting)
-        value_date_1 = gsb_data_transaction_get_date (transaction_number_1);
-
     value_date_2 = gsb_data_transaction_get_value_date (transaction_number_2);
-    if (!value_date_2 && !transactions_list_primary_sorting)
-        value_date_2 = gsb_data_transaction_get_date (transaction_number_2);
 
-    if (value_date_1)
+	if (value_date_1 && value_date_2)
+	{
+		return_value = g_date_compare (value_date_1, value_date_2);
+		if (return_value == 0)
+		{
+			if (w_etat->force_credit_before_debit)
+			{
+				return_value = gsb_transactions_list_sort_by_amount_type (transaction_number_1,
+																		  transaction_number_2);
+				if (return_value == 0)
+					return_value = transaction_number_1 - transaction_number_2;
+			}
+			else
+				return_value = transaction_number_1 - transaction_number_2;
+		}
+	}
+	else if (!value_date_1 && !value_date_2)
+	{
+		return_value = gsb_transactions_list_sort_by_date (transaction_number_1, transaction_number_2);
+		if (return_value == 0)
+		{
+			/* no difference in the dates, sort by amount or by number of transaction */
+			if (w_etat->force_credit_before_debit)
+			{
+				return_value = gsb_transactions_list_sort_by_amount_type (transaction_number_1,
+																		  transaction_number_2);
+				if (return_value == 0)
+					return_value = transaction_number_1 - transaction_number_2;
+			}
+			else
+				return_value = transaction_number_1 - transaction_number_2;
+		}
+	}
+    else if (value_date_1 && !value_date_2)
     {
-        if (value_date_2)
-            return_value = g_date_compare (value_date_1, value_date_2);
-        else
-            return_value = -1;
+		return_value = -1;
     }
-    else
-    {
-        if (value_date_2)
-            return_value = 1;
-        else
-            return gsb_transactions_list_sort_by_date (transaction_number_1, transaction_number_2);
+    else if (!value_date_1 && value_date_2)
+	{
+		return_value = 1;
     }
 
-    if (return_value)
-        return return_value;
-    else
-        return gsb_transactions_list_sort_initial_by_secondary_key (transaction_number_1,
+	if (return_value)
+		return return_value;
+	else
+	{
+		return gsb_transactions_list_sort_initial_by_secondary_key (transaction_number_1,
 																	transaction_number_2);
+	}
 }
 
 /**
@@ -323,7 +391,7 @@ static gint gsb_transactions_list_sort_by_value_date (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_budget (gint transaction_number_1,
 												  gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
     gint budgetary_number_1;
     gint budgetary_number_2;
     gint sub_budgetary_number_1;
@@ -387,7 +455,7 @@ static gint gsb_transactions_list_sort_by_budget (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_credit (gint transaction_number_1,
 												  gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 
     /* for the amounts, we have to check also the currency */
     return_value = gsb_real_cmp (gsb_data_transaction_get_adjusted_amount (transaction_number_1, -1),
@@ -412,7 +480,7 @@ static gint gsb_transactions_list_sort_by_credit (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_debit (gint transaction_number_1,
 												 gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 
     /* for the amounts, we have to check also the currency */
     return_value = gsb_real_cmp (gsb_data_transaction_get_adjusted_amount (transaction_number_2, -1),
@@ -437,7 +505,7 @@ static gint gsb_transactions_list_sort_by_debit (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_amount (gint transaction_number_1,
 												  gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 
     /* for the amounts, we have to check also the currency */
     return_value = gsb_real_cmp (gsb_data_transaction_get_adjusted_amount (transaction_number_2, -1),
@@ -462,7 +530,7 @@ static gint gsb_transactions_list_sort_by_amount (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_type (gint transaction_number_1,
 												gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 	const gchar *temp_1;
 	const gchar *temp_2;
 
@@ -519,7 +587,7 @@ static gint gsb_transactions_list_sort_by_type (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_reconcile_nb (gint transaction_number_1,
 														gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 
     if (gsb_data_transaction_get_reconcile_number (transaction_number_1)
 		== gsb_data_transaction_get_reconcile_number (transaction_number_2))
@@ -558,7 +626,7 @@ static gint gsb_transactions_list_sort_by_reconcile_nb (gint transaction_number_
 static gint gsb_transactions_list_sort_by_financial_year (gint transaction_number_1,
 														  gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 
     if (gsb_data_transaction_get_financial_year_number (transaction_number_1)
 		== gsb_data_transaction_get_financial_year_number (transaction_number_2))
@@ -609,7 +677,7 @@ static gint gsb_transactions_list_sort_by_financial_year (gint transaction_numbe
 static gint gsb_transactions_list_sort_by_category (gint transaction_number_1,
 													gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
     gchar *temp_1;
     gchar *temp_2;
 
@@ -651,7 +719,7 @@ static gint gsb_transactions_list_sort_by_category (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_mark (gint transaction_number_1,
 												gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
 
     return_value = gsb_data_transaction_get_marked_transaction (transaction_number_1)
 				   - gsb_data_transaction_get_marked_transaction (transaction_number_2);
@@ -678,7 +746,7 @@ static gint gsb_transactions_list_sort_by_mark (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_voucher (gint transaction_number_1,
 												   gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
     const gchar *temp_1;
     const gchar *temp_2;
 
@@ -710,7 +778,7 @@ static gint gsb_transactions_list_sort_by_voucher (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_notes (gint transaction_number_1,
 												 gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
     const gchar *temp_1;
     const gchar *temp_2;
 
@@ -741,7 +809,7 @@ static gint gsb_transactions_list_sort_by_notes (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_bank (gint transaction_number_1,
 												gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
     const gchar *temp_1;
     const gchar *temp_2;
 
@@ -774,7 +842,7 @@ static gint gsb_transactions_list_sort_by_bank (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_chq (gint transaction_number_1,
 											   gint transaction_number_2)
 {
-    gint return_value;
+    gint return_value = 0;
     const gchar *temp_1;
     const gchar *temp_2;
 
@@ -819,7 +887,7 @@ static gint gsb_transactions_list_secondary_sort_by_value_date_and_date (gint tr
             return -1;
     }
     else if (value_date_2)
-    {  
+    {
             return 1;
     }
     else
@@ -847,7 +915,7 @@ gint gsb_transactions_list_sort_initial_by_secondary_key (gint transaction_numbe
         return gsb_transactions_list_sort_by_date_and_no (transaction_number_1, transaction_number_2);
     else if (transactions_list_secondary_sorting == 4)
 		return gsb_transactions_list_secondary_sort_by_value_date_and_date (transaction_number_1,
-																			 transaction_number_2);
+																			transaction_number_2);
     else
         return transaction_number_1 - transaction_number_2;
 }
@@ -951,7 +1019,7 @@ gint gsb_transactions_list_sort (CustomRecord **a,
 								 CustomList *custom_list)
 {
     gint account_number;
-    gint return_value;
+    gint return_value = 0;
     CustomRecord *record_1 = NULL;
     CustomRecord *record_2 = NULL;
 
@@ -1114,7 +1182,7 @@ gint gsb_transactions_list_sort_initial (CustomRecord **a,
 										 CustomList *custom_list)
 {
     gint account_number;
-    gint return_value;
+    gint return_value = 0;
     CustomRecord *record_1 = NULL;
     CustomRecord *record_2 = NULL;
 
@@ -1163,7 +1231,7 @@ gint gsb_transactions_list_sort_initial (CustomRecord **a,
 }
 
 /**
- * set primary_sort 
+ * set primary_sort
  *
  * \param
  *

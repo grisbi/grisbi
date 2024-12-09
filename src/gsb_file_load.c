@@ -2134,6 +2134,11 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                     g_strfreev (pointeur_char);
                 }
 
+				else if (!strcmp (attribute_names[i], "Force-credit-before-debit"))
+				{
+					w_etat->force_credit_before_debit = utils_str_atoi (attribute_values[i]);
+				}
+
 				else
                     unknown = 1;
                 break;
