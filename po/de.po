@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2024-11-30 15:47+0100\n"
+"POT-Creation-Date: 2024-12-09 17:33+0100\n"
 "PO-Revision-Date: 2023-11-04 13:01+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -216,7 +216,7 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 #: src/prefs/prefs_page_accueil.ui:245 src/ui/grisbi_menu.ui:363
-#: src/categories_onglet.c:634 src/gsb_scheduler_list.c:1198
+#: src/categories_onglet.c:652 src/gsb_scheduler_list.c:1198
 #: src/gsb_transactions_list.c:2544 src/imputation_budgetaire.c:683
 #: src/tiers_onglet.c:653
 msgid "Edit"
@@ -330,7 +330,7 @@ msgstr "Empfänger"
 #: src/prefs/prefs_page_bet_account.ui:325
 #: src/prefs/prefs_page_bet_account.ui:412
 #: src/prefs/prefs_page_bet_account.ui:497 src/ui/etats_prefs.ui:1452
-#: src/bet_hist.c:2148 src/bet_hist.c:2154 src/categories_onglet.c:368
+#: src/bet_hist.c:2148 src/bet_hist.c:2154 src/categories_onglet.c:378
 #: src/etats_prefs.c:1591 src/grisbi_win.c:482 src/navigation.c:637
 #: src/utils_widgets.c:671 src/etats/etats_page_category.c:82
 msgid "Categories"
@@ -425,9 +425,9 @@ msgstr "Währung hinzufügen - Grisbi"
 #: src/ui/etats_prefs.ui:2031 src/widgets/widget_assistant.ui:26
 #: src/widgets/widget_reconcile.ui:393 src/widgets/widget_transfer.ui:35
 #: src/accueil.c:1253 src/bet_finance_ui.c:794 src/bet_future.c:1497
-#: src/bet_hist.c:865 src/bet_tab.c:384 src/categories_onglet.c:420
-#: src/categories_onglet.c:476 src/categories_onglet.c:533
-#: src/categories_onglet.c:767 src/etats_onglet.c:362 src/etats_onglet.c:465
+#: src/bet_hist.c:865 src/bet_tab.c:384 src/categories_onglet.c:433
+#: src/categories_onglet.c:492 src/categories_onglet.c:549
+#: src/categories_onglet.c:787 src/etats_onglet.c:362 src/etats_onglet.c:465
 #: src/etats_onglet.c:541 src/file_obfuscate_qif.c:98 src/gsb_assistant.c:131
 #: src/gsb_assistant_file.c:660 src/gsb_assistant_reconcile_config.c:1273
 #: src/gsb_bank.c:134 src/gsb_currency.c:935
@@ -1064,11 +1064,17 @@ msgstr "Sortierung primär"
 msgid "Secondary sorting option"
 msgstr "Sortierung sekundär"
 
-#: src/prefs/prefs_page_options_ope.ui:514
+#: src/prefs/prefs_page_options_ope.ui:472
+#, fuzzy
+#| msgid "Sort by type of amount (credit debit)"
+msgid "Force the sort by type of amount: credit before debit"
+msgstr "nach Art, Einnahmen oder Ausgaben"
+
+#: src/prefs/prefs_page_options_ope.ui:528
 msgid "Account differentiation"
 msgstr "Kontospezifische Einstellungen"
 
-#: src/prefs/prefs_page_options_ope.ui:549
+#: src/prefs/prefs_page_options_ope.ui:563
 msgid "Remember display settings for each account separately"
 msgstr "Die Anzeigeoptionen für jedes Konto gesondert speichern"
 
@@ -1105,7 +1111,7 @@ msgid "Neutral"
 msgstr "Neutral"
 
 #: src/prefs/prefs_page_payment_method.ui:230 src/bet_future.c:550
-#: src/bet_tab.c:2042 src/categories_onglet.c:820 src/export_csv.c:389
+#: src/bet_tab.c:2042 src/categories_onglet.c:840 src/export_csv.c:389
 #: src/gsb_form.c:2047 src/gsb_form_widget.c:554
 #: src/gsb_transactions_list.c:113 src/import_csv.c:90
 #: src/imputation_budgetaire.c:858 src/prefs/prefs_page_payment_method.c:497
@@ -1114,7 +1120,7 @@ msgid "Debit"
 msgstr "Ausgaben"
 
 #: src/prefs/prefs_page_payment_method.ui:231 src/bet_future.c:555
-#: src/bet_tab.c:2060 src/categories_onglet.c:820 src/export_csv.c:386
+#: src/bet_tab.c:2060 src/categories_onglet.c:840 src/export_csv.c:386
 #: src/gsb_form.c:2053 src/gsb_form_widget.c:558
 #: src/gsb_transactions_list.c:114 src/import_csv.c:89
 #: src/imputation_budgetaire.c:858 src/prefs/prefs_page_payment_method.c:511
@@ -1229,7 +1235,7 @@ msgstr "Hinauf"
 msgid "Go down"
 msgstr "Hinunter"
 
-#: src/ui/csv_template_rule.ui:56 src/categories_onglet.c:771
+#: src/ui/csv_template_rule.ui:56 src/categories_onglet.c:791
 #: src/gsb_assistant.c:443 src/gsb_bank.c:138 src/gsb_scheduler_list.c:156
 #: src/imputation_budgetaire.c:810 src/tiers_onglet.c:291
 msgid "Apply"
@@ -1698,7 +1704,7 @@ msgid "New account file"
 msgstr "Neu"
 
 #: src/ui/grisbi_menu.ui:46 src/ui/grisbi_menu.ui:281
-#: src/categories_onglet.c:479 src/categories_onglet.c:536
+#: src/categories_onglet.c:495 src/categories_onglet.c:552
 #: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:118
 #: src/grisbi_app.c:135 src/grisbi_win.c:754 src/gsb_file.c:770
 #: src/gsb_select_icon.c:320 src/import.c:1207 src/imputation_budgetaire.c:518
@@ -1712,7 +1718,7 @@ msgid "Recently opened files"
 msgstr "Zuletzt geöffnete Dateien"
 
 #: src/ui/grisbi_menu.ui:58 src/ui/grisbi_menu.ui:293 src/bet_finance_ui.c:798
-#: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:423
+#: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:436
 #: src/etats_onglet.c:365 src/grisbi_app.c:119 src/grisbi_app.c:136
 #: src/gsb_file.c:324 src/gsb_file.c:427 src/gsb_file.c:458
 #: src/imputation_budgetaire.c:454 src/tiers_onglet.c:133
@@ -1807,7 +1813,7 @@ msgstr "Konto erstellen"
 msgid "Remove current account"
 msgstr "Konto löschen"
 
-#: src/ui/grisbi_menu.ui:181 src/categories_onglet.c:646
+#: src/ui/grisbi_menu.ui:181 src/categories_onglet.c:664
 #: src/gsb_scheduler_list.c:1230 src/gsb_transactions_list.c:2571
 #: src/imputation_budgetaire.c:695 src/tiers_onglet.c:665
 msgid "View"
@@ -2614,7 +2620,7 @@ msgstr "Mit einem anderen Konto fortfahren:"
 msgid "Configuring a deferred debit account"
 msgstr "Kreditkartenkonto konfigurieren"
 
-#: src/widgets/widget_transfer.ui:20 src/categories_onglet.c:622
+#: src/widgets/widget_transfer.ui:20 src/categories_onglet.c:640
 #: src/etats_onglet.c:619 src/gsb_scheduler_list.c:1187
 #: src/gsb_transactions_list.c:2535 src/imputation_budgetaire.c:671
 #: src/tiers_onglet.c:641
@@ -3072,7 +3078,7 @@ msgid "Print"
 msgstr "Drucken"
 
 #: src/bet_finance_ui.c:2136 src/bet_hist.c:959 src/bet_tab.c:2140
-#: src/categories_onglet.c:613 src/etats_onglet.c:600 src/export.c:504
+#: src/categories_onglet.c:631 src/etats_onglet.c:600 src/export.c:504
 #: src/imputation_budgetaire.c:661 src/tiers_onglet.c:632
 msgid "Export"
 msgstr "Export"
@@ -3418,14 +3424,14 @@ msgstr ""
 msgid "Select"
 msgstr "Auswählen"
 
-#: src/bet_hist.c:1278 src/bet_hist.c:1459 src/categories_onglet.c:178
+#: src/bet_hist.c:1278 src/bet_hist.c:1459 src/categories_onglet.c:184
 #: src/etats_affiche.c:296 src/etats_prefs.c:574 src/export_csv.c:395
 #: src/gsb_transactions_list.c:120 src/import_csv.c:84 src/meta_categories.c:65
 #: src/utils_widgets.c:121
 msgid "Category"
 msgstr "Kategorie"
 
-#: src/bet_hist.c:1295 src/categories_onglet.c:199 src/etats_affiche.c:383
+#: src/bet_hist.c:1295 src/categories_onglet.c:205 src/etats_affiche.c:383
 #: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:945
 #: src/gsb_transactions_list.c:116 src/import.c:4407 src/import_csv.c:88
 #: src/imputation_budgetaire.c:202 src/tiers_onglet.c:842
@@ -3596,7 +3602,7 @@ msgstr "automatisch"
 msgid "Check the box to automatically change start date"
 msgstr "Für eine automatische Änderung vom Beginndatum auswählen"
 
-#: src/categories_onglet.c:188 src/etats_prefs.c:582
+#: src/categories_onglet.c:194 src/etats_prefs.c:582
 #: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:944
 #: src/imputation_budgetaire.c:191 src/navigation.c:1818
 #: src/prefs/prefs_page_payment_method.c:1246
@@ -3604,29 +3610,29 @@ msgstr "Für eine automatische Änderung vom Beginndatum auswählen"
 msgid "Account"
 msgstr "Konto"
 
-#: src/categories_onglet.c:414
+#: src/categories_onglet.c:427
 msgid "Export categories"
 msgstr "Kategorien exportieren - Grisbi"
 
-#: src/categories_onglet.c:428
+#: src/categories_onglet.c:441
 msgid "Categories.cgsb"
 msgstr "Kategorien.cgsb"
 
-#: src/categories_onglet.c:470
+#: src/categories_onglet.c:486
 msgid "Import categories"
 msgstr "Kategorien importieren - Grisbi"
 
-#: src/categories_onglet.c:488 src/imputation_budgetaire.c:533
+#: src/categories_onglet.c:504 src/imputation_budgetaire.c:533
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Grisbi Kategorien (*.cgsb)"
 
-#: src/categories_onglet.c:494 src/etats_onglet.c:483
+#: src/categories_onglet.c:510 src/etats_onglet.c:483
 #: src/file_obfuscate_qif.c:116 src/gsb_file.c:785 src/import.c:1281
 #: src/imputation_budgetaire.c:538
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: src/categories_onglet.c:520
+#: src/categories_onglet.c:536
 msgid ""
 "File already contains categories.  If you decide to continue, existing "
 "categories will be merged with imported ones."
@@ -3635,7 +3641,7 @@ msgstr ""
 "fortsetzen werden die importierten Kategorien mit den Vorhandenen "
 "zusammengeführt."
 
-#: src/categories_onglet.c:521
+#: src/categories_onglet.c:537
 msgid ""
 "File does not contain categories.  If you decide to continue, existing "
 "categories will be merged with imported ones.  Once performed, there is no "
@@ -3648,15 +3654,15 @@ msgstr ""
 "Es besteht auch die Möglichkeit die vorhandenen Kategorien durch die "
 "Importierten zu ersetzen."
 
-#: src/categories_onglet.c:525
+#: src/categories_onglet.c:541
 msgid "Merge imported categories with existing?"
 msgstr "Importierte und vorhandene Kategorien zusammenführen?"
 
-#: src/categories_onglet.c:529 src/imputation_budgetaire.c:573
+#: src/categories_onglet.c:545 src/imputation_budgetaire.c:573
 msgid "Replace existing"
 msgstr "Bestehende ersetzen"
 
-#: src/categories_onglet.c:578
+#: src/categories_onglet.c:596
 msgid ""
 "New\n"
 "category"
@@ -3664,11 +3670,11 @@ msgstr ""
 "Kategorie\n"
 "erstellen"
 
-#: src/categories_onglet.c:579
+#: src/categories_onglet.c:597
 msgid "Create a new category"
 msgstr "Eine neue Kategorie erstellen"
 
-#: src/categories_onglet.c:588
+#: src/categories_onglet.c:606
 msgid ""
 "New sub\n"
 "category"
@@ -3676,78 +3682,78 @@ msgstr ""
 "Unterkategorie\n"
 "erstellen"
 
-#: src/categories_onglet.c:595
+#: src/categories_onglet.c:613
 msgid "Create a new sub-category"
 msgstr "Eine neue Unterkategorie erstellen"
 
-#: src/categories_onglet.c:604 src/etats_onglet.c:591 src/grisbi_prefs.c:411
+#: src/categories_onglet.c:622 src/etats_onglet.c:591 src/grisbi_prefs.c:411
 #: src/grisbi_win.c:767 src/import.c:1854 src/imputation_budgetaire.c:650
 #: src/prefs/prefs_page_import.c:82 src/utils_files.c:818
 msgid "Import"
 msgstr "Import"
 
-#: src/categories_onglet.c:605
+#: src/categories_onglet.c:623
 msgid "Import a Grisbi category file (.cgsb)"
 msgstr "Kategorien (*.cgsb) importieren"
 
-#: src/categories_onglet.c:614
+#: src/categories_onglet.c:632
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Kategorien (*.cgsb) exportieren"
 
-#: src/categories_onglet.c:626 src/navigation.c:290
+#: src/categories_onglet.c:644 src/navigation.c:290
 msgid "Delete selected category"
 msgstr "Die ausgewählte Kategorie löschen"
 
-#: src/categories_onglet.c:638 src/categories_onglet.c:1150
+#: src/categories_onglet.c:656 src/categories_onglet.c:1182
 #: src/navigation.c:303
 msgid "Edit selected category"
 msgstr "Die ausgewählte Kategorie bearbeiten"
 
-#: src/categories_onglet.c:647 src/tiers_onglet.c:666
+#: src/categories_onglet.c:665 src/tiers_onglet.c:666
 msgid "Change view mode"
 msgstr "Die Darstellung ändern"
 
-#: src/categories_onglet.c:686
+#: src/categories_onglet.c:706
 msgid "Category view"
 msgstr "Einfach"
 
-#: src/categories_onglet.c:692
+#: src/categories_onglet.c:712
 msgid "Subcategory view"
 msgstr "Unterkategorien"
 
-#: src/categories_onglet.c:698 src/gsb_transactions_list.c:2443
+#: src/categories_onglet.c:718 src/gsb_transactions_list.c:2443
 #: src/imputation_budgetaire.c:747 src/tiers_onglet.c:563
 msgid "Complete view"
 msgstr "Vollständig"
 
-#: src/categories_onglet.c:748
+#: src/categories_onglet.c:768
 msgid "No sub-category defined"
 msgstr "Keine Unterkategorie definiert"
 
-#: src/categories_onglet.c:749 src/categories_onglet.c:757
+#: src/categories_onglet.c:769 src/categories_onglet.c:777
 #: src/imputation_budgetaire.c:790 src/imputation_budgetaire.c:795
 #: src/tiers_onglet.c:279
 #, c-format
 msgid "Properties for %s"
 msgstr "Eigenschaften von %s"
 
-#: src/categories_onglet.c:756 src/qif.c:1773 src/qif.c:1783
+#: src/categories_onglet.c:776 src/qif.c:1773 src/qif.c:1783
 msgid "No category defined"
 msgstr "Keine Kategorie definiert"
 
-#: src/categories_onglet.c:792 src/gsb_assistant_archive_export.c:151
+#: src/categories_onglet.c:812 src/gsb_assistant_archive_export.c:151
 #: src/gsb_transactions_list.c:1120 src/imputation_budgetaire.c:830
 #: src/prefs/prefs_page_accueil.c:288 src/prefs/prefs_page_archives.c:477
 #: src/prefs/prefs_page_fyear.c:566 src/widgets/widget_transfer.c:1250
 msgid "Name"
 msgstr "Name"
 
-#: src/categories_onglet.c:816 src/import.c:1888
+#: src/categories_onglet.c:836 src/import.c:1888
 #: src/imputation_budgetaire.c:854 src/widgets/widget_transfer.c:1262
 msgid "Type"
 msgstr "Art"
 
-#: src/categories_onglet.c:854
+#: src/categories_onglet.c:874
 #, c-format
 msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
@@ -3757,7 +3763,7 @@ msgstr ""
 "bereits eine Unterkategorie mit diesem Namen vorhanden. Bitte wählen Sie "
 "einen anderen Namen aus."
 
-#: src/categories_onglet.c:861
+#: src/categories_onglet.c:881
 #, c-format
 msgid ""
 "You tried to rename current category to '%s' but this category already "
@@ -3767,27 +3773,27 @@ msgstr ""
 "eine Kategorie mit diesem Namen vorhanden. Bitte wählen Sie einen anderen "
 "Namen aus."
 
-#: src/categories_onglet.c:866
+#: src/categories_onglet.c:886
 msgid "Category already exists"
 msgstr "Die Kategorie ist bereits vorhanden"
 
-#: src/categories_onglet.c:974 src/meta_categories.c:312
+#: src/categories_onglet.c:998 src/meta_categories.c:312
 msgid "New sub-category"
 msgstr "Unterkategorie erstellen"
 
-#: src/categories_onglet.c:1133
+#: src/categories_onglet.c:1165
 msgid "Transfers the identical transactions in another sub-category"
 msgstr "Ähnliche Buchungen neu zuordnen"
 
-#: src/categories_onglet.c:1152
+#: src/categories_onglet.c:1184
 msgid "Edit selected sub-category"
 msgstr "Die ausgewählte Unterkategorie bearbeiten"
 
-#: src/categories_onglet.c:1171
+#: src/categories_onglet.c:1203
 msgid "Manage sub-categories"
 msgstr "Unterkategorien verwalten"
 
-#: src/categories_onglet.c:1174
+#: src/categories_onglet.c:1206
 msgid "Transfer all transactions in another sub-category"
 msgstr "Alle Buchungen einer anderen Unterkategorie zuordnen"
 
@@ -8804,11 +8810,11 @@ msgstr ""
 msgid "Initial balance error"
 msgstr "Der Anfangssaldo ist fehlerhaft"
 
-#: src/gsb_file_load.c:3690
+#: src/gsb_file_load.c:3695
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi Datei... der Ladevorgang wird abgebrochen."
 
-#: src/gsb_file_load.c:3987 src/gsb_file_save.c:1881 src/utils_prefs.c:759
+#: src/gsb_file_load.c:3992 src/gsb_file_save.c:1883 src/utils_prefs.c:759
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -8816,12 +8822,12 @@ msgstr ""
 "Diese Version von Grisbi unterstützt keine Verschlüsselung.\n"
 "Bitte rekompilieren Sie Grisbi mit OpenSSL Unterstützung."
 
-#: src/gsb_file_load.c:3990
+#: src/gsb_file_load.c:3995
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
 
-#: src/gsb_file_load.c:4013
+#: src/gsb_file_load.c:4018
 #, fuzzy, c-format
 #| msgid "'%s' is not a valid UTF8 file"
 msgid ""
@@ -8829,7 +8835,7 @@ msgid ""
 "Problem at line %d."
 msgstr "'%s' ist keine gültige UTF-8 Datei"
 
-#: src/gsb_file_load.c:4015
+#: src/gsb_file_load.c:4020
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
 "the file choice.\n"
@@ -8837,15 +8843,15 @@ msgstr ""
 "Bitte Auswählen ob die Datei korrigiert oder ob eine andere Datei geöffnet "
 "werden soll.\n"
 
-#: src/gsb_file_load.c:4020
+#: src/gsb_file_load.c:4025
 msgid "Load another file"
 msgstr "Andere Datei öffnen"
 
-#: src/gsb_file_load.c:4021
+#: src/gsb_file_load.c:4026
 msgid "Correct the file"
 msgstr "Datei korrigieren"
 
-#: src/gsb_file_load.c:4120
+#: src/gsb_file_load.c:4125
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -8856,11 +8862,11 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: src/gsb_file_load.c:4124
+#: src/gsb_file_load.c:4129
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
-#: src/gsb_file_load.c:4134
+#: src/gsb_file_load.c:4139
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -8875,11 +8881,11 @@ msgstr ""
 "Die Symbole und Farben müssen neu angepasst werden, die Verschlüsselung kann "
 "nicht weiterverwendet werden."
 
-#: src/gsb_file_load.c:4140
+#: src/gsb_file_load.c:4145
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr "Grisbi Datei aus einer Vorversion öffnen"
 
-#: src/gsb_file_load.c:4569
+#: src/gsb_file_load.c:4574
 #, fuzzy, c-format
 #| msgid ""
 #| "An error occurred while parsing the file :\n"
@@ -8948,8 +8954,8 @@ msgid "There is no category to record. Back."
 msgstr "Es ist keine Kategorie für eine Erfassung vorhanden."
 
 #: src/gsb_file_others.c:512 src/gsb_file_others.c:591
-#: src/gsb_file_others.c:667 src/gsb_file_others.c:741 src/gsb_file_save.c:1909
-#: src/gsb_file_save.c:1933
+#: src/gsb_file_others.c:667 src/gsb_file_others.c:741 src/gsb_file_save.c:1911
+#: src/gsb_file_save.c:1935
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Die Datei kann nicht gespeichert werden '%s': %s"
@@ -8968,12 +8974,12 @@ msgstr "Es ist keine Gruppe für eine Erfassung vorhanden."
 msgid "There is no report to record. Back."
 msgstr "Es ist kein Bericht für eine Erfassung vorhanden."
 
-#: src/gsb_file_save.c:1886
+#: src/gsb_file_save.c:1888
 #, c-format
 msgid "Cannot save encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht gespeichert werden '%s'"
 
-#: src/gsb_file_save.c:2263
+#: src/gsb_file_save.c:2265
 #, c-format
 msgid "Cannot save CSS file '%s': %s"
 msgstr "Die CSS-Datei kann nicht gespeichert werden '%s': %s"
@@ -9913,7 +9919,7 @@ msgstr ""
 "Buchungsliste nicht angezeigt werden, wenn die Option \"Abgestimmte "
 "Buchungen anzeigen\" nicht gesetzt ist."
 
-#: src/gsb_transactions_list_sort.c:928
+#: src/gsb_transactions_list_sort.c:996
 #, c-format
 msgid "Ask for the sort number %d which doesn't exist... return by date"
 msgstr "die Nummer %d ist nicht vorhanden... es wird nach Datum sortiert"
@@ -11706,36 +11712,36 @@ msgstr "Keine Datei geladen"
 msgid "Message"
 msgstr "Meldung"
 
-#: src/prefs/prefs_page_options_ope.c:200
+#: src/prefs/prefs_page_options_ope.c:220
 msgid "Sort by value date (if fail, try with the date)"
 msgstr "wenn möglich nach Valutadatum, sonst nach Datum"
 
-#: src/prefs/prefs_page_options_ope.c:201
-#: src/prefs/prefs_page_options_ope.c:210
+#: src/prefs/prefs_page_options_ope.c:221
+#: src/prefs/prefs_page_options_ope.c:230
 msgid "Sort by value date and then by date"
 msgstr "zuerst nach Valutadatum, danach nach Datum"
 
-#: src/prefs/prefs_page_options_ope.c:202
+#: src/prefs/prefs_page_options_ope.c:222
 msgid "Forced sort by transaction date"
 msgstr "entsprechend Datum der Buchung"
 
-#: src/prefs/prefs_page_options_ope.c:206
+#: src/prefs/prefs_page_options_ope.c:226
 msgid "Sort by transaction number"
 msgstr "nach Buchungsnummer"
 
-#: src/prefs/prefs_page_options_ope.c:207
+#: src/prefs/prefs_page_options_ope.c:227
 msgid "Sort by type of amount (credit debit)"
 msgstr "nach Art, Einnahmen oder Ausgaben"
 
-#: src/prefs/prefs_page_options_ope.c:208
+#: src/prefs/prefs_page_options_ope.c:228
 msgid "Sort by payee name (if fail, by transaction number)"
 msgstr "wenn möglich nach Empfänger, sonst nach Buchungsnummer"
 
-#: src/prefs/prefs_page_options_ope.c:209
+#: src/prefs/prefs_page_options_ope.c:229
 msgid "Sort by date and then by transaction number"
 msgstr "zuerst nach Datum, danach nach Buchungsnummer"
 
-#: src/prefs/prefs_page_options_ope.c:298
+#: src/prefs/prefs_page_options_ope.c:318
 msgid "Transaction list behavior"
 msgstr "Buchungsübersicht Einstellungen"
 
