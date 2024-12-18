@@ -527,8 +527,8 @@ static gint gsb_transactions_list_sort_by_amount (gint transaction_number_1,
  *
  * \return -1 if iter_1 is above iter_2
  **/
-static gint gsb_transactions_list_sort_by_type (gint transaction_number_1,
-												gint transaction_number_2)
+static gint gsb_transactions_list_sort_by_payment_method (gint transaction_number_1,
+														  gint transaction_number_2)
 {
     gint return_value = 0;
 	const gchar *temp_1;
@@ -963,7 +963,7 @@ static gint gsb_transactions_list_sort_by_element_number (gint transaction_numbe
 			return (gsb_transactions_list_sort_by_amount (transaction_number_1, transaction_number_2));
 			break;
 		case ELEMENT_PAYMENT_TYPE:
-			return (gsb_transactions_list_sort_by_type (transaction_number_1, transaction_number_2));
+			return (gsb_transactions_list_sort_by_payment_method (transaction_number_1, transaction_number_2));
 			break;
 		case ELEMENT_RECONCILE_NB:
 			return (gsb_transactions_list_sort_by_reconcile_nb (transaction_number_1, transaction_number_2));
