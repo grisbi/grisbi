@@ -1860,7 +1860,7 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
     }
 
 	grisbi_win_form_label_align_right (allocation);
-	gsb_transactions_list_update_tree_view (gsb_form_get_account_number (), TRUE);
+	//~ gsb_transactions_list_update_tree_view (gsb_form_get_account_number (), TRUE);
 }
 
 /**
@@ -2748,10 +2748,10 @@ void gsb_transactions_list_update_tree_view (gint account_number,
 		selected_transaction = transaction_list_select_get ();
 
 	/* Fix bug 2172 */
-	if (transaction_list_filter (account_number))
-	{
+	//~ if (transaction_list_filter (account_number))
+	//~ {
 		transaction_list_filter (account_number);
-	}
+	//~ }
     transaction_list_set_balances ();
     transaction_list_sort ();
     transaction_list_colorize ();
