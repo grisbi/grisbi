@@ -119,9 +119,6 @@ static gint gsb_transactions_list_sort_by_amount_type (gint transaction_number_1
 	gint amount_sign_2;
 	gint return_value = 0;
 
-	devel_debug_int (transaction_number_1);
-	devel_debug_int (transaction_number_2);
-
 	/* get sign of transaction_number_1 */
 	amount = gsb_data_transaction_get_amount (transaction_number_1);
 	if (amount.mantissa < 0)
