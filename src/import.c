@@ -2276,12 +2276,49 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
     /* récupération de la date de valeur */
     if (imported_transaction->date_de_valeur)
     {
+		gint contra_number;
+
         gsb_data_transaction_set_value_date (transaction_number, imported_transaction->date_de_valeur);
 
         /* set the financial year according to the date or value date */
         if (w_etat->get_fyear_by_value_date)
             fyear = gsb_data_fyear_get_from_date (imported_transaction->date_de_valeur);
+
+		/* set value_date if transfert */
+		contra_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+		if (contra_number)
+		{
+			gsb_data_transaction_set_value_date (transaction_number, imported_transaction->date_de_valeur);
+			gsb_transactions_list_update_transaction (contra_number);
+
+		}
+		/* on regarde aussi dans les opérations filles */
+		else if (gsb_data_transaction_get_split_of_transaction (transaction_number))
+		{
+			GSList *children;
+			gint tmp_number;
+
+			children = gsb_data_transaction_get_children (transaction_number, TRUE);
+			while (children)
+			{
+				tmp_number = GPOINTER_TO_INT (children->data);
+
+				if (tmp_number > 0)
+				{
+					contra_number = gsb_data_transaction_get_contra_transaction_number (tmp_number);
+					if (contra_number)
+					{
+						gsb_data_transaction_set_value_date (contra_number, imported_transaction->date_de_valeur);
+						gsb_transactions_list_update_transaction (contra_number);
+					}
+				}
+
+				children = children->next;
+			}
+			g_slist_free (children);
+		}
     }
+	/* On force eventuellement la date de valeur des fichiers CSV avec la date */
 	else if (origine && g_ascii_strcasecmp (origine, "CSV") == 0)
 	{
 		if (w_etat->csv_force_date_valeur_with_date)
