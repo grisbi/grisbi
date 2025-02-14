@@ -243,7 +243,7 @@ static AccountStruct *gsb_data_account_get_structure (gint no)
 {
     GSList *tmp;
 
-    if (no <= 0)
+    if (no < 0)
     {
 		return NULL;
     }
