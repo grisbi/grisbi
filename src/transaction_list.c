@@ -412,6 +412,9 @@ gboolean transaction_list_create (void)
 {
     CustomList *custom_list;
 
+    /* reset to a safe value */
+    last_mother_appended = NULL;
+
     custom_list = custom_list_new ();
     transaction_model_set_model (custom_list);
     g_object_unref (custom_list);
