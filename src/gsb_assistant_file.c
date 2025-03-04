@@ -195,6 +195,10 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     /* now we launch the assistant */
     return_value = gsb_assistant_run (assistant);
 
+	/* RAZ w_run->new_account_file */
+	w_run = grisbi_win_get_w_run ();
+	w_run->new_account_file = FALSE;
+
     if (return_value == GTK_RESPONSE_CANCEL)
     {
 		/* the user stopped the assistant, we delete all the configured data */
@@ -256,10 +260,6 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 	/* check the file does not already exist */
 	if (! gsb_file_util_test_overwrite(grisbi_win_get_filename (NULL)))
 		return GTK_RESPONSE_CANCEL;
-
-	/* RAZ w_run->new_account_file */
-	w_run = grisbi_win_get_w_run ();
-	w_run->new_account_file = FALSE;
 
     /* and now, launch the next assistant */
     if (launch_account_assistant)
