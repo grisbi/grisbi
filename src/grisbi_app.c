@@ -373,6 +373,10 @@ static void grisbi_app_quit (GSimpleAction *action,
 	if (w_run->menu_prefs)
 		return;
 
+	/* Do not exit while the new account dialog is open, or we get a crash. */
+	if (w_run->new_account_file)
+		return;
+
 	/* Remove all windows registered in the application */
 	while ((l = gtk_application_get_windows (GTK_APPLICATION (app))))
 	{
