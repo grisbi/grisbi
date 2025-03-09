@@ -1349,6 +1349,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00B77C3F1DB2A0EC00A5D233 /* Build configuration list for PBXNativeTarget "grisbi" */;
 			buildPhases = (
+				00F8C4512D7DEB8E00CF164E /* ShellScript */,
 				00B77C341DB2A0EC00A5D233 /* Sources */,
 				00B77C351DB2A0EC00A5D233 /* Frameworks */,
 				00B77C361DB2A0EC00A5D233 /* CopyFiles */,
@@ -1395,6 +1396,27 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00F8C4512D7DEB8E00CF164E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/glib-compile-resources --target=$PROJECT_DIR/../src/grisbi_resources.c --generate-source --c-name grisbi --sourcedir=$PROJECT_DIR/../src $PROJECT_DIR/../src/grisbi.gresource.xml\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		00B77C341DB2A0EC00A5D233 /* Sources */ = {
