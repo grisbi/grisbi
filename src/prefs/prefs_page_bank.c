@@ -139,6 +139,13 @@ static void prefs_page_bank_add_clicked (GtkWidget *button,
 	/* select the new bank in the entry and give the focus */
 	widget_bank_details_select_name_entry (bank_number, priv->w_bank_details);
 
+	/* affiche le widget bank_details */
+	if (gtk_widget_get_no_show_all (priv->w_bank_details))
+	{
+		gtk_widget_set_no_show_all (priv->w_bank_details, FALSE);
+		gtk_widget_show_all (priv->w_bank_details);
+	}
+
     gsb_file_set_modified (TRUE);
 }
 
@@ -256,7 +263,13 @@ static void prefs_page_bank_remove_clicked (GtkWidget *button,
 
 		/* set unsensitive button_bank_remove */
 		if (nbre_bank == 0)
+		{
 			gtk_widget_set_sensitive (priv->button_bank_remove, FALSE);
+
+			/* cache le widget bank_details */
+			gtk_widget_set_no_show_all (priv->w_bank_details, TRUE);
+			gtk_widget_hide (priv->w_bank_details);
+		}
 		else
 			gtk_widget_set_sensitive (priv->button_bank_remove, TRUE);
 
@@ -416,6 +429,25 @@ static void prefs_page_bank_setup_page (PrefsPageBank *page)
                       "clicked",
                       G_CALLBACK (prefs_page_bank_remove_clicked),
                       page);
+
+	if (g_slist_length (gsb_data_bank_get_bank_list ()))
+	{
+		if (gtk_widget_get_no_show_all (priv->w_bank_details))
+		{
+			/* affiche le widget bank_details */
+			gtk_widget_set_no_show_all (priv->w_bank_details, FALSE);
+			gtk_widget_show_all (priv->w_bank_details);
+		}
+	}
+	else
+	{
+		if (! gtk_widget_get_no_show_all (priv->w_bank_details))
+		{
+			/* cache le widget bank_details */
+			gtk_widget_set_no_show_all (priv->w_bank_details, TRUE);
+			gtk_widget_hide (priv->w_bank_details);
+		}
+	}
 }
 
 /******************************************************************************/
