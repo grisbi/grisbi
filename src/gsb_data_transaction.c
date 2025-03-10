@@ -2639,14 +2639,17 @@ GSList *gsb_data_transaction_get_list_for_import (gint account_number,
 		else
 			ope_date = transaction->date;
 
-		if (transaction->account_number == account_number
-			&&
-			g_date_compare (ope_date, first_date_import) >= 0)
+		if (transaction->account_number == account_number)
 		{
-			ope_list = g_slist_insert_sorted (ope_list,
-											  transaction,
-											  (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
-		}
+			/* remove the selection of a child operation */
+			if (!gsb_data_transaction_get_mother_transaction_number (transaction->transaction_number)
+				&& g_date_compare (ope_date, first_date_import) >= 0)
+			{
+				ope_list = g_slist_insert_sorted (ope_list,
+												  transaction,
+												  (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
+			}
+}
 
 		tmp_list = tmp_list->next;
 	}
