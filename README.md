@@ -23,3 +23,9 @@ use in the OpenSSL Toolkit (https://www.openssl.org/).
 Website :     https://www.grisbi.org/
 
 Bug reports : https://www.grisbi.org/bugsreports/
+
+Contributors
+============
+<a href="https://github.com/grisbi/grisbi/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=grisbi/grisbi" />
+</a>
