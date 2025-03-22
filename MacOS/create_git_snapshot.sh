@@ -38,15 +38,19 @@ GRIBSI_BUNDLE_PATH=. gtk-mac-bundler MacOS/Grisbi.bundle
 
 ./MacOS/manual_add.sh
 
-./MacOS/create-dmg.sh \
+(
+cd MacOS
+touch .this-is-the-create-dmg-repo
+./create-dmg \
 	--volname Grisbi \
-	--volicon MacOS/Grisbi.icns \
+	--volicon Grisbi.icns \
 	--window-size 640 400 \
-	--background MacOS/background.png \
+	--background background.png \
 	--icon-size 96 \
 	--app-drop-link 500 250 \
 	--icon "Grisbi.app" 150 250 \
-   	MacOS/Grisbi-"$GRISBI_VERSION"-"$ARCH".dmg \
-	MacOS/dist
+	Grisbi-"$GRISBI_VERSION"-"$ARCH".dmg \
+	dist
+)
 
 rm -r "$BUILD_DIR"
