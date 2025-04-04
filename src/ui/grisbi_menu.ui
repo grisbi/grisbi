@@ -3,13 +3,6 @@
   <!-- interface-requires gtk+ 3.0 -->
  <menu id="appmenu">
     <section>
-      <item>
-        <attribute name="label" translatable="yes">New window</attribute>
-        <attribute name="action">app.new-window</attribute>
-        <attribute name="icon">gtk-window-new-16</attribute>
-      </item>
-    </section>
-    <section>
       <attribute name="id">preferences-section</attribute>
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
@@ -264,13 +257,6 @@
   <menu id="classic">
     <submenu id="classic-file">
       <attribute name="label" translatable="yes">_File</attribute>
-      <section>
-        <item>
-          <attribute name="label" translatable="yes">New window</attribute>
-          <attribute name="action">win.new-window</attribute>
-          <attribute name="icon">gtk-window-new-16</attribute>
-        </item>
-      </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">New account file</attribute>

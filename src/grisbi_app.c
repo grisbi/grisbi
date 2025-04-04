@@ -605,7 +605,7 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 
 	if (has_app_menu)
 	{
-		GAction *action;
+		//GAction *action;
 
 		g_action_map_add_action_entries (G_ACTION_MAP (app), app_entries, G_N_ELEMENTS (app_entries), app);
 
@@ -617,8 +617,8 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 		priv->prefs_action = g_action_map_lookup_action (G_ACTION_MAP (app), "prefs");
 		priv->item_recent_files = G_MENU (gtk_builder_get_object (builder, "recent-file"));
 		priv->item_edit = G_MENU (gtk_builder_get_object (builder, "edit"));
-		action = g_action_map_lookup_action (G_ACTION_MAP (app), "new-window");
-		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
+		//action = g_action_map_lookup_action (G_ACTION_MAP (app), "new-window");
+		//g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
 	}
 	else
