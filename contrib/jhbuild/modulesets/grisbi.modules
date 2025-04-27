@@ -22,7 +22,7 @@
 	<repository name="github-tarball" href="https://github.com/" type="tarball" />
 	
 	<autotools id="bdw-gc" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s">
-		<branch repo="www.hboehm.info" module="gc/gc_source/gc-8.2.4.tar.gz" version="8.2.4"/>
+		<branch repo="www.hboehm.info" module="gc/gc_source/gc-8.2.8.tar.gz" version="8.2.8"/>
 	</autotools>
 
 	<autotools id="libunistring" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s" autogenargs="--disable-static --enable-shared --disable-namespacing">
@@ -38,7 +38,7 @@
 	</autotools>
 
 	<autotools id='readline' >
-		<branch repo="ftp.gnu.org" module="readline/readline-6.0.tar.gz" version="6.0"/>
+		<branch repo="ftp.gnu.org" module="readline/readline-8.2.tar.gz" version="8.2"/>
 	</autotools>
 
 	<autotools id="OpenSP" autogen-sh="autoreconf" autogen-template="%(srcdir)s/configure --prefix %(prefix)s %(autogenargs)s" autogenargs="--disable-static --enable-shared --disable-doc-build --disable-nls">
