@@ -118,7 +118,7 @@
                         <property name="can-focus">True</property>
                         <property name="has-frame">False</property>
                         <property name="invisible-char">●</property>
-                        <property name="primary-icon-name">gtk-find</property>
+                        <property name="primary-icon-name">edit-find</property>
                         <property name="secondary-icon-activatable">False</property>
                         <property name="secondary-icon-sensitive">False</property>
                       </object>
@@ -189,7 +189,7 @@ to add at the selection</property>
                               <object class="GtkImage" id="image_first_payee">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="icon-name">gtk-goto-top</property>
+                                <property name="icon-name">go-top</property>
                               </object>
                             </child>
                           </object>
@@ -210,7 +210,7 @@ to add at the selection</property>
                               <object class="GtkImage" id="image_previous_payee">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="icon-name">gtk-go-up</property>
+                                <property name="icon-name">go-up</property>
                               </object>
                             </child>
                           </object>
@@ -233,7 +233,7 @@ to add at the selection</property>
                               <object class="GtkImage" id="image_next_payee">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="icon-name">gtk-go-down</property>
+                                <property name="icon-name">go-down</property>
                               </object>
                             </child>
                           </object>
@@ -255,7 +255,7 @@ to add at the selection</property>
                               <object class="GtkImage" id="image_last_payee">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="icon-name">gtk-goto-bottom</property>
+                                <property name="icon-name">go-bottom</property>
                               </object>
                             </child>
                           </object>
