@@ -185,7 +185,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-    if (file_is_loading || w_run->file_is_saving || !gsb_file_get_modified ())
+    if (file_is_loading || w_run->file_is_saving || !gsb_file_get_modified (FALSE))
     {
 		if (file_is_loading )
 		{

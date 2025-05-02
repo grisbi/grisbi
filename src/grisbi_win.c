@@ -997,18 +997,11 @@ void grisbi_win_open (GrisbiWin *win,
 	if (gsb_file_open_file (filename))
 	{
 		GrisbiWinPrivate *priv;
-		GrisbiAppConf *a_conf;
 
-		a_conf = grisbi_app_get_a_conf ();
 		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 		utils_files_append_name_to_recent_array (filename);
 		(priv->w_run)->file_is_loading = TRUE;
-
-		/* Si sauvegarde automatique on la lance ici */
-		if (a_conf->make_backup_every_minutes
-			&& a_conf->make_backup_nb_minutes)
-			gsb_file_automatic_backup_start (NULL, NULL);
 
 		grisbi_app_set_has_started_true ();
 	}

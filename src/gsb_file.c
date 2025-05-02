@@ -496,7 +496,7 @@ static gboolean gsb_file_save_backup (gboolean make_bakup_single_file,
     time_t temps;
     gchar *name;
 
-    if (!gsb_file_get_backup_path () || !gsb_file_get_modified ())
+    if (!gsb_file_get_backup_path () || !gsb_file_get_modified (TRUE))
         return FALSE;
 
     grisbi_win_status_bar_message (_("Saving backup"));
@@ -595,7 +595,7 @@ static gboolean gsb_file_save_file (gint origine)
     devel_debug_int (origine);
 
 	/* on regarde si il y a quelque chose à sauvegarder sauf pour "sauvegarder sous" */
-	if ((!gsb_file_get_modified () && origine != -2)
+	if ((!gsb_file_get_modified (FALSE) && origine != -2)
         ||
         !gsb_data_account_get_number_of_accounts ())
     {
@@ -970,6 +970,7 @@ gboolean gsb_file_open_file (const gchar *filename)
                                  _("Version of Grisbi file too old:"));
             grisbi_win_status_bar_stop_wait (TRUE);
 			w_run->file_modification = 0;
+			w_run->file_backup_saved = 0;
 
             return FALSE;
         }
@@ -1006,6 +1007,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 		g_free (tmp_str1);
 		g_free (tmp_str2);
 		w_run->file_modification = 0;
+		w_run->file_backup_saved = 0;
 #endif
 		grisbi_win_status_bar_stop_wait (TRUE);
 		grisbi_win_stack_box_show (NULL, "accueil_page");
@@ -1032,7 +1034,7 @@ gboolean gsb_file_open_file (const gchar *filename)
 
     /* for now, the flag for modification of the file is ok, but the menu couldn't be set
      * as sensitive/unsensitive so do it now */
-    gsb_file_set_modified (gsb_file_get_modified ());
+    gsb_file_set_modified (gsb_file_get_modified (FALSE));
 
     grisbi_win_status_bar_message (_("Done"));
     grisbi_win_status_bar_stop_wait (TRUE);
@@ -1042,6 +1044,11 @@ gboolean gsb_file_open_file (const gchar *filename)
 
     /* set the focus to the selection tree at left */
     gtk_widget_grab_focus (gsb_gui_navigation_get_tree_view ());
+
+    /* Si sauvegarde automatique on la lance ici */
+    if (a_conf->make_backup_every_minutes
+        && a_conf->make_backup_nb_minutes)
+        gsb_file_automatic_backup_start (NULL, NULL);
 
     return TRUE;
 }
@@ -1153,7 +1160,7 @@ gboolean gsb_file_close (void)
 	/* on récupère le nom du fichier */
 	filename = g_strdup (grisbi_win_get_filename (NULL));
 
-	if (gsb_file_get_modified ())
+	if (gsb_file_get_modified (FALSE))
     {
         /* try to save */
 	    if (!gsb_file_save_file (-1))
@@ -1166,7 +1173,7 @@ gboolean gsb_file_close (void)
             return FALSE;
     }
 
-    if (!gsb_file_get_modified ())
+    if (!gsb_file_get_modified (FALSE))
     {
 		GrisbiWinEtat *w_etat;
 
@@ -1233,9 +1240,11 @@ void gsb_file_set_modified (gboolean modified)
 /**
  * Tell if the current file has been modified or not
  *
+ * \param for_backup TRUE if we want to know if the flle has been modified since the latest backup
+ *
  * \return TRUE if modified, FALSE otherwise
  */
-gboolean gsb_file_get_modified (void)
+gboolean gsb_file_get_modified (gboolean for_backup)
 {
 	GrisbiWinRun *w_run;
 
@@ -1243,7 +1252,18 @@ gboolean gsb_file_get_modified (void)
 	if (w_run->file_modification == 0)
         return FALSE;
     else
+    {
+        /* backup already done? */
+        if (for_backup)
+        {
+            if (w_run->file_backup_saved > w_run->file_modification)
+                return FALSE;
+            else
+                /* set time of backup */
+                w_run->file_backup_saved = time(NULL);
+        }
         return TRUE;
+    }
 }
 
 /**
@@ -1349,7 +1369,7 @@ gboolean gsb_file_quit (void)
 	/* on récupère le nom du fichier */
 	filename = g_strdup (grisbi_win_get_filename (NULL));
 
-	if (gsb_file_get_modified ())
+	if (gsb_file_get_modified (FALSE))
     {
         /* try to save */
 	    if (!gsb_file_save_file (-1))
@@ -1362,7 +1382,7 @@ gboolean gsb_file_quit (void)
             return FALSE;
     }
 
-    if (!gsb_file_get_modified ())
+    if (!gsb_file_get_modified (FALSE))
     {
 		GrisbiWinEtat *w_etat;
 

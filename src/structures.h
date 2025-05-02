@@ -342,6 +342,7 @@ struct _GrisbiWinRun
 
     /* file stuff */
     time_t		file_modification;
+    time_t		file_backup_saved;
     gboolean	file_is_saving;
     gboolean	file_is_loading;
     gboolean	menu_save;
