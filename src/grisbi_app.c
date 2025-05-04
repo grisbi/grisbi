@@ -1299,7 +1299,7 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 #endif
 			g_free (str_to_free);
 
-			text = g_strdup_printf ("%s%s-> %s.\n", gettext (accels[i].translate_string), tab, str);
+			text = g_strdup_printf ("%s%s-> %s\n", gettext (accels[i].translate_string), tab, str);
 			gtk_text_buffer_insert (buffer, &iter, text, -1);
 			g_free (str);
 			g_free (text);
@@ -1321,7 +1321,7 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 #endif
 			g_free (str_to_free);
 
-			text = g_strdup_printf ("%s%s-> %s.\n", gettext (accels[i].translate_string), tab, str);
+			text = g_strdup_printf ("%s%s-> %s\n", gettext (accels[i].translate_string), tab, str);
 			gtk_text_buffer_insert (buffer, &iter, text, -1);
 			g_free (str);
 			g_free (text);
