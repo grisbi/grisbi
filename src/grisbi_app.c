@@ -111,7 +111,6 @@ struct AcceleratorStruct
 };
 
 static struct AcceleratorStruct accels[] = {
-		{ "app.new-window", { "<Alt>n", NULL }, N_("New_window")},
 		{ "app.prefs", { "<Primary><Shift>p", NULL }, N_("Preferences")},
 		{ "app.quit", { "<Primary>q", NULL }, N_("Quit")},
 		{ "win.new-acc-file", { "<Primary>n", NULL }, N_("New account file")},
@@ -128,7 +127,6 @@ static struct AcceleratorStruct accels[] = {
 		{ "win.fullscreen", {"F11", NULL}, N_("Full screen")}
 	};
 static struct AcceleratorStruct accels_classic[] = {
-		{ "win.new-window", { "<Alt>n", NULL }, N_("New_window")},
 		{ "win.prefs", { "<Primary><Shift>p", NULL }, N_("Preferences")},
 		{ "win.quit", { "<Primary>q", NULL }, N_("Quit")},
 		{ "win.new-acc-file", { "<Primary>n", NULL }, N_("New account file")},
