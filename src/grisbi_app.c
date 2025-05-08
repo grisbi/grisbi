@@ -533,7 +533,7 @@ static gboolean grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
 {
 	GrisbiWinRun *w_run;
 
-	devel_debug (NULL);
+	devel_debug (path);
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* continue only if can close the current file */
@@ -542,16 +542,20 @@ static gboolean grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
 
 	if (path)
 	{
+		/* Convert "file:///Users/xxx/Mes%20comptes.gsb" in "/Users/xxx/Mes comptes.gsb" */
+		gchar * filename = g_filename_from_uri(path, NULL, NULL);
+		devel_debug (filename);
+
 		if (has_started)
 		{
-			if (gsb_file_open_file (path))
+			if (gsb_file_open_file (filename))
 			{
 				if (!w_run->file_is_loading)
 				{
 					gsb_gui_navigation_select_line (NULL, NULL);
 					w_run->file_is_loading = TRUE;
 				}
-				utils_files_append_name_to_recent_array (path);
+				utils_files_append_name_to_recent_array (filename);
 			}
 		}
 		else
@@ -561,7 +565,7 @@ static gboolean grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
 			GrisbiAppPrivate *priv;
 
 			priv = grisbi_app_get_instance_private (GRISBI_APP (app));
-			priv->file_list = g_slist_prepend (priv->file_list, g_strdup (path));
+			priv->file_list = g_slist_prepend (priv->file_list, g_strdup (filename));
 		}
 	}
 
