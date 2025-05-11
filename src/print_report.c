@@ -81,8 +81,7 @@ static GtkPrintSettings *print_settings = NULL;
  *
  * \return
  **/
-static void  print_report_init_columns_width (gint table_size,
-                                               gint width_page)
+static void  print_report_init_columns_width (gint width_page)
 {
 	gint row;
 	gint i;
@@ -104,10 +103,10 @@ static void  print_report_init_columns_width (gint table_size,
 				{
 					x_dim = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (child), "x_dim"));
 
-					if (x_dim == 1)
+					if (x_dim == 1 || x_dim == 2)
 					{
 						gtk_widget_get_allocation (child, &allocation);
-						new_size = (width_page * allocation.width) / table_size;
+						new_size = allocation.width;
 						if (new_size > columns_width[i])
 						{
 							columns_width[i] = new_size;
@@ -137,6 +136,14 @@ static void  print_report_init_columns_width (gint table_size,
 			}
 		}
 	}
+
+	// resize all the columns except the last one: the amount
+	double total = 0.0;
+	for (i=0; i<nb_colonnes-1; i++)
+		total += columns_width[i];
+	double factor = (width_page - columns_width[nb_colonnes-1]) / total;
+	for (i=0; i<nb_colonnes-1; i++)
+		columns_width[i] *= factor;
 }
 
 /**
@@ -154,9 +161,6 @@ static gboolean print_report_begin (GtkPrintOperation *operation,
 									gpointer null)
 {
     gint nb_pages;
-    gint table_size = 0;
-	gint minimum_width;
-	gint natural_width;
 
     /* initialize globals variables */
     cr = gtk_print_context_get_cairo_context (context);
@@ -169,16 +173,12 @@ static gboolean print_report_begin (GtkPrintOperation *operation,
     page_height = gtk_print_context_get_height (context);
     page_width = gtk_print_context_get_width (context);
 
-	/* get first the size of the table */
-	gtk_widget_get_preferred_width (table_etat, &minimum_width, &natural_width);
-    table_size = natural_width;
-
 	/* get the width of each columns */
     if (columns_width)
         g_free (columns_width);
 
     columns_width = g_malloc0 (nb_colonnes * sizeof (gdouble));
-	print_report_init_columns_width (table_size, page_width);
+	print_report_init_columns_width (page_width);
 
 	/* calculate the nb of rows in 1 page and in the first page */
     nb_rows_per_page = page_height / size_row;
