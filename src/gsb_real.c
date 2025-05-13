@@ -377,16 +377,26 @@ gchar *gsb_real_raw_format_string (GsbReal number,
         temp = gsb_real_add_thousands_sep (temp, locale->mon_thousands_sep);
     }
 
-    result = g_strdup_printf ("%s%s%s%s%s%0*lld%s%s",
-							  cs_start,
-							  cs_start_space,
-							  sign,
-							  temp,
-							  mon_decimal_point,
-							  number.exponent,
-							  units.rem,
-							  cs_end_space,
-							  cs_end);
+	if (number.exponent > 0)
+		result = g_strdup_printf ("%s%s%s%s%s%0*lld%s%s",
+								  cs_start,
+								  cs_start_space,
+								  sign,
+								  temp,
+								  mon_decimal_point,
+								  number.exponent,
+								  units.rem,
+								  cs_end_space,
+								  cs_end);
+	else
+		/* no decimal point and no decimals */
+		result = g_strdup_printf ("%s%s%s%s%s%s",
+								  cs_start,
+								  cs_start_space,
+								  sign,
+								  temp,
+								  cs_end_space,
+								  cs_end);
 
     g_free (temp);
 
