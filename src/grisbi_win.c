@@ -2038,24 +2038,6 @@ void grisbi_win_new_file_gui (void)
 
 /* FORM_GENERAL */
 /**
- * hide the frame
- *
- * \param
- *
- * \return
- **/
-void grisbi_win_form_expander_hide_frame (void)
-{
-	GrisbiWin *win;
-	GrisbiWinPrivate *priv;
-
-	win = grisbi_app_get_active_window (NULL);
-	priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
-
-	gtk_widget_hide (priv->form_frame);
-}
-
-/**
  * Check if transactions form is visible.
  *
  * \param
