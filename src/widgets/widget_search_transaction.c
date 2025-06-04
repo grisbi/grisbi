@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2021 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          https://www.grisbi.org                                                */
+/*          https://www.grisbi.org                                               */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -69,20 +69,20 @@ struct _WidgetSearchTransactionPrivate
     GtkWidget *         button_search;
 
 	GtkWidget *			box_other_account;
+	GtkWidget *			box_result;
 	GtkWidget *			box_search_amount;
-	GtkWidget *			box_search_str;
 	GtkWidget *			checkbutton_backwards_search;
 	GtkWidget *			checkbutton_delta_amount;
 	GtkWidget *			checkbutton_ignore_case;
-    GtkWidget *			checkbutton_note;
-	GtkWidget *			checkbutton_payee;
 	GtkWidget *			checkbutton_search_archive;
 	GtkWidget *			combo_other_account;
 	GtkWidget *			entry_search_str;
 	GtkWidget *			label_devise;
 	GtkWidget *			label_search_info;
+	GtkWidget *			radiobutton_search_all;
 	GtkWidget *			radiobutton_search_amount;
-	GtkWidget *			radiobutton_search_str;
+	GtkWidget *			radiobutton_search_note;
+	GtkWidget *			radiobutton_search_payee;
 	GtkWidget *			spinbutton_delta_amount;
 
 	gint				account_number;
@@ -91,9 +91,9 @@ struct _WidgetSearchTransactionPrivate
 	gint				display_nb_rows;		/* nbre de lignes initialement affichées */
 	gboolean			display_r;
 	gboolean			ignore_case;
+	gboolean			ignore_sign;
 	gboolean			search_archive;
-	gint				search_type;			/* 1 = search_str, 2 = search_amount */
-	gint				search_str_type;		/* 1 = payee, 2 = note, 3 = all */
+	gint				search_type;			/* 1 = payee, 2 = note, 3 = all, 4 = amount */
 
 	GSList *			list;					/* liste des resultats de la recherche */
 
@@ -224,14 +224,10 @@ static void widget_search_transaction_warning_msg (GtkWindow *parent,
  * \return
  **/
 static gboolean widget_search_transaction_amount_is_valide (gint transaction_number,
-															const gchar *text,
-															WidgetSearchTransaction *dialog)
+															GsbReal number,
+															WidgetSearchTransactionPrivate *priv)
 {
 	GsbReal amount;
-	GsbReal number;
-	WidgetSearchTransactionPrivate *priv;
-
-	priv = widget_search_transaction_get_instance_private (dialog);
 
 	/* on ne cherche pas dans les opérations meres DISCUTABLE */
 	if (gsb_data_transaction_get_split_of_transaction (transaction_number))
@@ -248,7 +244,6 @@ static gboolean widget_search_transaction_amount_is_valide (gint transaction_num
 																		  (priv->spinbutton_delta_amount)));
 		number_inf = gsb_real_sub (amount, spin_number);
 		number_sup = gsb_real_add (amount, spin_number);
-		number = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 
 		if (gsb_real_cmp (number, amount) == 0)
 			return TRUE;
@@ -264,7 +259,6 @@ static gboolean widget_search_transaction_amount_is_valide (gint transaction_num
 	}
 	else
 	{
-		number = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 		if (gsb_real_cmp (number, amount) == 0)
 		{
 			return TRUE;
@@ -288,28 +282,27 @@ static gboolean widget_search_transaction_amount_is_valide (gint transaction_num
  **/
 static gboolean widget_search_transaction_str_is_valide (gint transaction_number,
 														 const gchar *text,
-														 WidgetSearchTransaction *dialog)
+														 WidgetSearchTransactionPrivate *priv)
 {
 	const gchar *tmp_str;
 	gint mother_number;
 	gint new_search_type;
-	WidgetSearchTransactionPrivate *priv;
-
-	priv = widget_search_transaction_get_instance_private (dialog);
 
 	/* on ne s'occupera pas des opérations filles si on cherche dans tiers */
 	mother_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
 
 	if (priv->ignore_case)
-		new_search_type = priv->search_str_type +3;
+		new_search_type = priv->search_type +4;
 	else
-		new_search_type = priv->search_str_type;
+		new_search_type = priv->search_type;
 
 	switch (new_search_type)
 	{
 		case 1:		/* ignore case = FALSE search_type = payee pas d'operation fille */
 			if (mother_number)
+			{
 				return FALSE;
+			}
 
 			tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 											  (transaction_number),
@@ -318,15 +311,15 @@ static gboolean widget_search_transaction_str_is_valide (gint transaction_number
 			{
 				return TRUE;
 			}
-
 			break;
 
 		case 2:		/* ignore case = FALSE search_type = note */
 			tmp_str = gsb_data_transaction_get_notes (transaction_number);
 
 			if (tmp_str && g_strstr_len (tmp_str, -1, text))
+			{
 				return TRUE;
-
+			}
 			break;
 
 		case 3:		/* ignore case = FALSE search_type = all */
@@ -336,46 +329,62 @@ static gboolean widget_search_transaction_str_is_valide (gint transaction_number
 												  (transaction_number),
 												  TRUE);
 				if (tmp_str && g_strstr_len (tmp_str, -1, text))
+				{
 					return TRUE;
+				}
 			}
 
 			tmp_str = gsb_data_transaction_get_notes (transaction_number);
 			if (tmp_str && g_strstr_len (tmp_str, -1, text))
+			{
 				return TRUE;
-
+			}
 			break;
 
-		case 4:		/* ignore case = TRUE search_type = payee pas d'operation fille*/
+		case 4:		/* inutilise correspond à la recherche d'un montant */
+			break;
+		
+		case 5:		/* ignore case = TRUE, search_type = payee, pas d'operation fille */
 			if (mother_number)
+			{
 				return FALSE;
+			}
 
 			tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 											  (transaction_number),
 											  TRUE);
 			if (tmp_str && utils_str_my_case_strstr (tmp_str, text))
+			{
 				return TRUE;
+			}
 
 			break;
 
-		case 5:		/* ignore case = TRUE search_type = note */
+		case 6:		/* ignore case = TRUE, search_type = note */
 			tmp_str = gsb_data_transaction_get_notes (transaction_number);
 			if (tmp_str && utils_str_my_case_strstr (tmp_str, text))
+			{
 				return TRUE;
+			}
 			break;
 
-		default:		/* ignore case = TRUE search_type = all */
+		default:	/* ignore case = TRUE search_type = all */
 			if (!mother_number)
 			{
 				tmp_str = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 												  (transaction_number),
 												  TRUE);
-				if (tmp_str && g_strstr_len (tmp_str, -1, text))
+				if (tmp_str && utils_str_my_case_strstr (tmp_str, text))
+				{
 					return TRUE;
+				}
 			}
 
 			tmp_str = gsb_data_transaction_get_notes (transaction_number);
 			if (tmp_str && utils_str_my_case_strstr (tmp_str, text))
+			{
 				return TRUE;
+			}
 	};
 
 	return FALSE;
@@ -412,11 +421,24 @@ static GSList *widget_search_transaction_get_list (gint account_number,
 		transaction_number = gsb_data_transaction_get_transaction_number (transaction);
 		if (gsb_data_transaction_get_account_number (transaction_number) == account_number)
 		{
-			if (priv->search_type == 1 && widget_search_transaction_str_is_valide (transaction_number, text, dialog))
+			if (priv->search_type == 4)
 			{
-				list = g_slist_append (list, GINT_TO_POINTER (transaction_number));
+				GsbReal number;
+
+				number = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
+				if (widget_search_transaction_amount_is_valide (transaction_number, number, priv))
+				{
+					list = g_slist_append (list, GINT_TO_POINTER (transaction_number));
+				}
+				if (priv->ignore_sign)
+				{
+					if (widget_search_transaction_amount_is_valide (transaction_number, gsb_real_opposite (number), priv))
+					{
+						list = g_slist_append (list, GINT_TO_POINTER (transaction_number));
+					}
+				}					
 			}
-			else if (priv->search_type == 2 && widget_search_transaction_amount_is_valide (transaction_number, text, dialog))
+			else if (widget_search_transaction_str_is_valide (transaction_number, text, priv))
 			{
 				list = g_slist_append (list, GINT_TO_POINTER (transaction_number));
 			}
@@ -542,6 +564,11 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 		if (search_active == 0)
 			search_active = -1;
 	}
+
+	/* on affiche le resultat */
+	gtk_widget_set_no_show_all (priv->box_result, FALSE);
+	gtk_widget_show (priv->box_result);
+	
 }
 
 /**
@@ -587,13 +614,17 @@ static void widget_search_transaction_checkbutton_delta_amount_toggled (GtkToggl
  *
  * \return
  **/
-static void widget_search_transaction_checkbutton_ignore_case_toggled (GtkToggleButton *togglebutton,
-																	   WidgetSearchTransactionPrivate *priv)
+static void widget_search_transaction_checkbutton_ignore_case_sign_toggled (GtkToggleButton *togglebutton,
+																			WidgetSearchTransactionPrivate *priv)
 {
-	priv->ignore_case = gtk_toggle_button_get_active (togglebutton);
+	if (priv->search_type == 4)
+		priv->ignore_sign = gtk_toggle_button_get_active (togglebutton);
+	else
+		priv->ignore_case = gtk_toggle_button_get_active (togglebutton);
 
 	/* on reinitialise la recherche */
 	search_active = -1;
+	gtk_widget_hide (priv->box_result);
 }
 
 /**
@@ -618,119 +649,53 @@ static void widget_search_transaction_checkbutton_search_archive_toggled (GtkTog
  *
  * \param
  * \param
- *
- * \return
- **/
-static void widget_search_transaction_checkbutton_str_choice_toggled (GtkToggleButton *togglebutton,
-																	  WidgetSearchTransaction *dialog)
-{
-	gint button_number;
-	gint state1;
-	gint state2;
-	WidgetSearchTransactionPrivate *priv;
-
-	priv = widget_search_transaction_get_instance_private (dialog);
-	state1 = gtk_toggle_button_get_active (togglebutton);
-
-	button_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (togglebutton), "pointer"));
-	if (button_number == 1)
-	{
-		/* state1 etat bouton payee, state2 etat bouton note */
-		state2 = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_note));
-		if (state1 && state2)
-		{
-			priv->search_str_type = 3;
-		}
-		else if (state1 && !state2)
-		{
-			priv->search_str_type = 1;
-		}
-		else if (!state1 && state2)
-		{
-			priv->search_str_type = 2;
-		}
-		else
-		{
-			gchar *tmp_str1;
-			gchar *tmp_str2;
-
-			tmp_str1 = g_strdup (_("You must select at least one search element"));
-        	tmp_str2 = g_strdup (_("WARNING"));
-
-			widget_search_transaction_warning_msg (GTK_WINDOW (dialog), tmp_str1, tmp_str2);
-
-			g_free (tmp_str1);
-			g_free (tmp_str2);
-		}
-	}
-	else
-	{
-		/* state1 etat bouton note, state2 etat bouton payee */
-		state2 = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_payee));
-		if (state1 && state2)
-		{
-			priv->search_str_type = 3;
-		}
-		else if (state1 && !state2)
-		{
-			priv->search_str_type = 2;
-		}
-		else if (!state1 && state2)
-		{
-			priv->search_str_type = 1;
-		}
-		else
-		{
-			gchar *tmp_str1;
-			gchar *tmp_str2;
-
-			tmp_str1 = g_strdup (_("You must select at least one search element"));
-        	tmp_str2 = g_strdup (_("WARNING"));
-
-			widget_search_transaction_warning_msg (GTK_WINDOW (dialog), tmp_str1, tmp_str2);
-
-			g_free (tmp_str1);
-			g_free (tmp_str2);
-		}
-	}
-
-	/* on reinitialise la recherche */
-	search_active = -1;
-}
-
-/**
- *
- *
- * \param
- * \param
  * \param
  *
  * \return
  **/
-static gboolean widget_search_transaction_radiobutton_press_event (GtkWidget *button,
-																   GdkEvent  *event,
-																   WidgetSearchTransactionPrivate *priv)
+static gboolean widget_search_transaction_radiobutton_toggled (GtkWidget *button,
+															   WidgetSearchTransactionPrivate *priv)
 {
 	gint button_number;
 
 	button_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "pointer"));
-	if (button_number == 1)
+
+	/* blocage du signal de callback du bouton priv->checkbutton_ignore_case */
+	g_signal_handlers_block_by_func (G_OBJECT (priv->checkbutton_ignore_case),
+									 G_CALLBACK (widget_search_transaction_checkbutton_ignore_case_sign_toggled),
+									 priv);
+	switch (button_number)
 	{
-		gtk_widget_set_sensitive (priv->box_search_amount, FALSE);
-		gtk_widget_set_sensitive (priv->box_search_str, TRUE);
-		gtk_widget_set_sensitive (priv->checkbutton_ignore_case, TRUE);
-		priv->search_type = 1;
+		case 1:
+			gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore case"));
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), priv->ignore_case);
+			priv->search_type = 1;
+			break;
+		case 2:
+			gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore case"));
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), priv->ignore_case);
+			priv->search_type = 2;
+			break;
+		case 3:
+			gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore case"));
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), priv->ignore_case);
+			priv->search_type = 3;
+			break;
+		case 4:
+			gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore sign"));
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), priv->ignore_sign);
+			priv->search_type = 4;
+			break;
 	}
-	else
-	{
-		gtk_widget_set_sensitive (priv->box_search_amount, TRUE);
-		gtk_widget_set_sensitive (priv->box_search_str, FALSE);
-		gtk_widget_set_sensitive (priv->checkbutton_ignore_case, FALSE);
-		priv->search_type = 2;
-	}
+
+	/* deblocage du signal de callback du bouton priv->checkbutton_ignore_case */
+	g_signal_handlers_unblock_by_func (G_OBJECT (priv->checkbutton_ignore_case),
+									   G_CALLBACK (widget_search_transaction_checkbutton_ignore_case_sign_toggled),
+									   priv);
 
 	/* on reinitialise la recherche */
 	search_active = -1;
+	gtk_widget_hide (priv->box_result);
 
 	return FALSE;
 }
@@ -1045,15 +1010,15 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 
 	/* set types of search */
 	priv->search_type = 1;
-	priv->search_str_type = 1;
-
-	/* set number for checkbutton */
-    g_object_set_data (G_OBJECT (priv->checkbutton_payee), "pointer", GINT_TO_POINTER (1));
-    g_object_set_data (G_OBJECT (priv->checkbutton_note), "pointer", GINT_TO_POINTER (2));
 
 	/* set number for radiobutton */
-    g_object_set_data (G_OBJECT (priv->radiobutton_search_str), "pointer", GINT_TO_POINTER (1));
-    g_object_set_data (G_OBJECT (priv->radiobutton_search_amount), "pointer", GINT_TO_POINTER (2));
+    g_object_set_data (G_OBJECT (priv->radiobutton_search_payee), "pointer", GINT_TO_POINTER (1));
+    g_object_set_data (G_OBJECT (priv->radiobutton_search_note), "pointer", GINT_TO_POINTER (2));
+    g_object_set_data (G_OBJECT (priv->radiobutton_search_all), "pointer", GINT_TO_POINTER (3));
+    g_object_set_data (G_OBJECT (priv->radiobutton_search_amount), "pointer", GINT_TO_POINTER (4));
+
+	/* set ignore case label */
+	gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore case"));
 
 	/* init ignore_case comme dans les preferences du formulaire */
 	w_etat = grisbi_win_get_w_etat ();
@@ -1093,42 +1058,26 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 					  "clicked",
 					  G_CALLBACK (widget_search_transaction_button_search_clicked),
 					  dialog);
-
 	g_signal_connect (G_OBJECT (priv->checkbutton_backwards_search),
 					  "clicked",
 					  G_CALLBACK (widget_search_transaction_checkbutton_backwards_search_toggled),
 					  priv);
-
 	g_signal_connect (G_OBJECT (priv->checkbutton_delta_amount),
 					  "clicked",
 					  G_CALLBACK (widget_search_transaction_checkbutton_delta_amount_toggled),
 					  priv);
-
 	g_signal_connect (G_OBJECT (priv->checkbutton_ignore_case),
 					  "toggled",
-					  G_CALLBACK (widget_search_transaction_checkbutton_ignore_case_toggled),
+					  G_CALLBACK (widget_search_transaction_checkbutton_ignore_case_sign_toggled),
 					  priv);
-
-	g_signal_connect (G_OBJECT (priv->checkbutton_note),
-					  "toggled",
-					  G_CALLBACK (widget_search_transaction_checkbutton_str_choice_toggled),
-					  dialog);
-
-	g_signal_connect (G_OBJECT (priv->checkbutton_payee),
-					  "toggled",
-					  G_CALLBACK (widget_search_transaction_checkbutton_str_choice_toggled),
-					  dialog);
-
 	g_signal_connect (G_OBJECT (priv->checkbutton_search_archive),
 					  "toggled",
 					  G_CALLBACK (widget_search_transaction_checkbutton_search_archive_toggled),
 					  dialog);
-
 	g_signal_connect (G_OBJECT (priv->combo_other_account),
 					  "changed",
 					  G_CALLBACK (widget_search_transaction_combo_other_account_changed),
 					  dialog);
-
 	g_signal_connect (G_OBJECT (priv->entry_search_str),
 					  "focus-out-event",
 					  G_CALLBACK (widget_search_transaction_entry_lose_focus),
@@ -1137,14 +1086,21 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 					  "key-press-event",
 					  G_CALLBACK (widget_search_transaction_entry_key_press_event),
 					  dialog);
-
-	g_signal_connect (G_OBJECT (priv->radiobutton_search_amount),
-					  "button-press-event",
-					  G_CALLBACK (widget_search_transaction_radiobutton_press_event),
+	g_signal_connect (G_OBJECT (priv->radiobutton_search_all),
+					  "toggled",
+					  G_CALLBACK (widget_search_transaction_radiobutton_toggled),
 					  priv);
-	g_signal_connect (G_OBJECT (priv->radiobutton_search_str),
-					  "button-press-event",
-					  G_CALLBACK (widget_search_transaction_radiobutton_press_event),
+	g_signal_connect (G_OBJECT (priv->radiobutton_search_amount),
+					  "toggled",
+					  G_CALLBACK (widget_search_transaction_radiobutton_toggled),
+					  priv);
+	g_signal_connect (G_OBJECT (priv->radiobutton_search_note),
+					  "toggled",
+					  G_CALLBACK (widget_search_transaction_radiobutton_toggled),
+					  priv);
+	g_signal_connect (G_OBJECT (priv->radiobutton_search_payee),
+					  "toggled",
+					  G_CALLBACK (widget_search_transaction_radiobutton_toggled),
 					  priv);
 
 	g_signal_connect (G_OBJECT (priv->spinbutton_delta_amount),
@@ -1197,20 +1153,20 @@ static void widget_search_transaction_class_init (WidgetSearchTransactionClass *
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, button_search);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, box_other_account);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, box_search_str);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, box_result);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, box_search_amount);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, checkbutton_backwards_search);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, checkbutton_delta_amount);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, checkbutton_ignore_case);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, checkbutton_note);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, checkbutton_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, checkbutton_search_archive);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, combo_other_account);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, entry_search_str);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, label_devise);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, label_search_info);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, radiobutton_search_all);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, radiobutton_search_amount);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, radiobutton_search_str);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, radiobutton_search_note);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, radiobutton_search_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, spinbutton_delta_amount);
 }
 
