@@ -9,6 +9,16 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
+  <object class="GtkImage" id="image_next">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="resource">/org/gtk/grisbi/images/gtk-go-next-16.png</property>
+  </object>
+  <object class="GtkImage" id="image_previous">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="resource">/org/gtk/grisbi/images/gtk-go-previous-16.png</property>
+  </object>
   <object class="GtkImage" id="image_search">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -35,6 +45,35 @@
             <property name="can-focus">False</property>
             <property name="layout-style">end</property>
             <child>
+              <object class="GtkButton" id="button_previous">
+                <property name="label" translatable="yes">Previous</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="no-show-all">True</property>
+                <property name="image">image_previous</property>
+                <property name="always-show-image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_next">
+                <property name="label" translatable="yes">Next</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="no-show-all">True</property>
+                <property name="always-show-image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton" id="button_search">
                 <property name="label" translatable="yes">Find</property>
                 <property name="visible">True</property>
@@ -58,7 +97,7 @@
           </packing>
         </child>
         <child>
-          <!-- n-columns=3 n-rows=16 -->
+          <!-- n-columns=3 n-rows=14 -->
           <object class="GtkGrid" id="grid_search">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -87,7 +126,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">14</property>
+                <property name="top-attach">13</property>
                 <property name="width">3</property>
               </packing>
             </child>
@@ -167,7 +206,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">13</property>
+                <property name="top-attach">12</property>
                 <property name="width">3</property>
               </packing>
             </child>
@@ -180,7 +219,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">12</property>
+                <property name="top-attach">11</property>
                 <property name="width">3</property>
               </packing>
             </child>
@@ -256,6 +295,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="double-buffered">False</property>
                     <property name="halign">start</property>
                     <property name="draw-indicator">True</property>
                   </object>
@@ -378,21 +418,9 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">11</property>
+                <property name="top-attach">10</property>
                 <property name="width">3</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
             </child>
           </object>
           <packing>
