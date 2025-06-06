@@ -721,21 +721,25 @@ static gboolean widget_search_transaction_radiobutton_toggled (GtkWidget *button
 		case 1:
 			gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore case"));
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), priv->ignore_case);
+			gtk_widget_set_sensitive (priv->box_search_amount, FALSE);
 			priv->search_type = 1;
 			break;
 		case 2:
 			gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore case"));
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), priv->ignore_case);
+			gtk_widget_set_sensitive (priv->box_search_amount, FALSE);
 			priv->search_type = 2;
 			break;
 		case 3:
 			gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore case"));
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), priv->ignore_case);
+			gtk_widget_set_sensitive (priv->box_search_amount, FALSE);
 			priv->search_type = 3;
 			break;
 		case 4:
 			gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore sign"));
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_ignore_case), priv->ignore_sign);
+			gtk_widget_set_sensitive (priv->box_search_amount, TRUE);
 			priv->search_type = 4;
 			break;
 	}
