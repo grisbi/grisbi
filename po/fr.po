@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2025-05-31 06:37+0200\n"
+"POT-Creation-Date: 2025-06-06 10:29+0200\n"
 "PO-Revision-Date: 2025-05-30 18:07+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -98,8 +98,8 @@ msgstr "Sélectionner tout"
 msgid "<Ctrl> + left click of mouse to add to the selection"
 msgstr "<Ctrl> + clic gauche de la souris pour ajouter à la sélection"
 
-#: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:161
-#: src/ui/grisbi_menu.ui:402 src/widgets/widget_search_transaction.ui:19
+#: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:154
+#: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_transaction.ui:29
 #: src/etats_onglet.c:925 src/etats_onglet.c:1155 src/etats_onglet.c:1390
 #: src/gsb_transactions_list.c:547
 msgid "Search"
@@ -222,7 +222,7 @@ msgstr "Placer si possible le solde partiel sous ses comptes"
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/prefs/prefs_page_accueil.ui:245 src/ui/grisbi_menu.ui:363
+#: src/prefs/prefs_page_accueil.ui:245 src/ui/grisbi_menu.ui:349
 #: src/categories_onglet.c:652 src/gsb_scheduler_list.c:1198
 #: src/gsb_transactions_list.c:2544 src/imputation_budgetaire.c:683
 #: src/tiers_onglet.c:653
@@ -524,7 +524,7 @@ msgstr "Thème"
 #: src/widgets/widget_list_metatree.ui:91 src/widgets/widget_reconcile.ui:269
 #: src/widgets/widget_reconcile.ui:281 src/widgets/widget_reconcile.ui:293
 #: src/widgets/widget_reconcile.ui:305
-#: src/widgets/widget_search_transaction.ui:288
+#: src/widgets/widget_search_transaction.ui:328
 msgid "label"
 msgstr "label"
 
@@ -1035,8 +1035,8 @@ msgstr ""
 msgid "Display following deleting messages"
 msgstr "Afficher les messages de suppression suivants"
 
-#: src/prefs/prefs_page_msg_warning.ui:30 src/ui/grisbi_menu.ui:257
-#: src/ui/grisbi_menu.ui:510
+#: src/prefs/prefs_page_msg_warning.ui:30 src/ui/grisbi_menu.ui:250
+#: src/ui/grisbi_menu.ui:496
 msgid "Tip of the day"
 msgstr "Astuce du jour"
 
@@ -1694,214 +1694,210 @@ msgstr "Sélectionner les modes de règlement à inclure dans l'état : "
 msgid "title"
 msgstr "titres"
 
-#: src/ui/grisbi_menu.ui:7 src/ui/grisbi_menu.ui:269
-msgid "New window"
-msgstr "Nouvelle fenêtre"
-
-#: src/ui/grisbi_menu.ui:15 src/ui/grisbi_menu.ui:421
+#: src/ui/grisbi_menu.ui:8 src/ui/grisbi_menu.ui:407
 msgid "_Preferences"
 msgstr "_Préférences"
 
-#: src/ui/grisbi_menu.ui:22 src/ui/grisbi_menu.ui:491
+#: src/ui/grisbi_menu.ui:15 src/ui/grisbi_menu.ui:477
 msgid "About"
 msgstr "À propos"
 
-#: src/ui/grisbi_menu.ui:29 src/ui/grisbi_menu.ui:355
+#: src/ui/grisbi_menu.ui:22 src/ui/grisbi_menu.ui:341
 msgid "_Quit"
 msgstr "_Quitter"
 
-#: src/ui/grisbi_menu.ui:38 src/ui/grisbi_menu.ui:266
+#: src/ui/grisbi_menu.ui:31 src/ui/grisbi_menu.ui:259
 msgid "_File"
 msgstr "_Fichier"
 
-#: src/ui/grisbi_menu.ui:41 src/ui/grisbi_menu.ui:276 src/grisbi_app.c:117
-#: src/grisbi_app.c:134
+#: src/ui/grisbi_menu.ui:34 src/ui/grisbi_menu.ui:262 src/grisbi_app.c:116
+#: src/grisbi_app.c:132
 msgid "New account file"
 msgstr "Nouveau fichier de comptes"
 
-#: src/ui/grisbi_menu.ui:46 src/ui/grisbi_menu.ui:281
+#: src/ui/grisbi_menu.ui:39 src/ui/grisbi_menu.ui:267
 #: src/categories_onglet.c:495 src/categories_onglet.c:552
-#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:118
-#: src/grisbi_app.c:135 src/grisbi_win.c:754 src/gsb_file.c:770
+#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
+#: src/grisbi_app.c:133 src/grisbi_win.c:754 src/gsb_file.c:770
 #: src/gsb_select_icon.c:320 src/import.c:1207 src/imputation_budgetaire.c:518
 #: src/imputation_budgetaire.c:580 src/prefs/prefs_page_display_fonts.c:311
 msgid "Open"
 msgstr "Ouvrir"
 
-#: src/ui/grisbi_menu.ui:53 src/ui/grisbi_menu.ui:288
+#: src/ui/grisbi_menu.ui:46 src/ui/grisbi_menu.ui:274
 msgid "Recently opened files"
 msgstr "Derniers fichiers"
 
-#: src/ui/grisbi_menu.ui:58 src/ui/grisbi_menu.ui:293 src/bet_finance_ui.c:798
+#: src/ui/grisbi_menu.ui:51 src/ui/grisbi_menu.ui:279 src/bet_finance_ui.c:798
 #: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:436
-#: src/etats_onglet.c:365 src/grisbi_app.c:119 src/grisbi_app.c:136
+#: src/etats_onglet.c:365 src/grisbi_app.c:118 src/grisbi_app.c:134
 #: src/gsb_file.c:324 src/gsb_file.c:427 src/gsb_file.c:458
 #: src/imputation_budgetaire.c:454 src/tiers_onglet.c:133
 msgid "Save"
 msgstr "Enregistrer"
 
-#: src/ui/grisbi_menu.ui:63 src/ui/grisbi_menu.ui:298
+#: src/ui/grisbi_menu.ui:56 src/ui/grisbi_menu.ui:284
 msgid "Save As"
 msgstr "Enregistrer _sous"
 
-#: src/ui/grisbi_menu.ui:70
+#: src/ui/grisbi_menu.ui:63
 msgid "_Import file"
 msgstr "_Importer un fichier"
 
-#: src/ui/grisbi_menu.ui:75 src/grisbi_app.c:121 src/grisbi_app.c:138
+#: src/ui/grisbi_menu.ui:68 src/grisbi_app.c:120 src/grisbi_app.c:136
 msgid "Export as QIF/CSV file"
 msgstr "Exporter vers un fichier QIF/CSV"
 
-#: src/ui/grisbi_menu.ui:82 src/ui/grisbi_menu.ui:317
+#: src/ui/grisbi_menu.ui:75 src/ui/grisbi_menu.ui:303
 #: src/gsb_assistant_archive.c:1072
 msgid "Archive transactions"
 msgstr "Créer une archive"
 
-#: src/ui/grisbi_menu.ui:87 src/ui/grisbi_menu.ui:322
+#: src/ui/grisbi_menu.ui:80 src/ui/grisbi_menu.ui:308
 msgid "Export an archive as GSB/QIF/CSV file"
 msgstr "Exporter une archive vers un fichier GSB/QIF/CSV"
 
-#: src/ui/grisbi_menu.ui:94 src/ui/grisbi_menu.ui:329
+#: src/ui/grisbi_menu.ui:87 src/ui/grisbi_menu.ui:315
 msgid "Debug account file"
 msgstr "Déboguer le fichier de comptes"
 
-#: src/ui/grisbi_menu.ui:99 src/ui/grisbi_menu.ui:334
+#: src/ui/grisbi_menu.ui:92 src/ui/grisbi_menu.ui:320
 msgid "Obfuscate account file"
 msgstr "Rendre anonyme le fichier de comptes"
 
-#: src/ui/grisbi_menu.ui:104 src/ui/grisbi_menu.ui:339
+#: src/ui/grisbi_menu.ui:97 src/ui/grisbi_menu.ui:325
 msgid "Obfuscate QIF file"
 msgstr "Rendre anonyme le fichier QIF"
 
-#: src/ui/grisbi_menu.ui:109 src/ui/grisbi_menu.ui:344
+#: src/ui/grisbi_menu.ui:102 src/ui/grisbi_menu.ui:330
 msgid "Debug mode"
 msgstr "Mode de débogage"
 
-#: src/ui/grisbi_menu.ui:115 src/ui/grisbi_menu.ui:350
+#: src/ui/grisbi_menu.ui:108 src/ui/grisbi_menu.ui:336
 #: src/ui/grisbi_prefs.ui:29 src/widgets/widget_assistant.ui:71
 #: src/widgets/widget_bet_graph_others.ui:37
-#: src/widgets/widget_bet_graph_pie.ui:26 src/grisbi_app.c:122
-#: src/grisbi_app.c:139 src/gsb_assistant.c:445 src/gsb_currency.c:1328
+#: src/widgets/widget_bet_graph_pie.ui:26 src/grisbi_app.c:121
+#: src/grisbi_app.c:137 src/gsb_assistant.c:445 src/gsb_currency.c:1328
 #: src/tip.c:155 src/widgets/widget_loan.c:950
 msgid "Close"
 msgstr "Fermer"
 
-#: src/ui/grisbi_menu.ui:123
+#: src/ui/grisbi_menu.ui:116
 msgid "E_dit"
 msgstr "E_diter"
 
-#: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:366
+#: src/ui/grisbi_menu.ui:119 src/ui/grisbi_menu.ui:352
 #: src/gsb_scheduler_list.c:349 src/gsb_transactions_list.c:463
 msgid "Edit transaction"
 msgstr "Éditer l'opération"
 
-#: src/ui/grisbi_menu.ui:133 src/ui/grisbi_menu.ui:373 src/grisbi_app.c:123
-#: src/grisbi_app.c:140 src/gsb_scheduler_list.c:375
+#: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:359 src/grisbi_app.c:122
+#: src/grisbi_app.c:138 src/gsb_scheduler_list.c:375
 #: src/gsb_transactions_list.c:476 src/gsb_transactions_list.c:2526
 msgid "New transaction"
 msgstr "Nouvelle opération"
 
-#: src/ui/grisbi_menu.ui:138 src/ui/grisbi_menu.ui:378
+#: src/ui/grisbi_menu.ui:131 src/ui/grisbi_menu.ui:364
 msgid "Remove transaction"
 msgstr "Supprimer une opération"
 
-#: src/ui/grisbi_menu.ui:143 src/ui/grisbi_menu.ui:383
+#: src/ui/grisbi_menu.ui:136 src/ui/grisbi_menu.ui:369
 #: src/gsb_transactions_list.c:496
 msgid "Use selected transaction as a template"
 msgstr "Utiliser l'opération sélectionnée comme modèle"
 
-#: src/ui/grisbi_menu.ui:148 src/ui/grisbi_menu.ui:388
+#: src/ui/grisbi_menu.ui:141 src/ui/grisbi_menu.ui:374
 #: src/gsb_scheduler_list.c:360 src/gsb_transactions_list.c:503
 msgid "Clone transaction"
 msgstr "Cloner l'opération"
 
-#: src/ui/grisbi_menu.ui:155 src/ui/grisbi_menu.ui:395
+#: src/ui/grisbi_menu.ui:148 src/ui/grisbi_menu.ui:381
 msgid "Convert to scheduled transaction"
 msgstr "Convertir en opération planifiée"
 
-#: src/ui/grisbi_menu.ui:168 src/ui/grisbi_menu.ui:409 src/grisbi_app.c:124
-#: src/grisbi_app.c:141 src/navigation.c:209
+#: src/ui/grisbi_menu.ui:161 src/ui/grisbi_menu.ui:395 src/grisbi_app.c:123
+#: src/grisbi_app.c:139 src/navigation.c:209
 msgid "New account"
 msgstr "Nouveau compte"
 
-#: src/ui/grisbi_menu.ui:173 src/ui/grisbi_menu.ui:414
+#: src/ui/grisbi_menu.ui:166 src/ui/grisbi_menu.ui:400
 msgid "Remove current account"
 msgstr "Supprimer le compte courant"
 
-#: src/ui/grisbi_menu.ui:181 src/categories_onglet.c:664
+#: src/ui/grisbi_menu.ui:174 src/categories_onglet.c:664
 #: src/gsb_scheduler_list.c:1230 src/gsb_transactions_list.c:2571
 #: src/imputation_budgetaire.c:695 src/tiers_onglet.c:665
 msgid "View"
 msgstr "Affichage"
 
-#: src/ui/grisbi_menu.ui:184 src/ui/grisbi_menu.ui:432
+#: src/ui/grisbi_menu.ui:177 src/ui/grisbi_menu.ui:418
 msgid "Show transaction form"
 msgstr "Montrer le formulaire de saisie des opérations"
 
-#: src/ui/grisbi_menu.ui:188 src/ui/grisbi_menu.ui:436 src/grisbi_app.c:125
-#: src/grisbi_app.c:142
+#: src/ui/grisbi_menu.ui:181 src/ui/grisbi_menu.ui:422 src/grisbi_app.c:124
+#: src/grisbi_app.c:140
 msgid "Show reconciled"
 msgstr "Montrer les opérations rapprochées"
 
-#: src/ui/grisbi_menu.ui:192 src/ui/grisbi_menu.ui:440 src/grisbi_app.c:126
-#: src/grisbi_app.c:143 src/gsb_transactions_list.c:2484
+#: src/ui/grisbi_menu.ui:185 src/ui/grisbi_menu.ui:426 src/grisbi_app.c:125
+#: src/grisbi_app.c:141 src/gsb_transactions_list.c:2484
 msgid "Show lines archives"
 msgstr "Montrer les lignes d'archives"
 
-#: src/ui/grisbi_menu.ui:196 src/ui/grisbi_menu.ui:444
+#: src/ui/grisbi_menu.ui:189 src/ui/grisbi_menu.ui:430
 msgid "Show closed accounts"
 msgstr "Montrer les comptes clos"
 
-#: src/ui/grisbi_menu.ui:202 src/ui/grisbi_menu.ui:450
+#: src/ui/grisbi_menu.ui:195 src/ui/grisbi_menu.ui:436
 msgid "Show one line per transaction"
 msgstr "Montrer une ligne par opération"
 
-#: src/ui/grisbi_menu.ui:207 src/ui/grisbi_menu.ui:455
+#: src/ui/grisbi_menu.ui:200 src/ui/grisbi_menu.ui:441
 msgid "Show two lines per transaction"
 msgstr "Montrer deux lignes par opération"
 
-#: src/ui/grisbi_menu.ui:212 src/ui/grisbi_menu.ui:460
+#: src/ui/grisbi_menu.ui:205 src/ui/grisbi_menu.ui:446
 msgid "Show three lines per transaction"
 msgstr "Montrer trois lignes par opération"
 
-#: src/ui/grisbi_menu.ui:217 src/ui/grisbi_menu.ui:465
+#: src/ui/grisbi_menu.ui:210 src/ui/grisbi_menu.ui:451
 msgid "Show four lines per transaction"
 msgstr "Montrer quatre lignes par opération"
 
-#: src/ui/grisbi_menu.ui:224 src/ui/grisbi_menu.ui:472
+#: src/ui/grisbi_menu.ui:217 src/ui/grisbi_menu.ui:458
 msgid "Reset the column width"
 msgstr "Réinitialiser la largeur des colonnes"
 
-#: src/ui/grisbi_menu.ui:231 src/ui/grisbi_menu.ui:479
+#: src/ui/grisbi_menu.ui:224 src/ui/grisbi_menu.ui:465
 msgid "_Help"
 msgstr "Aid_e"
 
-#: src/ui/grisbi_menu.ui:234 src/ui/grisbi_menu.ui:482 src/grisbi_app.c:127
-#: src/grisbi_app.c:144
+#: src/ui/grisbi_menu.ui:227 src/ui/grisbi_menu.ui:468 src/grisbi_app.c:126
+#: src/grisbi_app.c:142
 msgid "User's Manual"
 msgstr "Manuel"
 
-#: src/ui/grisbi_menu.ui:239 src/ui/grisbi_menu.ui:487
+#: src/ui/grisbi_menu.ui:232 src/ui/grisbi_menu.ui:473
 msgid "Quick start"
 msgstr "Démarrage rapide"
 
-#: src/ui/grisbi_menu.ui:245 src/ui/grisbi_menu.ui:498
+#: src/ui/grisbi_menu.ui:238 src/ui/grisbi_menu.ui:484
 msgid "Grisbi website"
 msgstr "Site Web de Grisbi"
 
-#: src/ui/grisbi_menu.ui:250 src/ui/grisbi_menu.ui:503
+#: src/ui/grisbi_menu.ui:243 src/ui/grisbi_menu.ui:489
 msgid "Report a bug"
 msgstr "Signaler une anomalie"
 
-#: src/ui/grisbi_menu.ui:305 src/grisbi_app.c:120 src/grisbi_app.c:137
+#: src/ui/grisbi_menu.ui:291 src/grisbi_app.c:119 src/grisbi_app.c:135
 msgid "Import file"
 msgstr "Importer un fichier"
 
-#: src/ui/grisbi_menu.ui:310
+#: src/ui/grisbi_menu.ui:296
 msgid "Export accounts as QIF/CSV file"
 msgstr "Exporter vers un fichier QIF/CSV"
 
-#: src/ui/grisbi_menu.ui:429
+#: src/ui/grisbi_menu.ui:415
 msgid "_View"
 msgstr "Affichage"
 
@@ -2003,10 +1999,12 @@ msgid "Comments"
 msgstr "Commentaires"
 
 #: src/widgets/widget_assistant.ui:40
+#: src/widgets/widget_search_transaction.ui:49
 msgid "Previous"
 msgstr "Précédent"
 
 #: src/widgets/widget_assistant.ui:55
+#: src/widgets/widget_search_transaction.ui:64
 msgid "Next"
 msgstr "Suivant"
 
@@ -2300,8 +2298,8 @@ msgstr "Liste des opérations"
 msgid "Forecast"
 msgstr "Prévisions"
 
-#: src/widgets/widget_css_rules.ui:367 src/grisbi_app.c:115
-#: src/grisbi_app.c:132
+#: src/widgets/widget_css_rules.ui:367 src/grisbi_app.c:114
+#: src/grisbi_app.c:130
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -2565,7 +2563,7 @@ msgstr "Utiliser le tableau d'amortissement pour les opérations planifiées"
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr "Inverser les colonnes «Capital restant» et «Échéance»"
 
-#: src/widgets/widget_reconcile.ui:61 src/gsb_bank.c:435
+#: src/widgets/widget_reconcile.ui:61 src/gsb_bank.c:439
 #: src/widgets/widget_reconcile.c:761
 msgid "None"
 msgstr "Aucune"
@@ -2591,47 +2589,49 @@ msgstr "Tri par mode de règlement"
 msgid "Reconcile"
 msgstr "Rapprocher"
 
-#: src/widgets/widget_search_transaction.ui:39
+#: src/widgets/widget_search_transaction.ui:78
+#: src/widgets/widget_search_transaction.c:485
+#: src/widgets/widget_search_transaction.c:613
 msgid "Find"
 msgstr "Chercher"
 
-#: src/widgets/widget_search_transaction.ui:67
+#: src/widgets/widget_search_transaction.ui:106
 msgid "Search in payee name"
 msgstr "Chercher dans les tiers"
 
-#: src/widgets/widget_search_transaction.ui:96
+#: src/widgets/widget_search_transaction.ui:135
 msgid "Search in note"
 msgstr "Chercher dans les notes"
 
-#: src/widgets/widget_search_transaction.ui:147
+#: src/widgets/widget_search_transaction.ui:186
 msgid "Continue with another account: "
 msgstr "Continuer avec un autre compte : "
 
-#: src/widgets/widget_search_transaction.ui:189
+#: src/widgets/widget_search_transaction.ui:228
 msgid "Search from newest to oldest"
 msgstr "Chercher du plus récent au plus ancien"
 
-#: src/widgets/widget_search_transaction.ui:205
+#: src/widgets/widget_search_transaction.ui:244
 msgid "Search in the archived transactions"
 msgstr "Chercher dans les opérations archivées"
 
-#: src/widgets/widget_search_transaction.ui:220
-#: src/widgets/widget_search_transaction.c:670
-#: src/widgets/widget_search_transaction.c:675
-#: src/widgets/widget_search_transaction.c:680
-#: src/widgets/widget_search_transaction.c:1021
+#: src/widgets/widget_search_transaction.ui:259
+#: src/widgets/widget_search_transaction.c:722
+#: src/widgets/widget_search_transaction.c:728
+#: src/widgets/widget_search_transaction.c:734
+#: src/widgets/widget_search_transaction.c:1077
 msgid "Ignore case"
 msgstr "Ignorer la casse"
 
-#: src/widgets/widget_search_transaction.ui:255
+#: src/widgets/widget_search_transaction.ui:294
 msgid "Search an amount at + or - "
 msgstr "Chercher un montant à + ou - "
 
-#: src/widgets/widget_search_transaction.ui:317
+#: src/widgets/widget_search_transaction.ui:357
 msgid "Search an amount"
-msgstr "Rechercher un montant"
+msgstr "Chercher un montant"
 
-#: src/widgets/widget_search_transaction.ui:333
+#: src/widgets/widget_search_transaction.ui:373
 msgid "Search in payee and note"
 msgstr "Chercher dans les tiers et les notes"
 
@@ -2707,7 +2707,7 @@ msgid "Allows you to select the working day following the date entered"
 msgstr "Permet de sélectionner le jour ouvrable suivant la date entrée"
 
 #: share/grisbi.desktop.in:3 share/grisbi.metainfo.xml.in:6
-#: src/grisbi_win.c:1634 src/grisbi_win.c:1683
+#: src/grisbi_win.c:1627 src/grisbi_win.c:1676
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -3060,7 +3060,7 @@ msgid " of capital"
 msgstr " du capital"
 
 #: src/bet_finance_ui.c:1485 src/grisbi_win.c:477 src/navigation.c:633
-#: src/navigation.c:1981
+#: src/navigation.c:1976
 msgid "Credits simulator"
 msgstr "Simulateur de crédits"
 
@@ -4522,7 +4522,7 @@ msgstr "Exporter un état..."
 
 #: src/etats_onglet.c:429 src/grisbi_prefs.c:793 src/grisbi_prefs.c:817
 #: src/gsb_debug.c:842 src/gsb_file.c:549 src/gsb_file.c:700
-#: src/gsb_file.c:1037
+#: src/gsb_file.c:1039
 msgid "Done"
 msgstr "Terminé"
 
@@ -4639,7 +4639,7 @@ msgid "Unknown report type, creation cancelled"
 msgstr "Type d'état inconnu, création abandonnée"
 
 #: src/etats_onglet.c:1229 src/grisbi_win.c:492 src/navigation.c:645
-#: src/navigation.c:2017
+#: src/navigation.c:2006
 msgid "Reports"
 msgstr "États"
 
@@ -5599,35 +5599,31 @@ msgstr "Menu"
 msgid "The menu of options"
 msgstr "Menu des options"
 
-#: src/grisbi_app.c:114 src/grisbi_app.c:131
-msgid "New_window"
-msgstr "Nouvelle fenêtre"
-
-#: src/grisbi_app.c:116 src/grisbi_app.c:133
+#: src/grisbi_app.c:115 src/grisbi_app.c:131
 msgid "Quit"
 msgstr "Quitter"
 
-#: src/grisbi_app.c:128 src/grisbi_app.c:145
+#: src/grisbi_app.c:127 src/grisbi_app.c:143
 msgid "Full screen"
 msgstr "Plein écran"
 
-#: src/grisbi_app.c:825
+#: src/grisbi_app.c:827
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGINT ne sera pas détourné\n"
 
-#: src/grisbi_app.c:828
+#: src/grisbi_app.c:830
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGTERM ne sera pas détourné\n"
 
-#: src/grisbi_app.c:831
+#: src/grisbi_app.c:833
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: src/grisbi_app.c:1023 src/menu.c:646
+#: src/grisbi_app.c:1020 src/menu.c:646
 msgid "Start an action!"
 msgstr "Choisissez une action !"
 
-#: src/grisbi_app.c:1059
+#: src/grisbi_app.c:1056
 msgid ""
 "Grisbi has detected several character strings separated by one or more "
 "spaces.\n"
@@ -5644,32 +5640,32 @@ msgstr ""
 "\n"
 "\t- S'il existe plusieurs noms de fichiers, conservez-en un seul."
 
-#: src/grisbi_app.c:1064
+#: src/grisbi_app.c:1061
 msgid "Inconsistency of the command line."
 msgstr "Incohérences trouvées dans la ligne de commande."
 
-#: src/grisbi_app.c:1339
+#: src/grisbi_app.c:1336
 msgid "<b>Actions in transaction list:</b>"
 msgstr "<b>Actions de la liste des opérations :</b>"
 
-#: src/grisbi_app.c:1342
+#: src/grisbi_app.c:1339
 #, c-format
-msgid "(Un)Pointing a transaction%s-> <Command>p, <Command>F12\n"
+msgid "(Un)Pointing a transaction%s-> <Command>P, <Command>F12\n"
 msgstr "(Dé)Pointe une opération%s-> <Command>p, <Command>F12\n"
 
-#: src/grisbi_app.c:1345
+#: src/grisbi_app.c:1342
 #, c-format
-msgid "(Un)Reconcile a transaction%s-> <Command>r\n"
+msgid "(Un)Reconcile a transaction%s-> <Command>R\n"
 msgstr "(Dé)Rapproche une opération%s-> <Command>r\n"
+
+#: src/grisbi_app.c:1346
+#, c-format
+msgid "(Un)Pointing a transaction%s-> <Ctrl>P, <Ctrl>F12\n"
+msgstr "(Dé)Pointe une opération%s-> <Ctrl>p, <Ctrl>F12\n"
 
 #: src/grisbi_app.c:1349
 #, c-format
-msgid "(Un)Pointing a transaction%s-> <Ctrl>p, <Ctrl>F12\n"
-msgstr "(Dé)Pointe une opération%s-> <Ctrl>p, <Ctrl>F12\n"
-
-#: src/grisbi_app.c:1352
-#, c-format
-msgid "(Un)Reconcile a transaction%s-> <Ctrl>p, <Ctrl>F12\n"
+msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
 msgstr "(Dé)Pointe une opération%s-> <Ctrl>p, <Ctrl>F12\n"
 
 #: src/grisbi_conf.c:1166
@@ -5818,23 +5814,23 @@ msgstr "Ouvrir un fichier de comptes existant"
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "Importer des fichiers CSV, QIF, OFX..."
 
-#: src/grisbi_win.c:1509
+#: src/grisbi_win.c:1502
 msgid "Unnamed account"
 msgstr "Compte inconnu"
 
-#: src/grisbi_win.c:1531 src/gsb_transactions_list.c:524
+#: src/grisbi_win.c:1524 src/gsb_transactions_list.c:524
 msgid "Move transaction to another account"
 msgstr "Déplacer l'opération vers un autre compte"
 
-#: src/grisbi_win.c:1688 src/gsb_file.c:419 src/gsb_file.c:453
+#: src/grisbi_win.c:1681 src/gsb_file.c:419 src/gsb_file.c:453
 msgid "unnamed"
 msgstr "sans nom"
 
-#: src/grisbi_win.c:2014
+#: src/grisbi_win.c:2007
 msgid "Creating main window"
 msgstr "Création de la fenêtre principale"
 
-#: src/grisbi_win.c:2026
+#: src/grisbi_win.c:2019
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -5954,7 +5950,7 @@ msgstr ""
 msgid "Please enter the name of the new account: "
 msgstr "Veuillez entrer le nom du nouveau compte : "
 
-#: src/gsb_assistant_account.c:399 src/gsb_bank.c:172
+#: src/gsb_assistant_account.c:399 src/gsb_bank.c:176
 #: src/prefs/prefs_page_bank.c:106 src/widgets/widget_bank_details.c:371
 #: src/widgets/widget_bank_details.c:497
 msgid "New bank"
@@ -6691,7 +6687,7 @@ msgstr "Aucune opération sélectionnée, elles ne sont pas modifiées."
 msgid "Edit bank"
 msgstr "Éditer la banque"
 
-#: src/gsb_bank.c:468
+#: src/gsb_bank.c:472
 msgid "Add new bank"
 msgstr "Ajouter une nouvelle banque"
 
@@ -8282,7 +8278,7 @@ msgstr "Aucun tiers défini"
 
 #: src/gsb_data_payee.c:610 src/gsb_form.c:1029 src/gtk_combofix.c:412
 #: src/gtk_combofix.c:613 src/gtk_combofix.c:2400 src/gtk_combofix.c:2524
-#: src/navigation.c:2015
+#: src/navigation.c:2004
 msgid "Report"
 msgstr "État"
 
@@ -8608,7 +8604,7 @@ msgstr "Impossible d'ouvrir le fichier « %s » : %s"
 msgid "File does not exist"
 msgstr "Le fichier n'existe pas"
 
-#: src/gsb_file.c:273 src/gsb_file.c:287 src/gsb_file.c:977
+#: src/gsb_file.c:273 src/gsb_file.c:287 src/gsb_file.c:978
 #: src/gsb_file_load.c:553
 #, c-format
 msgid "Error loading file '%s'"
@@ -8715,7 +8711,7 @@ msgstr ""
 msgid "Version of Grisbi file too old:"
 msgstr "Version du fichier Grisbi trop vieille :"
 
-#: src/gsb_file.c:981
+#: src/gsb_file.c:982
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -8730,7 +8726,7 @@ msgstr ""
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
-#: src/gsb_file.c:992
+#: src/gsb_file.c:993
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -8747,7 +8743,7 @@ msgstr ""
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
-#: src/gsb_file.c:999
+#: src/gsb_file.c:1000
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -8759,15 +8755,15 @@ msgstr ""
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
-#: src/gsb_file.c:1017
+#: src/gsb_file.c:1019
 msgid "Checking schedulers"
 msgstr "Vérification de l'échéancier"
 
-#: src/gsb_file.c:1027
+#: src/gsb_file.c:1029
 msgid "Checking amounts"
 msgstr "Pointage"
 
-#: src/gsb_file.c:1316
+#: src/gsb_file.c:1336
 #, c-format
 msgid ""
 "The original file was saved saved as:\n"
@@ -8776,12 +8772,12 @@ msgstr ""
 "Le fichier original a été sauvegardé sous le nom :\n"
 "« %s »."
 
-#: src/gsb_file.c:1409
+#: src/gsb_file.c:1429
 #, c-format
 msgid "Are you sure you want to remove this accounts file \"%s\"?\n"
 msgstr "Êtes-vous sûr de vouloir supprimer ce fichier de comptes « %s » ?\n"
 
-#: src/gsb_file.c:1411
+#: src/gsb_file.c:1431
 msgid "Confirmation of accounts file removal"
 msgstr "Confirmation de suppression d'un fichier de comptes"
 
@@ -9430,7 +9426,7 @@ msgstr "Périodicité de l'échéancier"
 msgid "Show transactions for the next: "
 msgstr "Montrer les opérations pour : "
 
-#: src/gsb_scheduler_list.c:229 src/navigation.c:1945
+#: src/gsb_scheduler_list.c:229 src/navigation.c:1943
 msgid "Scheduled transactions"
 msgstr "Opérations planifiées"
 
@@ -9534,7 +9530,7 @@ msgid "Remove orphan children"
 msgstr "Supprimer les opérations orphelines"
 
 #: src/gsb_scheduler_list.c:1919 src/transaction_list.c:173
-#: src/transaction_list.c:492 src/transaction_list.c:1416
+#: src/transaction_list.c:484 src/transaction_list.c:1408
 #, c-format
 msgid "Total: %s (variance: %s)"
 msgstr "Total : %s (écart : %s)"
@@ -10490,7 +10486,6 @@ msgid "The number of columns is not the same on all useful lines in the file"
 msgstr ""
 
 #: src/import_csv.c:747
-#, fuzzy
 msgid "Inconsistency in number of columns"
 msgstr "Incohérences dans le nombre de colonnes"
 
@@ -10906,8 +10901,8 @@ msgstr "Utiliser la remarque : « %s » pour trouver les opérations"
 msgid "You must select at least one search element"
 msgstr "Vous devez sélectionner au moins un élément de recherche"
 
-#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:482
-#: src/widgets/widget_search_transaction.c:739
+#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:520
+#: src/widgets/widget_search_transaction.c:795
 msgid "WARNING"
 msgstr "ATTENTION"
 
@@ -12402,12 +12397,12 @@ msgstr "Saviez-vous que..."
 msgid "Display tips at next start"
 msgstr "Afficher l'astuce lors du prochain démarrage"
 
-#: src/transaction_list.c:668
+#: src/transaction_list.c:660
 #, c-format
 msgid "%s (%d transactions)"
 msgstr "%s (%d opérations)"
 
-#: src/transaction_list.c:1961
+#: src/transaction_list.c:1953
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't "
 "appendCheck that."
@@ -13032,28 +13027,28 @@ msgstr "Dernier relevé : %s"
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>%s rapprochement</b> "
 
-#: src/widgets/widget_search_transaction.c:481
-#: src/widgets/widget_search_transaction.c:738
+#: src/widgets/widget_search_transaction.c:519
+#: src/widgets/widget_search_transaction.c:794
 msgid "You must enter a search text"
 msgstr "Vous devez entrer un text à rechercher"
 
-#: src/widgets/widget_search_transaction.c:525
+#: src/widgets/widget_search_transaction.c:563
 msgid "1 transaction were found"
 msgstr "1 opération a été trouvée"
 
-#: src/widgets/widget_search_transaction.c:527
+#: src/widgets/widget_search_transaction.c:565
 msgid " transactions were found"
 msgstr " opérations ont été trouvées"
 
-#: src/widgets/widget_search_transaction.c:544
+#: src/widgets/widget_search_transaction.c:588
 msgid "No transaction was found"
 msgstr "Aucune opération n'a été trouvée"
 
-#: src/widgets/widget_search_transaction.c:685
+#: src/widgets/widget_search_transaction.c:740
 msgid "Ignore sign"
 msgstr "Ignorer le signe"
 
-#: src/widgets/widget_search_transaction.c:930
+#: src/widgets/widget_search_transaction.c:986
 msgid "Choose another account"
 msgstr "Choisissez un autre compte"
 
@@ -13064,3 +13059,9 @@ msgstr "Solde partiel"
 #: src/widgets/widget_transfer.c:930
 msgid "One of the two fields is recommended"
 msgstr "Il est recommandé d'utiliser un des deux champs"
+
+#~ msgid "New window"
+#~ msgstr "Nouvelle fenêtre"
+
+#~ msgid "New_window"
+#~ msgstr "Nouvelle fenêtre"

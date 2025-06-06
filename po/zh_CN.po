@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2025-05-31 06:37+0200\n"
+"POT-Creation-Date: 2025-06-06 10:29+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -95,8 +95,8 @@ msgstr "选择所有"
 msgid "<Ctrl> + left click of mouse to add to the selection"
 msgstr ""
 
-#: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:161
-#: src/ui/grisbi_menu.ui:402 src/widgets/widget_search_transaction.ui:19
+#: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:154
+#: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_transaction.ui:29
 #: src/etats_onglet.c:925 src/etats_onglet.c:1155 src/etats_onglet.c:1390
 #: src/gsb_transactions_list.c:547
 msgid "Search"
@@ -225,7 +225,7 @@ msgstr "选择银行账户:"
 msgid "Add"
 msgstr "增加"
 
-#: src/prefs/prefs_page_accueil.ui:245 src/ui/grisbi_menu.ui:363
+#: src/prefs/prefs_page_accueil.ui:245 src/ui/grisbi_menu.ui:349
 #: src/categories_onglet.c:652 src/gsb_scheduler_list.c:1198
 #: src/gsb_transactions_list.c:2544 src/imputation_budgetaire.c:683
 #: src/tiers_onglet.c:653
@@ -562,7 +562,7 @@ msgstr ""
 #: src/widgets/widget_list_metatree.ui:91 src/widgets/widget_reconcile.ui:269
 #: src/widgets/widget_reconcile.ui:281 src/widgets/widget_reconcile.ui:293
 #: src/widgets/widget_reconcile.ui:305
-#: src/widgets/widget_search_transaction.ui:288
+#: src/widgets/widget_search_transaction.ui:328
 msgid "label"
 msgstr ""
 
@@ -1113,8 +1113,8 @@ msgstr ""
 msgid "Display following deleting messages"
 msgstr "警告信息"
 
-#: src/prefs/prefs_page_msg_warning.ui:30 src/ui/grisbi_menu.ui:257
-#: src/ui/grisbi_menu.ui:510
+#: src/prefs/prefs_page_msg_warning.ui:30 src/ui/grisbi_menu.ui:250
+#: src/ui/grisbi_menu.ui:496
 msgid "Tip of the day"
 msgstr ""
 
@@ -1843,250 +1843,246 @@ msgstr "选择包含的支付方式:"
 msgid "title"
 msgstr "名称抬头"
 
-#: src/ui/grisbi_menu.ui:7 src/ui/grisbi_menu.ui:269
-msgid "New window"
-msgstr ""
-
-#: src/ui/grisbi_menu.ui:15 src/ui/grisbi_menu.ui:421
+#: src/ui/grisbi_menu.ui:8 src/ui/grisbi_menu.ui:407
 #, fuzzy
 msgid "_Preferences"
 msgstr "选项"
 
-#: src/ui/grisbi_menu.ui:22 src/ui/grisbi_menu.ui:491
+#: src/ui/grisbi_menu.ui:15 src/ui/grisbi_menu.ui:477
 msgid "About"
 msgstr "关于"
 
-#: src/ui/grisbi_menu.ui:29 src/ui/grisbi_menu.ui:355
+#: src/ui/grisbi_menu.ui:22 src/ui/grisbi_menu.ui:341
 msgid "_Quit"
 msgstr ""
 
-#: src/ui/grisbi_menu.ui:38 src/ui/grisbi_menu.ui:266
+#: src/ui/grisbi_menu.ui:31 src/ui/grisbi_menu.ui:259
 #, fuzzy
 msgid "_File"
 msgstr "文件"
 
-#: src/ui/grisbi_menu.ui:41 src/ui/grisbi_menu.ui:276 src/grisbi_app.c:117
-#: src/grisbi_app.c:134
+#: src/ui/grisbi_menu.ui:34 src/ui/grisbi_menu.ui:262 src/grisbi_app.c:116
+#: src/grisbi_app.c:132
 #, fuzzy
 msgid "New account file"
 msgstr "新账户文件"
 
-#: src/ui/grisbi_menu.ui:46 src/ui/grisbi_menu.ui:281
+#: src/ui/grisbi_menu.ui:39 src/ui/grisbi_menu.ui:267
 #: src/categories_onglet.c:495 src/categories_onglet.c:552
-#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:118
-#: src/grisbi_app.c:135 src/grisbi_win.c:754 src/gsb_file.c:770
+#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
+#: src/grisbi_app.c:133 src/grisbi_win.c:754 src/gsb_file.c:770
 #: src/gsb_select_icon.c:320 src/import.c:1207 src/imputation_budgetaire.c:518
 #: src/imputation_budgetaire.c:580 src/prefs/prefs_page_display_fonts.c:311
 #, fuzzy
 msgid "Open"
 msgstr "_打开"
 
-#: src/ui/grisbi_menu.ui:53 src/ui/grisbi_menu.ui:288
+#: src/ui/grisbi_menu.ui:46 src/ui/grisbi_menu.ui:274
 #, fuzzy
 msgid "Recently opened files"
 msgstr "最近打开的文件"
 
-#: src/ui/grisbi_menu.ui:58 src/ui/grisbi_menu.ui:293 src/bet_finance_ui.c:798
+#: src/ui/grisbi_menu.ui:51 src/ui/grisbi_menu.ui:279 src/bet_finance_ui.c:798
 #: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:436
-#: src/etats_onglet.c:365 src/grisbi_app.c:119 src/grisbi_app.c:136
+#: src/etats_onglet.c:365 src/grisbi_app.c:118 src/grisbi_app.c:134
 #: src/gsb_file.c:324 src/gsb_file.c:427 src/gsb_file.c:458
 #: src/imputation_budgetaire.c:454 src/tiers_onglet.c:133
 #, fuzzy
 msgid "Save"
 msgstr "保存"
 
-#: src/ui/grisbi_menu.ui:63 src/ui/grisbi_menu.ui:298
+#: src/ui/grisbi_menu.ui:56 src/ui/grisbi_menu.ui:284
 #, fuzzy
 msgid "Save As"
 msgstr "另存为"
 
-#: src/ui/grisbi_menu.ui:70
+#: src/ui/grisbi_menu.ui:63
 #, fuzzy
 msgid "_Import file"
 msgstr "导出文件"
 
-#: src/ui/grisbi_menu.ui:75 src/grisbi_app.c:121 src/grisbi_app.c:138
+#: src/ui/grisbi_menu.ui:68 src/grisbi_app.c:120 src/grisbi_app.c:136
 #, fuzzy
 msgid "Export as QIF/CSV file"
 msgstr "导出QIF格式"
 
-#: src/ui/grisbi_menu.ui:82 src/ui/grisbi_menu.ui:317
+#: src/ui/grisbi_menu.ui:75 src/ui/grisbi_menu.ui:303
 #: src/gsb_assistant_archive.c:1072
 #, fuzzy
 msgid "Archive transactions"
 msgstr "新增交易"
 
-#: src/ui/grisbi_menu.ui:87 src/ui/grisbi_menu.ui:322
+#: src/ui/grisbi_menu.ui:80 src/ui/grisbi_menu.ui:308
 #, fuzzy
 msgid "Export an archive as GSB/QIF/CSV file"
 msgstr "导出为QIF文件"
 
-#: src/ui/grisbi_menu.ui:94 src/ui/grisbi_menu.ui:329
+#: src/ui/grisbi_menu.ui:87 src/ui/grisbi_menu.ui:315
 #, fuzzy
 msgid "Debug account file"
 msgstr "新账户文件"
 
-#: src/ui/grisbi_menu.ui:99 src/ui/grisbi_menu.ui:334
+#: src/ui/grisbi_menu.ui:92 src/ui/grisbi_menu.ui:320
 #, fuzzy
 msgid "Obfuscate account file"
 msgstr "命名账户文件"
 
-#: src/ui/grisbi_menu.ui:104 src/ui/grisbi_menu.ui:339
+#: src/ui/grisbi_menu.ui:97 src/ui/grisbi_menu.ui:325
 #, fuzzy
 msgid "Obfuscate QIF file"
 msgstr "导出为QIF文件"
 
-#: src/ui/grisbi_menu.ui:109 src/ui/grisbi_menu.ui:344
+#: src/ui/grisbi_menu.ui:102 src/ui/grisbi_menu.ui:330
 #, fuzzy
 msgid "Debug mode"
 msgstr "除错"
 
-#: src/ui/grisbi_menu.ui:115 src/ui/grisbi_menu.ui:350
+#: src/ui/grisbi_menu.ui:108 src/ui/grisbi_menu.ui:336
 #: src/ui/grisbi_prefs.ui:29 src/widgets/widget_assistant.ui:71
 #: src/widgets/widget_bet_graph_others.ui:37
-#: src/widgets/widget_bet_graph_pie.ui:26 src/grisbi_app.c:122
-#: src/grisbi_app.c:139 src/gsb_assistant.c:445 src/gsb_currency.c:1328
+#: src/widgets/widget_bet_graph_pie.ui:26 src/grisbi_app.c:121
+#: src/grisbi_app.c:137 src/gsb_assistant.c:445 src/gsb_currency.c:1328
 #: src/tip.c:155 src/widgets/widget_loan.c:950
 #, fuzzy
 msgid "Close"
 msgstr "关闭"
 
-#: src/ui/grisbi_menu.ui:123
+#: src/ui/grisbi_menu.ui:116
 msgid "E_dit"
 msgstr ""
 
-#: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:366
+#: src/ui/grisbi_menu.ui:119 src/ui/grisbi_menu.ui:352
 #: src/gsb_scheduler_list.c:349 src/gsb_transactions_list.c:463
 msgid "Edit transaction"
 msgstr "更改交易"
 
-#: src/ui/grisbi_menu.ui:133 src/ui/grisbi_menu.ui:373 src/grisbi_app.c:123
-#: src/grisbi_app.c:140 src/gsb_scheduler_list.c:375
+#: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:359 src/grisbi_app.c:122
+#: src/grisbi_app.c:138 src/gsb_scheduler_list.c:375
 #: src/gsb_transactions_list.c:476 src/gsb_transactions_list.c:2526
 msgid "New transaction"
 msgstr "新交易"
 
-#: src/ui/grisbi_menu.ui:138 src/ui/grisbi_menu.ui:378
+#: src/ui/grisbi_menu.ui:131 src/ui/grisbi_menu.ui:364
 #, fuzzy
 msgid "Remove transaction"
 msgstr "删除交易"
 
-#: src/ui/grisbi_menu.ui:143 src/ui/grisbi_menu.ui:383
+#: src/ui/grisbi_menu.ui:136 src/ui/grisbi_menu.ui:369
 #: src/gsb_transactions_list.c:496
 msgid "Use selected transaction as a template"
 msgstr "使用选中交易做模板"
 
-#: src/ui/grisbi_menu.ui:148 src/ui/grisbi_menu.ui:388
+#: src/ui/grisbi_menu.ui:141 src/ui/grisbi_menu.ui:374
 #: src/gsb_scheduler_list.c:360 src/gsb_transactions_list.c:503
 msgid "Clone transaction"
 msgstr "复制交易"
 
-#: src/ui/grisbi_menu.ui:155 src/ui/grisbi_menu.ui:395
+#: src/ui/grisbi_menu.ui:148 src/ui/grisbi_menu.ui:381
 #, fuzzy
 msgid "Convert to scheduled transaction"
 msgstr "录入预定交易"
 
-#: src/ui/grisbi_menu.ui:168 src/ui/grisbi_menu.ui:409 src/grisbi_app.c:124
-#: src/grisbi_app.c:141 src/navigation.c:209
+#: src/ui/grisbi_menu.ui:161 src/ui/grisbi_menu.ui:395 src/grisbi_app.c:123
+#: src/grisbi_app.c:139 src/navigation.c:209
 #, fuzzy
 msgid "New account"
 msgstr "新账户"
 
-#: src/ui/grisbi_menu.ui:173 src/ui/grisbi_menu.ui:414
+#: src/ui/grisbi_menu.ui:166 src/ui/grisbi_menu.ui:400
 #, fuzzy
 msgid "Remove current account"
 msgstr "删除账户"
 
-#: src/ui/grisbi_menu.ui:181 src/categories_onglet.c:664
+#: src/ui/grisbi_menu.ui:174 src/categories_onglet.c:664
 #: src/gsb_scheduler_list.c:1230 src/gsb_transactions_list.c:2571
 #: src/imputation_budgetaire.c:695 src/tiers_onglet.c:665
 msgid "View"
 msgstr ""
 
-#: src/ui/grisbi_menu.ui:184 src/ui/grisbi_menu.ui:432
+#: src/ui/grisbi_menu.ui:177 src/ui/grisbi_menu.ui:418
 #, fuzzy
 msgid "Show transaction form"
 msgstr "交易表格"
 
-#: src/ui/grisbi_menu.ui:188 src/ui/grisbi_menu.ui:436 src/grisbi_app.c:125
-#: src/grisbi_app.c:142
+#: src/ui/grisbi_menu.ui:181 src/ui/grisbi_menu.ui:422 src/grisbi_app.c:124
+#: src/grisbi_app.c:140
 #, fuzzy
 msgid "Show reconciled"
 msgstr "对账"
 
-#: src/ui/grisbi_menu.ui:192 src/ui/grisbi_menu.ui:440 src/grisbi_app.c:126
-#: src/grisbi_app.c:143 src/gsb_transactions_list.c:2484
+#: src/ui/grisbi_menu.ui:185 src/ui/grisbi_menu.ui:426 src/grisbi_app.c:125
+#: src/grisbi_app.c:141 src/gsb_transactions_list.c:2484
 #, fuzzy
 msgid "Show lines archives"
 msgstr "已知货币"
 
-#: src/ui/grisbi_menu.ui:196 src/ui/grisbi_menu.ui:444
+#: src/ui/grisbi_menu.ui:189 src/ui/grisbi_menu.ui:430
 #, fuzzy
 msgid "Show closed accounts"
 msgstr "结算账户"
 
-#: src/ui/grisbi_menu.ui:202 src/ui/grisbi_menu.ui:450
+#: src/ui/grisbi_menu.ui:195 src/ui/grisbi_menu.ui:436
 #, fuzzy
 msgid "Show one line per transaction"
 msgstr "每笔交易显示1行"
 
-#: src/ui/grisbi_menu.ui:207 src/ui/grisbi_menu.ui:455
+#: src/ui/grisbi_menu.ui:200 src/ui/grisbi_menu.ui:441
 #, fuzzy
 msgid "Show two lines per transaction"
 msgstr "每笔交易显示2行"
 
-#: src/ui/grisbi_menu.ui:212 src/ui/grisbi_menu.ui:460
+#: src/ui/grisbi_menu.ui:205 src/ui/grisbi_menu.ui:446
 #, fuzzy
 msgid "Show three lines per transaction"
 msgstr "每笔交易显示3行"
 
-#: src/ui/grisbi_menu.ui:217 src/ui/grisbi_menu.ui:465
+#: src/ui/grisbi_menu.ui:210 src/ui/grisbi_menu.ui:451
 #, fuzzy
 msgid "Show four lines per transaction"
 msgstr "每笔交易显示4行"
 
-#: src/ui/grisbi_menu.ui:224 src/ui/grisbi_menu.ui:472
+#: src/ui/grisbi_menu.ui:217 src/ui/grisbi_menu.ui:458
 #, fuzzy
 msgid "Reset the column width"
 msgstr "选择账户"
 
-#: src/ui/grisbi_menu.ui:231 src/ui/grisbi_menu.ui:479
+#: src/ui/grisbi_menu.ui:224 src/ui/grisbi_menu.ui:465
 #, fuzzy
 msgid "_Help"
 msgstr "帮助"
 
-#: src/ui/grisbi_menu.ui:234 src/ui/grisbi_menu.ui:482 src/grisbi_app.c:127
-#: src/grisbi_app.c:144
+#: src/ui/grisbi_menu.ui:227 src/ui/grisbi_menu.ui:468 src/grisbi_app.c:126
+#: src/grisbi_app.c:142
 #, fuzzy
 msgid "User's Manual"
 msgstr "Grisbi手册"
 
-#: src/ui/grisbi_menu.ui:239 src/ui/grisbi_menu.ui:487
+#: src/ui/grisbi_menu.ui:232 src/ui/grisbi_menu.ui:473
 #, fuzzy
 msgid "Quick start"
 msgstr "快速入门"
 
-#: src/ui/grisbi_menu.ui:245 src/ui/grisbi_menu.ui:498
+#: src/ui/grisbi_menu.ui:238 src/ui/grisbi_menu.ui:484
 #, fuzzy
 msgid "Grisbi website"
 msgstr "Grisbi官方网站"
 
-#: src/ui/grisbi_menu.ui:250 src/ui/grisbi_menu.ui:503
+#: src/ui/grisbi_menu.ui:243 src/ui/grisbi_menu.ui:489
 #, fuzzy
 msgid "Report a bug"
 msgstr "报告软件缺陷"
 
-#: src/ui/grisbi_menu.ui:305 src/grisbi_app.c:120 src/grisbi_app.c:137
+#: src/ui/grisbi_menu.ui:291 src/grisbi_app.c:119 src/grisbi_app.c:135
 #, fuzzy
 msgid "Import file"
 msgstr "导出文件"
 
-#: src/ui/grisbi_menu.ui:310
+#: src/ui/grisbi_menu.ui:296
 #, fuzzy
 msgid "Export accounts as QIF/CSV file"
 msgstr "导出为QIF文件"
 
-#: src/ui/grisbi_menu.ui:429
+#: src/ui/grisbi_menu.ui:415
 msgid "_View"
 msgstr ""
 
@@ -2203,11 +2199,13 @@ msgid "Comments"
 msgstr "备注"
 
 #: src/widgets/widget_assistant.ui:40
+#: src/widgets/widget_search_transaction.ui:49
 #, fuzzy
 msgid "Previous"
 msgstr "去年"
 
 #: src/widgets/widget_assistant.ui:55
+#: src/widgets/widget_search_transaction.ui:64
 msgid "Next"
 msgstr ""
 
@@ -2522,8 +2520,8 @@ msgstr "交易清单单元格"
 msgid "Forecast"
 msgstr ""
 
-#: src/widgets/widget_css_rules.ui:367 src/grisbi_app.c:115
-#: src/grisbi_app.c:132
+#: src/widgets/widget_css_rules.ui:367 src/grisbi_app.c:114
+#: src/grisbi_app.c:130
 #, fuzzy
 msgid "Preferences"
 msgstr "选项"
@@ -2803,7 +2801,7 @@ msgstr ""
 msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr ""
 
-#: src/widgets/widget_reconcile.ui:61 src/gsb_bank.c:435
+#: src/widgets/widget_reconcile.ui:61 src/gsb_bank.c:439
 #: src/widgets/widget_reconcile.c:761
 msgid "None"
 msgstr "无"
@@ -2832,52 +2830,54 @@ msgstr "支付方式"
 msgid "Reconcile"
 msgstr "对账"
 
-#: src/widgets/widget_search_transaction.ui:39
+#: src/widgets/widget_search_transaction.ui:78
+#: src/widgets/widget_search_transaction.c:485
+#: src/widgets/widget_search_transaction.c:613
 msgid "Find"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:67
+#: src/widgets/widget_search_transaction.ui:106
 #, fuzzy
 msgid "Search in payee name"
 msgstr "一般总计"
 
-#: src/widgets/widget_search_transaction.ui:96
+#: src/widgets/widget_search_transaction.ui:135
 #, fuzzy
 msgid "Search in note"
 msgstr "查找:"
 
-#: src/widgets/widget_search_transaction.ui:147
+#: src/widgets/widget_search_transaction.ui:186
 #, fuzzy
 msgid "Continue with another account: "
 msgstr "移动交易到另一个账户"
 
-#: src/widgets/widget_search_transaction.ui:189
+#: src/widgets/widget_search_transaction.ui:228
 msgid "Search from newest to oldest"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:205
+#: src/widgets/widget_search_transaction.ui:244
 #, fuzzy
 msgid "Search in the archived transactions"
 msgstr "删除一条定期交易"
 
-#: src/widgets/widget_search_transaction.ui:220
-#: src/widgets/widget_search_transaction.c:670
-#: src/widgets/widget_search_transaction.c:675
-#: src/widgets/widget_search_transaction.c:680
-#: src/widgets/widget_search_transaction.c:1021
+#: src/widgets/widget_search_transaction.ui:259
+#: src/widgets/widget_search_transaction.c:722
+#: src/widgets/widget_search_transaction.c:728
+#: src/widgets/widget_search_transaction.c:734
+#: src/widgets/widget_search_transaction.c:1077
 msgid "Ignore case"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:255
+#: src/widgets/widget_search_transaction.ui:294
 msgid "Search an amount at + or - "
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:317
+#: src/widgets/widget_search_transaction.ui:357
 #, fuzzy
 msgid "Search an amount"
 msgstr "选择银行账户"
 
-#: src/widgets/widget_search_transaction.ui:333
+#: src/widgets/widget_search_transaction.ui:373
 #, fuzzy
 msgid "Search in payee and note"
 msgstr "一般总计"
@@ -2966,7 +2966,7 @@ msgid "Allows you to select the working day following the date entered"
 msgstr ""
 
 #: share/grisbi.desktop.in:3 share/grisbi.metainfo.xml.in:6
-#: src/grisbi_win.c:1634 src/grisbi_win.c:1683
+#: src/grisbi_win.c:1627 src/grisbi_win.c:1676
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -3316,7 +3316,7 @@ msgid " of capital"
 msgstr "贷款/抵押 : 资产:"
 
 #: src/bet_finance_ui.c:1485 src/grisbi_win.c:477 src/navigation.c:633
-#: src/navigation.c:1981
+#: src/navigation.c:1976
 #, fuzzy
 msgid "Credits simulator"
 msgstr "信用卡"
@@ -4833,7 +4833,7 @@ msgstr "导出报表为CSV..."
 
 #: src/etats_onglet.c:429 src/grisbi_prefs.c:793 src/grisbi_prefs.c:817
 #: src/gsb_debug.c:842 src/gsb_file.c:549 src/gsb_file.c:700
-#: src/gsb_file.c:1037
+#: src/gsb_file.c:1039
 #, fuzzy
 msgid "Done"
 msgstr "无"
@@ -4966,7 +4966,7 @@ msgid "Unknown report type, creation cancelled"
 msgstr "未知报表类型，取消新建"
 
 #: src/etats_onglet.c:1229 src/grisbi_win.c:492 src/navigation.c:645
-#: src/navigation.c:2017
+#: src/navigation.c:2006
 msgid "Reports"
 msgstr "报表"
 
@@ -5913,38 +5913,34 @@ msgstr "手动"
 msgid "The menu of options"
 msgstr ""
 
-#: src/grisbi_app.c:114 src/grisbi_app.c:131
-msgid "New_window"
-msgstr ""
-
-#: src/grisbi_app.c:116 src/grisbi_app.c:133
+#: src/grisbi_app.c:115 src/grisbi_app.c:131
 msgid "Quit"
 msgstr ""
 
-#: src/grisbi_app.c:128 src/grisbi_app.c:145
+#: src/grisbi_app.c:127 src/grisbi_app.c:143
 msgid "Full screen"
 msgstr ""
 
-#: src/grisbi_app.c:825
+#: src/grisbi_app.c:827
 #, fuzzy
 msgid "Error on sigaction: SIGINT won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
 
-#: src/grisbi_app.c:828
+#: src/grisbi_app.c:830
 #, fuzzy
 msgid "Error on sigaction: SIGTERM won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
 
-#: src/grisbi_app.c:831
+#: src/grisbi_app.c:833
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
 
-#: src/grisbi_app.c:1023 src/menu.c:646
+#: src/grisbi_app.c:1020 src/menu.c:646
 #, fuzzy
 msgid "Start an action!"
 msgstr "查找交易"
 
-#: src/grisbi_app.c:1059
+#: src/grisbi_app.c:1056
 msgid ""
 "Grisbi has detected several character strings separated by one or more "
 "spaces.\n"
@@ -5954,34 +5950,34 @@ msgid ""
 "\t- If there are multiple file names, keep one."
 msgstr ""
 
-#: src/grisbi_app.c:1064
+#: src/grisbi_app.c:1061
 #, fuzzy
 msgid "Inconsistency of the command line."
 msgstr "没有发现矛盾"
 
-#: src/grisbi_app.c:1339
+#: src/grisbi_app.c:1336
 #, fuzzy
 msgid "<b>Actions in transaction list:</b>"
 msgstr "删除交易"
 
-#: src/grisbi_app.c:1342
+#: src/grisbi_app.c:1339
 #, fuzzy, c-format
-msgid "(Un)Pointing a transaction%s-> <Command>p, <Command>F12\n"
+msgid "(Un)Pointing a transaction%s-> <Command>P, <Command>F12\n"
 msgstr "调整交易"
 
-#: src/grisbi_app.c:1345
+#: src/grisbi_app.c:1342
 #, fuzzy, c-format
-msgid "(Un)Reconcile a transaction%s-> <Command>r\n"
+msgid "(Un)Reconcile a transaction%s-> <Command>R\n"
+msgstr "调整交易"
+
+#: src/grisbi_app.c:1346
+#, fuzzy, c-format
+msgid "(Un)Pointing a transaction%s-> <Ctrl>P, <Ctrl>F12\n"
 msgstr "调整交易"
 
 #: src/grisbi_app.c:1349
 #, fuzzy, c-format
-msgid "(Un)Pointing a transaction%s-> <Ctrl>p, <Ctrl>F12\n"
-msgstr "调整交易"
-
-#: src/grisbi_app.c:1352
-#, fuzzy, c-format
-msgid "(Un)Reconcile a transaction%s-> <Ctrl>p, <Ctrl>F12\n"
+msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
 msgstr "调整交易"
 
 #: src/grisbi_conf.c:1166
@@ -6148,24 +6144,24 @@ msgstr "打开账户文件"
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "导出文件"
 
-#: src/grisbi_win.c:1509
+#: src/grisbi_win.c:1502
 #, fuzzy
 msgid "Unnamed account"
 msgstr "已导入的账户"
 
-#: src/grisbi_win.c:1531 src/gsb_transactions_list.c:524
+#: src/grisbi_win.c:1524 src/gsb_transactions_list.c:524
 msgid "Move transaction to another account"
 msgstr "移动交易到另一个账户"
 
-#: src/grisbi_win.c:1688 src/gsb_file.c:419 src/gsb_file.c:453
+#: src/grisbi_win.c:1681 src/gsb_file.c:419 src/gsb_file.c:453
 msgid "unnamed"
 msgstr "未命名"
 
-#: src/grisbi_win.c:2014
+#: src/grisbi_win.c:2007
 msgid "Creating main window"
 msgstr ""
 
-#: src/grisbi_win.c:2026
+#: src/grisbi_win.c:2019
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -6275,7 +6271,7 @@ msgstr ""
 msgid "Please enter the name of the new account: "
 msgstr "输入新预算行的名称"
 
-#: src/gsb_assistant_account.c:399 src/gsb_bank.c:172
+#: src/gsb_assistant_account.c:399 src/gsb_bank.c:176
 #: src/prefs/prefs_page_bank.c:106 src/widgets/widget_bank_details.c:371
 #: src/widgets/widget_bank_details.c:497
 msgid "New bank"
@@ -6904,7 +6900,7 @@ msgstr "不包含不是转帐的交易"
 msgid "Edit bank"
 msgstr "更改银行信息"
 
-#: src/gsb_bank.c:468
+#: src/gsb_bank.c:472
 #, fuzzy
 msgid "Add new bank"
 msgstr "新增银行"
@@ -8518,7 +8514,7 @@ msgstr "没有定义第三方"
 
 #: src/gsb_data_payee.c:610 src/gsb_form.c:1029 src/gtk_combofix.c:412
 #: src/gtk_combofix.c:613 src/gtk_combofix.c:2400 src/gtk_combofix.c:2524
-#: src/navigation.c:2015
+#: src/navigation.c:2004
 msgid "Report"
 msgstr "报表"
 
@@ -8809,7 +8805,7 @@ msgstr "不能打开文件 '%s': %s"
 msgid "File does not exist"
 msgstr "文件已经存在"
 
-#: src/gsb_file.c:273 src/gsb_file.c:287 src/gsb_file.c:977
+#: src/gsb_file.c:273 src/gsb_file.c:287 src/gsb_file.c:978
 #: src/gsb_file_load.c:553
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
@@ -8915,7 +8911,7 @@ msgstr ""
 msgid "Version of Grisbi file too old:"
 msgstr ""
 
-#: src/gsb_file.c:981
+#: src/gsb_file.c:982
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -8925,7 +8921,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: src/gsb_file.c:992
+#: src/gsb_file.c:993
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -8936,7 +8932,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: src/gsb_file.c:999
+#: src/gsb_file.c:1000
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -8944,28 +8940,28 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: src/gsb_file.c:1017
+#: src/gsb_file.c:1019
 msgid "Checking schedulers"
 msgstr ""
 
-#: src/gsb_file.c:1027
+#: src/gsb_file.c:1029
 #, fuzzy
 msgid "Checking amounts"
 msgstr "支票"
 
-#: src/gsb_file.c:1316
+#: src/gsb_file.c:1336
 #, c-format
 msgid ""
 "The original file was saved saved as:\n"
 "\"%s\"."
 msgstr ""
 
-#: src/gsb_file.c:1409
+#: src/gsb_file.c:1429
 #, fuzzy, c-format
 msgid "Are you sure you want to remove this accounts file \"%s\"?\n"
 msgstr "您确定要删除银行 \"%s\"吗？\n"
 
-#: src/gsb_file.c:1411
+#: src/gsb_file.c:1431
 #, fuzzy
 msgid "Confirmation of accounts file removal"
 msgstr "确认删除银行"
@@ -9630,7 +9626,7 @@ msgstr "计划调度器警告"
 msgid "Show transactions for the next: "
 msgstr "根据文字选择交易:"
 
-#: src/gsb_scheduler_list.c:229 src/navigation.c:1945
+#: src/gsb_scheduler_list.c:229 src/navigation.c:1943
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "已结清预定交易"
@@ -9741,7 +9737,7 @@ msgid "Remove orphan children"
 msgstr "删除交易"
 
 #: src/gsb_scheduler_list.c:1919 src/transaction_list.c:173
-#: src/transaction_list.c:492 src/transaction_list.c:1416
+#: src/transaction_list.c:484 src/transaction_list.c:1408
 #, fuzzy, c-format
 msgid "Total: %s (variance: %s)"
 msgstr "总计 %s: %s (%d 交易)"
@@ -11074,8 +11070,8 @@ msgstr "本交易使用自定义的字体"
 msgid "You must select at least one search element"
 msgstr "选择资产账户"
 
-#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:482
-#: src/widgets/widget_search_transaction.c:739
+#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:520
+#: src/widgets/widget_search_transaction.c:795
 msgid "WARNING"
 msgstr ""
 
@@ -12476,12 +12472,12 @@ msgstr ""
 msgid "Display tips at next start"
 msgstr "显示交易"
 
-#: src/transaction_list.c:668
+#: src/transaction_list.c:660
 #, fuzzy, c-format
 msgid "%s (%d transactions)"
 msgstr "总计 %s (%d 交易)"
 
-#: src/transaction_list.c:1961
+#: src/transaction_list.c:1953
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't "
 "appendCheck that."
@@ -13098,32 +13094,32 @@ msgstr "最后声明"
 msgid " <b>%s reconciliation</b> "
 msgstr "调整"
 
-#: src/widgets/widget_search_transaction.c:481
-#: src/widgets/widget_search_transaction.c:738
+#: src/widgets/widget_search_transaction.c:519
+#: src/widgets/widget_search_transaction.c:794
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "您必须输入日期"
 
-#: src/widgets/widget_search_transaction.c:525
+#: src/widgets/widget_search_transaction.c:563
 #, fuzzy
 msgid "1 transaction were found"
 msgstr "根据总数选择交易"
 
-#: src/widgets/widget_search_transaction.c:527
+#: src/widgets/widget_search_transaction.c:565
 #, fuzzy
 msgid " transactions were found"
 msgstr "根据总数选择交易"
 
-#: src/widgets/widget_search_transaction.c:544
+#: src/widgets/widget_search_transaction.c:588
 #, fuzzy
 msgid "No transaction was found"
 msgstr "交易清单字体"
 
-#: src/widgets/widget_search_transaction.c:685
+#: src/widgets/widget_search_transaction.c:740
 msgid "Ignore sign"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.c:930
+#: src/widgets/widget_search_transaction.c:986
 #, fuzzy
 msgid "Choose another account"
 msgstr "选择账户"
