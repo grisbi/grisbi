@@ -324,21 +324,24 @@ install_data([
   'src/ui/grisbi_prefs.ui',
   'src/ui/grisbi_win.ui',
   ],
-  install_dir : 'share/grisbi/ui')
+  install_dir : join_paths (get_option ('datadir'), 'grisbi/ui')
+  )
 
 # default categories
 install_data([
   'share/categories/C/00_general.cgsb',
   'share/categories/C/empty.cgsb',
   ],
-  install_dir : 'share/grisbi/categories/C')
+  install_dir : join_paths (get_option ('datadir'), 'grisbi/categories/C')
+  )
 
 install_data([
   'share/categories/de/keine.cgsb',
   'share/categories/de/minimal.cgsb',
   'share/categories/de/standard.cgsb',
   ],
-  install_dir : 'share/grisbi/categories/de')
+  install_dir : join_paths (get_option ('datadir'), 'grisbi/categories/de')
+  )
 
 install_data([
   'share/categories/fr/00_general.cgsb',
@@ -347,29 +350,32 @@ install_data([
   'share/categories/fr/plan-associatif-simplifie.cgsb',
   'share/categories/fr/plan-comptable.cgsb',
   ],
-  install_dir : 'share/grisbi/categories/fr')
+  install_dir : join_paths (get_option ('datadir'), 'grisbi/categories/fr')
+  )
 
 install_data([
   'share/categories/it/00_general.cgsb',
   'share/categories/it/empty.cgsb',
   ],
-  install_dir : 'share/grisbi/categories/it')
+  install_dir : join_paths (get_option ('datadir'), 'grisbi/categories/it')
+  )
 
 install_data([
   'share/categories/ru/00_general.cgsb',
   'share/categories/ru/empty.cgsb',
   ],
-  install_dir : 'share/grisbi/categories/ru')
+  install_dir : join_paths (get_option ('datadir'), 'grisbi/categories/ru')
+  )
 
 # misc
 install_data(
   'share/grisbi.xml',
-  install_dir : 'share/mime/packages'
+  install_dir : join_paths (get_option ('datadir'), 'mime/packages')
   )
 
 install_data(
   ['src/grisbi.keys', 'src/grisbi.mime'],
-  install_dir : 'share/mime-info'
+  install_dir : join_paths (get_option ('datadir'), 'mime-info')
   )
 
 subdir('pixmaps')

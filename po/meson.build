@@ -18,7 +18,7 @@ i18n.merge_file(
   output : 'org.grisbi.Grisbi.desktop',
   po_dir : '',
   install : true,
-  install_dir : 'share/applications',
+  install_dir : join_paths (get_option ('datadir'), 'applications'),
   )
 
 i18n.merge_file(
@@ -27,7 +27,7 @@ i18n.merge_file(
   output : 'grisbi.metainfo.xml',
   po_dir : '',
   install : true,
-  install_dir : 'share/metainfo',
+  install_dir : join_paths (get_option ('datadir'), 'metainfo'),
   )
 
 # Validate MetaInfo file
