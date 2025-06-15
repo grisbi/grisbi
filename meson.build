@@ -267,7 +267,7 @@ grisbi_src += grisbi_resources
 # special for macOS
 if host_machine.system() == 'darwin'
   grisbi_src += files('src/grisbi_osx.m')
-  add_languages('objc')
+  add_languages('objc', native : false)
   conf_data.set('GTKOSXAPPLICATION', true)
   conf_data.set('OS_OSX', true)
   gtk_mac_integration_dep = dependency('gtk-mac-integration')
