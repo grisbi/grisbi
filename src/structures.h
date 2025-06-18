@@ -389,6 +389,8 @@ struct _GrisbiWinRun
 	gint		display_two_lines;			/* 1-2, 1-3, "1-4 */
 	gint		display_three_lines;		/* 1-2-3, 1-2-4, 1-3-4 */
 
+	gboolean	backwards_search;			/* recherche des operations du plus recent au plus vieux par defaut */
+
 	/* import fichier CSV */
 	gboolean	import_force_date;			/* force le choix du format et de la colonne date du fichier importé */
 	gint		import_format_order;		/* set index of combo */

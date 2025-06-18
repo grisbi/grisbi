@@ -909,6 +909,7 @@ static void grisbi_win_init (GrisbiWin *win)
 	(priv->w_run)->new_account_file = FALSE;
 	(priv->w_run)->prefs_expand_tree = TRUE;
 	(priv->w_run)->prefs_selected_row = g_strdup ("0:0");
+	(priv->w_run)->backwards_search = TRUE;
 
 	/* initialisation de la variable w_etat */
 	priv->w_etat = g_malloc0 (sizeof (GrisbiWinEtat));

@@ -630,10 +630,14 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 static void widget_search_transaction_checkbutton_backwards_search_toggled (GtkToggleButton *togglebutton,
 																			WidgetSearchTransactionPrivate *priv)
 {
+	GrisbiWinRun *w_run;
+
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	priv->backwards_search = gtk_toggle_button_get_active (togglebutton);
+	w_run->backwards_search = priv->backwards_search;
 
 	/* on reinitialise la recherche */
-	search_active = -1;
+	widget_search_transaction_reset_search (priv);
 }
 
 /**
@@ -1089,7 +1093,9 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 	priv->search_archive = FALSE;
 
 	/* set backwards_search */
-	priv->backwards_search = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->checkbutton_backwards_search));
+	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_backwards_search), w_run->backwards_search);
+	priv->backwards_search = w_run->backwards_search;
 
 	/* save the number of rows */
 	priv->display_nb_rows = gsb_data_account_get_nb_rows (priv->account_number);
@@ -1099,7 +1105,6 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 	widget_search_transaction_init_combo_other_account (priv);
 
 	/* memorise le statut de modification */
-	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 	if (w_run->file_modification)
 		priv->file_is_modified = TRUE;
 	else
