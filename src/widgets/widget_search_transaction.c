@@ -1004,7 +1004,9 @@ static void widget_search_transaction_init_combo_other_account (WidgetSearchTran
 			list_tmp = list_tmp->next;
 			continue;
 		}
-		if (account_number >= 0 && (gsb_data_account_get_kind (account_number) != GSB_TYPE_LIABILITIES))
+		if (account_number >= 0
+			&& (gsb_data_account_get_kind (account_number) != GSB_TYPE_LIABILITIES
+				|| gsb_data_account_get_bet_credit_card (account_number)))
 		{
 			gtk_list_store_append (GTK_LIST_STORE (store), &iter);
 				gtk_list_store_set (store,
