@@ -232,10 +232,6 @@ static gboolean widget_search_transaction_amount_is_valide (gint transaction_num
 {
 	GsbReal amount;
 
-	/* on ne cherche pas dans les opérations meres DISCUTABLE */
-	if (gsb_data_transaction_get_split_of_transaction (transaction_number))
-		return FALSE;
-
 	amount = utils_real_get_calculate_entry (priv->entry_search_str);
 	if (priv->delta_amount)
 	{
