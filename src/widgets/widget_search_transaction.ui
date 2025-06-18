@@ -9,6 +9,11 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
+  <object class="GtkImage" id="image_cancel">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="resource">/org/gtk/grisbi/images/gtk-cancel-16.png</property>
+  </object>
   <object class="GtkImage" id="image_next">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -47,9 +52,10 @@
             <child>
               <object class="GtkButton" id="button_previous">
                 <property name="label" translatable="yes">Previous</property>
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="no-show-all">True</property>
                 <property name="image">image_previous</property>
                 <property name="always-show-image">True</property>
               </object>
@@ -62,9 +68,11 @@
             <child>
               <object class="GtkButton" id="button_next">
                 <property name="label" translatable="yes">Next</property>
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="no-show-all">True</property>
+                <property name="image">image_next</property>
                 <property name="always-show-image">True</property>
               </object>
               <packing>
@@ -230,7 +238,6 @@
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="halign">start</property>
-                <property name="active">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>

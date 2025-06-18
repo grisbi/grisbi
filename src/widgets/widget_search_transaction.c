@@ -55,6 +55,7 @@
 
 /*START_STATIC*/
 static gint				search_active = -1;
+static gint				search_result = 0; 
 static gchar *			old_recherche = NULL;
 /*END_STATIC*/
 
@@ -66,9 +67,10 @@ typedef struct _WidgetSearchTransactionPrivate	WidgetSearchTransactionPrivate;
 struct _WidgetSearchTransactionPrivate
 {
 	GtkWidget *			vbox_widget_search_transaction;
+	GtkWidget *			button_next;
 	GtkWidget *			button_previous;
     GtkWidget *         button_search;
-	GtkWidget *			image_next;
+	GtkWidget *			image_cancel;
 	GtkWidget *			image_search;
 
 	GtkWidget *			box_other_account;
@@ -109,6 +111,31 @@ G_DEFINE_TYPE_WITH_PRIVATE (WidgetSearchTransaction, widget_search_transaction, 
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * reset la recherche
+ *
+ * \param
+ *
+ * \return
+ **/
+static void widget_search_transaction_reset_search (WidgetSearchTransactionPrivate *priv)
+{
+	/* on retablit le bouton search */
+	gtk_button_set_image (GTK_BUTTON (priv->button_search), priv->image_search);
+	gtk_button_set_label (GTK_BUTTON (priv->button_search), _("Find"));
+
+	/* on insensibilise les boutons next et previous */
+	gtk_widget_set_sensitive (priv->button_next, FALSE);
+	gtk_widget_set_sensitive (priv->button_previous, FALSE);
+
+	/* on insensibilise le combo other_account */
+	gtk_widget_set_sensitive (priv->box_other_account, FALSE);
+
+	/* on reinitialise la recherche */
+	search_active = -1;
+	gtk_widget_hide (priv->box_result);
+}
+
 /**
  *
  *
@@ -459,6 +486,40 @@ static GSList *widget_search_transaction_get_list (gint account_number,
  *
  * \return
  **/
+static void widget_search_transaction_button_next_clicked (GtkButton *button,
+														   WidgetSearchTransactionPrivate *priv)
+{
+	gint transaction_number;
+	gint archive_number = 0;
+
+	transaction_number = GPOINTER_TO_INT (g_slist_nth_data (priv->list, search_active-1));
+	if (priv->search_archive)
+		archive_number = gsb_data_transaction_get_archive_number (transaction_number);
+	if (archive_number)
+		widget_search_transaction_select_archived (transaction_number, priv->account_number, archive_number);
+	else
+		transaction_list_select (transaction_number);
+	search_active--;
+
+	if (search_active == search_result - 1)
+		gtk_widget_set_sensitive (priv->button_previous, FALSE);
+	else
+		gtk_widget_set_sensitive (priv->button_previous, TRUE);
+
+	if (search_active == 0)
+		gtk_widget_set_sensitive (priv->button_next, FALSE);
+	else
+		gtk_widget_set_sensitive (priv->button_next, TRUE);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
 static void widget_search_transaction_button_previous_clicked (GtkButton *button,
 															   WidgetSearchTransactionPrivate *priv)
 {
@@ -472,18 +533,17 @@ static void widget_search_transaction_button_previous_clicked (GtkButton *button
 		widget_search_transaction_select_archived (transaction_number, priv->account_number, archive_number);
 	else
 		transaction_list_select (transaction_number);
-	search_active--;
+	search_active++;
+
+	if (search_active == search_result - 1)
+		gtk_widget_set_sensitive (priv->button_previous, FALSE);
+	else
+		gtk_widget_set_sensitive (priv->button_previous, TRUE);
 
 	if (search_active == 0)
-	{
-		/* on cache les boutons next et previous */
-		gtk_button_set_image (GTK_BUTTON (priv->button_search), priv->image_search);
-		gtk_button_set_label (GTK_BUTTON (priv->button_search), _("Find"));
-		gtk_widget_set_sensitive (priv->button_previous, FALSE);
-		gtk_widget_hide  (priv->button_previous);
-		
-		search_active = -1;
-	}
+		gtk_widget_set_sensitive (priv->button_next, FALSE);
+	else
+		gtk_widget_set_sensitive (priv->button_next, TRUE);
 }
 
 /**
@@ -535,7 +595,7 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 		/* on remplit list */
 		priv->list = widget_search_transaction_get_list (priv->account_number, text, WIDGET_SEARCH_TRANSACTION (dialog));
 		search_active = g_slist_length (priv->list);
-
+		search_result = search_active;
 		if (search_active > 0)
 		{
 			gchar *str_number;
@@ -568,16 +628,21 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 				widget_search_transaction_select_archived (transaction_number, priv->account_number, archive_number);
 			else
 				transaction_list_select (transaction_number);
-			search_active--;
 
-			/* on montre les boutons next et previous */
-			gtk_button_set_image (GTK_BUTTON (priv->button_search), priv->image_next);
-			gtk_button_set_label (GTK_BUTTON (priv->button_search), "Next");
-			gtk_widget_show  (priv->button_previous);
-			gtk_widget_set_sensitive (priv->button_previous, FALSE);
+			/* on initialise les boutons next et previous et modifie le bouton search si search_active > 1 */
+			if (search_active > 1)
+			{
+				gtk_button_set_image (GTK_BUTTON (priv->button_search), priv->image_cancel);
+				gtk_button_set_label (GTK_BUTTON (priv->button_search), "Stop");
+				gtk_widget_set_sensitive (priv->button_next, TRUE);
+				gtk_widget_set_sensitive (priv->button_previous, FALSE);
+			}
 
 			/* on desensibilise le combo other_account */
 			gtk_widget_set_sensitive (priv->box_other_account, FALSE);
+
+			/* on prépare la suite */
+			search_active--;
 		}
 		else
 		{
@@ -589,34 +654,16 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 		/* set info label text */
 		gtk_label_set_text (GTK_LABEL (priv->label_search_info), tmp_str);
 		g_free (tmp_str);
+
+		/* on affiche le resultat */
+		gtk_widget_show (priv->box_result);
 	}
-	else if (search_active)
+
+	else /* on reinitialise la recherche et on cache le resultat */
 	{		
-		transaction_number = GPOINTER_TO_INT (g_slist_nth_data (priv->list, search_active-1));
-		if (priv->search_archive)
-			archive_number = gsb_data_transaction_get_archive_number (transaction_number);
-		if (archive_number)
-			widget_search_transaction_select_archived (transaction_number, priv->account_number, archive_number);
-		else
-			transaction_list_select (transaction_number);
-		search_active--;
-		gtk_widget_set_sensitive (priv->button_previous, TRUE);
-
-		if (search_active == 0)
-		{
-			/* on cache les boutons next et previous */
-			gtk_button_set_image (GTK_BUTTON (priv->button_search), priv->image_search);
-			gtk_button_set_label (GTK_BUTTON (priv->button_search), _("Find"));
-			gtk_widget_set_sensitive (priv->button_previous, FALSE);
-			gtk_widget_hide  (priv->button_previous);
-			
-			search_active = -1;
-		}
-	}
-
-	/* on affiche le resultat */
-	gtk_widget_show (priv->box_result);
-	
+		widget_search_transaction_reset_search (priv);
+		gtk_widget_hide (priv->box_result);
+	}	
 }
 
 /**
@@ -675,8 +722,7 @@ static void widget_search_transaction_checkbutton_ignore_case_sign_toggled (GtkT
 		priv->ignore_case = gtk_toggle_button_get_active (togglebutton);
 
 	/* on reinitialise la recherche */
-	search_active = -1;
-	gtk_widget_hide (priv->box_result);
+	widget_search_transaction_reset_search (priv);
 }
 
 /**
@@ -693,7 +739,7 @@ static void widget_search_transaction_checkbutton_search_archive_toggled (GtkTog
 	priv->search_archive = gtk_toggle_button_get_active (togglebutton);
 
 	/* on reinitialise la recherche */
-	search_active = -1;
+	widget_search_transaction_reset_search (priv);
 }
 
 /**
@@ -840,7 +886,7 @@ static gboolean widget_search_transaction_spinbutton_delta_amount_key_press_even
 		case GDK_KEY_KP_Enter :
 		case GDK_KEY_Return :
 			/* on réinitialise la recherche */
-			search_active = -1;
+			widget_search_transaction_reset_search (priv);
 			widget_search_transaction_button_search_clicked (NULL, dialog);
 			break;
 
@@ -875,7 +921,7 @@ static gboolean widget_search_transaction_entry_lose_focus (GtkWidget *entry,
 
 		/* on reinitialise eventuellement la recherche */
 		if (old_recherche && strcmp (old_recherche, text))
-			search_active = -1;
+			widget_search_transaction_reset_search (priv);
 
 		gtk_widget_set_sensitive (priv->button_search, TRUE);
 	}
@@ -1113,6 +1159,10 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 		priv->file_modified = w_run->file_modification;
 
 	/* set signals */
+	g_signal_connect (G_OBJECT (priv->button_next),
+					  "clicked",
+					  G_CALLBACK (widget_search_transaction_button_next_clicked),
+					  priv);
 	g_signal_connect (G_OBJECT (priv->button_previous),
 					  "clicked",
 					  G_CALLBACK (widget_search_transaction_button_previous_clicked),
@@ -1136,7 +1186,7 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 	g_signal_connect (G_OBJECT (priv->checkbutton_search_archive),
 					  "toggled",
 					  G_CALLBACK (widget_search_transaction_checkbutton_search_archive_toggled),
-					  dialog);
+					  priv);
 	g_signal_connect (G_OBJECT (priv->combo_other_account),
 					  "changed",
 					  G_CALLBACK (widget_search_transaction_combo_other_account_changed),
@@ -1214,8 +1264,9 @@ static void widget_search_transaction_class_init (WidgetSearchTransactionClass *
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, vbox_widget_search_transaction);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, button_previous);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, button_next);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, button_search);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, image_next);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, image_cancel);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, image_search);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetSearchTransaction, box_other_account);
