@@ -187,13 +187,12 @@ static void widget_search_transaction_select_archived (gint transaction_number,
 {
 	gint mother_transaction;
 
-	/* if it's an archived transaction, open the archive */
-    archive_number = gsb_data_transaction_get_archive_number (transaction_number);
-
 	/* re-filter the tree view because if we go directly into the report
 	 * and the model was never filtered, we have a nice crash */
 	transaction_list_filter (account_number);
-	gsb_transactions_list_restore_archive (archive_number, FALSE);
+
+	/* if it's an archived transaction, open the archive */
+	gsb_transactions_list_add_transactions_from_archive (archive_number, account_number, FALSE);
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 	if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
@@ -622,7 +621,10 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 			if (priv->search_archive)
 				archive_number = gsb_data_transaction_get_archive_number (transaction_number);
     		if (archive_number)
+			{
 				widget_search_transaction_select_archived (transaction_number, priv->account_number, archive_number);
+				gsb_transactions_list_set_visible_archived_button (TRUE);
+			}
 			else
 				transaction_list_select (transaction_number);
 
