@@ -601,16 +601,13 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 			gchar *str_number;
 
 			/* on change eventuellement l'affichage pour une ligne */
-			if (search_active > 0)
+			gsb_transactions_list_change_aspect_liste (1);
+			if (!priv->file_is_modified)
 			{
-				gsb_transactions_list_change_aspect_liste (1);
-				if (!priv->file_is_modified)
-				{
-					GrisbiWinRun *w_run;
+				GrisbiWinRun *w_run;
 
-					w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-					priv->file_modified = w_run->file_modification;
-				}
+				w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
+				priv->file_modified = w_run->file_modification;
 			}
 
 			/* on affiche le résultat */
