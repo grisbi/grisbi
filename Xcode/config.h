@@ -60,9 +60,9 @@
 #define HELP_PATH ""
 #define LOGO_PATH ""
 
-#define DATA_PATH "/usr/local/share/grisbi/"
-#define LOCALEDIR "/usr/local/share/locale"
-#define PIXMAPS_DIR "/usr/local/share/pixmaps/grisbi"
+#define DATA_PATH "/tmp/grisbi/share/grisbi/"
+#define LOCALEDIR "/tmp/grisbi/share/locale"
+#define PIXMAPS_DIR "/tmp/grisbi/share/pixmaps/grisbi"
 #define UI_DIR ""
 
 #define USE_CONFIG_FILE
