@@ -2750,16 +2750,12 @@ msgstr ""
 "utilisateur, import/export QIF."
 
 #: share/grisbi.metainfo.xml.in:27
-#, fuzzy
-#| msgid "New window"
 msgid "Main window"
-msgstr "Nouvelle fenêtre"
+msgstr "Fenêtre principale"
 
 #: share/grisbi.metainfo.xml.in:31
-#, fuzzy
-#| msgid "New budget"
 msgid "Budget"
-msgstr "Nouvelle imputation"
+msgstr "Budget"
 
 #: share/grisbi.metainfo.xml.in:35 src/etats_onglet.c:1229 src/grisbi_win.c:492
 #: src/navigation.c:645 src/navigation.c:2006
@@ -5660,27 +5656,24 @@ msgid "<b>Actions in transaction list:</b>"
 msgstr "<b>Actions de la liste des opérations :</b>"
 
 #: src/grisbi_app.c:1339
-#, fuzzy, c-format
-#| msgid "(Un)Pointing a transaction%s-> <Command>P, <Command>F12\n"
+#, c-format
 msgid "(Un)Pointing a transaction%s-> <Command>P, F12\n"
-msgstr "(Dé)Pointe une opération%s-> <Command>p, <Command>F12\n"
+msgstr "(Dé)Pointe une opération%s-> <Command>P, F12\n"
 
 #: src/grisbi_app.c:1342
 #, c-format
 msgid "(Un)Reconcile a transaction%s-> <Command>R\n"
-msgstr "(Dé)Rapproche une opération%s-> <Command>r\n"
+msgstr "(Dé)Rapproche une opération%s-> <Command>R\n"
 
 #: src/grisbi_app.c:1346
-#, fuzzy, c-format
-#| msgid "(Un)Pointing a transaction%s-> <Ctrl>P, <Ctrl>F12\n"
+#, c-format
 msgid "(Un)Pointing a transaction%s-> <Ctrl>P, F12\n"
-msgstr "(Dé)Pointe une opération%s-> <Ctrl>p, <Ctrl>F12\n"
+msgstr "(Dé)Pointe une opération%s-> <Ctrl>P, F12\n"
 
 #: src/grisbi_app.c:1349
-#, fuzzy, c-format
-#| msgid "(Un)Reconcile a transaction%s-> <Command>R\n"
+#,  c-format
 msgid "(Un)Reconcile a transaction%s-> <Ctrl>R\n"
-msgstr "(Dé)Rapproche une opération%s-> <Command>r\n"
+msgstr "(Dé)Rapproche une opération%s-> <Command>R\n"
 
 #: src/grisbi_conf.c:1166
 #, c-format
