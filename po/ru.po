@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2025-06-06 10:29+0200\n"
+"POT-Creation-Date: 2025-07-06 17:03+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -94,7 +94,7 @@ msgid "<Ctrl> + left click of mouse to add to the selection"
 msgstr ""
 
 #: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:154
-#: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_transaction.ui:29
+#: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_transaction.ui:34
 #: src/etats_onglet.c:925 src/etats_onglet.c:1155 src/etats_onglet.c:1390
 #: src/gsb_transactions_list.c:547
 msgid "Search"
@@ -544,7 +544,7 @@ msgstr ""
 #: src/widgets/widget_list_metatree.ui:91 src/widgets/widget_reconcile.ui:269
 #: src/widgets/widget_reconcile.ui:281 src/widgets/widget_reconcile.ui:293
 #: src/widgets/widget_reconcile.ui:305
-#: src/widgets/widget_search_transaction.ui:328
+#: src/widgets/widget_search_transaction.ui:335
 msgid "label"
 msgstr ""
 
@@ -2142,13 +2142,13 @@ msgid "Comments"
 msgstr "Комментарии"
 
 #: src/widgets/widget_assistant.ui:40
-#: src/widgets/widget_search_transaction.ui:49
+#: src/widgets/widget_search_transaction.ui:54
 #, fuzzy
 msgid "Previous"
 msgstr "За предыдущий год"
 
 #: src/widgets/widget_assistant.ui:55
-#: src/widgets/widget_search_transaction.ui:64
+#: src/widgets/widget_search_transaction.ui:70
 msgid "Next"
 msgstr ""
 
@@ -2771,55 +2771,54 @@ msgstr "Сортировать по способу оплаты"
 msgid "Reconcile"
 msgstr "Выверка"
 
-#: src/widgets/widget_search_transaction.ui:78
-#: src/widgets/widget_search_transaction.c:485
-#: src/widgets/widget_search_transaction.c:613
+#: src/widgets/widget_search_transaction.ui:86
+#: src/widgets/widget_search_transaction.c:125
 msgid "Find"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:106
+#: src/widgets/widget_search_transaction.ui:114
 #, fuzzy
 msgid "Search in payee name"
 msgstr "Скрыть имена получателей"
 
-#: src/widgets/widget_search_transaction.ui:135
+#: src/widgets/widget_search_transaction.ui:143
 #, fuzzy
 msgid "Search in note"
 msgstr "Строка поиска:"
 
-#: src/widgets/widget_search_transaction.ui:186
+#: src/widgets/widget_search_transaction.ui:194
 #, fuzzy
 msgid "Continue with another account: "
 msgstr "_Перенести транзакцию на другой счёт"
 
-#: src/widgets/widget_search_transaction.ui:228
+#: src/widgets/widget_search_transaction.ui:236
 #, fuzzy
 msgid "Search from newest to oldest"
 msgstr "Архив от %s до %s"
 
-#: src/widgets/widget_search_transaction.ui:244
+#: src/widgets/widget_search_transaction.ui:251
 #, fuzzy
 msgid "Search in the archived transactions"
 msgstr "Удалить выбранный архив и транзакции"
 
-#: src/widgets/widget_search_transaction.ui:259
-#: src/widgets/widget_search_transaction.c:722
-#: src/widgets/widget_search_transaction.c:728
-#: src/widgets/widget_search_transaction.c:734
-#: src/widgets/widget_search_transaction.c:1077
+#: src/widgets/widget_search_transaction.ui:266
+#: src/widgets/widget_search_transaction.c:767
+#: src/widgets/widget_search_transaction.c:773
+#: src/widgets/widget_search_transaction.c:779
+#: src/widgets/widget_search_transaction.c:1124
 msgid "Ignore case"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:294
+#: src/widgets/widget_search_transaction.ui:301
 msgid "Search an amount at + or - "
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:357
+#: src/widgets/widget_search_transaction.ui:364
 #, fuzzy
 msgid "Search an amount"
 msgstr "Выделить банковские счета"
 
-#: src/widgets/widget_search_transaction.ui:373
+#: src/widgets/widget_search_transaction.ui:380
 #, fuzzy
 msgid "Search in payee and note"
 msgstr "Скрыть имена получателей"
@@ -2905,17 +2904,17 @@ msgstr "Очистить формуляр для создания новой п�
 msgid "Allows you to select the working day following the date entered"
 msgstr ""
 
-#: share/grisbi.desktop.in:3 share/grisbi.metainfo.xml.in:6
-#: src/grisbi_win.c:1627 src/grisbi_win.c:1676
+#: share/grisbi.desktop.in:2 share/grisbi.metainfo.xml.in:6
+#: src/grisbi_win.c:1629 src/grisbi_win.c:1678
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: share/grisbi.desktop.in:4
+#: share/grisbi.desktop.in:3
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Общедоступное управление личными финансовыми средствами\n"
 
-#: share/grisbi.desktop.in:5
+#: share/grisbi.desktop.in:4
 #, fuzzy
 msgid "finance"
 msgstr "финансовый год"
@@ -2925,13 +2924,13 @@ msgstr "финансовый год"
 msgid "Personal finances manager"
 msgstr "Общедоступное управление личными финансовыми средствами\n"
 
-#: share/grisbi.metainfo.xml.in:8
+#: share/grisbi.metainfo.xml.in:9
 #, fuzzy
 #| msgid "Grisbi"
 msgid "Grisbi Team"
 msgstr "Grisbi"
 
-#: share/grisbi.metainfo.xml.in:10
+#: share/grisbi.metainfo.xml.in:12
 msgid ""
 "Grisbi is a very functional personal financial management program with a lot "
 "of features: checking, cash and liabilities accounts, several accounts with "
@@ -2943,6 +2942,23 @@ msgid ""
 "scheduled transactions, automatic recall of last transaction for every third "
 "party, nice and easy user interface, user manual, QIF import/export."
 msgstr ""
+
+#: share/grisbi.metainfo.xml.in:27
+#, fuzzy
+#| msgid "Creating main window"
+msgid "Main window"
+msgstr "Создается главное окно программы"
+
+#: share/grisbi.metainfo.xml.in:31
+#, fuzzy
+#| msgid "New budget"
+msgid "Budget"
+msgstr "Новый бюджет"
+
+#: share/grisbi.metainfo.xml.in:35 src/etats_onglet.c:1229 src/grisbi_win.c:492
+#: src/navigation.c:645 src/navigation.c:2006
+msgid "Reports"
+msgstr "Отчёты"
 
 #: src/accueil.c:127
 #, c-format
@@ -4848,11 +4864,6 @@ msgstr "Доход и расход за последний месяц"
 msgid "Unknown report type, creation cancelled"
 msgstr "Неизвестный тип отчёта, создание отменено"
 
-#: src/etats_onglet.c:1229 src/grisbi_win.c:492 src/navigation.c:645
-#: src/navigation.c:2006
-msgid "Reports"
-msgstr "Отчёты"
-
 #: src/etats_onglet.c:1276
 #, c-format
 msgid "Delete report \"%s\"?"
@@ -5320,8 +5331,8 @@ msgid ""
 "That said, please check that bugs you submit are still valid with anonymized "
 "version of that anonymized QIF file.\n"
 "\n"
-"In next page, you will have to choose a QIF file which will be renamedwith -"
-"obfuscate at the end."
+"In next page, you will have to choose a QIF file which will be renamedwith "
+"-obfuscate at the end."
 msgstr ""
 
 #: src/file_obfuscate_qif.c:92
@@ -5808,7 +5819,7 @@ msgstr "Выбрать все проводки"
 
 #: src/grisbi_app.c:1339
 #, fuzzy, c-format
-msgid "(Un)Pointing a transaction%s-> <Command>P, <Command>F12\n"
+msgid "(Un)Pointing a transaction%s-> <Command>P, F12\n"
 msgstr "Выверенные проводки"
 
 #: src/grisbi_app.c:1342
@@ -5818,12 +5829,12 @@ msgstr "Выверенные проводки"
 
 #: src/grisbi_app.c:1346
 #, fuzzy, c-format
-msgid "(Un)Pointing a transaction%s-> <Ctrl>P, <Ctrl>F12\n"
+msgid "(Un)Pointing a transaction%s-> <Ctrl>P, F12\n"
 msgstr "Выверенные проводки"
 
 #: src/grisbi_app.c:1349
 #, fuzzy, c-format
-msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
+msgid "(Un)Reconcile a transaction%s-> <Ctrl>R\n"
 msgstr "Выверенные проводки"
 
 #: src/grisbi_conf.c:1166
@@ -5982,23 +5993,23 @@ msgstr "Открыть файл со счетами"
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "_Импортировать файл..."
 
-#: src/grisbi_win.c:1502
+#: src/grisbi_win.c:1504
 msgid "Unnamed account"
 msgstr "Безымянный счёт"
 
-#: src/grisbi_win.c:1524 src/gsb_transactions_list.c:524
+#: src/grisbi_win.c:1526 src/gsb_transactions_list.c:524
 msgid "Move transaction to another account"
 msgstr "_Перенести транзакцию на другой счёт"
 
-#: src/grisbi_win.c:1681 src/gsb_file.c:419 src/gsb_file.c:453
+#: src/grisbi_win.c:1683 src/gsb_file.c:419 src/gsb_file.c:453
 msgid "unnamed"
 msgstr ""
 
-#: src/grisbi_win.c:2007
+#: src/grisbi_win.c:2009
 msgid "Creating main window"
 msgstr "Создается главное окно программы"
 
-#: src/grisbi_win.c:2019
+#: src/grisbi_win.c:2021
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -9929,16 +9940,16 @@ msgstr "Немецкий"
 msgid "Polish"
 msgstr "Польский"
 
-#: src/help.c:202
+#: src/help.c:201
 msgid "Personal finance manager for everyone\n"
 msgstr "Общедоступное управление личными финансовыми средствами\n"
 
-#: src/help.c:204
+#: src/help.c:203
 #, fuzzy
 msgid "GTK+ version: "
 msgstr "Версия Grisbi %s, %s\n"
 
-#: src/help.c:208
+#: src/help.c:207
 msgid "Grisbi git hash: "
 msgstr ""
 
@@ -10823,8 +10834,8 @@ msgstr "Использовать свой шрифт для проводок"
 msgid "You must select at least one search element"
 msgstr "Необходимо выбрать хотя бы два счёта"
 
-#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:520
-#: src/widgets/widget_search_transaction.c:795
+#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:575
+#: src/widgets/widget_search_transaction.c:840
 msgid "WARNING"
 msgstr ""
 
@@ -12170,8 +12181,9 @@ msgstr ""
 
 #: src/tip.c:100
 msgid ""
-"No more tip available!  Please send any tips you know to devel@listes.grisbi."
-"org so that we can include them in next version for all users."
+"No more tip available!  Please send any tips you know to "
+"devel@listes.grisbi.org so that we can include them in next version for all "
+"users."
 msgstr ""
 
 #: src/tip.c:137
@@ -12768,32 +12780,32 @@ msgstr ""
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>Выверка счёта «%s»</b> "
 
-#: src/widgets/widget_search_transaction.c:519
-#: src/widgets/widget_search_transaction.c:794
+#: src/widgets/widget_search_transaction.c:574
+#: src/widgets/widget_search_transaction.c:839
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "Необходимо выбрать хотя бы два счёта"
 
-#: src/widgets/widget_search_transaction.c:563
+#: src/widgets/widget_search_transaction.c:615
 #, fuzzy
 msgid "1 transaction were found"
 msgstr "Выберите проводки по сумме"
 
-#: src/widgets/widget_search_transaction.c:565
+#: src/widgets/widget_search_transaction.c:617
 #, fuzzy
 msgid " transactions were found"
 msgstr "Выберите проводки по сумме"
 
-#: src/widgets/widget_search_transaction.c:588
+#: src/widgets/widget_search_transaction.c:648
 #, fuzzy
 msgid "No transaction was found"
 msgstr "Шрифт для списка проводок"
 
-#: src/widgets/widget_search_transaction.c:740
+#: src/widgets/widget_search_transaction.c:785
 msgid "Ignore sign"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.c:986
+#: src/widgets/widget_search_transaction.c:1031
 #, fuzzy
 msgid "Choose another account"
 msgstr "Закрытый счёт"
@@ -12805,6 +12817,10 @@ msgstr "Частичный баланс"
 #: src/widgets/widget_transfer.c:930
 msgid "One of the two fields is recommended"
 msgstr ""
+
+#, fuzzy, c-format
+#~ msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
+#~ msgstr "Выверенные проводки"
 
 #, fuzzy
 #~ msgid "Searched string:"
@@ -12897,10 +12913,6 @@ msgstr ""
 #, fuzzy, c-format
 #~ msgid "General total (%d transactions): "
 #~ msgstr "Итого (%d проводок):"
-
-#, fuzzy
-#~ msgid "(Un)Reconcile a transaction\t\t-> <Ctrl>r\n"
-#~ msgstr "Выверенные проводки"
 
 #, fuzzy
 #~ msgid "Add an entry for a number"

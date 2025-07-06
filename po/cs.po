@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2025-06-06 10:29+0200\n"
+"POT-Creation-Date: 2025-07-06 17:03+0200\n"
 "PO-Revision-Date: 2022-10-19 01:29+0200\n"
 "Last-Translator: Marek Donar <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -89,7 +89,7 @@ msgid "<Ctrl> + left click of mouse to add to the selection"
 msgstr "<Ctrl> + levý klik myši pro přidání k výběru"
 
 #: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:154
-#: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_transaction.ui:29
+#: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_transaction.ui:34
 #: src/etats_onglet.c:925 src/etats_onglet.c:1155 src/etats_onglet.c:1390
 #: src/gsb_transactions_list.c:547
 msgid "Search"
@@ -508,7 +508,7 @@ msgstr "Motiv"
 #: src/widgets/widget_list_metatree.ui:91 src/widgets/widget_reconcile.ui:269
 #: src/widgets/widget_reconcile.ui:281 src/widgets/widget_reconcile.ui:293
 #: src/widgets/widget_reconcile.ui:305
-#: src/widgets/widget_search_transaction.ui:328
+#: src/widgets/widget_search_transaction.ui:335
 msgid "label"
 msgstr "popisek"
 
@@ -1979,13 +1979,13 @@ msgid "Comments"
 msgstr "Komentář"
 
 #: src/widgets/widget_assistant.ui:40
-#: src/widgets/widget_search_transaction.ui:49
+#: src/widgets/widget_search_transaction.ui:54
 #, fuzzy
 msgid "Previous"
 msgstr "Předchozí"
 
 #: src/widgets/widget_assistant.ui:55
-#: src/widgets/widget_search_transaction.ui:64
+#: src/widgets/widget_search_transaction.ui:70
 msgid "Next"
 msgstr ""
 
@@ -2568,49 +2568,48 @@ msgstr "Řadit dle metody platby"
 msgid "Reconcile"
 msgstr "Odsouhlasit"
 
-#: src/widgets/widget_search_transaction.ui:78
-#: src/widgets/widget_search_transaction.c:485
-#: src/widgets/widget_search_transaction.c:613
+#: src/widgets/widget_search_transaction.ui:86
+#: src/widgets/widget_search_transaction.c:125
 msgid "Find"
 msgstr "Najít"
 
-#: src/widgets/widget_search_transaction.ui:106
+#: src/widgets/widget_search_transaction.ui:114
 msgid "Search in payee name"
 msgstr "Hledat v názvu plátce/příjemce"
 
-#: src/widgets/widget_search_transaction.ui:135
+#: src/widgets/widget_search_transaction.ui:143
 msgid "Search in note"
 msgstr "Hledat v poznámce"
 
-#: src/widgets/widget_search_transaction.ui:186
+#: src/widgets/widget_search_transaction.ui:194
 msgid "Continue with another account: "
 msgstr "Pokračovat dalším účtem: "
 
-#: src/widgets/widget_search_transaction.ui:228
+#: src/widgets/widget_search_transaction.ui:236
 msgid "Search from newest to oldest"
 msgstr "Hledat od nejnovějšího po nejstarší"
 
-#: src/widgets/widget_search_transaction.ui:244
+#: src/widgets/widget_search_transaction.ui:251
 msgid "Search in the archived transactions"
 msgstr "Hledat v archivu transakcí"
 
-#: src/widgets/widget_search_transaction.ui:259
-#: src/widgets/widget_search_transaction.c:722
-#: src/widgets/widget_search_transaction.c:728
-#: src/widgets/widget_search_transaction.c:734
-#: src/widgets/widget_search_transaction.c:1077
+#: src/widgets/widget_search_transaction.ui:266
+#: src/widgets/widget_search_transaction.c:767
+#: src/widgets/widget_search_transaction.c:773
+#: src/widgets/widget_search_transaction.c:779
+#: src/widgets/widget_search_transaction.c:1124
 msgid "Ignore case"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:294
+#: src/widgets/widget_search_transaction.ui:301
 msgid "Search an amount at + or - "
 msgstr "Hledat částku + nebo - "
 
-#: src/widgets/widget_search_transaction.ui:357
+#: src/widgets/widget_search_transaction.ui:364
 msgid "Search an amount"
 msgstr "Hledat částku"
 
-#: src/widgets/widget_search_transaction.ui:373
+#: src/widgets/widget_search_transaction.ui:380
 #, fuzzy
 #| msgid "Search in payee name"
 msgid "Search in payee and note"
@@ -2687,16 +2686,16 @@ msgstr "Nahrazení plánované operace v prognóze"
 msgid "Allows you to select the working day following the date entered"
 msgstr "Umožní vybrat pracovní den následující po zvoleném datu"
 
-#: share/grisbi.desktop.in:3 share/grisbi.metainfo.xml.in:6
-#: src/grisbi_win.c:1627 src/grisbi_win.c:1676
+#: share/grisbi.desktop.in:2 share/grisbi.metainfo.xml.in:6
+#: src/grisbi_win.c:1629 src/grisbi_win.c:1678
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: share/grisbi.desktop.in:4
+#: share/grisbi.desktop.in:3
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí"
 
-#: share/grisbi.desktop.in:5
+#: share/grisbi.desktop.in:4
 msgid "finance"
 msgstr "finance"
 
@@ -2705,13 +2704,13 @@ msgstr "finance"
 msgid "Personal finances manager"
 msgstr "Osobní správce financí"
 
-#: share/grisbi.metainfo.xml.in:8
+#: share/grisbi.metainfo.xml.in:9
 #, fuzzy
 #| msgid "Grisbi"
 msgid "Grisbi Team"
 msgstr "Grisbi"
 
-#: share/grisbi.metainfo.xml.in:10
+#: share/grisbi.metainfo.xml.in:12
 msgid ""
 "Grisbi is a very functional personal financial management program with a lot "
 "of features: checking, cash and liabilities accounts, several accounts with "
@@ -2723,6 +2722,23 @@ msgid ""
 "scheduled transactions, automatic recall of last transaction for every third "
 "party, nice and easy user interface, user manual, QIF import/export."
 msgstr ""
+
+#: share/grisbi.metainfo.xml.in:27
+#, fuzzy
+#| msgid "New window"
+msgid "Main window"
+msgstr "Nové okno"
+
+#: share/grisbi.metainfo.xml.in:31
+#, fuzzy
+#| msgid "New budget"
+msgid "Budget"
+msgstr "Nový rozpočet"
+
+#: share/grisbi.metainfo.xml.in:35 src/etats_onglet.c:1229 src/grisbi_win.c:492
+#: src/navigation.c:645 src/navigation.c:2006
+msgid "Reports"
+msgstr "Sestavy"
 
 #: src/accueil.c:127
 #, c-format
@@ -4618,11 +4634,6 @@ msgstr "Příjmy a výdaje za minulý měsíc"
 msgid "Unknown report type, creation cancelled"
 msgstr "Neznámý typ sestavy, vytváření bylo zrušeno"
 
-#: src/etats_onglet.c:1229 src/grisbi_win.c:492 src/navigation.c:645
-#: src/navigation.c:2006
-msgid "Reports"
-msgstr "Sestavy"
-
 #: src/etats_onglet.c:1276
 #, c-format
 msgid "Delete report \"%s\"?"
@@ -5121,8 +5132,8 @@ msgid ""
 "That said, please check that bugs you submit are still valid with anonymized "
 "version of that anonymized QIF file.\n"
 "\n"
-"In next page, you will have to choose a QIF file which will be renamedwith -"
-"obfuscate at the end."
+"In next page, you will have to choose a QIF file which will be renamedwith "
+"-obfuscate at the end."
 msgstr ""
 "Tento pomocník vytváří anonymní kopie souborů QIF, které mají všechna osobní "
 "data nahrazena neškodnými náhodnými daty, abyste mohl(a) připojit kopii "
@@ -5131,8 +5142,8 @@ msgstr ""
 "Před připojením anonymní verze vašeho souboru QIF k hlášení chyby prosím "
 "ověřte, že je v něm chyba stále patrná.\n"
 "\n"
-"Na další stránce vyberete soubor QIF, který bude přejmenován s příponou -"
-"obfuscated."
+"Na další stránce vyberete soubor QIF, který bude přejmenován s příponou "
+"-obfuscated."
 
 #: src/file_obfuscate_qif.c:92
 msgid "Open a QIF file"
@@ -5620,7 +5631,7 @@ msgstr "<b>Akce v seznamu transakcí:</b>"
 #: src/grisbi_app.c:1339
 #, fuzzy, c-format
 #| msgid "(Un)Pointing a transaction%s-> <Command>p, <Command>F12\n"
-msgid "(Un)Pointing a transaction%s-> <Command>P, <Command>F12\n"
+msgid "(Un)Pointing a transaction%s-> <Command>P, F12\n"
 msgstr "(Od)Označit transakci%s-> <Command>p, <Command>F12\n"
 
 #: src/grisbi_app.c:1342
@@ -5632,14 +5643,13 @@ msgstr "(Od)Odsouhlasit transakci%s-> <Command>r\n"
 #: src/grisbi_app.c:1346
 #, fuzzy, c-format
 #| msgid "(Un)Pointing a transaction%s-> <Ctrl>p, <Ctrl>F12\n"
-msgid "(Un)Pointing a transaction%s-> <Ctrl>P, <Ctrl>F12\n"
+msgid "(Un)Pointing a transaction%s-> <Ctrl>P, F12\n"
 msgstr "(Od)Označit transakci%s-> <Ctrl>p, <Ctrl>F12\n"
 
 #: src/grisbi_app.c:1349
 #, fuzzy, c-format
-#| msgid "(Un)Reconcile a transaction%s-> <Ctrl>p, <Ctrl>F12\n"
-msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
-msgstr "(Od)Označit transakci%s-> <Ctrl>p, <Ctrl>F12\n"
+msgid "(Un)Reconcile a transaction%s-> <Ctrl>R\n"
+msgstr "Odsouhlasené transakce"
 
 #: src/grisbi_conf.c:1166
 #, c-format
@@ -5787,23 +5797,23 @@ msgstr "Otevřít existující soubor účtů"
 msgid "Import a CSV, QIF, OFX file ..."
 msgstr "Importovat soubor CSV, QIF, QFX..."
 
-#: src/grisbi_win.c:1502
+#: src/grisbi_win.c:1504
 msgid "Unnamed account"
 msgstr "Nepojmenovaný účet"
 
-#: src/grisbi_win.c:1524 src/gsb_transactions_list.c:524
+#: src/grisbi_win.c:1526 src/gsb_transactions_list.c:524
 msgid "Move transaction to another account"
 msgstr "Přesunout transakci na jiný účet"
 
-#: src/grisbi_win.c:1681 src/gsb_file.c:419 src/gsb_file.c:453
+#: src/grisbi_win.c:1683 src/gsb_file.c:419 src/gsb_file.c:453
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
-#: src/grisbi_win.c:2007
+#: src/grisbi_win.c:2009
 msgid "Creating main window"
 msgstr "Vytváření hlavního okna"
 
-#: src/grisbi_win.c:2019
+#: src/grisbi_win.c:2021
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -6736,8 +6746,8 @@ msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
 "no_column = %d\n"
 msgstr ""
-"Chybné číslo sloupce v gsb_data_account_get_element_sort () v data_account."
-"c\n"
+"Chybné číslo sloupce v gsb_data_account_get_element_sort () v "
+"data_account.c\n"
 "no_column = %d\n"
 
 #: src/gsb_data_account.c:1364
@@ -6746,8 +6756,8 @@ msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
 "no_column = %d\n"
 msgstr ""
-"Chybné číslo sloupce v gsb_data_account_set_element_sort () v data_account."
-"c\n"
+"Chybné číslo sloupce v gsb_data_account_set_element_sort () v "
+"data_account.c\n"
 "no_column = %d\n"
 
 #: src/gsb_data_account.c:3810
@@ -9904,15 +9914,15 @@ msgstr "Němčina"
 msgid "Polish"
 msgstr "Polština"
 
-#: src/help.c:202
+#: src/help.c:201
 msgid "Personal finance manager for everyone\n"
 msgstr "Osobní správce financí pro každého\n"
 
-#: src/help.c:204
+#: src/help.c:203
 msgid "GTK+ version: "
 msgstr "Verze GTK+: "
 
-#: src/help.c:208
+#: src/help.c:207
 msgid "Grisbi git hash: "
 msgstr "Hash Grisbi git: "
 
@@ -10848,8 +10858,8 @@ msgstr "Použít poznámku: \"%s\" pro vyhledání transakcí"
 msgid "You must select at least one search element"
 msgstr "Musíte vybrat nejméně jeden vyhledávací element"
 
-#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:520
-#: src/widgets/widget_search_transaction.c:795
+#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:575
+#: src/widgets/widget_search_transaction.c:840
 msgid "WARNING"
 msgstr "VAROVÁNÍ"
 
@@ -11850,8 +11860,8 @@ msgid ""
 "For now, all the dates will be imported as 01.01.2000"
 msgstr ""
 "Grisbi nemohlo určit formát data v souboru QIF.\n"
-"Pro nalezení problému prosím kontaktujte vývojový tým Grisbi (devel@listes."
-"grisbi.org).\n"
+"Pro nalezení problému prosím kontaktujte vývojový tým Grisbi "
+"(devel@listes.grisbi.org).\n"
 "Prozatím budou všechna data naimportována jako 01.01.2000"
 
 #: src/qif.c:1495
@@ -12319,8 +12329,9 @@ msgstr ""
 
 #: src/tip.c:100
 msgid ""
-"No more tip available!  Please send any tips you know to devel@listes.grisbi."
-"org so that we can include them in next version for all users."
+"No more tip available!  Please send any tips you know to "
+"devel@listes.grisbi.org so that we can include them in next version for all "
+"users."
 msgstr ""
 "Další tipy nejsou k dispozici. Pokud máte další tipy, o které byste se rádi "
 "podělili s ostatními uživateli, pošlete je na adresu devel@listes.grisbi.org "
@@ -12955,28 +12966,28 @@ msgstr "Poslední výpis: %s"
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>%s odsouhlasení</b> "
 
-#: src/widgets/widget_search_transaction.c:519
-#: src/widgets/widget_search_transaction.c:794
+#: src/widgets/widget_search_transaction.c:574
+#: src/widgets/widget_search_transaction.c:839
 msgid "You must enter a search text"
 msgstr "Musíte zadat vyhledávací text"
 
-#: src/widgets/widget_search_transaction.c:563
+#: src/widgets/widget_search_transaction.c:615
 msgid "1 transaction were found"
 msgstr "Byla nalezena 1 transakce"
 
-#: src/widgets/widget_search_transaction.c:565
+#: src/widgets/widget_search_transaction.c:617
 msgid " transactions were found"
 msgstr " transakcí bylo nalezeno"
 
-#: src/widgets/widget_search_transaction.c:588
+#: src/widgets/widget_search_transaction.c:648
 msgid "No transaction was found"
 msgstr "Nebyla nalezena žádná transakce"
 
-#: src/widgets/widget_search_transaction.c:740
+#: src/widgets/widget_search_transaction.c:785
 msgid "Ignore sign"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.c:986
+#: src/widgets/widget_search_transaction.c:1031
 msgid "Choose another account"
 msgstr "Zvolte jiný účet"
 
@@ -12988,8 +12999,10 @@ msgstr "Souhrnný zůstatek"
 msgid "One of the two fields is recommended"
 msgstr "Jedno ze dvou polí je doporučené"
 
-#~ msgid "New window"
-#~ msgstr "Nové okno"
+#, fuzzy, c-format
+#~| msgid "(Un)Reconcile a transaction%s-> <Ctrl>p, <Ctrl>F12\n"
+#~ msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
+#~ msgstr "(Od)Označit transakci%s-> <Ctrl>p, <Ctrl>F12\n"
 
 #~ msgid "New_window"
 #~ msgstr "Nové okno"
@@ -13169,10 +13182,6 @@ msgstr "Jedno ze dvou polí je doporučené"
 #, c-format
 #~ msgid "%s, %2f : %s - %s:%d:%s\n"
 #~ msgstr "%s, %2f : %s - %s:%d:%s\n"
-
-#, fuzzy
-#~ msgid "(Un)Reconcile a transaction\t\t-> <Ctrl>r\n"
-#~ msgstr "Odsouhlasené transakce"
 
 #, fuzzy
 #~ msgid "Add an entry for a number"
