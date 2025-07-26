@@ -2116,14 +2116,19 @@ static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_numbe
     }
     g_free(tmp_str);
 
-    gsb_data_import_rule_remove (import_rule_number);
+    if (gsb_data_import_rule_remove (import_rule_number))
+	{
+		GSList	*tmp_list;
+		gint number;
 
-    /* on met à jour la barre de menu */
-    gtk_widget_hide (menu_import_rules);
+		/* on met à jour la barre de menu */
+		tmp_list = gsb_data_import_rule_get_from_account (gsb_gui_navigation_get_current_account ());
+		number = g_slist_length (tmp_list);
+		if (!number)
+			gtk_widget_hide (menu_import_rules);
 
-	gsb_file_set_modified (TRUE);
-
-    return TRUE;
+		gsb_file_set_modified (TRUE);
+	}
 }
 
 /**
