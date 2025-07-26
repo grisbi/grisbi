@@ -491,11 +491,29 @@ static void gsb_import_account_radiobutton_toggle (GtkWidget *radio,
         gtk_widget_set_sensitive (compte->hbox3, FALSE);
     gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (radio), "associated"), TRUE);
 
-    account->action = action;
+	compte->action = action;
 
-    if (account->hbox_rule && gtk_widget_get_visible (account->hbox_rule))
-        gtk_widget_set_sensitive (account->hbox_rule, action != IMPORT_CREATE_ACCOUNT);
-    return FALSE;
+	/* check button rule_name */
+	if (g_strcmp0 (compte->origine, "CSV")!= 0)
+	{
+		gtk_widget_set_sensitive (compte->hbox_rule, action != IMPORT_CREATE_ACCOUNT);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void gsb_import_clear_entry_name_rule (GtkWidget *check_button,
+											  GtkWidget *entry)
+{
+	if (gtk_entry_get_text_length (GTK_ENTRY (entry)))
+		gtk_entry_set_text (GTK_ENTRY (entry), "");
+	gtk_widget_grab_focus (entry);
 }
 
 /**
@@ -842,31 +860,88 @@ static GtkWidget *gsb_import_create_page_recapitulatif (struct ImportAccount *co
 										  NULL,
 										  NULL);
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
-    g_object_set_data (G_OBJECT (radio), "invert_amount", compte);
 
     /* propose to create a rule */
-    compte->hbox_rule = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
-    gtk_box_pack_start (GTK_BOX (vbox), compte->hbox_rule, FALSE, FALSE, 0);
-    compte->entry_name_rule = gtk_entry_new ();
-    button = gsb_automem_checkbutton_new (_("Create a rule for this import. Name of the rule: "),
-                        &compte->create_rule, G_CALLBACK (
-                        utils_buttons_sensitive_by_checkbutton),
-                        compte->entry_name_rule);
-    gtk_box_pack_start (GTK_BOX (compte->hbox_rule), button, FALSE, FALSE, 0);
-
-	if (compte->create_rule)
+	if (g_strcmp0 (compte->origine, "CSV") != 0)
 	{
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
-		gtk_entry_set_text (GTK_ENTRY (compte->entry_name_rule), compte->csv_rule_name);
+		compte->hbox_rule = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
+		gtk_box_pack_start (GTK_BOX (vbox), compte->hbox_rule, FALSE, FALSE, 0);
+
+		/* set entry_name_rule */
+		compte->entry_name_rule = gtk_entry_new ();
+		gtk_widget_set_sensitive (compte->entry_name_rule, FALSE);
+
+		/* set checkbutton_create_rule */
+		button = gsb_automem_checkbutton_new (_("Create a rule for this import. Name of the rule: "),
+											  &compte->create_rule,
+											  G_CALLBACK (utils_buttons_sensitive_by_checkbutton),
+											  compte->entry_name_rule);
+		gtk_box_pack_start (GTK_BOX (compte->hbox_rule), button, FALSE, FALSE, 0);
+
+		/* pack entry_name_rule */
+		gtk_box_pack_start (GTK_BOX (compte->hbox_rule), compte->entry_name_rule, FALSE, FALSE, 0);
+
+		/* set signal to clear entry_name_rule */
+		g_signal_connect_after (G_OBJECT (button),
+							    "toggled",
+							    G_CALLBACK (gsb_import_clear_entry_name_rule),
+							    compte->entry_name_rule);
 	}
 
-    /* we can create a rule only for qif or ofx EN TEST POUR FICHIER CSV */
-    if (strcmp (compte->origine, "QIF") && strcmp (compte->origine, "OFX"))
-		gtk_widget_set_sensitive (button, FALSE);
+	/* set objects */
+    g_object_set_data (G_OBJECT (radio_add_account), "associated", compte->hbox2);
+    g_object_set_data (G_OBJECT (radio_mark_account), "associated", compte->hbox3);
+    g_object_set_data (G_OBJECT (radio_new_account), "associated", compte->hbox1);
 
-    gtk_widget_set_sensitive (compte->entry_name_rule, FALSE);
-    gtk_box_pack_start (GTK_BOX (compte->hbox_rule),
-                        compte->entry_name_rule, FALSE, FALSE, 0);
+	g_object_set_data (G_OBJECT (radio_add_account), "account", compte);
+    g_object_set_data (G_OBJECT (radio_mark_account), "account", compte);
+    g_object_set_data (G_OBJECT (radio_new_account), "account", compte);
+
+	g_object_set_data (G_OBJECT (radio_add_account), "invert_amount", compte);
+    g_object_set_data (G_OBJECT (radio_mark_account), "invert_amount", compte);
+    g_object_set_data (G_OBJECT (radio_new_account), "invert_amount", compte);
+
+	/* set on the right account */
+    account_number = gsb_data_account_get_account_by_id (compte->id_compte);
+    if (account_number > 0)
+    {
+		/* get rule name */
+		if (g_strcmp0 (compte->origine, "CSV"))
+		{
+			GSList	*tmp_list;
+			gint number;
+
+			tmp_list = gsb_data_import_rule_get_from_account (account_number);
+			number = g_slist_length (tmp_list);
+			if (number > 0)
+			{
+				ImportRule *rule;
+
+				rule = tmp_list->data;
+				gtk_entry_set_text (GTK_ENTRY (compte->entry_name_rule), rule->rule_name);				
+			}
+		}
+
+    	gsb_import_account_radiobutton_toggle (radio_add_account,IMPORT_ADD_TRANSACTIONS);
+    	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_add_account), TRUE);
+
+		gsb_account_set_combo_account_number (compte->bouton_compte_add, account_number);
+    	gsb_account_set_combo_account_number (compte->bouton_compte_mark, account_number);
+    }
+
+	/* set signals */
+    g_signal_connect (G_OBJECT (radio_new_account),
+					  "toggled",
+					  G_CALLBACK (gsb_import_account_radiobutton_toggle),
+					  IMPORT_CREATE_ACCOUNT);
+    g_signal_connect (G_OBJECT (radio_add_account),
+					  "toggled",
+					  G_CALLBACK (gsb_import_account_radiobutton_toggle),
+					  GINT_TO_POINTER (IMPORT_ADD_TRANSACTIONS));
+    g_signal_connect (G_OBJECT (radio_mark_account),
+					  "toggled",
+					  G_CALLBACK (gsb_import_account_radiobutton_toggle),
+					  GINT_TO_POINTER (IMPORT_MARK_TRANSACTIONS));
 
 	return vbox;
 }
