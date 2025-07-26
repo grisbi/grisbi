@@ -477,19 +477,18 @@ static gint gsb_import_date_sort_function (GtkTreeModel *model,
  *
  * \return
  **/
-static gboolean gsb_import_account_action_activated (GtkWidget *radio,
+static void gsb_import_account_radiobutton_toggle (GtkWidget *radio,
 													 gint action)
 {
-    struct ImportAccount *account;
+    struct ImportAccount *compte;
 
-    account = g_object_get_data (G_OBJECT (radio), "account");
-
-    if (account->hbox1 && gtk_widget_get_visible (account->hbox1))
-        gtk_widget_set_sensitive (account->hbox1, FALSE);
-    if (account->hbox2 && gtk_widget_get_visible (account->hbox2))
-        gtk_widget_set_sensitive (account->hbox2, FALSE);
-    if (account->hbox3 && gtk_widget_get_visible (account->hbox3))
-        gtk_widget_set_sensitive (account->hbox3, FALSE);
+	compte = g_object_get_data (G_OBJECT (radio), "account");
+    if (compte->hbox1 && gtk_widget_get_visible (compte->hbox1))
+        gtk_widget_set_sensitive (compte->hbox1, FALSE);
+    if (compte->hbox2 && gtk_widget_get_visible (compte->hbox2))
+        gtk_widget_set_sensitive (compte->hbox2, FALSE);
+    if (compte->hbox3 && gtk_widget_get_visible (compte->hbox3))
+        gtk_widget_set_sensitive (compte->hbox3, FALSE);
     gtk_widget_set_sensitive (g_object_get_data (G_OBJECT (radio), "associated"), TRUE);
 
     account->action = action;
@@ -588,18 +587,18 @@ static GtkWidget *gsb_import_assistant_create_final_page (GtkWidget *assistant)
     gtk_text_view_set_right_margin (GTK_TEXT_VIEW (view), 12);
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-    gtk_text_buffer_create_tag (buffer, "x-large",
-                        "scale", PANGO_SCALE_X_LARGE, NULL);
+    gtk_text_buffer_create_tag (buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL);
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
 
     gtk_text_buffer_insert (buffer, &iter, "\n", -1);
-    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                        _("Import settings completed successfully"), -1,
-                        "x-large", NULL);
+    gtk_text_buffer_insert_with_tags_by_name (buffer,
+											  &iter,
+											  _("Import settings completed successfully"),
+											  -1,
+											  "x-large",
+											  NULL);
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
-    gtk_text_buffer_insert (buffer, &iter,
-                        _("Press the 'Close' button to finish the import."),
-                        -1);
+    gtk_text_buffer_insert (buffer, &iter, _("Press the 'Close' button to finish the import."), -1);
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
 
     return view;
@@ -619,28 +618,28 @@ static gint gsb_import_create_imported_account (struct ImportAccount *imported_a
     gint kind_account;
 
     if (!imported_account)
-	return -1;
+		return -1;
 
     /* create the new account,
      * for now 3 kind of account, GSB_TYPE_BANK, GSB_TYPE_LIABILITIES or GSB_TYPE_CASH */
     switch (gsb_combo_box_get_index (imported_account->bouton_type_compte))
     {
-	case 2:
-	    kind_account = GSB_TYPE_LIABILITIES;
-	    break;
+		case 2:
+			kind_account = GSB_TYPE_LIABILITIES;
+			break;
 
-	case 1:
-	    kind_account = GSB_TYPE_CASH;
-	    break;
+		case 1:
+			kind_account = GSB_TYPE_CASH;
+			break;
 
-	default:
-	    kind_account = GSB_TYPE_BANK;
+		default:
+			kind_account = GSB_TYPE_BANK;
     }
 
     account_number = gsb_data_account_new (kind_account);
 
     if (account_number == -1)
-	return -1;
+		return -1;
 
     /* set the default method of payment */
     gsb_data_payment_create_default (account_number);
@@ -648,55 +647,46 @@ static gint gsb_import_create_imported_account (struct ImportAccount *imported_a
     /* set the id and try to find the bank */
     if (imported_account->id_compte)
     {
-	gchar **tab_str;
+		gchar **tab_str;
 
-	gsb_data_account_set_id (account_number,
-				 imported_account->id_compte);
+		gsb_data_account_set_id (account_number, imported_account->id_compte);
 
-	/* usually, the id is "bank_number guichet_number account_number key"
-	 * try to get the datas */
+		/* usually, the id is "bank_number guichet_number account_number key" try to get the datas */
 
-	tab_str = g_strsplit (gsb_data_account_get_id (account_number),
-			       " ",
-			       3);
-	if (tab_str[1])
-	{
-	    gsb_data_account_set_bank_branch_code (account_number,
-						    tab_str[1]);
-	    if (tab_str[2])
-	    {
-		gchar *temp;
-
-		gsb_data_account_set_bank_account_key (account_number,
-							tab_str[2] + strlen (tab_str[2]) - 1);
-
-		temp = my_strdup (tab_str[2]);
-		if (temp && strlen(temp))
+		tab_str = g_strsplit (gsb_data_account_get_id (account_number), " ", 3);
+		if (tab_str[1])
 		{
-		    temp[strlen (temp) - 1] = 0;
-		    gsb_data_account_set_bank_account_number (account_number, temp);
-		    g_free (temp);
+			gsb_data_account_set_bank_branch_code (account_number, tab_str[1]);
+			if (tab_str[2])
+			{
+				gchar *temp;
+
+				gsb_data_account_set_bank_account_key (account_number, tab_str[2] + strlen (tab_str[2]) - 1);
+
+				temp = my_strdup (tab_str[2]);
+				if (temp && strlen(temp))
+				{
+					temp[strlen (temp) - 1] = 0;
+					gsb_data_account_set_bank_account_number (account_number, temp);
+					g_free (temp);
+				}
+			}
 		}
-	    }
-	}
-	g_strfreev (tab_str);
+		g_strfreev (tab_str);
     }
 
     /* set the name (the g_strstrip is VERY important !!!) */
     if (imported_account->nom_de_compte)
-	gsb_data_account_set_name (account_number,
-				    g_strstrip (imported_account->nom_de_compte));
+		gsb_data_account_set_name (account_number, g_strstrip (imported_account->nom_de_compte));
     else
-	gsb_data_account_set_name (account_number,
-				    _("Imported account"));
+		gsb_data_account_set_name (account_number, _("Imported account"));
 
     /* set the currency */
     gsb_data_account_set_currency (account_number,
-				    gsb_currency_get_currency_from_combobox (imported_account->bouton_devise));
+								   gsb_currency_get_currency_from_combobox (imported_account->bouton_devise));
 
     /* set the initial balance */
-    gsb_data_account_set_init_balance (account_number,
-					imported_account->solde);
+    gsb_data_account_set_init_balance (account_number, imported_account->solde);
 
     /* Use two lines view by default. */
     gsb_data_account_set_nb_rows (account_number, 2);
@@ -711,46 +701,51 @@ static gint gsb_import_create_imported_account (struct ImportAccount *imported_a
  *
  * \return
  **/
-static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *compte)
+static GtkWidget *gsb_import_create_page_recapitulatif (struct ImportAccount *compte)
 {
-    GtkWidget *vbox, *hbox, *label, *radio, *radio_add_account,*radiogroup;
+    GtkWidget *button;
+    GtkWidget *hbox;
+    GtkWidget *label;
+    GtkWidget *radio_add_account;
+    GtkWidget *radio_mark_account;
+    GtkWidget *radio_new_account;
+    GtkWidget *vbox;
     gchar *short_filename;
     gint size = 0, spacing = 0;
     gint account_number;
-    GtkWidget *button;
     gchar *tmp_str;
 
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
     if (compte->filename)
-    short_filename = g_path_get_basename (compte->filename);
+		short_filename = g_path_get_basename (compte->filename);
     else
     {
-    if (compte->real_filename)
-        short_filename = g_path_get_basename (compte->real_filename);
-    else
-        short_filename = g_strdup (_("file"));
+		if (compte->real_filename)
+			short_filename = g_path_get_basename (compte->real_filename);
+		else
+			short_filename = g_strdup (_("file"));
     }
 
     label = gtk_label_new (NULL);
     utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     tmp_str = g_markup_printf_escaped (_("<span size=\"x-large\">%s</span>\n\n"
-                        "What do you want to do with contents from <span "
-                        "foreground=\"blue\">%s</span> ?\n"),
-                        compte->nom_de_compte, short_filename);
+										 "What do you want to do with contents from <span "
+										 "foreground=\"blue\">%s</span> ?\n"),
+									   compte->nom_de_compte,
+									   short_filename);
     gtk_label_set_markup (GTK_LABEL (label), tmp_str);
     g_free (tmp_str);
     g_free (short_filename);
     gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 
     /* New account */
-    radio = gtk_radio_button_new_with_label (NULL, _("Create a new account"));
-    radiogroup = radio;
-    gtk_box_pack_start (GTK_BOX (vbox), radio, FALSE, FALSE, 0);
-    gtk_widget_style_get (radio, "indicator_size", &size, NULL);
-    gtk_widget_style_get (radio, "indicator_spacing", &spacing, NULL);
+    radio_new_account = gtk_radio_button_new_with_label (NULL, _("Create a new account"));
+    gtk_box_pack_start (GTK_BOX (vbox), radio_new_account, FALSE, FALSE, 0);
+    gtk_widget_style_get (radio_new_account, "indicator_size", &size, NULL);
+    gtk_widget_style_get (radio_new_account, "indicator_spacing", &spacing, NULL);
 
     compte->hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (vbox), compte->hbox1, FALSE, FALSE, 0);
@@ -758,40 +753,31 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
 	gtk_widget_set_margin_start (label, 2 * spacing + size);
     gtk_box_pack_start (GTK_BOX (compte->hbox1), label, FALSE, FALSE, 0);
 
-    compte->bouton_type_compte = gsb_combo_box_new_with_index_from_list (
-                        gsb_data_bank_get_bank_type_list (),
-                        NULL, NULL);
-    gtk_box_pack_start (GTK_BOX (compte->hbox1), compte->bouton_type_compte,
-                        TRUE, TRUE, 0);
+    compte->bouton_type_compte = gsb_combo_box_new_with_index_from_list (gsb_data_bank_get_bank_type_list (),
+																		 NULL,
+																		 NULL);
+    gtk_box_pack_start (GTK_BOX (compte->hbox1), compte->bouton_type_compte, TRUE, TRUE, 0);
 
     /* at this level imported_account->type_de_compte was filled while importing transactions,
      * in qif.c or ofx.c ; but we have only 4 kind of account for now, so try to place the combobox correctly
      * and it's the user who will choose the kind of account */
     switch (compte->type_de_compte)
     {
-    case 3:
-        gsb_combo_box_set_index (compte->bouton_type_compte,
-                        GSB_TYPE_LIABILITIES);
-        break;
+		case 3:
+			gsb_combo_box_set_index (compte->bouton_type_compte, GSB_TYPE_LIABILITIES);
+			break;
 
-    case 7:
-        gsb_combo_box_set_index (compte->bouton_type_compte,
-                        GSB_TYPE_CASH);
-        break;
+		case 7:
+			gsb_combo_box_set_index (compte->bouton_type_compte, GSB_TYPE_CASH);
+			break;
 
-    default:
-        gsb_combo_box_set_index (compte->bouton_type_compte,
-                        GSB_TYPE_BANK);
+		default:
+			gsb_combo_box_set_index (compte->bouton_type_compte, GSB_TYPE_BANK);
     }
 
-    g_object_set_data (G_OBJECT (radio), "associated", compte->hbox1);
-    g_object_set_data (G_OBJECT (radio), "account", compte);
-    g_signal_connect (G_OBJECT (radio), "toggled",
-                        G_CALLBACK (gsb_import_account_action_activated), IMPORT_CREATE_ACCOUNT);
-
-    /* Add to account */
-    radio_add_account = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radiogroup),
-                        _("Add transactions to an account"));
+	/* Add to account */
+    radio_add_account = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio_new_account),
+																	 _("Add transactions to an account"));
     gtk_box_pack_start (GTK_BOX (vbox), radio_add_account, FALSE, FALSE, 0);
     if (radio_add_account && gtk_widget_get_visible (radio_add_account))
         gtk_widget_set_sensitive  (radio_add_account, assert_account_loaded ());
@@ -806,17 +792,11 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     gtk_box_pack_start (GTK_BOX (compte->hbox2), compte->bouton_compte_add, TRUE, TRUE, 0);
     gtk_widget_set_sensitive (compte->hbox2, FALSE);
 
-    g_object_set_data (G_OBJECT (radio_add_account), "associated", compte->hbox2);
-    g_object_set_data (G_OBJECT (radio_add_account), "account", compte);
-    g_signal_connect (G_OBJECT (radio_add_account), "toggled",
-                        G_CALLBACK (gsb_import_account_action_activated),
-                        GINT_TO_POINTER (IMPORT_ADD_TRANSACTIONS));
-
     /* Mark account */
-    radio = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radiogroup),
-                        _("Mark transactions of an account"));
-    gtk_box_pack_start (GTK_BOX (vbox), radio, FALSE, FALSE, 0);
-    gtk_widget_set_sensitive  (radio, assert_account_loaded ());
+    radio_mark_account = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio_new_account),
+																	  ("Mark transactions of an account"));
+    gtk_box_pack_start (GTK_BOX (vbox), radio_mark_account, FALSE, FALSE, 0);
+    gtk_widget_set_sensitive  (radio_mark_account, assert_account_loaded ());
 
     compte->hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
     gtk_box_pack_start (GTK_BOX (vbox), compte->hbox3, FALSE, FALSE, 0);
@@ -827,23 +807,6 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     compte->bouton_compte_mark = gsb_account_create_combo_list (NULL, NULL, FALSE);
     gtk_box_pack_start (GTK_BOX (compte->hbox3), compte->bouton_compte_mark, TRUE, TRUE, 0);
     gtk_widget_set_sensitive (compte->hbox3, FALSE);
-
-    g_object_set_data (G_OBJECT (radio), "associated", compte->hbox3);
-    g_object_set_data (G_OBJECT (radio), "account", compte);
-    g_signal_connect (G_OBJECT (radio), "toggled",
-                        G_CALLBACK (gsb_import_account_action_activated),
-                        GINT_TO_POINTER (IMPORT_MARK_TRANSACTIONS));
-
-	/* set on the right account */
-    account_number = gsb_data_account_get_account_by_id (compte->id_compte);
-    if (account_number >= 0)
-    {
-    	gsb_import_account_action_activated (radio_add_account,IMPORT_ADD_TRANSACTIONS);
-    	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_add_account), TRUE);
-
-		gsb_account_set_combo_account_number (compte->bouton_compte_add, account_number);
-    	gsb_account_set_combo_account_number (compte->bouton_compte_mark, account_number);
-    }
 
     /* Currency */
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, MARGIN_BOX);
@@ -860,7 +823,8 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
 
         /* First, we search currency from ISO4217 code for existing currencies */
         currency_number = gsb_data_currency_get_number_by_code_iso4217 (compte->devise);
-        /* Then, by nickname for existing currencies */
+
+		/* Then, by nickname for existing currencies */
         if (!currency_number)
         {
             currency_number = gsb_import_add_currency (compte);
@@ -874,7 +838,9 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
 
     /* invert amount of transactions */
     button = gsb_automem_checkbutton_new (_("Invert the amount of the imported transactions"),
-                        &compte->invert_transaction_amount, NULL, NULL);
+										  &compte->invert_transaction_amount,
+										  NULL,
+										  NULL);
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
     g_object_set_data (G_OBJECT (radio), "invert_amount", compte);
 
@@ -902,7 +868,7 @@ static GtkWidget *gsb_import_cree_ligne_recapitulatif (struct ImportAccount *com
     gtk_box_pack_start (GTK_BOX (compte->hbox_rule),
                         compte->entry_name_rule, FALSE, FALSE, 0);
 
-    return vbox;
+	return vbox;
 }
 
 /**
@@ -920,7 +886,7 @@ static gboolean gsb_import_affichage_recapitulatif_importation (GtkWidget *assis
     GSList *tmp_list;
 
     if (!assistant)
-    return FALSE;
+		return FALSE;
 
     /* Initial page is fourth. */
     page = IMPORT_FIRST_ACCOUNT_PAGE;
@@ -929,21 +895,26 @@ static gboolean gsb_import_affichage_recapitulatif_importation (GtkWidget *assis
     tmp_list = liste_comptes_importes;
     while (tmp_list)
     {
-    struct ImportAccount *compte;
+		struct ImportAccount *compte;
 
-    compte = tmp_list->data;
+		compte = tmp_list->data;
 
-    /* add one page per account */
-    gsb_assistant_add_page (assistant, gsb_import_cree_ligne_recapitulatif (compte),
-                        page, page - 1, page + 1, G_CALLBACK (NULL));
-    page ++;
+		/* add one page per account */
+		gsb_assistant_add_page (assistant,
+								gsb_import_create_page_recapitulatif (compte),
+								page,
+								page - 1,
+								page + 1,
+								G_CALLBACK (NULL));
+		page ++;
 
-    tmp_list = tmp_list->next;
+		tmp_list = tmp_list->next;
     }
 
     /* And final page */
-    gsb_assistant_add_page (assistant, gsb_import_assistant_create_final_page (assistant),
-                        page, page - 1, -1, G_CALLBACK (NULL));
+    gsb_assistant_add_page (assistant,
+							gsb_import_assistant_create_final_page (assistant),
+							page, page - 1, -1, G_CALLBACK (NULL));
 
     /* Replace button. */
     gsb_assistant_change_button_next (assistant, "gtk-go-forward", GTK_RESPONSE_YES);
@@ -1068,9 +1039,9 @@ static void gsb_import_preview_maybe_sensitive_next (GtkWidget *assistant,
  *
  * \return
  **/
-static gboolean gsb_import_active_toggled (GtkCellRendererToggle *cell,
-										   gchar *path_str,
-										   gpointer model)
+static gboolean gsb_import_file_selection_cell_renderer_toggled (GtkCellRendererToggle *cell,
+																 gchar *path_str,
+																 gpointer model)
 {
     GtkWidget *assistant;
 	GtkWidget *qif_button;
@@ -1850,7 +1821,7 @@ static GtkWidget *gsb_import_create_file_selection_page (GtkWidget *assistant)
 
     /* Toggle column. */
     renderer = gtk_cell_renderer_toggle_new ();
-    g_signal_connect (renderer, "toggled", G_CALLBACK (gsb_import_active_toggled), model);
+    g_signal_connect (renderer, "toggled", G_CALLBACK (gsb_import_file_selection_cell_renderer_toggled), model);
     column = gtk_tree_view_column_new_with_attributes (_("Import"), renderer,
                         "active", IMPORT_FILESEL_SELECTED,
                         NULL);
@@ -1965,12 +1936,9 @@ static GtkWidget *gsb_import_create_resume_page (GtkWidget *assistant)
     gtk_text_view_set_right_margin (GTK_TEXT_VIEW (view), 12);
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-    gtk_text_buffer_create_tag (buffer, "bold",
-                        "weight", PANGO_WEIGHT_BOLD, NULL);
-    gtk_text_buffer_create_tag (buffer, "x-large",
-                        "scale", PANGO_SCALE_X_LARGE, NULL);
-    gtk_text_buffer_create_tag (buffer, "indented",
-                        "left-margin", 24, NULL);
+    gtk_text_buffer_create_tag (buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL);
+    gtk_text_buffer_create_tag (buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL);
+    gtk_text_buffer_create_tag (buffer, "indented", "left-margin", 24, NULL);
 
     g_object_set_data (G_OBJECT (assistant), "text-buffer", buffer);
 
@@ -2030,18 +1998,17 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
     gtk_text_buffer_set_text (buffer, "\n", -1);
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
 
-    if (liste_comptes_importes)
+	if (liste_comptes_importes)
     {
-        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                            _("Congratulations!"), -1,
-                            "x-large", NULL);
+        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, ("Congratulations!"), -1, "x-large", NULL);
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
 
-        gtk_text_buffer_insert (buffer, &iter,
-                            _("You successfully imported files into Grisbi.  The "
-                            "following pages will help you set up imported data for "
-                            "the following files"),
-                            -1);
+        gtk_text_buffer_insert (buffer,
+								&iter,
+								_("You successfully imported files into Grisbi.  The "
+								  "following pages will help you set up imported data for "
+								  "the following files"),
+								-1);
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
 
         list = liste_comptes_importes;
@@ -2057,21 +2024,14 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
             }
             devel_debug (compte->nom_de_compte);
 
-            tmp_str = g_strconcat ("• ", compte->nom_de_compte,
-                            " (",
-                            compte->origine,
-                            ")\n\n",
-                            NULL);
-            gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                            tmp_str ,
-                            -1, "indented", NULL);
+            tmp_str = g_strconcat ("• ", compte->nom_de_compte, " (", compte->origine, ")\n\n", NULL);
+            gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, tmp_str , -1, "indented", NULL);
             g_free (tmp_str);
 
             list = list->next;
         }
 
-        while (gtk_notebook_get_n_pages (g_object_get_data (G_OBJECT (assistant),
-                        "notebook")) > IMPORT_FIRST_ACCOUNT_PAGE)
+        while (gtk_notebook_get_n_pages (g_object_get_data (G_OBJECT (assistant), "notebook")) > IMPORT_FIRST_ACCOUNT_PAGE)
         {
             gtk_notebook_remove_page (g_object_get_data (G_OBJECT (assistant), "notebook"), -1);
         }
@@ -2087,16 +2047,15 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
 	}
     else
     {
-        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                        _("Error!"), -1,
-                        "x-large", NULL);
+        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, _("Error!"), -1, "x-large", NULL);
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
 
-        gtk_text_buffer_insert (buffer, &iter,
-                        _("No file has been imported, please double check that they are "
-                          "valid files.  Please make sure that they are not compressed and "
-                          "that their format is valid."),
-                        -1);
+        gtk_text_buffer_insert (buffer,
+								&iter,
+								_("No file has been imported, please double check that they are "
+								  "valid files.  Please make sure that they are not compressed and "
+								  "that their format is valid."),
+								-1);
         if (strlen (error_message))
         {
             gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
@@ -2116,14 +2075,8 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
             struct ImportAccount *compte;
             compte = list->data;
 
-            tmp_str = g_strconcat ("• ", compte->nom_de_compte,
-                        " (",
-                        compte->origine,
-                        ")\n\n",
-                        NULL);
-            gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                        tmp_str,
-                        -1, "indented", NULL);
+            tmp_str = g_strconcat ("• ", compte->nom_de_compte, " (", compte->origine, ")\n\n", NULL);
+            gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, tmp_str, -1, "indented", NULL);
             g_free (tmp_str);
 
             list = list->next;
