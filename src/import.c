@@ -5385,7 +5385,7 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
  *
  * \return TRUE : ok, FALSE : nothing done
  **/
-gboolean gsb_import_by_rule (gint rule)
+void gsb_import_by_rule (gint rule)
 {
     gint account_number;
     gchar **array;
@@ -5398,7 +5398,7 @@ gboolean gsb_import_by_rule (gint rule)
     charmap_imported = my_strdup (gsb_data_import_rule_get_charmap (rule));
     array = gsb_import_by_rule_ask_filename (rule, a_conf);
     if (!array)
-		return FALSE;
+		return;
 
 	account_number = gsb_data_import_rule_get_account (rule);
     while (array[i])
@@ -5529,8 +5529,6 @@ gboolean gsb_import_by_rule (gint rule)
     gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
 
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**

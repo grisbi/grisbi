@@ -157,7 +157,7 @@ gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
 															 struct ImportPayeeAsso *assoc);
 void 		gsb_import_associations_remove_assoc 			(gint payee_number);
 
-gboolean 	gsb_import_by_rule 								(gint rule);
+void	 	gsb_import_by_rule 								(gint rule);
 void		gsb_import_free_transaction						(struct ImportTransaction *transaction);
 gchar *		gsb_ImportFormats_get_list_formats_to_string 	(void);
 GSList *	gsb_import_import_selected_files 				(GtkWidget *assistant);

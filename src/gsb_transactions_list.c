@@ -170,8 +170,8 @@ static gboolean gsb_transactions_list_assert_selected_transaction (void)
  *
  * \return FALSE
  **/
-static gboolean gsb_transactions_list_change_cell_content (GtkWidget *item,
-														   gint *element_ptr)
+static void gsb_transactions_list_change_cell_content (GtkWidget *item,
+													   gint *element_ptr)
 {
     gint col, line;
     gint last_col = -1, last_line = -1;
@@ -196,7 +196,7 @@ static gboolean gsb_transactions_list_change_cell_content (GtkWidget *item,
 
     /* if no change, change nothing */
     if (last_col == col && last_line == line)
-        return FALSE;
+        return;
 
     /* save the new position */
     tab_affichage_ope[line][col] = element;
@@ -226,8 +226,6 @@ static gboolean gsb_transactions_list_change_cell_content (GtkWidget *item,
     }
 
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -810,8 +808,8 @@ static gboolean gsb_transactions_list_button_press (GtkWidget *tree_view,
  *
  * \return
  **/
-static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
-														gint *no_column)
+static void gsb_transactions_list_change_alignment (GtkWidget *menu_item,
+													gint *no_column)
 {
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell_renderer;
@@ -820,7 +818,7 @@ static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
     gfloat xalign = 0.0;
 
     if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (menu_item)))
-        return FALSE;
+        return;
 
     column_number = GPOINTER_TO_INT (no_column);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (transactions_tree_view), column_number);
@@ -848,8 +846,6 @@ static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
     g_object_set (G_OBJECT (cell_renderer), "xalign", xalign, NULL);
 
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -1000,8 +996,8 @@ static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tre
  *
  * \return FALSE
  **/
-static gboolean gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
-														gint *no_column)
+static void gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
+													gint *no_column)
 {
     gint column_number;
     gint account_number;
@@ -1009,7 +1005,7 @@ static gboolean gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
     devel_debug_int (GPOINTER_TO_INT (no_column));
 
     if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (menu_item)))
-		return FALSE;
+		return;
 
     column_number = GPOINTER_TO_INT (no_column);
     account_number = gsb_gui_navigation_get_current_account ();
@@ -1026,8 +1022,6 @@ static gboolean gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
      * invert the order, so set DESCENDING for now */
     transaction_list_sort_set_column (column_number, GTK_SORT_DESCENDING);
     gsb_transactions_list_change_sort_column (NULL, no_column);
-
-	return FALSE;
 }
 
 /**
@@ -2102,7 +2096,7 @@ static gboolean gsb_transactions_list_delete_archived_transactions (gint account
  *
  * \return TRUE if ok
  **/
-static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_number)
+static void gsb_transactions_list_delete_import_rule (gint import_rule_number)
 {
 	gchar *tmp_str;
 
@@ -2112,7 +2106,7 @@ static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_numbe
     {
         g_free (tmp_str);
 
-		return FALSE;
+		return;
     }
     g_free(tmp_str);
 
@@ -3468,12 +3462,10 @@ gboolean gsb_transactions_list_edit_transaction (gint transaction_number)
  *
  * \return FALSE
  **/
-gboolean gsb_transactions_list_edit_transaction_by_pointer (gint *transaction_number)
+void gsb_transactions_list_edit_transaction_by_pointer (gint *transaction_number)
 {
     devel_debug_int (GPOINTER_TO_INT (transaction_number));
     gsb_transactions_list_edit_transaction (GPOINTER_TO_INT (transaction_number));
-
-	return FALSE;
 }
 
 /**
@@ -3693,18 +3685,16 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view (gint transacti
  *
  * \return
  **/
-gboolean gsb_transactions_list_select_new_transaction (void)
+void gsb_transactions_list_select_new_transaction (void)
 {
 	if (gsb_gui_navigation_get_current_account () == -1)
-		return FALSE;
+		return;
 
     gtk_notebook_set_current_page (GTK_NOTEBOOK (grisbi_win_get_notebook_general ()), 1);
     gsb_form_escape_form();
     gsb_form_show (TRUE);
     transaction_list_select (-1);
     gsb_transactions_list_edit_transaction (-1);
-
-    return FALSE;
 }
 
 /**
@@ -3734,13 +3724,13 @@ void gsb_transactions_list_remove_transaction (void)
  *
  * \return FALSE
  **/
-gboolean gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
-									 gpointer null)
+void gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
+													   gpointer null)
 {
     gint new_transaction_number;
 
     if (!gsb_transactions_list_assert_selected_transaction())
-        return FALSE;
+        return;
 
     new_transaction_number = gsb_transactions_list_clone_transaction (
                         gsb_data_account_get_current_transaction_number (
@@ -3759,7 +3749,6 @@ gboolean gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
     gsb_data_account_set_bet_maj (gsb_gui_navigation_get_current_account (), BET_MAJ_ALL);
 
     gsb_file_set_modified (TRUE);
-    return FALSE;
 }
 
 /**
@@ -3770,15 +3759,15 @@ gboolean gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
  *
  * \return FALSE
  **/
-gboolean gsb_transactions_list_clone_template (GtkWidget *menu_item,
-											   gpointer null)
+void gsb_transactions_list_clone_template (GtkWidget *menu_item,
+										   gpointer null)
 {
     gint new_transaction_number;
     gint account_number;
     GDate *date;
 
     if (!gsb_transactions_list_assert_selected_transaction ())
-        return FALSE;
+        return;
 
     account_number = gsb_gui_navigation_get_current_account ();
     new_transaction_number = gsb_transactions_list_clone_transaction (
@@ -3806,8 +3795,6 @@ gboolean gsb_transactions_list_clone_template (GtkWidget *menu_item,
     gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
 
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -5034,8 +5021,8 @@ void gsb_transactions_list_set_current_tree_view_width (gint new_tree_view_width
  *
  * \return FALSE
  **/
-gboolean gsb_transactions_list_search (GtkWidget *menu_item,
-									   gint *transaction_number)
+void gsb_transactions_list_search (GtkWidget *menu_item,
+								   gint *transaction_number)
 {
 	WidgetSearchTransaction *search;
 	GrisbiWin *win;
@@ -5047,8 +5034,6 @@ gboolean gsb_transactions_list_search (GtkWidget *menu_item,
 	gtk_widget_show_all (GTK_WIDGET (search));
 	result = gtk_dialog_run (GTK_DIALOG (search));
 	widget_search_transaction_dialog_response (GTK_DIALOG (search), result);
-
-	return FALSE;
 }
 
 /**
