@@ -840,7 +840,7 @@ static void gsb_transactions_list_change_alignment (GtkWidget *menu_item,
 			break;
     }
 
-	printf ("alignment = %d xalign = %f\n", alignment, xalign);
+	//~ printf ("alignment = %d xalign = %f\n", alignment, xalign);
     transaction_col_align[column_number] = alignment;
     gtk_tree_view_column_set_alignment  (column, xalign);
     g_object_set (G_OBJECT (cell_renderer), "xalign", xalign, NULL);

@@ -394,7 +394,7 @@ static gboolean prefs_page_fyear_button_associate_clicked (GtkWidget *button,
 		if (fyear_ope <= 0)
 		{
 			gint fyear_number;
-printf ("fyear_ope = %d transaction_number = %d\n", fyear_ope, transaction_number);
+//~ printf ("fyear_ope = %d transaction_number = %d\n", fyear_ope, transaction_number);
 
 			fyear_number = gsb_data_fyear_get_from_date (gsb_data_transaction_get_date (transaction_number));
 			if (fyear_number)

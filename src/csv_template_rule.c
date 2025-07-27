@@ -690,7 +690,7 @@ static void csv_template_rule_notebook_switch_page (GtkNotebook *notebook,
 		{
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (line_struct->checkbutton)) == FALSE)
 			{
-				printf ("remove page %d\n", page_num);
+				//~ printf ("remove page %d\n", page_num);
 				/* remove the page */
 				gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook_csv_spec), line_struct->index -1);
 				priv->list_spec_lines = g_slist_remove (priv->list_spec_lines, (gpointer) line_struct);

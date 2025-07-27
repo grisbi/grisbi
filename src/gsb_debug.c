@@ -392,7 +392,7 @@ static gchar *gsb_debug_transfer_test (void)
     {
 		/* Skip both last and first carriage return. */
 		pText [ strlen(pText) - 1 ] = '\0';
-		printf ("%s\n", pText);
+		//~ printf ("%s\n", pText);
 		return pText + 1;
     }
 
