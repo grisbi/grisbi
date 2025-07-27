@@ -13,6 +13,7 @@ G_DECLARE_FINAL_TYPE			(GrisbiWin, grisbi_win, GRISBI, WIN, GtkApplicationWindow
 
 void			grisbi_win_close_window						(GtkWindow *win);
 
+void			grisbi_win_form_expander_hide_frame			(void);
 gboolean		grisbi_win_form_expander_is_expanded 		(void);
 void			grisbi_win_form_expander_show_frame			(void);
 void			grisbi_win_form_label_align_right			(GtkAllocation *allocation);
