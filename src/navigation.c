@@ -1937,6 +1937,16 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			buffer_last_account = account_number;
 
+			if (! grisbi_win_form_expander_is_expanded ())
+			{
+				GtkWidget *form_expander;
+				form_expander = grisbi_win_get_form_expander ();
+
+				/* ugly hack for https://www.grisbi.org/bugsreports/view.php?id=2269 */
+				gtk_expander_set_expanded (GTK_EXPANDER (form_expander), TRUE);
+				gtk_expander_set_expanded (GTK_EXPANDER (form_expander), FALSE);
+			}
+
 			break;
 
 		case GSB_SCHEDULER_PAGE:
