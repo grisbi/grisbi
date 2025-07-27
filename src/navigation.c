@@ -1896,6 +1896,8 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			/* what to be done if switch to that page */
 			mise_a_jour_accueil (FALSE);
+			grisbi_win_set_form_expander_visible (FALSE, FALSE);
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_ACCOUNT_PAGE:
@@ -1944,6 +1946,7 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			/* what to be done if switch to that page */
 			/* set the form */
+			grisbi_win_set_form_expander_visible (TRUE, FALSE);
 			gsb_form_scheduler_clean ();
 			gsb_form_show (FALSE);
 
@@ -1966,8 +1969,10 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			notice_debug ("Payee page selected");
 
 			/* what to be done if switch to that page */
+			grisbi_win_set_form_expander_visible (FALSE, FALSE);
 			payees_fill_list ();
 			clear_suffix = FALSE;
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_SIMULATOR_PAGE:
@@ -1976,23 +1981,29 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			title = g_strdup(_("Credits simulator"));
 
 			/* what to be done if switch to that page */
+			grisbi_win_set_form_expander_visible (FALSE, FALSE);
 			bet_finance_ui_switch_simulator_page ();
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_CATEGORIES_PAGE:
 			notice_debug ("Category page selected");
 
 			/* what to be done if switch to that page */
+			grisbi_win_set_form_expander_visible (FALSE, FALSE);
 			categories_fill_list ();
 			clear_suffix = FALSE;
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_BUDGETARY_LINES_PAGE:
 			notice_debug ("Budgetary page selected");
 
 			/* what to be done if switch to that page */
+			grisbi_win_set_form_expander_visible (FALSE, FALSE);
 			budgetary_lines_fill_list ();
 			clear_suffix = FALSE;
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		case GSB_REPORTS_PAGE:
@@ -2006,6 +2017,7 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			title = g_strdup(_("Reports"));
 
 			/* what to be done if switch to that page */
+			grisbi_win_set_form_expander_visible (FALSE, FALSE);
 
 			if (report_number > 0)
 			{
@@ -2018,11 +2030,13 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 				gtk_notebook_set_current_page (GTK_NOTEBOOK (etats_onglet_get_notebook_etats ()), 1);
 				etats_onglet_unsensitive_reports_widgets ();
 			}
+			grisbi_win_form_expander_hide_frame ();
 			break;
 
 		default:
 			notice_debug ("B0rk page selected");
 			title = g_strdup("B0rk");
+			grisbi_win_form_expander_hide_frame ();
 			break;
 	}
 
