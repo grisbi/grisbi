@@ -138,7 +138,7 @@ static gchar *gsb_select_icon_troncate_name_icon (gchar *name_icon,
         tmpstr = g_utf8_strncpy (tmpstr, name_icon, trunc);
         do
         {
-            end = g_utf8_offset_to_pointer (name_icon, i *trunc);
+            end = g_utf8_offset_to_pointer (name_icon, (i *trunc));
             /* devel_debug (end); */
             if (i < n)
                 ptr = g_utf8_offset_to_pointer (name_icon, (i + 1) *10);
