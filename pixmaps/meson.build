@@ -88,7 +88,7 @@ install_data([
   'gtk-corbeille-32.png',
   'gtk-delete-16.png',
   'gtk-delete-24.png',
-  'gtk-dialog-warning-16.png',
+  'gtk-dialog-warning.png',
   'gtk-edit-16.png',
   'gtk-edit-24.png',
   'gtk-execute-16.png',
