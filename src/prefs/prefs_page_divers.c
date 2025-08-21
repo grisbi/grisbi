@@ -145,13 +145,13 @@ static void prefs_page_divers_button_reset_prefs_window_clicked (GtkButton *butt
 	if (a_conf->low_definition_screen)
 	{
 		a_conf->prefs_width = PREFS_WIN_MIN_WIDTH_LOW;
-		gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_LOW, PREFS_WIN_MIN_HEIGHT);
 	}
 	else
 	{
 		a_conf->prefs_width = PREFS_WIN_MIN_WIDTH_HIGH;
-		gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_HIGH, PREFS_WIN_MIN_HEIGHT);
 	}
+
+	gtk_widget_set_size_request(GTK_WIDGET (prefs), a_conf->prefs_width, a_conf->prefs_height);
 	gtk_paned_set_position (GTK_PANED (paned_prefs), PREFS_PANED_MIN_WIDTH);
 }
 
