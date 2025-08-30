@@ -842,7 +842,7 @@ void utils_widget_import_csv_options_widget_new (GtkWidget *parent,
 	gtk_grid_attach (GTK_GRID (grid), hbox_format_date, 3, 1, 1 , 1);
 
 	/* set label */
-	label = gtk_label_new ("Select new date format : ");
+	label = gtk_label_new (_("Select new date format : "));
 	gtk_box_pack_start (GTK_BOX (hbox_format_date), label, TRUE, TRUE, 0);
 
 	/* set combo date format */
