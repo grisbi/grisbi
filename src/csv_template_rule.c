@@ -321,12 +321,12 @@ static GtkWidget *csv_template_rule_notebook_tab_label_new (const gchar *label_t
  *
  * \return
  **/
-static void csv_template_rule_spec_conf_entry_deleted (GtkEditable *entry,
-													   guint position,
-													   guint n_chars,
+static void csv_template_rule_spec_conf_entry_deleted (GtkEditable *self,
+													   gint start_pos,
+													   gint end_pos,
 													   GtkWidget *dialog)
 {
-	if (gtk_entry_get_text_length (GTK_ENTRY (entry)) == 1)
+	if (gtk_entry_get_text_length (GTK_ENTRY (self)) - (end_pos - start_pos) <= 1)
 	{
 		gint rule_number;
 		CsvTemplateRulePrivate *priv;
@@ -353,19 +353,17 @@ static void csv_template_rule_spec_conf_entry_deleted (GtkEditable *entry,
  * \return
  **/
 static void csv_template_rule_spec_conf_entry_inserted (GtkEditable *entry,
-													    guint position,
-													    gchar *chars,
-													    guint n_chars,
-													    GtkWidget *dialog)
+														gchar* new_text,
+														gint new_text_length,
+														gint* position,
+														GtkWidget *dialog)
 {
 	gint index;
-	gint rule_number;
 	SpecWidgetLine *line_struct;
 	CsvTemplateRulePrivate *priv;
 
 	priv = csv_template_rule_get_instance_private ((CsvTemplateRule *) dialog);
 	index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry), "index"));
-	rule_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "rule_number"));
 	if (index == 0)
 		index = 1;						/* il y a toujours une ligne de configuration spéciale */
 
@@ -373,12 +371,11 @@ static void csv_template_rule_spec_conf_entry_inserted (GtkEditable *entry,
 	if (!line_struct)
 		return;
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (line_struct->checkbutton)))
+	if (gtk_entry_get_text_length (GTK_ENTRY (entry)) + new_text_length >= 1)
 	{
-		if (gtk_entry_get_text_length (GTK_ENTRY (priv->entry_csv_rule_name)) > 1
-			&&
-			gtk_entry_get_text_length (GTK_ENTRY (line_struct->entry_used_text)) > 1)
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (line_struct->checkbutton)))
 		{
+			gint rule_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "rule_number"));
 			if (rule_number)
 				gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GSB_RESPONSE_EDIT, TRUE);
 			else
@@ -386,10 +383,7 @@ static void csv_template_rule_spec_conf_entry_inserted (GtkEditable *entry,
 
 			gtk_widget_set_sensitive (GTK_WIDGET (priv->button_csv_spec_add_line), TRUE);
 		}
-	}
-	else
-	{
-		if (gtk_entry_get_text_length (GTK_ENTRY (priv->entry_csv_rule_name)) > 1)
+		else
 		{
 			gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, TRUE);
 		}
