@@ -2137,6 +2137,9 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
             gtk_text_buffer_insert (buffer, &iter, error_message, -1);
         }
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
+
+        /* Error. We can only cancel */
+        gsb_assistant_disable_next_prev(assistant);
     }
 
     if (liste_comptes_importes_error)
