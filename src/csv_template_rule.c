@@ -293,7 +293,7 @@ static GtkWidget *csv_template_rule_notebook_tab_label_new (const gchar *label_t
 	label = gtk_label_new (label_text);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-    image = gtk_image_new_from_icon_name ("gtk-close", GTK_ICON_SIZE_MENU);
+    image = gtk_image_new_from_icon_name ("gtk-close-16", GTK_ICON_SIZE_MENU);
     button = gtk_button_new ();
 	g_object_set_data (G_OBJECT (button), "page_num", GINT_TO_POINTER (page_num));
 	gtk_container_add (GTK_CONTAINER (button), image);
