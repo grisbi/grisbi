@@ -390,9 +390,10 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 
 	dialog = csv_template_rule_new (assistant);
 
-	gtk_dialog_run (GTK_DIALOG (dialog));
+	int result = gtk_dialog_run (GTK_DIALOG (dialog));
 
-	csv_import_rule = g_object_get_data (G_OBJECT (dialog), "csv-import-rule");
+	if (GTK_RESPONSE_APPLY == result)
+		csv_import_rule = g_object_get_data (G_OBJECT (dialog), "csv-import-rule");
 
 	if (csv_import_rule)
 	{
