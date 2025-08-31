@@ -32,6 +32,8 @@ void 				gsb_assistant_set_next 					(GtkWidget *assistant,
 void 				gsb_assistant_set_prev 					(GtkWidget *assistant,
 															 gint page,
 															 gint prev);
+void				gsb_assistant_disable_next_prev			(GtkWidget *assistant);
+
 /* END_DECLARATION */
 
 #endif
