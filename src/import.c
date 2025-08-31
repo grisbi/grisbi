@@ -812,7 +812,7 @@ static GtkWidget *gsb_import_create_page_recapitulatif (struct ImportAccount *co
 
     /* Mark account */
     radio_mark_account = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio_new_account),
-																	  ("Mark transactions of an account"));
+																	  _("Mark transactions of an account"));
     gtk_box_pack_start (GTK_BOX (vbox), radio_mark_account, FALSE, FALSE, 0);
     gtk_widget_set_sensitive  (radio_mark_account, assert_account_loaded ());
 
@@ -2075,7 +2075,7 @@ static gboolean gsb_import_enter_resume_page (GtkWidget *assistant)
 
 	if (liste_comptes_importes)
     {
-        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, ("Congratulations!"), -1, "x-large", NULL);
+        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, _("Congratulations!"), -1, "x-large", NULL);
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1);
 
         gtk_text_buffer_insert (buffer,
