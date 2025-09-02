@@ -878,6 +878,9 @@ static GtkWidget *gsb_import_create_page_recapitulatif (struct ImportAccount *co
 											  compte->entry_name_rule);
 		gtk_box_pack_start (GTK_BOX (compte->hbox_rule), button, FALSE, FALSE, 0);
 
+		/* disabled for IMPORT_CREATE_ACCOUNT option */
+		gtk_widget_set_sensitive (compte->hbox_rule, FALSE);
+
 		/* pack entry_name_rule */
 		gtk_box_pack_start (GTK_BOX (compte->hbox_rule), compte->entry_name_rule, FALSE, FALSE, 0);
 
