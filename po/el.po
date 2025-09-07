@@ -13061,27 +13061,27 @@ msgstr "Αποκρυπτογραφημένο αρχείο"
 
 #: src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
-msgstr ""
+msgstr "ηη/μμ/αααα"
 
 #: src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "μμ/ηη/αααα"
 
 #: src/utils_widgets.c:63
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "αααα/μμ/ηη"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
-msgstr ""
+msgstr "αααα/ηη/μμ"
 
 #: src/utils_widgets.c:65
 msgid "dd/yyyy/mm"
-msgstr ""
+msgstr "ηη/αααα/μμ"
 
 #: src/utils_widgets.c:66
 msgid "mm/yyyy/dd"
-msgstr ""
+msgstr "μμ/αααα/ηη"
 
 #: src/utils_widgets.c:77
 msgid "Comma"

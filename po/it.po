@@ -12661,27 +12661,27 @@ msgstr "File Postscript"
 
 #: src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
-msgstr ""
+msgstr "gg/mm/aaaa"
 
 #: src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "mm/gg/aaaa"
 
 #: src/utils_widgets.c:63
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "aaaa/mm/gg"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
-msgstr ""
+msgstr "aaaa/gg/mm"
 
 #: src/utils_widgets.c:65
 msgid "dd/yyyy/mm"
-msgstr ""
+msgstr "gg/aaaa/mm"
 
 #: src/utils_widgets.c:66
 msgid "mm/yyyy/dd"
-msgstr ""
+msgstr "mm/aaaa/gg"
 
 #: src/utils_widgets.c:77
 #, fuzzy
