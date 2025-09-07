@@ -12630,7 +12630,7 @@ msgstr "No pudo cifrar archivo"
 
 #: src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
-msgstr "dd/mm/aaa"
+msgstr "dd/mm/aaaa"
 
 #: src/utils_widgets.c:62
 msgid "mm/dd/yyyy"

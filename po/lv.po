@@ -12705,27 +12705,27 @@ msgstr "Atšifrēt failu"
 
 #: src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
-msgstr ""
+msgstr "dd/mm/aaaa"
 
 #: src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "mm/dd/aaaa"
 
 #: src/utils_widgets.c:63
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "aaaa/mm/dd"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
-msgstr ""
+msgstr "aaaa/dd/mm"
 
 #: src/utils_widgets.c:65
 msgid "dd/yyyy/mm"
-msgstr ""
+msgstr "dd/aaaa/mm"
 
 #: src/utils_widgets.c:66
 msgid "mm/yyyy/dd"
-msgstr ""
+msgstr "mm/aaaa/dd"
 
 #: src/utils_widgets.c:77
 msgid "Comma"

@@ -12690,27 +12690,27 @@ msgstr "Plik Postscript"
 
 #: src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
-msgstr ""
+msgstr "dd/mm/rrrr"
 
 #: src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "mm/dd/rrrr"
 
 #: src/utils_widgets.c:63
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "rrrr/mm/dd"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
-msgstr ""
+msgstr "rrrr/dd/mm"
 
 #: src/utils_widgets.c:65
 msgid "dd/yyyy/mm"
-msgstr ""
+msgstr "dd/rrrr/mm"
 
 #: src/utils_widgets.c:66
 msgid "mm/yyyy/dd"
-msgstr ""
+msgstr "mm/rrrr/dd"
 
 #: src/utils_widgets.c:77
 #, fuzzy

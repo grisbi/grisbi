@@ -12565,27 +12565,27 @@ msgstr "Impossible de chiffrer le fichier"
 
 #: src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
-msgstr "dd/mm/yyyy"
+msgstr "jj/mm/aaaa"
 
 #: src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
-msgstr "mm/dd/yyyy"
+msgstr "mm/jj/aaaa"
 
 #: src/utils_widgets.c:63
 msgid "yyyy/mm/dd"
-msgstr "yyyy/mm/dd"
+msgstr "aaaa/mm/jj"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
-msgstr "yyyy/dd/mm"
+msgstr "aaaa/jj/mm"
 
 #: src/utils_widgets.c:65
 msgid "dd/yyyy/mm"
-msgstr "dd/yyyy/mm"
+msgstr "jj/aaaa/mm"
 
 #: src/utils_widgets.c:66
 msgid "mm/yyyy/dd"
-msgstr "mm/yyyy/dd"
+msgstr "mm/aaaa/jj"
 
 #: src/utils_widgets.c:77
 msgid "Comma"

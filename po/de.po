@@ -12637,27 +12637,27 @@ msgstr "Die Datei konnte nicht verschlüsselt werden"
 
 #: src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
-msgstr "dd/mm/yyyy"
+msgstr "TT/MM/JJJJ"
 
 #: src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
-msgstr "mm/dd/yyyy"
+msgstr "MM/TT/JJJJ"
 
 #: src/utils_widgets.c:63
 msgid "yyyy/mm/dd"
-msgstr "yyyy/mm/dd"
+msgstr "JJJJ/MM/TT"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
-msgstr "yyyy/dd/mm"
+msgstr "JJJJ/TT/MM"
 
 #: src/utils_widgets.c:65
 msgid "dd/yyyy/mm"
-msgstr "dd/yyyy/mm"
+msgstr "TT/JJJJ/MM"
 
 #: src/utils_widgets.c:66
 msgid "mm/yyyy/dd"
-msgstr "mm/yyyy/dd"
+msgstr "MM/JJJJ/TT"
 
 #: src/utils_widgets.c:77
 msgid "Comma"

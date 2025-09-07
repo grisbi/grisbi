@@ -12747,23 +12747,23 @@ msgstr "Fişier Postscript"
 
 #: src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
-msgstr ""
+msgstr "zz/ll/aaaa"
 
 #: src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "ll/zz/aaaa"
 
 #: src/utils_widgets.c:63
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "aaaa/ll/zz"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
-msgstr ""
+msgstr "aaaa/zz/ll"
 
 #: src/utils_widgets.c:65
 msgid "dd/yyyy/mm"
-msgstr ""
+msgstr "zz/aaaa/ll"
 
 #: src/utils_widgets.c:66
 msgid "mm/yyyy/dd"
