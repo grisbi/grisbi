@@ -1056,7 +1056,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     gchar *name;
     gint no_division, no_sub_division;
     MetatreeInterface * iface;
-
+devel_debug (NULL);
     /* Get model and metatree interface */
     model = gtk_tree_view_get_model(treeview);
 

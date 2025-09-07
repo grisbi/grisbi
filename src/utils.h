@@ -51,9 +51,10 @@ gboolean        utils_set_image_with_state                              (GtkWidg
                                                                          gint state);
 gboolean		utils_set_list_store_background_color 					(GtkWidget *tree_view,
 																		 gint color_column);
-gboolean        utils_set_tree_store_background_color                    (GtkWidget *tree_view,
+gboolean        utils_set_tree_store_background_color					(GtkWidget *tree_view,
                                                                          gint color_column);
 gboolean        utils_tree_view_all_rows_are_selected                   (GtkTreeView *tree_view);
+void			utils_tree_view_expand_row								(GtkWidget *tree_view);
 void            utils_tree_view_set_expand_all_and_select_path_realize  (GtkWidget *tree_view,
                                                                          const gchar *str_path);
 /* END_DECLARATION */

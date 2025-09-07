@@ -223,6 +223,11 @@ GtkWidget *categories_create_list (void)
 
     g_signal_connect (G_OBJECT (arbre_categ),
                         "row-expanded",
+                        G_CALLBACK (utils_tree_view_expand_row),
+                        arbre_categ);
+
+    g_signal_connect (G_OBJECT (arbre_categ),
+                        "row-expanded",
                         G_CALLBACK (division_column_expanded),
                         NULL);
 

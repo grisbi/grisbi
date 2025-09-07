@@ -864,6 +864,11 @@ GtkWidget *payees_create_list (void)
                       G_CALLBACK (division_column_collapsed),
                       NULL);
 
+	g_signal_connect (G_OBJECT (payee_tree),
+					  "row-expanded",
+					  G_CALLBACK (utils_tree_view_expand_row),
+					  payee_tree);
+
     g_signal_connect (G_OBJECT (payee_tree),
                       "row-expanded",
                       G_CALLBACK (division_column_expanded),
