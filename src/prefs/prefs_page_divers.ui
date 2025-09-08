@@ -955,7 +955,7 @@ For example every 29th of the month except leap years)</property>
                                 <property name="spacing">5</property>
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_choose_date_1">
-                                    <property name="label">dd/mm/yyyy</property>
+                                    <property name="label" translatable="yes">dd/mm/yyyy</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
@@ -970,7 +970,7 @@ For example every 29th of the month except leap years)</property>
                                 </child>
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_choose_date_2">
-                                    <property name="label">mm/dd/yyyy</property>
+                                    <property name="label" translatable="yes">mm/dd/yyyy</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
@@ -985,7 +985,7 @@ For example every 29th of the month except leap years)</property>
                                 </child>
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_choose_date_3">
-                                    <property name="label">dd.mm.yyyy</property>
+                                    <property name="label" translatable="yes">dd.mm.yyyy</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
@@ -1000,7 +1000,7 @@ For example every 29th of the month except leap years)</property>
                                 </child>
                                 <child>
                                   <object class="GtkRadioButton" id="radiobutton_choose_date_4">
-                                    <property name="label">yyyy-mm-dd</property>
+                                    <property name="label" translatable="yes">yyyy-mm-dd</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
