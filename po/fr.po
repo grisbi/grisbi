@@ -749,14 +749,12 @@ msgid "mm/dd/yyyy"
 msgstr "mm/jj/aaaa"
 
 #: src/prefs/prefs_page_divers.ui:988
-#, fuzzy
 msgid "dd.mm.yyyy"
-msgstr "jj/mm/aaaa"
+msgstr "jj.mm.aaaa"
 
 #: src/prefs/prefs_page_divers.ui:1003
-#, fuzzy
 msgid "yyyy-mm-dd"
-msgstr "aaaa/mm/jj"
+msgstr "aaaa-mm-jj"
 
 #: src/prefs/prefs_page_divers.ui:1061
 msgid "Choose decimal and thousands separator"
@@ -9774,9 +9772,8 @@ msgid "Force date format"
 msgstr "Forcer le format de la date"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
-msgstr "Forcer le format de la date"
+msgstr "Choisir le nouveau format de date : "
 
 #: src/utils_widgets.c:1039
 msgid "Choose the decimal and thousands separator"
