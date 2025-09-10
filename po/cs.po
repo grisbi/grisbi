@@ -733,12 +733,10 @@ msgid "mm/dd/yyyy"
 msgstr "mm/dd/rrrr"
 
 #: src/prefs/prefs_page_divers.ui:988
-#, fuzzy
 msgid "dd.mm.yyyy"
 msgstr "dd.mm.rrrr"
 
 #: src/prefs/prefs_page_divers.ui:1003
-#, fuzzy
 msgid "yyyy-mm-dd"
 msgstr "rrrr-mm-dd"
 
@@ -9679,7 +9677,6 @@ msgid "Force date format"
 msgstr "Vynutit formát data"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
 msgstr "Vyberte nový formát data :"
 

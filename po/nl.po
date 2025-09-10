@@ -817,14 +817,12 @@ msgid "mm/dd/yyyy"
 msgstr "mm/dd/jjjj"
 
 #: src/prefs/prefs_page_divers.ui:988
-#, fuzzy
 msgid "dd.mm.yyyy"
-msgstr "dd/mm/jjjj"
+msgstr "dd.mm.jjjj"
 
 #: src/prefs/prefs_page_divers.ui:1003
-#, fuzzy
 msgid "yyyy-mm-dd"
-msgstr "jjjj/mm/dd"
+msgstr "jjjj-mm-dd"
 
 #: src/prefs/prefs_page_divers.ui:1061
 msgid "Choose decimal and thousands separator"
@@ -10036,9 +10034,8 @@ msgid "Force date format"
 msgstr "Kies een rekening"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
-msgstr "Kies een rekening"
+msgstr "Selecteer nieuwe datumnotatie : "
 
 #: src/utils_widgets.c:1039
 msgid "Choose the decimal and thousands separator"

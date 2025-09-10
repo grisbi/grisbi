@@ -804,14 +804,12 @@ msgid "mm/dd/yyyy"
 msgstr "mm/dd/aaaa"
 
 #: src/prefs/prefs_page_divers.ui:988
-#, fuzzy
 msgid "dd.mm.yyyy"
-msgstr "dd/mm/aaaa"
+msgstr "dd.mm.aaaa"
 
 #: src/prefs/prefs_page_divers.ui:1003
-#, fuzzy
 msgid "yyyy-mm-dd"
-msgstr "aaaa/mm/dd"
+msgstr "aaaa-mm-dd"
 
 #: src/prefs/prefs_page_divers.ui:1061
 msgid "Choose decimal and thousands separator"
@@ -9922,14 +9920,12 @@ msgid "Choose CSV separator"
 msgstr ""
 
 #: src/utils_widgets.c:826
-#, fuzzy
 msgid "Force date format"
-msgstr "Alterar a conta"
+msgstr "Formato de data padrão"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
-msgstr "Alterar a conta"
+msgstr "Selecione um novo formato de data : "
 
 #: src/utils_widgets.c:1039
 msgid "Choose the decimal and thousands separator"

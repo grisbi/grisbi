@@ -782,14 +782,12 @@ msgid "mm/dd/yyyy"
 msgstr "мм/дд/гггг"
 
 #: src/prefs/prefs_page_divers.ui:988
-#, fuzzy
 msgid "dd.mm.yyyy"
-msgstr "дд/мм/гггг"
+msgstr "дд.мм.гггг"
 
 #: src/prefs/prefs_page_divers.ui:1003
-#, fuzzy
 msgid "yyyy-mm-dd"
-msgstr "гггг/мм/дд/"
+msgstr "гггг-мм-дд"
 
 #: src/prefs/prefs_page_divers.ui:1061
 #, fuzzy
@@ -9639,14 +9637,12 @@ msgid "Choose CSV separator"
 msgstr "Выберите разделитель CSV"
 
 #: src/utils_widgets.c:826
-#, fuzzy
 msgid "Force date format"
-msgstr "Выбрать шаблон для нового отчёта"
+msgstr "Формат даты"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
-msgstr "Выбрать шаблон для нового отчёта"
+msgstr "Выберите новый формат даты : "
 
 #: src/utils_widgets.c:1039
 msgid "Choose the decimal and thousands separator"

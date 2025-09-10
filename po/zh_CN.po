@@ -9866,9 +9866,8 @@ msgid "Force date format"
 msgstr "选择账户"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
-msgstr "选择账户"
+msgstr "选择新的日期格式 : "
 
 #: src/utils_widgets.c:1039
 msgid "Choose the decimal and thousands separator"
