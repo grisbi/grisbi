@@ -733,14 +733,12 @@ msgid "mm/dd/yyyy"
 msgstr "mm/dd/rrrr"
 
 #: src/prefs/prefs_page_divers.ui:988
-#, fuzzy
 msgid "dd.mm.yyyy"
-msgstr "dd/mm/rrrr"
+msgstr "dd.mm.rrrr"
 
 #: src/prefs/prefs_page_divers.ui:1003
-#, fuzzy
 msgid "yyyy-mm-dd"
-msgstr "rrrr/mm/dd"
+msgstr "rrrr-mm-dd"
 
 #: src/prefs/prefs_page_divers.ui:1061
 msgid "Choose decimal and thousands separator"
@@ -9679,9 +9677,8 @@ msgid "Force date format"
 msgstr "Vynutit formát data"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
-msgstr "Vynutit formát data"
+msgstr "Vyberte nový formát data :"
 
 #: src/utils_widgets.c:1039
 msgid "Choose the decimal and thousands separator"

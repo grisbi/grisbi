@@ -9461,9 +9461,8 @@ msgid "Force date format"
 msgstr "مرتب سازی بر اساس تاریخ"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
-msgstr "مرتب سازی بر اساس تاریخ"
+msgstr "قالب تاریخ جدید را انتخاب کنید : "
 
 #: src/utils_widgets.c:1039
 msgid "Choose the decimal and thousands separator"

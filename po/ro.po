@@ -833,14 +833,12 @@ msgid "mm/dd/yyyy"
 msgstr "ll/zz/aaaa"
 
 #: src/prefs/prefs_page_divers.ui:988
-#, fuzzy
 msgid "dd.mm.yyyy"
-msgstr "zz/ll/aaaa"
+msgstr "zz.ll.aaaa"
 
 #: src/prefs/prefs_page_divers.ui:1003
-#, fuzzy
 msgid "yyyy-mm-dd"
-msgstr "aaaa/ll/zz"
+msgstr "aaaa-ll-zz"
 
 #: src/prefs/prefs_page_divers.ui:1061
 msgid "Choose decimal and thousands separator"
@@ -9964,14 +9962,12 @@ msgid "Choose CSV separator"
 msgstr ""
 
 #: src/utils_widgets.c:826
-#, fuzzy
 msgid "Force date format"
-msgstr "Alegerea contului afectat"
+msgstr "Formatul datei forțate"
 
 #: src/utils_widgets.c:845
-#, fuzzy
 msgid "Select new date format : "
-msgstr "Alegerea contului afectat"
+msgstr "Selectați un nou format pentru dată : "
 
 #: src/utils_widgets.c:1039
 msgid "Choose the decimal and thousands separator"
