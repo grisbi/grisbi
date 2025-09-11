@@ -910,7 +910,7 @@ void utils_tree_view_expand_row (GtkWidget *tree_view)
     gint x;
     gint y;
 	GrisbiWin *win;
-devel_debug (NULL);
+
 	/* récupère le path de la ligne choisie */
 	win = grisbi_app_get_active_window (NULL);
 	run_window = gtk_widget_get_window (GTK_WIDGET (win));
