@@ -12568,9 +12568,8 @@ msgid "Could not encrypt file"
 msgstr "Impossible de chiffrer le fichier"
 
 #: src/utils_widgets.c:63
-#, fuzzy
 msgid "yyyy/mm/dd"
-msgstr "aaaa-mm-jj"
+msgstr "aaaa/mm/jj"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
@@ -12586,15 +12585,15 @@ msgstr "mm/aaaa/jj"
 
 #: src/utils_widgets.c:77
 msgid "Comma"
-msgstr "Virgule «,»"
+msgstr "Virgule"
 
 #: src/utils_widgets.c:78
 msgid "Semi-colon"
-msgstr "Point-virgule «;»"
+msgstr "Point-virgule"
 
 #: src/utils_widgets.c:79
 msgid "Colon"
-msgstr "Deux points «:»"
+msgstr "Deux points"
 
 #: src/utils_widgets.c:80
 msgid "Tabulation"
