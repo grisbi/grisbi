@@ -344,8 +344,9 @@ msgstr "Kategorijas"
 #: src/prefs/prefs_page_bet_account.ui:427
 #: src/prefs/prefs_page_bet_account.ui:512 src/ui/etats_prefs.ui:1595
 #: src/bet_hist.c:2152 src/etats_prefs.c:1596 src/export_csv.c:404
-#: src/grisbi_win.c:487 src/imputation_budgetaire.c:375 src/navigation.c:641
-#: src/utils_widgets.c:674 src/etats/etats_page_budget.c:84
+#: src/grisbi_win.c:487 src/import_csv.c:84 src/imputation_budgetaire.c:375
+#: src/navigation.c:641 src/utils_widgets.c:674
+#: src/etats/etats_page_budget.c:84
 msgid "Budgetary lines"
 msgstr "Budžeta pozīcijas"
 
@@ -758,11 +759,11 @@ msgstr "Izvēlēties kontu"
 msgid "Choose the date format"
 msgstr "Izvēlieties datuma formātu"
 
-#: src/prefs/prefs_page_divers.ui:958
+#: src/prefs/prefs_page_divers.ui:958 src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
 msgstr "dd/mm/aaaa"
 
-#: src/prefs/prefs_page_divers.ui:973
+#: src/prefs/prefs_page_divers.ui:973 src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
 msgstr "mm/dd/aaaa"
 
@@ -858,7 +859,7 @@ msgid "Remove backup files older than "
 msgstr ""
 
 #: src/prefs/prefs_page_files.ui:526 src/widgets/widget_loan.ui:345
-#: src/bet_finance_ui.c:287
+#: src/bet_finance_ui.c:287 src/gsb_scheduler_list.c:118
 msgid "months"
 msgstr "mēnesis"
 
@@ -1171,16 +1172,18 @@ msgstr "Neitrāls"
 
 #: src/prefs/prefs_page_payment_method.ui:230 src/bet_future.c:550
 #: src/bet_tab.c:2042 src/categories_onglet.c:840 src/export_csv.c:389
-#: src/gsb_form.c:2047 src/imputation_budgetaire.c:858
-#: src/prefs/prefs_page_payment_method.c:497
+#: src/gsb_form.c:2047 src/gsb_form_widget.c:554
+#: src/gsb_transactions_list.c:113 src/import_csv.c:88
+#: src/imputation_budgetaire.c:858 src/prefs/prefs_page_payment_method.c:497
 #: src/prefs/prefs_page_payment_method.c:958
 msgid "Debit"
 msgstr "Debets"
 
 #: src/prefs/prefs_page_payment_method.ui:231 src/bet_future.c:555
 #: src/bet_tab.c:2060 src/categories_onglet.c:840 src/export_csv.c:386
-#: src/gsb_form.c:2053 src/imputation_budgetaire.c:858
-#: src/prefs/prefs_page_payment_method.c:511
+#: src/gsb_form.c:2053 src/gsb_form_widget.c:558
+#: src/gsb_transactions_list.c:114 src/import_csv.c:87
+#: src/imputation_budgetaire.c:858 src/prefs/prefs_page_payment_method.c:511
 #: src/prefs/prefs_page_payment_method.c:954
 msgid "Credit"
 msgstr "Kredīts"
@@ -1388,6 +1391,7 @@ msgid "Amount comparison currency: "
 msgstr "Summu salīdzinājuma valūta:"
 
 #: src/ui/etats_prefs.ui:209 src/etats_onglet.c:751
+#: src/gsb_assistant_archive_export.c:152 src/prefs/prefs_page_archives.c:477
 msgid "Report name"
 msgstr "Pārskata nosaukums"
 
@@ -1400,7 +1404,9 @@ msgstr ""
 #: src/widgets/widget_transfer.ui:497 src/bet_finance_ui.c:1862
 #: src/bet_future.c:529 src/bet_tab.c:2008 src/etats_affiche.c:241
 #: src/export_csv.c:368 src/gsb_assistant_reconcile_config.c:654
-#: src/gsb_form.c:2018 src/import.c:1951 src/import.c:4464
+#: src/gsb_form.c:2018 src/gsb_form_widget.c:550 src/gsb_scheduler_list.c:944
+#: src/gsb_transactions_list.c:109 src/import.c:1951 src/import.c:4464
+#: src/import_csv.c:77
 msgid "Date"
 msgstr "Datums"
 
@@ -1434,6 +1440,8 @@ msgstr "Izvēlēties visus darījumus"
 
 #: src/ui/etats_prefs.ui:496 src/etats_affiche.c:252 src/export_csv.c:371
 #: src/gsb_form.c:2024 src/gsb_form.c:2824 src/gsb_form.c:2851
+#: src/gsb_form_widget.c:562 src/gsb_transactions_list.c:110
+#: src/import_csv.c:78
 msgid "Value date"
 msgstr "Vērtība"
 
@@ -1465,35 +1473,40 @@ msgstr "Darījumu darbvirsma"
 msgid "Include following information"
 msgstr "Iekļauj šādu informāciju"
 
-#: src/ui/etats_prefs.ui:687
+#: src/ui/etats_prefs.ui:687 src/etats_prefs.c:98
 msgid "transaction number"
 msgstr "darījuma numurs"
 
-#: src/ui/etats_prefs.ui:701
+#: src/ui/etats_prefs.ui:701 src/etats_prefs.c:96
 msgid "date"
 msgstr "datums"
 
-#: src/ui/etats_prefs.ui:715
+#: src/ui/etats_prefs.ui:715 src/etats_prefs.c:97
 msgid "value date"
 msgstr "vērtība"
 
 #: src/ui/etats_prefs.ui:729 src/widgets/widget_cmp_text.ui:74
+#: src/etats_prefs.c:99 src/meta_payee.c:78
 msgid "payee"
 msgstr "partneris"
 
 #: src/ui/etats_prefs.ui:743 src/widgets/widget_cmp_text.ui:76
+#: src/etats_prefs.c:100 src/meta_categories.c:66
 msgid "category"
 msgstr "kategorija"
 
 #: src/ui/etats_prefs.ui:757 src/widgets/widget_cmp_text.ui:77
+#: src/meta_categories.c:67
 msgid "sub-category"
 msgstr "apakškategorija"
 
 #: src/ui/etats_prefs.ui:772 src/widgets/widget_cmp_text.ui:78
+#: src/etats_prefs.c:101 src/meta_budgetary.c:87
 msgid "budgetary line"
 msgstr "budžeta pozīcija"
 
 #: src/ui/etats_prefs.ui:786 src/widgets/widget_cmp_text.ui:79
+#: src/meta_budgetary.c:88
 msgid "sub-budgetary line"
 msgstr "apakšbudžeta pozīcija"
 
@@ -1501,15 +1514,16 @@ msgstr "apakšbudžeta pozīcija"
 msgid "notes"
 msgstr "piezīmes"
 
-#: src/ui/etats_prefs.ui:815
+#: src/ui/etats_prefs.ui:815 src/etats_prefs.c:103
 msgid "method of payment"
 msgstr "maksāšanas veids"
 
-#: src/ui/etats_prefs.ui:829
+#: src/ui/etats_prefs.ui:829 src/etats_prefs.c:104
 msgid "cheque/transfer number"
 msgstr "čeka/pārskaitījuma numurs"
 
 #: src/ui/etats_prefs.ui:843 src/widgets/widget_cmp_text.ui:82
+#: src/etats_prefs.c:105
 msgid "voucher"
 msgstr "kvīts"
 
@@ -1518,10 +1532,12 @@ msgid "financial year"
 msgstr "finanšu gads"
 
 #: src/ui/etats_prefs.ui:871 src/widgets/widget_cmp_text.ui:81
+#: src/etats_prefs.c:106
 msgid "bank reference"
 msgstr "bankas atsauce"
 
 #: src/ui/etats_prefs.ui:885 src/widgets/widget_cmp_text.ui:84
+#: src/etats_prefs.c:107
 msgid "reconciliation reference"
 msgstr "saskaņošanas atsauce"
 
@@ -1570,7 +1586,9 @@ msgstr "Rādīt starpsummu par katru kontu"
 #: src/ui/etats_prefs.ui:1354 src/bet_future.c:545 src/etats_affiche.c:285
 #: src/etats_prefs.c:586 src/etats_prefs.c:1586 src/export_csv.c:383
 #: src/grisbi_win.c:472 src/gsb_assistant_reconcile_config.c:654
-#: src/gsb_form.c:2041 src/import.c:4471 src/widgets/widget_loan.c:1135
+#: src/gsb_form.c:2041 src/gsb_form_widget.c:570 src/gsb_scheduler_list.c:944
+#: src/gsb_transactions_list.c:111 src/import.c:4471 src/import_csv.c:79
+#: src/meta_payee.c:77 src/widgets/widget_loan.c:1135
 #: src/widgets/widget_transfer.c:910 src/widgets/widget_transfer.c:1034
 #: src/widgets/widget_transfer.c:1465 src/widgets/widget_transfer.c:1564
 msgid "Payee"
@@ -1762,17 +1780,18 @@ msgstr "_Iziet"
 msgid "_File"
 msgstr "_Fails"
 
-#: src/ui/grisbi_menu.ui:34 src/ui/grisbi_menu.ui:262
+#: src/ui/grisbi_menu.ui:34 src/ui/grisbi_menu.ui:262 src/grisbi_app.c:116
+#: src/grisbi_app.c:132
 #, fuzzy
 msgid "New account file"
 msgstr "_Jauns konta fails..."
 
 #: src/ui/grisbi_menu.ui:39 src/ui/grisbi_menu.ui:267
 #: src/categories_onglet.c:495 src/categories_onglet.c:552
-#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_win.c:754
-#: src/gsb_file.c:770 src/gsb_select_icon.c:320 src/import.c:1256
-#: src/imputation_budgetaire.c:518 src/imputation_budgetaire.c:580
-#: src/prefs/prefs_page_display_fonts.c:311
+#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
+#: src/grisbi_app.c:133 src/grisbi_win.c:754 src/gsb_file.c:770
+#: src/gsb_select_icon.c:320 src/import.c:1256 src/imputation_budgetaire.c:518
+#: src/imputation_budgetaire.c:580 src/prefs/prefs_page_display_fonts.c:311
 #, fuzzy
 msgid "Open"
 msgstr "_Atvērt..."
@@ -1784,8 +1803,9 @@ msgstr "_Nesen atvērtie faili"
 
 #: src/ui/grisbi_menu.ui:51 src/ui/grisbi_menu.ui:279 src/bet_finance_ui.c:798
 #: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:436
-#: src/etats_onglet.c:365 src/gsb_file.c:324 src/gsb_file.c:427
-#: src/gsb_file.c:458 src/imputation_budgetaire.c:454 src/tiers_onglet.c:133
+#: src/etats_onglet.c:365 src/grisbi_app.c:118 src/grisbi_app.c:134
+#: src/gsb_file.c:324 src/gsb_file.c:427 src/gsb_file.c:458
+#: src/imputation_budgetaire.c:454 src/tiers_onglet.c:133
 #, fuzzy
 msgid "Save"
 msgstr "_Saglabāt"
@@ -1800,7 +1820,7 @@ msgstr "_Saglabāt kā..."
 msgid "_Import file"
 msgstr "_Importēt failu..."
 
-#: src/ui/grisbi_menu.ui:68
+#: src/ui/grisbi_menu.ui:68 src/grisbi_app.c:120 src/grisbi_app.c:136
 #, fuzzy
 msgid "Export as QIF/CSV file"
 msgstr "_Eksportēt kontu kā QIF/CSV failu..."
@@ -1837,8 +1857,9 @@ msgstr "Atkļūdošanas režīms"
 #: src/ui/grisbi_menu.ui:108 src/ui/grisbi_menu.ui:336
 #: src/ui/grisbi_prefs.ui:29 src/widgets/widget_assistant.ui:71
 #: src/widgets/widget_bet_graph_others.ui:37
-#: src/widgets/widget_bet_graph_pie.ui:26 src/gsb_assistant.c:445
-#: src/gsb_currency.c:1328 src/tip.c:155 src/widgets/widget_loan.c:950
+#: src/widgets/widget_bet_graph_pie.ui:26 src/grisbi_app.c:121
+#: src/grisbi_app.c:137 src/gsb_assistant.c:445 src/gsb_currency.c:1328
+#: src/tip.c:155 src/widgets/widget_loan.c:950
 #, fuzzy
 msgid "Close"
 msgstr "_Aizvērt"
@@ -1852,9 +1873,9 @@ msgstr ""
 msgid "Edit transaction"
 msgstr "Rediģēt darījumu"
 
-#: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:359
-#: src/gsb_scheduler_list.c:375 src/gsb_transactions_list.c:474
-#: src/gsb_transactions_list.c:2525
+#: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:359 src/grisbi_app.c:122
+#: src/grisbi_app.c:138 src/gsb_scheduler_list.c:375
+#: src/gsb_transactions_list.c:474 src/gsb_transactions_list.c:2525
 msgid "New transaction"
 msgstr "Jauns darījums"
 
@@ -1878,7 +1899,8 @@ msgstr "Klonēt darījumu"
 msgid "Convert to scheduled transaction"
 msgstr "Pārvērst par _plānoto darījumu"
 
-#: src/ui/grisbi_menu.ui:161 src/ui/grisbi_menu.ui:395 src/navigation.c:209
+#: src/ui/grisbi_menu.ui:161 src/ui/grisbi_menu.ui:395 src/grisbi_app.c:123
+#: src/grisbi_app.c:139 src/navigation.c:209
 #, fuzzy
 msgid "New account"
 msgstr "_Jauns konts"
@@ -1899,13 +1921,14 @@ msgstr "Skats"
 msgid "Show transaction form"
 msgstr "Rādīt darījuma _veidlapu"
 
-#: src/ui/grisbi_menu.ui:181 src/ui/grisbi_menu.ui:422
+#: src/ui/grisbi_menu.ui:181 src/ui/grisbi_menu.ui:422 src/grisbi_app.c:124
+#: src/grisbi_app.c:140
 #, fuzzy
 msgid "Show reconciled"
 msgstr "Rādīt _saskaņojumus"
 
-#: src/ui/grisbi_menu.ui:185 src/ui/grisbi_menu.ui:426
-#: src/gsb_transactions_list.c:2483
+#: src/ui/grisbi_menu.ui:185 src/ui/grisbi_menu.ui:426 src/grisbi_app.c:125
+#: src/grisbi_app.c:141 src/gsb_transactions_list.c:2483
 msgid "Show lines archives"
 msgstr "Rādīt arhīva rindas"
 
@@ -1942,7 +1965,8 @@ msgstr "Atstatīt kolonnas platumu"
 msgid "_Help"
 msgstr "_Palīdzība"
 
-#: src/ui/grisbi_menu.ui:227 src/ui/grisbi_menu.ui:468
+#: src/ui/grisbi_menu.ui:227 src/ui/grisbi_menu.ui:468 src/grisbi_app.c:126
+#: src/grisbi_app.c:142
 #, fuzzy
 msgid "User's Manual"
 msgstr "Manuāli"
@@ -1962,7 +1986,7 @@ msgstr "_Grisbi tīmekļa vietne"
 msgid "Report a bug"
 msgstr "_Ziņot par kļūdu"
 
-#: src/ui/grisbi_menu.ui:291
+#: src/ui/grisbi_menu.ui:291 src/grisbi_app.c:119 src/grisbi_app.c:135
 #, fuzzy
 msgid "Import file"
 msgstr "_Importēt failu..."
@@ -2021,7 +2045,7 @@ msgstr "Īpašnieka nosaukums:"
 msgid "Holder's own address: "
 msgstr "Īpašnieka adrese:"
 
-#: src/widgets/widget_account_property.ui:441
+#: src/widgets/widget_account_property.ui:441 src/prefs/prefs_page_bank.c:294
 msgid "Bank"
 msgstr "Banka"
 
@@ -2126,7 +2150,9 @@ msgstr "Fakss:"
 
 #: src/widgets/widget_bank_details.ui:206 src/bet_future.c:572
 #: src/etats_affiche.c:318 src/export_csv.c:401 src/gsb_form.c:2074
-#: src/gsb_scheduler_list.c:292 src/gsb_scheduler_list.c:1209
+#: src/gsb_form_widget.c:586 src/gsb_scheduler_list.c:292
+#: src/gsb_scheduler_list.c:945 src/gsb_scheduler_list.c:1209
+#: src/gsb_transactions_list.c:123 src/import_csv.c:80
 msgid "Notes"
 msgstr "Piezīmes"
 
@@ -2319,7 +2345,7 @@ msgstr "Kurus darījumus"
 msgid "payee information"
 msgstr "partnera informācija"
 
-#: src/widgets/widget_cmp_text.ui:80
+#: src/widgets/widget_cmp_text.ui:80 src/etats_prefs.c:102
 msgid "note"
 msgstr "piezimes"
 
@@ -2387,7 +2413,8 @@ msgstr "Darījumu saraksta darbība"
 msgid "Forecast"
 msgstr "Prognoze"
 
-#: src/widgets/widget_css_rules.ui:367
+#: src/widgets/widget_css_rules.ui:367 src/grisbi_app.c:114
+#: src/grisbi_app.c:130
 #, fuzzy
 msgid "Preferences"
 msgstr "_Iestatījumi"
@@ -2665,7 +2692,7 @@ msgid "None"
 msgstr "Neviens"
 
 #: src/widgets/widget_reconcile.ui:126 src/bet_tab.c:2079 src/export_csv.c:392
-#: src/gsb_transactions_list.c:1667
+#: src/gsb_transactions_list.c:115 src/gsb_transactions_list.c:1667
 msgid "Balance"
 msgstr "Bilance"
 
@@ -3041,7 +3068,7 @@ msgstr "Jums ir jāievada vismaz vienu kapitāla vērtību"
 msgid "year"
 msgstr "gads"
 
-#: src/bet_finance_ui.c:600
+#: src/bet_finance_ui.c:600 src/gsb_scheduler_list.c:118
 msgid "years"
 msgstr "gads"
 
@@ -3152,6 +3179,18 @@ msgstr "Kopējās izmaksas"
 msgid "Approximate cost"
 msgstr "Aptuvenā cena"
 
+#: src/bet_finance_ui.c:1266
+msgid "Between 3 and 18 months"
+msgstr "No 3 līdz 18 mēnešiem"
+
+#: src/bet_finance_ui.c:1267
+msgid "Between 1 and 15 years"
+msgstr "No 1 līdz 15 gadiem"
+
+#: src/bet_finance_ui.c:1268
+msgid "Between 15 and 30 years"
+msgstr "No 15 līdz 30 gadiem"
+
 #: src/bet_finance_ui.c:1365
 msgid "Annual interest: "
 msgstr "Procenti gadā:"
@@ -3210,12 +3249,13 @@ msgstr "Eksports"
 msgid " months "
 msgstr "mēnesis"
 
-#: src/bet_future.c:313 src/gsb_form_scheduler.c:140
-#: src/gsb_scheduler_list.c:1612
+#: src/bet_future.c:313 src/bet_future.c:1059 src/gsb_form_scheduler.c:140
+#: src/gsb_form_scheduler.c:648 src/gsb_scheduler_list.c:1612
 msgid "Once"
 msgstr "Vienreiz"
 
-#: src/bet_future.c:323 src/gsb_form_scheduler.c:149
+#: src/bet_future.c:323 src/bet_future.c:1060 src/gsb_form_scheduler.c:149
+#: src/gsb_form_scheduler.c:649 src/etats/etats_page_period.c:91
 msgid "Custom"
 msgstr "Pielāgošana"
 
@@ -3230,22 +3270,23 @@ msgstr "Datuma limits"
 msgid "Own frequency"
 msgstr "Biežums"
 
-#: src/bet_future.c:561 src/gsb_form.c:2059 src/widgets/widget_loan.c:1321
-#: src/widgets/widget_loan.c:1327 src/widgets/widget_loan.c:1413
-#: src/widgets/widget_loan.c:1419 src/widgets/widget_transfer.c:945
-#: src/widgets/widget_transfer.c:1075 src/widgets/widget_transfer.c:1506
-#: src/widgets/widget_transfer.c:1591
+#: src/bet_future.c:561 src/gsb_form.c:2059 src/gsb_form_widget.c:574
+#: src/widgets/widget_loan.c:1321 src/widgets/widget_loan.c:1327
+#: src/widgets/widget_loan.c:1413 src/widgets/widget_loan.c:1419
+#: src/widgets/widget_transfer.c:945 src/widgets/widget_transfer.c:1075
+#: src/widgets/widget_transfer.c:1506 src/widgets/widget_transfer.c:1591
 msgid "Categories : Sub-categories"
 msgstr "Kategorijas: apakškategorijas"
 
 #: src/bet_future.c:567 src/bet_hist.c:1452 src/etats_affiche.c:307
-#: src/etats_prefs.c:578 src/gsb_form.c:2068 src/imputation_budgetaire.c:181
-#: src/utils_widgets.c:134 src/widgets/widget_loan.c:1265
-#: src/widgets/widget_loan.c:1271 src/widgets/widget_loan.c:1358
-#: src/widgets/widget_loan.c:1364 src/widgets/widget_loan.c:1450
-#: src/widgets/widget_loan.c:1456 src/widgets/widget_transfer.c:972
-#: src/widgets/widget_transfer.c:1103 src/widgets/widget_transfer.c:1521
-#: src/widgets/widget_transfer.c:1609
+#: src/etats_prefs.c:578 src/gsb_form.c:2068 src/gsb_form_widget.c:582
+#: src/gsb_transactions_list.c:112 src/imputation_budgetaire.c:181
+#: src/meta_budgetary.c:86 src/utils_widgets.c:134
+#: src/widgets/widget_loan.c:1265 src/widgets/widget_loan.c:1271
+#: src/widgets/widget_loan.c:1358 src/widgets/widget_loan.c:1364
+#: src/widgets/widget_loan.c:1450 src/widgets/widget_loan.c:1456
+#: src/widgets/widget_transfer.c:972 src/widgets/widget_transfer.c:1103
+#: src/widgets/widget_transfer.c:1521 src/widgets/widget_transfer.c:1609
 msgid "Budgetary line"
 msgstr "Budžeta pozīcija"
 
@@ -3259,11 +3300,55 @@ msgstr "Izvēlēties finanšu gadu"
 msgid "Choose the method of payment"
 msgstr "Izvēlēties maksājuma veidu"
 
+#: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
+#: src/gsb_scheduler_list.c:1612
+msgid "Weekly"
+msgstr "Katru nedēļu"
+
+#: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
+#: src/gsb_scheduler_list.c:1612 src/widgets/widget_loan.c:1048
+msgid "Monthly"
+msgstr "Ik mēnesi"
+
+#: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
+#: src/gsb_scheduler_list.c:1613
+msgid "Bimonthly"
+msgstr "Reizi divos mēnešos"
+
+#: src/bet_future.c:1060 src/gsb_form_scheduler.c:649
+#: src/gsb_scheduler_list.c:1613 src/widgets/widget_loan.c:1048
+msgid "Quarterly"
+msgstr "Reizi kvartālā"
+
+#: src/bet_future.c:1060 src/gsb_form_scheduler.c:649
+#: src/gsb_scheduler_list.c:1613 src/widgets/widget_loan.c:1048
+msgid "Yearly"
+msgstr "Katru gadu"
+
+#: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
+msgid "Days"
+msgstr "Dienas"
+
+#: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
+msgid "Weeks"
+msgstr "Nedēļas"
+
+#: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
+msgid "Months"
+msgstr "Mēneši"
+
+#: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
+msgid "Years"
+msgstr "Gadi"
+
 #: src/bet_future.c:1076 src/gsb_form_scheduler.c:681
+#: src/gsb_scheduler_list.c:945
 msgid "Frequency"
 msgstr "Biežums"
 
-#: src/bet_future.c:1101 src/gsb_assistant_reconcile_config.c:1320
+#: src/bet_future.c:1101 src/gsb_assistant_archive_export.c:151
+#: src/gsb_assistant_reconcile_config.c:1320 src/gsb_transactions_list.c:1114
+#: src/prefs/prefs_page_archives.c:477 src/prefs/prefs_page_reconcile.c:323
 msgid "Final date"
 msgstr "Beigu datums"
 
@@ -3339,6 +3424,108 @@ msgstr ""
 #, fuzzy
 msgid "Confirmation of deletion of a deferred debit card"
 msgstr "Apstipriniet darījumu apvienošanu %s"
+
+#: src/bet_graph.c:64
+#, fuzzy
+msgid "Jan"
+msgstr "Japan"
+
+#: src/bet_graph.c:64
+#, fuzzy
+msgid "Feb"
+msgstr "Tīmeklis"
+
+#: src/bet_graph.c:64
+#, fuzzy
+msgid "Mar"
+msgstr "Marķējums"
+
+#: src/bet_graph.c:64
+msgid "Apr"
+msgstr ""
+
+#: src/bet_graph.c:65 src/bet_graph.c:73
+#, fuzzy
+msgid "May"
+msgstr "Diena"
+
+#: src/bet_graph.c:65
+#, fuzzy
+msgid "Jun"
+msgstr "Japan"
+
+#: src/bet_graph.c:65
+msgid "Jul"
+msgstr ""
+
+#: src/bet_graph.c:65
+msgid "Aug"
+msgstr ""
+
+#: src/bet_graph.c:66
+msgid "Sep"
+msgstr ""
+
+#: src/bet_graph.c:66
+msgid "Oct"
+msgstr ""
+
+#: src/bet_graph.c:66
+msgid "Nov"
+msgstr ""
+
+#: src/bet_graph.c:66
+msgid "Dec"
+msgstr ""
+
+#: src/bet_graph.c:72
+#, fuzzy
+msgid "January"
+msgstr "Manuāli"
+
+#: src/bet_graph.c:72
+msgid "February"
+msgstr ""
+
+#: src/bet_graph.c:72
+#, fuzzy
+msgid "March"
+msgstr "Meklēšana"
+
+#: src/bet_graph.c:72
+msgid "April"
+msgstr ""
+
+#: src/bet_graph.c:73
+msgid "June"
+msgstr ""
+
+#: src/bet_graph.c:73
+msgid "July"
+msgstr ""
+
+#: src/bet_graph.c:73
+msgid "August"
+msgstr ""
+
+#: src/bet_graph.c:74
+#, fuzzy
+msgid "September"
+msgstr "Partnera numurs"
+
+#: src/bet_graph.c:74
+msgid "October"
+msgstr ""
+
+#: src/bet_graph.c:74
+#, fuzzy
+msgid "November"
+msgstr "Numurs"
+
+#: src/bet_graph.c:74
+#, fuzzy
+msgid "December"
+msgstr "Partnera numurs"
 
 #: src/bet_graph.c:317
 #, fuzzy
@@ -3416,12 +3603,14 @@ msgstr "Izvēlēties"
 
 #: src/bet_hist.c:1278 src/bet_hist.c:1459 src/categories_onglet.c:184
 #: src/etats_affiche.c:296 src/etats_prefs.c:574 src/export_csv.c:395
+#: src/gsb_transactions_list.c:120 src/import_csv.c:82 src/meta_categories.c:65
 #: src/utils_widgets.c:121
 msgid "Category"
 msgstr "Kategorija"
 
 #: src/bet_hist.c:1295 src/categories_onglet.c:205 src/etats_affiche.c:383
-#: src/gsb_assistant_reconcile_config.c:654 src/import.c:4478
+#: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:945
+#: src/gsb_transactions_list.c:116 src/import.c:4478 src/import_csv.c:86
 #: src/imputation_budgetaire.c:202 src/tiers_onglet.c:842
 #: src/etats/etats_page_amount.c:281
 msgid "Amount"
@@ -3490,12 +3679,13 @@ msgstr "Nav datu pēc noklusējuma"
 
 #: src/bet_tab.c:987 src/bet_tab.c:1039 src/bet_tab.c:1100
 #: src/etats_affiche.c:2519 src/gsb_data_category.c:167
-#: src/widgets/widget_list_metatree.c:534
+#: src/meta_categories.c:68 src/widgets/widget_list_metatree.c:534
 msgid "No category"
 msgstr "Nav kategorijas"
 
 #: src/bet_tab.c:994 src/bet_tab.c:1047 src/bet_tab.c:1106
-#: src/etats_affiche.c:2669 src/widgets/widget_list_metatree.c:526
+#: src/etats_affiche.c:2669 src/meta_budgetary.c:89
+#: src/widgets/widget_list_metatree.c:526
 msgid "No budgetary line"
 msgstr "Nav budžet pozīcijas"
 
@@ -3597,9 +3787,10 @@ msgid "Check the box to automatically change start date"
 msgstr "Atzīmējiet rūtiņu, lai automātiski mainītu datumu"
 
 #: src/categories_onglet.c:194 src/etats_prefs.c:582
-#: src/gsb_assistant_reconcile_config.c:654 src/imputation_budgetaire.c:191
-#: src/navigation.c:1818 src/prefs/prefs_page_payment_method.c:1246
-#: src/tiers_onglet.c:831
+#: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:944
+#: src/imputation_budgetaire.c:191 src/navigation.c:1818
+#: src/prefs/prefs_page_payment_method.c:1246
+#: src/prefs/prefs_page_reconcile.c:323 src/tiers_onglet.c:831
 msgid "Account"
 msgstr "Konts"
 
@@ -3731,9 +3922,10 @@ msgstr "Īpašības %s"
 msgid "No category defined"
 msgstr "Nav definēta kategorija"
 
-#: src/categories_onglet.c:812 src/imputation_budgetaire.c:830
-#: src/prefs/prefs_page_accueil.c:288 src/prefs/prefs_page_fyear.c:566
-#: src/widgets/widget_transfer.c:1250
+#: src/categories_onglet.c:812 src/gsb_assistant_archive_export.c:151
+#: src/gsb_transactions_list.c:1114 src/imputation_budgetaire.c:830
+#: src/prefs/prefs_page_accueil.c:288 src/prefs/prefs_page_archives.c:477
+#: src/prefs/prefs_page_fyear.c:566 src/widgets/widget_transfer.c:1250
 msgid "Name"
 msgstr "Nosaukums"
 
@@ -3831,6 +4023,145 @@ msgstr "Izveidot likumu par šo importu. Likuma nosaukums:"
 #, fuzzy
 msgid "Edit an import rule for CSV file"
 msgstr "Izveidot likumu par šo importu. Likuma nosaukums:"
+
+#: src/dialog.c:45
+msgid "Delete a child transaction."
+msgstr "Dzēst darījuma bērnus."
+
+#: src/dialog.c:49
+msgid "Delete a transaction."
+msgstr "Dzēst darījumu."
+
+#: src/dialog.c:53
+msgid "Delete a child of scheduled transaction."
+msgstr "Dzēst regulāru darījumu bērnus."
+
+#: src/dialog.c:57
+msgid "Delete a scheduled transaction."
+msgstr "Dzēst regulāru darījumu."
+
+#: src/dialog.c:61
+#, fuzzy
+msgid "Delete one or all occurrences of scheduled transaction."
+msgstr "Dzēst vienu vai vairākus atgadījumus par plānoto darījumu."
+
+#: src/dialog.c:66
+#, fuzzy
+msgid "Delete a rule file import."
+msgstr "Dzēst izvēlēto pārskatu"
+
+#: src/dialog.c:76
+#, c-format
+msgid "File \"%s\" is already opened"
+msgstr "Fails \"%s\" jau ir atvērts"
+
+#: src/dialog.c:77
+msgid ""
+"Either this file is already opened by another user or it wasn't closed "
+"correctly (maybe Grisbi crashed?).\n"
+"Grisbi can't save the file unless you activate the \"Force saving locked "
+"files\" option in setup."
+msgstr ""
+"Iespējams, ka šo failu ir atvēris cits lietotājs un nav pareizi aizvēris. "
+"Grisbi neizdevās saglabāt failu, ja neaktivizēsiet \"bloķēta faila piespiedu "
+"saglabāšana\" opciju iestatījumos."
+
+#: src/dialog.c:82
+msgid "Account file is world readable."
+msgstr "Konta fails ir visiem lasāms"
+
+#: src/dialog.c:83
+msgid ""
+"Your account file should not be readable by anybody else, but it is. You "
+"should change its permissions."
+msgstr ""
+"Jūsu konta fails ir pieejams citiem. Jums vajadzētu mainīt pieejas atļauju. "
+"Vai mainīt tagad?"
+
+#: src/dialog.c:87
+#, c-format
+msgid "You are running Grisbi version %s"
+msgstr "Jūs izmantojat Grisbi versiju %s"
+
+#: src/dialog.c:88
+#, fuzzy
+msgid ""
+"Warning, please be aware that the version you run is a DEVELOPMENT version. "
+"Never use your original file Grisbi: you could make it unusable.\n"
+"Make a copy now."
+msgstr ""
+"Brīdinājums, lūdzu, ņemiet vērā, ka šī versija ir IZSTRĀDES versija. Nekādā "
+"gadījumā nedrīkst strādāt šajā versijā ar darba datiem (faila formāts var "
+"mainīties un kļūt nesaderīgs ar vecākām versijām)."
+
+#: src/dialog.c:93
+msgid "Encryption is irreversible."
+msgstr "Šifrēšana ir neatgriezeniska."
+
+#: src/dialog.c:94
+#, fuzzy
+msgid ""
+"Grisbi encrypts files in a very secure way that does not allow recovery "
+"without original password. It means that if you forget your password, you "
+"will lose all your data. Use with caution.\n"
+"\n"
+"I repeat: if you ever forget your password, there is no coming back, we "
+"cannot help you."
+msgstr ""
+"Grisbi šifrē failus ļoti drošā veidā, kas nepieļauj pieeju bez paroles. Tas "
+"nozīmē, ka, ja esat aizmirsis paroli, jūs zaudēsiet visus datus. Lietot "
+"piesardzīgi!"
+
+#: src/dialog.c:100
+#, fuzzy
+msgid "Account under desired balance"
+msgstr "Saskaņā ar vēlamo bilanci."
+
+#: src/dialog.c:101
+#, c-format
+msgid "Grisbi detected that an account is under a desired balance: %s"
+msgstr "Grisbi konstatēja, ka konts ir saskaņā ar vajadzīgo bilanci: %s"
+
+#: src/dialog.c:104
+#, fuzzy
+msgid "Confirmation of manual reconciliation"
+msgstr "Apstiprinājums par manuālu saskaņošanu"
+
+#: src/dialog.c:105
+#, fuzzy
+msgid ""
+"You are trying to reconcile a transaction manually, which is not a "
+"recommended action.\n"
+"Are you really sure you know what you are doing?"
+msgstr ""
+"Jūs mēģiniet manuāli saskaņot darījumus, kas nav ieteicams. Vai jūs tiešām "
+"esat pārliecināts par savu rīcību?"
+
+#: src/dialog.c:110
+#, fuzzy
+msgid "Confirmation of manual unreconciliation"
+msgstr "Apstiprinājums par manuālu saskaņošanu"
+
+#: src/dialog.c:111
+#, fuzzy
+msgid ""
+"You are trying to unreconcile a transaction manually, which is not a "
+"recommended action.\n"
+"Are you really sure you know what you are doing?"
+msgstr ""
+"Jūs mēģiniet manuāli saskaņot darījumus, kas nav ieteicams. Vai jūs tiešām "
+"esat pārliecināts par savu rīcību?"
+
+#: src/dialog.c:116
+#, fuzzy
+msgid "Removing backups from the account file"
+msgstr "Izveidot vienotu dublējuma failu"
+
+#: src/dialog.c:117
+#, c-format
+msgid ""
+"You will delete %d backups from your account file that are older than %s."
+msgstr ""
 
 #: src/dialog.c:271
 msgid "Do not show this message again"
@@ -3940,6 +4271,8 @@ msgid "Account name"
 msgstr "Konta nosaukums"
 
 #: src/etats_affiche.c:274 src/export_csv.c:377
+#: src/gsb_assistant_archive_export.c:152 src/gsb_form_widget.c:566
+#: src/gsb_transactions_list.c:119 src/prefs/prefs_page_archives.c:477
 msgid "Financial year"
 msgstr "Finanšu gads"
 
@@ -3953,10 +4286,12 @@ msgid "Cheque"
 msgstr "Čeku"
 
 #: src/etats_affiche.c:351 src/export_csv.c:410 src/gsb_form.c:2140
+#: src/gsb_form_widget.c:606 src/gsb_transactions_list.c:122
 msgid "Voucher"
 msgstr "Kuponu"
 
 #: src/etats_affiche.c:362 src/export_csv.c:416 src/gsb_form.c:2134
+#: src/gsb_form_widget.c:610 src/gsb_transactions_list.c:124
 msgid "Bank references"
 msgstr "Bankas atsauces"
 
@@ -4201,11 +4536,12 @@ msgstr "Darījuma sadalīšana"
 msgid "No subcategory"
 msgstr "Nav apakškategoriju"
 
-#: src/etats_affiche.c:2737 src/widgets/widget_list_metatree.c:527
+#: src/etats_affiche.c:2737 src/meta_budgetary.c:90
+#: src/widgets/widget_list_metatree.c:527
 msgid "No sub-budgetary line"
 msgstr "Nav budžeta pozīciju"
 
-#: src/etats_affiche.c:2872 src/gsb_data_payee.c:272
+#: src/etats_affiche.c:2872 src/gsb_data_payee.c:272 src/meta_payee.c:80
 msgid "No payee"
 msgstr "Nav partnera"
 
@@ -4483,6 +4819,57 @@ msgstr "Tas neatgriezeniski atceļ šo pārskatu. To nevar atsaukt."
 msgid "Searching"
 msgstr "Meklēšanas virkne"
 
+#: src/etats_prefs.c:59 src/etats/etats_page_payee.c:55
+#: src/widgets/widget_list_accounts.c:53
+msgid ""
+"Command-click\n"
+"to add to the selection"
+msgstr ""
+
+#: src/etats_prefs.c:74
+msgid "Monday"
+msgstr "Pirmdiena"
+
+#: src/etats_prefs.c:75
+msgid "Tuesday"
+msgstr "Otrdiena"
+
+#: src/etats_prefs.c:76
+msgid "Wednesday"
+msgstr "Trešdiena"
+
+#: src/etats_prefs.c:77
+msgid "Thursday"
+msgstr "Ceturtdiena"
+
+#: src/etats_prefs.c:78
+msgid "Friday"
+msgstr "Piektdiena"
+
+#: src/etats_prefs.c:79
+msgid "Saturday"
+msgstr "Sestdiena"
+
+#: src/etats_prefs.c:80
+msgid "Sunday"
+msgstr "Svētdiena"
+
+#: src/etats_prefs.c:86
+msgid "Day"
+msgstr "Diena"
+
+#: src/etats_prefs.c:87
+msgid "Week"
+msgstr "Nedēļa"
+
+#: src/etats_prefs.c:88 src/utils_widgets.c:59
+msgid "Month"
+msgstr "Mēnesis"
+
+#: src/etats_prefs.c:89 src/utils_widgets.c:59
+msgid "Year"
+msgstr "Gads"
+
 #: src/etats_prefs.c:477 src/etats_prefs.c:1616
 msgid "Miscellaneous"
 msgstr "Dažādi"
@@ -4721,7 +5108,7 @@ msgstr ""
 "Par cik QIF un CSV neatbalsta valūtas, visas darbības, kas tiks konvertētas "
 "uz. valūtas atiecīgo kontu."
 
-#: src/export_csv.c:365
+#: src/export_csv.c:365 src/import_csv.c:91
 msgid "Split"
 msgstr "Sadalīt"
 
@@ -4729,15 +5116,15 @@ msgstr "Sadalīt"
 msgid "Cheques"
 msgstr "Čeki"
 
-#: src/export_csv.c:380
+#: src/export_csv.c:380 src/gsb_transactions_list.c:121 src/import_csv.c:90
 msgid "C/R"
 msgstr "C/R"
 
-#: src/export_csv.c:398
+#: src/export_csv.c:398 src/import_csv.c:83
 msgid "Sub-categories"
 msgstr "Apakškategorijas"
 
-#: src/export_csv.c:407
+#: src/export_csv.c:407 src/import_csv.c:85
 msgid "Sub-budgetary lines"
 msgstr "Apakšbudžeta ieraksti"
 
@@ -4962,6 +5349,394 @@ msgstr "Fails '%s' ir veiksmīgi saglabāts"
 msgid "File '%s' could not be saved"
 msgstr "Failu '%s' neizdevās saglabāt"
 
+#: src/go-charmap-sel.c:75
+msgid "Arabic"
+msgstr "Arabic"
+
+#: src/go-charmap-sel.c:76
+msgid "Baltic"
+msgstr "Baltic"
+
+#: src/go-charmap-sel.c:77
+msgid "Central European"
+msgstr "Central European"
+
+#: src/go-charmap-sel.c:78
+msgid "Chinese"
+msgstr "Chinese"
+
+#: src/go-charmap-sel.c:79
+msgid "Cyrillic"
+msgstr "Cyrillic"
+
+#: src/go-charmap-sel.c:80 src/help.c:162
+msgid "Greek"
+msgstr "Greek"
+
+#: src/go-charmap-sel.c:81
+msgid "Hebrew"
+msgstr "Hebrew"
+
+#: src/go-charmap-sel.c:82
+msgid "Indian"
+msgstr "Indian"
+
+#: src/go-charmap-sel.c:83
+msgid "Japanese"
+msgstr "Japanese"
+
+#: src/go-charmap-sel.c:84
+msgid "Korean"
+msgstr "Korean"
+
+#: src/go-charmap-sel.c:85
+msgid "Turkish"
+msgstr "Turkish"
+
+#: src/go-charmap-sel.c:86
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/go-charmap-sel.c:87
+msgid "Vietnamese"
+msgstr "Vietnamese"
+
+#: src/go-charmap-sel.c:88
+msgid "Western"
+msgstr "Western"
+
+#: src/go-charmap-sel.c:89 src/help.c:145 src/utils_widgets.c:81
+msgid "Other"
+msgstr "Other"
+
+#: src/go-charmap-sel.c:120
+msgid "Arabic (IBM-864)"
+msgstr "Arabic (IBM-864)"
+
+#: src/go-charmap-sel.c:121
+msgid "Arabic (IBM-864-I)"
+msgstr "Arabic (IBM-864-I)"
+
+#: src/go-charmap-sel.c:122
+msgid "Arabic (ISO-8859-6)"
+msgstr "Arabic (ISO-8859-6)"
+
+#: src/go-charmap-sel.c:123
+msgid "Arabic (ISO-8859-6-E)"
+msgstr "Arabic (ISO-8859-6-E)"
+
+#: src/go-charmap-sel.c:125
+msgid "Arabic (ISO-8859-6-I)"
+msgstr "Arabic (ISO-8859-6-I)"
+
+#: src/go-charmap-sel.c:126
+msgid "Arabic (MacArabic)"
+msgstr "Arabic (MacArabic)"
+
+#: src/go-charmap-sel.c:127
+msgid "Arabic (Windows-1256)"
+msgstr "Arabic (Windows-1256)"
+
+#: src/go-charmap-sel.c:128
+msgid "Armenian (ARMSCII-8)"
+msgstr "Armenian (ARMSCII-8)"
+
+#: src/go-charmap-sel.c:129
+msgid "Baltic (ISO-8859-13)"
+msgstr "Baltic (ISO-8859-13)"
+
+#: src/go-charmap-sel.c:130
+msgid "Baltic (ISO-8859-4)"
+msgstr "Baltic (ISO-8859-4)"
+
+#: src/go-charmap-sel.c:131
+msgid "Baltic (Windows-1257)"
+msgstr "Baltic (Windows-1257)"
+
+#: src/go-charmap-sel.c:132
+msgid "Celtic (ISO-8859-14)"
+msgstr "Celtic (ISO-8859-14)"
+
+#: src/go-charmap-sel.c:133
+msgid "Central European (IBM-852)"
+msgstr "Central European (IBM-852)"
+
+#: src/go-charmap-sel.c:134
+msgid "Central European (ISO-8859-2)"
+msgstr "Central European (ISO-8859-2)"
+
+#: src/go-charmap-sel.c:135
+msgid "Central European (MacCE)"
+msgstr "Central European (MacCE)"
+
+#: src/go-charmap-sel.c:136
+msgid "Central European (Windows-1250)"
+msgstr "Central European (Windows-1250)"
+
+#: src/go-charmap-sel.c:137
+msgid "Chinese Simplified (GB18030)"
+msgstr "Chinese Simplified (GB18030)"
+
+#: src/go-charmap-sel.c:138
+msgid "Chinese Simplified (GB2312)"
+msgstr "Chinese Simplified (GB2312)"
+
+#: src/go-charmap-sel.c:139
+msgid "Chinese Simplified (GBK)"
+msgstr "Chinese Simplified (GBK)"
+
+#: src/go-charmap-sel.c:140
+msgid "Chinese Simplified (HZ)"
+msgstr "Chinese Simplified (HZ)"
+
+#: src/go-charmap-sel.c:141
+msgid "Chinese Simplified (Windows-936)"
+msgstr "Chinese Simplified (Windows-936)"
+
+#: src/go-charmap-sel.c:142
+msgid "Chinese Traditional (Big5)"
+msgstr "Chinese Traditional (Big5)"
+
+#: src/go-charmap-sel.c:143
+msgid "Chinese Traditional (Big5-HKSCS)"
+msgstr "Chinese Traditional (Big5-HKSCS)"
+
+#: src/go-charmap-sel.c:144
+msgid "Chinese Traditional (EUC-TW)"
+msgstr "Chinese Traditional (EUC-TW)"
+
+#: src/go-charmap-sel.c:145
+msgid "Croatian (MacCroatian)"
+msgstr "Croatian (MacCroatian)"
+
+#: src/go-charmap-sel.c:146
+msgid "Cyrillic (IBM-855)"
+msgstr "Cyrillic (IBM-855)"
+
+#: src/go-charmap-sel.c:147
+msgid "Cyrillic (ISO-8859-5)"
+msgstr "Cyrillic (ISO-8859-5)"
+
+#: src/go-charmap-sel.c:148
+msgid "Cyrillic (ISO-IR-111)"
+msgstr "Cyrillic (ISO-IR-111)"
+
+#: src/go-charmap-sel.c:149
+msgid "Cyrillic (KOI8-R)"
+msgstr "Cyrillic (KOI8-R)"
+
+#: src/go-charmap-sel.c:150
+msgid "Cyrillic (MacCyrillic)"
+msgstr "Cyrillic (MacCyrillic)"
+
+#: src/go-charmap-sel.c:151
+msgid "Cyrillic (Windows-1251)"
+msgstr "Cyrillic (Windows-1251)"
+
+#: src/go-charmap-sel.c:152
+msgid "Russian (CP-866)"
+msgstr "Russian (CP-866)"
+
+#: src/go-charmap-sel.c:153
+msgid "Ukrainian (KOI8-U)"
+msgstr "Ukrainian (KOI8-U)"
+
+#: src/go-charmap-sel.c:154
+msgid "Ukrainian (MacUkrainian)"
+msgstr "Ukrainian (MacUkrainian)"
+
+#: src/go-charmap-sel.c:155
+msgid "English (ASCII)"
+msgstr "English (ASCII)"
+
+#: src/go-charmap-sel.c:156
+msgid "Farsi (MacFarsi)"
+msgstr "Farsi (MacFarsi)"
+
+#: src/go-charmap-sel.c:157
+msgid "Georgian (GEOSTD8)"
+msgstr "Georgian (GEOSTD8)"
+
+#: src/go-charmap-sel.c:158
+msgid "Greek (ISO-8859-7)"
+msgstr "Greek (ISO-8859-7)"
+
+#: src/go-charmap-sel.c:159
+msgid "Greek (MacGreek)"
+msgstr "Greek (MacGreek)"
+
+#: src/go-charmap-sel.c:160
+msgid "Greek (Windows-1253)"
+msgstr "Greek (Windows-1253)"
+
+#: src/go-charmap-sel.c:161
+msgid "Gujarati (MacGujarati)"
+msgstr "Gujarati (MacGujarati)"
+
+#: src/go-charmap-sel.c:162
+msgid "Gurmukhi (MacGurmukhi)"
+msgstr "Gurmukhi (MacGurmukhi)"
+
+#: src/go-charmap-sel.c:163
+msgid "Hebrew (IBM-862)"
+msgstr "Hebrew (IBM-862)"
+
+#: src/go-charmap-sel.c:164
+msgid "Hebrew (ISO-8859-8-E)"
+msgstr "Hebrew (ISO-8859-8-E)"
+
+#: src/go-charmap-sel.c:165
+msgid "Hebrew (ISO-8859-8-I)"
+msgstr "Hebrew (ISO-8859-8-I)"
+
+#: src/go-charmap-sel.c:166
+msgid "Hebrew (MacHebrew)"
+msgstr "Hebrew (MacHebrew)"
+
+#: src/go-charmap-sel.c:167
+msgid "Hebrew (Windows-1255)"
+msgstr "Hebrew (Windows-1255)"
+
+#: src/go-charmap-sel.c:168
+msgid "Hindi (MacDevanagari)"
+msgstr "Hindi (MacDevanagari)"
+
+#: src/go-charmap-sel.c:169
+msgid "Icelandic (MacIcelandic)"
+msgstr "Icelandic (MacIcelandic)"
+
+#: src/go-charmap-sel.c:170
+msgid "Japanese (EUC-JP)"
+msgstr "Japanese (EUC-JP)"
+
+#: src/go-charmap-sel.c:171
+msgid "Japanese (ISO-2022-JP)"
+msgstr "Japanese (ISO-2022-JP)"
+
+#: src/go-charmap-sel.c:172
+msgid "Japanese (Shift_JIS)"
+msgstr "Japanese (Shift_JIS)"
+
+#: src/go-charmap-sel.c:173
+msgid "Korean (EUC-KR)"
+msgstr "Korean (EUC-KR)"
+
+#: src/go-charmap-sel.c:174
+msgid "Korean (ISO-2022-KR)"
+msgstr "Korean (ISO-2022-KR)"
+
+#: src/go-charmap-sel.c:175
+msgid "Korean (JOHAB)"
+msgstr "Korean (JOHAB)"
+
+#: src/go-charmap-sel.c:176
+msgid "Korean (UHC)"
+msgstr "Korean (UHC)"
+
+#: src/go-charmap-sel.c:177
+msgid "Nordic (ISO-8859-10)"
+msgstr "Nordic (ISO-8859-10)"
+
+#: src/go-charmap-sel.c:178
+msgid "Romanian (MacRomanian)"
+msgstr "Romanian (MacRomanian)"
+
+#: src/go-charmap-sel.c:179
+msgid "Romanian (ISO-8859-16)"
+msgstr "Romanian (ISO-8859-16)"
+
+#: src/go-charmap-sel.c:180
+msgid "South European (ISO-8859-3)"
+msgstr "South European (ISO-8859-3)"
+
+#: src/go-charmap-sel.c:181
+msgid "Thai (TIS-620)"
+msgstr "Thai (TIS-620)"
+
+#: src/go-charmap-sel.c:182
+msgid "Turkish (IBM-857)"
+msgstr "Turkish (IBM-857)"
+
+#: src/go-charmap-sel.c:183
+msgid "Turkish (ISO-8859-9)"
+msgstr "Turkish (ISO-8859-9)"
+
+#: src/go-charmap-sel.c:184
+msgid "Turkish (MacTurkish)"
+msgstr "Turkish (MacTurkish)"
+
+#: src/go-charmap-sel.c:185
+msgid "Turkish (Windows-1254)"
+msgstr "Turkish (Windows-1254)"
+
+#: src/go-charmap-sel.c:186
+msgid "Unicode (UTF-7)"
+msgstr "Unicode (UTF-7)"
+
+#: src/go-charmap-sel.c:187
+msgid "Unicode (UTF-8)"
+msgstr "Unicode (UTF-8)"
+
+#: src/go-charmap-sel.c:188
+msgid "Unicode (UTF-16BE)"
+msgstr "Unicode (UTF-16BE)"
+
+#: src/go-charmap-sel.c:189
+msgid "Unicode (UTF-16LE)"
+msgstr "Unicode (UTF-16LE)"
+
+#: src/go-charmap-sel.c:190
+msgid "Unicode (UTF-32BE)"
+msgstr "Unicode (UTF-32BE)"
+
+#: src/go-charmap-sel.c:191
+msgid "Unicode (UTF-32LE)"
+msgstr "Unicode (UTF-32LE)"
+
+#: src/go-charmap-sel.c:192
+msgid "User Defined"
+msgstr "User Defined"
+
+#: src/go-charmap-sel.c:193
+msgid "Vietnamese (TCVN)"
+msgstr "Vietnamese (TCVN)"
+
+#: src/go-charmap-sel.c:194
+msgid "Vietnamese (VISCII)"
+msgstr "Vietnamese (VISCII)"
+
+#: src/go-charmap-sel.c:195
+msgid "Vietnamese (VPS)"
+msgstr "Vietnamese (VPS)"
+
+#: src/go-charmap-sel.c:196
+msgid "Vietnamese (Windows-1258)"
+msgstr "Vietnamese (Windows-1258)"
+
+#: src/go-charmap-sel.c:197
+msgid "Visual Hebrew (ISO-8859-8)"
+msgstr "Visual Hebrew (ISO-8859-8)"
+
+#: src/go-charmap-sel.c:198
+msgid "Western (IBM-850)"
+msgstr "Western (IBM-850)"
+
+#: src/go-charmap-sel.c:199
+msgid "Western (ISO-8859-1)"
+msgstr "Western (ISO-8859-1)"
+
+#: src/go-charmap-sel.c:200
+msgid "Western (ISO-8859-15)"
+msgstr "Western (ISO-8859-15)"
+
+#: src/go-charmap-sel.c:201
+msgid "Western (MacRoman)"
+msgstr "Western (MacRoman)"
+
+#: src/go-charmap-sel.c:202
+msgid "Western (Windows-1252)"
+msgstr "Western (Windows-1252)"
+
 #: src/go-charmap-sel.c:442
 msgid "Locale: "
 msgstr "Darbības vieta:"
@@ -4981,6 +5756,15 @@ msgstr "Izvēlne"
 #: src/go-optionmenu.c:368
 msgid "The menu of options"
 msgstr "Iestatījumu izvēlne"
+
+#: src/grisbi_app.c:115 src/grisbi_app.c:131
+#, fuzzy
+msgid "Quit"
+msgstr "_Iziet"
+
+#: src/grisbi_app.c:127 src/grisbi_app.c:143
+msgid "Full screen"
+msgstr ""
 
 #: src/grisbi_app.c:827
 #, fuzzy
@@ -5569,6 +6353,12 @@ msgstr ""
 "Ievērojiet, ka nekas netiks dzēsts. Ja vēlaties dzēst arhīvu no Grisbi, Tad "
 "jāveic to no 'Iestatījumi' loga."
 
+#: src/gsb_assistant_archive_export.c:151
+#: src/gsb_assistant_reconcile_config.c:1320
+#: src/prefs/prefs_page_archives.c:477
+msgid "Initial date"
+msgstr "Sākuma datums"
+
 #: src/gsb_assistant_archive_export.c:163
 msgid "Select the archive to export"
 msgstr "Izvēlieties eksportējamo arhīvu"
@@ -6042,13 +6832,9 @@ msgstr "Saskaņojuma izvēle"
 msgid "Select the reconciliation to associate to the selected transactions: "
 msgstr "Izvēlieties saskaņošanā iesaistītos darījumus:"
 
-#: src/gsb_assistant_reconcile_config.c:1320
+#: src/gsb_assistant_reconcile_config.c:1320 src/gsb_transactions_list.c:118
 msgid "Reconciliation reference"
 msgstr "Saskaņošanas atsauce"
-
-#: src/gsb_assistant_reconcile_config.c:1320
-msgid "Initial date"
-msgstr "Sākuma datums"
 
 #: src/gsb_assistant_reconcile_config.c:1393
 msgid "No selection found, the transactions are not modified."
@@ -6111,7 +6897,8 @@ msgstr "Mainīt saiti"
 msgid "The exchange rate or the transaction amount in %s must be filled."
 msgstr "Maiņas kursu vai darījuma summu %s jāaizpilda."
 
-#: src/gsb_currency_popup.c:186 src/prefs/prefs_page_currency.c:133
+#: src/gsb_currency_popup.c:186 src/gsb_data_currency.c:215
+#: src/prefs/prefs_page_currency.c:133
 msgid "United States"
 msgstr "United States"
 
@@ -6173,6 +6960,1375 @@ msgstr "Nav budžeta pozīcijas"
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
+
+#: src/gsb_data_currency.c:65 src/gsb_data_currency.c:66
+#: src/gsb_data_currency.c:67 src/gsb_data_currency.c:68
+#: src/gsb_data_currency.c:69 src/gsb_data_currency.c:70
+#: src/gsb_data_currency.c:71 src/gsb_data_currency.c:72
+#: src/gsb_data_currency.c:73 src/gsb_data_currency.c:74
+#: src/gsb_data_currency.c:75 src/gsb_data_currency.c:76
+#: src/gsb_data_currency.c:77 src/gsb_data_currency.c:78
+#: src/gsb_data_currency.c:79 src/gsb_data_currency.c:80
+#: src/gsb_data_currency.c:81 src/gsb_data_currency.c:82
+#: src/gsb_data_currency.c:83 src/gsb_data_currency.c:84
+#: src/gsb_data_currency.c:85 src/gsb_data_currency.c:86
+#: src/gsb_data_currency.c:87 src/gsb_data_currency.c:88
+#: src/gsb_data_currency.c:89 src/gsb_data_currency.c:90
+#: src/gsb_data_currency.c:91 src/gsb_data_currency.c:92
+#: src/gsb_data_currency.c:93 src/gsb_data_currency.c:94
+#: src/gsb_data_currency.c:95 src/gsb_data_currency.c:96
+#: src/gsb_data_currency.c:97 src/gsb_data_currency.c:98
+#: src/gsb_data_currency.c:99 src/gsb_data_currency.c:100
+#: src/gsb_data_currency.c:101
+msgid "Africa"
+msgstr "Africa"
+
+#: src/gsb_data_currency.c:65
+msgid "Algerian Dinar"
+msgstr "Algerian Dinar"
+
+#: src/gsb_data_currency.c:65
+msgid "Algeria"
+msgstr "Algeria"
+
+#: src/gsb_data_currency.c:66
+msgid "Botswana Pula"
+msgstr "Botswana Pula"
+
+#: src/gsb_data_currency.c:66
+msgid "Botswana"
+msgstr "Botswana"
+
+#: src/gsb_data_currency.c:67
+msgid "Burundi Franc"
+msgstr "Burundi Franc"
+
+#: src/gsb_data_currency.c:67
+msgid "Burundi"
+msgstr "Burundi"
+
+#: src/gsb_data_currency.c:68 src/gsb_data_currency.c:69
+#: src/gsb_data_currency.c:70
+msgid "CFA Franc BCEAO"
+msgstr "CFA Franc BCEAO"
+
+#: src/gsb_data_currency.c:68
+msgid "Niger"
+msgstr "Niger"
+
+#: src/gsb_data_currency.c:69
+msgid "Senegal"
+msgstr "Senegal"
+
+#: src/gsb_data_currency.c:70
+msgid "Togo"
+msgstr ""
+
+#: src/gsb_data_currency.c:71 src/gsb_data_currency.c:72
+#: src/gsb_data_currency.c:73
+msgid "CFA Franc BEAC"
+msgstr "CFA Franc BEAC"
+
+#: src/gsb_data_currency.c:71
+msgid "Cameroon"
+msgstr "Cameroon"
+
+#: src/gsb_data_currency.c:72
+msgid "Chad"
+msgstr "Chad"
+
+#: src/gsb_data_currency.c:73
+msgid "Congo"
+msgstr "Congo"
+
+#: src/gsb_data_currency.c:74
+msgid "Comoro Franc"
+msgstr "Comoro Franc"
+
+#: src/gsb_data_currency.c:74
+msgid "Comoros"
+msgstr "Comoros"
+
+#: src/gsb_data_currency.c:75
+msgid "Egyptian Pound"
+msgstr "Egyptian Pound"
+
+#: src/gsb_data_currency.c:75
+msgid "Egypt"
+msgstr "Egypt"
+
+#: src/gsb_data_currency.c:76
+msgid "Ethiopian Birr"
+msgstr "Ethiopian Birr"
+
+#: src/gsb_data_currency.c:76
+msgid "Ethiopia"
+msgstr "Ethiopia"
+
+#: src/gsb_data_currency.c:77
+msgid "Gambian Dalasi"
+msgstr "Gambian Dalasi"
+
+#: src/gsb_data_currency.c:77
+msgid "Gambia"
+msgstr "Gambia"
+
+#: src/gsb_data_currency.c:78
+msgid "Ghana Cedi"
+msgstr "Ghana Cedi"
+
+#: src/gsb_data_currency.c:78
+msgid "Ghana"
+msgstr "Ghana"
+
+#: src/gsb_data_currency.c:79
+msgid "Guinea-Bissau Peso"
+msgstr "Guinea-Bissau Peso"
+
+#: src/gsb_data_currency.c:79
+msgid "Guinea-Bissau"
+msgstr "Guinea-Bissau"
+
+#: src/gsb_data_currency.c:80
+msgid "Kenyan Shilling"
+msgstr "Kenyan Shilling"
+
+#: src/gsb_data_currency.c:80
+msgid "Kenya"
+msgstr "Kenya"
+
+#: src/gsb_data_currency.c:81
+msgid "Liberian Dollar"
+msgstr "Liberian Dollar"
+
+#: src/gsb_data_currency.c:81
+msgid "Liberia"
+msgstr "Liberia"
+
+#: src/gsb_data_currency.c:82
+msgid "Libyan Dinar"
+msgstr "Libyan Dinar"
+
+#: src/gsb_data_currency.c:82
+msgid "Libyan Arab Jamahiriya"
+msgstr "Libyan Arab Jamahiriya"
+
+#: src/gsb_data_currency.c:83
+msgid "Malagasy Franc"
+msgstr "Malagasy Franc"
+
+#: src/gsb_data_currency.c:83
+msgid "Madagascar"
+msgstr "Madagascar"
+
+#: src/gsb_data_currency.c:84
+msgid "Malawi Kwacha"
+msgstr "Malawi Kwacha"
+
+#: src/gsb_data_currency.c:84
+msgid "Malawi"
+msgstr "Malawi"
+
+#: src/gsb_data_currency.c:85
+msgid "Mauritania Ouguiya"
+msgstr "Mauritania Ouguiya"
+
+#: src/gsb_data_currency.c:85
+msgid "Mauritania"
+msgstr "Mauritania"
+
+#: src/gsb_data_currency.c:86
+msgid "Moazambique Metical"
+msgstr "Moazambique Metical"
+
+#: src/gsb_data_currency.c:86
+msgid "Mozambique"
+msgstr "Mozambique"
+
+#: src/gsb_data_currency.c:87
+msgid "Moroccan Dirham"
+msgstr "Moroccan Dirham"
+
+#: src/gsb_data_currency.c:87
+msgid "Morocco"
+msgstr "Morocco"
+
+#: src/gsb_data_currency.c:88
+msgid "Nigerian Naira"
+msgstr "Nigerian Naira"
+
+#: src/gsb_data_currency.c:88
+msgid "Nigeria"
+msgstr "Nigeria"
+
+#: src/gsb_data_currency.c:89
+msgid "Rwanda Franc"
+msgstr "Rwanda Franc"
+
+#: src/gsb_data_currency.c:89
+msgid "Rwanda"
+msgstr "Rwanda"
+
+#: src/gsb_data_currency.c:90
+msgid "Sao Tome and Principe Dobra"
+msgstr "Sao Tome and Principe Dobra"
+
+#: src/gsb_data_currency.c:90
+msgid "Sao Tome and Principe"
+msgstr "Sao Tome and Principe"
+
+#: src/gsb_data_currency.c:91
+msgid "Seychelles Rupee"
+msgstr "Seychelles Rupee"
+
+#: src/gsb_data_currency.c:91
+msgid "Seychelles"
+msgstr "Seychelles"
+
+#: src/gsb_data_currency.c:92
+msgid "Sierra Leonean Leone"
+msgstr "Sierra Leonean Leone"
+
+#: src/gsb_data_currency.c:92
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+#: src/gsb_data_currency.c:93
+msgid "Somali Shilling"
+msgstr "Somali Shilling"
+
+#: src/gsb_data_currency.c:93
+msgid "Somalia"
+msgstr "Somalia"
+
+#: src/gsb_data_currency.c:94 src/gsb_data_currency.c:95
+#: src/gsb_data_currency.c:96
+msgid "South African Rand"
+msgstr "South African Rand"
+
+#: src/gsb_data_currency.c:94
+msgid "Lesotho"
+msgstr "Lesotho"
+
+#: src/gsb_data_currency.c:95
+msgid "Namibia"
+msgstr "Namibia"
+
+#: src/gsb_data_currency.c:96
+msgid "South Africa"
+msgstr "South Africa"
+
+#: src/gsb_data_currency.c:97
+msgid "Swaziland Lilangeni"
+msgstr "Swaziland Lilangeni"
+
+#: src/gsb_data_currency.c:97
+msgid "Swaziland"
+msgstr "Swaziland"
+
+#: src/gsb_data_currency.c:98
+msgid "Tanzanian Shilling"
+msgstr "Tanzanian Shilling"
+
+#: src/gsb_data_currency.c:98
+msgid "United Republic of Tanzania"
+msgstr "United Republic of Tanzania"
+
+#: src/gsb_data_currency.c:99
+msgid "Tunisian Dinar"
+msgstr "Tunisian Dinar"
+
+#: src/gsb_data_currency.c:99
+msgid "Tunisia"
+msgstr "Tunisia"
+
+#: src/gsb_data_currency.c:100
+msgid "Zambian Kwacha"
+msgstr "Zambian Kwacha"
+
+#: src/gsb_data_currency.c:100
+msgid "Zambia"
+msgstr "Zambia"
+
+#: src/gsb_data_currency.c:101
+msgid "Zimbabwe Dollar"
+msgstr "Zimbabwe Dollar"
+
+#: src/gsb_data_currency.c:101
+msgid "Zimbabwe"
+msgstr "Zimbabwe"
+
+#: src/gsb_data_currency.c:102 src/gsb_data_currency.c:103
+#: src/gsb_data_currency.c:104 src/gsb_data_currency.c:105
+#: src/gsb_data_currency.c:106 src/gsb_data_currency.c:107
+#: src/gsb_data_currency.c:108 src/gsb_data_currency.c:109
+#: src/gsb_data_currency.c:110 src/gsb_data_currency.c:111
+#: src/gsb_data_currency.c:112 src/gsb_data_currency.c:113
+#: src/gsb_data_currency.c:114 src/gsb_data_currency.c:115
+#: src/gsb_data_currency.c:116 src/gsb_data_currency.c:117
+#: src/gsb_data_currency.c:118 src/gsb_data_currency.c:119
+#: src/gsb_data_currency.c:120 src/gsb_data_currency.c:121
+#: src/gsb_data_currency.c:122 src/gsb_data_currency.c:123
+#: src/gsb_data_currency.c:124 src/gsb_data_currency.c:125
+#: src/gsb_data_currency.c:126 src/gsb_data_currency.c:127
+#: src/gsb_data_currency.c:128 src/gsb_data_currency.c:129
+#: src/gsb_data_currency.c:130 src/gsb_data_currency.c:131
+#: src/gsb_data_currency.c:132 src/gsb_data_currency.c:133
+#: src/gsb_data_currency.c:134 src/gsb_data_currency.c:135
+#: src/gsb_data_currency.c:136 src/gsb_data_currency.c:137
+#: src/gsb_data_currency.c:138 src/gsb_data_currency.c:139
+#: src/gsb_data_currency.c:140 src/gsb_data_currency.c:141
+#: src/gsb_data_currency.c:142
+msgid "Asia"
+msgstr "Asia"
+
+#: src/gsb_data_currency.c:102
+msgid "Afghani"
+msgstr "Afghani"
+
+#: src/gsb_data_currency.c:102
+msgid "Afghanistan"
+msgstr "Afghanistan"
+
+#: src/gsb_data_currency.c:103
+msgid "Bahraini Dinar"
+msgstr "Bahraini Dinar"
+
+#: src/gsb_data_currency.c:103
+msgid "Bahrain"
+msgstr "Bahrain"
+
+#: src/gsb_data_currency.c:104
+msgid "Bangladesh Taka"
+msgstr "Bangladesh Taka"
+
+#: src/gsb_data_currency.c:104
+msgid "Bangladesh"
+msgstr "Bangladesh"
+
+#: src/gsb_data_currency.c:105
+msgid "Brunei Dollar"
+msgstr "Brunei Dollar"
+
+#: src/gsb_data_currency.c:105
+msgid "Brunei Darussalam"
+msgstr "Brunei Darussalam"
+
+#: src/gsb_data_currency.c:106
+msgid "Cambodian Riel"
+msgstr "Cambodian Riel"
+
+#: src/gsb_data_currency.c:106
+msgid "Cambodia"
+msgstr "Cambodia"
+
+#: src/gsb_data_currency.c:107
+msgid "Cyprus Pound"
+msgstr "Cyprus Pound"
+
+#: src/gsb_data_currency.c:107 src/gsb_data_currency.c:152
+msgid "Cyprus"
+msgstr "Cyprus"
+
+#: src/gsb_data_currency.c:108
+msgid "Hong Kong Dollar"
+msgstr "Hong Kong Dollar"
+
+#: src/gsb_data_currency.c:108
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+#: src/gsb_data_currency.c:109 src/gsb_data_currency.c:110
+msgid "Indian Rupee"
+msgstr "Indian Rupee"
+
+#: src/gsb_data_currency.c:109
+msgid "Bhutan"
+msgstr "Bhutan"
+
+#: src/gsb_data_currency.c:110
+msgid "India"
+msgstr "India"
+
+#: src/gsb_data_currency.c:111
+msgid "Indonesian Rupiah"
+msgstr "Indonesian Rupiah"
+
+#: src/gsb_data_currency.c:111
+msgid "Indonesia"
+msgstr "Indonesia"
+
+#: src/gsb_data_currency.c:112
+msgid "Iranian Rial"
+msgstr "Iranian Rial"
+
+#: src/gsb_data_currency.c:112
+msgid "Iran"
+msgstr "Iran"
+
+#: src/gsb_data_currency.c:113
+msgid "Iraqi Dinar"
+msgstr "Iraqi Dinar"
+
+#: src/gsb_data_currency.c:113
+msgid "Iraq"
+msgstr "Iraq"
+
+#: src/gsb_data_currency.c:114
+msgid "Japanese Yen"
+msgstr "Japanese Yen"
+
+#: src/gsb_data_currency.c:114
+msgid "Japan"
+msgstr "Japan"
+
+#: src/gsb_data_currency.c:115
+msgid "Jordanian Dinar"
+msgstr "Jordanian Dinar"
+
+#: src/gsb_data_currency.c:115
+msgid "Jordan"
+msgstr "Jordan"
+
+#: src/gsb_data_currency.c:116
+msgid "Kazakhstan Tenge"
+msgstr "Kazahstānas tenge"
+
+#: src/gsb_data_currency.c:116
+msgid "Kazakhstan"
+msgstr "Kazahstāna"
+
+#: src/gsb_data_currency.c:117
+msgid "Kuwaiti Dinar"
+msgstr "Kuwaiti Dinar"
+
+#: src/gsb_data_currency.c:117
+msgid "Kuwait"
+msgstr "Kuwait"
+
+#: src/gsb_data_currency.c:118
+msgid "Lao Kip"
+msgstr "Lao Kip"
+
+#: src/gsb_data_currency.c:118
+msgid "Lao People's Democratic Republic"
+msgstr "Lao People's Democratic Republic"
+
+#: src/gsb_data_currency.c:119
+msgid "Lebanese Pound"
+msgstr "Lebanese Pound"
+
+#: src/gsb_data_currency.c:119
+msgid "Lebanon"
+msgstr "Lebanon"
+
+#: src/gsb_data_currency.c:120
+msgid "Macau Pataca"
+msgstr "Macau Pataca"
+
+#: src/gsb_data_currency.c:120
+msgid "Macao"
+msgstr "Macao"
+
+#: src/gsb_data_currency.c:121
+msgid "Malaysian Ringgit"
+msgstr "Malaysian Ringgit"
+
+#: src/gsb_data_currency.c:121
+msgid "Malaysia"
+msgstr "Malaysia"
+
+#: src/gsb_data_currency.c:122
+msgid "Mongolian Tugrik"
+msgstr "Mongolian Tugrik"
+
+#: src/gsb_data_currency.c:122
+msgid "Mongolia"
+msgstr "Mongolia"
+
+#: src/gsb_data_currency.c:123
+msgid "Nepalese Rupee"
+msgstr "Nepalese Rupee"
+
+#: src/gsb_data_currency.c:123
+msgid "Nepal"
+msgstr "Nepal"
+
+#: src/gsb_data_currency.c:124
+msgid "New Israeli Shekel"
+msgstr "New Israeli Shekel"
+
+#: src/gsb_data_currency.c:124
+msgid "Israel"
+msgstr "Israel"
+
+#: src/gsb_data_currency.c:125
+msgid "New Taiwan Dollar"
+msgstr "New Taiwan Dollar"
+
+#: src/gsb_data_currency.c:125
+msgid "Taiwan, Province of China"
+msgstr "Taiwan, Province of China"
+
+#: src/gsb_data_currency.c:126
+msgid "North Korean Won"
+msgstr "North Korean Won"
+
+#: src/gsb_data_currency.c:126
+msgid "Democratic People's Republic of Korea"
+msgstr "Democratic People's Republic of Korea"
+
+#: src/gsb_data_currency.c:127
+msgid "Pakistan Rupee"
+msgstr "Pakistan Rupee"
+
+#: src/gsb_data_currency.c:127
+msgid "Pakistan"
+msgstr "Pakistan"
+
+#: src/gsb_data_currency.c:128
+msgid "Philippine peso"
+msgstr "Philippine peso"
+
+#: src/gsb_data_currency.c:128
+msgid "Philippines"
+msgstr "Philippines"
+
+#: src/gsb_data_currency.c:129
+msgid "Qatari Rial"
+msgstr "Qatari Rial"
+
+#: src/gsb_data_currency.c:129
+msgid "Qatar"
+msgstr "Qatar"
+
+#: src/gsb_data_currency.c:130
+msgid "Rial Omani"
+msgstr "Rial Omani"
+
+#: src/gsb_data_currency.c:130
+msgid "Oman"
+msgstr "Oman"
+
+#: src/gsb_data_currency.c:131
+msgid "Russian Ruble"
+msgstr "Russian Ruble"
+
+#: src/gsb_data_currency.c:131
+msgid "Russia"
+msgstr "Russia"
+
+#: src/gsb_data_currency.c:132
+msgid "Saudi Riyal"
+msgstr "Saudi Riyal"
+
+#: src/gsb_data_currency.c:132
+msgid "Saudi Arabia"
+msgstr "Saudi Arabia"
+
+#: src/gsb_data_currency.c:133
+msgid "Singapore Dollar"
+msgstr "Singapore Dollar"
+
+#: src/gsb_data_currency.c:133
+msgid "Singapore"
+msgstr "Singapore"
+
+#: src/gsb_data_currency.c:134
+msgid "South Korean Won"
+msgstr "South Korean Won"
+
+#: src/gsb_data_currency.c:134
+msgid "Republic of Korea"
+msgstr "Republic of Korea"
+
+#: src/gsb_data_currency.c:135
+msgid "Sri Lanka Rupee"
+msgstr "Sri Lanka Rupee"
+
+#: src/gsb_data_currency.c:135
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+#: src/gsb_data_currency.c:136
+msgid "Syrian Pound"
+msgstr "Syrian Pound"
+
+#: src/gsb_data_currency.c:136
+msgid "Syrian Arab Republic"
+msgstr "Syrian Arab Republic"
+
+#: src/gsb_data_currency.c:137
+msgid "Thai Baht"
+msgstr "Thai Baht"
+
+#: src/gsb_data_currency.c:137
+msgid "Thailand"
+msgstr "Thailand"
+
+#: src/gsb_data_currency.c:138
+msgid "Turkish Lira"
+msgstr "Turkish Lira"
+
+#: src/gsb_data_currency.c:138
+msgid "Turkey"
+msgstr "Turkey"
+
+#: src/gsb_data_currency.c:139
+msgid "United Arab Emirates Dirham"
+msgstr "United Arab Emirates Dirham"
+
+#: src/gsb_data_currency.c:139
+msgid "United Arab Emirates"
+msgstr "United Arab Emirates"
+
+#: src/gsb_data_currency.c:140
+msgid "Viet Nam Dong"
+msgstr "Viet Nam Dong"
+
+#: src/gsb_data_currency.c:140
+msgid "Viet Nam"
+msgstr "Viet Nam"
+
+#: src/gsb_data_currency.c:141
+msgid "Yemeni Rial"
+msgstr "Yemeni Rial"
+
+#: src/gsb_data_currency.c:141
+msgid "Yemen"
+msgstr "Yemen"
+
+#: src/gsb_data_currency.c:142
+msgid "Yuan Renminbi"
+msgstr "Yuan Renminbi"
+
+#: src/gsb_data_currency.c:142
+msgid "China"
+msgstr "China"
+
+#: src/gsb_data_currency.c:143 src/gsb_data_currency.c:144
+#: src/gsb_data_currency.c:145 src/gsb_data_currency.c:146
+#: src/gsb_data_currency.c:147 src/gsb_data_currency.c:148
+msgid "Central America"
+msgstr "Central America"
+
+#: src/gsb_data_currency.c:143
+msgid "Belize Dollar"
+msgstr "Belize Dollar"
+
+#: src/gsb_data_currency.c:143
+msgid "Belize"
+msgstr "Belize"
+
+#: src/gsb_data_currency.c:144
+msgid "Costa Rican Colon"
+msgstr "Costa Rican Colon"
+
+#: src/gsb_data_currency.c:144
+msgid "Costa Rica"
+msgstr "Costa Rica"
+
+#: src/gsb_data_currency.c:145
+msgid "Guatemalan Quetzal"
+msgstr "Guatemalan Quetzal"
+
+#: src/gsb_data_currency.c:145
+msgid "Guatemala"
+msgstr "Guatemala"
+
+#: src/gsb_data_currency.c:146
+msgid "Honduran Lempira"
+msgstr "Honduran Lempira"
+
+#: src/gsb_data_currency.c:146
+msgid "Honduras"
+msgstr "Honduras"
+
+#: src/gsb_data_currency.c:147
+msgid "Mexican Peso"
+msgstr "Mexican Peso"
+
+#: src/gsb_data_currency.c:147
+msgid "Mexico"
+msgstr "Mexico"
+
+#: src/gsb_data_currency.c:148
+msgid "Panama Balboa"
+msgstr "Panama Balboa"
+
+#: src/gsb_data_currency.c:148 src/gsb_data_currency.c:231
+msgid "Panama"
+msgstr "Panama"
+
+#: src/gsb_data_currency.c:149 src/gsb_data_currency.c:150
+#: src/gsb_data_currency.c:151 src/gsb_data_currency.c:152
+#: src/gsb_data_currency.c:153 src/gsb_data_currency.c:154
+#: src/gsb_data_currency.c:155 src/gsb_data_currency.c:156
+#: src/gsb_data_currency.c:157 src/gsb_data_currency.c:158
+#: src/gsb_data_currency.c:159 src/gsb_data_currency.c:160
+#: src/gsb_data_currency.c:161 src/gsb_data_currency.c:162
+#: src/gsb_data_currency.c:163 src/gsb_data_currency.c:164
+#: src/gsb_data_currency.c:165 src/gsb_data_currency.c:166
+#: src/gsb_data_currency.c:167 src/gsb_data_currency.c:168
+#: src/gsb_data_currency.c:169 src/gsb_data_currency.c:170
+#: src/gsb_data_currency.c:171 src/gsb_data_currency.c:172
+#: src/gsb_data_currency.c:173 src/gsb_data_currency.c:174
+#: src/gsb_data_currency.c:175 src/gsb_data_currency.c:176
+#: src/gsb_data_currency.c:177 src/gsb_data_currency.c:178
+#: src/gsb_data_currency.c:179 src/gsb_data_currency.c:180
+#: src/gsb_data_currency.c:181 src/gsb_data_currency.c:182
+#: src/gsb_data_currency.c:183 src/gsb_data_currency.c:184
+#: src/gsb_data_currency.c:185 src/gsb_data_currency.c:186
+#: src/gsb_data_currency.c:187 src/gsb_data_currency.c:188
+#: src/gsb_data_currency.c:189 src/gsb_data_currency.c:190
+#: src/gsb_data_currency.c:191 src/gsb_data_currency.c:192
+#: src/gsb_data_currency.c:193 src/gsb_data_currency.c:194
+#: src/gsb_data_currency.c:195 src/gsb_data_currency.c:196
+#: src/gsb_data_currency.c:197 src/gsb_data_currency.c:198
+#: src/gsb_data_currency.c:199 src/gsb_data_currency.c:200
+msgid "Europe"
+msgstr "Europe"
+
+#: src/gsb_data_currency.c:149 src/gsb_data_currency.c:150
+#: src/gsb_data_currency.c:151 src/gsb_data_currency.c:152
+#: src/gsb_data_currency.c:153 src/gsb_data_currency.c:154
+#: src/gsb_data_currency.c:155 src/gsb_data_currency.c:156
+#: src/gsb_data_currency.c:157 src/gsb_data_currency.c:158
+#: src/gsb_data_currency.c:159 src/gsb_data_currency.c:160
+#: src/gsb_data_currency.c:161 src/gsb_data_currency.c:162
+#: src/gsb_data_currency.c:172
+msgid "Euro"
+msgstr "Euro"
+
+#: src/gsb_data_currency.c:149 src/gsb_data_currency.c:170
+msgid "Germany"
+msgstr "Germany"
+
+#: src/gsb_data_currency.c:150 src/gsb_data_currency.c:164
+msgid "Austria"
+msgstr "Austria"
+
+#: src/gsb_data_currency.c:151 src/gsb_data_currency.c:165
+msgid "Belgium"
+msgstr "Belgium"
+
+#: src/gsb_data_currency.c:153 src/gsb_data_currency.c:196
+msgid "Spain"
+msgstr "Spain"
+
+#: src/gsb_data_currency.c:154 src/gsb_data_currency.c:173
+msgid "Finland"
+msgstr "Finland"
+
+#: src/gsb_data_currency.c:155 src/gsb_data_currency.c:174
+msgid "France"
+msgstr "France"
+
+#: src/gsb_data_currency.c:156 src/gsb_data_currency.c:176
+msgid "Greece"
+msgstr "Greece"
+
+#: src/gsb_data_currency.c:157 src/gsb_data_currency.c:179
+msgid "Ireland"
+msgstr "Ireland"
+
+#: src/gsb_data_currency.c:158 src/gsb_data_currency.c:181
+msgid "Italy"
+msgstr "Italy"
+
+#: src/gsb_data_currency.c:159 src/gsb_data_currency.c:185
+msgid "Luxembourg"
+msgstr "Luxembourg"
+
+#: src/gsb_data_currency.c:160 src/gsb_data_currency.c:187
+msgid "Netherlands"
+msgstr "Netherlands"
+
+#: src/gsb_data_currency.c:161 src/gsb_data_currency.c:191
+msgid "Portugal"
+msgstr "Portugal"
+
+#: src/gsb_data_currency.c:162 src/gsb_data_currency.c:195
+msgid "Slovenia"
+msgstr "Slovenia"
+
+#: src/gsb_data_currency.c:163
+msgid "Albanian Lek"
+msgstr "Albanian Lek"
+
+#: src/gsb_data_currency.c:163
+msgid "Albania"
+msgstr "Albania"
+
+#: src/gsb_data_currency.c:164
+msgid "Austrian Schilling"
+msgstr "Austrian Schilling"
+
+#: src/gsb_data_currency.c:165
+msgid "Belgian Franc"
+msgstr "Belgian Franc"
+
+#: src/gsb_data_currency.c:166
+msgid "Bulgarian Lev"
+msgstr "Bulgarian Lev"
+
+#: src/gsb_data_currency.c:166
+msgid "Bulgaria"
+msgstr "Bulgaria"
+
+#: src/gsb_data_currency.c:167
+msgid "Croatian kuna"
+msgstr ""
+
+#: src/gsb_data_currency.c:167
+msgid "Croatia"
+msgstr ""
+
+#: src/gsb_data_currency.c:168
+msgid "Czech Koruna"
+msgstr "Czech Koruna"
+
+#: src/gsb_data_currency.c:168
+msgid "Czech Republic"
+msgstr "Czech Republic"
+
+#: src/gsb_data_currency.c:169
+msgid "Danish Krone"
+msgstr "Danish Krone"
+
+#: src/gsb_data_currency.c:169
+msgid "Denmark"
+msgstr "Denmark"
+
+#: src/gsb_data_currency.c:170
+msgid "Deutsche Mark"
+msgstr "Deutsche Mark"
+
+#: src/gsb_data_currency.c:171
+msgid "Estonian Kroon"
+msgstr "Estonian Kroon"
+
+#: src/gsb_data_currency.c:171
+msgid "Estonia"
+msgstr "Estonia"
+
+#: src/gsb_data_currency.c:172
+msgid "UE (Europe)"
+msgstr "UE (Europe)"
+
+#: src/gsb_data_currency.c:173
+msgid "Finnish Markka"
+msgstr "Finnish Markka"
+
+#: src/gsb_data_currency.c:174
+msgid "French Franc"
+msgstr "French Franc"
+
+#: src/gsb_data_currency.c:175
+msgid "Gibraltar Pound"
+msgstr "Gibraltar Pound"
+
+#: src/gsb_data_currency.c:175
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: src/gsb_data_currency.c:176
+msgid "Greek Drachma"
+msgstr "Greek Drachma"
+
+#: src/gsb_data_currency.c:177
+msgid "Hungarian Forint"
+msgstr "Hungarian Forint"
+
+#: src/gsb_data_currency.c:177
+msgid "Hungary"
+msgstr "Hungary"
+
+#: src/gsb_data_currency.c:178
+msgid "Iceland Krona"
+msgstr "Iceland Krona"
+
+#: src/gsb_data_currency.c:178
+msgid "Iceland"
+msgstr "Iceland"
+
+#: src/gsb_data_currency.c:179
+msgid "Irish Pound"
+msgstr "Irish Pound"
+
+#: src/gsb_data_currency.c:180 src/gsb_data_currency.c:181
+#: src/gsb_data_currency.c:182
+msgid "Italian Lira"
+msgstr "Italian Lira"
+
+#: src/gsb_data_currency.c:180
+msgid "Holy See"
+msgstr "Holy See"
+
+#: src/gsb_data_currency.c:182
+msgid "San Marino"
+msgstr "San Marino"
+
+#: src/gsb_data_currency.c:183
+#, fuzzy
+msgid "Latvian Lats"
+msgstr "Latvian Lat"
+
+#: src/gsb_data_currency.c:183
+msgid "Latvia"
+msgstr "Latvia"
+
+#: src/gsb_data_currency.c:184
+msgid "Lithuanian Litas"
+msgstr "Lithuanian Litas"
+
+#: src/gsb_data_currency.c:184
+msgid "Lietuva"
+msgstr "Lietuva"
+
+#: src/gsb_data_currency.c:185
+msgid "Luxembourg Franc"
+msgstr "Luxembourg Franc"
+
+#: src/gsb_data_currency.c:186
+msgid "Moldovenesc Leu"
+msgstr ""
+
+#: src/gsb_data_currency.c:186
+msgid "Moldova"
+msgstr ""
+
+#: src/gsb_data_currency.c:187
+msgid "Netherlands Guilder"
+msgstr "Netherlands Guilder"
+
+#: src/gsb_data_currency.c:188
+msgid "New Yugoslavian Dinar"
+msgstr "New Yugoslavian Dinar"
+
+#: src/gsb_data_currency.c:188
+msgid "Serbia and Montenegro"
+msgstr "Serbia and Montenegro"
+
+#: src/gsb_data_currency.c:189
+msgid "Norwegian Krone"
+msgstr "Norwegian Krone"
+
+#: src/gsb_data_currency.c:189
+msgid "Norway"
+msgstr "Norway"
+
+#: src/gsb_data_currency.c:190
+msgid "Polish Zloty"
+msgstr "Polish Zloty"
+
+#: src/gsb_data_currency.c:190
+msgid "Poland"
+msgstr "Poland"
+
+#: src/gsb_data_currency.c:191
+msgid "Portuguese Escudo"
+msgstr "Portuguese Escudo"
+
+#: src/gsb_data_currency.c:192
+msgid "Pound Sterling"
+msgstr "Pound Sterling"
+
+#: src/gsb_data_currency.c:192
+msgid "United Kingdom"
+msgstr "United Kingdom"
+
+#: src/gsb_data_currency.c:193
+msgid "Romanian Leu"
+msgstr "Romanian Leu"
+
+#: src/gsb_data_currency.c:193
+msgid "Romania"
+msgstr "Romania"
+
+#: src/gsb_data_currency.c:194
+msgid "Slovak Koruna"
+msgstr "Slovak Koruna"
+
+#: src/gsb_data_currency.c:194
+msgid "Slovakia"
+msgstr "Slovakia"
+
+#: src/gsb_data_currency.c:195
+msgid "Slovene Tolar"
+msgstr "Slovene Tolar"
+
+#: src/gsb_data_currency.c:196
+msgid "Spanish Peseta"
+msgstr "Spanish Peseta"
+
+#: src/gsb_data_currency.c:197
+msgid "Swedish Krona"
+msgstr "Swedish Krona"
+
+#: src/gsb_data_currency.c:197
+msgid "Sweden"
+msgstr "Sweden"
+
+#: src/gsb_data_currency.c:198 src/gsb_data_currency.c:199
+msgid "Swiss Franc"
+msgstr "Swiss Franc"
+
+#: src/gsb_data_currency.c:198
+msgid "Liechtenstein"
+msgstr "Liechtenstein"
+
+#: src/gsb_data_currency.c:199
+msgid "Switzerland"
+msgstr "Switzerland"
+
+#: src/gsb_data_currency.c:200
+msgid "Hryvnia"
+msgstr "Hryvnia"
+
+#: src/gsb_data_currency.c:200
+msgid "Ukraine"
+msgstr "Ukraine"
+
+#: src/gsb_data_currency.c:201 src/gsb_data_currency.c:202
+#: src/gsb_data_currency.c:203 src/gsb_data_currency.c:204
+#: src/gsb_data_currency.c:205 src/gsb_data_currency.c:206
+#: src/gsb_data_currency.c:207 src/gsb_data_currency.c:208
+#: src/gsb_data_currency.c:209 src/gsb_data_currency.c:210
+#: src/gsb_data_currency.c:211 src/gsb_data_currency.c:212
+#: src/gsb_data_currency.c:213 src/gsb_data_currency.c:214
+#: src/gsb_data_currency.c:215
+msgid "Northern America"
+msgstr "Northern America"
+
+#: src/gsb_data_currency.c:201
+msgid "Bahamian Dollar"
+msgstr "Bahamian Dollar"
+
+#: src/gsb_data_currency.c:201
+msgid "Bahamas"
+msgstr "Bahamas"
+
+#: src/gsb_data_currency.c:202
+msgid "Barbados Dollar"
+msgstr "Barbados Dollar"
+
+#: src/gsb_data_currency.c:202
+msgid "Barbados"
+msgstr "Barbados"
+
+#: src/gsb_data_currency.c:203
+msgid "Bermuda Dollar"
+msgstr "Bermuda Dollar"
+
+#: src/gsb_data_currency.c:203
+msgid "Bermuda"
+msgstr "Bermuda"
+
+#: src/gsb_data_currency.c:204
+msgid "Canadian Dollar"
+msgstr "Canadian Dollar"
+
+#: src/gsb_data_currency.c:204
+msgid "Canada"
+msgstr "Canada"
+
+#: src/gsb_data_currency.c:205
+msgid "Cayman Islands Dollar"
+msgstr "Cayman Islands Dollar"
+
+#: src/gsb_data_currency.c:205
+msgid "Cayman Islands"
+msgstr "Cayman Islands"
+
+#: src/gsb_data_currency.c:206
+#, fuzzy
+msgid "Cuban Convertible Peso"
+msgstr "Cuban Peso"
+
+#: src/gsb_data_currency.c:206 src/gsb_data_currency.c:207
+msgid "Cuba"
+msgstr "Cuba"
+
+#: src/gsb_data_currency.c:207
+msgid "Cuban Peso"
+msgstr "Cuban Peso"
+
+#: src/gsb_data_currency.c:208
+msgid "Dominican Peso"
+msgstr "Dominican Peso"
+
+#: src/gsb_data_currency.c:208
+msgid "Dominican Republic"
+msgstr "Dominican Republic"
+
+#: src/gsb_data_currency.c:209 src/gsb_data_currency.c:210
+msgid "East Caribbean Dollar"
+msgstr "East Caribbean Dollar"
+
+#: src/gsb_data_currency.c:209
+msgid "Grenada"
+msgstr "Grenada"
+
+#: src/gsb_data_currency.c:210
+msgid "Saint Lucia"
+msgstr "Saint Lucia"
+
+#: src/gsb_data_currency.c:211
+msgid "Haitian Gourde"
+msgstr "Haitian Gourde"
+
+#: src/gsb_data_currency.c:211
+msgid "Haiti"
+msgstr "Haiti"
+
+#: src/gsb_data_currency.c:212
+msgid "Jamaican Dollar"
+msgstr "Jamaican Dollar"
+
+#: src/gsb_data_currency.c:212
+msgid "Jamaica"
+msgstr "Jamaica"
+
+#: src/gsb_data_currency.c:213
+msgid "Netherlands Antillian Guilder"
+msgstr "Netherlands Antillian Guilder"
+
+#: src/gsb_data_currency.c:213
+msgid "Netherlands Antilles"
+msgstr "Netherlands Antilles"
+
+#: src/gsb_data_currency.c:214
+msgid "Trinidad and Tobago Dollar"
+msgstr "Trinidad and Tobago Dollar"
+
+#: src/gsb_data_currency.c:214
+msgid "Trinidad and Tobago"
+msgstr "Trinidad and Tobago"
+
+#: src/gsb_data_currency.c:215 src/gsb_data_currency.c:231
+msgid "United States Dollar"
+msgstr "United States Dollar"
+
+#: src/gsb_data_currency.c:216 src/gsb_data_currency.c:217
+#: src/gsb_data_currency.c:218 src/gsb_data_currency.c:219
+#: src/gsb_data_currency.c:220 src/gsb_data_currency.c:221
+#: src/gsb_data_currency.c:222 src/gsb_data_currency.c:223
+#: src/gsb_data_currency.c:224 src/gsb_data_currency.c:225
+#: src/gsb_data_currency.c:226 src/gsb_data_currency.c:227
+#: src/gsb_data_currency.c:228 src/gsb_data_currency.c:229
+#: src/gsb_data_currency.c:230 src/gsb_data_currency.c:231
+#: src/gsb_data_currency.c:232
+msgid "Pacific Ocean"
+msgstr "Pacific Ocean"
+
+#: src/gsb_data_currency.c:216 src/gsb_data_currency.c:217
+#: src/gsb_data_currency.c:218 src/gsb_data_currency.c:219
+msgid "Australian Dollar"
+msgstr "Australian Dollar"
+
+#: src/gsb_data_currency.c:216
+msgid "Australia"
+msgstr "Australia"
+
+#: src/gsb_data_currency.c:217
+msgid "Kiribati"
+msgstr "Kiribati"
+
+#: src/gsb_data_currency.c:218
+msgid "Nauru"
+msgstr "Nauru"
+
+#: src/gsb_data_currency.c:219
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#: src/gsb_data_currency.c:220 src/gsb_data_currency.c:221
+#: src/gsb_data_currency.c:222
+msgid "CFP Franc"
+msgstr "CFP Franc"
+
+#: src/gsb_data_currency.c:220
+msgid "French Polynesia"
+msgstr "French Polynesia"
+
+#: src/gsb_data_currency.c:221
+msgid "New Caledonia"
+msgstr "New Caledonia"
+
+#: src/gsb_data_currency.c:222
+msgid "Wallis and Futuna"
+msgstr "Wallis and Futuna"
+
+#: src/gsb_data_currency.c:223
+msgid "Fiji Dollar"
+msgstr "Fiji Dollar"
+
+#: src/gsb_data_currency.c:223
+msgid "Fiji"
+msgstr "Fiji"
+
+#: src/gsb_data_currency.c:224 src/gsb_data_currency.c:225
+msgid "New Zealand Dollar"
+msgstr "New Zealand Dollar"
+
+#: src/gsb_data_currency.c:224
+msgid "Cook Islands"
+msgstr "Cook Islands"
+
+#: src/gsb_data_currency.c:225
+msgid "New Zealand"
+msgstr "New Zealand"
+
+#: src/gsb_data_currency.c:226
+msgid "Papua New Guinea Kina"
+msgstr "Papua New Guinea Kina"
+
+#: src/gsb_data_currency.c:226
+msgid "Papua New Guinea"
+msgstr "Papua New Guinea"
+
+#: src/gsb_data_currency.c:227
+msgid "Samoa Tala"
+msgstr "Samoa Tala"
+
+#: src/gsb_data_currency.c:227
+msgid "Samoa"
+msgstr "Samoa"
+
+#: src/gsb_data_currency.c:228
+msgid "Solomon Islands Dollar"
+msgstr "Solomon Islands Dollar"
+
+#: src/gsb_data_currency.c:228
+msgid "Solomon Islands"
+msgstr "Solomon Islands"
+
+#: src/gsb_data_currency.c:229
+msgid "Timor Escudo"
+msgstr "Timor Escudo"
+
+#: src/gsb_data_currency.c:229
+msgid "Timor"
+msgstr "Timor"
+
+#: src/gsb_data_currency.c:230
+msgid "Tongan Pa'anga"
+msgstr "Tongan Pa'anga"
+
+#: src/gsb_data_currency.c:230
+msgid "Tonga"
+msgstr "Tonga"
+
+#: src/gsb_data_currency.c:232
+msgid "Vanuatu Vatu"
+msgstr "Vanuatu Vatu"
+
+#: src/gsb_data_currency.c:232
+msgid "Vanuatu"
+msgstr "Vanuatu"
+
+#: src/gsb_data_currency.c:233 src/gsb_data_currency.c:234
+#: src/gsb_data_currency.c:235 src/gsb_data_currency.c:236
+#: src/gsb_data_currency.c:237 src/gsb_data_currency.c:238
+#: src/gsb_data_currency.c:239 src/gsb_data_currency.c:240
+#: src/gsb_data_currency.c:241 src/gsb_data_currency.c:242
+#: src/gsb_data_currency.c:243 src/gsb_data_currency.c:244
+msgid "Southern America"
+msgstr "Southern America"
+
+#: src/gsb_data_currency.c:233 src/gsb_data_currency.c:235
+#: src/gsb_data_currency.c:236 src/gsb_data_currency.c:243
+msgid "Peso"
+msgstr "Peso"
+
+#: src/gsb_data_currency.c:233
+msgid "Argentina"
+msgstr "Argentina"
+
+#: src/gsb_data_currency.c:234
+msgid "Boliviano"
+msgstr "Boliviano"
+
+#: src/gsb_data_currency.c:234
+msgid "Bolivia"
+msgstr "Bolivia"
+
+#: src/gsb_data_currency.c:235
+msgid "Chile"
+msgstr "Chile"
+
+#: src/gsb_data_currency.c:236
+msgid "Colombia"
+msgstr "Colombia"
+
+#: src/gsb_data_currency.c:237
+msgid "Ecuador Sucre"
+msgstr "Ecuador Sucre"
+
+#: src/gsb_data_currency.c:237
+msgid "Ecuador"
+msgstr "Ecuador"
+
+#: src/gsb_data_currency.c:238
+msgid "Guyana Dollar"
+msgstr "Guyana Dollar"
+
+#: src/gsb_data_currency.c:238
+msgid "Guyana"
+msgstr "Guyana"
+
+#: src/gsb_data_currency.c:239
+msgid "Paraguay Guarani"
+msgstr "Paraguay Guarani"
+
+#: src/gsb_data_currency.c:239
+msgid "Paraguay"
+msgstr "Paraguay"
+
+#: src/gsb_data_currency.c:240
+msgid "Nuevos Soles"
+msgstr "Nuevos Soles"
+
+#: src/gsb_data_currency.c:240
+msgid "Peru"
+msgstr "Peru"
+
+#: src/gsb_data_currency.c:241
+msgid "Real"
+msgstr "Real"
+
+#: src/gsb_data_currency.c:241
+msgid "Brazil"
+msgstr "Brazil"
+
+#: src/gsb_data_currency.c:242
+msgid "Suriname Guilder"
+msgstr "Suriname Guilder"
+
+#: src/gsb_data_currency.c:242
+msgid "Suriname"
+msgstr "Suriname"
+
+#: src/gsb_data_currency.c:243
+msgid "Uruguay"
+msgstr "Uruguay"
+
+#: src/gsb_data_currency.c:244
+msgid "Venezuelan Bolivar"
+msgstr "Venezuelan Bolivar"
+
+#: src/gsb_data_currency.c:244
+msgid "Venezuela"
+msgstr "Venezuela"
+
+#: src/gsb_data_currency.c:245
+msgid "World"
+msgstr ""
+
+#: src/gsb_data_currency.c:245
+msgid "bitcoin"
+msgstr ""
 
 #: src/gsb_data_currency.c:969
 #, c-format
@@ -6387,6 +8543,160 @@ msgstr "Darījumam %d ir neesošs partneris %d."
 #, fuzzy, c-format
 msgid "Transaction %d has payee %d which does not exist.\n"
 msgstr "Darījumam %d ir neesošs partneris %d."
+
+#: src/gsb_debug.c:718
+#, fuzzy
+msgid "Incorrect reconciliation totals"
+msgstr "Nepareizi saskaņota kopsumma"
+
+#: src/gsb_debug.c:719
+#, fuzzy
+msgid ""
+"This test will look at accounts where the reconciled total which does not "
+"match with reconciled transactions."
+msgstr ""
+"Šis tests meklēs kontus, kuros saskaņotas kopsummas nesakrīt ar saskaņotiem "
+"darījumiem."
+
+#: src/gsb_debug.c:720
+msgid ""
+"Grisbi found accounts where reconciliation totals are inconsistent with the "
+"sum of reconcilied transactions and initial balance.\n"
+"\n"
+"The cause may be the elimination or modification of reconciliations or "
+"changes in the balance of reconciliations in the preferences."
+msgstr ""
+"Grisbi atrada darījumus, kuriem saskaņotā bilance neatbilst darījumu summām "
+"un sākotnējai bilancei.\n"
+"\n"
+"Tas var būt mainītu saskaņoto darījumu vai mainītu konta iestatījumu dēļ."
+
+#: src/gsb_debug.c:726
+msgid "Duplicate sub-categories check"
+msgstr "Apakškategorijas dublikātu pārbaude"
+
+#: src/gsb_debug.c:727 src/gsb_debug.c:740 src/gsb_debug.c:753
+msgid "free"
+msgstr "bezmaksas"
+
+#: src/gsb_debug.c:728
+msgid ""
+"Due to a bug in previous versions of Grisbi, sub-categories may share the "
+"same numeric identifier in some cases, resulting in transactions having two "
+"sub-categories.  If you choose to continue, Grisbi will remove one of each "
+"duplicates and recreate it with a new identifier.\n"
+"\n"
+"No transaction will be lost, but in some cases, you will have to manually "
+"move transactions to this new sub-category."
+msgstr ""
+"Sakarā ar kļūdu Grisbi iepriekšējās versijās, apakškategorijas var koplietot "
+"vienu skaitlisku identifikatoru, dažos gadījumos to izraisa darījumi divas "
+"apakškategorijās. Ja izvēlēsities turpināt, grisbi noņems vienu no visiem "
+"dublikātiem un izveidos to no jauna ar jaunu identifikatoru.\n"
+"\n"
+"Neviens darījums netiks zaudēts, bet dažos gadījumos jums būs manuāli "
+"jāpārvieto darījumus uz šo jauno apakškategoriju."
+
+#: src/gsb_debug.c:739
+msgid "Duplicate sub-budgetary lines check"
+msgstr "Apakšbudžeta pozīciju dublikātu pārbaude"
+
+#: src/gsb_debug.c:741
+msgid ""
+"Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
+"the same numeric id in some cases, resulting in transactions having two sub-"
+"budgetary lines.  If you choose to continue, Grisbi will remove one of each "
+"duplicates and recreate it with a new id.entifier\n"
+"\n"
+"No transactions will be lost, but in some cases, you will have to manually "
+"move transactions to this new sub-budgetary line."
+msgstr ""
+"Sakarā ar Grisbi kļūdu iepriekšējās versijās , apakšbudžeta pozīcijas var "
+"koplietot to pašu ciparu ID dažos gadījumos, kā rezultātā darījumi ar diviem "
+"apakšbudžeta pozīcijām. Ja vēlaties turpināt, Grisbi noņems vienu no "
+"dublikātiem un atjaunos to ar jaunu ID\n"
+"\n"
+"Neviens darījumu netiks zaudēts, bet dažos gadījumos, jums būs manuāli "
+"pārvietot darījumi uz šo jauno apakšbudžeta pozīciju."
+
+#: src/gsb_debug.c:752
+msgid "Orphan countra-transactions check"
+msgstr "Nepamatota konta darījumu pārbaude"
+
+#: src/gsb_debug.c:754
+msgid ""
+"In some rare cases, transfers are incorrectly linked to contra-"
+"transactions.  This might be because of bugs or because of imports that "
+"failed.\n"
+"To fix this, you will have to manually edit your .gsb file (with a text "
+"editor) and fix transactions using their numeric ID."
+msgstr ""
+"Dažos retos gadījumos, pārvedumus kļūdaini saistīti ar pretējiem darījumiem. "
+"Tas varētu būt tāpēc, ka kļūdains fails vai tādēļ, ka imports neizdevās.\n"
+"Lai to labotu, jums manuāli jārediģē .gsb failu (ar teksta redaktoru) un "
+"jāfiksē darījumus, izmantojot savu ciparu ID."
+
+#: src/gsb_debug.c:760
+msgid "Incorrect category/sub-category number"
+msgstr "Nepareizs kategorijas/apakškategorijas numurs"
+
+#: src/gsb_debug.c:761
+#, fuzzy
+msgid ""
+"This test will look for transactions which have non-existent categories/sub-"
+"categories."
+msgstr ""
+"Šis tests meklēs darījumus, kam nav vispār kategorijas / apakškategorijas."
+
+#: src/gsb_debug.c:762
+#, fuzzy
+msgid ""
+"Grisbi found some transactions with non existents categories/sub-categories "
+"If you choose to continue, Grisbi will remove that category error and that "
+"transactions will have no categories."
+msgstr ""
+"Grisbi konstatēja dažas darījumus ar neesošām kategorijām/apakškategorijām. "
+"Ja vēlaties turpināt, Grisbi novērsīs šo kategoriju kļūdu, un darījumi nebūs "
+"bez kategorijām."
+
+#: src/gsb_debug.c:767
+msgid "Incorrect budget/sub-budget number"
+msgstr "Nepareizs budžeta/apakšbudžeta numurs"
+
+#: src/gsb_debug.c:768
+#, fuzzy
+msgid ""
+"This test will look for transactions which have non-existent budgets/sub-"
+"budgets."
+msgstr "Šis tests meklēs darījumus kas nav iekļauti budžetā/apakšbudžetā."
+
+#: src/gsb_debug.c:769
+#, fuzzy
+msgid ""
+"Grisbi found some transactions with non existents budgets/sub-budgets If you "
+"choose to continue, Grisbi will remove that budget error and that "
+"transactions will have no budgets."
+msgstr ""
+"Grisbi atrada dažus darījumus ārpus budžeta/apakšbudžeta. Ja vēlaties "
+"turpināt, Grisbi novērsīs šo kļūdu."
+
+#: src/gsb_debug.c:774
+msgid "Incorrect payee number"
+msgstr "Nepareizs partnera numurs"
+
+#: src/gsb_debug.c:775
+#, fuzzy
+msgid "This test will look for transactions which have non-existent payees."
+msgstr "Šis tests meklēs darījumus,kuriem nav uzrādīts partneris."
+
+#: src/gsb_debug.c:776
+#, fuzzy
+msgid ""
+"Grisbi found some transactions with non existents payees If you choose to "
+"continue, Grisbi will remove them and that transactions will have no payee."
+msgstr ""
+"Grisbi atrada dažus darījumus, kuriem nav uzrādīts partneris. ja vēlaties "
+"turpināt, Grisbi noņems šādus darījumus."
 
 #: src/gsb_debug.c:822
 msgid ""
@@ -6967,11 +9277,12 @@ msgstr "Vērtība"
 msgid "Transfer : Deleted account"
 msgstr "Pārskaitījums: dzēsts konts"
 
-#: src/gsb_form.c:1822 src/gsb_scheduler_list.c:1626
+#: src/gsb_form.c:1822 src/gsb_form_scheduler.c:647
+#: src/gsb_scheduler_list.c:1626
 msgid "Manual"
 msgstr "Manuāli"
 
-#: src/gsb_form.c:2107
+#: src/gsb_form.c:2107 src/gsb_form_widget.c:594
 msgid "Cheque/Transfer number"
 msgstr "Čeka/pārskaitījuma numurs"
 
@@ -6991,6 +9302,10 @@ msgstr "Skaidras naudas izņemšana"
 #: src/gsb_form.c:3088
 msgid "No payee selected for this report."
 msgstr "Šim pārskatam nav izvēlēts partneris."
+
+#: src/gsb_form_scheduler.c:647 src/gsb_scheduler_list.c:1624
+msgid "Automatic"
+msgstr "Automātisks"
 
 #: src/gsb_form_scheduler.c:667
 msgid "Choose the account"
@@ -7027,7 +9342,7 @@ msgstr "Pirmā mēneša diena"
 msgid "Choose currency"
 msgstr "Izvēlēties valūtu"
 
-#: src/gsb_form_widget.c:412
+#: src/gsb_form_widget.c:412 src/gsb_form_widget.c:602
 msgid "Change"
 msgstr "Maiņa"
 
@@ -7035,14 +9350,217 @@ msgstr "Maiņa"
 msgid "Define the change for that transaction"
 msgstr "Definējiet izmaiņas šajā darījumā"
 
-#: src/gsb_form_widget.c:426
+#: src/gsb_form_widget.c:426 src/gsb_form_widget.c:614
 msgid "Contra-transaction method of payment"
 msgstr "Pretēja darījuma maksājuma veids"
+
+#: src/gsb_form_widget.c:578
+msgid "Free"
+msgstr "Brīvs"
+
+#: src/gsb_form_widget.c:590 src/gsb_transactions_list.c:117
+msgid "Method of payment"
+msgstr "Maksājuma veids"
+
+#: src/gsb_form_widget.c:598 src/import_csv.c:76
+#: src/prefs/prefs_page_accueil.c:337 src/widgets/widget_currency_popup.c:138
+msgid "Currency"
+msgstr "Valūta"
+
+#: src/gsb_form_widget.c:618 src/gsb_transactions_list.c:125
+msgid "Transaction number"
+msgstr "Darījuma numurs"
+
+#: src/gsb_form_widget.c:622
+msgid "Automatic/Manual"
+msgstr "Automātisks/manuāls"
 
 #: src/gsb_regex.c:97
 #, fuzzy, c-format
 msgid "Unable to compile regex: %s\n"
 msgstr "Nevar izveidot tmp failu; %s\n"
+
+#: src/gsb_rgba.c:64
+#, fuzzy
+msgid "Background color of account row"
+msgstr "Preces vispārīga informācija"
+
+#: src/gsb_rgba.c:65
+#, fuzzy
+msgid "Background color of logo title"
+msgstr "Darījuma papildu informācija"
+
+#: src/gsb_rgba.c:66
+#, fuzzy
+msgid "Color of account text"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:67
+#, fuzzy
+msgid "Color of account text hovered"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:68
+#, fuzzy
+msgid "Color of balance text"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:69
+#, fuzzy
+msgid "Color of balance text hovered"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:70
+#, fuzzy
+msgid "Color of balance text in low alarm"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:71
+#, fuzzy
+msgid "Color of balance text hovered in low alarm"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:72
+#, fuzzy
+msgid "Color of balance text in high alarm"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:73
+#, fuzzy
+msgid "Color of balance text hovered in high alarm"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:93
+#, fuzzy
+msgid "Background color 1 in lists of transactions"
+msgstr "Pamatā nav izvēlēts plānotais darījums"
+
+#: src/gsb_rgba.c:94
+#, fuzzy
+msgid "Background color 2 in lists of transactions"
+msgstr "Pamatā nav izvēlēts plānotais darījums"
+
+#: src/gsb_rgba.c:95
+#, fuzzy
+msgid "Background of the transaction that gives the balance today"
+msgstr "Uzsver darījumus, kas rada līdsvaru šodien"
+
+#: src/gsb_rgba.c:96
+#, fuzzy
+msgid "Background color of split transaction children"
+msgstr "Pamatā nav izvēlēts plānotais darījums"
+
+#: src/gsb_rgba.c:97
+#, fuzzy
+msgid "Background color of selected transaction"
+msgstr "Pamatā nav izvēlēts plānotais darījums"
+
+#: src/gsb_rgba.c:98
+#, fuzzy
+msgid "Background color of virtual scheduled transactions"
+msgstr "Pamatā nav izvēlēts plānotais darījums"
+
+#: src/gsb_rgba.c:99
+#, fuzzy
+msgid "Background color of archives"
+msgstr "Nodaļas vispārīga informācija"
+
+#: src/gsb_rgba.c:100
+#, fuzzy
+msgid "Color of transaction text"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:101
+#, fuzzy
+msgid "Color of unfinished split transaction text"
+msgstr "Nepabeigtu, sadalītu darījumu teksts"
+
+#: src/gsb_rgba.c:102
+#, fuzzy
+msgid "Text color of a negative balance"
+msgstr "Darījuma papildu informācija"
+
+#: src/gsb_rgba.c:103
+#, fuzzy
+msgid "Color of selected transaction text"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:104
+#, fuzzy
+msgid "Color of unsensitive text"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:116
+#, fuzzy
+msgid "Background color of historical data"
+msgstr "Nodaļas vispārīga informācija"
+
+#: src/gsb_rgba.c:117
+#, fuzzy
+msgid "Background color of futur data"
+msgstr "Preces vispārīga informācija"
+
+#: src/gsb_rgba.c:118
+#, fuzzy
+msgid "Background color of month balance"
+msgstr "Darījuma papildu informācija"
+
+#: src/gsb_rgba.c:119
+#, fuzzy
+msgid "Background color of transfer data"
+msgstr "Pārsūtījuma papildu informācija"
+
+#: src/gsb_rgba.c:128
+#, fuzzy
+msgid "Color of gsetting text"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:129
+#, fuzzy
+msgid "Color of gsetting text hovered"
+msgstr "Darījuma teksta krāsas"
+
+#: src/gsb_rgba.c:134 src/utils_prefs.c:703
+#: src/widgets/widget_list_metatree.c:591
+#, fuzzy
+msgid "Not available"
+msgstr "(joprojām pieejams)"
+
+#: src/gsb_scheduler_list.c:112
+msgid "Unique view"
+msgstr "Unikāls skats"
+
+#: src/gsb_scheduler_list.c:112
+msgid "Week view"
+msgstr "Nedēļas skats"
+
+#: src/gsb_scheduler_list.c:112
+msgid "Month view"
+msgstr "Mēneša skats"
+
+#: src/gsb_scheduler_list.c:113
+msgid "Two months view"
+msgstr "Divu mēnešu skats"
+
+#: src/gsb_scheduler_list.c:113
+msgid "Quarter view"
+msgstr "Kvartāla skats"
+
+#: src/gsb_scheduler_list.c:114
+msgid "Year view"
+msgstr "Gada skats"
+
+#: src/gsb_scheduler_list.c:114
+msgid "Custom view"
+msgstr "Pielāgots skats"
+
+#: src/gsb_scheduler_list.c:118
+msgid "days"
+msgstr "diena"
+
+#: src/gsb_scheduler_list.c:118
+msgid "weeks"
+msgstr "nedēļa"
 
 #: src/gsb_scheduler_list.c:146
 msgid "Show scheduled transactions"
@@ -7093,6 +9611,10 @@ msgstr "Biežums"
 msgid "Execute transaction"
 msgstr "Izpildīt darījumu"
 
+#: src/gsb_scheduler_list.c:945
+msgid "Mode"
+msgstr "Režīms"
+
 #: src/gsb_scheduler_list.c:1176
 #, fuzzy
 msgid "New scheduled"
@@ -7137,30 +9659,6 @@ msgstr "%d mēneši"
 #, c-format
 msgid "%d years"
 msgstr "%d gadi"
-
-#: src/gsb_scheduler_list.c:1612
-msgid "Weekly"
-msgstr "Katru nedēļu"
-
-#: src/gsb_scheduler_list.c:1612
-msgid "Monthly"
-msgstr "Ik mēnesi"
-
-#: src/gsb_scheduler_list.c:1613
-msgid "Bimonthly"
-msgstr "Reizi divos mēnešos"
-
-#: src/gsb_scheduler_list.c:1613
-msgid "Quarterly"
-msgstr "Reizi kvartālā"
-
-#: src/gsb_scheduler_list.c:1613
-msgid "Yearly"
-msgstr "Katru gadu"
-
-#: src/gsb_scheduler_list.c:1624
-msgid "Automatic"
-msgstr "Automātisks"
 
 #: src/gsb_scheduler_list.c:1776
 #, fuzzy, c-format
@@ -7252,6 +9750,10 @@ msgstr "Pārlūkot ikonas"
 msgid "Browse"
 msgstr "Pārlūkot"
 
+#: src/gsb_transactions_list.c:126 src/import_csv.c:81
+msgid "Cheque number"
+msgstr "Čeka numurs"
+
 #: src/gsb_transactions_list.c:274
 msgid "Clear cell"
 msgstr "Notīrīt šūnas"
@@ -7296,6 +9798,10 @@ msgid ""
 msgstr ""
 "Arhīvs ir noklikšķināts, bet tas, šķiet, ir skaitlis 0, tā ir kļūda.\n"
 "Lūdzu sazinieties ar Grisbi komandu."
+
+#: src/gsb_transactions_list.c:1114 src/prefs/prefs_page_reconcile.c:323
+msgid "Init date"
+msgstr "Inicializācijas datums"
 
 #: src/gsb_transactions_list.c:1148
 msgid "Select the reconciliation to associate to the selected transaction: "
@@ -7576,10 +10082,6 @@ msgstr "Programmēšana"
 msgid "Packaging"
 msgstr "Pakojums"
 
-#: src/help.c:145
-msgid "Other"
-msgstr "Other"
-
 #: src/help.c:152 src/help.c:153 src/help.c:155
 msgid "English"
 msgstr "English"
@@ -7608,10 +10110,6 @@ msgstr "German"
 msgid "Polish"
 msgstr "Polish"
 
-#: src/help.c:162
-msgid "Greek"
-msgstr "Greek"
-
 #: src/help.c:201
 msgid "Personal finance manager for everyone\n"
 msgstr "Personīgais finanšu pārvaldieks visiem\n"
@@ -7623,6 +10121,22 @@ msgstr "Grisbi versija %s, %s\n"
 
 #: src/help.c:207
 msgid "Grisbi git hash: "
+msgstr ""
+
+#: src/import.c:127
+msgid "Comma Separated Values"
+msgstr "Ar komatiem atdalītas vērtības"
+
+#: src/import.c:128
+msgid "Quicken Interchange Format"
+msgstr "Paātrināts apmaiņas formāts"
+
+#: src/import.c:130 src/plugins/gnucash/gnucash.c:875
+msgid "Gnucash"
+msgstr "Gnucash"
+
+#: src/import.c:133
+msgid "Open Financial Exchange"
 msgstr ""
 
 #: src/import.c:535
@@ -8059,6 +10573,26 @@ msgid ""
 "transactions."
 msgstr "%s nav veiksmīgi importēts. Radās kļūda, iegūstot darījumus."
 
+#: src/import_csv.c:75
+msgid "Unknown field"
+msgstr "Nezināms lauks"
+
+#: src/import_csv.c:79
+msgid "Wording"
+msgstr "Formulējums"
+
+#: src/import_csv.c:88
+msgid "Debit (absolute)"
+msgstr "Debets (absolūts)"
+
+#: src/import_csv.c:89
+msgid "Debit (negative)"
+msgstr "Debets (negatīvs)"
+
+#: src/import_csv.c:92 src/prefs/prefs_page_reconcile_sort.c:653
+msgid "Payment method"
+msgstr "Apmaksas veids"
+
 #: src/import_csv.c:190
 #, fuzzy, c-format
 msgid "The file %s is empty. Please choose another file."
@@ -8302,6 +10836,10 @@ msgstr "Jauns budžets #%d"
 msgid "New sub-budget #%d"
 msgstr "Jauns apakšbudžets #%d"
 
+#: src/meta_categories.c:69
+msgid "No sub-category"
+msgstr "Jauna apakškategorija"
+
 #: src/meta_categories.c:282 src/navigation.c:283
 msgid "New category"
 msgstr "Jauna kategorija"
@@ -8315,6 +10853,14 @@ msgstr "Jauna kategorija #%d"
 #, c-format
 msgid "New sub-category #%d"
 msgstr "Jauna apakškategorija #%d"
+
+#: src/meta_payee.c:79
+msgid "sub-payee"
+msgstr "apakšpartneris"
+
+#: src/meta_payee.c:81
+msgid "No sub-payee"
+msgstr "Jauns apakšpartneris"
 
 #: src/meta_payee.c:369 src/navigation.c:231 src/tiers_onglet.c:623
 msgid "New payee"
@@ -8615,10 +11161,6 @@ msgstr ""
 msgid "Error opening temporary file '%s'."
 msgstr "Kļūda, atverot pagaidu failu '%s'."
 
-#: src/plugins/gnucash/gnucash.c:875
-msgid "Gnucash"
-msgstr "Gnucash"
-
 #: src/plugins/gnucash/gnucash.c:876
 msgid "Invalid Gnucash account, please check gnucash file is not compressed."
 msgstr ""
@@ -8785,10 +11327,6 @@ msgstr "Krāsas"
 msgid "Account kind"
 msgstr "Konta veids"
 
-#: src/prefs/prefs_page_accueil.c:337 src/widgets/widget_currency_popup.c:138
-msgid "Currency"
-msgstr "Valūta"
-
 #: src/prefs/prefs_page_archives.c:137
 #, fuzzy, c-format
 msgid ""
@@ -8857,6 +11395,10 @@ msgstr "Bankas noņemšanas apstiprināšana"
 msgid "Are you sure you want to remove bank \"%s\"?\n"
 msgstr "Vai tiešām vēlaties dzēst banku \"%s\"?\n"
 
+#: src/prefs/prefs_page_bank.c:294
+msgid "Contact name"
+msgstr "Kontakta vārds"
+
 #: src/prefs/prefs_page_bet_account.c:445
 #: src/prefs/prefs_page_bet_account.c:463
 #: src/prefs/prefs_page_bet_account.c:955
@@ -8914,6 +11456,26 @@ msgstr "Ir jāatlasa vismaz divi konti."
 msgid "The number of currencies is insufficient"
 msgstr ""
 
+#: src/prefs/prefs_page_currency_link.c:326
+msgid "First currency"
+msgstr "Primārā valūta"
+
+#: src/prefs/prefs_page_currency_link.c:326
+msgid "Exchange"
+msgstr "Apmaiņa"
+
+#: src/prefs/prefs_page_currency_link.c:327
+msgid "Second currency"
+msgstr "Sekundārā valūta"
+
+#: src/prefs/prefs_page_currency_link.c:327
+msgid "Modified date"
+msgstr "Izmaiņu datums"
+
+#: src/prefs/prefs_page_currency_link.c:327 src/prefs/prefs_page_fyear.c:566
+msgid "Invalid"
+msgstr "Nepareizs"
+
 #: src/prefs/prefs_page_currency_link.c:420
 msgid "Links between currencies"
 msgstr "Saites starp valūtām"
@@ -8928,6 +11490,26 @@ msgstr ""
 #: src/prefs/prefs_page_display_fonts.c:301
 msgid "Select a new logo"
 msgstr "Izvēlēties jaunu logo"
+
+#: src/prefs/prefs_page_display_fonts.c:370
+#, fuzzy
+msgid "Automatic selection"
+msgstr "Datu atlase"
+
+#: src/prefs/prefs_page_display_fonts.c:371
+#, fuzzy
+msgid "Force the use of clear theme"
+msgstr "Arhivēt pēc datuma"
+
+#: src/prefs/prefs_page_display_fonts.c:372
+#, fuzzy
+msgid "Force the use of dark theme"
+msgstr "Arhivēt pēc datuma"
+
+#: src/prefs/prefs_page_display_fonts.c:373
+#, fuzzy
+msgid "Force the use of light theme"
+msgstr "Arhivēt pēc datuma"
 
 #: src/prefs/prefs_page_display_fonts.c:385
 #, c-format
@@ -8960,6 +11542,30 @@ msgstr ""
 "Nav pietiekami daudz vietas, lai novietotu divus elementus (esat "
 "noklikšķinājis uz diviem elementiem). Nepieciešams palielināt rindu vai "
 "kolonnu skaitu, lai pievienotu elementus."
+
+#: src/prefs/prefs_page_display_form.c:809
+msgid "Col 1"
+msgstr "Col 1"
+
+#: src/prefs/prefs_page_display_form.c:809
+msgid "Col 2"
+msgstr "Col 2"
+
+#: src/prefs/prefs_page_display_form.c:809
+msgid "Col 3"
+msgstr "Col 3"
+
+#: src/prefs/prefs_page_display_form.c:809
+msgid "Col 4"
+msgstr "Col 4"
+
+#: src/prefs/prefs_page_display_form.c:809
+msgid "Col 5"
+msgstr "Col 5"
+
+#: src/prefs/prefs_page_display_form.c:809
+msgid "Col 6"
+msgstr "Col 6"
 
 #: src/prefs/prefs_page_divers.c:463
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -9116,10 +11722,6 @@ msgstr "Sākuma datums"
 msgid "End date"
 msgstr "Beigu datums"
 
-#: src/prefs/prefs_page_fyear.c:566
-msgid "Invalid"
-msgstr "Nepareizs"
-
 #: src/prefs/prefs_page_import.c:89
 #, fuzzy
 msgid "Files import"
@@ -9248,6 +11850,14 @@ msgstr "Noklusējums"
 msgid "Numbering"
 msgstr "Numerācija"
 
+#: src/prefs/prefs_page_reconcile.c:323
+msgid "Init balance"
+msgstr "Inicializācijas bilance"
+
+#: src/prefs/prefs_page_reconcile.c:323
+msgid "Final balance"
+msgstr "Beigu bilance"
+
 #: src/prefs/prefs_page_reconcile.c:545
 #, fuzzy, c-format
 msgid ""
@@ -9265,10 +11875,6 @@ msgstr ""
 #: src/prefs/prefs_page_reconcile.c:551
 msgid "Delete reconciliation"
 msgstr "Dzēst saskaņošnu"
-
-#: src/prefs/prefs_page_reconcile_sort.c:653
-msgid "Payment method"
-msgstr "Apmaksas veids"
 
 #: src/prefs/prefs_page_reconcile_sort.c:668
 msgid "Sort by payment method"
@@ -9682,6 +12288,226 @@ msgstr "%d partneris tika aizstāts ar jaunu."
 msgid "%d payees were replaced with a new one."
 msgstr "%d partneris tika aizstāts ar jaunu."
 
+#: src/tip.c:40
+#, fuzzy
+msgid ""
+"You can reconcile transactions to match your real financial state as seen on "
+"your bank receipts. If you just spend 15mn each month reconciling Grisbi "
+"transactions with your bank receipts, you are guaranteed that your accounts "
+"are in perfect shape."
+msgstr ""
+"Jūs varat saskaņot darījumus ar bankas izdrukām. Ja veltīsiet tikai 15 "
+"minūtes katru mēnesi Grisbi darījumu saskaņošanai ar bankas izdruku, jūs "
+"būsiet drošs, ka jūsu kontu stāvoklis ir precīzs."
+
+#: src/tip.c:44
+msgid ""
+"Grisbi automatically saves a copy of your work if it crashes.\n"
+"\n"
+"Thus it is unlikely that you loose any data in case Grisbi encounters a "
+"programming error."
+msgstr ""
+"Grisbi automātiski saglabā datu kopiju, ja tas salūst.\n"
+"\n"
+"Līdz ar to, varbūtība, ka Grisbi kļūdas dēļ jūs pazaudēsiet datus, ir ļoti "
+"niecīga."
+
+#: src/tip.c:47
+msgid ""
+"Grisbi can import Gnucash files natively, then you don't loose your work "
+"when you switch from Gnucash to Grisbi."
+msgstr ""
+"Grisbi spēj importēt Gnucash failus, tāpēc jūs nezaudēsiet savus datus, "
+"pārejot no Gnucash uz Grisbi."
+
+#: src/tip.c:49
+msgid ""
+"You can organize transactions into budgetary lines, which are budgetary "
+"items (why money is spent) that can help you classify your spendings.\n"
+"\n"
+"Combined with categories (how money is spend), budgetary lines are a "
+"powerful way to analyse budget and to make reports."
+msgstr ""
+"Jūs varat kārtot darījumus budžetos, kuros jūs varat norādīt, kāpēc nauda ir "
+"izdota.\n"
+"\n"
+"Kopā ar kategorijām (kā nauda ir izdota) budžeti piedāvā plašas pārskatu "
+"veidošanas un datu analīzes iespējas."
+
+#: src/tip.c:53
+msgid ""
+"You can create categories or budgetary lines directly by typing them in "
+"transaction form.\n"
+"\n"
+"If you write a category or a budgetary line which name contains a ':', a sub-"
+"category or sub-budgetary line will be created as well."
+msgstr ""
+"Jūs varat izveidot budžetus, ievadot tos darījumu formā.\n"
+"\n"
+"Ja ievadāt kategoriju vai budžetu, kas satur ':', tiks izveidota atiecīga "
+"apakškategorija vai apakšbudžets."
+
+#: src/tip.c:57
+#, fuzzy
+msgid ""
+"You can encrypt your Grisbi files to improve your privacy.  Just select the "
+"'Encrypt Grisbi file' in preferences window and enter a password next time "
+"you save your file.\n"
+"\n"
+"Encryption is irreversible, if you loose your password, there is NO WAY to "
+"restore your Grisbi accounts. Use with caution!"
+msgstr ""
+"Jūs varat šifrēt Grisbi datus, lai uzlabotu to privātumu.  Izvēlieties "
+"'Šifrēt Grisbi failu' iestatījumu logā un ievadiet paroli, kad nākamo reizi "
+"saglabājiet failu.\n"
+"\n"
+"Šifrēšana ir neatgriezeniska darbība. Ja aizmirīsiet paroli, jūs vairs "
+"netiksiet klāt failā saglabātajiem datiem! Rīkojieties piesardzīgi!"
+
+#: src/tip.c:62
+msgid ""
+"You can efficiently manage your professional expenses with Grisbi.\n"
+"\n"
+"Create a <i>Professional expenses</i> budgetary line and put all "
+"professional expenses there.  When you are paid, split your salary as a "
+"split of transaction, with both a <i>Salary</i> part and a <i>Profesionnal "
+"expenses</i> part.\n"
+"\n"
+"Then, you can create a new report that sums up transactions from the "
+"<i>Profesionnal expenses</i> budgetary line and see the balance."
+msgstr ""
+"Ar Grisbi jūs varat efektīvi pārvaldīt arī savus profesionālos izdevumus.\n"
+"\n"
+"Izveidojiet <i>Profesionālie izdevumi</i> budžetu, un ievadiet visus "
+"izdevumus tajā. Kad saņemiet algu, sadaliet darījumu divās daļās kā <i>Alga</"
+"i> un  <i>Profesionālie izdevumi</i>.\n"
+"\n"
+"Tad jūs varat izveidot pārskatu, kurā tiek saskaitīti <i>Profesionālo "
+"izdevumu</i> budžeta darījumi un noteikta bilance."
+
+#: src/tip.c:69
+msgid ""
+"You can use the import facility to automatically reconcile transactions "
+"against a QIF or OFX file from your online bank."
+msgstr ""
+"Jūs varat izmantot importēšanas iespēju lai automātiski apstiprinātu QIF vai "
+"OFX failā saglabātus bankas darījumus."
+
+#: src/tip.c:71
+msgid ""
+"You can configure the contents of the transaction list.\n"
+"\n"
+"Right-click on a cell of the transaction list and select the <i>Change cell "
+"content</i> option.  Then select any content you want and configure "
+"transaction list to your needs."
+msgstr ""
+"Jūs varat iestatīt darījumu saraksta izskatu.\n"
+"\n"
+"Klikšķiniet labo peles klikšķi darījumu sarakstā un izvēlieties <i>Mainīt "
+"šūnas saturu</i>.  Tad izvēlieties, kurus laukus jūs vēlaties redzēt "
+"darījumu sarakstā."
+
+#: src/tip.c:75
+msgid ""
+"You can configure fields displayed in the transaction form.\n"
+"\n"
+"Go to the <i>Preferences</i> dialog and select the <i>Form content</i> "
+"option.  Then you can click on fields to be displayed and drag them through "
+"the form to adjust their position."
+msgstr ""
+"Jūs varat iestatīt darījumu saraksta izskatu.\n"
+"\n"
+"Atveriet <i>Iestatījumi</i> logu, un izvēlieties <i>Formas saturs</i>.  Tad "
+"izvēlieties, kurus laukus jūs vēlaties redzēt darījumu un sabīdiet tos tādā "
+"kārtībā, kā vēlaties tos redzēt sarakstā."
+
+#: src/tip.c:79
+msgid ""
+"You can hide annoying dialogs like this one, by clicking the <i>'Do not show "
+"this message again'</i> checkbox in this dialog.\n"
+"\n"
+"You can then activate them again by going to the <i>Preferences</i> window "
+"and then to the <i>Dialog and messages</i> option."
+msgstr ""
+"Jūs varat novākt apnicīgus brīdinājumus, kā šis, kliķšinot uz  <i>'Nerādīt "
+"vairs šo ziņojumu'</i> izvēles rūtiņu ziņojuma logā.\n"
+"\n"
+"Ja vēlaties, varat atkal rādīt šādus ziņojumus, dodoties uz <i>Iestatījumi</"
+"i> logu un <i>Ziņojumu logi</i> sadaļu."
+
+#: src/tip.c:83
+msgid ""
+"By double cliking on a date field, you can pop up a calendar to select a "
+"date."
+msgstr "Jūs varat atvērt kalendāru klikšķinot dubultklikšķi kalendāra laukā."
+
+#: src/tip.c:85
+msgid ""
+"There are shortcuts in date fields, to avoid typing date or selecting it "
+"with mouse.\n"
+"\n"
+"<b>+</b> and <b>-</b> increment and decrement date of one day, <i>Page Up</"
+"i> and <i>Page Down</i> increment and decrement date of one month ... and "
+"there are more, check out the manual."
+msgstr ""
+"Datumu laukam ir karstie taustiņi, kurus var izmantot peles vietā.\n"
+"\n"
+"<b>+</b> un <b>-</b> palielina vai samazina datumu par vienu dienu, <i>Page "
+"Up</i> vai <i>Page Down</i> palielina vai samazina par vienu mēnesi, par "
+"daudz ko citu skatiet lietošanas instrukciju."
+
+#: src/tip.c:89
+#, fuzzy
+msgid ""
+"You can archive previous financial years to speed up Grisbi and possibly put "
+"old transactions into separate files for archival.  Use 'File/Archive "
+"transaction' menu to achieve this."
+msgstr ""
+"Lai uzlabotu ātrdarbību, jūs varat arhivēt vecus darījumus atsevišķā failā. "
+"Lai to darītu, aktivizējiet: 'Fails— Arhivēt darījumus' izvēlni."
+
+#: src/tip.c:92
+#, fuzzy
+msgid ""
+"If unused payees have accumulated in the course of time due to bank imports, "
+"you can remove all of them in one click! Just go to the <i>Payees</i> page "
+"and click on the 'Remove unused payees' button."
+msgstr ""
+"Ja, importējot bankas izdrukas ir izveidojušies neizmantoti maksātāji, jūs "
+"varat tos izdzēst ar vienu klikšķi! Dodieties uz <i>Maksātāji</i> logu un "
+"spiediet <i>Dzēst neizmantotos maksātājus</i> pogu."
+
+#: src/tip.c:95
+#, fuzzy
+msgid ""
+"You can sort the transaction list according to any criteria.  Click on the "
+"column titles to sort transactions differently. For example, you can sort "
+"transactions by payee or category name."
+msgstr ""
+"Jūs varat kārtot darījumus pēc dažādiem kritērijiem, klikšķinot uz kolonnu "
+"virsrakstiem. Piemēram, jūs varat kārtot darījumus pēc kategorijām vai arī "
+"maksātājiem."
+
+#: src/tip.c:98
+msgid "You can reorder accounts in the navigation list using drag &amp; drop."
+msgstr "Jūs varat pārkārtot kolonnas tās, velkot un nometot to virsrakstus."
+
+#: src/tip.c:99
+msgid ""
+"You can have future scheduled transactions 'executed' before their date, "
+msgstr ""
+"Jūs varat izpildīt ieplānotos darījumus arī pirms to pienākšanas laika."
+
+#: src/tip.c:100
+#, fuzzy
+msgid ""
+"No more tip available!  Please send any tips you know to "
+"devel@listes.grisbi.org so that we can include them in next version for all "
+"users."
+msgstr ""
+"Tie ir visi padomi! Iesūtiet papildu padomus devel@listes.grisbi.org, ja "
+"vēlaties, lai par tiem uzzina arī citi lietotāji."
+
 #: src/tip.c:137
 msgid "Did you know that..."
 msgstr "Vai jūs zināt ka..."
@@ -9842,15 +12668,43 @@ msgid "If no proposals above are correct you can choose a different charset."
 msgstr ""
 "Ja nav priekšlikumu, iepriekš ir pareizi, var izvēlēties citu rakstzīmju kopu"
 
-#: src/utils_prefs.c:703 src/widgets/widget_list_metatree.c:591
-#, fuzzy
-msgid "Not available"
-msgstr "(joprojām pieejams)"
-
 #: src/utils_prefs.c:763
 #, fuzzy
 msgid "Could not encrypt file"
 msgstr "Atšifrēt failu"
+
+#: src/utils_widgets.c:63
+#, fuzzy
+msgid "yyyy/mm/dd"
+msgstr "aaaa-mm-dd"
+
+#: src/utils_widgets.c:64
+msgid "yyyy/dd/mm"
+msgstr "aaaa/dd/mm"
+
+#: src/utils_widgets.c:65
+msgid "dd/yyyy/mm"
+msgstr "dd/aaaa/mm"
+
+#: src/utils_widgets.c:66
+msgid "mm/yyyy/dd"
+msgstr "mm/aaaa/dd"
+
+#: src/utils_widgets.c:77
+msgid "Comma"
+msgstr "Komats"
+
+#: src/utils_widgets.c:78
+msgid "Semi-colon"
+msgstr "Semikols"
+
+#: src/utils_widgets.c:79
+msgid "Colon"
+msgstr "Kols"
+
+#: src/utils_widgets.c:80
+msgid "Tabulation"
+msgstr "Tabulogramma"
 
 #: src/utils_widgets.c:713
 msgid "Choose the financial year or 12 months rolling"
@@ -9907,6 +12761,54 @@ msgid ""
 msgstr ""
 "Visi partneri ir atlasīti. Grisbi darbosies ātrāk bez \"Detalizēti "
 "partneri\" varianta aktivizēšanas."
+
+#: src/etats/etats_page_period.c:90
+msgid "All"
+msgstr "Visi"
+
+#: src/etats/etats_page_period.c:92
+msgid "Total to now"
+msgstr "Šobrīd kopā"
+
+#: src/etats/etats_page_period.c:93
+msgid "Current month"
+msgstr "Pašreizējais mēnesis"
+
+#: src/etats/etats_page_period.c:94
+msgid "Current year"
+msgstr "Pašreizējais gads"
+
+#: src/etats/etats_page_period.c:95
+msgid "Current month to now"
+msgstr "Pašreizējais mēnesis tagad"
+
+#: src/etats/etats_page_period.c:96
+msgid "Current year to now"
+msgstr "Pašreizējais gads tagad"
+
+#: src/etats/etats_page_period.c:97
+msgid "Previous month"
+msgstr "Iepriekšējais mēnesis"
+
+#: src/etats/etats_page_period.c:98
+msgid "Previous year"
+msgstr "Iepriekšējais gads"
+
+#: src/etats/etats_page_period.c:99
+msgid "Last 30 days"
+msgstr "Pēdējās 30 dienas"
+
+#: src/etats/etats_page_period.c:100
+msgid "Last 3 months"
+msgstr "Pēdējie 3 mēneši"
+
+#: src/etats/etats_page_period.c:101
+msgid "Last 6 months"
+msgstr "Pēdējie 6 mēneši"
+
+#: src/etats/etats_page_period.c:102
+msgid "Last 12 months"
+msgstr "Pēdējie 12 mēneši"
 
 #: src/etats/etats_page_period.c:346
 msgid "Date selection"
@@ -10291,2051 +13193,6 @@ msgstr ""
 #~| msgid "Grisbi"
 #~ msgid "Grisbi Team"
 #~ msgstr "Grisbi"
-
-#~ msgid "Between 3 and 18 months"
-#~ msgstr "No 3 līdz 18 mēnešiem"
-
-#~ msgid "Between 1 and 15 years"
-#~ msgstr "No 1 līdz 15 gadiem"
-
-#~ msgid "Between 15 and 30 years"
-#~ msgstr "No 15 līdz 30 gadiem"
-
-#~ msgid "Days"
-#~ msgstr "Dienas"
-
-#~ msgid "Weeks"
-#~ msgstr "Nedēļas"
-
-#~ msgid "Months"
-#~ msgstr "Mēneši"
-
-#~ msgid "Years"
-#~ msgstr "Gadi"
-
-#, fuzzy
-#~ msgid "Jan"
-#~ msgstr "Japan"
-
-#, fuzzy
-#~ msgid "Feb"
-#~ msgstr "Tīmeklis"
-
-#, fuzzy
-#~ msgid "Mar"
-#~ msgstr "Marķējums"
-
-#, fuzzy
-#~ msgid "May"
-#~ msgstr "Diena"
-
-#, fuzzy
-#~ msgid "January"
-#~ msgstr "Manuāli"
-
-#, fuzzy
-#~ msgid "March"
-#~ msgstr "Meklēšana"
-
-#, fuzzy
-#~ msgid "November"
-#~ msgstr "Numurs"
-
-#, fuzzy
-#~ msgid "December"
-#~ msgstr "Partnera numurs"
-
-#~ msgid "Delete a child transaction."
-#~ msgstr "Dzēst darījuma bērnus."
-
-#~ msgid "Delete a transaction."
-#~ msgstr "Dzēst darījumu."
-
-#~ msgid "Delete a child of scheduled transaction."
-#~ msgstr "Dzēst regulāru darījumu bērnus."
-
-#~ msgid "Delete a scheduled transaction."
-#~ msgstr "Dzēst regulāru darījumu."
-
-#, fuzzy
-#~ msgid "Delete one or all occurrences of scheduled transaction."
-#~ msgstr "Dzēst vienu vai vairākus atgadījumus par plānoto darījumu."
-
-#, fuzzy
-#~ msgid "Delete a rule file import."
-#~ msgstr "Dzēst izvēlēto pārskatu"
-
-#, c-format
-#~ msgid "File \"%s\" is already opened"
-#~ msgstr "Fails \"%s\" jau ir atvērts"
-
-#~ msgid ""
-#~ "Either this file is already opened by another user or it wasn't closed "
-#~ "correctly (maybe Grisbi crashed?).\n"
-#~ "Grisbi can't save the file unless you activate the \"Force saving locked "
-#~ "files\" option in setup."
-#~ msgstr ""
-#~ "Iespējams, ka šo failu ir atvēris cits lietotājs un nav pareizi aizvēris. "
-#~ "Grisbi neizdevās saglabāt failu, ja neaktivizēsiet \"bloķēta faila "
-#~ "piespiedu saglabāšana\" opciju iestatījumos."
-
-#~ msgid "Account file is world readable."
-#~ msgstr "Konta fails ir visiem lasāms"
-
-#~ msgid ""
-#~ "Your account file should not be readable by anybody else, but it is. You "
-#~ "should change its permissions."
-#~ msgstr ""
-#~ "Jūsu konta fails ir pieejams citiem. Jums vajadzētu mainīt pieejas "
-#~ "atļauju. Vai mainīt tagad?"
-
-#, c-format
-#~ msgid "You are running Grisbi version %s"
-#~ msgstr "Jūs izmantojat Grisbi versiju %s"
-
-#, fuzzy
-#~ msgid ""
-#~ "Warning, please be aware that the version you run is a DEVELOPMENT "
-#~ "version. Never use your original file Grisbi: you could make it "
-#~ "unusable.\n"
-#~ "Make a copy now."
-#~ msgstr ""
-#~ "Brīdinājums, lūdzu, ņemiet vērā, ka šī versija ir IZSTRĀDES versija. "
-#~ "Nekādā gadījumā nedrīkst strādāt šajā versijā ar darba datiem (faila "
-#~ "formāts var mainīties un kļūt nesaderīgs ar vecākām versijām)."
-
-#~ msgid "Encryption is irreversible."
-#~ msgstr "Šifrēšana ir neatgriezeniska."
-
-#, fuzzy
-#~ msgid ""
-#~ "Grisbi encrypts files in a very secure way that does not allow recovery "
-#~ "without original password. It means that if you forget your password, you "
-#~ "will lose all your data. Use with caution.\n"
-#~ "\n"
-#~ "I repeat: if you ever forget your password, there is no coming back, we "
-#~ "cannot help you."
-#~ msgstr ""
-#~ "Grisbi šifrē failus ļoti drošā veidā, kas nepieļauj pieeju bez paroles. "
-#~ "Tas nozīmē, ka, ja esat aizmirsis paroli, jūs zaudēsiet visus datus. "
-#~ "Lietot piesardzīgi!"
-
-#, fuzzy
-#~ msgid "Account under desired balance"
-#~ msgstr "Saskaņā ar vēlamo bilanci."
-
-#, c-format
-#~ msgid "Grisbi detected that an account is under a desired balance: %s"
-#~ msgstr "Grisbi konstatēja, ka konts ir saskaņā ar vajadzīgo bilanci: %s"
-
-#, fuzzy
-#~ msgid "Confirmation of manual reconciliation"
-#~ msgstr "Apstiprinājums par manuālu saskaņošanu"
-
-#, fuzzy
-#~ msgid ""
-#~ "You are trying to reconcile a transaction manually, which is not a "
-#~ "recommended action.\n"
-#~ "Are you really sure you know what you are doing?"
-#~ msgstr ""
-#~ "Jūs mēģiniet manuāli saskaņot darījumus, kas nav ieteicams. Vai jūs "
-#~ "tiešām esat pārliecināts par savu rīcību?"
-
-#, fuzzy
-#~ msgid "Confirmation of manual unreconciliation"
-#~ msgstr "Apstiprinājums par manuālu saskaņošanu"
-
-#, fuzzy
-#~ msgid ""
-#~ "You are trying to unreconcile a transaction manually, which is not a "
-#~ "recommended action.\n"
-#~ "Are you really sure you know what you are doing?"
-#~ msgstr ""
-#~ "Jūs mēģiniet manuāli saskaņot darījumus, kas nav ieteicams. Vai jūs "
-#~ "tiešām esat pārliecināts par savu rīcību?"
-
-#, fuzzy
-#~ msgid "Removing backups from the account file"
-#~ msgstr "Izveidot vienotu dublējuma failu"
-
-#~ msgid "Monday"
-#~ msgstr "Pirmdiena"
-
-#~ msgid "Tuesday"
-#~ msgstr "Otrdiena"
-
-#~ msgid "Wednesday"
-#~ msgstr "Trešdiena"
-
-#~ msgid "Thursday"
-#~ msgstr "Ceturtdiena"
-
-#~ msgid "Friday"
-#~ msgstr "Piektdiena"
-
-#~ msgid "Saturday"
-#~ msgstr "Sestdiena"
-
-#~ msgid "Sunday"
-#~ msgstr "Svētdiena"
-
-#~ msgid "Day"
-#~ msgstr "Diena"
-
-#~ msgid "Week"
-#~ msgstr "Nedēļa"
-
-#~ msgid "Month"
-#~ msgstr "Mēnesis"
-
-#~ msgid "Year"
-#~ msgstr "Gads"
-
-#~ msgid "Arabic"
-#~ msgstr "Arabic"
-
-#~ msgid "Baltic"
-#~ msgstr "Baltic"
-
-#~ msgid "Central European"
-#~ msgstr "Central European"
-
-#~ msgid "Chinese"
-#~ msgstr "Chinese"
-
-#~ msgid "Cyrillic"
-#~ msgstr "Cyrillic"
-
-#~ msgid "Hebrew"
-#~ msgstr "Hebrew"
-
-#~ msgid "Indian"
-#~ msgstr "Indian"
-
-#~ msgid "Japanese"
-#~ msgstr "Japanese"
-
-#~ msgid "Korean"
-#~ msgstr "Korean"
-
-#~ msgid "Turkish"
-#~ msgstr "Turkish"
-
-#~ msgid "Unicode"
-#~ msgstr "Unicode"
-
-#~ msgid "Vietnamese"
-#~ msgstr "Vietnamese"
-
-#~ msgid "Western"
-#~ msgstr "Western"
-
-#~ msgid "Arabic (IBM-864)"
-#~ msgstr "Arabic (IBM-864)"
-
-#~ msgid "Arabic (IBM-864-I)"
-#~ msgstr "Arabic (IBM-864-I)"
-
-#~ msgid "Arabic (ISO-8859-6)"
-#~ msgstr "Arabic (ISO-8859-6)"
-
-#~ msgid "Arabic (ISO-8859-6-E)"
-#~ msgstr "Arabic (ISO-8859-6-E)"
-
-#~ msgid "Arabic (ISO-8859-6-I)"
-#~ msgstr "Arabic (ISO-8859-6-I)"
-
-#~ msgid "Arabic (MacArabic)"
-#~ msgstr "Arabic (MacArabic)"
-
-#~ msgid "Arabic (Windows-1256)"
-#~ msgstr "Arabic (Windows-1256)"
-
-#~ msgid "Armenian (ARMSCII-8)"
-#~ msgstr "Armenian (ARMSCII-8)"
-
-#~ msgid "Baltic (ISO-8859-13)"
-#~ msgstr "Baltic (ISO-8859-13)"
-
-#~ msgid "Baltic (ISO-8859-4)"
-#~ msgstr "Baltic (ISO-8859-4)"
-
-#~ msgid "Baltic (Windows-1257)"
-#~ msgstr "Baltic (Windows-1257)"
-
-#~ msgid "Celtic (ISO-8859-14)"
-#~ msgstr "Celtic (ISO-8859-14)"
-
-#~ msgid "Central European (IBM-852)"
-#~ msgstr "Central European (IBM-852)"
-
-#~ msgid "Central European (ISO-8859-2)"
-#~ msgstr "Central European (ISO-8859-2)"
-
-#~ msgid "Central European (MacCE)"
-#~ msgstr "Central European (MacCE)"
-
-#~ msgid "Central European (Windows-1250)"
-#~ msgstr "Central European (Windows-1250)"
-
-#~ msgid "Chinese Simplified (GB18030)"
-#~ msgstr "Chinese Simplified (GB18030)"
-
-#~ msgid "Chinese Simplified (GB2312)"
-#~ msgstr "Chinese Simplified (GB2312)"
-
-#~ msgid "Chinese Simplified (GBK)"
-#~ msgstr "Chinese Simplified (GBK)"
-
-#~ msgid "Chinese Simplified (HZ)"
-#~ msgstr "Chinese Simplified (HZ)"
-
-#~ msgid "Chinese Simplified (Windows-936)"
-#~ msgstr "Chinese Simplified (Windows-936)"
-
-#~ msgid "Chinese Traditional (Big5)"
-#~ msgstr "Chinese Traditional (Big5)"
-
-#~ msgid "Chinese Traditional (Big5-HKSCS)"
-#~ msgstr "Chinese Traditional (Big5-HKSCS)"
-
-#~ msgid "Chinese Traditional (EUC-TW)"
-#~ msgstr "Chinese Traditional (EUC-TW)"
-
-#~ msgid "Croatian (MacCroatian)"
-#~ msgstr "Croatian (MacCroatian)"
-
-#~ msgid "Cyrillic (IBM-855)"
-#~ msgstr "Cyrillic (IBM-855)"
-
-#~ msgid "Cyrillic (ISO-8859-5)"
-#~ msgstr "Cyrillic (ISO-8859-5)"
-
-#~ msgid "Cyrillic (ISO-IR-111)"
-#~ msgstr "Cyrillic (ISO-IR-111)"
-
-#~ msgid "Cyrillic (KOI8-R)"
-#~ msgstr "Cyrillic (KOI8-R)"
-
-#~ msgid "Cyrillic (MacCyrillic)"
-#~ msgstr "Cyrillic (MacCyrillic)"
-
-#~ msgid "Cyrillic (Windows-1251)"
-#~ msgstr "Cyrillic (Windows-1251)"
-
-#~ msgid "Russian (CP-866)"
-#~ msgstr "Russian (CP-866)"
-
-#~ msgid "Ukrainian (KOI8-U)"
-#~ msgstr "Ukrainian (KOI8-U)"
-
-#~ msgid "Ukrainian (MacUkrainian)"
-#~ msgstr "Ukrainian (MacUkrainian)"
-
-#~ msgid "English (ASCII)"
-#~ msgstr "English (ASCII)"
-
-#~ msgid "Farsi (MacFarsi)"
-#~ msgstr "Farsi (MacFarsi)"
-
-#~ msgid "Georgian (GEOSTD8)"
-#~ msgstr "Georgian (GEOSTD8)"
-
-#~ msgid "Greek (ISO-8859-7)"
-#~ msgstr "Greek (ISO-8859-7)"
-
-#~ msgid "Greek (MacGreek)"
-#~ msgstr "Greek (MacGreek)"
-
-#~ msgid "Greek (Windows-1253)"
-#~ msgstr "Greek (Windows-1253)"
-
-#~ msgid "Gujarati (MacGujarati)"
-#~ msgstr "Gujarati (MacGujarati)"
-
-#~ msgid "Gurmukhi (MacGurmukhi)"
-#~ msgstr "Gurmukhi (MacGurmukhi)"
-
-#~ msgid "Hebrew (IBM-862)"
-#~ msgstr "Hebrew (IBM-862)"
-
-#~ msgid "Hebrew (ISO-8859-8-E)"
-#~ msgstr "Hebrew (ISO-8859-8-E)"
-
-#~ msgid "Hebrew (ISO-8859-8-I)"
-#~ msgstr "Hebrew (ISO-8859-8-I)"
-
-#~ msgid "Hebrew (MacHebrew)"
-#~ msgstr "Hebrew (MacHebrew)"
-
-#~ msgid "Hebrew (Windows-1255)"
-#~ msgstr "Hebrew (Windows-1255)"
-
-#~ msgid "Hindi (MacDevanagari)"
-#~ msgstr "Hindi (MacDevanagari)"
-
-#~ msgid "Icelandic (MacIcelandic)"
-#~ msgstr "Icelandic (MacIcelandic)"
-
-#~ msgid "Japanese (EUC-JP)"
-#~ msgstr "Japanese (EUC-JP)"
-
-#~ msgid "Japanese (ISO-2022-JP)"
-#~ msgstr "Japanese (ISO-2022-JP)"
-
-#~ msgid "Japanese (Shift_JIS)"
-#~ msgstr "Japanese (Shift_JIS)"
-
-#~ msgid "Korean (EUC-KR)"
-#~ msgstr "Korean (EUC-KR)"
-
-#~ msgid "Korean (ISO-2022-KR)"
-#~ msgstr "Korean (ISO-2022-KR)"
-
-#~ msgid "Korean (JOHAB)"
-#~ msgstr "Korean (JOHAB)"
-
-#~ msgid "Korean (UHC)"
-#~ msgstr "Korean (UHC)"
-
-#~ msgid "Nordic (ISO-8859-10)"
-#~ msgstr "Nordic (ISO-8859-10)"
-
-#~ msgid "Romanian (MacRomanian)"
-#~ msgstr "Romanian (MacRomanian)"
-
-#~ msgid "Romanian (ISO-8859-16)"
-#~ msgstr "Romanian (ISO-8859-16)"
-
-#~ msgid "South European (ISO-8859-3)"
-#~ msgstr "South European (ISO-8859-3)"
-
-#~ msgid "Thai (TIS-620)"
-#~ msgstr "Thai (TIS-620)"
-
-#~ msgid "Turkish (IBM-857)"
-#~ msgstr "Turkish (IBM-857)"
-
-#~ msgid "Turkish (ISO-8859-9)"
-#~ msgstr "Turkish (ISO-8859-9)"
-
-#~ msgid "Turkish (MacTurkish)"
-#~ msgstr "Turkish (MacTurkish)"
-
-#~ msgid "Turkish (Windows-1254)"
-#~ msgstr "Turkish (Windows-1254)"
-
-#~ msgid "Unicode (UTF-7)"
-#~ msgstr "Unicode (UTF-7)"
-
-#~ msgid "Unicode (UTF-8)"
-#~ msgstr "Unicode (UTF-8)"
-
-#~ msgid "Unicode (UTF-16BE)"
-#~ msgstr "Unicode (UTF-16BE)"
-
-#~ msgid "Unicode (UTF-16LE)"
-#~ msgstr "Unicode (UTF-16LE)"
-
-#~ msgid "Unicode (UTF-32BE)"
-#~ msgstr "Unicode (UTF-32BE)"
-
-#~ msgid "Unicode (UTF-32LE)"
-#~ msgstr "Unicode (UTF-32LE)"
-
-#~ msgid "User Defined"
-#~ msgstr "User Defined"
-
-#~ msgid "Vietnamese (TCVN)"
-#~ msgstr "Vietnamese (TCVN)"
-
-#~ msgid "Vietnamese (VISCII)"
-#~ msgstr "Vietnamese (VISCII)"
-
-#~ msgid "Vietnamese (VPS)"
-#~ msgstr "Vietnamese (VPS)"
-
-#~ msgid "Vietnamese (Windows-1258)"
-#~ msgstr "Vietnamese (Windows-1258)"
-
-#~ msgid "Visual Hebrew (ISO-8859-8)"
-#~ msgstr "Visual Hebrew (ISO-8859-8)"
-
-#~ msgid "Western (IBM-850)"
-#~ msgstr "Western (IBM-850)"
-
-#~ msgid "Western (ISO-8859-1)"
-#~ msgstr "Western (ISO-8859-1)"
-
-#~ msgid "Western (ISO-8859-15)"
-#~ msgstr "Western (ISO-8859-15)"
-
-#~ msgid "Western (MacRoman)"
-#~ msgstr "Western (MacRoman)"
-
-#~ msgid "Western (Windows-1252)"
-#~ msgstr "Western (Windows-1252)"
-
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "_Iziet"
-
-#~ msgid "Africa"
-#~ msgstr "Africa"
-
-#~ msgid "Algerian Dinar"
-#~ msgstr "Algerian Dinar"
-
-#~ msgid "Algeria"
-#~ msgstr "Algeria"
-
-#~ msgid "Botswana Pula"
-#~ msgstr "Botswana Pula"
-
-#~ msgid "Botswana"
-#~ msgstr "Botswana"
-
-#~ msgid "Burundi Franc"
-#~ msgstr "Burundi Franc"
-
-#~ msgid "Burundi"
-#~ msgstr "Burundi"
-
-#~ msgid "CFA Franc BCEAO"
-#~ msgstr "CFA Franc BCEAO"
-
-#~ msgid "Niger"
-#~ msgstr "Niger"
-
-#~ msgid "Senegal"
-#~ msgstr "Senegal"
-
-#~ msgid "CFA Franc BEAC"
-#~ msgstr "CFA Franc BEAC"
-
-#~ msgid "Cameroon"
-#~ msgstr "Cameroon"
-
-#~ msgid "Chad"
-#~ msgstr "Chad"
-
-#~ msgid "Congo"
-#~ msgstr "Congo"
-
-#~ msgid "Comoro Franc"
-#~ msgstr "Comoro Franc"
-
-#~ msgid "Comoros"
-#~ msgstr "Comoros"
-
-#~ msgid "Egyptian Pound"
-#~ msgstr "Egyptian Pound"
-
-#~ msgid "Egypt"
-#~ msgstr "Egypt"
-
-#~ msgid "Ethiopian Birr"
-#~ msgstr "Ethiopian Birr"
-
-#~ msgid "Ethiopia"
-#~ msgstr "Ethiopia"
-
-#~ msgid "Gambian Dalasi"
-#~ msgstr "Gambian Dalasi"
-
-#~ msgid "Gambia"
-#~ msgstr "Gambia"
-
-#~ msgid "Ghana Cedi"
-#~ msgstr "Ghana Cedi"
-
-#~ msgid "Ghana"
-#~ msgstr "Ghana"
-
-#~ msgid "Guinea-Bissau Peso"
-#~ msgstr "Guinea-Bissau Peso"
-
-#~ msgid "Guinea-Bissau"
-#~ msgstr "Guinea-Bissau"
-
-#~ msgid "Kenyan Shilling"
-#~ msgstr "Kenyan Shilling"
-
-#~ msgid "Kenya"
-#~ msgstr "Kenya"
-
-#~ msgid "Liberian Dollar"
-#~ msgstr "Liberian Dollar"
-
-#~ msgid "Liberia"
-#~ msgstr "Liberia"
-
-#~ msgid "Libyan Dinar"
-#~ msgstr "Libyan Dinar"
-
-#~ msgid "Libyan Arab Jamahiriya"
-#~ msgstr "Libyan Arab Jamahiriya"
-
-#~ msgid "Malagasy Franc"
-#~ msgstr "Malagasy Franc"
-
-#~ msgid "Madagascar"
-#~ msgstr "Madagascar"
-
-#~ msgid "Malawi Kwacha"
-#~ msgstr "Malawi Kwacha"
-
-#~ msgid "Malawi"
-#~ msgstr "Malawi"
-
-#~ msgid "Mauritania Ouguiya"
-#~ msgstr "Mauritania Ouguiya"
-
-#~ msgid "Mauritania"
-#~ msgstr "Mauritania"
-
-#~ msgid "Moazambique Metical"
-#~ msgstr "Moazambique Metical"
-
-#~ msgid "Mozambique"
-#~ msgstr "Mozambique"
-
-#~ msgid "Moroccan Dirham"
-#~ msgstr "Moroccan Dirham"
-
-#~ msgid "Morocco"
-#~ msgstr "Morocco"
-
-#~ msgid "Nigerian Naira"
-#~ msgstr "Nigerian Naira"
-
-#~ msgid "Nigeria"
-#~ msgstr "Nigeria"
-
-#~ msgid "Rwanda Franc"
-#~ msgstr "Rwanda Franc"
-
-#~ msgid "Rwanda"
-#~ msgstr "Rwanda"
-
-#~ msgid "Sao Tome and Principe Dobra"
-#~ msgstr "Sao Tome and Principe Dobra"
-
-#~ msgid "Sao Tome and Principe"
-#~ msgstr "Sao Tome and Principe"
-
-#~ msgid "Seychelles Rupee"
-#~ msgstr "Seychelles Rupee"
-
-#~ msgid "Seychelles"
-#~ msgstr "Seychelles"
-
-#~ msgid "Sierra Leonean Leone"
-#~ msgstr "Sierra Leonean Leone"
-
-#~ msgid "Sierra Leone"
-#~ msgstr "Sierra Leone"
-
-#~ msgid "Somali Shilling"
-#~ msgstr "Somali Shilling"
-
-#~ msgid "Somalia"
-#~ msgstr "Somalia"
-
-#~ msgid "South African Rand"
-#~ msgstr "South African Rand"
-
-#~ msgid "Lesotho"
-#~ msgstr "Lesotho"
-
-#~ msgid "Namibia"
-#~ msgstr "Namibia"
-
-#~ msgid "South Africa"
-#~ msgstr "South Africa"
-
-#~ msgid "Swaziland Lilangeni"
-#~ msgstr "Swaziland Lilangeni"
-
-#~ msgid "Swaziland"
-#~ msgstr "Swaziland"
-
-#~ msgid "Tanzanian Shilling"
-#~ msgstr "Tanzanian Shilling"
-
-#~ msgid "United Republic of Tanzania"
-#~ msgstr "United Republic of Tanzania"
-
-#~ msgid "Tunisian Dinar"
-#~ msgstr "Tunisian Dinar"
-
-#~ msgid "Tunisia"
-#~ msgstr "Tunisia"
-
-#~ msgid "Zambian Kwacha"
-#~ msgstr "Zambian Kwacha"
-
-#~ msgid "Zambia"
-#~ msgstr "Zambia"
-
-#~ msgid "Zimbabwe Dollar"
-#~ msgstr "Zimbabwe Dollar"
-
-#~ msgid "Zimbabwe"
-#~ msgstr "Zimbabwe"
-
-#~ msgid "Asia"
-#~ msgstr "Asia"
-
-#~ msgid "Afghani"
-#~ msgstr "Afghani"
-
-#~ msgid "Afghanistan"
-#~ msgstr "Afghanistan"
-
-#~ msgid "Bahraini Dinar"
-#~ msgstr "Bahraini Dinar"
-
-#~ msgid "Bahrain"
-#~ msgstr "Bahrain"
-
-#~ msgid "Bangladesh Taka"
-#~ msgstr "Bangladesh Taka"
-
-#~ msgid "Bangladesh"
-#~ msgstr "Bangladesh"
-
-#~ msgid "Brunei Dollar"
-#~ msgstr "Brunei Dollar"
-
-#~ msgid "Brunei Darussalam"
-#~ msgstr "Brunei Darussalam"
-
-#~ msgid "Cambodian Riel"
-#~ msgstr "Cambodian Riel"
-
-#~ msgid "Cambodia"
-#~ msgstr "Cambodia"
-
-#~ msgid "Cyprus Pound"
-#~ msgstr "Cyprus Pound"
-
-#~ msgid "Cyprus"
-#~ msgstr "Cyprus"
-
-#~ msgid "Hong Kong Dollar"
-#~ msgstr "Hong Kong Dollar"
-
-#~ msgid "Hong Kong"
-#~ msgstr "Hong Kong"
-
-#~ msgid "Indian Rupee"
-#~ msgstr "Indian Rupee"
-
-#~ msgid "Bhutan"
-#~ msgstr "Bhutan"
-
-#~ msgid "India"
-#~ msgstr "India"
-
-#~ msgid "Indonesian Rupiah"
-#~ msgstr "Indonesian Rupiah"
-
-#~ msgid "Indonesia"
-#~ msgstr "Indonesia"
-
-#~ msgid "Iranian Rial"
-#~ msgstr "Iranian Rial"
-
-#~ msgid "Iran"
-#~ msgstr "Iran"
-
-#~ msgid "Iraqi Dinar"
-#~ msgstr "Iraqi Dinar"
-
-#~ msgid "Iraq"
-#~ msgstr "Iraq"
-
-#~ msgid "Japanese Yen"
-#~ msgstr "Japanese Yen"
-
-#~ msgid "Japan"
-#~ msgstr "Japan"
-
-#~ msgid "Jordanian Dinar"
-#~ msgstr "Jordanian Dinar"
-
-#~ msgid "Jordan"
-#~ msgstr "Jordan"
-
-#~ msgid "Kazakhstan Tenge"
-#~ msgstr "Kazahstānas tenge"
-
-#~ msgid "Kazakhstan"
-#~ msgstr "Kazahstāna"
-
-#~ msgid "Kuwaiti Dinar"
-#~ msgstr "Kuwaiti Dinar"
-
-#~ msgid "Kuwait"
-#~ msgstr "Kuwait"
-
-#~ msgid "Lao Kip"
-#~ msgstr "Lao Kip"
-
-#~ msgid "Lao People's Democratic Republic"
-#~ msgstr "Lao People's Democratic Republic"
-
-#~ msgid "Lebanese Pound"
-#~ msgstr "Lebanese Pound"
-
-#~ msgid "Lebanon"
-#~ msgstr "Lebanon"
-
-#~ msgid "Macau Pataca"
-#~ msgstr "Macau Pataca"
-
-#~ msgid "Macao"
-#~ msgstr "Macao"
-
-#~ msgid "Malaysian Ringgit"
-#~ msgstr "Malaysian Ringgit"
-
-#~ msgid "Malaysia"
-#~ msgstr "Malaysia"
-
-#~ msgid "Mongolian Tugrik"
-#~ msgstr "Mongolian Tugrik"
-
-#~ msgid "Mongolia"
-#~ msgstr "Mongolia"
-
-#~ msgid "Nepalese Rupee"
-#~ msgstr "Nepalese Rupee"
-
-#~ msgid "Nepal"
-#~ msgstr "Nepal"
-
-#~ msgid "New Israeli Shekel"
-#~ msgstr "New Israeli Shekel"
-
-#~ msgid "Israel"
-#~ msgstr "Israel"
-
-#~ msgid "New Taiwan Dollar"
-#~ msgstr "New Taiwan Dollar"
-
-#~ msgid "Taiwan, Province of China"
-#~ msgstr "Taiwan, Province of China"
-
-#~ msgid "North Korean Won"
-#~ msgstr "North Korean Won"
-
-#~ msgid "Democratic People's Republic of Korea"
-#~ msgstr "Democratic People's Republic of Korea"
-
-#~ msgid "Pakistan Rupee"
-#~ msgstr "Pakistan Rupee"
-
-#~ msgid "Pakistan"
-#~ msgstr "Pakistan"
-
-#~ msgid "Philippine peso"
-#~ msgstr "Philippine peso"
-
-#~ msgid "Philippines"
-#~ msgstr "Philippines"
-
-#~ msgid "Qatari Rial"
-#~ msgstr "Qatari Rial"
-
-#~ msgid "Qatar"
-#~ msgstr "Qatar"
-
-#~ msgid "Rial Omani"
-#~ msgstr "Rial Omani"
-
-#~ msgid "Oman"
-#~ msgstr "Oman"
-
-#~ msgid "Russian Ruble"
-#~ msgstr "Russian Ruble"
-
-#~ msgid "Russia"
-#~ msgstr "Russia"
-
-#~ msgid "Saudi Riyal"
-#~ msgstr "Saudi Riyal"
-
-#~ msgid "Saudi Arabia"
-#~ msgstr "Saudi Arabia"
-
-#~ msgid "Singapore Dollar"
-#~ msgstr "Singapore Dollar"
-
-#~ msgid "Singapore"
-#~ msgstr "Singapore"
-
-#~ msgid "South Korean Won"
-#~ msgstr "South Korean Won"
-
-#~ msgid "Republic of Korea"
-#~ msgstr "Republic of Korea"
-
-#~ msgid "Sri Lanka Rupee"
-#~ msgstr "Sri Lanka Rupee"
-
-#~ msgid "Sri Lanka"
-#~ msgstr "Sri Lanka"
-
-#~ msgid "Syrian Pound"
-#~ msgstr "Syrian Pound"
-
-#~ msgid "Syrian Arab Republic"
-#~ msgstr "Syrian Arab Republic"
-
-#~ msgid "Thai Baht"
-#~ msgstr "Thai Baht"
-
-#~ msgid "Thailand"
-#~ msgstr "Thailand"
-
-#~ msgid "Turkish Lira"
-#~ msgstr "Turkish Lira"
-
-#~ msgid "Turkey"
-#~ msgstr "Turkey"
-
-#~ msgid "United Arab Emirates Dirham"
-#~ msgstr "United Arab Emirates Dirham"
-
-#~ msgid "United Arab Emirates"
-#~ msgstr "United Arab Emirates"
-
-#~ msgid "Viet Nam Dong"
-#~ msgstr "Viet Nam Dong"
-
-#~ msgid "Viet Nam"
-#~ msgstr "Viet Nam"
-
-#~ msgid "Yemeni Rial"
-#~ msgstr "Yemeni Rial"
-
-#~ msgid "Yemen"
-#~ msgstr "Yemen"
-
-#~ msgid "Yuan Renminbi"
-#~ msgstr "Yuan Renminbi"
-
-#~ msgid "China"
-#~ msgstr "China"
-
-#~ msgid "Central America"
-#~ msgstr "Central America"
-
-#~ msgid "Belize Dollar"
-#~ msgstr "Belize Dollar"
-
-#~ msgid "Belize"
-#~ msgstr "Belize"
-
-#~ msgid "Costa Rican Colon"
-#~ msgstr "Costa Rican Colon"
-
-#~ msgid "Costa Rica"
-#~ msgstr "Costa Rica"
-
-#~ msgid "Guatemalan Quetzal"
-#~ msgstr "Guatemalan Quetzal"
-
-#~ msgid "Guatemala"
-#~ msgstr "Guatemala"
-
-#~ msgid "Honduran Lempira"
-#~ msgstr "Honduran Lempira"
-
-#~ msgid "Honduras"
-#~ msgstr "Honduras"
-
-#~ msgid "Mexican Peso"
-#~ msgstr "Mexican Peso"
-
-#~ msgid "Mexico"
-#~ msgstr "Mexico"
-
-#~ msgid "Panama Balboa"
-#~ msgstr "Panama Balboa"
-
-#~ msgid "Panama"
-#~ msgstr "Panama"
-
-#~ msgid "Europe"
-#~ msgstr "Europe"
-
-#~ msgid "Euro"
-#~ msgstr "Euro"
-
-#~ msgid "Germany"
-#~ msgstr "Germany"
-
-#~ msgid "Austria"
-#~ msgstr "Austria"
-
-#~ msgid "Belgium"
-#~ msgstr "Belgium"
-
-#~ msgid "Spain"
-#~ msgstr "Spain"
-
-#~ msgid "Finland"
-#~ msgstr "Finland"
-
-#~ msgid "France"
-#~ msgstr "France"
-
-#~ msgid "Greece"
-#~ msgstr "Greece"
-
-#~ msgid "Ireland"
-#~ msgstr "Ireland"
-
-#~ msgid "Italy"
-#~ msgstr "Italy"
-
-#~ msgid "Luxembourg"
-#~ msgstr "Luxembourg"
-
-#~ msgid "Netherlands"
-#~ msgstr "Netherlands"
-
-#~ msgid "Portugal"
-#~ msgstr "Portugal"
-
-#~ msgid "Slovenia"
-#~ msgstr "Slovenia"
-
-#~ msgid "Albanian Lek"
-#~ msgstr "Albanian Lek"
-
-#~ msgid "Albania"
-#~ msgstr "Albania"
-
-#~ msgid "Austrian Schilling"
-#~ msgstr "Austrian Schilling"
-
-#~ msgid "Belgian Franc"
-#~ msgstr "Belgian Franc"
-
-#~ msgid "Bulgarian Lev"
-#~ msgstr "Bulgarian Lev"
-
-#~ msgid "Bulgaria"
-#~ msgstr "Bulgaria"
-
-#~ msgid "Czech Koruna"
-#~ msgstr "Czech Koruna"
-
-#~ msgid "Czech Republic"
-#~ msgstr "Czech Republic"
-
-#~ msgid "Danish Krone"
-#~ msgstr "Danish Krone"
-
-#~ msgid "Denmark"
-#~ msgstr "Denmark"
-
-#~ msgid "Deutsche Mark"
-#~ msgstr "Deutsche Mark"
-
-#~ msgid "Estonian Kroon"
-#~ msgstr "Estonian Kroon"
-
-#~ msgid "Estonia"
-#~ msgstr "Estonia"
-
-#~ msgid "UE (Europe)"
-#~ msgstr "UE (Europe)"
-
-#~ msgid "Finnish Markka"
-#~ msgstr "Finnish Markka"
-
-#~ msgid "French Franc"
-#~ msgstr "French Franc"
-
-#~ msgid "Gibraltar Pound"
-#~ msgstr "Gibraltar Pound"
-
-#~ msgid "Gibraltar"
-#~ msgstr "Gibraltar"
-
-#~ msgid "Greek Drachma"
-#~ msgstr "Greek Drachma"
-
-#~ msgid "Hungarian Forint"
-#~ msgstr "Hungarian Forint"
-
-#~ msgid "Hungary"
-#~ msgstr "Hungary"
-
-#~ msgid "Iceland Krona"
-#~ msgstr "Iceland Krona"
-
-#~ msgid "Iceland"
-#~ msgstr "Iceland"
-
-#~ msgid "Irish Pound"
-#~ msgstr "Irish Pound"
-
-#~ msgid "Italian Lira"
-#~ msgstr "Italian Lira"
-
-#~ msgid "Holy See"
-#~ msgstr "Holy See"
-
-#~ msgid "San Marino"
-#~ msgstr "San Marino"
-
-#, fuzzy
-#~ msgid "Latvian Lats"
-#~ msgstr "Latvian Lat"
-
-#~ msgid "Latvia"
-#~ msgstr "Latvia"
-
-#~ msgid "Lithuanian Litas"
-#~ msgstr "Lithuanian Litas"
-
-#~ msgid "Lietuva"
-#~ msgstr "Lietuva"
-
-#~ msgid "Luxembourg Franc"
-#~ msgstr "Luxembourg Franc"
-
-#~ msgid "Netherlands Guilder"
-#~ msgstr "Netherlands Guilder"
-
-#~ msgid "New Yugoslavian Dinar"
-#~ msgstr "New Yugoslavian Dinar"
-
-#~ msgid "Serbia and Montenegro"
-#~ msgstr "Serbia and Montenegro"
-
-#~ msgid "Norwegian Krone"
-#~ msgstr "Norwegian Krone"
-
-#~ msgid "Norway"
-#~ msgstr "Norway"
-
-#~ msgid "Polish Zloty"
-#~ msgstr "Polish Zloty"
-
-#~ msgid "Poland"
-#~ msgstr "Poland"
-
-#~ msgid "Portuguese Escudo"
-#~ msgstr "Portuguese Escudo"
-
-#~ msgid "Pound Sterling"
-#~ msgstr "Pound Sterling"
-
-#~ msgid "United Kingdom"
-#~ msgstr "United Kingdom"
-
-#~ msgid "Romanian Leu"
-#~ msgstr "Romanian Leu"
-
-#~ msgid "Romania"
-#~ msgstr "Romania"
-
-#~ msgid "Slovak Koruna"
-#~ msgstr "Slovak Koruna"
-
-#~ msgid "Slovakia"
-#~ msgstr "Slovakia"
-
-#~ msgid "Slovene Tolar"
-#~ msgstr "Slovene Tolar"
-
-#~ msgid "Spanish Peseta"
-#~ msgstr "Spanish Peseta"
-
-#~ msgid "Swedish Krona"
-#~ msgstr "Swedish Krona"
-
-#~ msgid "Sweden"
-#~ msgstr "Sweden"
-
-#~ msgid "Swiss Franc"
-#~ msgstr "Swiss Franc"
-
-#~ msgid "Liechtenstein"
-#~ msgstr "Liechtenstein"
-
-#~ msgid "Switzerland"
-#~ msgstr "Switzerland"
-
-#~ msgid "Hryvnia"
-#~ msgstr "Hryvnia"
-
-#~ msgid "Ukraine"
-#~ msgstr "Ukraine"
-
-#~ msgid "Northern America"
-#~ msgstr "Northern America"
-
-#~ msgid "Bahamian Dollar"
-#~ msgstr "Bahamian Dollar"
-
-#~ msgid "Bahamas"
-#~ msgstr "Bahamas"
-
-#~ msgid "Barbados Dollar"
-#~ msgstr "Barbados Dollar"
-
-#~ msgid "Barbados"
-#~ msgstr "Barbados"
-
-#~ msgid "Bermuda Dollar"
-#~ msgstr "Bermuda Dollar"
-
-#~ msgid "Bermuda"
-#~ msgstr "Bermuda"
-
-#~ msgid "Canadian Dollar"
-#~ msgstr "Canadian Dollar"
-
-#~ msgid "Canada"
-#~ msgstr "Canada"
-
-#~ msgid "Cayman Islands Dollar"
-#~ msgstr "Cayman Islands Dollar"
-
-#~ msgid "Cayman Islands"
-#~ msgstr "Cayman Islands"
-
-#, fuzzy
-#~ msgid "Cuban Convertible Peso"
-#~ msgstr "Cuban Peso"
-
-#~ msgid "Cuba"
-#~ msgstr "Cuba"
-
-#~ msgid "Cuban Peso"
-#~ msgstr "Cuban Peso"
-
-#~ msgid "Dominican Peso"
-#~ msgstr "Dominican Peso"
-
-#~ msgid "Dominican Republic"
-#~ msgstr "Dominican Republic"
-
-#~ msgid "East Caribbean Dollar"
-#~ msgstr "East Caribbean Dollar"
-
-#~ msgid "Grenada"
-#~ msgstr "Grenada"
-
-#~ msgid "Saint Lucia"
-#~ msgstr "Saint Lucia"
-
-#~ msgid "Haitian Gourde"
-#~ msgstr "Haitian Gourde"
-
-#~ msgid "Haiti"
-#~ msgstr "Haiti"
-
-#~ msgid "Jamaican Dollar"
-#~ msgstr "Jamaican Dollar"
-
-#~ msgid "Jamaica"
-#~ msgstr "Jamaica"
-
-#~ msgid "Netherlands Antillian Guilder"
-#~ msgstr "Netherlands Antillian Guilder"
-
-#~ msgid "Netherlands Antilles"
-#~ msgstr "Netherlands Antilles"
-
-#~ msgid "Trinidad and Tobago Dollar"
-#~ msgstr "Trinidad and Tobago Dollar"
-
-#~ msgid "Trinidad and Tobago"
-#~ msgstr "Trinidad and Tobago"
-
-#~ msgid "United States Dollar"
-#~ msgstr "United States Dollar"
-
-#~ msgid "Pacific Ocean"
-#~ msgstr "Pacific Ocean"
-
-#~ msgid "Australian Dollar"
-#~ msgstr "Australian Dollar"
-
-#~ msgid "Australia"
-#~ msgstr "Australia"
-
-#~ msgid "Kiribati"
-#~ msgstr "Kiribati"
-
-#~ msgid "Nauru"
-#~ msgstr "Nauru"
-
-#~ msgid "Tuvalu"
-#~ msgstr "Tuvalu"
-
-#~ msgid "CFP Franc"
-#~ msgstr "CFP Franc"
-
-#~ msgid "French Polynesia"
-#~ msgstr "French Polynesia"
-
-#~ msgid "New Caledonia"
-#~ msgstr "New Caledonia"
-
-#~ msgid "Wallis and Futuna"
-#~ msgstr "Wallis and Futuna"
-
-#~ msgid "Fiji Dollar"
-#~ msgstr "Fiji Dollar"
-
-#~ msgid "Fiji"
-#~ msgstr "Fiji"
-
-#~ msgid "New Zealand Dollar"
-#~ msgstr "New Zealand Dollar"
-
-#~ msgid "Cook Islands"
-#~ msgstr "Cook Islands"
-
-#~ msgid "New Zealand"
-#~ msgstr "New Zealand"
-
-#~ msgid "Papua New Guinea Kina"
-#~ msgstr "Papua New Guinea Kina"
-
-#~ msgid "Papua New Guinea"
-#~ msgstr "Papua New Guinea"
-
-#~ msgid "Samoa Tala"
-#~ msgstr "Samoa Tala"
-
-#~ msgid "Samoa"
-#~ msgstr "Samoa"
-
-#~ msgid "Solomon Islands Dollar"
-#~ msgstr "Solomon Islands Dollar"
-
-#~ msgid "Solomon Islands"
-#~ msgstr "Solomon Islands"
-
-#~ msgid "Timor Escudo"
-#~ msgstr "Timor Escudo"
-
-#~ msgid "Timor"
-#~ msgstr "Timor"
-
-#~ msgid "Tongan Pa'anga"
-#~ msgstr "Tongan Pa'anga"
-
-#~ msgid "Tonga"
-#~ msgstr "Tonga"
-
-#~ msgid "Vanuatu Vatu"
-#~ msgstr "Vanuatu Vatu"
-
-#~ msgid "Vanuatu"
-#~ msgstr "Vanuatu"
-
-#~ msgid "Southern America"
-#~ msgstr "Southern America"
-
-#~ msgid "Peso"
-#~ msgstr "Peso"
-
-#~ msgid "Argentina"
-#~ msgstr "Argentina"
-
-#~ msgid "Boliviano"
-#~ msgstr "Boliviano"
-
-#~ msgid "Bolivia"
-#~ msgstr "Bolivia"
-
-#~ msgid "Chile"
-#~ msgstr "Chile"
-
-#~ msgid "Colombia"
-#~ msgstr "Colombia"
-
-#~ msgid "Ecuador Sucre"
-#~ msgstr "Ecuador Sucre"
-
-#~ msgid "Ecuador"
-#~ msgstr "Ecuador"
-
-#~ msgid "Guyana Dollar"
-#~ msgstr "Guyana Dollar"
-
-#~ msgid "Guyana"
-#~ msgstr "Guyana"
-
-#~ msgid "Paraguay Guarani"
-#~ msgstr "Paraguay Guarani"
-
-#~ msgid "Paraguay"
-#~ msgstr "Paraguay"
-
-#~ msgid "Nuevos Soles"
-#~ msgstr "Nuevos Soles"
-
-#~ msgid "Peru"
-#~ msgstr "Peru"
-
-#~ msgid "Real"
-#~ msgstr "Real"
-
-#~ msgid "Brazil"
-#~ msgstr "Brazil"
-
-#~ msgid "Suriname Guilder"
-#~ msgstr "Suriname Guilder"
-
-#~ msgid "Suriname"
-#~ msgstr "Suriname"
-
-#~ msgid "Uruguay"
-#~ msgstr "Uruguay"
-
-#~ msgid "Venezuelan Bolivar"
-#~ msgstr "Venezuelan Bolivar"
-
-#~ msgid "Venezuela"
-#~ msgstr "Venezuela"
-
-#, fuzzy
-#~ msgid "Incorrect reconciliation totals"
-#~ msgstr "Nepareizi saskaņota kopsumma"
-
-#, fuzzy
-#~ msgid ""
-#~ "This test will look at accounts where the reconciled total which does not "
-#~ "match with reconciled transactions."
-#~ msgstr ""
-#~ "Šis tests meklēs kontus, kuros saskaņotas kopsummas nesakrīt ar "
-#~ "saskaņotiem darījumiem."
-
-#~ msgid ""
-#~ "Grisbi found accounts where reconciliation totals are inconsistent with "
-#~ "the sum of reconcilied transactions and initial balance.\n"
-#~ "\n"
-#~ "The cause may be the elimination or modification of reconciliations or "
-#~ "changes in the balance of reconciliations in the preferences."
-#~ msgstr ""
-#~ "Grisbi atrada darījumus, kuriem saskaņotā bilance neatbilst darījumu "
-#~ "summām un sākotnējai bilancei.\n"
-#~ "\n"
-#~ "Tas var būt mainītu saskaņoto darījumu vai mainītu konta iestatījumu dēļ."
-
-#~ msgid "Duplicate sub-categories check"
-#~ msgstr "Apakškategorijas dublikātu pārbaude"
-
-#~ msgid "free"
-#~ msgstr "bezmaksas"
-
-#~ msgid ""
-#~ "Due to a bug in previous versions of Grisbi, sub-categories may share the "
-#~ "same numeric identifier in some cases, resulting in transactions having "
-#~ "two sub-categories.  If you choose to continue, Grisbi will remove one of "
-#~ "each duplicates and recreate it with a new identifier.\n"
-#~ "\n"
-#~ "No transaction will be lost, but in some cases, you will have to manually "
-#~ "move transactions to this new sub-category."
-#~ msgstr ""
-#~ "Sakarā ar kļūdu Grisbi iepriekšējās versijās, apakškategorijas var "
-#~ "koplietot vienu skaitlisku identifikatoru, dažos gadījumos to izraisa "
-#~ "darījumi divas apakškategorijās. Ja izvēlēsities turpināt, grisbi noņems "
-#~ "vienu no visiem dublikātiem un izveidos to no jauna ar jaunu "
-#~ "identifikatoru.\n"
-#~ "\n"
-#~ "Neviens darījums netiks zaudēts, bet dažos gadījumos jums būs manuāli "
-#~ "jāpārvieto darījumus uz šo jauno apakškategoriju."
-
-#~ msgid "Duplicate sub-budgetary lines check"
-#~ msgstr "Apakšbudžeta pozīciju dublikātu pārbaude"
-
-#~ msgid ""
-#~ "Due to a bug in previous versions of Grisbi, sub-budgetary lines may "
-#~ "share the same numeric id in some cases, resulting in transactions having "
-#~ "two sub-budgetary lines.  If you choose to continue, Grisbi will remove "
-#~ "one of each duplicates and recreate it with a new id.entifier\n"
-#~ "\n"
-#~ "No transactions will be lost, but in some cases, you will have to "
-#~ "manually move transactions to this new sub-budgetary line."
-#~ msgstr ""
-#~ "Sakarā ar Grisbi kļūdu iepriekšējās versijās , apakšbudžeta pozīcijas var "
-#~ "koplietot to pašu ciparu ID dažos gadījumos, kā rezultātā darījumi ar "
-#~ "diviem apakšbudžeta pozīcijām. Ja vēlaties turpināt, Grisbi noņems vienu "
-#~ "no dublikātiem un atjaunos to ar jaunu ID\n"
-#~ "\n"
-#~ "Neviens darījumu netiks zaudēts, bet dažos gadījumos, jums būs manuāli "
-#~ "pārvietot darījumi uz šo jauno apakšbudžeta pozīciju."
-
-#~ msgid "Orphan countra-transactions check"
-#~ msgstr "Nepamatota konta darījumu pārbaude"
-
-#~ msgid ""
-#~ "In some rare cases, transfers are incorrectly linked to contra-"
-#~ "transactions.  This might be because of bugs or because of imports that "
-#~ "failed.\n"
-#~ "To fix this, you will have to manually edit your .gsb file (with a text "
-#~ "editor) and fix transactions using their numeric ID."
-#~ msgstr ""
-#~ "Dažos retos gadījumos, pārvedumus kļūdaini saistīti ar pretējiem "
-#~ "darījumiem. Tas varētu būt tāpēc, ka kļūdains fails vai tādēļ, ka imports "
-#~ "neizdevās.\n"
-#~ "Lai to labotu, jums manuāli jārediģē .gsb failu (ar teksta redaktoru) un "
-#~ "jāfiksē darījumus, izmantojot savu ciparu ID."
-
-#~ msgid "Incorrect category/sub-category number"
-#~ msgstr "Nepareizs kategorijas/apakškategorijas numurs"
-
-#, fuzzy
-#~ msgid ""
-#~ "This test will look for transactions which have non-existent categories/"
-#~ "sub-categories."
-#~ msgstr ""
-#~ "Šis tests meklēs darījumus, kam nav vispār kategorijas / apakškategorijas."
-
-#, fuzzy
-#~ msgid ""
-#~ "Grisbi found some transactions with non existents categories/sub-"
-#~ "categories If you choose to continue, Grisbi will remove that category "
-#~ "error and that transactions will have no categories."
-#~ msgstr ""
-#~ "Grisbi konstatēja dažas darījumus ar neesošām kategorijām/"
-#~ "apakškategorijām. Ja vēlaties turpināt, Grisbi novērsīs šo kategoriju "
-#~ "kļūdu, un darījumi nebūs bez kategorijām."
-
-#~ msgid "Incorrect budget/sub-budget number"
-#~ msgstr "Nepareizs budžeta/apakšbudžeta numurs"
-
-#, fuzzy
-#~ msgid ""
-#~ "This test will look for transactions which have non-existent budgets/sub-"
-#~ "budgets."
-#~ msgstr "Šis tests meklēs darījumus kas nav iekļauti budžetā/apakšbudžetā."
-
-#, fuzzy
-#~ msgid ""
-#~ "Grisbi found some transactions with non existents budgets/sub-budgets If "
-#~ "you choose to continue, Grisbi will remove that budget error and that "
-#~ "transactions will have no budgets."
-#~ msgstr ""
-#~ "Grisbi atrada dažus darījumus ārpus budžeta/apakšbudžeta. Ja vēlaties "
-#~ "turpināt, Grisbi novērsīs šo kļūdu."
-
-#~ msgid "Incorrect payee number"
-#~ msgstr "Nepareizs partnera numurs"
-
-#, fuzzy
-#~ msgid "This test will look for transactions which have non-existent payees."
-#~ msgstr "Šis tests meklēs darījumus,kuriem nav uzrādīts partneris."
-
-#, fuzzy
-#~ msgid ""
-#~ "Grisbi found some transactions with non existents payees If you choose to "
-#~ "continue, Grisbi will remove them and that transactions will have no "
-#~ "payee."
-#~ msgstr ""
-#~ "Grisbi atrada dažus darījumus, kuriem nav uzrādīts partneris. ja vēlaties "
-#~ "turpināt, Grisbi noņems šādus darījumus."
-
-#~ msgid "Free"
-#~ msgstr "Brīvs"
-
-#~ msgid "Method of payment"
-#~ msgstr "Maksājuma veids"
-
-#~ msgid "Transaction number"
-#~ msgstr "Darījuma numurs"
-
-#~ msgid "Automatic/Manual"
-#~ msgstr "Automātisks/manuāls"
-
-#, fuzzy
-#~ msgid "Background color of account row"
-#~ msgstr "Preces vispārīga informācija"
-
-#, fuzzy
-#~ msgid "Background color of logo title"
-#~ msgstr "Darījuma papildu informācija"
-
-#, fuzzy
-#~ msgid "Color of account text"
-#~ msgstr "Darījuma teksta krāsas"
-
-#, fuzzy
-#~ msgid "Color of account text hovered"
-#~ msgstr "Darījuma teksta krāsas"
-
-#, fuzzy
-#~ msgid "Color of balance text"
-#~ msgstr "Darījuma teksta krāsas"
-
-#, fuzzy
-#~ msgid "Color of balance text hovered"
-#~ msgstr "Darījuma teksta krāsas"
-
-#, fuzzy
-#~ msgid "Background color 1 in lists of transactions"
-#~ msgstr "Pamatā nav izvēlēts plānotais darījums"
-
-#, fuzzy
-#~ msgid "Background color 2 in lists of transactions"
-#~ msgstr "Pamatā nav izvēlēts plānotais darījums"
-
-#, fuzzy
-#~ msgid "Background of the transaction that gives the balance today"
-#~ msgstr "Uzsver darījumus, kas rada līdsvaru šodien"
-
-#, fuzzy
-#~ msgid "Background color of split transaction children"
-#~ msgstr "Pamatā nav izvēlēts plānotais darījums"
-
-#, fuzzy
-#~ msgid "Background color of selected transaction"
-#~ msgstr "Pamatā nav izvēlēts plānotais darījums"
-
-#, fuzzy
-#~ msgid "Background color of virtual scheduled transactions"
-#~ msgstr "Pamatā nav izvēlēts plānotais darījums"
-
-#, fuzzy
-#~ msgid "Background color of archives"
-#~ msgstr "Nodaļas vispārīga informācija"
-
-#, fuzzy
-#~ msgid "Color of transaction text"
-#~ msgstr "Darījuma teksta krāsas"
-
-#, fuzzy
-#~ msgid "Color of unfinished split transaction text"
-#~ msgstr "Nepabeigtu, sadalītu darījumu teksts"
-
-#, fuzzy
-#~ msgid "Text color of a negative balance"
-#~ msgstr "Darījuma papildu informācija"
-
-#, fuzzy
-#~ msgid "Color of selected transaction text"
-#~ msgstr "Darījuma teksta krāsas"
-
-#, fuzzy
-#~ msgid "Color of unsensitive text"
-#~ msgstr "Darījuma teksta krāsas"
-
-#, fuzzy
-#~ msgid "Background color of historical data"
-#~ msgstr "Nodaļas vispārīga informācija"
-
-#, fuzzy
-#~ msgid "Background color of futur data"
-#~ msgstr "Preces vispārīga informācija"
-
-#, fuzzy
-#~ msgid "Background color of month balance"
-#~ msgstr "Darījuma papildu informācija"
-
-#, fuzzy
-#~ msgid "Background color of transfer data"
-#~ msgstr "Pārsūtījuma papildu informācija"
-
-#, fuzzy
-#~ msgid "Color of gsetting text"
-#~ msgstr "Darījuma teksta krāsas"
-
-#, fuzzy
-#~ msgid "Color of gsetting text hovered"
-#~ msgstr "Darījuma teksta krāsas"
-
-#~ msgid "Unique view"
-#~ msgstr "Unikāls skats"
-
-#~ msgid "Week view"
-#~ msgstr "Nedēļas skats"
-
-#~ msgid "Month view"
-#~ msgstr "Mēneša skats"
-
-#~ msgid "Two months view"
-#~ msgstr "Divu mēnešu skats"
-
-#~ msgid "Quarter view"
-#~ msgstr "Kvartāla skats"
-
-#~ msgid "Year view"
-#~ msgstr "Gada skats"
-
-#~ msgid "Custom view"
-#~ msgstr "Pielāgots skats"
-
-#~ msgid "days"
-#~ msgstr "diena"
-
-#~ msgid "weeks"
-#~ msgstr "nedēļa"
-
-#~ msgid "Mode"
-#~ msgstr "Režīms"
-
-#~ msgid "Cheque number"
-#~ msgstr "Čeka numurs"
-
-#~ msgid "Init date"
-#~ msgstr "Inicializācijas datums"
-
-#~ msgid "Comma Separated Values"
-#~ msgstr "Ar komatiem atdalītas vērtības"
-
-#~ msgid "Quicken Interchange Format"
-#~ msgstr "Paātrināts apmaiņas formāts"
-
-#~ msgid "Unknown field"
-#~ msgstr "Nezināms lauks"
-
-#~ msgid "Wording"
-#~ msgstr "Formulējums"
-
-#~ msgid "Debit (absolute)"
-#~ msgstr "Debets (absolūts)"
-
-#~ msgid "Debit (negative)"
-#~ msgstr "Debets (negatīvs)"
-
-#~ msgid "No sub-category"
-#~ msgstr "Jauna apakškategorija"
-
-#~ msgid "sub-payee"
-#~ msgstr "apakšpartneris"
-
-#~ msgid "No sub-payee"
-#~ msgstr "Jauns apakšpartneris"
-
-#~ msgid "Contact name"
-#~ msgstr "Kontakta vārds"
-
-#~ msgid "First currency"
-#~ msgstr "Primārā valūta"
-
-#~ msgid "Exchange"
-#~ msgstr "Apmaiņa"
-
-#~ msgid "Second currency"
-#~ msgstr "Sekundārā valūta"
-
-#~ msgid "Modified date"
-#~ msgstr "Izmaiņu datums"
-
-#, fuzzy
-#~ msgid "Automatic selection"
-#~ msgstr "Datu atlase"
-
-#, fuzzy
-#~ msgid "Force the use of clear theme"
-#~ msgstr "Arhivēt pēc datuma"
-
-#, fuzzy
-#~ msgid "Force the use of dark theme"
-#~ msgstr "Arhivēt pēc datuma"
-
-#, fuzzy
-#~ msgid "Force the use of light theme"
-#~ msgstr "Arhivēt pēc datuma"
-
-#~ msgid "Col 1"
-#~ msgstr "Col 1"
-
-#~ msgid "Col 2"
-#~ msgstr "Col 2"
-
-#~ msgid "Col 3"
-#~ msgstr "Col 3"
-
-#~ msgid "Col 4"
-#~ msgstr "Col 4"
-
-#~ msgid "Col 5"
-#~ msgstr "Col 5"
-
-#~ msgid "Col 6"
-#~ msgstr "Col 6"
-
-#~ msgid "Init balance"
-#~ msgstr "Inicializācijas bilance"
-
-#~ msgid "Final balance"
-#~ msgstr "Beigu bilance"
-
-#, fuzzy
-#~ msgid ""
-#~ "You can reconcile transactions to match your real financial state as seen "
-#~ "on your bank receipts. If you just spend 15mn each month reconciling "
-#~ "Grisbi transactions with your bank receipts, you are guaranteed that your "
-#~ "accounts are in perfect shape."
-#~ msgstr ""
-#~ "Jūs varat saskaņot darījumus ar bankas izdrukām. Ja veltīsiet tikai 15 "
-#~ "minūtes katru mēnesi Grisbi darījumu saskaņošanai ar bankas izdruku, jūs "
-#~ "būsiet drošs, ka jūsu kontu stāvoklis ir precīzs."
-
-#~ msgid ""
-#~ "Grisbi automatically saves a copy of your work if it crashes.\n"
-#~ "\n"
-#~ "Thus it is unlikely that you loose any data in case Grisbi encounters a "
-#~ "programming error."
-#~ msgstr ""
-#~ "Grisbi automātiski saglabā datu kopiju, ja tas salūst.\n"
-#~ "\n"
-#~ "Līdz ar to, varbūtība, ka Grisbi kļūdas dēļ jūs pazaudēsiet datus, ir "
-#~ "ļoti niecīga."
-
-#~ msgid ""
-#~ "Grisbi can import Gnucash files natively, then you don't loose your work "
-#~ "when you switch from Gnucash to Grisbi."
-#~ msgstr ""
-#~ "Grisbi spēj importēt Gnucash failus, tāpēc jūs nezaudēsiet savus datus, "
-#~ "pārejot no Gnucash uz Grisbi."
-
-#~ msgid ""
-#~ "You can organize transactions into budgetary lines, which are budgetary "
-#~ "items (why money is spent) that can help you classify your spendings.\n"
-#~ "\n"
-#~ "Combined with categories (how money is spend), budgetary lines are a "
-#~ "powerful way to analyse budget and to make reports."
-#~ msgstr ""
-#~ "Jūs varat kārtot darījumus budžetos, kuros jūs varat norādīt, kāpēc nauda "
-#~ "ir izdota.\n"
-#~ "\n"
-#~ "Kopā ar kategorijām (kā nauda ir izdota) budžeti piedāvā plašas pārskatu "
-#~ "veidošanas un datu analīzes iespējas."
-
-#~ msgid ""
-#~ "You can create categories or budgetary lines directly by typing them in "
-#~ "transaction form.\n"
-#~ "\n"
-#~ "If you write a category or a budgetary line which name contains a ':', a "
-#~ "sub-category or sub-budgetary line will be created as well."
-#~ msgstr ""
-#~ "Jūs varat izveidot budžetus, ievadot tos darījumu formā.\n"
-#~ "\n"
-#~ "Ja ievadāt kategoriju vai budžetu, kas satur ':', tiks izveidota atiecīga "
-#~ "apakškategorija vai apakšbudžets."
-
-#, fuzzy
-#~ msgid ""
-#~ "You can encrypt your Grisbi files to improve your privacy.  Just select "
-#~ "the 'Encrypt Grisbi file' in preferences window and enter a password next "
-#~ "time you save your file.\n"
-#~ "\n"
-#~ "Encryption is irreversible, if you loose your password, there is NO WAY "
-#~ "to restore your Grisbi accounts. Use with caution!"
-#~ msgstr ""
-#~ "Jūs varat šifrēt Grisbi datus, lai uzlabotu to privātumu.  Izvēlieties "
-#~ "'Šifrēt Grisbi failu' iestatījumu logā un ievadiet paroli, kad nākamo "
-#~ "reizi saglabājiet failu.\n"
-#~ "\n"
-#~ "Šifrēšana ir neatgriezeniska darbība. Ja aizmirīsiet paroli, jūs vairs "
-#~ "netiksiet klāt failā saglabātajiem datiem! Rīkojieties piesardzīgi!"
-
-#~ msgid ""
-#~ "You can efficiently manage your professional expenses with Grisbi.\n"
-#~ "\n"
-#~ "Create a <i>Professional expenses</i> budgetary line and put all "
-#~ "professional expenses there.  When you are paid, split your salary as a "
-#~ "split of transaction, with both a <i>Salary</i> part and a "
-#~ "<i>Profesionnal expenses</i> part.\n"
-#~ "\n"
-#~ "Then, you can create a new report that sums up transactions from the "
-#~ "<i>Profesionnal expenses</i> budgetary line and see the balance."
-#~ msgstr ""
-#~ "Ar Grisbi jūs varat efektīvi pārvaldīt arī savus profesionālos "
-#~ "izdevumus.\n"
-#~ "\n"
-#~ "Izveidojiet <i>Profesionālie izdevumi</i> budžetu, un ievadiet visus "
-#~ "izdevumus tajā. Kad saņemiet algu, sadaliet darījumu divās daļās kā "
-#~ "<i>Alga</i> un  <i>Profesionālie izdevumi</i>.\n"
-#~ "\n"
-#~ "Tad jūs varat izveidot pārskatu, kurā tiek saskaitīti <i>Profesionālo "
-#~ "izdevumu</i> budžeta darījumi un noteikta bilance."
-
-#~ msgid ""
-#~ "You can use the import facility to automatically reconcile transactions "
-#~ "against a QIF or OFX file from your online bank."
-#~ msgstr ""
-#~ "Jūs varat izmantot importēšanas iespēju lai automātiski apstiprinātu QIF "
-#~ "vai OFX failā saglabātus bankas darījumus."
-
-#~ msgid ""
-#~ "You can configure the contents of the transaction list.\n"
-#~ "\n"
-#~ "Right-click on a cell of the transaction list and select the <i>Change "
-#~ "cell content</i> option.  Then select any content you want and configure "
-#~ "transaction list to your needs."
-#~ msgstr ""
-#~ "Jūs varat iestatīt darījumu saraksta izskatu.\n"
-#~ "\n"
-#~ "Klikšķiniet labo peles klikšķi darījumu sarakstā un izvēlieties <i>Mainīt "
-#~ "šūnas saturu</i>.  Tad izvēlieties, kurus laukus jūs vēlaties redzēt "
-#~ "darījumu sarakstā."
-
-#~ msgid ""
-#~ "You can configure fields displayed in the transaction form.\n"
-#~ "\n"
-#~ "Go to the <i>Preferences</i> dialog and select the <i>Form content</i> "
-#~ "option.  Then you can click on fields to be displayed and drag them "
-#~ "through the form to adjust their position."
-#~ msgstr ""
-#~ "Jūs varat iestatīt darījumu saraksta izskatu.\n"
-#~ "\n"
-#~ "Atveriet <i>Iestatījumi</i> logu, un izvēlieties <i>Formas saturs</i>.  "
-#~ "Tad izvēlieties, kurus laukus jūs vēlaties redzēt darījumu un sabīdiet "
-#~ "tos tādā kārtībā, kā vēlaties tos redzēt sarakstā."
-
-#~ msgid ""
-#~ "You can hide annoying dialogs like this one, by clicking the <i>'Do not "
-#~ "show this message again'</i> checkbox in this dialog.\n"
-#~ "\n"
-#~ "You can then activate them again by going to the <i>Preferences</i> "
-#~ "window and then to the <i>Dialog and messages</i> option."
-#~ msgstr ""
-#~ "Jūs varat novākt apnicīgus brīdinājumus, kā šis, kliķšinot uz  "
-#~ "<i>'Nerādīt vairs šo ziņojumu'</i> izvēles rūtiņu ziņojuma logā.\n"
-#~ "\n"
-#~ "Ja vēlaties, varat atkal rādīt šādus ziņojumus, dodoties uz "
-#~ "<i>Iestatījumi</i> logu un <i>Ziņojumu logi</i> sadaļu."
-
-#~ msgid ""
-#~ "By double cliking on a date field, you can pop up a calendar to select a "
-#~ "date."
-#~ msgstr ""
-#~ "Jūs varat atvērt kalendāru klikšķinot dubultklikšķi kalendāra laukā."
-
-#~ msgid ""
-#~ "There are shortcuts in date fields, to avoid typing date or selecting it "
-#~ "with mouse.\n"
-#~ "\n"
-#~ "<b>+</b> and <b>-</b> increment and decrement date of one day, <i>Page "
-#~ "Up</i> and <i>Page Down</i> increment and decrement date of one month ... "
-#~ "and there are more, check out the manual."
-#~ msgstr ""
-#~ "Datumu laukam ir karstie taustiņi, kurus var izmantot peles vietā.\n"
-#~ "\n"
-#~ "<b>+</b> un <b>-</b> palielina vai samazina datumu par vienu dienu, "
-#~ "<i>Page Up</i> vai <i>Page Down</i> palielina vai samazina par vienu "
-#~ "mēnesi, par daudz ko citu skatiet lietošanas instrukciju."
-
-#, fuzzy
-#~ msgid ""
-#~ "You can archive previous financial years to speed up Grisbi and possibly "
-#~ "put old transactions into separate files for archival.  Use 'File/Archive "
-#~ "transaction' menu to achieve this."
-#~ msgstr ""
-#~ "Lai uzlabotu ātrdarbību, jūs varat arhivēt vecus darījumus atsevišķā "
-#~ "failā. Lai to darītu, aktivizējiet: 'Fails— Arhivēt darījumus' izvēlni."
-
-#, fuzzy
-#~ msgid ""
-#~ "If unused payees have accumulated in the course of time due to bank "
-#~ "imports, you can remove all of them in one click! Just go to the "
-#~ "<i>Payees</i> page and click on the 'Remove unused payees' button."
-#~ msgstr ""
-#~ "Ja, importējot bankas izdrukas ir izveidojušies neizmantoti maksātāji, "
-#~ "jūs varat tos izdzēst ar vienu klikšķi! Dodieties uz <i>Maksātāji</i> "
-#~ "logu un spiediet <i>Dzēst neizmantotos maksātājus</i> pogu."
-
-#, fuzzy
-#~ msgid ""
-#~ "You can sort the transaction list according to any criteria.  Click on "
-#~ "the column titles to sort transactions differently. For example, you can "
-#~ "sort transactions by payee or category name."
-#~ msgstr ""
-#~ "Jūs varat kārtot darījumus pēc dažādiem kritērijiem, klikšķinot uz "
-#~ "kolonnu virsrakstiem. Piemēram, jūs varat kārtot darījumus pēc "
-#~ "kategorijām vai arī maksātājiem."
-
-#~ msgid ""
-#~ "You can reorder accounts in the navigation list using drag &amp; drop."
-#~ msgstr "Jūs varat pārkārtot kolonnas tās, velkot un nometot to virsrakstus."
-
-#~ msgid ""
-#~ "You can have future scheduled transactions 'executed' before their date, "
-#~ msgstr ""
-#~ "Jūs varat izpildīt ieplānotos darījumus arī pirms to pienākšanas laika."
-
-#, fuzzy
-#~ msgid ""
-#~ "No more tip available!  Please send any tips you know to "
-#~ "devel@listes.grisbi.org so that we can include them in next version for "
-#~ "all users."
-#~ msgstr ""
-#~ "Tie ir visi padomi! Iesūtiet papildu padomus devel@listes.grisbi.org, ja "
-#~ "vēlaties, lai par tiem uzzina arī citi lietotāji."
-
-#~ msgid "yyyy/dd/mm"
-#~ msgstr "aaaa/dd/mm"
-
-#~ msgid "dd/yyyy/mm"
-#~ msgstr "dd/aaaa/mm"
-
-#~ msgid "mm/yyyy/dd"
-#~ msgstr "mm/aaaa/dd"
-
-#~ msgid "Comma"
-#~ msgstr "Komats"
-
-#~ msgid "Semi-colon"
-#~ msgstr "Semikols"
-
-#~ msgid "Colon"
-#~ msgstr "Kols"
-
-#~ msgid "Tabulation"
-#~ msgstr "Tabulogramma"
-
-#~ msgid "All"
-#~ msgstr "Visi"
-
-#~ msgid "Total to now"
-#~ msgstr "Šobrīd kopā"
-
-#~ msgid "Current month"
-#~ msgstr "Pašreizējais mēnesis"
-
-#~ msgid "Current year"
-#~ msgstr "Pašreizējais gads"
-
-#~ msgid "Current month to now"
-#~ msgstr "Pašreizējais mēnesis tagad"
-
-#~ msgid "Current year to now"
-#~ msgstr "Pašreizējais gads tagad"
-
-#~ msgid "Previous month"
-#~ msgstr "Iepriekšējais mēnesis"
-
-#~ msgid "Previous year"
-#~ msgstr "Iepriekšējais gads"
-
-#~ msgid "Last 30 days"
-#~ msgstr "Pēdējās 30 dienas"
-
-#~ msgid "Last 3 months"
-#~ msgstr "Pēdējie 3 mēneši"
-
-#~ msgid "Last 6 months"
-#~ msgstr "Pēdējie 6 mēneši"
-
-#~ msgid "Last 12 months"
-#~ msgstr "Pēdējie 12 mēneši"
 
 #, fuzzy, c-format
 #~ msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
