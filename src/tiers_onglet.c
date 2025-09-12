@@ -869,10 +869,10 @@ GtkWidget *payees_create_list (void)
 					  G_CALLBACK (utils_cursor_set_wait_cursor),
 					  NULL);
 
-    g_signal_connect (G_OBJECT (payee_tree),
-                      "row-expanded",
-                      G_CALLBACK (metatree_division_column_expanded),
-                      NULL);
+    g_signal_connect_after (G_OBJECT (payee_tree),
+						    "row-expanded",
+						    G_CALLBACK (metatree_division_column_expanded),
+						    NULL);
 
     g_signal_connect (G_OBJECT (payee_tree),
                       "row-activated",

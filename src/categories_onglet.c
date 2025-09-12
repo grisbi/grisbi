@@ -226,7 +226,7 @@ GtkWidget *categories_create_list (void)
                         G_CALLBACK (utils_cursor_set_wait_cursor),
                         NULL);
 
-    g_signal_connect (G_OBJECT (arbre_categ),
+    g_signal_connect_after (G_OBJECT (arbre_categ),
                         "row-expanded",
                         G_CALLBACK (metatree_division_column_expanded),
                         NULL);

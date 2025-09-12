@@ -223,10 +223,10 @@ GtkWidget *budgetary_lines_create_list ( void )
 					  G_CALLBACK (utils_cursor_set_wait_cursor),
 					  NULL);
 
-    g_signal_connect ( G_OBJECT ( budgetary_line_tree ),
-                        "row-expanded",
-                        G_CALLBACK ( metatree_division_column_expanded ),
-                        NULL );
+    g_signal_connect_after ( G_OBJECT ( budgetary_line_tree ),
+							"row-expanded",
+							G_CALLBACK (metatree_division_column_expanded),
+							NULL);
 
     g_signal_connect( G_OBJECT ( budgetary_line_tree ),
                         "row-activated",
