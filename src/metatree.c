@@ -1022,8 +1022,10 @@ void metatree_remove_transaction (GtkTreeView * tree_view,
  * \return FALSE
  *
  **/
-gboolean division_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter,
-						GtkTreePath * tree_path, gpointer user_data)
+void metatree_division_column_expanded  (GtkTreeView *treeview,
+										 GtkTreeIter *iter,
+										 GtkTreePath *tree_path,
+										 gpointer user_data)
 {
 	GtkTreeModel * model;
 	GtkTreeIter child_iter;
