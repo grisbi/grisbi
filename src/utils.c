@@ -899,41 +899,20 @@ GtkWidget *utils_menu_item_new_from_resource_label (const gchar *image_name,
  *
  * \return
  **/
-void utils_tree_view_expand_row (GtkWidget *tree_view)
+void utils_cursor_set_wait_cursor (GtkWidget *widget,
+								   gpointer  data)
 {
 	GdkCursor *cursor;
-	GdkDevice *device;
 	GdkDisplay *display;
-	GdkSeat *default_seat;
-    GtkTreePath *path;
 	GdkWindow *run_window;
-    gint x;
-    gint y;
 	GrisbiWin *win;
 
-	/* récupère le path de la ligne choisie */
+	/* set progress cursor */
 	win = grisbi_app_get_active_window (NULL);
 	run_window = gtk_widget_get_window (GTK_WIDGET (win));
 	display = gdk_window_get_display (run_window);
 
-	default_seat = gdk_display_get_default_seat (display);
-	device = gdk_seat_get_pointer (default_seat);
-	gdk_window_get_device_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (tree_view)),
-									device,
-									&x,
-									&y,
-									NULL);
-
-	gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (tree_view),
-								   x,
-								   y,
-								   &path,
-								   NULL,
-								   NULL,
-								   NULL);
-
-	/* set progress cursor */
-	cursor = gdk_cursor_new_from_name (display, "progress");
+	cursor = gdk_cursor_new_from_name (display, "wait");
 	gdk_window_set_cursor (run_window, cursor);
 
 	/* update ui */

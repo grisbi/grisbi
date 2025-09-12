@@ -866,8 +866,8 @@ GtkWidget *payees_create_list (void)
 
 	g_signal_connect (G_OBJECT (payee_tree),
 					  "row-expanded",
-					  G_CALLBACK (utils_cursor_set_from_name),
-					  "progress");
+					  G_CALLBACK (utils_cursor_set_wait_cursor),
+					  NULL);
 
     g_signal_connect (G_OBJECT (payee_tree),
                       "row-expanded",
