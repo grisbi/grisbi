@@ -2420,7 +2420,7 @@ void grisbi_win_status_bar_wait (gboolean force_update)
 
 	run_window = gtk_widget_get_window (GTK_WIDGET (win));
 	display = gdk_window_get_display (run_window);
-	cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
+	cursor = gdk_cursor_new_from_name (display, "wait");
 	gdk_window_set_cursor (run_window, cursor);
 
 	default_seat = gdk_display_get_default_seat (display);

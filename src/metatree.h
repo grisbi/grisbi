@@ -111,10 +111,6 @@ gboolean				division_activated								(GtkTreeView *treeview,
 																		 GtkTreePath *path,
                         												 GtkTreeViewColumn *col,
 																		 gpointer userdata);
-gboolean				division_column_expanded						(GtkTreeView *treeview,
-																		 GtkTreeIter *iter,
-                        												 GtkTreePath *tree_path,
-																		 gpointer user_data) ;
 gboolean				division_column_collapsed						(GtkTreeView *treeview,
                         												 GtkTreeIter *iter,
                         												 GtkTreePath *tree_path,
@@ -139,6 +135,10 @@ void					fill_sub_division_row 							(GtkTreeModel *model,
 GtkTreeIter *			get_iter_from_div								(GtkTreeModel *model,
 																		 int div,
 																		 int sub_div);
+void					metatree_division_column_expanded				(GtkTreeView *treeview,
+																		 GtkTreeIter *iter,
+                        												 GtkTreePath *tree_path,
+																		 gpointer user_data);
 gint					metatree_get_nbre_transactions_sans_sub_div		(GtkWidget *tree_view);
 enum MetaTreeRowType	metatree_get_row_type_from_tree_view			(GtkWidget *tree_view);
 void					metatree_manage_sub_divisions					(GtkWidget *tree_view);

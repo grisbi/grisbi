@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*                      2009-2011 Pierre Biava (grisbi@pierre.biava.name)     */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -218,10 +218,15 @@ GtkWidget *budgetary_lines_create_list ( void )
                         G_CALLBACK ( division_column_collapsed ),
                         NULL );
 
-    g_signal_connect ( G_OBJECT ( budgetary_line_tree ),
-                        "row-expanded",
-                        G_CALLBACK ( division_column_expanded ),
-                        NULL );
+	g_signal_connect (G_OBJECT (budgetary_line_tree),
+					  "row-expanded",
+					  G_CALLBACK (utils_cursor_set_wait_cursor),
+					  NULL);
+
+    g_signal_connect_after ( G_OBJECT ( budgetary_line_tree ),
+							"row-expanded",
+							G_CALLBACK (metatree_division_column_expanded),
+							NULL);
 
     g_signal_connect( G_OBJECT ( budgetary_line_tree ),
                         "row-activated",

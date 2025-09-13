@@ -10,7 +10,7 @@ i18n = import('i18n')
 # define GETTEXT_PACKAGE
 add_project_arguments('-DGETTEXT_PACKAGE="grisbi"', language:'c')
 i18n.gettext(meson.project_name(),
-  args: ['--from-code=UTF-8'])
+  args: ['--from-code=UTF-8', '--keyword=N_'])
 
 i18n.merge_file(
   type : 'desktop',

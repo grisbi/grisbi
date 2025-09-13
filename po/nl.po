@@ -376,8 +376,9 @@ msgstr "Categorieën"
 #: src/prefs/prefs_page_bet_account.ui:427
 #: src/prefs/prefs_page_bet_account.ui:512 src/ui/etats_prefs.ui:1595
 #: src/bet_hist.c:2152 src/etats_prefs.c:1596 src/export_csv.c:404
-#: src/grisbi_win.c:487 src/imputation_budgetaire.c:375 src/navigation.c:641
-#: src/utils_widgets.c:674 src/etats/etats_page_budget.c:84
+#: src/grisbi_win.c:487 src/import_csv.c:84 src/imputation_budgetaire.c:375
+#: src/navigation.c:641 src/utils_widgets.c:674
+#: src/etats/etats_page_budget.c:84
 msgid "Budgetary lines"
 msgstr "Budgetregels"
 
@@ -808,11 +809,11 @@ msgstr "Kies een rekening"
 msgid "Choose the date format"
 msgstr "Kies een rekening"
 
-#: src/prefs/prefs_page_divers.ui:958
+#: src/prefs/prefs_page_divers.ui:958 src/utils_widgets.c:61
 msgid "dd/mm/yyyy"
 msgstr "dd/mm/jjjj"
 
-#: src/prefs/prefs_page_divers.ui:973
+#: src/prefs/prefs_page_divers.ui:973 src/utils_widgets.c:62
 msgid "mm/dd/yyyy"
 msgstr "mm/dd/jjjj"
 
@@ -916,7 +917,7 @@ msgid "Remove backup files older than "
 msgstr ""
 
 #: src/prefs/prefs_page_files.ui:526 src/widgets/widget_loan.ui:345
-#: src/bet_finance_ui.c:287
+#: src/bet_finance_ui.c:287 src/gsb_scheduler_list.c:118
 #, fuzzy
 msgid "months"
 msgstr "Maanden"
@@ -1247,16 +1248,18 @@ msgstr "Neutraal"
 
 #: src/prefs/prefs_page_payment_method.ui:230 src/bet_future.c:550
 #: src/bet_tab.c:2042 src/categories_onglet.c:840 src/export_csv.c:389
-#: src/gsb_form.c:2047 src/imputation_budgetaire.c:858
-#: src/prefs/prefs_page_payment_method.c:497
+#: src/gsb_form.c:2047 src/gsb_form_widget.c:554
+#: src/gsb_transactions_list.c:113 src/import_csv.c:88
+#: src/imputation_budgetaire.c:858 src/prefs/prefs_page_payment_method.c:497
 #: src/prefs/prefs_page_payment_method.c:958
 msgid "Debit"
 msgstr "Debet(af)"
 
 #: src/prefs/prefs_page_payment_method.ui:231 src/bet_future.c:555
 #: src/bet_tab.c:2060 src/categories_onglet.c:840 src/export_csv.c:386
-#: src/gsb_form.c:2053 src/imputation_budgetaire.c:858
-#: src/prefs/prefs_page_payment_method.c:511
+#: src/gsb_form.c:2053 src/gsb_form_widget.c:558
+#: src/gsb_transactions_list.c:114 src/import_csv.c:87
+#: src/imputation_budgetaire.c:858 src/prefs/prefs_page_payment_method.c:511
 #: src/prefs/prefs_page_payment_method.c:954
 msgid "Credit"
 msgstr "Credit(bij)"
@@ -1486,6 +1489,7 @@ msgid "Amount comparison currency: "
 msgstr "Bedrag vergeleken met valuta's:"
 
 #: src/ui/etats_prefs.ui:209 src/etats_onglet.c:751
+#: src/gsb_assistant_archive_export.c:152 src/prefs/prefs_page_archives.c:477
 msgid "Report name"
 msgstr "Rapport naam"
 
@@ -1498,7 +1502,9 @@ msgstr ""
 #: src/widgets/widget_transfer.ui:497 src/bet_finance_ui.c:1862
 #: src/bet_future.c:529 src/bet_tab.c:2008 src/etats_affiche.c:241
 #: src/export_csv.c:368 src/gsb_assistant_reconcile_config.c:654
-#: src/gsb_form.c:2018 src/import.c:1951 src/import.c:4464
+#: src/gsb_form.c:2018 src/gsb_form_widget.c:550 src/gsb_scheduler_list.c:944
+#: src/gsb_transactions_list.c:109 src/import.c:1951 src/import.c:4464
+#: src/import_csv.c:77
 msgid "Date"
 msgstr "Datum"
 
@@ -1532,6 +1538,8 @@ msgstr "Verwijder transactie"
 
 #: src/ui/etats_prefs.ui:496 src/etats_affiche.c:252 src/export_csv.c:371
 #: src/gsb_form.c:2024 src/gsb_form.c:2824 src/gsb_form.c:2851
+#: src/gsb_form_widget.c:562 src/gsb_transactions_list.c:110
+#: src/import_csv.c:78
 msgid "Value date"
 msgstr "Valuta datum"
 
@@ -1564,38 +1572,43 @@ msgstr "Toon transacties"
 msgid "Include following information"
 msgstr ""
 
-#: src/ui/etats_prefs.ui:687
+#: src/ui/etats_prefs.ui:687 src/etats_prefs.c:98
 msgid "transaction number"
 msgstr "transactie-nummer"
 
-#: src/ui/etats_prefs.ui:701
+#: src/ui/etats_prefs.ui:701 src/etats_prefs.c:96
 msgid "date"
 msgstr "datum"
 
-#: src/ui/etats_prefs.ui:715
+#: src/ui/etats_prefs.ui:715 src/etats_prefs.c:97
 #, fuzzy
 msgid "value date"
 msgstr "Valuta datum"
 
 #: src/ui/etats_prefs.ui:729 src/widgets/widget_cmp_text.ui:74
+#: src/etats_prefs.c:99 src/meta_payee.c:78
 #, fuzzy
 msgid "payee"
 msgstr "Betaler/begunstigde"
 
 #: src/ui/etats_prefs.ui:743 src/widgets/widget_cmp_text.ui:76
+#: src/etats_prefs.c:100 src/meta_categories.c:66
 msgid "category"
 msgstr "categorie"
 
 #: src/ui/etats_prefs.ui:757 src/widgets/widget_cmp_text.ui:77
+#: src/meta_categories.c:67
 #, fuzzy
 msgid "sub-category"
 msgstr "Geen sub-categorie"
 
 #: src/ui/etats_prefs.ui:772 src/widgets/widget_cmp_text.ui:78
+#: src/etats_prefs.c:101 src/meta_budgetary.c:87
 msgid "budgetary line"
 msgstr "budgetregel"
 
 #: src/ui/etats_prefs.ui:786 src/widgets/widget_cmp_text.ui:79
+#: src/meta_budgetary.c:88
 #, fuzzy
 msgid "sub-budgetary line"
 msgstr "Geen sub-budgetregel"
@@ -1605,15 +1618,16 @@ msgstr "Geen sub-budgetregel"
 msgid "notes"
 msgstr "aantekening"
 
-#: src/ui/etats_prefs.ui:815
+#: src/ui/etats_prefs.ui:815 src/etats_prefs.c:103
 msgid "method of payment"
 msgstr "methode van betaling"
 
-#: src/ui/etats_prefs.ui:829
+#: src/ui/etats_prefs.ui:829 src/etats_prefs.c:104
 msgid "cheque/transfer number"
 msgstr "cheque/overschrijvingsnummer"
 
 #: src/ui/etats_prefs.ui:843 src/widgets/widget_cmp_text.ui:82
+#: src/etats_prefs.c:105
 msgid "voucher"
 msgstr "waardebon"
 
@@ -1622,10 +1636,12 @@ msgid "financial year"
 msgstr "financieel jaar"
 
 #: src/ui/etats_prefs.ui:871 src/widgets/widget_cmp_text.ui:81
+#: src/etats_prefs.c:106
 msgid "bank reference"
 msgstr "bankreferentie"
 
 #: src/ui/etats_prefs.ui:885 src/widgets/widget_cmp_text.ui:84
+#: src/etats_prefs.c:107
 msgid "reconciliation reference"
 msgstr "Controle referentie"
 
@@ -1677,7 +1693,9 @@ msgstr "Toon het sub-totaal van alle rekeningen"
 #: src/ui/etats_prefs.ui:1354 src/bet_future.c:545 src/etats_affiche.c:285
 #: src/etats_prefs.c:586 src/etats_prefs.c:1586 src/export_csv.c:383
 #: src/grisbi_win.c:472 src/gsb_assistant_reconcile_config.c:654
-#: src/gsb_form.c:2041 src/import.c:4471 src/widgets/widget_loan.c:1135
+#: src/gsb_form.c:2041 src/gsb_form_widget.c:570 src/gsb_scheduler_list.c:944
+#: src/gsb_transactions_list.c:111 src/import.c:4471 src/import_csv.c:79
+#: src/meta_payee.c:77 src/widgets/widget_loan.c:1135
 #: src/widgets/widget_transfer.c:910 src/widgets/widget_transfer.c:1034
 #: src/widgets/widget_transfer.c:1465 src/widgets/widget_transfer.c:1564
 #, fuzzy
@@ -1884,17 +1902,18 @@ msgstr ""
 msgid "_File"
 msgstr "Bestand"
 
-#: src/ui/grisbi_menu.ui:34 src/ui/grisbi_menu.ui:262
+#: src/ui/grisbi_menu.ui:34 src/ui/grisbi_menu.ui:262 src/grisbi_app.c:116
+#: src/grisbi_app.c:132
 #, fuzzy
 msgid "New account file"
 msgstr "Nieuw bestand"
 
 #: src/ui/grisbi_menu.ui:39 src/ui/grisbi_menu.ui:267
 #: src/categories_onglet.c:495 src/categories_onglet.c:552
-#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_win.c:754
-#: src/gsb_file.c:770 src/gsb_select_icon.c:320 src/import.c:1256
-#: src/imputation_budgetaire.c:518 src/imputation_budgetaire.c:580
-#: src/prefs/prefs_page_display_fonts.c:311
+#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
+#: src/grisbi_app.c:133 src/grisbi_win.c:754 src/gsb_file.c:770
+#: src/gsb_select_icon.c:320 src/import.c:1256 src/imputation_budgetaire.c:518
+#: src/imputation_budgetaire.c:580 src/prefs/prefs_page_display_fonts.c:311
 #, fuzzy
 msgid "Open"
 msgstr "_Open"
@@ -1906,8 +1925,9 @@ msgstr "Recent geopend"
 
 #: src/ui/grisbi_menu.ui:51 src/ui/grisbi_menu.ui:279 src/bet_finance_ui.c:798
 #: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:436
-#: src/etats_onglet.c:365 src/gsb_file.c:324 src/gsb_file.c:427
-#: src/gsb_file.c:458 src/imputation_budgetaire.c:454 src/tiers_onglet.c:133
+#: src/etats_onglet.c:365 src/grisbi_app.c:118 src/grisbi_app.c:134
+#: src/gsb_file.c:324 src/gsb_file.c:427 src/gsb_file.c:458
+#: src/imputation_budgetaire.c:454 src/tiers_onglet.c:133
 #, fuzzy
 msgid "Save"
 msgstr "Opslaan"
@@ -1922,7 +1942,7 @@ msgstr "Opslaan als"
 msgid "_Import file"
 msgstr "Exporteer bestand"
 
-#: src/ui/grisbi_menu.ui:68
+#: src/ui/grisbi_menu.ui:68 src/grisbi_app.c:120 src/grisbi_app.c:136
 #, fuzzy
 msgid "Export as QIF/CSV file"
 msgstr "QIF bestanden exporteren"
@@ -1961,8 +1981,9 @@ msgstr "Debug bestand"
 #: src/ui/grisbi_menu.ui:108 src/ui/grisbi_menu.ui:336
 #: src/ui/grisbi_prefs.ui:29 src/widgets/widget_assistant.ui:71
 #: src/widgets/widget_bet_graph_others.ui:37
-#: src/widgets/widget_bet_graph_pie.ui:26 src/gsb_assistant.c:445
-#: src/gsb_currency.c:1328 src/tip.c:155 src/widgets/widget_loan.c:950
+#: src/widgets/widget_bet_graph_pie.ui:26 src/grisbi_app.c:121
+#: src/grisbi_app.c:137 src/gsb_assistant.c:445 src/gsb_currency.c:1328
+#: src/tip.c:155 src/widgets/widget_loan.c:950
 #, fuzzy
 msgid "Close"
 msgstr "Sluiten"
@@ -1976,9 +1997,9 @@ msgstr ""
 msgid "Edit transaction"
 msgstr "Bewerk transacties"
 
-#: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:359
-#: src/gsb_scheduler_list.c:375 src/gsb_transactions_list.c:474
-#: src/gsb_transactions_list.c:2525
+#: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:359 src/grisbi_app.c:122
+#: src/grisbi_app.c:138 src/gsb_scheduler_list.c:375
+#: src/gsb_transactions_list.c:474 src/gsb_transactions_list.c:2525
 msgid "New transaction"
 msgstr "Nieuwe transactie"
 
@@ -2002,7 +2023,8 @@ msgstr "Kloon transactie"
 msgid "Convert to scheduled transaction"
 msgstr "Geef een geplande transactie in"
 
-#: src/ui/grisbi_menu.ui:161 src/ui/grisbi_menu.ui:395 src/navigation.c:209
+#: src/ui/grisbi_menu.ui:161 src/ui/grisbi_menu.ui:395 src/grisbi_app.c:123
+#: src/grisbi_app.c:139 src/navigation.c:209
 #, fuzzy
 msgid "New account"
 msgstr "Nieuwe rekening"
@@ -2023,13 +2045,14 @@ msgstr ""
 msgid "Show transaction form"
 msgstr "Transactie formulier"
 
-#: src/ui/grisbi_menu.ui:181 src/ui/grisbi_menu.ui:422
+#: src/ui/grisbi_menu.ui:181 src/ui/grisbi_menu.ui:422 src/grisbi_app.c:124
+#: src/grisbi_app.c:140
 #, fuzzy
 msgid "Show reconciled"
 msgstr "Controleer"
 
-#: src/ui/grisbi_menu.ui:185 src/ui/grisbi_menu.ui:426
-#: src/gsb_transactions_list.c:2483
+#: src/ui/grisbi_menu.ui:185 src/ui/grisbi_menu.ui:426 src/grisbi_app.c:125
+#: src/grisbi_app.c:141 src/gsb_transactions_list.c:2483
 #, fuzzy
 msgid "Show lines archives"
 msgstr "Bekende valuta"
@@ -2069,7 +2092,8 @@ msgstr "Kies een rekening"
 msgid "_Help"
 msgstr "Hulp"
 
-#: src/ui/grisbi_menu.ui:227 src/ui/grisbi_menu.ui:468
+#: src/ui/grisbi_menu.ui:227 src/ui/grisbi_menu.ui:468 src/grisbi_app.c:126
+#: src/grisbi_app.c:142
 #, fuzzy
 msgid "User's Manual"
 msgstr "Grisbi handleiding"
@@ -2089,7 +2113,7 @@ msgstr "Grisbi website"
 msgid "Report a bug"
 msgstr "Meld een bug"
 
-#: src/ui/grisbi_menu.ui:291
+#: src/ui/grisbi_menu.ui:291 src/grisbi_app.c:119 src/grisbi_app.c:135
 #, fuzzy
 msgid "Import file"
 msgstr "Exporteer bestand"
@@ -2154,7 +2178,7 @@ msgstr "Naam:"
 msgid "Holder's own address: "
 msgstr "Persoon heeft eigen adres:"
 
-#: src/widgets/widget_account_property.ui:441
+#: src/widgets/widget_account_property.ui:441 src/prefs/prefs_page_bank.c:294
 msgid "Bank"
 msgstr "Bank"
 
@@ -2273,7 +2297,9 @@ msgstr "Fax"
 
 #: src/widgets/widget_bank_details.ui:206 src/bet_future.c:572
 #: src/etats_affiche.c:318 src/export_csv.c:401 src/gsb_form.c:2074
-#: src/gsb_scheduler_list.c:292 src/gsb_scheduler_list.c:1209
+#: src/gsb_form_widget.c:586 src/gsb_scheduler_list.c:292
+#: src/gsb_scheduler_list.c:945 src/gsb_scheduler_list.c:1209
+#: src/gsb_transactions_list.c:123 src/import_csv.c:80
 msgid "Notes"
 msgstr "Aantekeningen"
 
@@ -2466,7 +2492,7 @@ msgstr "Transacties van"
 msgid "payee information"
 msgstr "Budget informatie"
 
-#: src/widgets/widget_cmp_text.ui:80
+#: src/widgets/widget_cmp_text.ui:80 src/etats_prefs.c:102
 msgid "note"
 msgstr "aantekening"
 
@@ -2537,7 +2563,8 @@ msgstr "Cellen transactielijst"
 msgid "Forecast"
 msgstr ""
 
-#: src/widgets/widget_css_rules.ui:367
+#: src/widgets/widget_css_rules.ui:367 src/grisbi_app.c:114
+#: src/grisbi_app.c:130
 #, fuzzy
 msgid "Preferences"
 msgstr "Voorkeuren"
@@ -2823,7 +2850,7 @@ msgid "None"
 msgstr "Geen"
 
 #: src/widgets/widget_reconcile.ui:126 src/bet_tab.c:2079 src/export_csv.c:392
-#: src/gsb_transactions_list.c:1667
+#: src/gsb_transactions_list.c:115 src/gsb_transactions_list.c:1667
 msgid "Balance"
 msgstr "Saldo"
 
@@ -3206,7 +3233,7 @@ msgstr ""
 msgid "year"
 msgstr "Jaren"
 
-#: src/bet_finance_ui.c:600
+#: src/bet_finance_ui.c:600 src/gsb_scheduler_list.c:118
 #, fuzzy
 msgid "years"
 msgstr "Jaren"
@@ -3318,6 +3345,18 @@ msgstr "Totaal %s"
 msgid "Approximate cost"
 msgstr ""
 
+#: src/bet_finance_ui.c:1266
+msgid "Between 3 and 18 months"
+msgstr ""
+
+#: src/bet_finance_ui.c:1267
+msgid "Between 1 and 15 years"
+msgstr ""
+
+#: src/bet_finance_ui.c:1268
+msgid "Between 15 and 30 years"
+msgstr ""
+
 #: src/bet_finance_ui.c:1365
 #, fuzzy
 msgid "Annual interest: "
@@ -3383,12 +3422,13 @@ msgstr "Exporteren"
 msgid " months "
 msgstr "Maanden"
 
-#: src/bet_future.c:313 src/gsb_form_scheduler.c:140
-#: src/gsb_scheduler_list.c:1612
+#: src/bet_future.c:313 src/bet_future.c:1059 src/gsb_form_scheduler.c:140
+#: src/gsb_form_scheduler.c:648 src/gsb_scheduler_list.c:1612
 msgid "Once"
 msgstr "Een keer"
 
-#: src/bet_future.c:323 src/gsb_form_scheduler.c:149
+#: src/bet_future.c:323 src/bet_future.c:1060 src/gsb_form_scheduler.c:149
+#: src/gsb_form_scheduler.c:649 src/etats/etats_page_period.c:91
 msgid "Custom"
 msgstr "Anders"
 
@@ -3404,22 +3444,23 @@ msgstr "Tot datum"
 msgid "Own frequency"
 msgstr "Regelmaat"
 
-#: src/bet_future.c:561 src/gsb_form.c:2059 src/widgets/widget_loan.c:1321
-#: src/widgets/widget_loan.c:1327 src/widgets/widget_loan.c:1413
-#: src/widgets/widget_loan.c:1419 src/widgets/widget_transfer.c:945
-#: src/widgets/widget_transfer.c:1075 src/widgets/widget_transfer.c:1506
-#: src/widgets/widget_transfer.c:1591
+#: src/bet_future.c:561 src/gsb_form.c:2059 src/gsb_form_widget.c:574
+#: src/widgets/widget_loan.c:1321 src/widgets/widget_loan.c:1327
+#: src/widgets/widget_loan.c:1413 src/widgets/widget_loan.c:1419
+#: src/widgets/widget_transfer.c:945 src/widgets/widget_transfer.c:1075
+#: src/widgets/widget_transfer.c:1506 src/widgets/widget_transfer.c:1591
 msgid "Categories : Sub-categories"
 msgstr "Categorieën : Sub-categorieën"
 
 #: src/bet_future.c:567 src/bet_hist.c:1452 src/etats_affiche.c:307
-#: src/etats_prefs.c:578 src/gsb_form.c:2068 src/imputation_budgetaire.c:181
-#: src/utils_widgets.c:134 src/widgets/widget_loan.c:1265
-#: src/widgets/widget_loan.c:1271 src/widgets/widget_loan.c:1358
-#: src/widgets/widget_loan.c:1364 src/widgets/widget_loan.c:1450
-#: src/widgets/widget_loan.c:1456 src/widgets/widget_transfer.c:972
-#: src/widgets/widget_transfer.c:1103 src/widgets/widget_transfer.c:1521
-#: src/widgets/widget_transfer.c:1609
+#: src/etats_prefs.c:578 src/gsb_form.c:2068 src/gsb_form_widget.c:582
+#: src/gsb_transactions_list.c:112 src/imputation_budgetaire.c:181
+#: src/meta_budgetary.c:86 src/utils_widgets.c:134
+#: src/widgets/widget_loan.c:1265 src/widgets/widget_loan.c:1271
+#: src/widgets/widget_loan.c:1358 src/widgets/widget_loan.c:1364
+#: src/widgets/widget_loan.c:1450 src/widgets/widget_loan.c:1456
+#: src/widgets/widget_transfer.c:972 src/widgets/widget_transfer.c:1103
+#: src/widgets/widget_transfer.c:1521 src/widgets/widget_transfer.c:1609
 msgid "Budgetary line"
 msgstr "Budgetregel"
 
@@ -3433,11 +3474,57 @@ msgstr "Kies een financieel jaar"
 msgid "Choose the method of payment"
 msgstr "Kies een betalingsmethode"
 
+#: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
+#: src/gsb_scheduler_list.c:1612
+msgid "Weekly"
+msgstr "Wekelijks"
+
+#: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
+#: src/gsb_scheduler_list.c:1612 src/widgets/widget_loan.c:1048
+msgid "Monthly"
+msgstr "Maandelijks"
+
+#: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
+#: src/gsb_scheduler_list.c:1613
+#, fuzzy
+msgid "Bimonthly"
+msgstr "Maandelijks"
+
+#: src/bet_future.c:1060 src/gsb_form_scheduler.c:649
+#: src/gsb_scheduler_list.c:1613 src/widgets/widget_loan.c:1048
+msgid "Quarterly"
+msgstr ""
+
+#: src/bet_future.c:1060 src/gsb_form_scheduler.c:649
+#: src/gsb_scheduler_list.c:1613 src/widgets/widget_loan.c:1048
+msgid "Yearly"
+msgstr "Jaarlijks"
+
+#: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
+msgid "Days"
+msgstr "Dagen"
+
+#: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
+#, fuzzy
+msgid "Weeks"
+msgstr "Week"
+
+#: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
+msgid "Months"
+msgstr "Maanden"
+
+#: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
+msgid "Years"
+msgstr "Jaren"
+
 #: src/bet_future.c:1076 src/gsb_form_scheduler.c:681
+#: src/gsb_scheduler_list.c:945
 msgid "Frequency"
 msgstr "Regelmaat"
 
-#: src/bet_future.c:1101 src/gsb_assistant_reconcile_config.c:1320
+#: src/bet_future.c:1101 src/gsb_assistant_archive_export.c:151
+#: src/gsb_assistant_reconcile_config.c:1320 src/gsb_transactions_list.c:1114
+#: src/prefs/prefs_page_archives.c:477 src/prefs/prefs_page_reconcile.c:323
 msgid "Final date"
 msgstr "Eind datum"
 
@@ -3509,6 +3596,108 @@ msgstr ""
 #, fuzzy
 msgid "Confirmation of deletion of a deferred debit card"
 msgstr "Verwijderen van transactie bevestigen"
+
+#: src/bet_graph.c:64
+#, fuzzy
+msgid "Jan"
+msgstr "Japan"
+
+#: src/bet_graph.c:64
+#, fuzzy
+msgid "Feb"
+msgstr "Website"
+
+#: src/bet_graph.c:64
+#, fuzzy
+msgid "Mar"
+msgstr "Markeren"
+
+#: src/bet_graph.c:64
+msgid "Apr"
+msgstr ""
+
+#: src/bet_graph.c:65 src/bet_graph.c:73
+#, fuzzy
+msgid "May"
+msgstr "Dagen"
+
+#: src/bet_graph.c:65
+#, fuzzy
+msgid "Jun"
+msgstr "Japan"
+
+#: src/bet_graph.c:65
+msgid "Jul"
+msgstr ""
+
+#: src/bet_graph.c:65
+msgid "Aug"
+msgstr ""
+
+#: src/bet_graph.c:66
+msgid "Sep"
+msgstr ""
+
+#: src/bet_graph.c:66
+msgid "Oct"
+msgstr ""
+
+#: src/bet_graph.c:66
+msgid "Nov"
+msgstr ""
+
+#: src/bet_graph.c:66
+msgid "Dec"
+msgstr ""
+
+#: src/bet_graph.c:72
+#, fuzzy
+msgid "January"
+msgstr "Handmatig"
+
+#: src/bet_graph.c:72
+msgid "February"
+msgstr ""
+
+#: src/bet_graph.c:72
+#, fuzzy
+msgid "March"
+msgstr "Zoeken"
+
+#: src/bet_graph.c:72
+msgid "April"
+msgstr ""
+
+#: src/bet_graph.c:73
+msgid "June"
+msgstr ""
+
+#: src/bet_graph.c:73
+msgid "July"
+msgstr ""
+
+#: src/bet_graph.c:73
+msgid "August"
+msgstr ""
+
+#: src/bet_graph.c:74
+#, fuzzy
+msgid "September"
+msgstr "het cheque nummer"
+
+#: src/bet_graph.c:74
+msgid "October"
+msgstr ""
+
+#: src/bet_graph.c:74
+#, fuzzy
+msgid "November"
+msgstr "Nummer"
+
+#: src/bet_graph.c:74
+#, fuzzy
+msgid "December"
+msgstr "het cheque nummer"
 
 #: src/bet_graph.c:317
 #, fuzzy
@@ -3592,12 +3781,14 @@ msgstr "Selecteer alles"
 
 #: src/bet_hist.c:1278 src/bet_hist.c:1459 src/categories_onglet.c:184
 #: src/etats_affiche.c:296 src/etats_prefs.c:574 src/export_csv.c:395
+#: src/gsb_transactions_list.c:120 src/import_csv.c:82 src/meta_categories.c:65
 #: src/utils_widgets.c:121
 msgid "Category"
 msgstr "Categorie"
 
 #: src/bet_hist.c:1295 src/categories_onglet.c:205 src/etats_affiche.c:383
-#: src/gsb_assistant_reconcile_config.c:654 src/import.c:4478
+#: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:945
+#: src/gsb_transactions_list.c:116 src/import.c:4478 src/import_csv.c:86
 #: src/imputation_budgetaire.c:202 src/tiers_onglet.c:842
 #: src/etats/etats_page_amount.c:281
 msgid "Amount"
@@ -3675,12 +3866,13 @@ msgstr "Herstel standaard"
 
 #: src/bet_tab.c:987 src/bet_tab.c:1039 src/bet_tab.c:1100
 #: src/etats_affiche.c:2519 src/gsb_data_category.c:167
-#: src/widgets/widget_list_metatree.c:534
+#: src/meta_categories.c:68 src/widgets/widget_list_metatree.c:534
 msgid "No category"
 msgstr "Geen categorie"
 
 #: src/bet_tab.c:994 src/bet_tab.c:1047 src/bet_tab.c:1106
-#: src/etats_affiche.c:2669 src/widgets/widget_list_metatree.c:526
+#: src/etats_affiche.c:2669 src/meta_budgetary.c:89
+#: src/widgets/widget_list_metatree.c:526
 msgid "No budgetary line"
 msgstr "Geen budgetregel"
 
@@ -3786,9 +3978,10 @@ msgid "Check the box to automatically change start date"
 msgstr ""
 
 #: src/categories_onglet.c:194 src/etats_prefs.c:582
-#: src/gsb_assistant_reconcile_config.c:654 src/imputation_budgetaire.c:191
-#: src/navigation.c:1818 src/prefs/prefs_page_payment_method.c:1246
-#: src/tiers_onglet.c:831
+#: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:944
+#: src/imputation_budgetaire.c:191 src/navigation.c:1818
+#: src/prefs/prefs_page_payment_method.c:1246
+#: src/prefs/prefs_page_reconcile.c:323 src/tiers_onglet.c:831
 msgid "Account"
 msgstr "Rekening"
 
@@ -3933,9 +4126,10 @@ msgstr "Resultaat van %s"
 msgid "No category defined"
 msgstr "Geen categorie (%d)"
 
-#: src/categories_onglet.c:812 src/imputation_budgetaire.c:830
-#: src/prefs/prefs_page_accueil.c:288 src/prefs/prefs_page_fyear.c:566
-#: src/widgets/widget_transfer.c:1250
+#: src/categories_onglet.c:812 src/gsb_assistant_archive_export.c:151
+#: src/gsb_transactions_list.c:1114 src/imputation_budgetaire.c:830
+#: src/prefs/prefs_page_accueil.c:288 src/prefs/prefs_page_archives.c:477
+#: src/prefs/prefs_page_fyear.c:566 src/widgets/widget_transfer.c:1250
 msgid "Name"
 msgstr "Naam"
 
@@ -4037,6 +4231,151 @@ msgstr "Verwijder rapport"
 #, fuzzy
 msgid "Edit an import rule for CSV file"
 msgstr "Verwijder rapport"
+
+#: src/dialog.c:45
+#, fuzzy
+msgid "Delete a child transaction."
+msgstr "Verwijder geplande transactie"
+
+#: src/dialog.c:49
+#, fuzzy
+msgid "Delete a transaction."
+msgstr "Verwijder transactie"
+
+#: src/dialog.c:53
+#, fuzzy
+msgid "Delete a child of scheduled transaction."
+msgstr "Verwijder geplande transactie"
+
+#: src/dialog.c:57
+#, fuzzy
+msgid "Delete a scheduled transaction."
+msgstr "Verwijder geplande transactie"
+
+#: src/dialog.c:61
+#, fuzzy
+msgid "Delete one or all occurrences of scheduled transaction."
+msgstr "Verwijder geplande transactie"
+
+#: src/dialog.c:66
+#, fuzzy
+msgid "Delete a rule file import."
+msgstr "Verwijder rapport"
+
+#: src/dialog.c:76
+#, c-format
+msgid "File \"%s\" is already opened"
+msgstr "Bestand \"%s\" is al geopend."
+
+#: src/dialog.c:77
+msgid ""
+"Either this file is already opened by another user or it wasn't closed "
+"correctly (maybe Grisbi crashed?).\n"
+"Grisbi can't save the file unless you activate the \"Force saving locked "
+"files\" option in setup."
+msgstr ""
+"Het kan zijn dat dit bestand al door een andere gebruiker wordt gebruikt. "
+"Ook is het mogelijk dat het bestand niet goed is afgesloten (Grisbi kan "
+"gecrasht zijn).\n"
+"Grisbi kan het bestand niet opslaan. Als u het bestand wilt opslaan moet u "
+"de optie \"Forceren om geblokkeerde bestanden op te slaan\" in het "
+"voorkeurenmenu aanvinken."
+
+# Kop tekst in voorkeurenscherm
+#: src/dialog.c:82
+#, fuzzy
+msgid "Account file is world readable."
+msgstr "Rekening bestanden"
+
+#: src/dialog.c:83
+msgid ""
+"Your account file should not be readable by anybody else, but it is. You "
+"should change its permissions."
+msgstr ""
+
+#: src/dialog.c:87
+#, c-format
+msgid "You are running Grisbi version %s"
+msgstr ""
+
+#: src/dialog.c:88
+msgid ""
+"Warning, please be aware that the version you run is a DEVELOPMENT version. "
+"Never use your original file Grisbi: you could make it unusable.\n"
+"Make a copy now."
+msgstr ""
+
+#: src/dialog.c:93
+#, fuzzy
+msgid "Encryption is irreversible."
+msgstr "Postscript bestand"
+
+#: src/dialog.c:94
+msgid ""
+"Grisbi encrypts files in a very secure way that does not allow recovery "
+"without original password. It means that if you forget your password, you "
+"will lose all your data. Use with caution.\n"
+"\n"
+"I repeat: if you ever forget your password, there is no coming back, we "
+"cannot help you."
+msgstr ""
+
+#: src/dialog.c:100
+#, fuzzy
+msgid "Account under desired balance"
+msgstr "Rekening(en) onder het minimale gewenste bedrag"
+
+#: src/dialog.c:101
+#, fuzzy, c-format
+msgid "Grisbi detected that an account is under a desired balance: %s"
+msgstr "Rekening(en) onder het minimale gewenste bedrag"
+
+# dit is een kop tekst gevolgd door uitleg van de gevolgen
+#: src/dialog.c:104
+#, fuzzy
+msgid "Confirmation of manual reconciliation"
+msgstr "Bevestig de handmatige controle handeling"
+
+#: src/dialog.c:105
+#, fuzzy
+msgid ""
+"You are trying to reconcile a transaction manually, which is not a "
+"recommended action.\n"
+"Are you really sure you know what you are doing?"
+msgstr ""
+"U probeert een transactie handmatig te controleren of een controle op te "
+"heffen, dit is niet de normale manier om het te doen.\n"
+"\n"
+"Weet u echt wat u aan het doen bent?"
+
+# dit is een kop tekst gevolgd door uitleg van de gevolgen
+#: src/dialog.c:110
+#, fuzzy
+msgid "Confirmation of manual unreconciliation"
+msgstr "Bevestig de handmatige controle handeling"
+
+#: src/dialog.c:111
+#, fuzzy
+msgid ""
+"You are trying to unreconcile a transaction manually, which is not a "
+"recommended action.\n"
+"Are you really sure you know what you are doing?"
+msgstr ""
+"U probeert een transactie handmatig te controleren of een controle op te "
+"heffen, dit is niet de normale manier om het te doen.\n"
+"\n"
+"Weet u echt wat u aan het doen bent?"
+
+#: src/dialog.c:116
+#, fuzzy
+msgid "Removing backups from the account file"
+msgstr "Maak een reserve kopie van het bestand voor het opslaan"
+
+#: src/dialog.c:117
+#, c-format
+msgid ""
+"You will delete %d backups from your account file that are older than %s."
+msgstr ""
 
 #: src/dialog.c:271
 msgid "Do not show this message again"
@@ -4144,6 +4483,8 @@ msgid "Account name"
 msgstr "Rekening naam"
 
 #: src/etats_affiche.c:274 src/export_csv.c:377
+#: src/gsb_assistant_archive_export.c:152 src/gsb_form_widget.c:566
+#: src/gsb_transactions_list.c:119 src/prefs/prefs_page_archives.c:477
 msgid "Financial year"
 msgstr "Financieel jaar"
 
@@ -4157,10 +4498,12 @@ msgid "Cheque"
 msgstr "Cheque"
 
 #: src/etats_affiche.c:351 src/export_csv.c:410 src/gsb_form.c:2140
+#: src/gsb_form_widget.c:606 src/gsb_transactions_list.c:122
 msgid "Voucher"
 msgstr "Waardebon"
 
 #: src/etats_affiche.c:362 src/export_csv.c:416 src/gsb_form.c:2134
+#: src/gsb_form_widget.c:610 src/gsb_transactions_list.c:124
 msgid "Bank references"
 msgstr "Bank referenties"
 
@@ -4416,11 +4759,12 @@ msgstr "Opsplitsen van transactie"
 msgid "No subcategory"
 msgstr "Geen sub-categorie"
 
-#: src/etats_affiche.c:2737 src/widgets/widget_list_metatree.c:527
+#: src/etats_affiche.c:2737 src/meta_budgetary.c:90
+#: src/widgets/widget_list_metatree.c:527
 msgid "No sub-budgetary line"
 msgstr "Geen sub-budgetregel"
 
-#: src/etats_affiche.c:2872 src/gsb_data_payee.c:272
+#: src/etats_affiche.c:2872 src/gsb_data_payee.c:272 src/meta_payee.c:80
 #, fuzzy
 msgid "No payee"
 msgstr "Geen naam"
@@ -4713,6 +5057,59 @@ msgstr ""
 msgid "Searching"
 msgstr "Zoeken"
 
+#: src/etats_prefs.c:59 src/etats/etats_page_payee.c:55
+#: src/widgets/widget_list_accounts.c:53
+msgid ""
+"Command-click\n"
+"to add to the selection"
+msgstr ""
+
+#: src/etats_prefs.c:74
+msgid "Monday"
+msgstr "Maandag"
+
+#: src/etats_prefs.c:75
+msgid "Tuesday"
+msgstr "Dinsdag"
+
+#: src/etats_prefs.c:76
+msgid "Wednesday"
+msgstr "Woensdag"
+
+#: src/etats_prefs.c:77
+msgid "Thursday"
+msgstr "Donderdag"
+
+#: src/etats_prefs.c:78
+msgid "Friday"
+msgstr "Vrijdag"
+
+#: src/etats_prefs.c:79
+msgid "Saturday"
+msgstr "Zaterdag"
+
+#: src/etats_prefs.c:80
+msgid "Sunday"
+msgstr "Zondag"
+
+#: src/etats_prefs.c:86
+#, fuzzy
+msgid "Day"
+msgstr "Dagen"
+
+#: src/etats_prefs.c:87
+msgid "Week"
+msgstr "Week"
+
+#: src/etats_prefs.c:88 src/utils_widgets.c:59
+#, fuzzy
+msgid "Month"
+msgstr "Maanden"
+
+#: src/etats_prefs.c:89 src/utils_widgets.c:59
+msgid "Year"
+msgstr "Jaar"
+
 #: src/etats_prefs.c:477 src/etats_prefs.c:1616
 #, fuzzy
 msgid "Miscellaneous"
@@ -4948,7 +5345,7 @@ msgid ""
 "into currency of their respective account."
 msgstr ""
 
-#: src/export_csv.c:365
+#: src/export_csv.c:365 src/import_csv.c:91
 msgid "Split"
 msgstr "Opsplitsen"
 
@@ -4956,15 +5353,15 @@ msgstr "Opsplitsen"
 msgid "Cheques"
 msgstr "Cheques"
 
-#: src/export_csv.c:380
+#: src/export_csv.c:380 src/gsb_transactions_list.c:121 src/import_csv.c:90
 msgid "C/R"
 msgstr "C/R"
 
-#: src/export_csv.c:398
+#: src/export_csv.c:398 src/import_csv.c:83
 msgid "Sub-categories"
 msgstr "Sub-categorieën"
 
-#: src/export_csv.c:407
+#: src/export_csv.c:407 src/import_csv.c:85
 msgid "Sub-budgetary lines"
 msgstr "Sub-budgetregel"
 
@@ -5175,6 +5572,417 @@ msgstr ""
 msgid "File '%s' could not be saved"
 msgstr "Bestand \"%s\" kan niet worden geladen"
 
+#: src/go-charmap-sel.c:75
+#, fuzzy
+msgid "Arabic"
+msgstr "Afrika"
+
+#: src/go-charmap-sel.c:76
+#, fuzzy
+msgid "Baltic"
+msgstr "Saldo"
+
+#: src/go-charmap-sel.c:77
+#, fuzzy
+msgid "Central European"
+msgstr "Midden Amerika"
+
+#: src/go-charmap-sel.c:78
+#, fuzzy
+msgid "Chinese"
+msgstr "China"
+
+#: src/go-charmap-sel.c:79
+msgid "Cyrillic"
+msgstr ""
+
+#: src/go-charmap-sel.c:80 src/help.c:162
+#, fuzzy
+msgid "Greek"
+msgstr "Griekenland"
+
+#: src/go-charmap-sel.c:81
+msgid "Hebrew"
+msgstr ""
+
+#: src/go-charmap-sel.c:82
+#, fuzzy
+msgid "Indian"
+msgstr "India"
+
+#: src/go-charmap-sel.c:83
+#, fuzzy
+msgid "Japanese"
+msgstr "Japanse Yen"
+
+#: src/go-charmap-sel.c:84
+#, fuzzy
+msgid "Korean"
+msgstr "Jordanië"
+
+#: src/go-charmap-sel.c:85
+#, fuzzy
+msgid "Turkish"
+msgstr "Turkse Lira"
+
+#: src/go-charmap-sel.c:86
+msgid "Unicode"
+msgstr ""
+
+#: src/go-charmap-sel.c:87
+#, fuzzy
+msgid "Vietnamese"
+msgstr "Vietnam"
+
+#: src/go-charmap-sel.c:88
+#, fuzzy
+msgid "Western"
+msgstr "Website"
+
+#: src/go-charmap-sel.c:89 src/help.c:145 src/utils_widgets.c:81
+msgid "Other"
+msgstr ""
+
+#: src/go-charmap-sel.c:120
+msgid "Arabic (IBM-864)"
+msgstr ""
+
+#: src/go-charmap-sel.c:121
+msgid "Arabic (IBM-864-I)"
+msgstr ""
+
+#: src/go-charmap-sel.c:122
+msgid "Arabic (ISO-8859-6)"
+msgstr ""
+
+#: src/go-charmap-sel.c:123
+msgid "Arabic (ISO-8859-6-E)"
+msgstr ""
+
+#: src/go-charmap-sel.c:125
+msgid "Arabic (ISO-8859-6-I)"
+msgstr ""
+
+#: src/go-charmap-sel.c:126
+msgid "Arabic (MacArabic)"
+msgstr ""
+
+#: src/go-charmap-sel.c:127
+msgid "Arabic (Windows-1256)"
+msgstr ""
+
+#: src/go-charmap-sel.c:128
+msgid "Armenian (ARMSCII-8)"
+msgstr ""
+
+#: src/go-charmap-sel.c:129
+msgid "Baltic (ISO-8859-13)"
+msgstr ""
+
+#: src/go-charmap-sel.c:130
+msgid "Baltic (ISO-8859-4)"
+msgstr ""
+
+#: src/go-charmap-sel.c:131
+msgid "Baltic (Windows-1257)"
+msgstr ""
+
+#: src/go-charmap-sel.c:132
+msgid "Celtic (ISO-8859-14)"
+msgstr ""
+
+#: src/go-charmap-sel.c:133
+#, fuzzy
+msgid "Central European (IBM-852)"
+msgstr "Midden Amerika"
+
+#: src/go-charmap-sel.c:134
+#, fuzzy
+msgid "Central European (ISO-8859-2)"
+msgstr "Midden Amerika"
+
+#: src/go-charmap-sel.c:135
+#, fuzzy
+msgid "Central European (MacCE)"
+msgstr "Midden Amerika"
+
+#: src/go-charmap-sel.c:136
+#, fuzzy
+msgid "Central European (Windows-1250)"
+msgstr "Midden Amerika"
+
+#: src/go-charmap-sel.c:137
+msgid "Chinese Simplified (GB18030)"
+msgstr ""
+
+#: src/go-charmap-sel.c:138
+msgid "Chinese Simplified (GB2312)"
+msgstr ""
+
+#: src/go-charmap-sel.c:139
+msgid "Chinese Simplified (GBK)"
+msgstr ""
+
+#: src/go-charmap-sel.c:140
+msgid "Chinese Simplified (HZ)"
+msgstr ""
+
+#: src/go-charmap-sel.c:141
+msgid "Chinese Simplified (Windows-936)"
+msgstr ""
+
+#: src/go-charmap-sel.c:142
+msgid "Chinese Traditional (Big5)"
+msgstr ""
+
+#: src/go-charmap-sel.c:143
+msgid "Chinese Traditional (Big5-HKSCS)"
+msgstr ""
+
+#: src/go-charmap-sel.c:144
+msgid "Chinese Traditional (EUC-TW)"
+msgstr ""
+
+#: src/go-charmap-sel.c:145
+msgid "Croatian (MacCroatian)"
+msgstr ""
+
+#: src/go-charmap-sel.c:146
+msgid "Cyrillic (IBM-855)"
+msgstr ""
+
+#: src/go-charmap-sel.c:147
+msgid "Cyrillic (ISO-8859-5)"
+msgstr ""
+
+#: src/go-charmap-sel.c:148
+msgid "Cyrillic (ISO-IR-111)"
+msgstr ""
+
+#: src/go-charmap-sel.c:149
+msgid "Cyrillic (KOI8-R)"
+msgstr ""
+
+#: src/go-charmap-sel.c:150
+msgid "Cyrillic (MacCyrillic)"
+msgstr ""
+
+#: src/go-charmap-sel.c:151
+msgid "Cyrillic (Windows-1251)"
+msgstr ""
+
+#: src/go-charmap-sel.c:152
+msgid "Russian (CP-866)"
+msgstr ""
+
+#: src/go-charmap-sel.c:153
+msgid "Ukrainian (KOI8-U)"
+msgstr ""
+
+#: src/go-charmap-sel.c:154
+msgid "Ukrainian (MacUkrainian)"
+msgstr ""
+
+#: src/go-charmap-sel.c:155
+msgid "English (ASCII)"
+msgstr ""
+
+#: src/go-charmap-sel.c:156
+msgid "Farsi (MacFarsi)"
+msgstr ""
+
+#: src/go-charmap-sel.c:157
+msgid "Georgian (GEOSTD8)"
+msgstr ""
+
+#: src/go-charmap-sel.c:158
+msgid "Greek (ISO-8859-7)"
+msgstr ""
+
+#: src/go-charmap-sel.c:159
+msgid "Greek (MacGreek)"
+msgstr ""
+
+#: src/go-charmap-sel.c:160
+msgid "Greek (Windows-1253)"
+msgstr ""
+
+#: src/go-charmap-sel.c:161
+msgid "Gujarati (MacGujarati)"
+msgstr ""
+
+#: src/go-charmap-sel.c:162
+msgid "Gurmukhi (MacGurmukhi)"
+msgstr ""
+
+#: src/go-charmap-sel.c:163
+msgid "Hebrew (IBM-862)"
+msgstr ""
+
+#: src/go-charmap-sel.c:164
+msgid "Hebrew (ISO-8859-8-E)"
+msgstr ""
+
+#: src/go-charmap-sel.c:165
+msgid "Hebrew (ISO-8859-8-I)"
+msgstr ""
+
+#: src/go-charmap-sel.c:166
+msgid "Hebrew (MacHebrew)"
+msgstr ""
+
+#: src/go-charmap-sel.c:167
+msgid "Hebrew (Windows-1255)"
+msgstr ""
+
+#: src/go-charmap-sel.c:168
+msgid "Hindi (MacDevanagari)"
+msgstr ""
+
+#: src/go-charmap-sel.c:169
+msgid "Icelandic (MacIcelandic)"
+msgstr ""
+
+#: src/go-charmap-sel.c:170
+#, fuzzy
+msgid "Japanese (EUC-JP)"
+msgstr "Japanse Yen"
+
+#: src/go-charmap-sel.c:171
+#, fuzzy
+msgid "Japanese (ISO-2022-JP)"
+msgstr "Japanse Yen"
+
+#: src/go-charmap-sel.c:172
+#, fuzzy
+msgid "Japanese (Shift_JIS)"
+msgstr "Japanse Yen"
+
+#: src/go-charmap-sel.c:173
+msgid "Korean (EUC-KR)"
+msgstr ""
+
+#: src/go-charmap-sel.c:174
+msgid "Korean (ISO-2022-KR)"
+msgstr ""
+
+#: src/go-charmap-sel.c:175
+#, fuzzy
+msgid "Korean (JOHAB)"
+msgstr "Jordanië"
+
+#: src/go-charmap-sel.c:176
+#, fuzzy
+msgid "Korean (UHC)"
+msgstr "Jordanië"
+
+#: src/go-charmap-sel.c:177
+msgid "Nordic (ISO-8859-10)"
+msgstr ""
+
+#: src/go-charmap-sel.c:178
+msgid "Romanian (MacRomanian)"
+msgstr ""
+
+#: src/go-charmap-sel.c:179
+msgid "Romanian (ISO-8859-16)"
+msgstr ""
+
+#: src/go-charmap-sel.c:180
+msgid "South European (ISO-8859-3)"
+msgstr ""
+
+#: src/go-charmap-sel.c:181
+msgid "Thai (TIS-620)"
+msgstr ""
+
+#: src/go-charmap-sel.c:182
+msgid "Turkish (IBM-857)"
+msgstr ""
+
+#: src/go-charmap-sel.c:183
+msgid "Turkish (ISO-8859-9)"
+msgstr ""
+
+#: src/go-charmap-sel.c:184
+msgid "Turkish (MacTurkish)"
+msgstr ""
+
+#: src/go-charmap-sel.c:185
+msgid "Turkish (Windows-1254)"
+msgstr ""
+
+#: src/go-charmap-sel.c:186
+msgid "Unicode (UTF-7)"
+msgstr ""
+
+#: src/go-charmap-sel.c:187
+msgid "Unicode (UTF-8)"
+msgstr ""
+
+#: src/go-charmap-sel.c:188
+msgid "Unicode (UTF-16BE)"
+msgstr ""
+
+#: src/go-charmap-sel.c:189
+msgid "Unicode (UTF-16LE)"
+msgstr ""
+
+#: src/go-charmap-sel.c:190
+msgid "Unicode (UTF-32BE)"
+msgstr ""
+
+#: src/go-charmap-sel.c:191
+msgid "Unicode (UTF-32LE)"
+msgstr ""
+
+#: src/go-charmap-sel.c:192
+msgid "User Defined"
+msgstr ""
+
+#: src/go-charmap-sel.c:193
+#, fuzzy
+msgid "Vietnamese (TCVN)"
+msgstr "Vietnam"
+
+#: src/go-charmap-sel.c:194
+#, fuzzy
+msgid "Vietnamese (VISCII)"
+msgstr "Vietnam"
+
+#: src/go-charmap-sel.c:195
+#, fuzzy
+msgid "Vietnamese (VPS)"
+msgstr "Vietnam"
+
+#: src/go-charmap-sel.c:196
+msgid "Vietnamese (Windows-1258)"
+msgstr ""
+
+#: src/go-charmap-sel.c:197
+msgid "Visual Hebrew (ISO-8859-8)"
+msgstr ""
+
+#: src/go-charmap-sel.c:198
+msgid "Western (IBM-850)"
+msgstr ""
+
+#: src/go-charmap-sel.c:199
+msgid "Western (ISO-8859-1)"
+msgstr ""
+
+#: src/go-charmap-sel.c:200
+msgid "Western (ISO-8859-15)"
+msgstr ""
+
+#: src/go-charmap-sel.c:201
+msgid "Western (MacRoman)"
+msgstr ""
+
+#: src/go-charmap-sel.c:202
+msgid "Western (Windows-1252)"
+msgstr ""
+
 #: src/go-charmap-sel.c:442
 msgid "Locale: "
 msgstr ""
@@ -5195,6 +6003,14 @@ msgstr "Handmatig"
 
 #: src/go-optionmenu.c:368
 msgid "The menu of options"
+msgstr ""
+
+#: src/grisbi_app.c:115 src/grisbi_app.c:131
+msgid "Quit"
+msgstr ""
+
+#: src/grisbi_app.c:127 src/grisbi_app.c:143
+msgid "Full screen"
 msgstr ""
 
 #: src/grisbi_app.c:827
@@ -5772,6 +6588,12 @@ msgid ""
 "preference window."
 msgstr ""
 
+#: src/gsb_assistant_archive_export.c:151
+#: src/gsb_assistant_reconcile_config.c:1320
+#: src/prefs/prefs_page_archives.c:477
+msgid "Initial date"
+msgstr "Start datum"
+
 #: src/gsb_assistant_archive_export.c:163
 #, fuzzy
 msgid "Select the archive to export"
@@ -6182,13 +7004,9 @@ msgstr "Bevestig de handmatige controle handeling"
 msgid "Select the reconciliation to associate to the selected transactions: "
 msgstr "De niet gecontroleerde transacties:"
 
-#: src/gsb_assistant_reconcile_config.c:1320
+#: src/gsb_assistant_reconcile_config.c:1320 src/gsb_transactions_list.c:118
 msgid "Reconciliation reference"
 msgstr "Controle referentie"
-
-#: src/gsb_assistant_reconcile_config.c:1320
-msgid "Initial date"
-msgstr "Start datum"
 
 #: src/gsb_assistant_reconcile_config.c:1393
 #, fuzzy
@@ -6264,7 +7082,8 @@ msgstr "Selecteer data"
 msgid "The exchange rate or the transaction amount in %s must be filled."
 msgstr ""
 
-#: src/gsb_currency_popup.c:186 src/prefs/prefs_page_currency.c:133
+#: src/gsb_currency_popup.c:186 src/gsb_data_currency.c:215
+#: src/prefs/prefs_page_currency.c:133
 msgid "United States"
 msgstr "Verenigde Staten van Amerika"
 
@@ -6322,6 +7141,1381 @@ msgstr "Geen budgetregel"
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "In <i>%s</i>, <i>%s</i> is een dubbele van <i>%s</i>.\n"
+
+#: src/gsb_data_currency.c:65 src/gsb_data_currency.c:66
+#: src/gsb_data_currency.c:67 src/gsb_data_currency.c:68
+#: src/gsb_data_currency.c:69 src/gsb_data_currency.c:70
+#: src/gsb_data_currency.c:71 src/gsb_data_currency.c:72
+#: src/gsb_data_currency.c:73 src/gsb_data_currency.c:74
+#: src/gsb_data_currency.c:75 src/gsb_data_currency.c:76
+#: src/gsb_data_currency.c:77 src/gsb_data_currency.c:78
+#: src/gsb_data_currency.c:79 src/gsb_data_currency.c:80
+#: src/gsb_data_currency.c:81 src/gsb_data_currency.c:82
+#: src/gsb_data_currency.c:83 src/gsb_data_currency.c:84
+#: src/gsb_data_currency.c:85 src/gsb_data_currency.c:86
+#: src/gsb_data_currency.c:87 src/gsb_data_currency.c:88
+#: src/gsb_data_currency.c:89 src/gsb_data_currency.c:90
+#: src/gsb_data_currency.c:91 src/gsb_data_currency.c:92
+#: src/gsb_data_currency.c:93 src/gsb_data_currency.c:94
+#: src/gsb_data_currency.c:95 src/gsb_data_currency.c:96
+#: src/gsb_data_currency.c:97 src/gsb_data_currency.c:98
+#: src/gsb_data_currency.c:99 src/gsb_data_currency.c:100
+#: src/gsb_data_currency.c:101
+msgid "Africa"
+msgstr "Afrika"
+
+#: src/gsb_data_currency.c:65
+msgid "Algerian Dinar"
+msgstr "Algerijnse dinar"
+
+#: src/gsb_data_currency.c:65
+msgid "Algeria"
+msgstr "Algerije"
+
+#: src/gsb_data_currency.c:66
+msgid "Botswana Pula"
+msgstr "Botswana Pula"
+
+#: src/gsb_data_currency.c:66
+msgid "Botswana"
+msgstr "Botswana"
+
+#: src/gsb_data_currency.c:67
+msgid "Burundi Franc"
+msgstr "Burundese Frank"
+
+#: src/gsb_data_currency.c:67
+msgid "Burundi"
+msgstr "Burundi"
+
+#: src/gsb_data_currency.c:68 src/gsb_data_currency.c:69
+#: src/gsb_data_currency.c:70
+msgid "CFA Franc BCEAO"
+msgstr "CFA-frank BCEAO"
+
+#: src/gsb_data_currency.c:68
+msgid "Niger"
+msgstr "Niger"
+
+#: src/gsb_data_currency.c:69
+msgid "Senegal"
+msgstr "Senegal"
+
+#: src/gsb_data_currency.c:70
+msgid "Togo"
+msgstr ""
+
+#: src/gsb_data_currency.c:71 src/gsb_data_currency.c:72
+#: src/gsb_data_currency.c:73
+msgid "CFA Franc BEAC"
+msgstr "CFA Franc BEAC"
+
+#: src/gsb_data_currency.c:71
+msgid "Cameroon"
+msgstr "Kameroen"
+
+#: src/gsb_data_currency.c:72
+msgid "Chad"
+msgstr "Tsjaad"
+
+#: src/gsb_data_currency.c:73
+msgid "Congo"
+msgstr "Congo"
+
+#: src/gsb_data_currency.c:74
+msgid "Comoro Franc"
+msgstr "Comorese frank"
+
+#: src/gsb_data_currency.c:74
+msgid "Comoros"
+msgstr "Comoren"
+
+#: src/gsb_data_currency.c:75
+msgid "Egyptian Pound"
+msgstr "Egyptisch Pond"
+
+#: src/gsb_data_currency.c:75
+msgid "Egypt"
+msgstr "Egypte"
+
+#: src/gsb_data_currency.c:76
+msgid "Ethiopian Birr"
+msgstr "Ethiopische Birr"
+
+#: src/gsb_data_currency.c:76
+msgid "Ethiopia"
+msgstr "Ethiopië"
+
+#: src/gsb_data_currency.c:77
+msgid "Gambian Dalasi"
+msgstr "Gambiaanse Dalasi"
+
+#: src/gsb_data_currency.c:77
+msgid "Gambia"
+msgstr "Gambia"
+
+#: src/gsb_data_currency.c:78
+msgid "Ghana Cedi"
+msgstr "Ghanese Cedi"
+
+#: src/gsb_data_currency.c:78
+msgid "Ghana"
+msgstr "Ghana"
+
+#: src/gsb_data_currency.c:79
+msgid "Guinea-Bissau Peso"
+msgstr "Guinea-Bissause Peso"
+
+#: src/gsb_data_currency.c:79
+msgid "Guinea-Bissau"
+msgstr "Guinee-Bissau"
+
+#: src/gsb_data_currency.c:80
+msgid "Kenyan Shilling"
+msgstr "Keniaanse shilling"
+
+#: src/gsb_data_currency.c:80
+msgid "Kenya"
+msgstr "Kenia"
+
+#: src/gsb_data_currency.c:81
+msgid "Liberian Dollar"
+msgstr "Liberiaanse dollar"
+
+#: src/gsb_data_currency.c:81
+msgid "Liberia"
+msgstr "Liberia"
+
+#: src/gsb_data_currency.c:82
+msgid "Libyan Dinar"
+msgstr "Libische Dinar"
+
+#: src/gsb_data_currency.c:82
+msgid "Libyan Arab Jamahiriya"
+msgstr "Libië"
+
+#: src/gsb_data_currency.c:83
+msgid "Malagasy Franc"
+msgstr "Malagese frank"
+
+#: src/gsb_data_currency.c:83
+msgid "Madagascar"
+msgstr "Madagaskar"
+
+#: src/gsb_data_currency.c:84
+msgid "Malawi Kwacha"
+msgstr "Malawische Kwacha"
+
+#: src/gsb_data_currency.c:84
+msgid "Malawi"
+msgstr "Malawi"
+
+#: src/gsb_data_currency.c:85
+msgid "Mauritania Ouguiya"
+msgstr "Mauritanische Ouguiya"
+
+#: src/gsb_data_currency.c:85
+msgid "Mauritania"
+msgstr "Mauritanië"
+
+#: src/gsb_data_currency.c:86
+msgid "Moazambique Metical"
+msgstr "Mozambicaanse Metical"
+
+#: src/gsb_data_currency.c:86
+msgid "Mozambique"
+msgstr "Mozambique"
+
+#: src/gsb_data_currency.c:87
+msgid "Moroccan Dirham"
+msgstr "Marokkaanse Dirham"
+
+#: src/gsb_data_currency.c:87
+msgid "Morocco"
+msgstr "Marokko"
+
+#: src/gsb_data_currency.c:88
+msgid "Nigerian Naira"
+msgstr "Nigeriaanse Naira"
+
+#: src/gsb_data_currency.c:88
+msgid "Nigeria"
+msgstr "Nigeria"
+
+#: src/gsb_data_currency.c:89
+msgid "Rwanda Franc"
+msgstr "Ruandese frank"
+
+#: src/gsb_data_currency.c:89
+msgid "Rwanda"
+msgstr "Rwanda"
+
+#: src/gsb_data_currency.c:90
+msgid "Sao Tome and Principe Dobra"
+msgstr "Sao Tome en Principe Dobra"
+
+#: src/gsb_data_currency.c:90
+msgid "Sao Tome and Principe"
+msgstr "Sao Tome en Principe"
+
+#: src/gsb_data_currency.c:91
+msgid "Seychelles Rupee"
+msgstr "Seychellen Roepia"
+
+#: src/gsb_data_currency.c:91
+msgid "Seychelles"
+msgstr "Seychellen"
+
+#: src/gsb_data_currency.c:92
+msgid "Sierra Leonean Leone"
+msgstr "Sierra Leone Leone"
+
+#: src/gsb_data_currency.c:92
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+#: src/gsb_data_currency.c:93
+msgid "Somali Shilling"
+msgstr "Somali Shilling"
+
+#: src/gsb_data_currency.c:93
+msgid "Somalia"
+msgstr "Somalië"
+
+#: src/gsb_data_currency.c:94 src/gsb_data_currency.c:95
+#: src/gsb_data_currency.c:96
+msgid "South African Rand"
+msgstr "Zuid-Afrikaanse Rand"
+
+#: src/gsb_data_currency.c:94
+msgid "Lesotho"
+msgstr "Lesotho"
+
+#: src/gsb_data_currency.c:95
+msgid "Namibia"
+msgstr "Namibië"
+
+#: src/gsb_data_currency.c:96
+msgid "South Africa"
+msgstr "Zuid-Afrika"
+
+#: src/gsb_data_currency.c:97
+msgid "Swaziland Lilangeni"
+msgstr "Swaziland Lilangeni"
+
+#: src/gsb_data_currency.c:97
+msgid "Swaziland"
+msgstr "Swaziland"
+
+#: src/gsb_data_currency.c:98
+msgid "Tanzanian Shilling"
+msgstr "Tanzaniaanse Shilling"
+
+#: src/gsb_data_currency.c:98
+msgid "United Republic of Tanzania"
+msgstr "Tanzania"
+
+#: src/gsb_data_currency.c:99
+msgid "Tunisian Dinar"
+msgstr "Tunesische Dinar"
+
+#: src/gsb_data_currency.c:99
+msgid "Tunisia"
+msgstr "Tunesië"
+
+#: src/gsb_data_currency.c:100
+msgid "Zambian Kwacha"
+msgstr "Zambiaanse Kwacha"
+
+#: src/gsb_data_currency.c:100
+msgid "Zambia"
+msgstr "Zambia"
+
+#: src/gsb_data_currency.c:101
+msgid "Zimbabwe Dollar"
+msgstr "Zimbabwaanse Dollar"
+
+#: src/gsb_data_currency.c:101
+msgid "Zimbabwe"
+msgstr "Zimbabwe"
+
+#: src/gsb_data_currency.c:102 src/gsb_data_currency.c:103
+#: src/gsb_data_currency.c:104 src/gsb_data_currency.c:105
+#: src/gsb_data_currency.c:106 src/gsb_data_currency.c:107
+#: src/gsb_data_currency.c:108 src/gsb_data_currency.c:109
+#: src/gsb_data_currency.c:110 src/gsb_data_currency.c:111
+#: src/gsb_data_currency.c:112 src/gsb_data_currency.c:113
+#: src/gsb_data_currency.c:114 src/gsb_data_currency.c:115
+#: src/gsb_data_currency.c:116 src/gsb_data_currency.c:117
+#: src/gsb_data_currency.c:118 src/gsb_data_currency.c:119
+#: src/gsb_data_currency.c:120 src/gsb_data_currency.c:121
+#: src/gsb_data_currency.c:122 src/gsb_data_currency.c:123
+#: src/gsb_data_currency.c:124 src/gsb_data_currency.c:125
+#: src/gsb_data_currency.c:126 src/gsb_data_currency.c:127
+#: src/gsb_data_currency.c:128 src/gsb_data_currency.c:129
+#: src/gsb_data_currency.c:130 src/gsb_data_currency.c:131
+#: src/gsb_data_currency.c:132 src/gsb_data_currency.c:133
+#: src/gsb_data_currency.c:134 src/gsb_data_currency.c:135
+#: src/gsb_data_currency.c:136 src/gsb_data_currency.c:137
+#: src/gsb_data_currency.c:138 src/gsb_data_currency.c:139
+#: src/gsb_data_currency.c:140 src/gsb_data_currency.c:141
+#: src/gsb_data_currency.c:142
+msgid "Asia"
+msgstr "Azië"
+
+#: src/gsb_data_currency.c:102
+msgid "Afghani"
+msgstr "Afghani"
+
+#: src/gsb_data_currency.c:102
+msgid "Afghanistan"
+msgstr "Afghanistan"
+
+#: src/gsb_data_currency.c:103
+msgid "Bahraini Dinar"
+msgstr "Bahreinse Dinar"
+
+#: src/gsb_data_currency.c:103
+msgid "Bahrain"
+msgstr "Bahrein"
+
+#: src/gsb_data_currency.c:104
+msgid "Bangladesh Taka"
+msgstr "Bangladesh Taka"
+
+#: src/gsb_data_currency.c:104
+msgid "Bangladesh"
+msgstr "Bangladesh"
+
+#: src/gsb_data_currency.c:105
+msgid "Brunei Dollar"
+msgstr "Bruneise Dollar"
+
+#: src/gsb_data_currency.c:105
+msgid "Brunei Darussalam"
+msgstr "Bruneise Dollar"
+
+#: src/gsb_data_currency.c:106
+msgid "Cambodian Riel"
+msgstr "Cambodjaanse Riel"
+
+#: src/gsb_data_currency.c:106
+msgid "Cambodia"
+msgstr "Cambodja"
+
+#: src/gsb_data_currency.c:107
+msgid "Cyprus Pound"
+msgstr "Cyprisch pond"
+
+#: src/gsb_data_currency.c:107 src/gsb_data_currency.c:152
+msgid "Cyprus"
+msgstr "Cyprus"
+
+#: src/gsb_data_currency.c:108
+msgid "Hong Kong Dollar"
+msgstr "Hong Kong Dollar"
+
+#: src/gsb_data_currency.c:108
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+#: src/gsb_data_currency.c:109 src/gsb_data_currency.c:110
+msgid "Indian Rupee"
+msgstr "Indiase Roepia"
+
+#: src/gsb_data_currency.c:109
+msgid "Bhutan"
+msgstr "Bhutan"
+
+#: src/gsb_data_currency.c:110
+msgid "India"
+msgstr "India"
+
+#: src/gsb_data_currency.c:111
+msgid "Indonesian Rupiah"
+msgstr "Indonesische Roepia"
+
+#: src/gsb_data_currency.c:111
+msgid "Indonesia"
+msgstr "Indonesië"
+
+#: src/gsb_data_currency.c:112
+msgid "Iranian Rial"
+msgstr "Iraanse Rial"
+
+#: src/gsb_data_currency.c:112
+msgid "Iran"
+msgstr "Iran"
+
+#: src/gsb_data_currency.c:113
+msgid "Iraqi Dinar"
+msgstr "Irakese Dinar"
+
+#: src/gsb_data_currency.c:113
+msgid "Iraq"
+msgstr "Irak"
+
+#: src/gsb_data_currency.c:114
+msgid "Japanese Yen"
+msgstr "Japanse Yen"
+
+#: src/gsb_data_currency.c:114
+msgid "Japan"
+msgstr "Japan"
+
+#: src/gsb_data_currency.c:115
+msgid "Jordanian Dinar"
+msgstr "Jordaanse Dinar"
+
+#: src/gsb_data_currency.c:115
+msgid "Jordan"
+msgstr "Jordanië"
+
+#: src/gsb_data_currency.c:116
+#, fuzzy
+msgid "Kazakhstan Tenge"
+msgstr "Pakistaanse Roepia"
+
+#: src/gsb_data_currency.c:116
+#, fuzzy
+msgid "Kazakhstan"
+msgstr "Pakistan"
+
+#: src/gsb_data_currency.c:117
+msgid "Kuwaiti Dinar"
+msgstr "Koeweitse Dinar"
+
+#: src/gsb_data_currency.c:117
+msgid "Kuwait"
+msgstr "Koeweit"
+
+#: src/gsb_data_currency.c:118
+msgid "Lao Kip"
+msgstr "Lao Kip"
+
+#: src/gsb_data_currency.c:118
+msgid "Lao People's Democratic Republic"
+msgstr ""
+
+#: src/gsb_data_currency.c:119
+msgid "Lebanese Pound"
+msgstr "Libanese Pond"
+
+#: src/gsb_data_currency.c:119
+msgid "Lebanon"
+msgstr "Libanon"
+
+#: src/gsb_data_currency.c:120
+msgid "Macau Pataca"
+msgstr "Macause Pataca"
+
+#: src/gsb_data_currency.c:120
+msgid "Macao"
+msgstr "Macao"
+
+#: src/gsb_data_currency.c:121
+msgid "Malaysian Ringgit"
+msgstr "Maleisische Ringgit"
+
+#: src/gsb_data_currency.c:121
+msgid "Malaysia"
+msgstr "Maleisië"
+
+#: src/gsb_data_currency.c:122
+msgid "Mongolian Tugrik"
+msgstr "Mongolische Tugrik"
+
+#: src/gsb_data_currency.c:122
+msgid "Mongolia"
+msgstr "Mongolië"
+
+#: src/gsb_data_currency.c:123
+msgid "Nepalese Rupee"
+msgstr "Nepalese Roepia"
+
+#: src/gsb_data_currency.c:123
+msgid "Nepal"
+msgstr "Nepal"
+
+#: src/gsb_data_currency.c:124
+msgid "New Israeli Shekel"
+msgstr "Nieuwe Israëlische Shekel"
+
+#: src/gsb_data_currency.c:124
+msgid "Israel"
+msgstr "Israël"
+
+#: src/gsb_data_currency.c:125
+msgid "New Taiwan Dollar"
+msgstr "Nieuwe Taiwan Dollar"
+
+#: src/gsb_data_currency.c:125
+msgid "Taiwan, Province of China"
+msgstr "Taiwan"
+
+#: src/gsb_data_currency.c:126
+msgid "North Korean Won"
+msgstr "Noord-Koreaanse Won"
+
+#: src/gsb_data_currency.c:126
+msgid "Democratic People's Republic of Korea"
+msgstr "Noord-Korea"
+
+#: src/gsb_data_currency.c:127
+msgid "Pakistan Rupee"
+msgstr "Pakistaanse Roepia"
+
+#: src/gsb_data_currency.c:127
+msgid "Pakistan"
+msgstr "Pakistan"
+
+#: src/gsb_data_currency.c:128
+msgid "Philippine peso"
+msgstr "Filippijnse peso"
+
+#: src/gsb_data_currency.c:128
+msgid "Philippines"
+msgstr "Filippijnen"
+
+#: src/gsb_data_currency.c:129
+msgid "Qatari Rial"
+msgstr "Qatari Rial"
+
+#: src/gsb_data_currency.c:129
+msgid "Qatar"
+msgstr "Qatar"
+
+#: src/gsb_data_currency.c:130
+msgid "Rial Omani"
+msgstr "Omani Rial"
+
+#: src/gsb_data_currency.c:130
+msgid "Oman"
+msgstr "Oman"
+
+#: src/gsb_data_currency.c:131
+msgid "Russian Ruble"
+msgstr "Russische Roebel"
+
+#: src/gsb_data_currency.c:131
+msgid "Russia"
+msgstr "Rusland"
+
+#: src/gsb_data_currency.c:132
+msgid "Saudi Riyal"
+msgstr "Saudi Riya"
+
+#: src/gsb_data_currency.c:132
+msgid "Saudi Arabia"
+msgstr "Saoedi-Arabië"
+
+#: src/gsb_data_currency.c:133
+msgid "Singapore Dollar"
+msgstr "Singaporeaanse Dollar"
+
+#: src/gsb_data_currency.c:133
+msgid "Singapore"
+msgstr "Singapore"
+
+#: src/gsb_data_currency.c:134
+msgid "South Korean Won"
+msgstr "Zuid-Koreaanse Won"
+
+#: src/gsb_data_currency.c:134
+msgid "Republic of Korea"
+msgstr "Zuid-Korea"
+
+#: src/gsb_data_currency.c:135
+msgid "Sri Lanka Rupee"
+msgstr "Sri Lankese Roepia"
+
+#: src/gsb_data_currency.c:135
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+#: src/gsb_data_currency.c:136
+msgid "Syrian Pound"
+msgstr "Syrische Pond"
+
+#: src/gsb_data_currency.c:136
+msgid "Syrian Arab Republic"
+msgstr "Syrië"
+
+#: src/gsb_data_currency.c:137
+msgid "Thai Baht"
+msgstr "Thaise Baht"
+
+#: src/gsb_data_currency.c:137
+msgid "Thailand"
+msgstr "Thailand"
+
+#: src/gsb_data_currency.c:138
+msgid "Turkish Lira"
+msgstr "Turkse Lira"
+
+#: src/gsb_data_currency.c:138
+msgid "Turkey"
+msgstr "Turkije"
+
+#: src/gsb_data_currency.c:139
+msgid "United Arab Emirates Dirham"
+msgstr "Verenigde Arabische Emiraten Dirham"
+
+#: src/gsb_data_currency.c:139
+msgid "United Arab Emirates"
+msgstr "Verenigde Arabische Emiraten"
+
+#: src/gsb_data_currency.c:140
+msgid "Viet Nam Dong"
+msgstr "Vietnamese Dong"
+
+#: src/gsb_data_currency.c:140
+msgid "Viet Nam"
+msgstr "Vietnam"
+
+#: src/gsb_data_currency.c:141
+msgid "Yemeni Rial"
+msgstr "Jemenitische Rial"
+
+#: src/gsb_data_currency.c:141
+msgid "Yemen"
+msgstr "Jemen"
+
+#: src/gsb_data_currency.c:142
+msgid "Yuan Renminbi"
+msgstr "Chinese Yuan Renminbi"
+
+#: src/gsb_data_currency.c:142
+msgid "China"
+msgstr "China"
+
+#: src/gsb_data_currency.c:143 src/gsb_data_currency.c:144
+#: src/gsb_data_currency.c:145 src/gsb_data_currency.c:146
+#: src/gsb_data_currency.c:147 src/gsb_data_currency.c:148
+msgid "Central America"
+msgstr "Midden Amerika"
+
+#: src/gsb_data_currency.c:143
+msgid "Belize Dollar"
+msgstr "Belize Dollar"
+
+#: src/gsb_data_currency.c:143
+msgid "Belize"
+msgstr "Belize"
+
+#: src/gsb_data_currency.c:144
+msgid "Costa Rican Colon"
+msgstr "Costa Ricaanse Colón"
+
+#: src/gsb_data_currency.c:144
+msgid "Costa Rica"
+msgstr "Costa Rica"
+
+#: src/gsb_data_currency.c:145
+msgid "Guatemalan Quetzal"
+msgstr "Guatemalaanse Quetzal"
+
+#: src/gsb_data_currency.c:145
+msgid "Guatemala"
+msgstr "Guatemala"
+
+#: src/gsb_data_currency.c:146
+msgid "Honduran Lempira"
+msgstr "Hondurese Lempira"
+
+#: src/gsb_data_currency.c:146
+msgid "Honduras"
+msgstr "Honduras"
+
+#: src/gsb_data_currency.c:147
+msgid "Mexican Peso"
+msgstr "Mexicaanse Peso"
+
+#: src/gsb_data_currency.c:147
+msgid "Mexico"
+msgstr "Mexico"
+
+#: src/gsb_data_currency.c:148
+msgid "Panama Balboa"
+msgstr "Panamese Balboa"
+
+#: src/gsb_data_currency.c:148 src/gsb_data_currency.c:231
+msgid "Panama"
+msgstr "Panama"
+
+#: src/gsb_data_currency.c:149 src/gsb_data_currency.c:150
+#: src/gsb_data_currency.c:151 src/gsb_data_currency.c:152
+#: src/gsb_data_currency.c:153 src/gsb_data_currency.c:154
+#: src/gsb_data_currency.c:155 src/gsb_data_currency.c:156
+#: src/gsb_data_currency.c:157 src/gsb_data_currency.c:158
+#: src/gsb_data_currency.c:159 src/gsb_data_currency.c:160
+#: src/gsb_data_currency.c:161 src/gsb_data_currency.c:162
+#: src/gsb_data_currency.c:163 src/gsb_data_currency.c:164
+#: src/gsb_data_currency.c:165 src/gsb_data_currency.c:166
+#: src/gsb_data_currency.c:167 src/gsb_data_currency.c:168
+#: src/gsb_data_currency.c:169 src/gsb_data_currency.c:170
+#: src/gsb_data_currency.c:171 src/gsb_data_currency.c:172
+#: src/gsb_data_currency.c:173 src/gsb_data_currency.c:174
+#: src/gsb_data_currency.c:175 src/gsb_data_currency.c:176
+#: src/gsb_data_currency.c:177 src/gsb_data_currency.c:178
+#: src/gsb_data_currency.c:179 src/gsb_data_currency.c:180
+#: src/gsb_data_currency.c:181 src/gsb_data_currency.c:182
+#: src/gsb_data_currency.c:183 src/gsb_data_currency.c:184
+#: src/gsb_data_currency.c:185 src/gsb_data_currency.c:186
+#: src/gsb_data_currency.c:187 src/gsb_data_currency.c:188
+#: src/gsb_data_currency.c:189 src/gsb_data_currency.c:190
+#: src/gsb_data_currency.c:191 src/gsb_data_currency.c:192
+#: src/gsb_data_currency.c:193 src/gsb_data_currency.c:194
+#: src/gsb_data_currency.c:195 src/gsb_data_currency.c:196
+#: src/gsb_data_currency.c:197 src/gsb_data_currency.c:198
+#: src/gsb_data_currency.c:199 src/gsb_data_currency.c:200
+msgid "Europe"
+msgstr "Europa"
+
+#: src/gsb_data_currency.c:149 src/gsb_data_currency.c:150
+#: src/gsb_data_currency.c:151 src/gsb_data_currency.c:152
+#: src/gsb_data_currency.c:153 src/gsb_data_currency.c:154
+#: src/gsb_data_currency.c:155 src/gsb_data_currency.c:156
+#: src/gsb_data_currency.c:157 src/gsb_data_currency.c:158
+#: src/gsb_data_currency.c:159 src/gsb_data_currency.c:160
+#: src/gsb_data_currency.c:161 src/gsb_data_currency.c:162
+#: src/gsb_data_currency.c:172
+msgid "Euro"
+msgstr "Euro"
+
+#: src/gsb_data_currency.c:149 src/gsb_data_currency.c:170
+msgid "Germany"
+msgstr "Duitsland"
+
+#: src/gsb_data_currency.c:150 src/gsb_data_currency.c:164
+msgid "Austria"
+msgstr "Oostenrijk"
+
+#: src/gsb_data_currency.c:151 src/gsb_data_currency.c:165
+msgid "Belgium"
+msgstr "België"
+
+#: src/gsb_data_currency.c:153 src/gsb_data_currency.c:196
+msgid "Spain"
+msgstr "Spanje"
+
+#: src/gsb_data_currency.c:154 src/gsb_data_currency.c:173
+msgid "Finland"
+msgstr "Finland"
+
+#: src/gsb_data_currency.c:155 src/gsb_data_currency.c:174
+msgid "France"
+msgstr "Frankrijk"
+
+#: src/gsb_data_currency.c:156 src/gsb_data_currency.c:176
+msgid "Greece"
+msgstr "Griekenland"
+
+#: src/gsb_data_currency.c:157 src/gsb_data_currency.c:179
+msgid "Ireland"
+msgstr "Ierland"
+
+#: src/gsb_data_currency.c:158 src/gsb_data_currency.c:181
+msgid "Italy"
+msgstr "Italië"
+
+#: src/gsb_data_currency.c:159 src/gsb_data_currency.c:185
+msgid "Luxembourg"
+msgstr "Groothertogdom Luxemburg"
+
+#: src/gsb_data_currency.c:160 src/gsb_data_currency.c:187
+msgid "Netherlands"
+msgstr "Nederland"
+
+#: src/gsb_data_currency.c:161 src/gsb_data_currency.c:191
+msgid "Portugal"
+msgstr "Portugal"
+
+#: src/gsb_data_currency.c:162 src/gsb_data_currency.c:195
+msgid "Slovenia"
+msgstr "Slovenië"
+
+#: src/gsb_data_currency.c:163
+msgid "Albanian Lek"
+msgstr "Albanese Lek"
+
+#: src/gsb_data_currency.c:163
+msgid "Albania"
+msgstr "Albanië"
+
+#: src/gsb_data_currency.c:164
+msgid "Austrian Schilling"
+msgstr "Oostenrijkse Euro (Schilling)"
+
+#: src/gsb_data_currency.c:165
+msgid "Belgian Franc"
+msgstr "Belgische Euro (Frank)"
+
+#: src/gsb_data_currency.c:166
+msgid "Bulgarian Lev"
+msgstr "Bulgaarse Lev (voor 1999-07-05)"
+
+#: src/gsb_data_currency.c:166
+msgid "Bulgaria"
+msgstr "Bulgarije"
+
+#: src/gsb_data_currency.c:167
+msgid "Croatian kuna"
+msgstr ""
+
+#: src/gsb_data_currency.c:167
+msgid "Croatia"
+msgstr ""
+
+#: src/gsb_data_currency.c:168
+msgid "Czech Koruna"
+msgstr "Tsjechische Kroon"
+
+#: src/gsb_data_currency.c:168
+msgid "Czech Republic"
+msgstr "Tsjechië"
+
+#: src/gsb_data_currency.c:169
+msgid "Danish Krone"
+msgstr "Deense Kroon"
+
+#: src/gsb_data_currency.c:169
+msgid "Denmark"
+msgstr "Denemarken"
+
+#: src/gsb_data_currency.c:170
+msgid "Deutsche Mark"
+msgstr "Duitse Euro (Mark)"
+
+#: src/gsb_data_currency.c:171
+msgid "Estonian Kroon"
+msgstr "Estlandse kroon"
+
+#: src/gsb_data_currency.c:171
+msgid "Estonia"
+msgstr "Estland"
+
+#: src/gsb_data_currency.c:172
+#, fuzzy
+msgid "UE (Europe)"
+msgstr "Europa"
+
+#: src/gsb_data_currency.c:173
+msgid "Finnish Markka"
+msgstr "Finse Euro (Markka)"
+
+#: src/gsb_data_currency.c:174
+msgid "French Franc"
+msgstr "Franse Euro (Franc)"
+
+#: src/gsb_data_currency.c:175
+msgid "Gibraltar Pound"
+msgstr "Gibraltarese Pond"
+
+#: src/gsb_data_currency.c:175
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: src/gsb_data_currency.c:176
+msgid "Greek Drachma"
+msgstr "Griekse Drachme"
+
+#: src/gsb_data_currency.c:177
+msgid "Hungarian Forint"
+msgstr "Hongaarse Forint"
+
+#: src/gsb_data_currency.c:177
+msgid "Hungary"
+msgstr "Hongarije"
+
+#: src/gsb_data_currency.c:178
+msgid "Iceland Krona"
+msgstr "IJslandse Kroon"
+
+#: src/gsb_data_currency.c:178
+msgid "Iceland"
+msgstr "IJsland"
+
+#: src/gsb_data_currency.c:179
+msgid "Irish Pound"
+msgstr "Ierse Euro (Pond)"
+
+#: src/gsb_data_currency.c:180 src/gsb_data_currency.c:181
+#: src/gsb_data_currency.c:182
+msgid "Italian Lira"
+msgstr "Italiaanse Euro (Lira)"
+
+#: src/gsb_data_currency.c:180
+msgid "Holy See"
+msgstr "Heilige Stoel (Vaticaanstad)"
+
+#: src/gsb_data_currency.c:182
+msgid "San Marino"
+msgstr "San Marino"
+
+#: src/gsb_data_currency.c:183
+#, fuzzy
+msgid "Latvian Lats"
+msgstr "Letse lats"
+
+#: src/gsb_data_currency.c:183
+msgid "Latvia"
+msgstr "Letland"
+
+#: src/gsb_data_currency.c:184
+msgid "Lithuanian Litas"
+msgstr "Litouwse Litus"
+
+#: src/gsb_data_currency.c:184
+msgid "Lietuva"
+msgstr "Litouwen"
+
+#: src/gsb_data_currency.c:185
+msgid "Luxembourg Franc"
+msgstr "Luxemburgse Euro (Franc)"
+
+#: src/gsb_data_currency.c:186
+msgid "Moldovenesc Leu"
+msgstr ""
+
+#: src/gsb_data_currency.c:186
+msgid "Moldova"
+msgstr ""
+
+#: src/gsb_data_currency.c:187
+msgid "Netherlands Guilder"
+msgstr "Nederlandse Euro (Gulden)"
+
+#: src/gsb_data_currency.c:188
+msgid "New Yugoslavian Dinar"
+msgstr "Nieuwe Joegoslavische Dinar"
+
+#: src/gsb_data_currency.c:188
+msgid "Serbia and Montenegro"
+msgstr "Servië en Montenegro"
+
+#: src/gsb_data_currency.c:189
+msgid "Norwegian Krone"
+msgstr "Noorse Kroon"
+
+#: src/gsb_data_currency.c:189
+msgid "Norway"
+msgstr "Noorwegen"
+
+#: src/gsb_data_currency.c:190
+msgid "Polish Zloty"
+msgstr "Poolse Zloty"
+
+#: src/gsb_data_currency.c:190
+msgid "Poland"
+msgstr "Polen"
+
+#: src/gsb_data_currency.c:191
+msgid "Portuguese Escudo"
+msgstr "Portugese Euro (Escudo)"
+
+#: src/gsb_data_currency.c:192
+msgid "Pound Sterling"
+msgstr "Britse Pound Sterling"
+
+#: src/gsb_data_currency.c:192
+msgid "United Kingdom"
+msgstr "Groot-Brittannië"
+
+#: src/gsb_data_currency.c:193
+msgid "Romanian Leu"
+msgstr "Roemeense Leu"
+
+#: src/gsb_data_currency.c:193
+msgid "Romania"
+msgstr "Roemenië"
+
+#: src/gsb_data_currency.c:194
+msgid "Slovak Koruna"
+msgstr "Slovaakse Koruna"
+
+#: src/gsb_data_currency.c:194
+msgid "Slovakia"
+msgstr "Slowakije"
+
+#: src/gsb_data_currency.c:195
+msgid "Slovene Tolar"
+msgstr "Sloveense Tolar"
+
+#: src/gsb_data_currency.c:196
+msgid "Spanish Peseta"
+msgstr "Spaanse Euro (Peseta)"
+
+#: src/gsb_data_currency.c:197
+msgid "Swedish Krona"
+msgstr "Zweedse Krona"
+
+#: src/gsb_data_currency.c:197
+msgid "Sweden"
+msgstr "Zweden"
+
+#: src/gsb_data_currency.c:198 src/gsb_data_currency.c:199
+msgid "Swiss Franc"
+msgstr "Zwitserse franc"
+
+#: src/gsb_data_currency.c:198
+msgid "Liechtenstein"
+msgstr "Liechtenstein"
+
+#: src/gsb_data_currency.c:199
+msgid "Switzerland"
+msgstr "Zwitserland"
+
+#: src/gsb_data_currency.c:200
+msgid "Hryvnia"
+msgstr "Hryvnia"
+
+#: src/gsb_data_currency.c:200
+msgid "Ukraine"
+msgstr "De Oekraïne"
+
+#: src/gsb_data_currency.c:201 src/gsb_data_currency.c:202
+#: src/gsb_data_currency.c:203 src/gsb_data_currency.c:204
+#: src/gsb_data_currency.c:205 src/gsb_data_currency.c:206
+#: src/gsb_data_currency.c:207 src/gsb_data_currency.c:208
+#: src/gsb_data_currency.c:209 src/gsb_data_currency.c:210
+#: src/gsb_data_currency.c:211 src/gsb_data_currency.c:212
+#: src/gsb_data_currency.c:213 src/gsb_data_currency.c:214
+#: src/gsb_data_currency.c:215
+msgid "Northern America"
+msgstr "Noord Amerika"
+
+#: src/gsb_data_currency.c:201
+msgid "Bahamian Dollar"
+msgstr "Bahamiaanse Dollar"
+
+#: src/gsb_data_currency.c:201
+msgid "Bahamas"
+msgstr "Bahama's"
+
+#: src/gsb_data_currency.c:202
+msgid "Barbados Dollar"
+msgstr "Barbadaanse Dollar"
+
+#: src/gsb_data_currency.c:202
+msgid "Barbados"
+msgstr "Barbados"
+
+#: src/gsb_data_currency.c:203
+msgid "Bermuda Dollar"
+msgstr "Bermudaanse Dollar"
+
+#: src/gsb_data_currency.c:203
+msgid "Bermuda"
+msgstr "Bermuda"
+
+#: src/gsb_data_currency.c:204
+msgid "Canadian Dollar"
+msgstr "Canadese Dollar"
+
+#: src/gsb_data_currency.c:204
+msgid "Canada"
+msgstr "Canada"
+
+#: src/gsb_data_currency.c:205
+msgid "Cayman Islands Dollar"
+msgstr "Cayman Dollar"
+
+#: src/gsb_data_currency.c:205
+msgid "Cayman Islands"
+msgstr "Caymaneilanden"
+
+#: src/gsb_data_currency.c:206
+#, fuzzy
+msgid "Cuban Convertible Peso"
+msgstr "Cubaanse Peso"
+
+#: src/gsb_data_currency.c:206 src/gsb_data_currency.c:207
+msgid "Cuba"
+msgstr "Cuba"
+
+#: src/gsb_data_currency.c:207
+msgid "Cuban Peso"
+msgstr "Cubaanse Peso"
+
+#: src/gsb_data_currency.c:208
+msgid "Dominican Peso"
+msgstr "Dominicaanse Peso"
+
+#: src/gsb_data_currency.c:208
+msgid "Dominican Republic"
+msgstr "Dominicaanse Republiek"
+
+#: src/gsb_data_currency.c:209 src/gsb_data_currency.c:210
+msgid "East Caribbean Dollar"
+msgstr "Oost Caribische dollar"
+
+#: src/gsb_data_currency.c:209
+msgid "Grenada"
+msgstr "Dominicaanse Republiek"
+
+#: src/gsb_data_currency.c:210
+msgid "Saint Lucia"
+msgstr "Saint Lucia"
+
+#: src/gsb_data_currency.c:211
+msgid "Haitian Gourde"
+msgstr "Haïtiaanse Gourde"
+
+#: src/gsb_data_currency.c:211
+msgid "Haiti"
+msgstr "Haiti"
+
+#: src/gsb_data_currency.c:212
+msgid "Jamaican Dollar"
+msgstr "Jamaïcaanse Dollar"
+
+#: src/gsb_data_currency.c:212
+msgid "Jamaica"
+msgstr "Jamaica"
+
+#: src/gsb_data_currency.c:213
+msgid "Netherlands Antillian Guilder"
+msgstr "Antilliaanse Gulden"
+
+#: src/gsb_data_currency.c:213
+msgid "Netherlands Antilles"
+msgstr "Nederlandse Antillen"
+
+#: src/gsb_data_currency.c:214
+msgid "Trinidad and Tobago Dollar"
+msgstr "Trinidad en Tobago Dollar"
+
+#: src/gsb_data_currency.c:214
+msgid "Trinidad and Tobago"
+msgstr "Trinidad en Tobago"
+
+#: src/gsb_data_currency.c:215 src/gsb_data_currency.c:231
+msgid "United States Dollar"
+msgstr "USA Dollar"
+
+#: src/gsb_data_currency.c:216 src/gsb_data_currency.c:217
+#: src/gsb_data_currency.c:218 src/gsb_data_currency.c:219
+#: src/gsb_data_currency.c:220 src/gsb_data_currency.c:221
+#: src/gsb_data_currency.c:222 src/gsb_data_currency.c:223
+#: src/gsb_data_currency.c:224 src/gsb_data_currency.c:225
+#: src/gsb_data_currency.c:226 src/gsb_data_currency.c:227
+#: src/gsb_data_currency.c:228 src/gsb_data_currency.c:229
+#: src/gsb_data_currency.c:230 src/gsb_data_currency.c:231
+#: src/gsb_data_currency.c:232
+msgid "Pacific Ocean"
+msgstr "Grote Oceaan"
+
+#: src/gsb_data_currency.c:216 src/gsb_data_currency.c:217
+#: src/gsb_data_currency.c:218 src/gsb_data_currency.c:219
+msgid "Australian Dollar"
+msgstr "Australische Dollar"
+
+#: src/gsb_data_currency.c:216
+msgid "Australia"
+msgstr "Australië"
+
+#: src/gsb_data_currency.c:217
+msgid "Kiribati"
+msgstr "Kiribati"
+
+#: src/gsb_data_currency.c:218
+msgid "Nauru"
+msgstr "Nauru"
+
+#: src/gsb_data_currency.c:219
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#: src/gsb_data_currency.c:220 src/gsb_data_currency.c:221
+#: src/gsb_data_currency.c:222
+msgid "CFP Franc"
+msgstr "CFP Franc"
+
+#: src/gsb_data_currency.c:220
+msgid "French Polynesia"
+msgstr "Franse Polynesia"
+
+#: src/gsb_data_currency.c:221
+msgid "New Caledonia"
+msgstr "Nieuw-Caledonië"
+
+#: src/gsb_data_currency.c:222
+msgid "Wallis and Futuna"
+msgstr "Wallis en Futuna"
+
+#: src/gsb_data_currency.c:223
+msgid "Fiji Dollar"
+msgstr "Fiji Dollar"
+
+#: src/gsb_data_currency.c:223
+msgid "Fiji"
+msgstr "Fiji"
+
+#: src/gsb_data_currency.c:224 src/gsb_data_currency.c:225
+msgid "New Zealand Dollar"
+msgstr "Nieuw-Zeelandse dollar"
+
+#: src/gsb_data_currency.c:224
+msgid "Cook Islands"
+msgstr "Cookeilanden (Nieuw-Zeeland)"
+
+#: src/gsb_data_currency.c:225
+msgid "New Zealand"
+msgstr "Nieuw-Zeeland"
+
+#: src/gsb_data_currency.c:226
+msgid "Papua New Guinea Kina"
+msgstr "Papua Nieuw Guinea : Kina"
+
+#: src/gsb_data_currency.c:226
+msgid "Papua New Guinea"
+msgstr "Papua Nieuw Guinea"
+
+#: src/gsb_data_currency.c:227
+msgid "Samoa Tala"
+msgstr "Samoa Tala"
+
+#: src/gsb_data_currency.c:227
+msgid "Samoa"
+msgstr "Samoa"
+
+#: src/gsb_data_currency.c:228
+msgid "Solomon Islands Dollar"
+msgstr "Solomon Islands Dollar"
+
+#: src/gsb_data_currency.c:228
+msgid "Solomon Islands"
+msgstr "Salomonseilanden"
+
+#: src/gsb_data_currency.c:229
+msgid "Timor Escudo"
+msgstr "Timorese Escudo"
+
+#: src/gsb_data_currency.c:229
+msgid "Timor"
+msgstr "Timor"
+
+#: src/gsb_data_currency.c:230
+msgid "Tongan Pa'anga"
+msgstr "Tonganese Pa'anga"
+
+#: src/gsb_data_currency.c:230
+msgid "Tonga"
+msgstr "Tonga"
+
+#: src/gsb_data_currency.c:232
+msgid "Vanuatu Vatu"
+msgstr "Vanuatu Vatu"
+
+#: src/gsb_data_currency.c:232
+msgid "Vanuatu"
+msgstr "Vanuatu"
+
+#: src/gsb_data_currency.c:233 src/gsb_data_currency.c:234
+#: src/gsb_data_currency.c:235 src/gsb_data_currency.c:236
+#: src/gsb_data_currency.c:237 src/gsb_data_currency.c:238
+#: src/gsb_data_currency.c:239 src/gsb_data_currency.c:240
+#: src/gsb_data_currency.c:241 src/gsb_data_currency.c:242
+#: src/gsb_data_currency.c:243 src/gsb_data_currency.c:244
+msgid "Southern America"
+msgstr "Zuid Amerika"
+
+#: src/gsb_data_currency.c:233 src/gsb_data_currency.c:235
+#: src/gsb_data_currency.c:236 src/gsb_data_currency.c:243
+msgid "Peso"
+msgstr ""
+
+#: src/gsb_data_currency.c:233
+#, fuzzy
+msgid "Argentina"
+msgstr "Algerije"
+
+#: src/gsb_data_currency.c:234
+msgid "Boliviano"
+msgstr ""
+
+#: src/gsb_data_currency.c:234
+msgid "Bolivia"
+msgstr ""
+
+#: src/gsb_data_currency.c:235
+msgid "Chile"
+msgstr "Chili"
+
+#: src/gsb_data_currency.c:236
+msgid "Colombia"
+msgstr "Colombia"
+
+#: src/gsb_data_currency.c:237
+msgid "Ecuador Sucre"
+msgstr "Ecuador USD"
+
+#: src/gsb_data_currency.c:237
+msgid "Ecuador"
+msgstr "Ecuador"
+
+#: src/gsb_data_currency.c:238
+msgid "Guyana Dollar"
+msgstr "Guyaanse Dollar"
+
+#: src/gsb_data_currency.c:238
+msgid "Guyana"
+msgstr "Guyana"
+
+#: src/gsb_data_currency.c:239
+msgid "Paraguay Guarani"
+msgstr "Paraguayaanse Guarani"
+
+#: src/gsb_data_currency.c:239
+msgid "Paraguay"
+msgstr "Paraguay"
+
+#: src/gsb_data_currency.c:240
+msgid "Nuevos Soles"
+msgstr ""
+
+#: src/gsb_data_currency.c:240
+#, fuzzy
+msgid "Peru"
+msgstr "Opmaak"
+
+#: src/gsb_data_currency.c:241
+msgid "Real"
+msgstr "Real"
+
+#: src/gsb_data_currency.c:241
+msgid "Brazil"
+msgstr "Brazilië"
+
+#: src/gsb_data_currency.c:242
+msgid "Suriname Guilder"
+msgstr "Surinaamse Dollar"
+
+#: src/gsb_data_currency.c:242
+msgid "Suriname"
+msgstr "Suriname"
+
+#: src/gsb_data_currency.c:243
+#, fuzzy
+msgid "Uruguay"
+msgstr "Paraguay"
+
+#: src/gsb_data_currency.c:244
+msgid "Venezuelan Bolivar"
+msgstr "Venezolaanse Bolivar"
+
+#: src/gsb_data_currency.c:244
+msgid "Venezuela"
+msgstr "Venezuela"
+
+#: src/gsb_data_currency.c:245
+msgid "World"
+msgstr ""
+
+#: src/gsb_data_currency.c:245
+msgid "bitcoin"
+msgstr ""
 
 #: src/gsb_data_currency.c:969
 #, c-format
@@ -6556,6 +8750,152 @@ msgstr ""
 msgid "Transaction %d has payee %d which does not exist.\n"
 msgstr ""
 "Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet. "
+
+#: src/gsb_debug.c:718
+#, fuzzy
+msgid "Incorrect reconciliation totals"
+msgstr "Controleer"
+
+#: src/gsb_debug.c:719
+msgid ""
+"This test will look at accounts where the reconciled total which does not "
+"match with reconciled transactions."
+msgstr ""
+
+#: src/gsb_debug.c:720
+#, fuzzy
+msgid ""
+"Grisbi found accounts where reconciliation totals are inconsistent with the "
+"sum of reconcilied transactions and initial balance.\n"
+"\n"
+"The cause may be the elimination or modification of reconciliations or "
+"changes in the balance of reconciliations in the preferences."
+msgstr ""
+"Grisbi vond rekeningen waar het gecontroleerde totaalbedrag niet "
+"overeenstemt met de som van de gecontroleerde transacties. Over het algemeen "
+"is de oorzaak een teveel aan overschrijvingen naar andere rekeningen die "
+"gecontroleerd zijn. U moet handmatig aanpassingen aanbrengen bij de "
+"rekeningen die problemen geven.\n"
+"De volgende rekeningen zijn niet kloppend:\n"
+"\n"
+
+#: src/gsb_debug.c:726
+#, fuzzy
+msgid "Duplicate sub-categories check"
+msgstr "Toon sub-categorieën"
+
+#: src/gsb_debug.c:727 src/gsb_debug.c:740 src/gsb_debug.c:753
+#, fuzzy
+msgid "free"
+msgstr "Griekenland"
+
+#: src/gsb_debug.c:728
+#, fuzzy
+msgid ""
+"Due to a bug in previous versions of Grisbi, sub-categories may share the "
+"same numeric identifier in some cases, resulting in transactions having two "
+"sub-categories.  If you choose to continue, Grisbi will remove one of each "
+"duplicates and recreate it with a new identifier.\n"
+"\n"
+"No transaction will be lost, but in some cases, you will have to manually "
+"move transactions to this new sub-category."
+msgstr ""
+"Wegens een bug in vorige versies van Grisbi, komt het soms voor dat sub-"
+"categorieën dezelfde numerieke identiteitskaart delen, wat ervoor zorgt dat "
+"transacties in twee sub-categorieën komen te staan. Als u verkiest om verder "
+"te gaan, zal Grisbi een van de dubbele sub-categorieën en transacties "
+"verwijderen en deze opnieuw aanmaken in een nieuwe id.\n"
+"\n"
+"Er zullen geen gegevens verloren gaan, maar in sommige gevallen zult u de "
+"transacties handmatig naar een andere sub-categorie moeten verplaatsen."
+
+#: src/gsb_debug.c:739
+#, fuzzy
+msgid "Duplicate sub-budgetary lines check"
+msgstr "de sub-budgetregel"
+
+#: src/gsb_debug.c:741
+#, fuzzy
+msgid ""
+"Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
+"the same numeric id in some cases, resulting in transactions having two sub-"
+"budgetary lines.  If you choose to continue, Grisbi will remove one of each "
+"duplicates and recreate it with a new id.entifier\n"
+"\n"
+"No transactions will be lost, but in some cases, you will have to manually "
+"move transactions to this new sub-budgetary line."
+msgstr ""
+"Wegens een bug in vorige versies van Grisbi, komt het voor dat sub-budget "
+"regels dezelfde numerieke identiteitskaart delen, wat ervoor zorgt dat "
+"transacties in twee sub-budgetregels komen te staan. Als u verkiest om "
+"verder te gaan, zal Grisbi een van de twee sub-budgetregels en transacties "
+"verwijderen en deze opnieuw aanmaken in een nieuwe id.\n"
+"\n"
+"Er zullen geen gegevens verloren gaan, maar in sommige gevallen zult u de "
+"transacties handmatig naar een andere sub-budgetregel moeten verplaatsen."
+
+#: src/gsb_debug.c:752
+#, fuzzy
+msgid "Orphan countra-transactions check"
+msgstr "Verweesde transacties"
+
+#: src/gsb_debug.c:754
+msgid ""
+"In some rare cases, transfers are incorrectly linked to contra-"
+"transactions.  This might be because of bugs or because of imports that "
+"failed.\n"
+"To fix this, you will have to manually edit your .gsb file (with a text "
+"editor) and fix transactions using their numeric ID."
+msgstr ""
+
+#: src/gsb_debug.c:760
+msgid "Incorrect category/sub-category number"
+msgstr ""
+
+#: src/gsb_debug.c:761
+msgid ""
+"This test will look for transactions which have non-existent categories/sub-"
+"categories."
+msgstr ""
+
+#: src/gsb_debug.c:762
+msgid ""
+"Grisbi found some transactions with non existents categories/sub-categories "
+"If you choose to continue, Grisbi will remove that category error and that "
+"transactions will have no categories."
+msgstr ""
+
+#: src/gsb_debug.c:767
+msgid "Incorrect budget/sub-budget number"
+msgstr ""
+
+#: src/gsb_debug.c:768
+msgid ""
+"This test will look for transactions which have non-existent budgets/sub-"
+"budgets."
+msgstr ""
+
+#: src/gsb_debug.c:769
+msgid ""
+"Grisbi found some transactions with non existents budgets/sub-budgets If you "
+"choose to continue, Grisbi will remove that budget error and that "
+"transactions will have no budgets."
+msgstr ""
+
+#: src/gsb_debug.c:774
+#, fuzzy
+msgid "Incorrect payee number"
+msgstr "het cheque nummer"
+
+#: src/gsb_debug.c:775
+msgid "This test will look for transactions which have non-existent payees."
+msgstr ""
+
+#: src/gsb_debug.c:776
+msgid ""
+"Grisbi found some transactions with non existents payees If you choose to "
+"continue, Grisbi will remove them and that transactions will have no payee."
+msgstr ""
 
 #: src/gsb_debug.c:822
 #, fuzzy
@@ -7126,11 +9466,12 @@ msgstr "Valuta datum"
 msgid "Transfer : Deleted account"
 msgstr "Overschrijving : verwijderde rekening"
 
-#: src/gsb_form.c:1822 src/gsb_scheduler_list.c:1626
+#: src/gsb_form.c:1822 src/gsb_form_scheduler.c:647
+#: src/gsb_scheduler_list.c:1626
 msgid "Manual"
 msgstr "Handmatig"
 
-#: src/gsb_form.c:2107
+#: src/gsb_form.c:2107 src/gsb_form_widget.c:594
 msgid "Cheque/Transfer number"
 msgstr "Cheque/overschrijvings-nummer"
 
@@ -7153,6 +9494,10 @@ msgstr ""
 #, fuzzy
 msgid "No payee selected for this report."
 msgstr "Er is geen begunstigde geselecteerd voor dit rapport"
+
+#: src/gsb_form_scheduler.c:647 src/gsb_scheduler_list.c:1624
+msgid "Automatic"
+msgstr "Automatisch"
 
 #: src/gsb_form_scheduler.c:667
 msgid "Choose the account"
@@ -7189,7 +9534,7 @@ msgstr "Laatste 3 maanden"
 msgid "Choose currency"
 msgstr "Kies een valuta"
 
-#: src/gsb_form_widget.c:412
+#: src/gsb_form_widget.c:412 src/gsb_form_widget.c:602
 msgid "Change"
 msgstr "Aanpassen"
 
@@ -7198,14 +9543,241 @@ msgstr "Aanpassen"
 msgid "Define the change for that transaction"
 msgstr "Verwijder geplande transactie"
 
-#: src/gsb_form_widget.c:426
+#: src/gsb_form_widget.c:426 src/gsb_form_widget.c:614
 msgid "Contra-transaction method of payment"
 msgstr "Contra-transactie betalingsmethode"
+
+#: src/gsb_form_widget.c:578
+#, fuzzy
+msgid "Free"
+msgstr "Kosten"
+
+#: src/gsb_form_widget.c:590 src/gsb_transactions_list.c:117
+msgid "Method of payment"
+msgstr "Methode van betaling"
+
+#: src/gsb_form_widget.c:598 src/import_csv.c:76
+#: src/prefs/prefs_page_accueil.c:337 src/widgets/widget_currency_popup.c:138
+msgid "Currency"
+msgstr "Valuta"
+
+#: src/gsb_form_widget.c:618 src/gsb_transactions_list.c:125
+msgid "Transaction number"
+msgstr "Transactie nummer"
+
+#: src/gsb_form_widget.c:622
+#, fuzzy
+msgid "Automatic/Manual"
+msgstr "Automatisch"
 
 #: src/gsb_regex.c:97
 #, fuzzy, c-format
 msgid "Unable to compile regex: %s\n"
 msgstr "Kan het bestand '%s' niet openen %s"
+
+#: src/gsb_rgba.c:64
+#, fuzzy
+msgid "Background color of account row"
+msgstr "Bankrekening:"
+
+#: src/gsb_rgba.c:65
+#, fuzzy
+msgid "Background color of logo title"
+msgstr "Bankrekening:"
+
+#: src/gsb_rgba.c:66
+#, fuzzy
+msgid "Color of account text"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:67
+#, fuzzy
+msgid "Color of account text hovered"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:68
+#, fuzzy
+msgid "Color of balance text"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:69
+#, fuzzy
+msgid "Color of balance text hovered"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:70
+#, fuzzy
+msgid "Color of balance text in low alarm"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:71
+#, fuzzy
+msgid "Color of balance text hovered in low alarm"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:72
+#, fuzzy
+msgid "Color of balance text in high alarm"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:73
+#, fuzzy
+msgid "Color of balance text hovered in high alarm"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:93
+#, fuzzy
+msgid "Background color 1 in lists of transactions"
+msgstr ""
+"Kies een geplande transactie\n"
+"om te laten vervallen."
+
+#: src/gsb_rgba.c:94
+#, fuzzy
+msgid "Background color 2 in lists of transactions"
+msgstr ""
+"Kies een geplande transactie\n"
+"om te laten vervallen."
+
+#: src/gsb_rgba.c:95
+#, fuzzy
+msgid "Background of the transaction that gives the balance today"
+msgstr ""
+"Kies een geplande transactie\n"
+"om te laten vervallen."
+
+#: src/gsb_rgba.c:96
+#, fuzzy
+msgid "Background color of split transaction children"
+msgstr ""
+"Kies een geplande transactie\n"
+"om te laten vervallen."
+
+#: src/gsb_rgba.c:97
+#, fuzzy
+msgid "Background color of selected transaction"
+msgstr ""
+"Kies een geplande transactie\n"
+"om te laten vervallen."
+
+#: src/gsb_rgba.c:98
+#, fuzzy
+msgid "Background color of virtual scheduled transactions"
+msgstr ""
+"Kies een geplande transactie\n"
+"om te laten vervallen."
+
+#: src/gsb_rgba.c:99
+#, fuzzy
+msgid "Background color of archives"
+msgstr "Bankrekening:"
+
+#: src/gsb_rgba.c:100
+#, fuzzy
+msgid "Color of transaction text"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:101
+#, fuzzy
+msgid "Color of unfinished split transaction text"
+msgstr "Verwijder geplande transactie"
+
+#: src/gsb_rgba.c:102
+#, fuzzy
+msgid "Text color of a negative balance"
+msgstr "Bankrekening:"
+
+#: src/gsb_rgba.c:103
+#, fuzzy
+msgid "Color of selected transaction text"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:104
+#, fuzzy
+msgid "Color of unsensitive text"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:116
+#, fuzzy
+msgid "Background color of historical data"
+msgstr "Start datum"
+
+#: src/gsb_rgba.c:117
+#, fuzzy
+msgid "Background color of futur data"
+msgstr "Bankrekening:"
+
+#: src/gsb_rgba.c:118
+#, fuzzy
+msgid "Background color of month balance"
+msgstr "Bankrekening:"
+
+#: src/gsb_rgba.c:119
+#, fuzzy
+msgid "Background color of transfer data"
+msgstr ""
+"Kies een geplande transactie\n"
+"om te laten vervallen."
+
+#: src/gsb_rgba.c:128
+#, fuzzy
+msgid "Color of gsetting text"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:129
+#, fuzzy
+msgid "Color of gsetting text hovered"
+msgstr "Opsplitsen van transactie"
+
+#: src/gsb_rgba.c:134 src/utils_prefs.c:703
+#: src/widgets/widget_list_metatree.c:591
+msgid "Not available"
+msgstr ""
+
+#: src/gsb_scheduler_list.c:112
+#, fuzzy
+msgid "Unique view"
+msgstr "Week"
+
+#: src/gsb_scheduler_list.c:112
+#, fuzzy
+msgid "Week view"
+msgstr "Week"
+
+#: src/gsb_scheduler_list.c:112
+#, fuzzy
+msgid "Month view"
+msgstr "Maanden"
+
+#: src/gsb_scheduler_list.c:113
+#, fuzzy
+msgid "Two months view"
+msgstr "%d maanden"
+
+#: src/gsb_scheduler_list.c:113
+#, fuzzy
+msgid "Quarter view"
+msgstr "Categorieën"
+
+#: src/gsb_scheduler_list.c:114
+#, fuzzy
+msgid "Year view"
+msgstr "Jaar"
+
+#: src/gsb_scheduler_list.c:114
+#, fuzzy
+msgid "Custom view"
+msgstr "Anders"
+
+#: src/gsb_scheduler_list.c:118
+#, fuzzy
+msgid "days"
+msgstr "dag"
+
+#: src/gsb_scheduler_list.c:118
+#, fuzzy
+msgid "weeks"
+msgstr "Week"
 
 #: src/gsb_scheduler_list.c:146
 #, fuzzy
@@ -7261,6 +9833,10 @@ msgstr "Regelmaat"
 msgid "Execute transaction"
 msgstr "Verwijder transactie"
 
+#: src/gsb_scheduler_list.c:945
+msgid "Mode"
+msgstr "Stand"
+
 #: src/gsb_scheduler_list.c:1176
 #, fuzzy
 msgid "New scheduled"
@@ -7310,31 +9886,6 @@ msgstr "%d maanden"
 #, c-format
 msgid "%d years"
 msgstr "%d jaren"
-
-#: src/gsb_scheduler_list.c:1612
-msgid "Weekly"
-msgstr "Wekelijks"
-
-#: src/gsb_scheduler_list.c:1612
-msgid "Monthly"
-msgstr "Maandelijks"
-
-#: src/gsb_scheduler_list.c:1613
-#, fuzzy
-msgid "Bimonthly"
-msgstr "Maandelijks"
-
-#: src/gsb_scheduler_list.c:1613
-msgid "Quarterly"
-msgstr ""
-
-#: src/gsb_scheduler_list.c:1613
-msgid "Yearly"
-msgstr "Jaarlijks"
-
-#: src/gsb_scheduler_list.c:1624
-msgid "Automatic"
-msgstr "Automatisch"
 
 #: src/gsb_scheduler_list.c:1776
 #, c-format
@@ -7423,6 +9974,11 @@ msgstr "Browse"
 msgid "Browse"
 msgstr "Browse"
 
+#: src/gsb_transactions_list.c:126 src/import_csv.c:81
+#, fuzzy
+msgid "Cheque number"
+msgstr "het cheque nummer"
+
 #: src/gsb_transactions_list.c:274
 #, fuzzy
 msgid "Clear cell"
@@ -7464,6 +10020,11 @@ msgid ""
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
+
+#: src/gsb_transactions_list.c:1114 src/prefs/prefs_page_reconcile.c:323
+#, fuzzy
+msgid "Init date"
+msgstr "Start datum"
 
 #: src/gsb_transactions_list.c:1148
 #, fuzzy
@@ -7735,10 +10296,6 @@ msgstr "Programma's"
 msgid "Packaging"
 msgstr ""
 
-#: src/help.c:145
-msgid "Other"
-msgstr ""
-
 #: src/help.c:152 src/help.c:153 src/help.c:155
 msgid "English"
 msgstr ""
@@ -7772,11 +10329,6 @@ msgstr "Duitsland"
 msgid "Polish"
 msgstr "Poolse Zloty"
 
-#: src/help.c:162
-#, fuzzy
-msgid "Greek"
-msgstr "Griekenland"
-
 #: src/help.c:201
 msgid "Personal finance manager for everyone\n"
 msgstr ""
@@ -7788,6 +10340,24 @@ msgstr "Voorkeuren"
 
 #: src/help.c:207
 msgid "Grisbi git hash: "
+msgstr ""
+
+#: src/import.c:127
+msgid "Comma Separated Values"
+msgstr ""
+
+#: src/import.c:128
+#, fuzzy
+msgid "Quicken Interchange Format"
+msgstr "Aanpassen wisselkoers"
+
+#: src/import.c:130 src/plugins/gnucash/gnucash.c:875
+#, fuzzy
+msgid "Gnucash"
+msgstr "Contant"
+
+#: src/import.c:133
+msgid "Open Financial Exchange"
 msgstr ""
 
 #: src/import.c:535
@@ -8215,6 +10785,30 @@ msgid ""
 "transactions."
 msgstr ""
 
+#: src/import_csv.c:75
+#, fuzzy
+msgid "Unknown field"
+msgstr "Onbekend"
+
+#: src/import_csv.c:79
+#, fuzzy
+msgid "Wording"
+msgstr "Sorteer"
+
+#: src/import_csv.c:88
+#, fuzzy
+msgid "Debit (absolute)"
+msgstr "negatief"
+
+#: src/import_csv.c:89
+#, fuzzy
+msgid "Debit (negative)"
+msgstr "negatief"
+
+#: src/import_csv.c:92 src/prefs/prefs_page_reconcile_sort.c:653
+msgid "Payment method"
+msgstr "Betaalmethode"
+
 #: src/import_csv.c:190
 #, c-format
 msgid "The file %s is empty. Please choose another file."
@@ -8469,6 +11063,10 @@ msgstr "Nieuwe budgetregel"
 msgid "New sub-budget #%d"
 msgstr "Nieuwe sub-budgetregel"
 
+#: src/meta_categories.c:69
+msgid "No sub-category"
+msgstr "Geen sub-categorie"
+
 #: src/meta_categories.c:282 src/navigation.c:283
 msgid "New category"
 msgstr "Nieuwe categorie"
@@ -8482,6 +11080,16 @@ msgstr "Nieuwe categorie"
 #, fuzzy, c-format
 msgid "New sub-category #%d"
 msgstr "Nieuwe sub-categorie"
+
+#: src/meta_payee.c:79
+#, fuzzy
+msgid "sub-payee"
+msgstr "Geen sub-categorie"
+
+#: src/meta_payee.c:81
+#, fuzzy
+msgid "No sub-payee"
+msgstr "Geen sub-categorie"
 
 #: src/meta_payee.c:369 src/navigation.c:231 src/tiers_onglet.c:623
 #, fuzzy
@@ -8781,11 +11389,6 @@ msgstr ""
 msgid "Error opening temporary file '%s'."
 msgstr "Er is een fout opgetreden bij het open van het tijdelijk bestand '%s'."
 
-#: src/plugins/gnucash/gnucash.c:875
-#, fuzzy
-msgid "Gnucash"
-msgstr "Contant"
-
 #: src/plugins/gnucash/gnucash.c:876
 msgid "Invalid Gnucash account, please check gnucash file is not compressed."
 msgstr ""
@@ -8955,10 +11558,6 @@ msgstr "Comoren"
 msgid "Account kind"
 msgstr "Rekening naam"
 
-#: src/prefs/prefs_page_accueil.c:337 src/widgets/widget_currency_popup.c:138
-msgid "Currency"
-msgstr "Valuta"
-
 #: src/prefs/prefs_page_archives.c:137
 #, c-format
 msgid ""
@@ -9012,6 +11611,10 @@ msgstr "Bevestig het verwijderen van deze bank"
 #, c-format
 msgid "Are you sure you want to remove bank \"%s\"?\n"
 msgstr "Weet u zeker dat u de bank \"%s\" wilt verwijderen?\n"
+
+#: src/prefs/prefs_page_bank.c:294
+msgid "Contact name"
+msgstr "Naam van contactpersoon"
 
 #: src/prefs/prefs_page_bet_account.c:445
 #: src/prefs/prefs_page_bet_account.c:463
@@ -9072,6 +11675,31 @@ msgstr "Selecteer tegoedrekeningen"
 msgid "The number of currencies is insufficient"
 msgstr ""
 
+#: src/prefs/prefs_page_currency_link.c:326
+#, fuzzy
+msgid "First currency"
+msgstr "Kies een valuta"
+
+#: src/prefs/prefs_page_currency_link.c:326
+#, fuzzy
+msgid "Exchange"
+msgstr "Wisselkoers kosten"
+
+#: src/prefs/prefs_page_currency_link.c:327
+#, fuzzy
+msgid "Second currency"
+msgstr "Valuta"
+
+#: src/prefs/prefs_page_currency_link.c:327
+#, fuzzy
+msgid "Modified date"
+msgstr "Tot datum"
+
+#: src/prefs/prefs_page_currency_link.c:327 src/prefs/prefs_page_fyear.c:566
+#, fuzzy
+msgid "Invalid"
+msgstr "Datum onbekende"
+
 #: src/prefs/prefs_page_currency_link.c:420
 #, fuzzy
 msgid "Links between currencies"
@@ -9087,6 +11715,26 @@ msgstr ""
 #: src/prefs/prefs_page_display_fonts.c:301
 msgid "Select a new logo"
 msgstr "Kies een ander logo"
+
+#: src/prefs/prefs_page_display_fonts.c:370
+#, fuzzy
+msgid "Automatic selection"
+msgstr "Selecteer data"
+
+#: src/prefs/prefs_page_display_fonts.c:371
+#, fuzzy
+msgid "Force the use of clear theme"
+msgstr "Sorteer volgens datum"
+
+#: src/prefs/prefs_page_display_fonts.c:372
+#, fuzzy
+msgid "Force the use of dark theme"
+msgstr "Sorteer volgens datum"
+
+#: src/prefs/prefs_page_display_fonts.c:373
+#, fuzzy
+msgid "Force the use of light theme"
+msgstr "Sorteer volgens datum"
 
 #: src/prefs/prefs_page_display_fonts.c:385
 #, c-format
@@ -9114,6 +11762,36 @@ msgid ""
 "element which contains two). You need to increase the number of rows or "
 "columns to add the elements."
 msgstr ""
+
+#: src/prefs/prefs_page_display_form.c:809
+#, fuzzy
+msgid "Col 1"
+msgstr "Kol1"
+
+#: src/prefs/prefs_page_display_form.c:809
+#, fuzzy
+msgid "Col 2"
+msgstr "Kol2"
+
+#: src/prefs/prefs_page_display_form.c:809
+#, fuzzy
+msgid "Col 3"
+msgstr "Kol3"
+
+#: src/prefs/prefs_page_display_form.c:809
+#, fuzzy
+msgid "Col 4"
+msgstr "Kol4"
+
+#: src/prefs/prefs_page_display_form.c:809
+#, fuzzy
+msgid "Col 5"
+msgstr "Kol5"
+
+#: src/prefs/prefs_page_display_form.c:809
+#, fuzzy
+msgid "Col 6"
+msgstr "Kol6"
 
 #: src/prefs/prefs_page_divers.c:463
 msgid "You will have to restart Grisbi for the new language to take effect."
@@ -9284,11 +11962,6 @@ msgstr "Eind datum"
 msgid "End date"
 msgstr "Datum onbekende"
 
-#: src/prefs/prefs_page_fyear.c:566
-#, fuzzy
-msgid "Invalid"
-msgstr "Datum onbekende"
-
 #: src/prefs/prefs_page_import.c:89
 #, fuzzy
 msgid "Files import"
@@ -9427,6 +12100,15 @@ msgstr "Standaard"
 msgid "Numbering"
 msgstr "Nummering"
 
+#: src/prefs/prefs_page_reconcile.c:323
+#, fuzzy
+msgid "Init balance"
+msgstr "Begin saldo"
+
+#: src/prefs/prefs_page_reconcile.c:323
+msgid "Final balance"
+msgstr "Eindsaldo"
+
 #: src/prefs/prefs_page_reconcile.c:545
 #, c-format
 msgid ""
@@ -9441,10 +12123,6 @@ msgstr ""
 #, fuzzy
 msgid "Delete reconciliation"
 msgstr "Nieuwe rekening maken"
-
-#: src/prefs/prefs_page_reconcile_sort.c:653
-msgid "Payment method"
-msgstr "Betaalmethode"
 
 #: src/prefs/prefs_page_reconcile_sort.c:668
 #, fuzzy
@@ -9858,6 +12536,156 @@ msgstr ""
 msgid "%d payees were replaced with a new one."
 msgstr ""
 
+#: src/tip.c:40
+msgid ""
+"You can reconcile transactions to match your real financial state as seen on "
+"your bank receipts. If you just spend 15mn each month reconciling Grisbi "
+"transactions with your bank receipts, you are guaranteed that your accounts "
+"are in perfect shape."
+msgstr ""
+
+#: src/tip.c:44
+msgid ""
+"Grisbi automatically saves a copy of your work if it crashes.\n"
+"\n"
+"Thus it is unlikely that you loose any data in case Grisbi encounters a "
+"programming error."
+msgstr ""
+
+#: src/tip.c:47
+msgid ""
+"Grisbi can import Gnucash files natively, then you don't loose your work "
+"when you switch from Gnucash to Grisbi."
+msgstr ""
+
+#: src/tip.c:49
+msgid ""
+"You can organize transactions into budgetary lines, which are budgetary "
+"items (why money is spent) that can help you classify your spendings.\n"
+"\n"
+"Combined with categories (how money is spend), budgetary lines are a "
+"powerful way to analyse budget and to make reports."
+msgstr ""
+
+#: src/tip.c:53
+msgid ""
+"You can create categories or budgetary lines directly by typing them in "
+"transaction form.\n"
+"\n"
+"If you write a category or a budgetary line which name contains a ':', a sub-"
+"category or sub-budgetary line will be created as well."
+msgstr ""
+
+#: src/tip.c:57
+msgid ""
+"You can encrypt your Grisbi files to improve your privacy.  Just select the "
+"'Encrypt Grisbi file' in preferences window and enter a password next time "
+"you save your file.\n"
+"\n"
+"Encryption is irreversible, if you loose your password, there is NO WAY to "
+"restore your Grisbi accounts. Use with caution!"
+msgstr ""
+
+#: src/tip.c:62
+msgid ""
+"You can efficiently manage your professional expenses with Grisbi.\n"
+"\n"
+"Create a <i>Professional expenses</i> budgetary line and put all "
+"professional expenses there.  When you are paid, split your salary as a "
+"split of transaction, with both a <i>Salary</i> part and a <i>Profesionnal "
+"expenses</i> part.\n"
+"\n"
+"Then, you can create a new report that sums up transactions from the "
+"<i>Profesionnal expenses</i> budgetary line and see the balance."
+msgstr ""
+
+#: src/tip.c:69
+msgid ""
+"You can use the import facility to automatically reconcile transactions "
+"against a QIF or OFX file from your online bank."
+msgstr ""
+
+#: src/tip.c:71
+msgid ""
+"You can configure the contents of the transaction list.\n"
+"\n"
+"Right-click on a cell of the transaction list and select the <i>Change cell "
+"content</i> option.  Then select any content you want and configure "
+"transaction list to your needs."
+msgstr ""
+
+#: src/tip.c:75
+msgid ""
+"You can configure fields displayed in the transaction form.\n"
+"\n"
+"Go to the <i>Preferences</i> dialog and select the <i>Form content</i> "
+"option.  Then you can click on fields to be displayed and drag them through "
+"the form to adjust their position."
+msgstr ""
+
+#: src/tip.c:79
+msgid ""
+"You can hide annoying dialogs like this one, by clicking the <i>'Do not show "
+"this message again'</i> checkbox in this dialog.\n"
+"\n"
+"You can then activate them again by going to the <i>Preferences</i> window "
+"and then to the <i>Dialog and messages</i> option."
+msgstr ""
+
+#: src/tip.c:83
+msgid ""
+"By double cliking on a date field, you can pop up a calendar to select a "
+"date."
+msgstr ""
+
+#: src/tip.c:85
+msgid ""
+"There are shortcuts in date fields, to avoid typing date or selecting it "
+"with mouse.\n"
+"\n"
+"<b>+</b> and <b>-</b> increment and decrement date of one day, <i>Page Up</"
+"i> and <i>Page Down</i> increment and decrement date of one month ... and "
+"there are more, check out the manual."
+msgstr ""
+
+#: src/tip.c:89
+msgid ""
+"You can archive previous financial years to speed up Grisbi and possibly put "
+"old transactions into separate files for archival.  Use 'File/Archive "
+"transaction' menu to achieve this."
+msgstr ""
+
+#: src/tip.c:92
+msgid ""
+"If unused payees have accumulated in the course of time due to bank imports, "
+"you can remove all of them in one click! Just go to the <i>Payees</i> page "
+"and click on the 'Remove unused payees' button."
+msgstr ""
+
+#: src/tip.c:95
+msgid ""
+"You can sort the transaction list according to any criteria.  Click on the "
+"column titles to sort transactions differently. For example, you can sort "
+"transactions by payee or category name."
+msgstr ""
+
+#: src/tip.c:98
+msgid "You can reorder accounts in the navigation list using drag &amp; drop."
+msgstr ""
+
+#: src/tip.c:99
+#, fuzzy
+msgid ""
+"You can have future scheduled transactions 'executed' before their date, "
+msgstr "Geplande transacties die over of bijna aan de vervaldatum zijn :"
+
+#: src/tip.c:100
+msgid ""
+"No more tip available!  Please send any tips you know to "
+"devel@listes.grisbi.org so that we can include them in next version for all "
+"users."
+msgstr ""
+
 #: src/tip.c:137
 msgid "Did you know that..."
 msgstr ""
@@ -10010,14 +12838,46 @@ msgstr "Resultaat van %s"
 msgid "If no proposals above are correct you can choose a different charset."
 msgstr ""
 
-#: src/utils_prefs.c:703 src/widgets/widget_list_metatree.c:591
-msgid "Not available"
-msgstr ""
-
 #: src/utils_prefs.c:763
 #, fuzzy
 msgid "Could not encrypt file"
 msgstr "Postscript bestand"
+
+#: src/utils_widgets.c:63
+#, fuzzy
+msgid "yyyy/mm/dd"
+msgstr "jjjj-mm-dd"
+
+#: src/utils_widgets.c:64
+msgid "yyyy/dd/mm"
+msgstr "jjjj/dd/mm"
+
+#: src/utils_widgets.c:65
+msgid "dd/yyyy/mm"
+msgstr "dd/jjjj/mm"
+
+#: src/utils_widgets.c:66
+msgid "mm/yyyy/dd"
+msgstr "mm/jjjj/dd"
+
+#: src/utils_widgets.c:77
+#, fuzzy
+msgid "Comma"
+msgstr "Opmerkingen"
+
+#: src/utils_widgets.c:78
+msgid "Semi-colon"
+msgstr ""
+
+#: src/utils_widgets.c:79
+#, fuzzy
+msgid "Colon"
+msgstr "Sluiten"
+
+#: src/utils_widgets.c:80
+#, fuzzy
+msgid "Tabulation"
+msgstr "Vertaling"
 
 #: src/utils_widgets.c:713
 #, fuzzy
@@ -10076,6 +12936,54 @@ msgid ""
 msgstr ""
 "Alle categeoriën zijn geselecteerd. Grisbi zal sneller zijn\n"
 "zonder de optie \"Gedetailleerde categeoriën gebruiken\" te gebruiken."
+
+#: src/etats/etats_page_period.c:90
+msgid "All"
+msgstr "Alles"
+
+#: src/etats/etats_page_period.c:92
+msgid "Total to now"
+msgstr "Totaal tot nu"
+
+#: src/etats/etats_page_period.c:93
+msgid "Current month"
+msgstr "Huidige maand"
+
+#: src/etats/etats_page_period.c:94
+msgid "Current year"
+msgstr "Huidig jaar"
+
+#: src/etats/etats_page_period.c:95
+msgid "Current month to now"
+msgstr "Huidige maand tot nu"
+
+#: src/etats/etats_page_period.c:96
+msgid "Current year to now"
+msgstr "Huidig jaar tot nu"
+
+#: src/etats/etats_page_period.c:97
+msgid "Previous month"
+msgstr "Vorige maand"
+
+#: src/etats/etats_page_period.c:98
+msgid "Previous year"
+msgstr "Vorig jaar"
+
+#: src/etats/etats_page_period.c:99
+msgid "Last 30 days"
+msgstr "Laatste 30 dagen"
+
+#: src/etats/etats_page_period.c:100
+msgid "Last 3 months"
+msgstr "Laatste 3 maanden"
+
+#: src/etats/etats_page_period.c:101
+msgid "Last 6 months"
+msgstr "Laatste 6 maanden"
+
+#: src/etats/etats_page_period.c:102
+msgid "Last 12 months"
+msgstr "Laatste 12 maanden"
 
 #: src/etats/etats_page_period.c:346
 #, fuzzy
@@ -10455,1517 +13363,6 @@ msgstr ""
 #~| msgid "Grisbi"
 #~ msgid "Grisbi Team"
 #~ msgstr "Grisbi"
-
-#~ msgid "Days"
-#~ msgstr "Dagen"
-
-#, fuzzy
-#~ msgid "Weeks"
-#~ msgstr "Week"
-
-#~ msgid "Months"
-#~ msgstr "Maanden"
-
-#~ msgid "Years"
-#~ msgstr "Jaren"
-
-#, fuzzy
-#~ msgid "Jan"
-#~ msgstr "Japan"
-
-#, fuzzy
-#~ msgid "Feb"
-#~ msgstr "Website"
-
-#, fuzzy
-#~ msgid "Mar"
-#~ msgstr "Markeren"
-
-#, fuzzy
-#~ msgid "May"
-#~ msgstr "Dagen"
-
-#, fuzzy
-#~ msgid "January"
-#~ msgstr "Handmatig"
-
-#, fuzzy
-#~ msgid "March"
-#~ msgstr "Zoeken"
-
-#, fuzzy
-#~ msgid "November"
-#~ msgstr "Nummer"
-
-#, fuzzy
-#~ msgid "December"
-#~ msgstr "het cheque nummer"
-
-#, fuzzy
-#~ msgid "Delete a child transaction."
-#~ msgstr "Verwijder geplande transactie"
-
-#, fuzzy
-#~ msgid "Delete a transaction."
-#~ msgstr "Verwijder transactie"
-
-#, fuzzy
-#~ msgid "Delete a child of scheduled transaction."
-#~ msgstr "Verwijder geplande transactie"
-
-#, fuzzy
-#~ msgid "Delete a scheduled transaction."
-#~ msgstr "Verwijder geplande transactie"
-
-#, fuzzy
-#~ msgid "Delete one or all occurrences of scheduled transaction."
-#~ msgstr "Verwijder geplande transactie"
-
-#, fuzzy
-#~ msgid "Delete a rule file import."
-#~ msgstr "Verwijder rapport"
-
-#, c-format
-#~ msgid "File \"%s\" is already opened"
-#~ msgstr "Bestand \"%s\" is al geopend."
-
-#~ msgid ""
-#~ "Either this file is already opened by another user or it wasn't closed "
-#~ "correctly (maybe Grisbi crashed?).\n"
-#~ "Grisbi can't save the file unless you activate the \"Force saving locked "
-#~ "files\" option in setup."
-#~ msgstr ""
-#~ "Het kan zijn dat dit bestand al door een andere gebruiker wordt gebruikt. "
-#~ "Ook is het mogelijk dat het bestand niet goed is afgesloten (Grisbi kan "
-#~ "gecrasht zijn).\n"
-#~ "Grisbi kan het bestand niet opslaan. Als u het bestand wilt opslaan moet "
-#~ "u de optie \"Forceren om geblokkeerde bestanden op te slaan\" in het "
-#~ "voorkeurenmenu aanvinken."
-
-# Kop tekst in voorkeurenscherm
-#, fuzzy
-#~ msgid "Account file is world readable."
-#~ msgstr "Rekening bestanden"
-
-#, fuzzy
-#~ msgid "Account under desired balance"
-#~ msgstr "Rekening(en) onder het minimale gewenste bedrag"
-
-#, fuzzy, c-format
-#~ msgid "Grisbi detected that an account is under a desired balance: %s"
-#~ msgstr "Rekening(en) onder het minimale gewenste bedrag"
-
-# dit is een kop tekst gevolgd door uitleg van de gevolgen
-#, fuzzy
-#~ msgid "Confirmation of manual reconciliation"
-#~ msgstr "Bevestig de handmatige controle handeling"
-
-#, fuzzy
-#~ msgid ""
-#~ "You are trying to reconcile a transaction manually, which is not a "
-#~ "recommended action.\n"
-#~ "Are you really sure you know what you are doing?"
-#~ msgstr ""
-#~ "U probeert een transactie handmatig te controleren of een controle op te "
-#~ "heffen, dit is niet de normale manier om het te doen.\n"
-#~ "\n"
-#~ "Weet u echt wat u aan het doen bent?"
-
-# dit is een kop tekst gevolgd door uitleg van de gevolgen
-#, fuzzy
-#~ msgid "Confirmation of manual unreconciliation"
-#~ msgstr "Bevestig de handmatige controle handeling"
-
-#, fuzzy
-#~ msgid ""
-#~ "You are trying to unreconcile a transaction manually, which is not a "
-#~ "recommended action.\n"
-#~ "Are you really sure you know what you are doing?"
-#~ msgstr ""
-#~ "U probeert een transactie handmatig te controleren of een controle op te "
-#~ "heffen, dit is niet de normale manier om het te doen.\n"
-#~ "\n"
-#~ "Weet u echt wat u aan het doen bent?"
-
-#, fuzzy
-#~ msgid "Removing backups from the account file"
-#~ msgstr "Maak een reserve kopie van het bestand voor het opslaan"
-
-#~ msgid "Monday"
-#~ msgstr "Maandag"
-
-#~ msgid "Tuesday"
-#~ msgstr "Dinsdag"
-
-#~ msgid "Wednesday"
-#~ msgstr "Woensdag"
-
-#~ msgid "Thursday"
-#~ msgstr "Donderdag"
-
-#~ msgid "Friday"
-#~ msgstr "Vrijdag"
-
-#~ msgid "Saturday"
-#~ msgstr "Zaterdag"
-
-#~ msgid "Sunday"
-#~ msgstr "Zondag"
-
-#, fuzzy
-#~ msgid "Day"
-#~ msgstr "Dagen"
-
-#~ msgid "Week"
-#~ msgstr "Week"
-
-#, fuzzy
-#~ msgid "Month"
-#~ msgstr "Maanden"
-
-#~ msgid "Year"
-#~ msgstr "Jaar"
-
-#, fuzzy
-#~ msgid "Arabic"
-#~ msgstr "Afrika"
-
-#, fuzzy
-#~ msgid "Baltic"
-#~ msgstr "Saldo"
-
-#, fuzzy
-#~ msgid "Central European"
-#~ msgstr "Midden Amerika"
-
-#, fuzzy
-#~ msgid "Chinese"
-#~ msgstr "China"
-
-#, fuzzy
-#~ msgid "Indian"
-#~ msgstr "India"
-
-#, fuzzy
-#~ msgid "Japanese"
-#~ msgstr "Japanse Yen"
-
-#, fuzzy
-#~ msgid "Korean"
-#~ msgstr "Jordanië"
-
-#, fuzzy
-#~ msgid "Turkish"
-#~ msgstr "Turkse Lira"
-
-#, fuzzy
-#~ msgid "Vietnamese"
-#~ msgstr "Vietnam"
-
-#, fuzzy
-#~ msgid "Western"
-#~ msgstr "Website"
-
-#, fuzzy
-#~ msgid "Japanese (EUC-JP)"
-#~ msgstr "Japanse Yen"
-
-#~ msgid "Africa"
-#~ msgstr "Afrika"
-
-#~ msgid "Algerian Dinar"
-#~ msgstr "Algerijnse dinar"
-
-#~ msgid "Algeria"
-#~ msgstr "Algerije"
-
-#~ msgid "Botswana Pula"
-#~ msgstr "Botswana Pula"
-
-#~ msgid "Botswana"
-#~ msgstr "Botswana"
-
-#~ msgid "Burundi Franc"
-#~ msgstr "Burundese Frank"
-
-#~ msgid "Burundi"
-#~ msgstr "Burundi"
-
-#~ msgid "CFA Franc BCEAO"
-#~ msgstr "CFA-frank BCEAO"
-
-#~ msgid "Niger"
-#~ msgstr "Niger"
-
-#~ msgid "Senegal"
-#~ msgstr "Senegal"
-
-#~ msgid "CFA Franc BEAC"
-#~ msgstr "CFA Franc BEAC"
-
-#~ msgid "Cameroon"
-#~ msgstr "Kameroen"
-
-#~ msgid "Chad"
-#~ msgstr "Tsjaad"
-
-#~ msgid "Congo"
-#~ msgstr "Congo"
-
-#~ msgid "Comoro Franc"
-#~ msgstr "Comorese frank"
-
-#~ msgid "Comoros"
-#~ msgstr "Comoren"
-
-#~ msgid "Egyptian Pound"
-#~ msgstr "Egyptisch Pond"
-
-#~ msgid "Egypt"
-#~ msgstr "Egypte"
-
-#~ msgid "Ethiopian Birr"
-#~ msgstr "Ethiopische Birr"
-
-#~ msgid "Ethiopia"
-#~ msgstr "Ethiopië"
-
-#~ msgid "Gambian Dalasi"
-#~ msgstr "Gambiaanse Dalasi"
-
-#~ msgid "Gambia"
-#~ msgstr "Gambia"
-
-#~ msgid "Ghana Cedi"
-#~ msgstr "Ghanese Cedi"
-
-#~ msgid "Ghana"
-#~ msgstr "Ghana"
-
-#~ msgid "Guinea-Bissau Peso"
-#~ msgstr "Guinea-Bissause Peso"
-
-#~ msgid "Guinea-Bissau"
-#~ msgstr "Guinee-Bissau"
-
-#~ msgid "Kenyan Shilling"
-#~ msgstr "Keniaanse shilling"
-
-#~ msgid "Kenya"
-#~ msgstr "Kenia"
-
-#~ msgid "Liberian Dollar"
-#~ msgstr "Liberiaanse dollar"
-
-#~ msgid "Liberia"
-#~ msgstr "Liberia"
-
-#~ msgid "Libyan Dinar"
-#~ msgstr "Libische Dinar"
-
-#~ msgid "Libyan Arab Jamahiriya"
-#~ msgstr "Libië"
-
-#~ msgid "Malagasy Franc"
-#~ msgstr "Malagese frank"
-
-#~ msgid "Madagascar"
-#~ msgstr "Madagaskar"
-
-#~ msgid "Malawi Kwacha"
-#~ msgstr "Malawische Kwacha"
-
-#~ msgid "Malawi"
-#~ msgstr "Malawi"
-
-#~ msgid "Mauritania Ouguiya"
-#~ msgstr "Mauritanische Ouguiya"
-
-#~ msgid "Mauritania"
-#~ msgstr "Mauritanië"
-
-#~ msgid "Moazambique Metical"
-#~ msgstr "Mozambicaanse Metical"
-
-#~ msgid "Mozambique"
-#~ msgstr "Mozambique"
-
-#~ msgid "Moroccan Dirham"
-#~ msgstr "Marokkaanse Dirham"
-
-#~ msgid "Morocco"
-#~ msgstr "Marokko"
-
-#~ msgid "Nigerian Naira"
-#~ msgstr "Nigeriaanse Naira"
-
-#~ msgid "Nigeria"
-#~ msgstr "Nigeria"
-
-#~ msgid "Rwanda Franc"
-#~ msgstr "Ruandese frank"
-
-#~ msgid "Rwanda"
-#~ msgstr "Rwanda"
-
-#~ msgid "Sao Tome and Principe Dobra"
-#~ msgstr "Sao Tome en Principe Dobra"
-
-#~ msgid "Sao Tome and Principe"
-#~ msgstr "Sao Tome en Principe"
-
-#~ msgid "Seychelles Rupee"
-#~ msgstr "Seychellen Roepia"
-
-#~ msgid "Seychelles"
-#~ msgstr "Seychellen"
-
-#~ msgid "Sierra Leonean Leone"
-#~ msgstr "Sierra Leone Leone"
-
-#~ msgid "Sierra Leone"
-#~ msgstr "Sierra Leone"
-
-#~ msgid "Somali Shilling"
-#~ msgstr "Somali Shilling"
-
-#~ msgid "Somalia"
-#~ msgstr "Somalië"
-
-#~ msgid "South African Rand"
-#~ msgstr "Zuid-Afrikaanse Rand"
-
-#~ msgid "Lesotho"
-#~ msgstr "Lesotho"
-
-#~ msgid "Namibia"
-#~ msgstr "Namibië"
-
-#~ msgid "South Africa"
-#~ msgstr "Zuid-Afrika"
-
-#~ msgid "Swaziland Lilangeni"
-#~ msgstr "Swaziland Lilangeni"
-
-#~ msgid "Swaziland"
-#~ msgstr "Swaziland"
-
-#~ msgid "Tanzanian Shilling"
-#~ msgstr "Tanzaniaanse Shilling"
-
-#~ msgid "United Republic of Tanzania"
-#~ msgstr "Tanzania"
-
-#~ msgid "Tunisian Dinar"
-#~ msgstr "Tunesische Dinar"
-
-#~ msgid "Tunisia"
-#~ msgstr "Tunesië"
-
-#~ msgid "Zambian Kwacha"
-#~ msgstr "Zambiaanse Kwacha"
-
-#~ msgid "Zambia"
-#~ msgstr "Zambia"
-
-#~ msgid "Zimbabwe Dollar"
-#~ msgstr "Zimbabwaanse Dollar"
-
-#~ msgid "Zimbabwe"
-#~ msgstr "Zimbabwe"
-
-#~ msgid "Asia"
-#~ msgstr "Azië"
-
-#~ msgid "Afghani"
-#~ msgstr "Afghani"
-
-#~ msgid "Afghanistan"
-#~ msgstr "Afghanistan"
-
-#~ msgid "Bahraini Dinar"
-#~ msgstr "Bahreinse Dinar"
-
-#~ msgid "Bahrain"
-#~ msgstr "Bahrein"
-
-#~ msgid "Bangladesh Taka"
-#~ msgstr "Bangladesh Taka"
-
-#~ msgid "Bangladesh"
-#~ msgstr "Bangladesh"
-
-#~ msgid "Brunei Dollar"
-#~ msgstr "Bruneise Dollar"
-
-#~ msgid "Brunei Darussalam"
-#~ msgstr "Bruneise Dollar"
-
-#~ msgid "Cambodian Riel"
-#~ msgstr "Cambodjaanse Riel"
-
-#~ msgid "Cambodia"
-#~ msgstr "Cambodja"
-
-#~ msgid "Cyprus Pound"
-#~ msgstr "Cyprisch pond"
-
-#~ msgid "Cyprus"
-#~ msgstr "Cyprus"
-
-#~ msgid "Hong Kong Dollar"
-#~ msgstr "Hong Kong Dollar"
-
-#~ msgid "Hong Kong"
-#~ msgstr "Hong Kong"
-
-#~ msgid "Indian Rupee"
-#~ msgstr "Indiase Roepia"
-
-#~ msgid "Bhutan"
-#~ msgstr "Bhutan"
-
-#~ msgid "India"
-#~ msgstr "India"
-
-#~ msgid "Indonesian Rupiah"
-#~ msgstr "Indonesische Roepia"
-
-#~ msgid "Indonesia"
-#~ msgstr "Indonesië"
-
-#~ msgid "Iranian Rial"
-#~ msgstr "Iraanse Rial"
-
-#~ msgid "Iran"
-#~ msgstr "Iran"
-
-#~ msgid "Iraqi Dinar"
-#~ msgstr "Irakese Dinar"
-
-#~ msgid "Iraq"
-#~ msgstr "Irak"
-
-#~ msgid "Japanese Yen"
-#~ msgstr "Japanse Yen"
-
-#~ msgid "Japan"
-#~ msgstr "Japan"
-
-#~ msgid "Jordanian Dinar"
-#~ msgstr "Jordaanse Dinar"
-
-#~ msgid "Jordan"
-#~ msgstr "Jordanië"
-
-#, fuzzy
-#~ msgid "Kazakhstan Tenge"
-#~ msgstr "Pakistaanse Roepia"
-
-#, fuzzy
-#~ msgid "Kazakhstan"
-#~ msgstr "Pakistan"
-
-#~ msgid "Kuwaiti Dinar"
-#~ msgstr "Koeweitse Dinar"
-
-#~ msgid "Kuwait"
-#~ msgstr "Koeweit"
-
-#~ msgid "Lao Kip"
-#~ msgstr "Lao Kip"
-
-#~ msgid "Lebanese Pound"
-#~ msgstr "Libanese Pond"
-
-#~ msgid "Lebanon"
-#~ msgstr "Libanon"
-
-#~ msgid "Macau Pataca"
-#~ msgstr "Macause Pataca"
-
-#~ msgid "Macao"
-#~ msgstr "Macao"
-
-#~ msgid "Malaysian Ringgit"
-#~ msgstr "Maleisische Ringgit"
-
-#~ msgid "Malaysia"
-#~ msgstr "Maleisië"
-
-#~ msgid "Mongolian Tugrik"
-#~ msgstr "Mongolische Tugrik"
-
-#~ msgid "Mongolia"
-#~ msgstr "Mongolië"
-
-#~ msgid "Nepalese Rupee"
-#~ msgstr "Nepalese Roepia"
-
-#~ msgid "Nepal"
-#~ msgstr "Nepal"
-
-#~ msgid "New Israeli Shekel"
-#~ msgstr "Nieuwe Israëlische Shekel"
-
-#~ msgid "Israel"
-#~ msgstr "Israël"
-
-#~ msgid "New Taiwan Dollar"
-#~ msgstr "Nieuwe Taiwan Dollar"
-
-#~ msgid "Taiwan, Province of China"
-#~ msgstr "Taiwan"
-
-#~ msgid "North Korean Won"
-#~ msgstr "Noord-Koreaanse Won"
-
-#~ msgid "Democratic People's Republic of Korea"
-#~ msgstr "Noord-Korea"
-
-#~ msgid "Pakistan Rupee"
-#~ msgstr "Pakistaanse Roepia"
-
-#~ msgid "Pakistan"
-#~ msgstr "Pakistan"
-
-#~ msgid "Philippine peso"
-#~ msgstr "Filippijnse peso"
-
-#~ msgid "Philippines"
-#~ msgstr "Filippijnen"
-
-#~ msgid "Qatari Rial"
-#~ msgstr "Qatari Rial"
-
-#~ msgid "Qatar"
-#~ msgstr "Qatar"
-
-#~ msgid "Rial Omani"
-#~ msgstr "Omani Rial"
-
-#~ msgid "Oman"
-#~ msgstr "Oman"
-
-#~ msgid "Russian Ruble"
-#~ msgstr "Russische Roebel"
-
-#~ msgid "Russia"
-#~ msgstr "Rusland"
-
-#~ msgid "Saudi Riyal"
-#~ msgstr "Saudi Riya"
-
-#~ msgid "Saudi Arabia"
-#~ msgstr "Saoedi-Arabië"
-
-#~ msgid "Singapore Dollar"
-#~ msgstr "Singaporeaanse Dollar"
-
-#~ msgid "Singapore"
-#~ msgstr "Singapore"
-
-#~ msgid "South Korean Won"
-#~ msgstr "Zuid-Koreaanse Won"
-
-#~ msgid "Republic of Korea"
-#~ msgstr "Zuid-Korea"
-
-#~ msgid "Sri Lanka Rupee"
-#~ msgstr "Sri Lankese Roepia"
-
-#~ msgid "Sri Lanka"
-#~ msgstr "Sri Lanka"
-
-#~ msgid "Syrian Pound"
-#~ msgstr "Syrische Pond"
-
-#~ msgid "Syrian Arab Republic"
-#~ msgstr "Syrië"
-
-#~ msgid "Thai Baht"
-#~ msgstr "Thaise Baht"
-
-#~ msgid "Thailand"
-#~ msgstr "Thailand"
-
-#~ msgid "Turkish Lira"
-#~ msgstr "Turkse Lira"
-
-#~ msgid "Turkey"
-#~ msgstr "Turkije"
-
-#~ msgid "United Arab Emirates Dirham"
-#~ msgstr "Verenigde Arabische Emiraten Dirham"
-
-#~ msgid "United Arab Emirates"
-#~ msgstr "Verenigde Arabische Emiraten"
-
-#~ msgid "Viet Nam Dong"
-#~ msgstr "Vietnamese Dong"
-
-#~ msgid "Viet Nam"
-#~ msgstr "Vietnam"
-
-#~ msgid "Yemeni Rial"
-#~ msgstr "Jemenitische Rial"
-
-#~ msgid "Yemen"
-#~ msgstr "Jemen"
-
-#~ msgid "Yuan Renminbi"
-#~ msgstr "Chinese Yuan Renminbi"
-
-#~ msgid "China"
-#~ msgstr "China"
-
-#~ msgid "Central America"
-#~ msgstr "Midden Amerika"
-
-#~ msgid "Belize Dollar"
-#~ msgstr "Belize Dollar"
-
-#~ msgid "Belize"
-#~ msgstr "Belize"
-
-#~ msgid "Costa Rican Colon"
-#~ msgstr "Costa Ricaanse Colón"
-
-#~ msgid "Costa Rica"
-#~ msgstr "Costa Rica"
-
-#~ msgid "Guatemalan Quetzal"
-#~ msgstr "Guatemalaanse Quetzal"
-
-#~ msgid "Guatemala"
-#~ msgstr "Guatemala"
-
-#~ msgid "Honduran Lempira"
-#~ msgstr "Hondurese Lempira"
-
-#~ msgid "Honduras"
-#~ msgstr "Honduras"
-
-#~ msgid "Mexican Peso"
-#~ msgstr "Mexicaanse Peso"
-
-#~ msgid "Mexico"
-#~ msgstr "Mexico"
-
-#~ msgid "Panama Balboa"
-#~ msgstr "Panamese Balboa"
-
-#~ msgid "Panama"
-#~ msgstr "Panama"
-
-#~ msgid "Europe"
-#~ msgstr "Europa"
-
-#~ msgid "Euro"
-#~ msgstr "Euro"
-
-#~ msgid "Germany"
-#~ msgstr "Duitsland"
-
-#~ msgid "Austria"
-#~ msgstr "Oostenrijk"
-
-#~ msgid "Belgium"
-#~ msgstr "België"
-
-#~ msgid "Spain"
-#~ msgstr "Spanje"
-
-#~ msgid "Finland"
-#~ msgstr "Finland"
-
-#~ msgid "France"
-#~ msgstr "Frankrijk"
-
-#~ msgid "Greece"
-#~ msgstr "Griekenland"
-
-#~ msgid "Ireland"
-#~ msgstr "Ierland"
-
-#~ msgid "Italy"
-#~ msgstr "Italië"
-
-#~ msgid "Luxembourg"
-#~ msgstr "Groothertogdom Luxemburg"
-
-#~ msgid "Netherlands"
-#~ msgstr "Nederland"
-
-#~ msgid "Portugal"
-#~ msgstr "Portugal"
-
-#~ msgid "Slovenia"
-#~ msgstr "Slovenië"
-
-#~ msgid "Albanian Lek"
-#~ msgstr "Albanese Lek"
-
-#~ msgid "Albania"
-#~ msgstr "Albanië"
-
-#~ msgid "Austrian Schilling"
-#~ msgstr "Oostenrijkse Euro (Schilling)"
-
-#~ msgid "Belgian Franc"
-#~ msgstr "Belgische Euro (Frank)"
-
-#~ msgid "Bulgarian Lev"
-#~ msgstr "Bulgaarse Lev (voor 1999-07-05)"
-
-#~ msgid "Bulgaria"
-#~ msgstr "Bulgarije"
-
-#~ msgid "Czech Koruna"
-#~ msgstr "Tsjechische Kroon"
-
-#~ msgid "Czech Republic"
-#~ msgstr "Tsjechië"
-
-#~ msgid "Danish Krone"
-#~ msgstr "Deense Kroon"
-
-#~ msgid "Denmark"
-#~ msgstr "Denemarken"
-
-#~ msgid "Deutsche Mark"
-#~ msgstr "Duitse Euro (Mark)"
-
-#~ msgid "Estonian Kroon"
-#~ msgstr "Estlandse kroon"
-
-#~ msgid "Estonia"
-#~ msgstr "Estland"
-
-#, fuzzy
-#~ msgid "UE (Europe)"
-#~ msgstr "Europa"
-
-#~ msgid "Finnish Markka"
-#~ msgstr "Finse Euro (Markka)"
-
-#~ msgid "French Franc"
-#~ msgstr "Franse Euro (Franc)"
-
-#~ msgid "Gibraltar Pound"
-#~ msgstr "Gibraltarese Pond"
-
-#~ msgid "Gibraltar"
-#~ msgstr "Gibraltar"
-
-#~ msgid "Greek Drachma"
-#~ msgstr "Griekse Drachme"
-
-#~ msgid "Hungarian Forint"
-#~ msgstr "Hongaarse Forint"
-
-#~ msgid "Hungary"
-#~ msgstr "Hongarije"
-
-#~ msgid "Iceland Krona"
-#~ msgstr "IJslandse Kroon"
-
-#~ msgid "Iceland"
-#~ msgstr "IJsland"
-
-#~ msgid "Irish Pound"
-#~ msgstr "Ierse Euro (Pond)"
-
-#~ msgid "Italian Lira"
-#~ msgstr "Italiaanse Euro (Lira)"
-
-#~ msgid "Holy See"
-#~ msgstr "Heilige Stoel (Vaticaanstad)"
-
-#~ msgid "San Marino"
-#~ msgstr "San Marino"
-
-#, fuzzy
-#~ msgid "Latvian Lats"
-#~ msgstr "Letse lats"
-
-#~ msgid "Latvia"
-#~ msgstr "Letland"
-
-#~ msgid "Lithuanian Litas"
-#~ msgstr "Litouwse Litus"
-
-#~ msgid "Lietuva"
-#~ msgstr "Litouwen"
-
-#~ msgid "Luxembourg Franc"
-#~ msgstr "Luxemburgse Euro (Franc)"
-
-#~ msgid "Netherlands Guilder"
-#~ msgstr "Nederlandse Euro (Gulden)"
-
-#~ msgid "New Yugoslavian Dinar"
-#~ msgstr "Nieuwe Joegoslavische Dinar"
-
-#~ msgid "Serbia and Montenegro"
-#~ msgstr "Servië en Montenegro"
-
-#~ msgid "Norwegian Krone"
-#~ msgstr "Noorse Kroon"
-
-#~ msgid "Norway"
-#~ msgstr "Noorwegen"
-
-#~ msgid "Polish Zloty"
-#~ msgstr "Poolse Zloty"
-
-#~ msgid "Poland"
-#~ msgstr "Polen"
-
-#~ msgid "Portuguese Escudo"
-#~ msgstr "Portugese Euro (Escudo)"
-
-#~ msgid "Pound Sterling"
-#~ msgstr "Britse Pound Sterling"
-
-#~ msgid "United Kingdom"
-#~ msgstr "Groot-Brittannië"
-
-#~ msgid "Romanian Leu"
-#~ msgstr "Roemeense Leu"
-
-#~ msgid "Romania"
-#~ msgstr "Roemenië"
-
-#~ msgid "Slovak Koruna"
-#~ msgstr "Slovaakse Koruna"
-
-#~ msgid "Slovakia"
-#~ msgstr "Slowakije"
-
-#~ msgid "Slovene Tolar"
-#~ msgstr "Sloveense Tolar"
-
-#~ msgid "Spanish Peseta"
-#~ msgstr "Spaanse Euro (Peseta)"
-
-#~ msgid "Swedish Krona"
-#~ msgstr "Zweedse Krona"
-
-#~ msgid "Sweden"
-#~ msgstr "Zweden"
-
-#~ msgid "Swiss Franc"
-#~ msgstr "Zwitserse franc"
-
-#~ msgid "Liechtenstein"
-#~ msgstr "Liechtenstein"
-
-#~ msgid "Switzerland"
-#~ msgstr "Zwitserland"
-
-#~ msgid "Hryvnia"
-#~ msgstr "Hryvnia"
-
-#~ msgid "Ukraine"
-#~ msgstr "De Oekraïne"
-
-#~ msgid "Northern America"
-#~ msgstr "Noord Amerika"
-
-#~ msgid "Bahamian Dollar"
-#~ msgstr "Bahamiaanse Dollar"
-
-#~ msgid "Bahamas"
-#~ msgstr "Bahama's"
-
-#~ msgid "Barbados Dollar"
-#~ msgstr "Barbadaanse Dollar"
-
-#~ msgid "Barbados"
-#~ msgstr "Barbados"
-
-#~ msgid "Bermuda Dollar"
-#~ msgstr "Bermudaanse Dollar"
-
-#~ msgid "Bermuda"
-#~ msgstr "Bermuda"
-
-#~ msgid "Canadian Dollar"
-#~ msgstr "Canadese Dollar"
-
-#~ msgid "Canada"
-#~ msgstr "Canada"
-
-#~ msgid "Cayman Islands Dollar"
-#~ msgstr "Cayman Dollar"
-
-#~ msgid "Cayman Islands"
-#~ msgstr "Caymaneilanden"
-
-#, fuzzy
-#~ msgid "Cuban Convertible Peso"
-#~ msgstr "Cubaanse Peso"
-
-#~ msgid "Cuba"
-#~ msgstr "Cuba"
-
-#~ msgid "Cuban Peso"
-#~ msgstr "Cubaanse Peso"
-
-#~ msgid "Dominican Peso"
-#~ msgstr "Dominicaanse Peso"
-
-#~ msgid "Dominican Republic"
-#~ msgstr "Dominicaanse Republiek"
-
-#~ msgid "East Caribbean Dollar"
-#~ msgstr "Oost Caribische dollar"
-
-#~ msgid "Grenada"
-#~ msgstr "Dominicaanse Republiek"
-
-#~ msgid "Saint Lucia"
-#~ msgstr "Saint Lucia"
-
-#~ msgid "Haitian Gourde"
-#~ msgstr "Haïtiaanse Gourde"
-
-#~ msgid "Haiti"
-#~ msgstr "Haiti"
-
-#~ msgid "Jamaican Dollar"
-#~ msgstr "Jamaïcaanse Dollar"
-
-#~ msgid "Jamaica"
-#~ msgstr "Jamaica"
-
-#~ msgid "Netherlands Antillian Guilder"
-#~ msgstr "Antilliaanse Gulden"
-
-#~ msgid "Netherlands Antilles"
-#~ msgstr "Nederlandse Antillen"
-
-#~ msgid "Trinidad and Tobago Dollar"
-#~ msgstr "Trinidad en Tobago Dollar"
-
-#~ msgid "Trinidad and Tobago"
-#~ msgstr "Trinidad en Tobago"
-
-#~ msgid "United States Dollar"
-#~ msgstr "USA Dollar"
-
-#~ msgid "Pacific Ocean"
-#~ msgstr "Grote Oceaan"
-
-#~ msgid "Australian Dollar"
-#~ msgstr "Australische Dollar"
-
-#~ msgid "Australia"
-#~ msgstr "Australië"
-
-#~ msgid "Kiribati"
-#~ msgstr "Kiribati"
-
-#~ msgid "Nauru"
-#~ msgstr "Nauru"
-
-#~ msgid "Tuvalu"
-#~ msgstr "Tuvalu"
-
-#~ msgid "CFP Franc"
-#~ msgstr "CFP Franc"
-
-#~ msgid "French Polynesia"
-#~ msgstr "Franse Polynesia"
-
-#~ msgid "New Caledonia"
-#~ msgstr "Nieuw-Caledonië"
-
-#~ msgid "Wallis and Futuna"
-#~ msgstr "Wallis en Futuna"
-
-#~ msgid "Fiji Dollar"
-#~ msgstr "Fiji Dollar"
-
-#~ msgid "Fiji"
-#~ msgstr "Fiji"
-
-#~ msgid "New Zealand Dollar"
-#~ msgstr "Nieuw-Zeelandse dollar"
-
-#~ msgid "Cook Islands"
-#~ msgstr "Cookeilanden (Nieuw-Zeeland)"
-
-#~ msgid "New Zealand"
-#~ msgstr "Nieuw-Zeeland"
-
-#~ msgid "Papua New Guinea Kina"
-#~ msgstr "Papua Nieuw Guinea : Kina"
-
-#~ msgid "Papua New Guinea"
-#~ msgstr "Papua Nieuw Guinea"
-
-#~ msgid "Samoa Tala"
-#~ msgstr "Samoa Tala"
-
-#~ msgid "Samoa"
-#~ msgstr "Samoa"
-
-#~ msgid "Solomon Islands Dollar"
-#~ msgstr "Solomon Islands Dollar"
-
-#~ msgid "Solomon Islands"
-#~ msgstr "Salomonseilanden"
-
-#~ msgid "Timor Escudo"
-#~ msgstr "Timorese Escudo"
-
-#~ msgid "Timor"
-#~ msgstr "Timor"
-
-#~ msgid "Tongan Pa'anga"
-#~ msgstr "Tonganese Pa'anga"
-
-#~ msgid "Tonga"
-#~ msgstr "Tonga"
-
-#~ msgid "Vanuatu Vatu"
-#~ msgstr "Vanuatu Vatu"
-
-#~ msgid "Vanuatu"
-#~ msgstr "Vanuatu"
-
-#~ msgid "Southern America"
-#~ msgstr "Zuid Amerika"
-
-#, fuzzy
-#~ msgid "Argentina"
-#~ msgstr "Algerije"
-
-#~ msgid "Chile"
-#~ msgstr "Chili"
-
-#~ msgid "Colombia"
-#~ msgstr "Colombia"
-
-#~ msgid "Ecuador Sucre"
-#~ msgstr "Ecuador USD"
-
-#~ msgid "Ecuador"
-#~ msgstr "Ecuador"
-
-#~ msgid "Guyana Dollar"
-#~ msgstr "Guyaanse Dollar"
-
-#~ msgid "Guyana"
-#~ msgstr "Guyana"
-
-#~ msgid "Paraguay Guarani"
-#~ msgstr "Paraguayaanse Guarani"
-
-#~ msgid "Paraguay"
-#~ msgstr "Paraguay"
-
-#, fuzzy
-#~ msgid "Peru"
-#~ msgstr "Opmaak"
-
-#~ msgid "Real"
-#~ msgstr "Real"
-
-#~ msgid "Brazil"
-#~ msgstr "Brazilië"
-
-#~ msgid "Suriname Guilder"
-#~ msgstr "Surinaamse Dollar"
-
-#~ msgid "Suriname"
-#~ msgstr "Suriname"
-
-#, fuzzy
-#~ msgid "Uruguay"
-#~ msgstr "Paraguay"
-
-#~ msgid "Venezuelan Bolivar"
-#~ msgstr "Venezolaanse Bolivar"
-
-#~ msgid "Venezuela"
-#~ msgstr "Venezuela"
-
-#, fuzzy
-#~ msgid "Incorrect reconciliation totals"
-#~ msgstr "Controleer"
-
-#, fuzzy
-#~ msgid ""
-#~ "Grisbi found accounts where reconciliation totals are inconsistent with "
-#~ "the sum of reconcilied transactions and initial balance.\n"
-#~ "\n"
-#~ "The cause may be the elimination or modification of reconciliations or "
-#~ "changes in the balance of reconciliations in the preferences."
-#~ msgstr ""
-#~ "Grisbi vond rekeningen waar het gecontroleerde totaalbedrag niet "
-#~ "overeenstemt met de som van de gecontroleerde transacties. Over het "
-#~ "algemeen is de oorzaak een teveel aan overschrijvingen naar andere "
-#~ "rekeningen die gecontroleerd zijn. U moet handmatig aanpassingen "
-#~ "aanbrengen bij de rekeningen die problemen geven.\n"
-#~ "De volgende rekeningen zijn niet kloppend:\n"
-#~ "\n"
-
-#, fuzzy
-#~ msgid "Duplicate sub-categories check"
-#~ msgstr "Toon sub-categorieën"
-
-#, fuzzy
-#~ msgid "free"
-#~ msgstr "Griekenland"
-
-#, fuzzy
-#~ msgid ""
-#~ "Due to a bug in previous versions of Grisbi, sub-categories may share the "
-#~ "same numeric identifier in some cases, resulting in transactions having "
-#~ "two sub-categories.  If you choose to continue, Grisbi will remove one of "
-#~ "each duplicates and recreate it with a new identifier.\n"
-#~ "\n"
-#~ "No transaction will be lost, but in some cases, you will have to manually "
-#~ "move transactions to this new sub-category."
-#~ msgstr ""
-#~ "Wegens een bug in vorige versies van Grisbi, komt het soms voor dat sub-"
-#~ "categorieën dezelfde numerieke identiteitskaart delen, wat ervoor zorgt "
-#~ "dat transacties in twee sub-categorieën komen te staan. Als u verkiest om "
-#~ "verder te gaan, zal Grisbi een van de dubbele sub-categorieën en "
-#~ "transacties verwijderen en deze opnieuw aanmaken in een nieuwe id.\n"
-#~ "\n"
-#~ "Er zullen geen gegevens verloren gaan, maar in sommige gevallen zult u de "
-#~ "transacties handmatig naar een andere sub-categorie moeten verplaatsen."
-
-#, fuzzy
-#~ msgid "Duplicate sub-budgetary lines check"
-#~ msgstr "de sub-budgetregel"
-
-#, fuzzy
-#~ msgid ""
-#~ "Due to a bug in previous versions of Grisbi, sub-budgetary lines may "
-#~ "share the same numeric id in some cases, resulting in transactions having "
-#~ "two sub-budgetary lines.  If you choose to continue, Grisbi will remove "
-#~ "one of each duplicates and recreate it with a new id.entifier\n"
-#~ "\n"
-#~ "No transactions will be lost, but in some cases, you will have to "
-#~ "manually move transactions to this new sub-budgetary line."
-#~ msgstr ""
-#~ "Wegens een bug in vorige versies van Grisbi, komt het voor dat sub-budget "
-#~ "regels dezelfde numerieke identiteitskaart delen, wat ervoor zorgt dat "
-#~ "transacties in twee sub-budgetregels komen te staan. Als u verkiest om "
-#~ "verder te gaan, zal Grisbi een van de twee sub-budgetregels en "
-#~ "transacties verwijderen en deze opnieuw aanmaken in een nieuwe id.\n"
-#~ "\n"
-#~ "Er zullen geen gegevens verloren gaan, maar in sommige gevallen zult u de "
-#~ "transacties handmatig naar een andere sub-budgetregel moeten verplaatsen."
-
-#, fuzzy
-#~ msgid "Orphan countra-transactions check"
-#~ msgstr "Verweesde transacties"
-
-#, fuzzy
-#~ msgid "Free"
-#~ msgstr "Kosten"
-
-#~ msgid "Method of payment"
-#~ msgstr "Methode van betaling"
-
-#~ msgid "Transaction number"
-#~ msgstr "Transactie nummer"
-
-#, fuzzy
-#~ msgid "Automatic/Manual"
-#~ msgstr "Automatisch"
-
-#, fuzzy
-#~ msgid "Background color of account row"
-#~ msgstr "Bankrekening:"
-
-#, fuzzy
-#~ msgid "Color of account text"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Color of account text hovered"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Color of balance text"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Color of balance text hovered"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Background color 1 in lists of transactions"
-#~ msgstr ""
-#~ "Kies een geplande transactie\n"
-#~ "om te laten vervallen."
-
-#, fuzzy
-#~ msgid "Background color 2 in lists of transactions"
-#~ msgstr ""
-#~ "Kies een geplande transactie\n"
-#~ "om te laten vervallen."
-
-#, fuzzy
-#~ msgid "Background color of split transaction children"
-#~ msgstr ""
-#~ "Kies een geplande transactie\n"
-#~ "om te laten vervallen."
-
-#, fuzzy
-#~ msgid "Background color of selected transaction"
-#~ msgstr ""
-#~ "Kies een geplande transactie\n"
-#~ "om te laten vervallen."
-
-#, fuzzy
-#~ msgid "Background color of virtual scheduled transactions"
-#~ msgstr ""
-#~ "Kies een geplande transactie\n"
-#~ "om te laten vervallen."
-
-#, fuzzy
-#~ msgid "Color of transaction text"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Color of unfinished split transaction text"
-#~ msgstr "Verwijder geplande transactie"
-
-#, fuzzy
-#~ msgid "Text color of a negative balance"
-#~ msgstr "Bankrekening:"
-
-#, fuzzy
-#~ msgid "Color of selected transaction text"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Color of unsensitive text"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Background color of historical data"
-#~ msgstr "Start datum"
-
-#, fuzzy
-#~ msgid "Background color of futur data"
-#~ msgstr "Bankrekening:"
-
-#, fuzzy
-#~ msgid "Background color of month balance"
-#~ msgstr "Bankrekening:"
-
-#, fuzzy
-#~ msgid "Background color of transfer data"
-#~ msgstr ""
-#~ "Kies een geplande transactie\n"
-#~ "om te laten vervallen."
-
-#, fuzzy
-#~ msgid "Color of gsetting text"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Color of gsetting text hovered"
-#~ msgstr "Opsplitsen van transactie"
-
-#, fuzzy
-#~ msgid "Week view"
-#~ msgstr "Week"
-
-#, fuzzy
-#~ msgid "Month view"
-#~ msgstr "Maanden"
-
-#, fuzzy
-#~ msgid "Year view"
-#~ msgstr "Jaar"
-
-#, fuzzy
-#~ msgid "Custom view"
-#~ msgstr "Anders"
-
-#, fuzzy
-#~ msgid "days"
-#~ msgstr "dag"
-
-#, fuzzy
-#~ msgid "weeks"
-#~ msgstr "Week"
-
-#~ msgid "Mode"
-#~ msgstr "Stand"
-
-#, fuzzy
-#~ msgid "Cheque number"
-#~ msgstr "het cheque nummer"
-
-#, fuzzy
-#~ msgid "Init date"
-#~ msgstr "Start datum"
-
-#, fuzzy
-#~ msgid "Quicken Interchange Format"
-#~ msgstr "Aanpassen wisselkoers"
-
-#, fuzzy
-#~ msgid "Unknown field"
-#~ msgstr "Onbekend"
-
-#, fuzzy
-#~ msgid "Wording"
-#~ msgstr "Sorteer"
-
-#, fuzzy
-#~ msgid "Debit (negative)"
-#~ msgstr "negatief"
-
-#~ msgid "No sub-category"
-#~ msgstr "Geen sub-categorie"
-
-#, fuzzy
-#~ msgid "sub-payee"
-#~ msgstr "Geen sub-categorie"
-
-#, fuzzy
-#~ msgid "No sub-payee"
-#~ msgstr "Geen sub-categorie"
-
-#~ msgid "Contact name"
-#~ msgstr "Naam van contactpersoon"
-
-#, fuzzy
-#~ msgid "First currency"
-#~ msgstr "Kies een valuta"
-
-#, fuzzy
-#~ msgid "Exchange"
-#~ msgstr "Wisselkoers kosten"
-
-#, fuzzy
-#~ msgid "Second currency"
-#~ msgstr "Valuta"
-
-#, fuzzy
-#~ msgid "Modified date"
-#~ msgstr "Tot datum"
-
-#, fuzzy
-#~ msgid "Automatic selection"
-#~ msgstr "Selecteer data"
-
-#, fuzzy
-#~ msgid "Force the use of clear theme"
-#~ msgstr "Sorteer volgens datum"
-
-#, fuzzy
-#~ msgid "Force the use of dark theme"
-#~ msgstr "Sorteer volgens datum"
-
-#, fuzzy
-#~ msgid "Force the use of light theme"
-#~ msgstr "Sorteer volgens datum"
-
-#, fuzzy
-#~ msgid "Col 1"
-#~ msgstr "Kol1"
-
-#, fuzzy
-#~ msgid "Col 2"
-#~ msgstr "Kol2"
-
-#, fuzzy
-#~ msgid "Col 3"
-#~ msgstr "Kol3"
-
-#, fuzzy
-#~ msgid "Col 4"
-#~ msgstr "Kol4"
-
-#, fuzzy
-#~ msgid "Col 5"
-#~ msgstr "Kol5"
-
-#, fuzzy
-#~ msgid "Col 6"
-#~ msgstr "Kol6"
-
-#, fuzzy
-#~ msgid "Init balance"
-#~ msgstr "Begin saldo"
-
-#~ msgid "Final balance"
-#~ msgstr "Eindsaldo"
-
-#, fuzzy
-#~ msgid ""
-#~ "You can have future scheduled transactions 'executed' before their date, "
-#~ msgstr "Geplande transacties die over of bijna aan de vervaldatum zijn :"
-
-#~ msgid "yyyy/dd/mm"
-#~ msgstr "jjjj/dd/mm"
-
-#~ msgid "dd/yyyy/mm"
-#~ msgstr "dd/jjjj/mm"
-
-#~ msgid "mm/yyyy/dd"
-#~ msgstr "mm/jjjj/dd"
-
-#, fuzzy
-#~ msgid "Comma"
-#~ msgstr "Opmerkingen"
-
-#, fuzzy
-#~ msgid "Colon"
-#~ msgstr "Sluiten"
-
-#, fuzzy
-#~ msgid "Tabulation"
-#~ msgstr "Vertaling"
-
-#~ msgid "All"
-#~ msgstr "Alles"
-
-#~ msgid "Total to now"
-#~ msgstr "Totaal tot nu"
-
-#~ msgid "Current month"
-#~ msgstr "Huidige maand"
-
-#~ msgid "Current year"
-#~ msgstr "Huidig jaar"
-
-#~ msgid "Current month to now"
-#~ msgstr "Huidige maand tot nu"
-
-#~ msgid "Current year to now"
-#~ msgstr "Huidig jaar tot nu"
-
-#~ msgid "Previous month"
-#~ msgstr "Vorige maand"
-
-#~ msgid "Previous year"
-#~ msgstr "Vorig jaar"
-
-#~ msgid "Last 30 days"
-#~ msgstr "Laatste 30 dagen"
-
-#~ msgid "Last 3 months"
-#~ msgstr "Laatste 3 maanden"
-
-#~ msgid "Last 6 months"
-#~ msgstr "Laatste 6 maanden"
-
-#~ msgid "Last 12 months"
-#~ msgstr "Laatste 12 maanden"
 
 #, fuzzy, c-format
 #~ msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
@@ -12962,9 +14359,6 @@ msgstr ""
 
 #~ msgid "One month"
 #~ msgstr "Per maand"
-
-#~ msgid "Two months"
-#~ msgstr "%d maanden"
 
 #~ msgid "Six months"
 #~ msgstr "Maanden"
