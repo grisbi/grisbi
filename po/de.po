@@ -12572,7 +12572,6 @@ msgid "Could not encrypt file"
 msgstr "Die Datei konnte nicht verschlüsselt werden"
 
 #: src/utils_widgets.c:63
-#, fuzzy
 msgid "yyyy/mm/dd"
 msgstr "JJJJ-MM-TT"
 
