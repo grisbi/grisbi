@@ -46,6 +46,7 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "structures.h"
@@ -129,6 +130,7 @@ static gint etats_dialog_warning_report_too_big (gint report_number,
 	GtkWidget *dialog;
 	gchar *message = NULL;
 	gint result;
+	GdkWindow *run_window;
 
 	message = g_strdup_printf (_("The number of transactions selected by the report is very "
 								 "important (%d) and > to %d.\n"
@@ -153,8 +155,14 @@ static gint etats_dialog_warning_report_too_big (gint report_number,
 
 	g_free (message);
 
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	/* set wait cursor */
+	gtk_widget_show_all (dialog);
+	run_window = gtk_widget_get_window (GTK_WIDGET (dialog));
+	utils_gdk_window_set_wait_cursor (run_window);
 
+	/* set modal */
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 

@@ -34,6 +34,7 @@ gboolean        sensitive_widget                                        (gpointe
 void            update_gui                                              (void);
 void			utils_cursor_set_wait_cursor							(GtkWidget *tree_view,
 																		 gpointer data);
+void			utils_gdk_window_set_wait_cursor						(GdkWindow *run_window);
 GtkWidget *		utils_menu_item_new_from_image_label 					(const gchar *image_name,
 																		 const gchar *label_name);
 GtkWidget *		utils_menu_item_new_from_resource_label 				(const gchar *image_name,

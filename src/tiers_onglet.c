@@ -1354,7 +1354,7 @@ static GtkWidget *gsb_assistant_payees_page_2 (GtkWidget *assistant)
     gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, MARGIN_BOX);
 
     combo = gtk_combofix_new_with_properties (tmp_list,
-											  TRUE,
+											  w_etat->combofix_force_payee,
 											  w_etat->combofix_case_sensitive,
 											  FALSE,
 											  METATREE_PAYEE);
