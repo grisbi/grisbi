@@ -1779,6 +1779,7 @@
 					$HOMEBREW_PATH/opt/glib/lib,
 					$HOMEBREW_PATH/opt/cairo/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1820,6 +1821,7 @@
 					$HOMEBREW_PATH/opt/glib/lib,
 					$HOMEBREW_PATH/opt/cairo/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
