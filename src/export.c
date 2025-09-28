@@ -899,6 +899,7 @@ void export_accounts (void)
     }
 
     g_slist_free (selected_accounts);
+    selected_accounts = NULL;
     g_slist_free_full (exported_accounts, (GDestroyNotify) expert_account_free_account_structure);
 
     gtk_widget_destroy (dialog);
