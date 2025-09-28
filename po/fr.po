@@ -4903,11 +4903,11 @@ msgstr "Sélectionner les options pour l'export"
 
 #: src/export.c:553
 msgid "Name files automatically"
-msgstr ""
+msgstr "Nommer les fichiers automatiquement"
 
 #: src/export.c:557
 msgid "Generated filenames are [accounting entity]-[account name].[extension]"
-msgstr ""
+msgstr "Les noms générés sont [entité comptable]-[nom du compte].[extension]"
 
 #: src/export.c:630
 msgid "Export settings completed successfully"
@@ -10498,7 +10498,7 @@ msgstr "Attention : Date invalide"
 
 #: src/import_csv.c:744
 msgid "The number of columns is not the same on all useful lines in the file"
-msgstr ""
+msgstr "Le nombre de colonnes n'est pas le même sur toutes les lignes utiles du fichier"
 
 #: src/import_csv.c:745
 msgid "Inconsistency in number of columns"
@@ -12488,7 +12488,9 @@ msgid ""
 "grisbi found 1 date matching pattern %s.\n"
 "\n"
 "Check if it is correct!"
-msgstr ""
+msgstr "grisbi a trouvé 1 date vérifiant le motif %s.\n"
+"\n"
+"Vérifiez si c'est correct !"
 
 #: src/utils_dates.c:1059
 #, c-format
@@ -12496,7 +12498,9 @@ msgid ""
 "grisbi found %d date matching pattern %s.\n"
 "\n"
 "Check if it is correct!"
-msgstr ""
+msgstr "grisbi a trouvé %d dates vérifiant le motif %s.\n"
+"\n"
+"Vérifiez si c'est correct !"
 
 #: src/utils_dates.c:1068
 msgid ""
