@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-08 21:29+0200\n"
+"POT-Creation-Date: 2025-09-28 18:50+0200\n"
 "PO-Revision-Date: 2023-11-04 13:01+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -82,7 +82,7 @@ msgstr "Empfänger für den Bericht auswählen"
 #: src/widgets/widget_list_accounts.ui:49
 #: src/widgets/widget_list_metatree.ui:46 src/export.c:421
 #: src/gsb_assistant.c:127 src/import.c:3305 src/import.c:4374
-#: src/tiers_onglet.c:1498 src/tiers_onglet.c:1516 src/utils_buttons.c:123
+#: src/tiers_onglet.c:1503 src/tiers_onglet.c:1521 src/utils_buttons.c:123
 #: src/widgets/widget_assistant.c:127 src/widgets/widget_list_accounts.c:129
 #: src/widgets/widget_list_metatree.c:172
 msgid "Select all"
@@ -216,8 +216,8 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 #: src/prefs/prefs_page_accueil.ui:245 src/ui/grisbi_menu.ui:349
-#: src/categories_onglet.c:652 src/gsb_scheduler_list.c:1198
-#: src/gsb_transactions_list.c:2543 src/imputation_budgetaire.c:683
+#: src/categories_onglet.c:657 src/gsb_scheduler_list.c:1198
+#: src/gsb_transactions_list.c:2543 src/imputation_budgetaire.c:688
 #: src/tiers_onglet.c:653
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -322,7 +322,7 @@ msgstr "Voreinstellung"
 #: src/prefs/prefs_page_bet_account.ui:309
 #: src/prefs/prefs_page_bet_account.ui:397
 #: src/prefs/prefs_page_bet_account.ui:482 src/navigation.c:629
-#: src/tiers_onglet.c:821 src/tiers_onglet.c:1068
+#: src/tiers_onglet.c:821 src/tiers_onglet.c:1073
 #: src/etats/etats_page_payee.c:563
 msgid "Payees"
 msgstr "Empfänger"
@@ -330,7 +330,7 @@ msgstr "Empfänger"
 #: src/prefs/prefs_page_bet_account.ui:325
 #: src/prefs/prefs_page_bet_account.ui:412
 #: src/prefs/prefs_page_bet_account.ui:497 src/ui/etats_prefs.ui:1452
-#: src/bet_hist.c:2148 src/bet_hist.c:2154 src/categories_onglet.c:378
+#: src/bet_hist.c:2148 src/bet_hist.c:2154 src/categories_onglet.c:383
 #: src/etats_prefs.c:1591 src/grisbi_win.c:482 src/navigation.c:637
 #: src/utils_widgets.c:671 src/etats/etats_page_category.c:82
 msgid "Categories"
@@ -340,7 +340,7 @@ msgstr "Kategorien"
 #: src/prefs/prefs_page_bet_account.ui:427
 #: src/prefs/prefs_page_bet_account.ui:512 src/ui/etats_prefs.ui:1595
 #: src/bet_hist.c:2152 src/etats_prefs.c:1596 src/export_csv.c:404
-#: src/grisbi_win.c:487 src/import_csv.c:84 src/imputation_budgetaire.c:375
+#: src/grisbi_win.c:487 src/import_csv.c:84 src/imputation_budgetaire.c:380
 #: src/navigation.c:641 src/utils_widgets.c:674
 #: src/etats/etats_page_budget.c:84
 msgid "Budgetary lines"
@@ -425,9 +425,9 @@ msgstr "Währung hinzufügen - Grisbi"
 #: src/ui/etats_prefs.ui:2031 src/widgets/widget_assistant.ui:26
 #: src/widgets/widget_reconcile.ui:393 src/widgets/widget_transfer.ui:35
 #: src/accueil.c:1253 src/bet_finance_ui.c:794 src/bet_future.c:1497
-#: src/bet_hist.c:865 src/bet_tab.c:384 src/categories_onglet.c:433
-#: src/categories_onglet.c:492 src/categories_onglet.c:549
-#: src/categories_onglet.c:787 src/etats_onglet.c:362 src/etats_onglet.c:465
+#: src/bet_hist.c:865 src/bet_tab.c:384 src/categories_onglet.c:438
+#: src/categories_onglet.c:497 src/categories_onglet.c:554
+#: src/categories_onglet.c:792 src/etats_onglet.c:362 src/etats_onglet.c:465
 #: src/etats_onglet.c:541 src/file_obfuscate_qif.c:98 src/gsb_assistant.c:131
 #: src/gsb_assistant_file.c:660 src/gsb_assistant_reconcile_config.c:1273
 #: src/gsb_bank.c:134 src/gsb_currency.c:935
@@ -436,9 +436,9 @@ msgstr "Währung hinzufügen - Grisbi"
 #: src/gsb_scheduler_list.c:152 src/gsb_scheduler_list.c:2981
 #: src/gsb_select_icon.c:316 src/gsb_select_icon.c:505
 #: src/gsb_transactions_list.c:1133 src/import.c:1253 src/import.c:4377
-#: src/import.c:5276 src/imputation_budgetaire.c:451
-#: src/imputation_budgetaire.c:515 src/imputation_budgetaire.c:577
-#: src/imputation_budgetaire.c:806 src/plugins/openssl/openssl.c:457
+#: src/import.c:5276 src/imputation_budgetaire.c:456
+#: src/imputation_budgetaire.c:520 src/imputation_budgetaire.c:582
+#: src/imputation_budgetaire.c:811 src/plugins/openssl/openssl.c:457
 #: src/prefs/prefs_page_display_fonts.c:307 src/tiers_onglet.c:130
 #: src/tiers_onglet.c:287 src/utils_files.c:754 src/widgets/widget_loan.c:1594
 msgid "Cancel"
@@ -760,7 +760,7 @@ msgstr "Tausender Zeichen: "
 msgid "Localization"
 msgstr "Internationalisierung"
 
-#: src/prefs/prefs_page_divers.ui:1241 src/tiers_onglet.c:1371
+#: src/prefs/prefs_page_divers.ui:1241 src/tiers_onglet.c:1376
 #: src/widgets/widget_bet_graph_others.c:527
 msgid "Options"
 msgstr "Einstellungen"
@@ -1117,19 +1117,19 @@ msgid "Neutral"
 msgstr "Neutral"
 
 #: src/prefs/prefs_page_payment_method.ui:230 src/bet_future.c:550
-#: src/bet_tab.c:2042 src/categories_onglet.c:840 src/export_csv.c:389
+#: src/bet_tab.c:2042 src/categories_onglet.c:845 src/export_csv.c:389
 #: src/gsb_form.c:2047 src/gsb_form_widget.c:554
 #: src/gsb_transactions_list.c:113 src/import_csv.c:88
-#: src/imputation_budgetaire.c:858 src/prefs/prefs_page_payment_method.c:497
+#: src/imputation_budgetaire.c:863 src/prefs/prefs_page_payment_method.c:497
 #: src/prefs/prefs_page_payment_method.c:958
 msgid "Debit"
 msgstr "Ausgaben"
 
 #: src/prefs/prefs_page_payment_method.ui:231 src/bet_future.c:555
-#: src/bet_tab.c:2060 src/categories_onglet.c:840 src/export_csv.c:386
+#: src/bet_tab.c:2060 src/categories_onglet.c:845 src/export_csv.c:386
 #: src/gsb_form.c:2053 src/gsb_form_widget.c:558
 #: src/gsb_transactions_list.c:114 src/import_csv.c:87
-#: src/imputation_budgetaire.c:858 src/prefs/prefs_page_payment_method.c:511
+#: src/imputation_budgetaire.c:863 src/prefs/prefs_page_payment_method.c:511
 #: src/prefs/prefs_page_payment_method.c:954
 msgid "Credit"
 msgstr "Einnahmen"
@@ -1241,9 +1241,9 @@ msgstr "Hinauf"
 msgid "Go down"
 msgstr "Hinunter"
 
-#: src/ui/csv_template_rule.ui:56 src/categories_onglet.c:791
+#: src/ui/csv_template_rule.ui:56 src/categories_onglet.c:796
 #: src/gsb_assistant.c:443 src/gsb_bank.c:138 src/gsb_scheduler_list.c:156
-#: src/imputation_budgetaire.c:810 src/tiers_onglet.c:291
+#: src/imputation_budgetaire.c:815 src/tiers_onglet.c:291
 msgid "Apply"
 msgstr "Anwenden"
 
@@ -1705,11 +1705,11 @@ msgid "New account file"
 msgstr "Neu"
 
 #: src/ui/grisbi_menu.ui:39 src/ui/grisbi_menu.ui:267
-#: src/categories_onglet.c:495 src/categories_onglet.c:552
+#: src/categories_onglet.c:500 src/categories_onglet.c:557
 #: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
 #: src/grisbi_app.c:133 src/grisbi_win.c:754 src/gsb_file.c:770
-#: src/gsb_select_icon.c:320 src/import.c:1256 src/imputation_budgetaire.c:518
-#: src/imputation_budgetaire.c:580 src/prefs/prefs_page_display_fonts.c:311
+#: src/gsb_select_icon.c:320 src/import.c:1256 src/imputation_budgetaire.c:523
+#: src/imputation_budgetaire.c:585 src/prefs/prefs_page_display_fonts.c:311
 msgid "Open"
 msgstr "Öffnen"
 
@@ -1718,10 +1718,10 @@ msgid "Recently opened files"
 msgstr "Zuletzt geöffnete Dateien"
 
 #: src/ui/grisbi_menu.ui:51 src/ui/grisbi_menu.ui:279 src/bet_finance_ui.c:798
-#: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:436
+#: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:441
 #: src/etats_onglet.c:365 src/grisbi_app.c:118 src/grisbi_app.c:134
 #: src/gsb_file.c:324 src/gsb_file.c:427 src/gsb_file.c:458
-#: src/imputation_budgetaire.c:454 src/tiers_onglet.c:133
+#: src/imputation_budgetaire.c:459 src/tiers_onglet.c:133
 msgid "Save"
 msgstr "Speichern"
 
@@ -1813,9 +1813,9 @@ msgstr "Konto erstellen"
 msgid "Remove current account"
 msgstr "Konto löschen"
 
-#: src/ui/grisbi_menu.ui:174 src/categories_onglet.c:664
+#: src/ui/grisbi_menu.ui:174 src/categories_onglet.c:669
 #: src/gsb_scheduler_list.c:1230 src/gsb_transactions_list.c:2570
-#: src/imputation_budgetaire.c:695 src/tiers_onglet.c:665
+#: src/imputation_budgetaire.c:700 src/tiers_onglet.c:665
 msgid "View"
 msgstr "Ansicht"
 
@@ -2389,12 +2389,12 @@ msgid "Rule"
 msgstr "Regel"
 
 #: src/widgets/widget_import_asso.ui:301 src/tiers_onglet.c:347
-#: src/tiers_onglet.c:1383
+#: src/tiers_onglet.c:1388
 msgid "Ignoring case sensitive"
 msgstr "Groß und Kleinschreibung ignorieren"
 
 #: src/widgets/widget_import_asso.ui:316 src/tiers_onglet.c:351
-#: src/tiers_onglet.c:1388
+#: src/tiers_onglet.c:1393
 msgid "Use the regular expressions"
 msgstr "Reguläre Ausdrücke verwenden"
 
@@ -2414,7 +2414,7 @@ msgstr "Importierte Buchungen mit vorhandenen Buchungen zusammenführen"
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "Empfänger automatisch zuordnen"
 
-#: src/widgets/widget_import_files.ui:171 src/tiers_onglet.c:1372
+#: src/widgets/widget_import_files.ui:171 src/tiers_onglet.c:1377
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Eine Nummer extrahieren und in das Feld für Schecknummer einfügen"
 
@@ -2624,9 +2624,9 @@ msgstr "Suche nach Empfängername"
 msgid "Configuring a deferred debit account"
 msgstr "Kreditkartenkonto konfigurieren"
 
-#: src/widgets/widget_transfer.ui:20 src/categories_onglet.c:640
+#: src/widgets/widget_transfer.ui:20 src/categories_onglet.c:645
 #: src/etats_onglet.c:619 src/gsb_scheduler_list.c:1187
-#: src/gsb_transactions_list.c:2534 src/imputation_budgetaire.c:671
+#: src/gsb_transactions_list.c:2534 src/imputation_budgetaire.c:676
 #: src/tiers_onglet.c:641
 msgid "Delete"
 msgstr "Löschen"
@@ -2953,7 +2953,7 @@ msgid "credit.csv"
 msgstr "credit.csv"
 
 #: src/bet_finance_ui.c:823 src/bet_hist.c:894 src/bet_tab.c:413
-#: src/imputation_budgetaire.c:481
+#: src/imputation_budgetaire.c:486
 msgid "Cannot save file."
 msgstr "Datei kann nicht gespeichert werden."
 
@@ -3091,8 +3091,8 @@ msgid "Print"
 msgstr "Drucken"
 
 #: src/bet_finance_ui.c:2136 src/bet_hist.c:959 src/bet_tab.c:2140
-#: src/categories_onglet.c:631 src/etats_onglet.c:600 src/export.c:504
-#: src/imputation_budgetaire.c:661 src/tiers_onglet.c:632
+#: src/categories_onglet.c:636 src/etats_onglet.c:600 src/export.c:504
+#: src/imputation_budgetaire.c:666 src/tiers_onglet.c:632
 msgid "Export"
 msgstr "Export"
 
@@ -3432,7 +3432,7 @@ msgstr ""
 "Betrag beibehalten: Für Ausgabe negative Zahl und\n"
 "für Einnahme positive Zahl eingeben"
 
-#: src/bet_hist.c:1267 src/tiers_onglet.c:1631 src/utils_buttons.c:149
+#: src/bet_hist.c:1267 src/tiers_onglet.c:1636 src/utils_buttons.c:149
 #: src/utils_buttons.c:151
 msgid "Select"
 msgstr "Auswählen"
@@ -3623,29 +3623,29 @@ msgstr "Für eine automatische Änderung vom Beginndatum auswählen"
 msgid "Account"
 msgstr "Konto"
 
-#: src/categories_onglet.c:427
+#: src/categories_onglet.c:432
 msgid "Export categories"
 msgstr "Kategorien exportieren - Grisbi"
 
-#: src/categories_onglet.c:441
+#: src/categories_onglet.c:446
 msgid "Categories.cgsb"
 msgstr "Kategorien.cgsb"
 
-#: src/categories_onglet.c:486
+#: src/categories_onglet.c:491
 msgid "Import categories"
 msgstr "Kategorien importieren - Grisbi"
 
-#: src/categories_onglet.c:504 src/imputation_budgetaire.c:533
+#: src/categories_onglet.c:509 src/imputation_budgetaire.c:538
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Grisbi Kategorien (*.cgsb)"
 
-#: src/categories_onglet.c:510 src/etats_onglet.c:483
+#: src/categories_onglet.c:515 src/etats_onglet.c:483
 #: src/file_obfuscate_qif.c:116 src/gsb_file.c:785 src/import.c:1330
-#: src/imputation_budgetaire.c:538
+#: src/imputation_budgetaire.c:543
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: src/categories_onglet.c:536
+#: src/categories_onglet.c:541
 msgid ""
 "File already contains categories.  If you decide to continue, existing "
 "categories will be merged with imported ones."
@@ -3654,7 +3654,7 @@ msgstr ""
 "fortsetzen werden die importierten Kategorien mit den Vorhandenen "
 "zusammengeführt."
 
-#: src/categories_onglet.c:537
+#: src/categories_onglet.c:542
 msgid ""
 "File does not contain categories.  If you decide to continue, existing "
 "categories will be merged with imported ones.  Once performed, there is no "
@@ -3667,15 +3667,15 @@ msgstr ""
 "Es besteht auch die Möglichkeit die vorhandenen Kategorien durch die "
 "Importierten zu ersetzen."
 
-#: src/categories_onglet.c:541
+#: src/categories_onglet.c:546
 msgid "Merge imported categories with existing?"
 msgstr "Importierte und vorhandene Kategorien zusammenführen?"
 
-#: src/categories_onglet.c:545 src/imputation_budgetaire.c:573
+#: src/categories_onglet.c:550 src/imputation_budgetaire.c:578
 msgid "Replace existing"
 msgstr "Bestehende ersetzen"
 
-#: src/categories_onglet.c:596
+#: src/categories_onglet.c:601
 msgid ""
 "New\n"
 "category"
@@ -3683,11 +3683,11 @@ msgstr ""
 "Kategorie\n"
 "erstellen"
 
-#: src/categories_onglet.c:597
+#: src/categories_onglet.c:602
 msgid "Create a new category"
 msgstr "Eine neue Kategorie erstellen"
 
-#: src/categories_onglet.c:606
+#: src/categories_onglet.c:611
 msgid ""
 "New sub\n"
 "category"
@@ -3695,78 +3695,78 @@ msgstr ""
 "Unterkategorie\n"
 "erstellen"
 
-#: src/categories_onglet.c:613
+#: src/categories_onglet.c:618
 msgid "Create a new sub-category"
 msgstr "Eine neue Unterkategorie erstellen"
 
-#: src/categories_onglet.c:622 src/etats_onglet.c:591 src/grisbi_prefs.c:411
-#: src/grisbi_win.c:767 src/import.c:1903 src/imputation_budgetaire.c:650
+#: src/categories_onglet.c:627 src/etats_onglet.c:591 src/grisbi_prefs.c:411
+#: src/grisbi_win.c:767 src/import.c:1903 src/imputation_budgetaire.c:655
 #: src/prefs/prefs_page_import.c:82 src/utils_files.c:812
 msgid "Import"
 msgstr "Import"
 
-#: src/categories_onglet.c:623
+#: src/categories_onglet.c:628
 msgid "Import a Grisbi category file (.cgsb)"
 msgstr "Kategorien (*.cgsb) importieren"
 
-#: src/categories_onglet.c:632
+#: src/categories_onglet.c:637
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Kategorien (*.cgsb) exportieren"
 
-#: src/categories_onglet.c:644 src/navigation.c:290
+#: src/categories_onglet.c:649 src/navigation.c:290
 msgid "Delete selected category"
 msgstr "Die ausgewählte Kategorie löschen"
 
-#: src/categories_onglet.c:656 src/categories_onglet.c:1182
+#: src/categories_onglet.c:661 src/categories_onglet.c:1187
 #: src/navigation.c:303
 msgid "Edit selected category"
 msgstr "Die ausgewählte Kategorie bearbeiten"
 
-#: src/categories_onglet.c:665 src/tiers_onglet.c:666
+#: src/categories_onglet.c:670 src/tiers_onglet.c:666
 msgid "Change view mode"
 msgstr "Die Darstellung ändern"
 
-#: src/categories_onglet.c:706
+#: src/categories_onglet.c:711
 msgid "Category view"
 msgstr "Einfach"
 
-#: src/categories_onglet.c:712
+#: src/categories_onglet.c:717
 msgid "Subcategory view"
 msgstr "Unterkategorien"
 
-#: src/categories_onglet.c:718 src/gsb_transactions_list.c:2442
-#: src/imputation_budgetaire.c:747 src/tiers_onglet.c:563
+#: src/categories_onglet.c:723 src/gsb_transactions_list.c:2442
+#: src/imputation_budgetaire.c:752 src/tiers_onglet.c:563
 msgid "Complete view"
 msgstr "Vollständig"
 
-#: src/categories_onglet.c:768
+#: src/categories_onglet.c:773
 msgid "No sub-category defined"
 msgstr "Keine Unterkategorie definiert"
 
-#: src/categories_onglet.c:769 src/categories_onglet.c:777
-#: src/imputation_budgetaire.c:790 src/imputation_budgetaire.c:795
+#: src/categories_onglet.c:774 src/categories_onglet.c:782
+#: src/imputation_budgetaire.c:795 src/imputation_budgetaire.c:800
 #: src/tiers_onglet.c:279
 #, c-format
 msgid "Properties for %s"
 msgstr "Eigenschaften von %s"
 
-#: src/categories_onglet.c:776 src/qif.c:1773 src/qif.c:1783
+#: src/categories_onglet.c:781 src/qif.c:1773 src/qif.c:1783
 msgid "No category defined"
 msgstr "Keine Kategorie definiert"
 
-#: src/categories_onglet.c:812 src/gsb_assistant_archive_export.c:151
-#: src/gsb_transactions_list.c:1114 src/imputation_budgetaire.c:830
+#: src/categories_onglet.c:817 src/gsb_assistant_archive_export.c:151
+#: src/gsb_transactions_list.c:1114 src/imputation_budgetaire.c:835
 #: src/prefs/prefs_page_accueil.c:288 src/prefs/prefs_page_archives.c:477
 #: src/prefs/prefs_page_fyear.c:566 src/widgets/widget_transfer.c:1250
 msgid "Name"
 msgstr "Name"
 
-#: src/categories_onglet.c:836 src/import.c:1937
-#: src/imputation_budgetaire.c:854 src/widgets/widget_transfer.c:1262
+#: src/categories_onglet.c:841 src/import.c:1937
+#: src/imputation_budgetaire.c:859 src/widgets/widget_transfer.c:1262
 msgid "Type"
 msgstr "Art"
 
-#: src/categories_onglet.c:874
+#: src/categories_onglet.c:879
 #, c-format
 msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
@@ -3776,7 +3776,7 @@ msgstr ""
 "bereits eine Unterkategorie mit diesem Namen vorhanden. Bitte wählen Sie "
 "einen anderen Namen aus."
 
-#: src/categories_onglet.c:881
+#: src/categories_onglet.c:886
 #, c-format
 msgid ""
 "You tried to rename current category to '%s' but this category already "
@@ -3786,27 +3786,27 @@ msgstr ""
 "eine Kategorie mit diesem Namen vorhanden. Bitte wählen Sie einen anderen "
 "Namen aus."
 
-#: src/categories_onglet.c:886
+#: src/categories_onglet.c:891
 msgid "Category already exists"
 msgstr "Die Kategorie ist bereits vorhanden"
 
-#: src/categories_onglet.c:998 src/meta_categories.c:312
+#: src/categories_onglet.c:1003 src/meta_categories.c:312
 msgid "New sub-category"
 msgstr "Unterkategorie erstellen"
 
-#: src/categories_onglet.c:1165
+#: src/categories_onglet.c:1170
 msgid "Transfers the identical transactions in another sub-category"
 msgstr "Ähnliche Buchungen neu zuordnen"
 
-#: src/categories_onglet.c:1184
+#: src/categories_onglet.c:1189
 msgid "Edit selected sub-category"
 msgstr "Die ausgewählte Unterkategorie bearbeiten"
 
-#: src/categories_onglet.c:1203
+#: src/categories_onglet.c:1208
 msgid "Manage sub-categories"
 msgstr "Unterkategorien verwalten"
 
-#: src/categories_onglet.c:1206
+#: src/categories_onglet.c:1211
 msgid "Transfer all transactions in another sub-category"
 msgstr "Alle Buchungen einer anderen Unterkategorie zuordnen"
 
@@ -4370,7 +4370,7 @@ msgstr "Keine Untergruppe"
 msgid "No payee"
 msgstr "Kein Empfänger"
 
-#: src/etats_calculs.c:133
+#: src/etats_calculs.c:135
 #, c-format
 msgid ""
 "The number of transactions selected by the report is very important (%d) and "
@@ -4386,11 +4386,11 @@ msgstr ""
 "Soll der Vorgang fortgesetzt oder sollen die Einstellungen für den Bericht "
 "angezeigt werden?"
 
-#: src/etats_calculs.c:147
+#: src/etats_calculs.c:149
 msgid "Continue"
 msgstr "Fortsetzen"
 
-#: src/etats_calculs.c:148
+#: src/etats_calculs.c:150
 msgid "Return to settings"
 msgstr "Einstellungen anzeigen"
 
@@ -4840,11 +4840,11 @@ msgstr "Bei Auswahl wird das Datum mit Hochkomma geschrieben"
 msgid "Check to write a date field with quotes"
 msgstr "Bei Auswahl wird das Datum mit Hochkomma geschrieben"
 
-#: src/export.c:196 src/export.c:674 src/gsb_assistant_archive_export.c:304
+#: src/export.c:196 src/export.c:675 src/gsb_assistant_archive_export.c:304
 msgid "QIF format"
 msgstr "QIF Format"
 
-#: src/export.c:200 src/export.c:675 src/gsb_assistant_archive_export.c:305
+#: src/export.c:200 src/export.c:676 src/gsb_assistant_archive_export.c:305
 msgid "CSV format"
 msgstr "CSV Format"
 
@@ -4860,8 +4860,8 @@ msgstr "Amerikanisches Zahlenformat verwenden"
 msgid "Quote the dates"
 msgstr "Datum mit Hochkomma"
 
-#: src/export.c:416 src/import.c:3308 src/tiers_onglet.c:1500
-#: src/tiers_onglet.c:1681 src/utils_buttons.c:118
+#: src/export.c:416 src/import.c:3308 src/tiers_onglet.c:1505
+#: src/tiers_onglet.c:1686 src/utils_buttons.c:118
 #: src/widgets/widget_list_accounts.c:127
 #: src/widgets/widget_list_metatree.c:170
 msgid "Unselect all"
@@ -4876,31 +4876,35 @@ msgid "Select options to export"
 msgstr "Einstellungen für den Export"
 
 #: src/export.c:553
-msgid "Treat all files as the first"
-msgstr "Einstellungen vom ersten Konto bei den weiteren Konten anwenden"
+msgid "Name files automatically"
+msgstr ""
 
-#: src/export.c:629
+#: src/export.c:557
+msgid "Generated filenames are [accounting entity]-[account name].[extension]"
+msgstr ""
+
+#: src/export.c:630
 msgid "Export settings completed successfully"
 msgstr "Die Einstellungen für den Export sind festgelegt"
 
-#: src/export.c:633
+#: src/export.c:634
 msgid "Press the 'Close' button to finish the export."
 msgstr "Bitte 'Schließen' auswählen um die Daten zu exportieren."
 
-#: src/export.c:658
+#: src/export.c:659
 #, c-format
 msgid "Export of: %s"
 msgstr "Export von: %s"
 
-#: src/export.c:670 src/gsb_assistant_archive_export.c:298
+#: src/export.c:671 src/gsb_assistant_archive_export.c:298
 msgid "Export format: "
 msgstr "Export Format: "
 
-#: src/export.c:724
+#: src/export.c:725
 msgid "Accounts to export"
 msgstr "Konten für Export"
 
-#: src/export.c:732
+#: src/export.c:733
 msgid ""
 "The following accounts are to be exported. In the next screens, you will "
 "choose what to do with each of them."
@@ -4958,7 +4962,7 @@ msgstr "B"
 msgid "Deleted account"
 msgstr "Geschlossenes Konto"
 
-#: src/export_csv.c:978
+#: src/export_csv.c:981
 msgid "Initial balance"
 msgstr "Saldo Anfang"
 
@@ -10525,23 +10529,23 @@ msgstr "CSV Felder auswählen"
 msgid "Create a rule for this import."
 msgstr "Eine Regel für diesen Import erstellen"
 
-#: src/imputation_budgetaire.c:445
+#: src/imputation_budgetaire.c:450
 msgid "Export the budgetary lines"
 msgstr "Gruppen exportieren - Grisbi"
 
-#: src/imputation_budgetaire.c:459
+#: src/imputation_budgetaire.c:464
 msgid "Budgetary-lines.igsb"
 msgstr "Gruppen.igsb"
 
-#: src/imputation_budgetaire.c:509
+#: src/imputation_budgetaire.c:514
 msgid "Import budgetary lines"
 msgstr "Gruppen importieren - Grisbi"
 
-#: src/imputation_budgetaire.c:527
+#: src/imputation_budgetaire.c:532
 msgid "Grisbi budgetary lines files (*.igsb)"
 msgstr "Grisbi Gruppen (*.igsb)"
 
-#: src/imputation_budgetaire.c:564
+#: src/imputation_budgetaire.c:569
 msgid ""
 "File already contains budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones."
@@ -10550,7 +10554,7 @@ msgstr ""
 "fortsetzen werden die importierten Gruppen mit den vorhandenen Gruppen "
 "zusammengeführt."
 
-#: src/imputation_budgetaire.c:565
+#: src/imputation_budgetaire.c:570
 msgid ""
 "File does not contain budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones.  Once performed, there is "
@@ -10563,11 +10567,11 @@ msgstr ""
 "Es besteht auch die Möglichkeit die vorhandenen Gruppen durch die "
 "importierten Gruppen zu ersetzen."
 
-#: src/imputation_budgetaire.c:569
+#: src/imputation_budgetaire.c:574
 msgid "Merge imported budgetary lines with existing?"
 msgstr "Importierte und vorhandene Gruppen zusammenführen?"
 
-#: src/imputation_budgetaire.c:624
+#: src/imputation_budgetaire.c:629
 msgid ""
 "New\n"
 "budgetary line"
@@ -10575,11 +10579,11 @@ msgstr ""
 "Gruppe\n"
 "erstellen"
 
-#: src/imputation_budgetaire.c:625
+#: src/imputation_budgetaire.c:630
 msgid "Create a new budgetary line"
 msgstr "Eine neue Gruppe erstellen"
 
-#: src/imputation_budgetaire.c:634
+#: src/imputation_budgetaire.c:639
 msgid ""
 "New sub\n"
 "budgetary line"
@@ -10587,50 +10591,50 @@ msgstr ""
 "Untergruppe\n"
 "erstellen"
 
-#: src/imputation_budgetaire.c:641
+#: src/imputation_budgetaire.c:646
 msgid "Create a new sub-budgetary line"
 msgstr "Eine neue Untergruppe erstellen"
 
-#: src/imputation_budgetaire.c:652
+#: src/imputation_budgetaire.c:657
 msgid ""
 "Import a Grisbi budgetary line file (.igsb) or create from a list of "
 "categories (.cgsb)"
 msgstr "Gruppen (*.igsb) importieren"
 
-#: src/imputation_budgetaire.c:663
+#: src/imputation_budgetaire.c:668
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Gruppen (*.igsb) exportieren"
 
-#: src/imputation_budgetaire.c:675 src/navigation.c:346
+#: src/imputation_budgetaire.c:680 src/navigation.c:346
 msgid "Delete selected budgetary line"
 msgstr "Die ausgewählte Gruppe löschen"
 
-#: src/imputation_budgetaire.c:687 src/imputation_budgetaire.c:1184
+#: src/imputation_budgetaire.c:692 src/imputation_budgetaire.c:1189
 #: src/navigation.c:360
 msgid "Edit selected budgetary line"
 msgstr "Die ausgewählte Gruppe bearbeiten"
 
-#: src/imputation_budgetaire.c:696
+#: src/imputation_budgetaire.c:701
 msgid "Change display mode"
 msgstr "Die Darstellung ändern"
 
-#: src/imputation_budgetaire.c:735
+#: src/imputation_budgetaire.c:740
 msgid "Budgetary line view"
 msgstr "Einfach"
 
-#: src/imputation_budgetaire.c:741
+#: src/imputation_budgetaire.c:746
 msgid "Sub-budgetary line view"
 msgstr "Untergruppen"
 
-#: src/imputation_budgetaire.c:793
+#: src/imputation_budgetaire.c:798
 msgid "No sub-budget defined"
 msgstr "Keine Untergruppe definiert"
 
-#: src/imputation_budgetaire.c:798
+#: src/imputation_budgetaire.c:803
 msgid "No budget defined"
 msgstr "Keine Gruppe definiert"
 
-#: src/imputation_budgetaire.c:893
+#: src/imputation_budgetaire.c:898
 #, c-format
 msgid ""
 "You tried to rename current sub-budgetary line to '%s' but this sub-"
@@ -10640,7 +10644,7 @@ msgstr ""
 "eine Untergruppe mit diesem Namen vorhanden. Bitte wählen Sie einen anderen "
 "Namen aus."
 
-#: src/imputation_budgetaire.c:900
+#: src/imputation_budgetaire.c:905
 #, c-format
 msgid ""
 "You tried to rename current budgetary line to '%s' but this budgetary line "
@@ -10649,27 +10653,27 @@ msgstr ""
 "Sie haben versucht die Gruppe in '%s' umzubenennen, jedoch ist bereits eine "
 "Gruppe mit diesem Namen vorhanden. Bitte wählen Sie einen anderen Namen aus."
 
-#: src/imputation_budgetaire.c:905
+#: src/imputation_budgetaire.c:910
 msgid "Budgetary line already exists"
 msgstr "Die Gruppe ist bereits vorhanden"
 
-#: src/imputation_budgetaire.c:1010 src/meta_budgetary.c:277
+#: src/imputation_budgetaire.c:1015 src/meta_budgetary.c:277
 msgid "New sub-budget"
 msgstr "Untergruppe erstellen"
 
-#: src/imputation_budgetaire.c:1167
+#: src/imputation_budgetaire.c:1172
 msgid "Transfers the identical transactions in another sub-budgetary line"
 msgstr "Ähnliche Buchungen neu zuordnen"
 
-#: src/imputation_budgetaire.c:1186
+#: src/imputation_budgetaire.c:1191
 msgid "Edit selected sub-budgetary line"
 msgstr "Die ausgewählte Untergruppe bearbeiten"
 
-#: src/imputation_budgetaire.c:1205
+#: src/imputation_budgetaire.c:1210
 msgid "Manage sub-budgetary line"
 msgstr "Untergruppen verwalten"
 
-#: src/imputation_budgetaire.c:1208
+#: src/imputation_budgetaire.c:1213
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Alle Buchungen einer anderen Untergruppe zuordnen"
 
@@ -10726,19 +10730,19 @@ msgstr "Empfänger erstellen"
 msgid "New payee #%d"
 msgstr "Neuer Empfänger #%d"
 
-#: src/metatree.c:543
+#: src/metatree.c:532
 msgid "split"
 msgstr "splitten"
 
-#: src/metatree.c:777
+#: src/metatree.c:757
 msgid "This should not theorically happen."
 msgstr "Dieser Zustand sollte theoretisch nicht eintreten."
 
-#: src/metatree.c:778
+#: src/metatree.c:757
 msgid "Can't remove selected division."
 msgstr "Der gewählte Bereich kann nicht entfernt werden."
 
-#: src/metatree.c:1181
+#: src/metatree.c:1155
 #, c-format
 msgid ""
 "The selected operation belongs to the account N°%d\n"
@@ -10751,21 +10755,21 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
-#: src/metatree.c:1187
+#: src/metatree.c:1161
 msgid "The account no longer exists"
 msgstr "Das Konto ist nicht mehr vorhanden"
 
-#: src/metatree.c:1759
+#: src/metatree.c:1726
 #, fuzzy, c-format
 msgid "'%s: %s' still contains transactions or archived transactions."
 msgstr "'%s : %s' sind Buchungen oder archivierte Buchungen zugeordnet."
 
-#: src/metatree.c:1763
+#: src/metatree.c:1730
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "'%s' sind Buchungen oder archivierte Buchungen zugeordnet."
 
-#: src/metatree.c:1767
+#: src/metatree.c:1734
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -10776,7 +10780,7 @@ msgstr ""
 "zugeordnet werden sollen. Es besteht auch die Möglichkeit, %s ohne "
 "Neuzuordnung von Buchungen zu löschen."
 
-#: src/metatree.c:1772
+#: src/metatree.c:1739
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -10787,30 +10791,30 @@ msgstr ""
 "zugeordnet werden sollen. Es besteht auch die Möglichkeit, %s ohne "
 "Neuzuordnung von Buchungen zu löschen."
 
-#: src/metatree.c:1787
+#: src/metatree.c:1754
 msgid "Transfer transactions to payee"
 msgstr "Buchungen einem Empfänger zuordnen"
 
-#: src/metatree.c:1789
+#: src/metatree.c:1756
 #, c-format
 msgid "Transfer transactions to %s"
 msgstr "Buchungen von %s neu zuordnen"
 
-#: src/metatree.c:1887
+#: src/metatree.c:1854
 msgid "Just remove this payee."
 msgstr "Empfänger ohne Neuzuordnung löschen."
 
-#: src/metatree.c:1889
+#: src/metatree.c:1856
 #, c-format
 msgid "Just remove this %s."
 msgstr "%s ohne Neuzuordnung löschen."
 
-#: src/metatree.c:1891
+#: src/metatree.c:1858
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr "%s ohne Neuzuordnung löschen."
 
-#: src/metatree.c:1932
+#: src/metatree.c:1899
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
@@ -10819,12 +10823,12 @@ msgstr ""
 "Für das Verschieben von Buchungen muss ein %s angegeben werden, es wurde "
 "jedoch kein %s angegeben."
 
-#: src/metatree.c:1935 src/metatree.c:2998 src/metatree.c:3902
+#: src/metatree.c:1902 src/metatree.c:2940 src/metatree.c:3856
 #, c-format
 msgid "Please enter a %s!"
 msgstr "Bitte Daten für %s eingeben"
 
-#: src/metatree.c:2871
+#: src/metatree.c:2813
 #, c-format
 msgid ""
 "Transfer all transactions in a \n"
@@ -10833,12 +10837,12 @@ msgstr ""
 "Alle Buchungen von %s\n"
 "neu zuordnen."
 
-#: src/metatree.c:2879
+#: src/metatree.c:2821
 #, c-format
 msgid "Choose action for \"%s\"."
 msgstr "Neuzuordnung für \"%s\" vornehmen."
 
-#: src/metatree.c:2885
+#: src/metatree.c:2827
 #, c-format
 msgid ""
 "You can transfer content from \"%s\" in another %s or %s.\n"
@@ -10848,26 +10852,26 @@ msgstr ""
 "Es besteht auch die Möglichkeit \"%s\" in eine andere %s zu verschieben oder "
 "\"%s\" in eine %s zu konvertieren."
 
-#: src/metatree.c:2913
+#: src/metatree.c:2855
 #, c-format
 msgid "Transfer the transactions in a %s or %s"
 msgstr "Buchungen von %s oder %s neu zuordnen"
 
-#: src/metatree.c:2916
+#: src/metatree.c:2858
 #, c-format
 msgid "Transfer \"%s\" in other %s"
 msgstr "Buchung von \"%s\" in eine andere %s verschieben"
 
-#: src/metatree.c:2919
+#: src/metatree.c:2861
 #, c-format
 msgid "Convert \"%s\" in new %s"
 msgstr "\"%s\" in eine neue %s konvertieren"
 
-#: src/metatree.c:2941 src/metatree.c:2962 src/metatree.c:3851
+#: src/metatree.c:2883 src/metatree.c:2904 src/metatree.c:3805
 msgid "Select the destination: "
 msgstr "Auswahl für Neuzuordnung: "
 
-#: src/metatree.c:2994 src/metatree.c:3898
+#: src/metatree.c:2936 src/metatree.c:3852
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move content but no %s was "
@@ -10876,38 +10880,38 @@ msgstr ""
 "Für das Verschieben von Buchungen muss ein %s angegeben werden, es wurde "
 "jedoch kein %s angegeben."
 
-#: src/metatree.c:3025 src/metatree.c:3930
+#: src/metatree.c:2967 src/metatree.c:3884
 #, c-format
 msgid "Warning you can not create %s."
 msgstr "Warnung: es dürfen keine Empfänger %s erstellt werden."
 
-#: src/metatree.c:3802
+#: src/metatree.c:3756
 #, c-format
 msgid "Select transactions in \"%s\"."
 msgstr "Neuzuordnung für \"%s\" vornehmen."
 
-#: src/metatree.c:3808
+#: src/metatree.c:3762
 #, c-format
 msgid "You can transfer content from \"%s\" in another %s or %s.\n"
 msgstr ""
 "Sie können ähnliche Buchungen von \"%s\" in eine andere %s oder %s "
 "verschieben.\n"
 
-#: src/metatree.c:3823
+#: src/metatree.c:3777
 #, c-format
 msgid "Use payee: \"%s\" to find the transactions"
 msgstr "Mit dem Empfänger: \"%s\" ähnliche Buchungen suchen"
 
-#: src/metatree.c:3836
+#: src/metatree.c:3790
 #, c-format
 msgid "Use note: \"%s\" to find the transactions"
 msgstr "Mit der Notiz: \"%s\" ähnliche Buchungen suchen"
 
-#: src/metatree.c:3878
+#: src/metatree.c:3832
 msgid "You must select at least one search element"
 msgstr "Es muss zumindest ein Suchkriterium ausgewählt werden"
 
-#: src/metatree.c:3879 src/widgets/widget_search_transaction.c:575
+#: src/metatree.c:3833 src/widgets/widget_search_transaction.c:575
 #: src/widgets/widget_search_transaction.c:840
 msgid "WARNING"
 msgstr "Warnung"
@@ -11979,15 +11983,15 @@ msgstr "Einen neuen Empfänger erstellen"
 msgid "Export the list of payees"
 msgstr "Kategorien (*.cgsb) exportieren"
 
-#: src/tiers_onglet.c:675 src/tiers_onglet.c:1990
+#: src/tiers_onglet.c:675 src/tiers_onglet.c:1995
 msgid "Manage the payees"
 msgstr "Empfänger verwalten"
 
-#: src/tiers_onglet.c:684 src/tiers_onglet.c:939
+#: src/tiers_onglet.c:684 src/tiers_onglet.c:944
 msgid "Remove orphan payees"
 msgstr "Verwaiste Empfänger löschen"
 
-#: src/tiers_onglet.c:936
+#: src/tiers_onglet.c:941
 msgid ""
 "This will remove all the payees which are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -12000,28 +12004,28 @@ msgstr ""
 "\n"
 "Sollen diese Empfänger gelöscht werden?"
 
-#: src/tiers_onglet.c:951
+#: src/tiers_onglet.c:956
 #, c-format
 msgid "Removed %d payees."
 msgstr "Es wurden %d Empfänger gelöscht."
 
-#: src/tiers_onglet.c:957
+#: src/tiers_onglet.c:962
 msgid "There is no payee to remove."
 msgstr "Es sind keine Empfänger für eine Löschung vorhanden."
 
-#: src/tiers_onglet.c:1254
+#: src/tiers_onglet.c:1259
 msgid "You must choose a payee for searching."
 msgstr "Es muss der Name von einem Empfänger für die Suche eingegeben werden."
 
-#: src/tiers_onglet.c:1258
+#: src/tiers_onglet.c:1263
 msgid "Beware you don't use one of models for the research."
 msgstr "Bitte beachten dass kein Empfänger für die Suche verwendet wird."
 
-#: src/tiers_onglet.c:1307
+#: src/tiers_onglet.c:1312
 msgid "Choose a payee"
 msgstr "Empfänger auswählen"
 
-#: src/tiers_onglet.c:1309
+#: src/tiers_onglet.c:1314
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -12038,58 +12042,58 @@ msgstr ""
 "\n"
 "Mehrere Suchbegriffe können mit || verknüpft werden: Such1%||Such2%"
 
-#: src/tiers_onglet.c:1340
+#: src/tiers_onglet.c:1345
 msgid "Enter the new payee"
 msgstr "Empfänger eingeben"
 
-#: src/tiers_onglet.c:1344
+#: src/tiers_onglet.c:1349
 msgid "Enter the name of the new payee: "
 msgstr "Den Namen vom neuen Empfänger eingeben:"
 
-#: src/tiers_onglet.c:1378
+#: src/tiers_onglet.c:1383
 msgid "Save the payees in the notes"
 msgstr "Den Namen vom Empfänger in das Feld Notizen eintragen"
 
-#: src/tiers_onglet.c:1565
+#: src/tiers_onglet.c:1570
 msgid "List of payees who will be modified"
 msgstr "Auflistung der Änderungen"
 
-#: src/tiers_onglet.c:1594
+#: src/tiers_onglet.c:1599
 msgid "Do you want replace the current rule?"
 msgstr "Soll die Importregel ersetzt werden?"
 
-#: src/tiers_onglet.c:1639
+#: src/tiers_onglet.c:1644
 msgid "Payee number"
 msgstr "Empfänger Nummer"
 
-#: src/tiers_onglet.c:1648 src/widgets/widget_import_asso.c:739
+#: src/tiers_onglet.c:1653 src/widgets/widget_import_asso.c:739
 msgid "Payee name"
 msgstr "Empfänger Name"
 
-#: src/tiers_onglet.c:1663
+#: src/tiers_onglet.c:1668
 msgid "Total number of payees: "
 msgstr "Gesamtanzahl der Empfänger: "
 
-#: src/tiers_onglet.c:1672
+#: src/tiers_onglet.c:1677
 msgid "Number of selected payees: "
 msgstr "Anzahl der ausgewählten Empfänger: "
 
-#: src/tiers_onglet.c:1770
+#: src/tiers_onglet.c:1775
 #, c-format
 msgid "Payee sought: %s"
 msgstr "Empfänger Suchkriterium : %s"
 
-#: src/tiers_onglet.c:1776
+#: src/tiers_onglet.c:1781
 #, c-format
 msgid "New payee: %s"
 msgstr "Neuer Empfänger : %s"
 
-#: src/tiers_onglet.c:1798
+#: src/tiers_onglet.c:1803
 #, c-format
 msgid "Current rule: %s"
 msgstr "Aktuelle Regel: %s"
 
-#: src/tiers_onglet.c:1882
+#: src/tiers_onglet.c:1887
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -12100,7 +12104,7 @@ msgstr ""
 "\n"
 "Soll die Ersetzung durchgeführt werden?"
 
-#: src/tiers_onglet.c:1889
+#: src/tiers_onglet.c:1894
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -12111,7 +12115,7 @@ msgstr ""
 "\n"
 "Soll die Ersetzung durchgeführt werden?"
 
-#: src/tiers_onglet.c:1932
+#: src/tiers_onglet.c:1937
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -12122,7 +12126,7 @@ msgstr ""
 "\n"
 "Bei der Auswahl von 'Ja' wird die vorhandene Notiz mit %s überschrieben."
 
-#: src/tiers_onglet.c:1991
+#: src/tiers_onglet.c:1996
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -12139,15 +12143,15 @@ msgstr ""
 "jetzt zu Beenden, eine Sicherungskopie erstellen und den Assistenten erneut "
 "aufzurufen."
 
-#: src/tiers_onglet.c:2092
+#: src/tiers_onglet.c:2097
 msgid "Warning you will crush the existing note."
 msgstr "Warnung : Die vorhandene Notiz wird gelöscht."
 
-#: src/tiers_onglet.c:2136
+#: src/tiers_onglet.c:2141
 msgid "One payee was replaced with a new one."
 msgstr "Es wurde ein Empfänger durch einen neuen Empfänger ersetzt."
 
-#: src/tiers_onglet.c:2140
+#: src/tiers_onglet.c:2145
 #, c-format
 msgid ""
 "%d payees were replaced with a new one.\n"
@@ -12158,7 +12162,7 @@ msgstr ""
 "\n"
 "Zusätzlich wurden %d nicht betroffene Empfänger entfernt"
 
-#: src/tiers_onglet.c:2147
+#: src/tiers_onglet.c:2152
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "Es wurden %d Empfänger durch einen neuen Empfänger ersetzt."
@@ -13071,6 +13075,9 @@ msgstr "Teilsaldo"
 #: src/widgets/widget_transfer.c:930
 msgid "One of the two fields is recommended"
 msgstr "Die Eingabe in zumindest ein oder zwei Feldern wird empfohlen"
+
+#~ msgid "Treat all files as the first"
+#~ msgstr "Einstellungen vom ersten Konto bei den weiteren Konten anwenden"
 
 #~ msgid "Reset window of preferences"
 #~ msgstr "Fenstergröße vom Dialog Einstellungen zurücksetzen"
