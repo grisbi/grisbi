@@ -963,6 +963,9 @@ gboolean gsb_csv_export_account (const gchar *filename, gint account_number)
     GSList *pTransactionList;
     GSList *tmp_list;
 
+    if (!gsb_file_util_test_overwrite (filename))
+        return FALSE;
+
     csv_file = gsb_csv_export_open_file (filename);
 
     if (!csv_file)
