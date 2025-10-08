@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 18:50+0200\n"
+"POT-Creation-Date: 2025-10-08 18:43+0200\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -5056,11 +5056,15 @@ msgid "Select options to export"
 msgstr "Atlasīt kontus uz eksportu"
 
 #: src/export.c:553
-msgid "Name files automatically"
-msgstr ""
+#, fuzzy
+msgid "Automatically treat the selected account(s)"
+msgstr "Startējot automātiski ielādēt pēdējo failu"
 
 #: src/export.c:557
-msgid "Generated filenames are [accounting entity]-[account name].[extension]"
+msgid ""
+"The name of the account file(s) will be : [accounting entity]-[account name]."
+"[extension]\n"
+"The record folder will be the Grisbi file folder"
 msgstr ""
 
 #: src/export.c:630
@@ -13423,10 +13427,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Compress the account file"
 #~ msgstr "Kontu failu nosaukums"
-
-#, fuzzy
-#~ msgid "Automatically open the last file"
-#~ msgstr "Startējot automātiski ielādēt pēdējo failu"
 
 #, fuzzy
 #~ msgid "Force recording of locked files"

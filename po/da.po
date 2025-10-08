@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 18:50+0200\n"
+"POT-Creation-Date: 2025-10-08 18:43+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -5124,11 +5124,15 @@ msgid "Select options to export"
 msgstr "Opret en planlagt transaktion"
 
 #: src/export.c:553
-msgid "Name files automatically"
-msgstr ""
+#, fuzzy
+msgid "Automatically treat the selected account(s)"
+msgstr "Eksportér kategorier"
 
 #: src/export.c:557
-msgid "Generated filenames are [accounting entity]-[account name].[extension]"
+msgid ""
+"The name of the account file(s) will be : [accounting entity]-[account name]."
+"[extension]\n"
+"The record folder will be the Grisbi file folder"
 msgstr ""
 
 #: src/export.c:630
@@ -13017,10 +13021,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Compress the account file"
 #~ msgstr "Vælg konto"
-
-#, fuzzy
-#~ msgid "Automatically open the last file"
-#~ msgstr "Eksportér kategorier"
 
 #, fuzzy
 #~ msgid "Force the import directory"

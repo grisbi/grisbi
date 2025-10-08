@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 18:50+0200\n"
+"POT-Creation-Date: 2025-10-08 18:43+0200\n"
 "PO-Revision-Date: 2023-11-04 13:01+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -4876,11 +4876,15 @@ msgid "Select options to export"
 msgstr "Einstellungen für den Export"
 
 #: src/export.c:553
-msgid "Name files automatically"
-msgstr ""
+#, fuzzy
+msgid "Automatically treat the selected account(s)"
+msgstr "Die letzte Datei automatisch öffnen"
 
 #: src/export.c:557
-msgid "Generated filenames are [accounting entity]-[account name].[extension]"
+msgid ""
+"The name of the account file(s) will be : [accounting entity]-[account name]."
+"[extension]\n"
+"The record folder will be the Grisbi file folder"
 msgstr ""
 
 #: src/export.c:630
@@ -13390,9 +13394,6 @@ msgstr "Die Eingabe in zumindest ein oder zwei Feldern wird empfohlen"
 
 #~ msgid "TRUE if you want to compress the account file."
 #~ msgstr "Datei komprimieren."
-
-#~ msgid "Automatically open the last file"
-#~ msgstr "Die letzte Datei automatisch öffnen"
 
 #~ msgid "If TRUE, the last account file is open automatically."
 #~ msgstr "Die letzte Datei automatisch öffnen."

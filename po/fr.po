@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 18:50+0200\n"
+"POT-Creation-Date: 2025-10-08 18:43+0200\n"
 "PO-Revision-Date: 2025-05-30 18:07+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -4902,12 +4902,16 @@ msgid "Select options to export"
 msgstr "Sélectionner les options pour l'export"
 
 #: src/export.c:553
-msgid "Name files automatically"
-msgstr "Nommer les fichiers automatiquement"
+#, fuzzy
+msgid "Automatically treat the selected account(s)"
+msgstr "Création automatique de l'opération de débit"
 
 #: src/export.c:557
-msgid "Generated filenames are [accounting entity]-[account name].[extension]"
-msgstr "Les noms générés sont [entité comptable]-[nom du compte].[extension]"
+msgid ""
+"The name of the account file(s) will be : [accounting entity]-[account name]."
+"[extension]\n"
+"The record folder will be the Grisbi file folder"
+msgstr ""
 
 #: src/export.c:630
 msgid "Export settings completed successfully"
@@ -10498,7 +10502,9 @@ msgstr "Attention : Date invalide"
 
 #: src/import_csv.c:744
 msgid "The number of columns is not the same on all useful lines in the file"
-msgstr "Le nombre de colonnes n'est pas le même sur toutes les lignes utiles du fichier"
+msgstr ""
+"Le nombre de colonnes n'est pas le même sur toutes les lignes utiles du "
+"fichier"
 
 #: src/import_csv.c:745
 msgid "Inconsistency in number of columns"
@@ -12488,7 +12494,8 @@ msgid ""
 "grisbi found 1 date matching pattern %s.\n"
 "\n"
 "Check if it is correct!"
-msgstr "grisbi a trouvé 1 date vérifiant le motif %s.\n"
+msgstr ""
+"grisbi a trouvé 1 date vérifiant le motif %s.\n"
 "\n"
 "Vérifiez si c'est correct !"
 
@@ -12498,7 +12505,8 @@ msgid ""
 "grisbi found %d date matching pattern %s.\n"
 "\n"
 "Check if it is correct!"
-msgstr "grisbi a trouvé %d dates vérifiant le motif %s.\n"
+msgstr ""
+"grisbi a trouvé %d dates vérifiant le motif %s.\n"
 "\n"
 "Vérifiez si c'est correct !"
 
@@ -13075,6 +13083,14 @@ msgstr "Solde partiel"
 #: src/widgets/widget_transfer.c:930
 msgid "One of the two fields is recommended"
 msgstr "Il est recommandé d'utiliser un des deux champs"
+
+#~ msgid "Name files automatically"
+#~ msgstr "Nommer les fichiers automatiquement"
+
+#~ msgid ""
+#~ "Generated filenames are [accounting entity]-[account name].[extension]"
+#~ msgstr ""
+#~ "Les noms générés sont [entité comptable]-[nom du compte].[extension]"
 
 #~ msgid "Treat all files as the first"
 #~ msgstr "Traiter tous les fichiers comme le premier"

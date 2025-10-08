@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 18:50+0200\n"
+"POT-Creation-Date: 2025-10-08 18:43+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -5260,11 +5260,15 @@ msgid "Select options to export"
 msgstr "Selecionar contas para exportar"
 
 #: src/export.c:553
-msgid "Name files automatically"
-msgstr ""
+#, fuzzy
+msgid "Automatically treat the selected account(s)"
+msgstr "Abrir último arquivo automaticamente ao iniciar"
 
 #: src/export.c:557
-msgid "Generated filenames are [accounting entity]-[account name].[extension]"
+msgid ""
+"The name of the account file(s) will be : [accounting entity]-[account name]."
+"[extension]\n"
+"The record folder will be the Grisbi file folder"
 msgstr ""
 
 #: src/export.c:630
@@ -13458,10 +13462,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Compress the account file"
 #~ msgstr "Nome do arquivo de contas"
-
-#, fuzzy
-#~ msgid "Automatically open the last file"
-#~ msgstr "Abrir último arquivo automaticamente ao iniciar"
 
 #, fuzzy
 #~ msgid "Force recording of locked files"

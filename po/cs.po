@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 18:50+0200\n"
+"POT-Creation-Date: 2025-10-08 18:43+0200\n"
 "PO-Revision-Date: 2022-10-19 01:29+0200\n"
 "Last-Translator: Marek Donar <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -4873,11 +4873,15 @@ msgid "Select options to export"
 msgstr "Zvolte možnosti pro export"
 
 #: src/export.c:553
-msgid "Name files automatically"
-msgstr ""
+#, fuzzy
+msgid "Automatically treat the selected account(s)"
+msgstr "Při startu automaticky načíst poslední soubor"
 
 #: src/export.c:557
-msgid "Generated filenames are [accounting entity]-[account name].[extension]"
+msgid ""
+"The name of the account file(s) will be : [accounting entity]-[account name]."
+"[extension]\n"
+"The record folder will be the Grisbi file folder"
 msgstr ""
 
 #: src/export.c:630
@@ -13197,10 +13201,6 @@ msgstr "Jedno ze dvou polí je doporučené"
 #, fuzzy
 #~ msgid "Compress the account file"
 #~ msgstr "Pojmenujte soubor účtů"
-
-#, fuzzy
-#~ msgid "Automatically open the last file"
-#~ msgstr "Při startu automaticky načíst poslední soubor"
 
 #, fuzzy
 #~ msgid "Force recording of locked files"
