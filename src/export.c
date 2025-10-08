@@ -550,11 +550,11 @@ static GtkWidget *export_create_selection_page (GtkWidget *assistant)
 
 
 	/* Adding treat all files button */
-    button = gsb_automem_checkbutton_new (_("Name files automatically"),
+    button = gsb_automem_checkbutton_new (_("Automatically treat the selected account(s)"),
 										  &w_etat->export_files_traitement,
 										  NULL,
 										  NULL);
-	gtk_widget_set_tooltip_text (button, _("Generated filenames are [accounting entity]-[account name].[extension]"));
+	gtk_widget_set_tooltip_text (button, _("The name of the account file(s) will be : [accounting entity]-[account name].[extension]\nThe record folder will be the Grisbi file folder"));
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
     /* return */
