@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:43+0200\n"
+"POT-Creation-Date: 2025-10-17 20:57+0200\n"
 "PO-Revision-Date: 2018-01-08 16:35+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: \n"
@@ -4716,9 +4716,10 @@ msgstr ""
 
 #: src/export.c:557
 msgid ""
-"The name of the account file(s) will be : [accounting entity]-[account name]."
-"[extension]\n"
-"The record folder will be the Grisbi file folder"
+"The generated files will be named as follows::\n"
+"[accounting entity]-[account name].[extension]\n"
+"\n"
+"The save folder will be the Grisbi file folder"
 msgstr ""
 
 #: src/export.c:630

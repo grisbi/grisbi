@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:43+0200\n"
+"POT-Creation-Date: 2025-10-17 20:57+0200\n"
 "PO-Revision-Date: 2025-05-30 18:07+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: français <>\n"
@@ -4907,11 +4907,13 @@ msgid "Automatically treat the selected account(s)"
 msgstr "Création automatique de l'opération de débit"
 
 #: src/export.c:557
+#, fuzzy
 msgid ""
-"The name of the account file(s) will be : [accounting entity]-[account name]."
-"[extension]\n"
-"The record folder will be the Grisbi file folder"
-msgstr ""
+"The generated files will be named as follows::\n"
+"[accounting entity]-[account name].[extension]\n"
+"\n"
+"The save folder will be the Grisbi file folder"
+msgstr "Les noms générés sont [entité comptable]-[nom du compte].[extension]"
 
 #: src/export.c:630
 msgid "Export settings completed successfully"
@@ -13086,11 +13088,6 @@ msgstr "Il est recommandé d'utiliser un des deux champs"
 
 #~ msgid "Name files automatically"
 #~ msgstr "Nommer les fichiers automatiquement"
-
-#~ msgid ""
-#~ "Generated filenames are [accounting entity]-[account name].[extension]"
-#~ msgstr ""
-#~ "Les noms générés sont [entité comptable]-[nom du compte].[extension]"
 
 #~ msgid "Treat all files as the first"
 #~ msgstr "Traiter tous les fichiers comme le premier"

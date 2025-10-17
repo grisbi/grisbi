@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:43+0200\n"
+"POT-Creation-Date: 2025-10-17 20:57+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -5042,9 +5042,10 @@ msgstr "فایل \"%s\" ذخیره نشد."
 
 #: src/export.c:557
 msgid ""
-"The name of the account file(s) will be : [accounting entity]-[account name]."
-"[extension]\n"
-"The record folder will be the Grisbi file folder"
+"The generated files will be named as follows::\n"
+"[accounting entity]-[account name].[extension]\n"
+"\n"
+"The save folder will be the Grisbi file folder"
 msgstr ""
 
 #: src/export.c:630

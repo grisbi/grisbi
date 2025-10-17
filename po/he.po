@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:43+0200\n"
+"POT-Creation-Date: 2025-10-17 20:57+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -5255,9 +5255,10 @@ msgstr "לטעון את הקובץ האחרון שהיה בעבודה עם על�
 
 #: src/export.c:557
 msgid ""
-"The name of the account file(s) will be : [accounting entity]-[account name]."
-"[extension]\n"
-"The record folder will be the Grisbi file folder"
+"The generated files will be named as follows::\n"
+"[accounting entity]-[account name].[extension]\n"
+"\n"
+"The save folder will be the Grisbi file folder"
 msgstr ""
 
 #: src/export.c:630
