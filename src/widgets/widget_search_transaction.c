@@ -1175,7 +1175,7 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 					  G_CALLBACK (widget_search_transaction_checkbutton_backwards_search_toggled),
 					  priv);
 	g_signal_connect (G_OBJECT (priv->checkbutton_delta_amount),
-					  "clicked",
+					  "toggled",
 					  G_CALLBACK (widget_search_transaction_checkbutton_delta_amount_toggled),
 					  priv);
 	g_signal_connect (G_OBJECT (priv->checkbutton_ignore_case),
