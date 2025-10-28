@@ -343,6 +343,8 @@ void widget_cmp_amount_init_data (GtkWidget *widget,
 	/* set buttons */
 	comparison_number = gsb_data_report_amount_comparison_get_first_comparison (amount_cmp_number);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->button_first_comparison), comparison_number);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->button_link),
+							  gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (amount_cmp_number));
 
 	/* set first entry */
 	tmp_str = utils_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_cmp_number));
@@ -440,7 +442,7 @@ gboolean widget_cmp_amount_get_data (GtkWidget *widget,
 				return FALSE;
 			}
 		}
-}
+	}
 
 	return TRUE;
 }
