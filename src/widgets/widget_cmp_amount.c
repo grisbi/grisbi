@@ -408,8 +408,6 @@ gboolean widget_cmp_amount_get_data (GtkWidget *widget,
 	if (comparison_number <= 5)
 	{
 		tmp_str = gtk_entry_get_text (GTK_ENTRY (priv->entry_first_amount));
-		number = utils_real_get_from_string (tmp_str);
-		gsb_data_report_amount_comparison_set_first_amount (amount_cmp_number, number);
 		if (strlen (tmp_str))
 		{
 			number = utils_real_get_from_string (tmp_str);
