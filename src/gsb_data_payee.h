@@ -7,7 +7,6 @@
 /* END_INCLUDE_H */
 
 
-
 /* START_DECLARATION */
 void 			gsb_data_payee_add_transaction_to_payee 		(gint transaction_number);
 void 			gsb_data_payee_free_name_and_report_list 		(GSList *liste);
@@ -23,6 +22,8 @@ gint 			gsb_data_payee_get_no_payee 					(gpointer payee_ptr);
 gint 			gsb_data_payee_get_number_by_name 				(const gchar *name,
 																 gboolean create);
 GSList *		gsb_data_payee_get_payees_list 					(void);
+GSList *		gsb_data_payee_get_search_payee_list			(const gchar *text,
+																 gboolean ignore_case);
 const gchar *	gsb_data_payee_get_search_string 				(gint no_payee);
 gpointer 		gsb_data_payee_get_structure 					(gint no_payee);
 GSList *		gsb_data_payee_get_unarchived_payees_list		(void);

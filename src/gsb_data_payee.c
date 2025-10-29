@@ -1197,9 +1197,45 @@ GSList *gsb_data_payee_get_unarchived_payees_list (void)
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
+GSList *gsb_data_payee_get_search_payee_list (const gchar *text,
+											  gboolean ignore_case)
+{
+	devel_debug (text);
+	GSList *list = NULL;
+	GSList *pointer;
+	pointer = gsb_data_payee_get_payees_list ();
+	while (pointer)
+	{
+		const gchar *name;
+		gint payee_number;
+		PayeeStruct *payee;
+
+		payee = pointer->data;
+		name = payee->payee_name;
+		payee_number = payee->payee_number;
+		if (ignore_case)
+		{
+			if (name && utils_str_my_case_strstr (name, text))
+			{
+				list = g_slist_append (list, GINT_TO_POINTER (payee_number));
+			}
+		}
+		else
+		{
+			if (name && g_strstr_len (name, -1, text))
+			{
+				list = g_slist_append (list, GINT_TO_POINTER (payee_number));
+			}
+		}
+		pointer = pointer->next;
+	}
+
+	return list;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

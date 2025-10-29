@@ -71,6 +71,7 @@
 #include "utils_str.h"
 #include "widget_account_property.h"
 #include "widget_reconcile.h"
+#include "widget_search_tiers_categ_ib.h"
 #include "widget_search_transaction.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1091,17 +1092,24 @@ static gboolean gsb_gui_navigation_key_press (GtkWidget *widget,
 				gint transaction_number;
 
 				page_number = gsb_gui_navigation_get_current_page ();
-				if (page_number == GSB_ACCOUNT_PAGE)
+				switch (page_number)
 				{
-					account_number = gsb_gui_navigation_get_current_account ();
-					transaction_number = gsb_data_account_get_current_transaction_number (account_number);
-					gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
-				}
-				else if (page_number == GSB_REPORTS_PAGE)
-				{
-					etats_onglet_create_search_report ();
-				}
+					case GSB_ACCOUNT_PAGE:
+						account_number = gsb_gui_navigation_get_current_account ();
+						transaction_number = gsb_data_account_get_current_transaction_number (account_number);
+						gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
+					break;
 
+					case GSB_REPORTS_PAGE:
+						etats_onglet_create_search_report ();
+					break;
+
+					case GSB_CATEGORIES_PAGE:
+					case GSB_BUDGETARY_LINES_PAGE:
+					case GSB_PAYEES_PAGE:
+						gsb_gui_navigation_create_search_report_from_ctrl_f (page_number);
+					break;
+				}
 				return TRUE;
 			}
 			break;
@@ -2687,6 +2695,26 @@ void gsb_gui_navigation_update_localisation (gint type_maj)
 	/* update simulator page */
 	if (current_page == GSB_SIMULATOR_PAGE)
 		bet_finance_ui_switch_simulator_page ();
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_gui_navigation_create_search_report_from_ctrl_f (gint page_num)
+{
+	GrisbiWin *win;
+	WidgetSearchTiersCategIb *search;
+
+	devel_debug_int (page_num);
+	win = grisbi_app_get_active_window (NULL);
+	search = widget_search_tiers_categ_ib_new (GTK_WIDGET (win), page_num);
+
+	gtk_window_present (GTK_WINDOW (search));
+	gtk_widget_show_all (GTK_WIDGET (search));
 }
 
 /**
