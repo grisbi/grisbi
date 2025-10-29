@@ -54,6 +54,7 @@ src/widgets/widget_list_accounts.ui
 src/widgets/widget_list_metatree.ui
 src/widgets/widget_loan.ui
 src/widgets/widget_reconcile.ui
+src/widgets/widget_search_tiers_categ_ib.ui
 src/widgets/widget_search_transaction.ui
 src/widgets/widget_transfer.ui
 share/grisbi.desktop.in
@@ -242,5 +243,6 @@ src/widgets/widget_list_accounts.c
 src/widgets/widget_list_metatree.c
 src/widgets/widget_loan.c
 src/widgets/widget_reconcile.c
+src/widgets/widget_search_tiers_categ_ib.c
 src/widgets/widget_search_transaction.c
 src/widgets/widget_transfer.c

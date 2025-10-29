@@ -693,6 +693,37 @@ static GtkWidget *creation_barre_outils_tiers (void)
     return (toolbar);
 }
 
+/**
+ * gère le clavier sur la liste des opés
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean etats_onglet_list_key_press (GtkWidget *widget,
+											GdkEventKey *ev)
+{
+	devel_debug (NULL);
+	switch (ev->keyval)
+    {
+		case GDK_KEY_Return :   /* entrée */
+		case GDK_KEY_KP_Enter :
+		case GDK_KEY_Tab :
+			break;
+
+		case GDK_KEY_F:         /* touche F*/
+		case GDK_KEY_f:         /* touche f */
+			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
+			{
+				gsb_gui_navigation_create_search_report_from_ctrl_f (GSB_PAYEES_PAGE);
+			}
+			break;
+    }
+
+    return TRUE;
+}
+
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -883,6 +914,12 @@ GtkWidget *payees_create_list (void)
                       "button-press-event",
                       G_CALLBACK (payee_list_button_press),
                       NULL);
+
+    /* check the keys on the list */
+    g_signal_connect (G_OBJECT (payee_tree),
+		              "key-press-event",
+		              G_CALLBACK (etats_onglet_list_key_press),
+		              NULL);
 
     dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (payee_tree_model);
     if (dst_iface)

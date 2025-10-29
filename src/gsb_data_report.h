@@ -12,12 +12,26 @@
  * we have here the numbers of categories/budgets selected, and for each one, the sub-categories/budgets selected
  * */
 typedef struct _CategBudgetSel	CategBudgetSel;
+typedef struct _SearchDataReport SearchDataReport;
 
-struct _CategBudgetSel {
+struct _CategBudgetSel
+{
     gint div_number;
     GSList *sub_div_numbers;	/* list of number of sub-categories/budgets selected for the category/budget */
 };
 
+
+struct _SearchDataReport
+{
+	gint		search_type;			/* 1 = text, 2 = amount */
+	gint		spin_value;				/* valeur du spin button */
+	gint 		page_num;				/* GSB_PAYEES_PAGE, GSB_CATEGORIES_PAGE, GSB_BUDGETARY_LINES_PAGE */
+	gboolean	ignore_case;
+	gboolean	ignore_sign;
+	gboolean	search_in_archive;
+	gboolean	search_delta_amount;
+	gboolean	search_save_report;
+};
 
 /* START_DECLARATION */
 gboolean 	gsb_data_report_check_categ_budget_in_report 				(GSList *list_struct_report,
@@ -84,7 +98,7 @@ gint 		gsb_data_report_get_payee_show_name 						(gint report_number);
 gint 		gsb_data_report_get_payee_show_payee_amount 				(gint report_number);
 gint 		gsb_data_report_get_payee_used 								(gint report_number);
 gint 		gsb_data_report_get_period_split 							(gint report_number);
-GDateWeekday	gsb_data_report_get_period_split_day 						(gint report_number);
+GDateWeekday	gsb_data_report_get_period_split_day 					(gint report_number);
 gint 		gsb_data_report_get_period_split_type 						(gint report_number);
 GDate *		gsb_data_report_get_personal_date_end 						(gint report_number);
 GDate *		gsb_data_report_get_personal_date_start						(gint report_number);
@@ -281,7 +295,7 @@ gboolean 	gsb_data_report_set_show_report_sub_budget 					(gint report_number,
                         												 gint show_report_sub_budget);
 gboolean 	gsb_data_report_set_show_report_sub_category 				(gint report_number,
                         												 gint show_report_sub_category);
-gboolean	 gsb_data_report_set_show_report_transaction_amount 		(gint report_number,
+gboolean	gsb_data_report_set_show_report_transaction_amount			(gint report_number,
                         												 gint show_report_transaction_amount);
 gboolean 	gsb_data_report_set_show_report_transaction_number 			(gint report_number,
                         												 gint show_report_transaction_number);

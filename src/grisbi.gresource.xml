@@ -71,6 +71,7 @@
 		<file preprocess="xml-stripblanks">widgets/widget_list_metatree.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_loan.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_reconcile.ui</file>
+		<file preprocess="xml-stripblanks">widgets/widget_search_tiers_categ_ib.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_search_transaction.ui</file>
 		<file preprocess="xml-stripblanks">widgets/widget_transfer.ui</file>
   </gresource>
