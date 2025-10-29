@@ -37,8 +37,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-17 20:57+0200\n"
+"Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
+"POT-Creation-Date: 2025-10-29 08:35+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -70,6 +70,7 @@ msgstr "Excludeţi operaţiile a căror sume este nul"
 #: src/widgets/widget_currency_popup.ui:113
 #: src/widgets/widget_import_asso.ui:386 src/widgets/widget_import_files.ui:500
 #: src/widgets/widget_list_accounts.ui:218 src/widgets/widget_loan.ui:620
+#: src/widgets/widget_search_tiers_categ_ib.ui:296
 #, fuzzy
 msgid "Title"
 msgstr "Titluri"
@@ -116,7 +117,7 @@ msgstr "Selecţionaţi terţul a include în stare:"
 #: src/widgets/widget_list_accounts.ui:49
 #: src/widgets/widget_list_metatree.ui:46 src/export.c:421
 #: src/gsb_assistant.c:127 src/import.c:3305 src/import.c:4374
-#: src/tiers_onglet.c:1503 src/tiers_onglet.c:1521 src/utils_buttons.c:123
+#: src/tiers_onglet.c:1540 src/tiers_onglet.c:1558 src/utils_buttons.c:123
 #: src/widgets/widget_assistant.c:127 src/widgets/widget_list_accounts.c:129
 #: src/widgets/widget_list_metatree.c:172
 msgid "Select all"
@@ -127,8 +128,9 @@ msgid "<Ctrl> + left click of mouse to add to the selection"
 msgstr ""
 
 #: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:154
-#: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_transaction.ui:34
-#: src/etats_onglet.c:925 src/etats_onglet.c:1155 src/etats_onglet.c:1390
+#: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_tiers_categ_ib.ui:381
+#: src/widgets/widget_search_transaction.ui:34 src/etats_onglet.c:1095
+#: src/etats_onglet.c:1325 src/etats_onglet.c:1560
 #: src/gsb_transactions_list.c:545
 msgid "Search"
 msgstr "Căutare"
@@ -377,8 +379,8 @@ msgstr "Restabilirea reglajelor de origine"
 
 #: src/prefs/prefs_page_bet_account.ui:309
 #: src/prefs/prefs_page_bet_account.ui:397
-#: src/prefs/prefs_page_bet_account.ui:482 src/navigation.c:629
-#: src/tiers_onglet.c:821 src/tiers_onglet.c:1073
+#: src/prefs/prefs_page_bet_account.ui:482 src/navigation.c:630
+#: src/tiers_onglet.c:852 src/tiers_onglet.c:1110
 #: src/etats/etats_page_payee.c:563
 #, fuzzy
 msgid "Payees"
@@ -388,7 +390,7 @@ msgstr "Zile"
 #: src/prefs/prefs_page_bet_account.ui:412
 #: src/prefs/prefs_page_bet_account.ui:497 src/ui/etats_prefs.ui:1452
 #: src/bet_hist.c:2148 src/bet_hist.c:2154 src/categories_onglet.c:383
-#: src/etats_prefs.c:1591 src/grisbi_win.c:482 src/navigation.c:637
+#: src/etats_prefs.c:1591 src/grisbi_win.c:482 src/navigation.c:638
 #: src/utils_widgets.c:671 src/etats/etats_page_category.c:82
 msgid "Categories"
 msgstr "Categorii"
@@ -398,7 +400,7 @@ msgstr "Categorii"
 #: src/prefs/prefs_page_bet_account.ui:512 src/ui/etats_prefs.ui:1595
 #: src/bet_hist.c:2152 src/etats_prefs.c:1596 src/export_csv.c:404
 #: src/grisbi_win.c:487 src/import_csv.c:84 src/imputation_budgetaire.c:380
-#: src/navigation.c:641 src/utils_widgets.c:674
+#: src/navigation.c:642 src/utils_widgets.c:674
 #: src/etats/etats_page_budget.c:84
 msgid "Budgetary lines"
 msgstr "Imputaţii bugetare"
@@ -488,12 +490,14 @@ msgstr "Ajuta o devizā"
 #: src/prefs/prefs_page_currency.ui:184
 #: src/prefs/prefs_page_payment_method.ui:377 src/ui/csv_template_rule.ui:43
 #: src/ui/etats_prefs.ui:2031 src/widgets/widget_assistant.ui:26
-#: src/widgets/widget_reconcile.ui:393 src/widgets/widget_transfer.ui:35
-#: src/accueil.c:1253 src/bet_finance_ui.c:794 src/bet_future.c:1497
-#: src/bet_hist.c:865 src/bet_tab.c:384 src/categories_onglet.c:438
-#: src/categories_onglet.c:497 src/categories_onglet.c:554
-#: src/categories_onglet.c:792 src/etats_onglet.c:362 src/etats_onglet.c:465
-#: src/etats_onglet.c:541 src/file_obfuscate_qif.c:98 src/gsb_assistant.c:131
+#: src/widgets/widget_reconcile.ui:393
+#: src/widgets/widget_search_tiers_categ_ib.ui:368
+#: src/widgets/widget_transfer.ui:35 src/accueil.c:1253
+#: src/bet_finance_ui.c:794 src/bet_future.c:1497 src/bet_hist.c:865
+#: src/bet_tab.c:384 src/categories_onglet.c:438 src/categories_onglet.c:497
+#: src/categories_onglet.c:554 src/categories_onglet.c:792
+#: src/etats_onglet.c:364 src/etats_onglet.c:467 src/etats_onglet.c:543
+#: src/file_obfuscate_qif.c:98 src/gsb_assistant.c:131
 #: src/gsb_assistant_file.c:660 src/gsb_assistant_reconcile_config.c:1273
 #: src/gsb_bank.c:134 src/gsb_currency.c:935
 #: src/gsb_data_partial_balance.c:1842 src/gsb_data_partial_balance.c:1928
@@ -810,7 +814,7 @@ msgstr "Celule de la lista de tranzacţiuni"
 msgid "(This change will take effect on the next restart)"
 msgstr ""
 
-#: src/prefs/prefs_page_divers.ui:806 src/grisbi_win.c:467 src/navigation.c:625
+#: src/prefs/prefs_page_divers.ui:806 src/grisbi_win.c:467 src/navigation.c:626
 msgid "Scheduler"
 msgstr "Scadenţă"
 
@@ -859,7 +863,7 @@ msgstr ""
 msgid "Localization"
 msgstr "Apropiere"
 
-#: src/prefs/prefs_page_divers.ui:1241 src/tiers_onglet.c:1376
+#: src/prefs/prefs_page_divers.ui:1241 src/tiers_onglet.c:1413
 #: src/widgets/widget_bet_graph_others.c:527
 #, fuzzy
 msgid "Options"
@@ -1487,7 +1491,7 @@ msgstr "Devize utilizate pentru imputaţiuni bugetare:"
 msgid "Amount comparison currency: "
 msgstr "Devize utilizate pentru comparaţiile de valoare:"
 
-#: src/ui/etats_prefs.ui:209 src/etats_onglet.c:751
+#: src/ui/etats_prefs.ui:209 src/etats_onglet.c:753
 #: src/gsb_assistant_archive_export.c:152 src/prefs/prefs_page_archives.c:477
 msgid "Report name"
 msgstr "Numele de stare"
@@ -1679,7 +1683,7 @@ msgid "Make transactions clickable"
 msgstr "A face operaţiunile interactive"
 
 #: src/ui/etats_prefs.ui:1256 src/etats_prefs.c:1581 src/grisbi_win.c:433
-#: src/navigation.c:621
+#: src/navigation.c:622
 msgid "Accounts"
 msgstr "Conturi"
 
@@ -1789,7 +1793,7 @@ msgstr "Proprietăţi a devizei"
 
 #: src/ui/etats_prefs.ui:2047 src/widgets/widget_reconcile.ui:406
 #: src/widgets/widget_transfer.ui:49 src/accueil.c:1257 src/bet_future.c:1501
-#: src/etats_onglet.c:544 src/gsb_assistant_file.c:664
+#: src/etats_onglet.c:546 src/gsb_assistant_file.c:664
 #: src/gsb_assistant_reconcile_config.c:1277 src/gsb_currency.c:939
 #: src/gsb_data_partial_balance.c:1846 src/gsb_data_partial_balance.c:1932
 #: src/gsb_select_icon.c:509 src/gsb_transactions_list.c:1137 src/import.c:3311
@@ -1911,7 +1915,7 @@ msgstr "Nou fişier de cont"
 
 #: src/ui/grisbi_menu.ui:39 src/ui/grisbi_menu.ui:267
 #: src/categories_onglet.c:500 src/categories_onglet.c:557
-#: src/etats_onglet.c:468 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
+#: src/etats_onglet.c:470 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
 #: src/grisbi_app.c:133 src/grisbi_win.c:754 src/gsb_file.c:770
 #: src/gsb_select_icon.c:320 src/import.c:1256 src/imputation_budgetaire.c:523
 #: src/imputation_budgetaire.c:585 src/prefs/prefs_page_display_fonts.c:311
@@ -1926,7 +1930,7 @@ msgstr "Ultimile fişiere"
 
 #: src/ui/grisbi_menu.ui:51 src/ui/grisbi_menu.ui:279 src/bet_finance_ui.c:798
 #: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:441
-#: src/etats_onglet.c:365 src/grisbi_app.c:118 src/grisbi_app.c:134
+#: src/etats_onglet.c:367 src/grisbi_app.c:118 src/grisbi_app.c:134
 #: src/gsb_file.c:324 src/gsb_file.c:427 src/gsb_file.c:458
 #: src/imputation_budgetaire.c:459 src/tiers_onglet.c:133
 #, fuzzy
@@ -2025,7 +2029,7 @@ msgid "Convert to scheduled transaction"
 msgstr "Intrarea une operaţii planificate"
 
 #: src/ui/grisbi_menu.ui:161 src/ui/grisbi_menu.ui:395 src/grisbi_app.c:123
-#: src/grisbi_app.c:139 src/navigation.c:209
+#: src/grisbi_app.c:139 src/navigation.c:210
 #, fuzzy
 msgid "New account"
 msgstr "Cont nou"
@@ -2671,12 +2675,12 @@ msgid "Rule"
 msgstr "Numele titularului"
 
 #: src/widgets/widget_import_asso.ui:301 src/tiers_onglet.c:347
-#: src/tiers_onglet.c:1388
+#: src/tiers_onglet.c:1425
 msgid "Ignoring case sensitive"
 msgstr ""
 
 #: src/widgets/widget_import_asso.ui:316 src/tiers_onglet.c:351
-#: src/tiers_onglet.c:1393
+#: src/tiers_onglet.c:1430
 msgid "Use the regular expressions"
 msgstr ""
 
@@ -2698,7 +2702,7 @@ msgstr "Convertirea operaţiunii în operaţiune planificată"
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: src/widgets/widget_import_files.ui:171 src/tiers_onglet.c:1377
+#: src/widgets/widget_import_files.ui:171 src/tiers_onglet.c:1414
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
@@ -2872,6 +2876,52 @@ msgstr "modul de plată"
 msgid "Reconcile"
 msgstr "Apropiaţi"
 
+#: src/widgets/widget_search_tiers_categ_ib.ui:71
+#, fuzzy
+#| msgid "Select the transactions by amount"
+msgid "Search transactions by name"
+msgstr "Selecţionaţi operaţiile după sume"
+
+#: src/widgets/widget_search_tiers_categ_ib.ui:86
+#, fuzzy
+#| msgid "Select the transactions by amount"
+msgid "Search transactions by amount"
+msgstr "Selecţionaţi operaţiile după sume"
+
+#: src/widgets/widget_search_tiers_categ_ib.ui:109
+#, fuzzy
+msgid "   "
+msgstr "Fişier :"
+
+#: src/widgets/widget_search_tiers_categ_ib.ui:121
+#: src/widgets/widget_search_transaction.ui:301
+msgid "Search an amount at + or - "
+msgstr ""
+
+#: src/widgets/widget_search_tiers_categ_ib.ui:155
+msgid "Devise"
+msgstr ""
+
+#: src/widgets/widget_search_tiers_categ_ib.ui:183
+#: src/widgets/widget_search_transaction.ui:266
+#: src/widgets/widget_search_tiers_categ_ib.c:255
+#: src/widgets/widget_search_transaction.c:767
+#: src/widgets/widget_search_transaction.c:773
+#: src/widgets/widget_search_transaction.c:779
+#: src/widgets/widget_search_transaction.c:1124
+msgid "Ignore case"
+msgstr ""
+
+#: src/widgets/widget_search_tiers_categ_ib.ui:198
+#: src/widgets/widget_search_transaction.ui:251
+#, fuzzy
+msgid "Search in the archived transactions"
+msgstr "Şterge o operaţie planificată"
+
+#: src/widgets/widget_search_tiers_categ_ib.ui:238
+msgid "Save this search"
+msgstr ""
+
 #: src/widgets/widget_search_transaction.ui:86
 #: src/widgets/widget_search_transaction.c:125
 msgid "Find"
@@ -2896,23 +2946,6 @@ msgstr "Deplasaţi operaţiunea spre un alt cont"
 msgid "Search from newest to oldest"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:251
-#, fuzzy
-msgid "Search in the archived transactions"
-msgstr "Şterge o operaţie planificată"
-
-#: src/widgets/widget_search_transaction.ui:266
-#: src/widgets/widget_search_transaction.c:767
-#: src/widgets/widget_search_transaction.c:773
-#: src/widgets/widget_search_transaction.c:779
-#: src/widgets/widget_search_transaction.c:1124
-msgid "Ignore case"
-msgstr ""
-
-#: src/widgets/widget_search_transaction.ui:301
-msgid "Search an amount at + or - "
-msgstr ""
-
 #: src/widgets/widget_search_transaction.ui:364
 #, fuzzy
 msgid "Search an amount"
@@ -2929,7 +2962,7 @@ msgid "Configuring a deferred debit account"
 msgstr "Imposibil de a efectua un virament pe un cont închis"
 
 #: src/widgets/widget_transfer.ui:20 src/categories_onglet.c:645
-#: src/etats_onglet.c:619 src/gsb_scheduler_list.c:1187
+#: src/etats_onglet.c:621 src/gsb_scheduler_list.c:1187
 #: src/gsb_transactions_list.c:2534 src/imputation_budgetaire.c:676
 #: src/tiers_onglet.c:641
 #, fuzzy
@@ -3006,16 +3039,16 @@ msgstr "Total categorie (%s operaţie)"
 msgid "Allows you to select the working day following the date entered"
 msgstr ""
 
-#: share/grisbi.desktop.in:2 share/grisbi.metainfo.xml.in:6
+#: share/grisbi.desktop.in:3 share/grisbi.metainfo.xml.in:6
 #: src/grisbi_win.c:1629 src/grisbi_win.c:1678
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: share/grisbi.desktop.in:3
+#: share/grisbi.desktop.in:4
 msgid "Personnal finances manager"
 msgstr ""
 
-#: share/grisbi.desktop.in:4
+#: share/grisbi.desktop.in:5
 #, fuzzy
 msgid "finance"
 msgstr "exerciţiu"
@@ -3023,6 +3056,12 @@ msgstr "exerciţiu"
 #: share/grisbi.metainfo.xml.in:7
 msgid "Personal finances manager"
 msgstr ""
+
+#: share/grisbi.metainfo.xml.in:9
+#, fuzzy
+#| msgid "Grisbi"
+msgid "Grisbi Team"
+msgstr "Grisbi"
 
 #: share/grisbi.metainfo.xml.in:12
 msgid ""
@@ -3045,8 +3084,8 @@ msgstr ""
 msgid "Budget"
 msgstr "O nouă imputaţie"
 
-#: share/grisbi.metainfo.xml.in:35 src/etats_onglet.c:1229 src/grisbi_win.c:492
-#: src/navigation.c:645 src/navigation.c:2027
+#: share/grisbi.metainfo.xml.in:35 src/etats_onglet.c:1399 src/grisbi_win.c:492
+#: src/navigation.c:646 src/navigation.c:2035
 msgid "Reports"
 msgstr "Stări"
 
@@ -3363,8 +3402,8 @@ msgstr "Buget anual:"
 msgid " of capital"
 msgstr "Împrumut/Ipotecă : Capital:"
 
-#: src/bet_finance_ui.c:1485 src/grisbi_win.c:477 src/navigation.c:633
-#: src/navigation.c:1991
+#: src/bet_finance_ui.c:1485 src/grisbi_win.c:477 src/navigation.c:634
+#: src/navigation.c:1999
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Cartă de credit"
@@ -3402,12 +3441,12 @@ msgid "Credits"
 msgstr "Credit"
 
 #: src/bet_finance_ui.c:2127 src/bet_hist.c:953 src/bet_tab.c:2131
-#: src/etats_onglet.c:610 src/gsb_transactions_list.c:2561
+#: src/etats_onglet.c:612 src/gsb_transactions_list.c:2561
 msgid "Print"
 msgstr "Imprimaţi"
 
 #: src/bet_finance_ui.c:2136 src/bet_hist.c:959 src/bet_tab.c:2140
-#: src/categories_onglet.c:636 src/etats_onglet.c:600 src/export.c:504
+#: src/categories_onglet.c:636 src/etats_onglet.c:602 src/export.c:504
 #: src/imputation_budgetaire.c:666 src/tiers_onglet.c:632
 msgid "Export"
 msgstr "Exportare"
@@ -3767,7 +3806,7 @@ msgid ""
 "a positive number for a credit"
 msgstr ""
 
-#: src/bet_hist.c:1267 src/tiers_onglet.c:1636 src/utils_buttons.c:149
+#: src/bet_hist.c:1267 src/tiers_onglet.c:1673 src/utils_buttons.c:149
 #: src/utils_buttons.c:151
 #, fuzzy
 msgid "Select"
@@ -3783,7 +3822,7 @@ msgstr "Categorie"
 #: src/bet_hist.c:1295 src/categories_onglet.c:205 src/etats_affiche.c:383
 #: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:945
 #: src/gsb_transactions_list.c:116 src/import.c:4478 src/import_csv.c:86
-#: src/imputation_budgetaire.c:202 src/tiers_onglet.c:842
+#: src/imputation_budgetaire.c:202 src/tiers_onglet.c:873
 #: src/etats/etats_page_amount.c:281
 msgid "Amount"
 msgstr "Sumă totală"
@@ -3936,7 +3975,7 @@ msgstr "Ultima dată"
 msgid "Balance at "
 msgstr "Sold"
 
-#: src/bet_tab.c:2025 src/etats_onglet.c:893
+#: src/bet_tab.c:2025 src/etats_onglet.c:1063
 msgid "Description"
 msgstr "Descripţiune"
 
@@ -3974,9 +4013,9 @@ msgstr ""
 
 #: src/categories_onglet.c:194 src/etats_prefs.c:582
 #: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:944
-#: src/imputation_budgetaire.c:191 src/navigation.c:1818
+#: src/imputation_budgetaire.c:191 src/navigation.c:1826
 #: src/prefs/prefs_page_payment_method.c:1246
-#: src/prefs/prefs_page_reconcile.c:323 src/tiers_onglet.c:831
+#: src/prefs/prefs_page_reconcile.c:323 src/tiers_onglet.c:862
 msgid "Account"
 msgstr "Cont"
 
@@ -3998,7 +4037,7 @@ msgstr "Exportaţi categoriile."
 msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
-#: src/categories_onglet.c:515 src/etats_onglet.c:483
+#: src/categories_onglet.c:515 src/etats_onglet.c:485
 #: src/file_obfuscate_qif.c:116 src/gsb_file.c:785 src/import.c:1330
 #: src/imputation_budgetaire.c:543
 #, fuzzy
@@ -4055,7 +4094,7 @@ msgstr "O nouă sub-categorie"
 msgid "Create a new sub-category"
 msgstr "Intraţi numele noii sub-categorii."
 
-#: src/categories_onglet.c:627 src/etats_onglet.c:591 src/grisbi_prefs.c:411
+#: src/categories_onglet.c:627 src/etats_onglet.c:593 src/grisbi_prefs.c:411
 #: src/grisbi_win.c:767 src/import.c:1903 src/imputation_budgetaire.c:655
 #: src/prefs/prefs_page_import.c:82 src/utils_files.c:812
 msgid "Import"
@@ -4071,13 +4110,13 @@ msgstr "Importarea unei liste de categorii."
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Exportaţi categoriile."
 
-#: src/categories_onglet.c:649 src/navigation.c:290
+#: src/categories_onglet.c:649 src/navigation.c:291
 #, fuzzy
 msgid "Delete selected category"
 msgstr "Vă rugăm intraţi o categorie"
 
 #: src/categories_onglet.c:661 src/categories_onglet.c:1187
-#: src/navigation.c:303
+#: src/navigation.c:304
 #, fuzzy
 msgid "Edit selected category"
 msgstr "categoria"
@@ -4793,7 +4832,7 @@ msgstr "Asiguraţi-vă că fişierul există şi că poate fi acesibil în scrie
 msgid "Cannot open file '%s' for writing"
 msgstr "Imposibil de a deschide fişierul « %s »  scriere"
 
-#: src/etats_onglet.c:139
+#: src/etats_onglet.c:141
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -4803,7 +4842,7 @@ msgstr ""
 "operaţiunilor ultimei luni.Ajunge de a alege unul s'au conturile şi a valda "
 "(prin-defaut, toate conturile sunt utilizate)."
 
-#: src/etats_onglet.c:148
+#: src/etats_onglet.c:150
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -4813,7 +4852,7 @@ msgstr ""
 "operaţiunilor lunni în curs.Ajunge de a alege unul s'au conturile şi de "
 "valida. Prin-defaut, toate conturile sunt utilizate."
 
-#: src/etats_onglet.c:157
+#: src/etats_onglet.c:159
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -4821,13 +4860,13 @@ msgstr ""
 "Această stare afişează bugetul anual. Vă ajunge de de a alege un s'au "
 "conturile şi a valida. Prin-defaut toate conturile sunt utilizate."
 
-#: src/etats_onglet.c:165
+#: src/etats_onglet.c:167
 #, fuzzy
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr ""
 "Această opţiune crează o stare goală în care trebuie să configuraţi totul."
 
-#: src/etats_onglet.c:172
+#: src/etats_onglet.c:174
 msgid ""
 "This report displays the cheques deposit. You just need to select the "
 "account(s). By default all accounts are selected."
@@ -4835,7 +4874,7 @@ msgstr ""
 "Această stare afişează cecurile încasate. Ajunge de a alege unul s'au "
 "conturile şi a valida. Prin-defaut, toate conturile sunt utilizate."
 
-#: src/etats_onglet.c:181
+#: src/etats_onglet.c:183
 #, fuzzy
 msgid ""
 "This report shows the month's expenses sorted by payees.You will just have "
@@ -4845,7 +4884,7 @@ msgstr ""
 "unul s'au conturile şi da a valida. Prin-defaut, toate conturile sunt "
 "utilizate."
 
-#: src/etats_onglet.c:185
+#: src/etats_onglet.c:187
 #, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
@@ -4855,7 +4894,7 @@ msgstr ""
 "unul s'au conturile şi da a valida. Prin-defaut, toate conturile sunt "
 "utilizate."
 
-#: src/etats_onglet.c:193
+#: src/etats_onglet.c:195
 #, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
@@ -4867,116 +4906,116 @@ msgstr ""
 "(prin sumă, terţ, dată, etc.) care vă interesează. Operaţiunile sunt "
 "interactive prin defaut."
 
-#: src/etats_onglet.c:201
+#: src/etats_onglet.c:203
 msgid "No description available"
 msgstr ""
 
-#: src/etats_onglet.c:356
+#: src/etats_onglet.c:358
 msgid "Export report"
 msgstr "Exporta o stare"
 
-#: src/etats_onglet.c:379
+#: src/etats_onglet.c:381
 #, fuzzy
 msgid "File format: "
 msgstr "Informaţii:"
 
-#: src/etats_onglet.c:383
+#: src/etats_onglet.c:385
 msgid "Grisbi report file (egsb file)"
 msgstr ""
 
-#: src/etats_onglet.c:384
+#: src/etats_onglet.c:386
 msgid "HTML file"
 msgstr "Fişier HTML"
 
-#: src/etats_onglet.c:385
+#: src/etats_onglet.c:387
 #, fuzzy
 msgid "CSV file"
 msgstr "Înregistraţi fişierul."
 
-#: src/etats_onglet.c:404
+#: src/etats_onglet.c:406
 #, fuzzy
 msgid "Exporting report..."
 msgstr "Exportaţi o stare în CSV"
 
-#: src/etats_onglet.c:429 src/grisbi_prefs.c:792 src/grisbi_prefs.c:816
+#: src/etats_onglet.c:431 src/grisbi_prefs.c:792 src/grisbi_prefs.c:816
 #: src/gsb_debug.c:842 src/gsb_file.c:549 src/gsb_file.c:700
 #: src/gsb_file.c:1039
 #, fuzzy
 msgid "Done"
 msgstr "Nici un"
 
-#: src/etats_onglet.c:459
+#: src/etats_onglet.c:461
 msgid "Import a report"
 msgstr "Importa o stare"
 
-#: src/etats_onglet.c:477
+#: src/etats_onglet.c:479
 msgid "Grisbi report files (*.egsb)"
 msgstr ""
 
-#: src/etats_onglet.c:535
+#: src/etats_onglet.c:537
 #, fuzzy
 msgid "Create a pdf file of the report"
 msgstr "în sus de stare"
 
-#: src/etats_onglet.c:582 src/navigation.c:394
+#: src/etats_onglet.c:584 src/navigation.c:395
 msgid "New report"
 msgstr "Stare nouă"
 
-#: src/etats_onglet.c:583
+#: src/etats_onglet.c:585
 #, fuzzy
 msgid "Create a new report"
 msgstr "Creaţi un nou cont"
 
-#: src/etats_onglet.c:592
+#: src/etats_onglet.c:594
 #, fuzzy
 msgid "Import a Grisbi report file (.egsb)"
 msgstr "Importarea unui fişier de stare"
 
-#: src/etats_onglet.c:602
+#: src/etats_onglet.c:604
 #, fuzzy
 msgid "Export selected report to egsb, HTML, CSV"
 msgstr "Exportaţi starea spre un fişier HTML"
 
-#: src/etats_onglet.c:611
+#: src/etats_onglet.c:613
 #, fuzzy
 msgid "Print selected report"
 msgstr "Imprimaţi starea"
 
-#: src/etats_onglet.c:620
+#: src/etats_onglet.c:622
 #, fuzzy
 msgid "Delete selected report"
 msgstr "Stergeţi starea"
 
-#: src/etats_onglet.c:629 src/grisbi_win.c:457
+#: src/etats_onglet.c:631 src/grisbi_win.c:457
 #, fuzzy
 msgid "Properties"
 msgstr "Proprietăţi a devizei"
 
-#: src/etats_onglet.c:630
+#: src/etats_onglet.c:632
 #, fuzzy
 msgid "Edit selected report"
 msgstr "Stergeţi starea"
 
-#: src/etats_onglet.c:638
+#: src/etats_onglet.c:640
 #, fuzzy
 msgid "Clone"
 msgstr "Închide"
 
-#: src/etats_onglet.c:639
+#: src/etats_onglet.c:641
 #, fuzzy
 msgid "Clone selected report"
 msgstr "Clonaţi starea"
 
-#: src/etats_onglet.c:648
+#: src/etats_onglet.c:650
 #, fuzzy
 msgid "Create pdf file"
 msgstr "Fişier LaTeX"
 
-#: src/etats_onglet.c:649
+#: src/etats_onglet.c:651
 msgid "Creates a pdf file of the report in user directory"
 msgstr ""
 
-#: src/etats_onglet.c:874
+#: src/etats_onglet.c:1044
 #, fuzzy
 msgid ""
 "You are about to create a new report. For convenience, you can choose "
@@ -4985,67 +5024,80 @@ msgstr ""
 "Sunteţi pe cale de a crea o stare nouă. Puteţi alege printre modelele "
 "următoare. Stările pot fi parametrate mai târziu."
 
-#: src/etats_onglet.c:878
+#: src/etats_onglet.c:1048
 msgid "Choose template for new report"
 msgstr "Alegeţi modelul pentru noua stare"
 
-#: src/etats_onglet.c:881
+#: src/etats_onglet.c:1051
 msgid "Report type"
 msgstr "Tip de stare"
 
-#: src/etats_onglet.c:888
+#: src/etats_onglet.c:1058
 #, fuzzy
 msgid "Do not show the report preferences"
 msgstr "A nu anunţa că numărul de apropriere există deja"
 
-#: src/etats_onglet.c:913 src/etats_onglet.c:968
+#: src/etats_onglet.c:1083 src/etats_onglet.c:1138
 msgid "Last month incomes and outgoings"
 msgstr "Venituri şi cheltueli cu o lună în urmă"
 
-#: src/etats_onglet.c:917 src/etats_onglet.c:997
+#: src/etats_onglet.c:1087 src/etats_onglet.c:1167
 msgid "Current month incomes and outgoings"
 msgstr "Venituri şi cheltueli al lunii în curs"
 
-#: src/etats_onglet.c:918 src/etats_onglet.c:1023
+#: src/etats_onglet.c:1088 src/etats_onglet.c:1193
 msgid "Annual budget"
 msgstr "Buget anual"
 
-#: src/etats_onglet.c:919 src/etats_onglet.c:1047
+#: src/etats_onglet.c:1089 src/etats_onglet.c:1217
 msgid "Blank report"
 msgstr "Stare goală"
 
-#: src/etats_onglet.c:920 src/etats_onglet.c:1078
+#: src/etats_onglet.c:1090 src/etats_onglet.c:1248
 msgid "Cheques deposit"
 msgstr "Depuneri de cecuri"
 
-#: src/etats_onglet.c:924 src/etats_onglet.c:1119
+#: src/etats_onglet.c:1094 src/etats_onglet.c:1289
 #, fuzzy
 msgid "Monthly outgoings by payee"
 msgstr "Cheltueli lunare prin terţ"
 
-#: src/etats_onglet.c:966
+#: src/etats_onglet.c:1136
 #, fuzzy
 msgid "Last month products and expenses"
 msgstr "Venituri şi cheltueli cu o lună în urmă"
 
-#: src/etats_onglet.c:1184
+#: src/etats_onglet.c:1354
 msgid "Unknown report type, creation cancelled"
 msgstr "Tip de stare necunoscut, creaţie abandonată"
 
-#: src/etats_onglet.c:1276
+#: src/etats_onglet.c:1446
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Ştergerea stării \"%s\"?"
 
-#: src/etats_onglet.c:1278
+#: src/etats_onglet.c:1448
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 "Aceasta va distruge iremediabil aceasta stare. Nu există anulare posibila."
 
-#: src/etats_onglet.c:1418
+#: src/etats_onglet.c:1588
 #, fuzzy
 msgid "Searching"
 msgstr "Căutare"
+
+#: src/etats_onglet.c:1634
+msgid "Searching Category, Sub_category containing: "
+msgstr ""
+
+#: src/etats_onglet.c:1637
+msgid "Searching IB, Sub_IB containing: "
+msgstr ""
+
+#: src/etats_onglet.c:1641
+#, fuzzy
+msgid "Searching Payees containing: "
+msgstr "Afişa numele terţului"
 
 #: src/etats_prefs.c:59 src/etats/etats_page_payee.c:55
 #: src/widgets/widget_list_accounts.c:53
@@ -5274,8 +5326,8 @@ msgstr "Numărul de la piesa contabila"
 msgid "Quote the dates"
 msgstr "Tri pe dată"
 
-#: src/export.c:416 src/import.c:3308 src/tiers_onglet.c:1505
-#: src/tiers_onglet.c:1686 src/utils_buttons.c:118
+#: src/export.c:416 src/import.c:3308 src/tiers_onglet.c:1542
+#: src/tiers_onglet.c:1723 src/utils_buttons.c:118
 #: src/widgets/widget_list_accounts.c:127
 #: src/widgets/widget_list_metatree.c:170
 msgid "Unselect all"
@@ -5531,8 +5583,8 @@ msgid ""
 "That said, please check that bugs you submit are still valid with anonymized "
 "version of that anonymized QIF file.\n"
 "\n"
-"In next page, you will have to choose a QIF file which will be renamedwith "
-"-obfuscate at the end."
+"In next page, you will have to choose a QIF file which will be renamedwith -"
+"obfuscate at the end."
 msgstr ""
 
 #: src/file_obfuscate_qif.c:92
@@ -6678,7 +6730,7 @@ msgstr ""
 
 #: src/gsb_assistant_file.c:331 src/gsb_assistant_file.c:336
 #: src/gsb_assistant_file.c:337 src/gsb_assistant_file.c:625
-#: src/navigation.c:1895
+#: src/navigation.c:1903
 #, fuzzy
 msgid "My accounts"
 msgstr "Afişarea conturilor"
@@ -8611,7 +8663,7 @@ msgstr "Nici un terţ definit"
 
 #: src/gsb_data_payee.c:610 src/gsb_form.c:1029 src/gtk_combofix.c:412
 #: src/gtk_combofix.c:613 src/gtk_combofix.c:2400 src/gtk_combofix.c:2524
-#: src/navigation.c:2025
+#: src/navigation.c:2033
 msgid "Report"
 msgstr "Stare"
 
@@ -9765,7 +9817,7 @@ msgstr "Alarmă a scadenţei"
 msgid "Show transactions for the next: "
 msgstr "Selecţionaţi operaţiile prin raport ale textului:"
 
-#: src/gsb_scheduler_list.c:229 src/navigation.c:1955
+#: src/gsb_scheduler_list.c:229 src/navigation.c:1963
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Închidera inventarului automatic"
@@ -10921,13 +10973,13 @@ msgstr "Acest fişier nu este o listă de imputaţii bugetare Grisbi"
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Acest fişier nu este o listă de imputaţii bugetare Grisbi"
 
-#: src/imputation_budgetaire.c:680 src/navigation.c:346
+#: src/imputation_budgetaire.c:680 src/navigation.c:347
 #, fuzzy
 msgid "Delete selected budgetary line"
 msgstr "Suprimarea unei imputaţii"
 
 #: src/imputation_budgetaire.c:692 src/imputation_budgetaire.c:1189
-#: src/navigation.c:360
+#: src/navigation.c:361
 #, fuzzy
 msgid "Edit selected budgetary line"
 msgstr "Suprimarea unei imputaţii"
@@ -11025,7 +11077,7 @@ msgstr "Nouă sub-imputaţie"
 msgid "No sub-category"
 msgstr "Nici o sub categorie"
 
-#: src/meta_categories.c:282 src/navigation.c:283
+#: src/meta_categories.c:282 src/navigation.c:284
 msgid "New category"
 msgstr "O nouă categorie"
 
@@ -11049,7 +11101,7 @@ msgstr "Nici o sub categorie"
 msgid "No sub-payee"
 msgstr "Nici o sub categorie"
 
-#: src/meta_payee.c:369 src/navigation.c:231 src/tiers_onglet.c:623
+#: src/meta_payee.c:369 src/navigation.c:232 src/tiers_onglet.c:623
 #, fuzzy
 msgid "New payee"
 msgstr "Nou mod de plată"
@@ -11225,92 +11277,95 @@ msgstr "Alegerea unei, poliţe pentru tranzacţiuni"
 msgid "You must select at least one search element"
 msgstr "Selecţionaţi conturile de activ"
 
-#: src/metatree.c:3833 src/widgets/widget_search_transaction.c:575
+#: src/metatree.c:3833 src/widgets/widget_search_tiers_categ_ib.c:349
+#: src/widgets/widget_search_tiers_categ_ib.c:370
+#: src/widgets/widget_search_tiers_categ_ib.c:451
+#: src/widgets/widget_search_transaction.c:575
 #: src/widgets/widget_search_transaction.c:840
 msgid "WARNING"
 msgstr ""
 
-#: src/navigation.c:221
+#: src/navigation.c:222
 #, fuzzy
 msgid "Remove this account"
 msgstr "Suprimarea unui cont"
 
-#: src/navigation.c:238 src/tiers_onglet.c:645
+#: src/navigation.c:239 src/tiers_onglet.c:645
 #, fuzzy
 msgid "Delete selected payee"
 msgstr "Suprimarea unui terţ"
 
-#: src/navigation.c:251 src/tiers_onglet.c:657
+#: src/navigation.c:252 src/tiers_onglet.c:657
 msgid "Edit selected payee"
 msgstr ""
 
-#: src/navigation.c:267 src/tiers_onglet.c:674
+#: src/navigation.c:268 src/tiers_onglet.c:674
 #, fuzzy
 msgid "Manage payees"
 msgstr "Pagina de primire"
 
-#: src/navigation.c:274 src/tiers_onglet.c:683
+#: src/navigation.c:275 src/tiers_onglet.c:683
 #, fuzzy
 msgid "Remove unused payees"
 msgstr "Creaţia unui nume de fişier de conturi"
 
-#: src/navigation.c:320
+#: src/navigation.c:321
 #, fuzzy
 msgid "Import a file of categories (.cgsb)"
 msgstr "Importarea unei liste de categorii."
 
-#: src/navigation.c:328
+#: src/navigation.c:329
 #, fuzzy
 msgid "Export the list of categories (.cgsb)"
 msgstr "Exportaţi categoriile."
 
-#: src/navigation.c:338
+#: src/navigation.c:339
 #, fuzzy
 msgid "New budgetary line"
 msgstr "O nouă imputaţie"
 
-#: src/navigation.c:377
+#: src/navigation.c:378
 #, fuzzy
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "Acest fişier nu este o listă de imputaţii bugetare Grisbi"
 
-#: src/navigation.c:385
+#: src/navigation.c:386
 #, fuzzy
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "Acest fişier nu este o listă de imputaţii bugetare Grisbi"
 
-#: src/navigation.c:405
+#: src/navigation.c:406
 #, fuzzy
 msgid "Remove this report"
 msgstr "Stergeţi starea"
 
-#: src/navigation.c:1738
+#: src/navigation.c:1746
 msgid ""
 "This account cannot be negative.\n"
 "\n"
 "You must make positive the balance of this account before you can use it."
 msgstr ""
 
-#: src/navigation.c:1771
+#: src/navigation.c:1779
 #, fuzzy
 msgid "Pointed balance: "
 msgstr "Acceptarea soldului"
 
-#: src/navigation.c:1773
+#: src/navigation.c:1781
 #, fuzzy
 msgid "Reconciled balance: "
 msgstr "Acceptarea soldului"
 
-#: src/navigation.c:1783
+#: src/navigation.c:1791
 #, fuzzy
 msgid "Last statement: "
 msgstr "Ultima situaţie bancară"
 
-#: src/navigation.c:1795 src/navigation.c:1802
+#: src/navigation.c:1803 src/navigation.c:1810
 msgid "Last statement: none"
 msgstr "Ultima situaţie bancară : Nici una"
 
-#: src/navigation.c:1826
+#: src/navigation.c:1834
 #, fuzzy
 msgid "closed"
 msgstr "Închide"
@@ -12309,17 +12364,17 @@ msgstr "Creaţi un nou cont"
 msgid "Export the list of payees"
 msgstr "Exportaţi categoriile."
 
-#: src/tiers_onglet.c:675 src/tiers_onglet.c:1995
+#: src/tiers_onglet.c:675 src/tiers_onglet.c:2032
 #, fuzzy
 msgid "Manage the payees"
 msgstr "Detailaţi categoriile utilizate"
 
-#: src/tiers_onglet.c:684 src/tiers_onglet.c:944
+#: src/tiers_onglet.c:684 src/tiers_onglet.c:981
 #, fuzzy
 msgid "Remove orphan payees"
 msgstr "Creaţia unui nume de fişier de conturi"
 
-#: src/tiers_onglet.c:941
+#: src/tiers_onglet.c:978
 msgid ""
 "This will remove all the payees which are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -12328,29 +12383,29 @@ msgid ""
 "Are you sure you want to do that?"
 msgstr ""
 
-#: src/tiers_onglet.c:956
+#: src/tiers_onglet.c:993
 #, c-format
 msgid "Removed %d payees."
 msgstr ""
 
-#: src/tiers_onglet.c:962
+#: src/tiers_onglet.c:999
 msgid "There is no payee to remove."
 msgstr ""
 
-#: src/tiers_onglet.c:1259
+#: src/tiers_onglet.c:1296
 msgid "You must choose a payee for searching."
 msgstr ""
 
-#: src/tiers_onglet.c:1263
+#: src/tiers_onglet.c:1300
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 
-#: src/tiers_onglet.c:1312
+#: src/tiers_onglet.c:1349
 #, fuzzy
 msgid "Choose a payee"
 msgstr "Selecţionaţi fişierele a importa"
 
-#: src/tiers_onglet.c:1314
+#: src/tiers_onglet.c:1351
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -12360,67 +12415,67 @@ msgid ""
 "You can concatenate several rules: rule1||rule2..."
 msgstr ""
 
-#: src/tiers_onglet.c:1345
+#: src/tiers_onglet.c:1382
 #, fuzzy
 msgid "Enter the new payee"
 msgstr "Intraţi numele noului terţ"
 
-#: src/tiers_onglet.c:1349
+#: src/tiers_onglet.c:1386
 #, fuzzy
 msgid "Enter the name of the new payee: "
 msgstr "Intraţi numele noii sub-imputaţii"
 
-#: src/tiers_onglet.c:1383
+#: src/tiers_onglet.c:1420
 msgid "Save the payees in the notes"
 msgstr ""
 
-#: src/tiers_onglet.c:1570
+#: src/tiers_onglet.c:1607
 msgid "List of payees who will be modified"
 msgstr ""
 
-#: src/tiers_onglet.c:1599
+#: src/tiers_onglet.c:1636
 #, fuzzy
 msgid "Do you want replace the current rule?"
 msgstr ""
 "Vreţi să ştergeţi pur şi simplu această împrejurare s'au operatia "
 "planificată ?"
 
-#: src/tiers_onglet.c:1644
+#: src/tiers_onglet.c:1681
 #, fuzzy
 msgid "Payee number"
 msgstr "numărul de cec"
 
-#: src/tiers_onglet.c:1653 src/widgets/widget_import_asso.c:739
+#: src/tiers_onglet.c:1690 src/widgets/widget_import_asso.c:739
 #, fuzzy
 msgid "Payee name"
 msgstr "Total general"
 
-#: src/tiers_onglet.c:1668
+#: src/tiers_onglet.c:1705
 #, fuzzy
 msgid "Total number of payees: "
 msgstr "Suprimarea unui terţ:"
 
-#: src/tiers_onglet.c:1677
+#: src/tiers_onglet.c:1714
 #, fuzzy
 msgid "Number of selected payees: "
 msgstr "Suprimarea unui terţ:"
 
-#: src/tiers_onglet.c:1775
+#: src/tiers_onglet.c:1812
 #, fuzzy, c-format
 msgid "Payee sought: %s"
 msgstr "Total general:"
 
-#: src/tiers_onglet.c:1781
+#: src/tiers_onglet.c:1818
 #, fuzzy, c-format
 msgid "New payee: %s"
 msgstr "Nou mod de plată"
 
-#: src/tiers_onglet.c:1803
+#: src/tiers_onglet.c:1840
 #, fuzzy, c-format
 msgid "Current rule: %s"
 msgstr "Soldul curent: %4.2f %s"
 
-#: src/tiers_onglet.c:1887
+#: src/tiers_onglet.c:1924
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -12428,7 +12483,7 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: src/tiers_onglet.c:1894
+#: src/tiers_onglet.c:1931
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -12436,7 +12491,7 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: src/tiers_onglet.c:1937
+#: src/tiers_onglet.c:1974
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -12444,7 +12499,7 @@ msgid ""
 "If you answer YES, the existing note will be replaced by %s."
 msgstr ""
 
-#: src/tiers_onglet.c:1996
+#: src/tiers_onglet.c:2033
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -12453,15 +12508,15 @@ msgid ""
 "It is better to make a backup of your Grisbi file if you have not yet done."
 msgstr ""
 
-#: src/tiers_onglet.c:2097
+#: src/tiers_onglet.c:2134
 msgid "Warning you will crush the existing note."
 msgstr ""
 
-#: src/tiers_onglet.c:2141
+#: src/tiers_onglet.c:2178
 msgid "One payee was replaced with a new one."
 msgstr ""
 
-#: src/tiers_onglet.c:2145
+#: src/tiers_onglet.c:2182
 #, c-format
 msgid ""
 "%d payees were replaced with a new one.\n"
@@ -12469,7 +12524,7 @@ msgid ""
 "%d unaffected payees were removed in addition"
 msgstr ""
 
-#: src/tiers_onglet.c:2152
+#: src/tiers_onglet.c:2189
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr ""
@@ -12619,9 +12674,8 @@ msgstr "Operaţiunele planificate manual au ajuns la termen"
 
 #: src/tip.c:100
 msgid ""
-"No more tip available!  Please send any tips you know to "
-"devel@listes.grisbi.org so that we can include them in next version for all "
-"users."
+"No more tip available!  Please send any tips you know to devel@listes.grisbi."
+"org so that we can include them in next version for all users."
 msgstr ""
 
 #: src/tip.c:137
@@ -13253,11 +13307,39 @@ msgstr "Ultima situaţie bancară"
 msgid " <b>%s reconciliation</b> "
 msgstr "Apropiere"
 
+#: src/widgets/widget_search_tiers_categ_ib.c:261
+#: src/widgets/widget_search_transaction.c:785
+msgid "Ignore sign"
+msgstr ""
+
+#: src/widgets/widget_search_tiers_categ_ib.c:348
+#: src/widgets/widget_search_tiers_categ_ib.c:450
 #: src/widgets/widget_search_transaction.c:574
 #: src/widgets/widget_search_transaction.c:839
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "O dată este obligatorie."
+
+#: src/widgets/widget_search_tiers_categ_ib.c:369
+#, fuzzy
+msgid "You must enter a valid amount"
+msgstr "O dată este obligatorie."
+
+#: src/widgets/widget_search_tiers_categ_ib.c:554
+#, fuzzy
+#| msgid "Detail categories"
+msgid "Search categories"
+msgstr "Detailaţi categoriile utilizate"
+
+#: src/widgets/widget_search_tiers_categ_ib.c:566
+#, fuzzy
+msgid "Search budgetary lines"
+msgstr "O nouă imputaţie"
+
+#: src/widgets/widget_search_tiers_categ_ib.c:579
+#, fuzzy
+msgid "Search payees"
+msgstr "Afişa numele terţului"
 
 #: src/widgets/widget_search_transaction.c:615
 #, fuzzy
@@ -13273,10 +13355,6 @@ msgstr "Selecţionaţi operaţiile după sume"
 #, fuzzy
 msgid "No transaction was found"
 msgstr "Poliţa listei de tranzacţiuni"
-
-#: src/widgets/widget_search_transaction.c:785
-msgid "Ignore sign"
-msgstr ""
 
 #: src/widgets/widget_search_transaction.c:1031
 #, fuzzy
@@ -13295,11 +13373,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Reset window of preferences"
 #~ msgstr "Preferinţe"
-
-#, fuzzy
-#~| msgid "Grisbi"
-#~ msgid "Grisbi Team"
-#~ msgstr "Grisbi"
 
 #, fuzzy, c-format
 #~ msgid "(Un)Reconcile a transaction%s-> <Ctrl>R, <Ctrl>F12\n"
@@ -13440,9 +13513,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Need entry field"
 #~ msgstr "selecţionează următorul câmp"
-
-#~ msgid "Select the transactions by amount"
-#~ msgstr "Selecţionaţi operaţiile după sume"
 
 #, fuzzy
 #~ msgid "Select the budgetary lines to include in the report: "
@@ -15754,9 +15824,9 @@ msgstr ""
 #~ "heuristics.  Please double check that they are valid and contact grisbi "
 #~ "development team for assistance if needed"
 #~ msgstr ""
-#~ "Grisbi analizează automatic datele fişierelor QIF utlizând "
-#~ "heuristice.Fiţi siguri că sunt fişiere valide şi contactaţi echipa de "
-#~ "dezvoltare Grisbi pentru asistenţă la nevoie."
+#~ "Grisbi analizează automatic datele fişierelor QIF utlizând heuristice."
+#~ "Fiţi siguri că sunt fişiere valide şi contactaţi echipa de dezvoltare "
+#~ "Grisbi pentru asistenţă la nevoie."
 
 #~ msgid "QIF format does not define currencies."
 #~ msgstr "Formatul QIF nu defineşte devize."
