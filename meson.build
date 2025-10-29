@@ -259,6 +259,7 @@ grisbi_src = [
   'src/widgets/widget_list_metatree.c',
   'src/widgets/widget_loan.c',
   'src/widgets/widget_reconcile.c',
+  'src/widgets/widget_search_tiers_categ_ib.c',
   'src/widgets/widget_search_transaction.c',
   'src/widgets/widget_transfer.c',
   ]
