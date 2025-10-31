@@ -38,6 +38,7 @@
 #include "etats_config.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -976,21 +977,10 @@ static void etat_onglet_set_search_report_data_for_tiers (gint report_number,
 	tmp_list = gsb_string_get_int_list_from_string ("6/-/1/-/2/-/3/-/4/-/5", "/-/");
 	gsb_data_report_set_sorting_type_list (report_number, tmp_list);
 
-	/* les devises sont à 1 (euro) */
-	etats_onglet_set_devises (report_number);
-
 	/* Others parameters */
-	gsb_data_report_set_compl_name_function (report_number, 1);
-	gsb_data_report_set_compl_name_position (report_number, 1);
-	gsb_data_report_set_show_report_transactions (report_number, 1);
-	gsb_data_report_set_show_report_date (report_number, 1);
-	gsb_data_report_set_show_report_value_date (report_number, 1);
 	gsb_data_report_set_show_report_note (report_number, 1);
-	gsb_data_report_set_column_title_show (report_number, 1);
-	gsb_data_report_set_report_can_click (report_number, 1);
 	gsb_data_report_set_payee_show_payee_amount (report_number, 1);
 	gsb_data_report_set_payee_show_name (report_number, 1);
-	gsb_data_report_set_ignore_archives (report_number, !search_data_report->search_in_archive);
 
 	/* set payee_used if necessary */
 	if (search_data_report->search_type == 1)
@@ -1003,6 +993,58 @@ static void etat_onglet_set_search_report_data_for_tiers (gint report_number,
 	else
 	{
 		gsb_data_report_set_show_report_payee (report_number, 1);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etat_onglet_set_search_report_data_for_categ (gint report_number,
+														  const gchar *text,
+														  SearchDataReport *search_data_report)
+{
+	GSList *categ_list = NULL;
+	GSList *tmp_list;
+
+	devel_debug (text);
+
+	/* liste des categ */
+	if (search_data_report->search_type == 1)
+	{
+		categ_list = gsb_data_category_get_search_category_list (text, search_data_report->ignore_case);
+		gsb_data_report_set_category_struct_list (report_number, categ_list);
+	}
+	else /* liste des montants */
+	{
+		etat_onglet_set_search_amount_data_for_tiers_categ_ib (report_number, text, search_data_report);
+	}
+
+	/* classement pour les categ */
+	tmp_list = gsb_string_get_int_list_from_string ("1/-/2/-/3/-/4/-/5/-/6", "/-/");
+	gsb_data_report_set_sorting_type_list (report_number, tmp_list);
+
+
+	/* set categ_used if necessary */
+	if (search_data_report->search_type == 1)
+	{
+		gsb_data_report_set_category_used (report_number, 1);
+		gsb_data_report_set_category_detail_used (report_number, 1);
+		gsb_data_report_set_category_show_name (report_number, 1);
+		gsb_data_report_set_category_show_category_amount (report_number, 1);
+		gsb_data_report_set_category_show_sub_category (report_number, 1);
+		gsb_data_report_set_category_show_sub_category_amount (report_number, 1);
+		gsb_data_report_set_show_report_payee (report_number, 1);
+		gsb_data_report_set_show_report_note (report_number, 1);
+	}
+	else
+	{
+		gsb_data_report_set_show_report_category (report_number, 1);
 	}
 }
 
@@ -1631,7 +1673,8 @@ void etats_onglet_create_search_tiers_categ_ib_report (GtkWindow *dialog,
 	switch (search_data_report->page_num)
 	{
 		case GSB_CATEGORIES_PAGE:
-			report_name = g_strconcat (_("Searching Category, Sub_category containing:"), text, NULL);
+			report_name = g_strconcat (_("Searching Category, Sub_category containing: "), text, NULL);
+			etat_onglet_set_search_report_data_for_categ (report_number, text, search_data_report);
 			break;
 		case GSB_BUDGETARY_LINES_PAGE:
 			report_name = g_strconcat (_("Searching IB, Sub_IB containing: "), text, NULL);
@@ -1645,6 +1688,20 @@ void etats_onglet_create_search_tiers_categ_ib_report (GtkWindow *dialog,
 	/* name report */
 	gsb_data_report_set_report_name (report_number, report_name);
 	g_free (report_name);
+
+	/* data communes */
+	/* les devises sont à 1 (euro) */
+	etats_onglet_set_devises (report_number);
+
+	/* Others parameters */
+	gsb_data_report_set_compl_name_function (report_number, 1);
+	gsb_data_report_set_compl_name_position (report_number, 1);
+	gsb_data_report_set_show_report_transactions (report_number, 1);
+	gsb_data_report_set_show_report_date (report_number, 1);
+	gsb_data_report_set_show_report_value_date (report_number, 1);
+	gsb_data_report_set_column_title_show (report_number, 1);
+	gsb_data_report_set_report_can_click (report_number, 1);
+	gsb_data_report_set_ignore_archives (report_number, !search_data_report->search_in_archive);
 
 	/* Add an entry in navigation pane. */
 	gsb_gui_navigation_add_report (report_number);

@@ -37,6 +37,7 @@
 #include "meta_categories.h"
 #include "gsb_category.h"
 #include "gsb_data_account.h"
+#include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_form.h"
 #include "gsb_data_mix.h"
@@ -1870,6 +1871,76 @@ void gsb_data_category_set_category_from_string (gint transaction_number,
 														 !w_etat->combofix_force_category));
     }
     g_strfreev (tab_char);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_data_category_get_search_category_list (const gchar *text,
+													gboolean ignore_case)
+{
+	GSList *list = NULL;
+	GSList *pointer;
+
+	devel_debug_int (ignore_case);
+
+	/* on balaye systematiquement toutes les categories et toutes les sous-categories */
+	pointer = gsb_data_category_get_categories_list ();
+	while (pointer)
+	{
+		GSList *tmp_list;
+		CategoryStruct *categ;
+		CategBudgetSel *categ_budget_struct = NULL;
+
+		categ = pointer->data;
+
+		tmp_list = categ->sub_category_list;	/* on passe en revue toutes les sous categories */
+		while (tmp_list)
+		{
+			SubCategoryStruct *sub_categ;
+
+			sub_categ = tmp_list->data;
+			if (ignore_case)
+			{
+				if (sub_categ->sub_category_name && utils_str_my_case_strstr (sub_categ->sub_category_name, text))
+				{
+					if (!categ_budget_struct)
+					{
+						categ_budget_struct = g_malloc0 (sizeof (CategBudgetSel));
+						categ_budget_struct->div_number = sub_categ->mother_category_number;
+					}
+					categ_budget_struct->sub_div_numbers = g_slist_append (categ_budget_struct->sub_div_numbers,
+																		   GINT_TO_POINTER (sub_categ->sub_category_number));
+				}
+			}
+			else
+			{
+				if (sub_categ->sub_category_name && g_strstr_len (sub_categ->sub_category_name, -1, text))
+				{
+					if (!categ_budget_struct)
+					{
+						categ_budget_struct = g_malloc0 (sizeof (CategBudgetSel));
+						categ_budget_struct->div_number = sub_categ->mother_category_number;
+					}
+					categ_budget_struct->sub_div_numbers = g_slist_append (categ_budget_struct->sub_div_numbers,
+																		   GINT_TO_POINTER (sub_categ->sub_category_number));
+				}
+			}
+
+			tmp_list = tmp_list->next;
+		}
+		if (categ_budget_struct)
+			list = g_slist_append (list, categ_budget_struct);
+
+		pointer = pointer->next;
+	}
+
+	return list;
 }
 
 /**
