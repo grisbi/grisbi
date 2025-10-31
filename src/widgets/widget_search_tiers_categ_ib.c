@@ -479,7 +479,7 @@ static void widget_search_tiers_categ_ib_setup_widget (WidgetSearchTiersCategIb 
 	switch (page_num)
 	{
 		case GSB_CATEGORIES_PAGE:
-			search_title = g_strdup (_("Search categories"));
+			search_title = g_strdup (_("Search in categories"));
 
 			/* set currency */
 			currency_code = gsb_data_currency_get_nickname_or_code_iso (w_etat->no_devise_totaux_categ);
@@ -491,7 +491,7 @@ static void widget_search_tiers_categ_ib_setup_widget (WidgetSearchTiersCategIb 
 			break;
 
 		case GSB_BUDGETARY_LINES_PAGE:
-			search_title = g_strdup (_("Search budgetary lines"));
+			search_title = g_strdup (_("Search in budgetary lines"));
 
 			/* set currency */
 			currency_code = gsb_data_currency_get_nickname_or_code_iso (w_etat->no_devise_totaux_ib);
@@ -504,7 +504,7 @@ static void widget_search_tiers_categ_ib_setup_widget (WidgetSearchTiersCategIb 
 
 		case GSB_PAYEES_PAGE:
 		default :
-			search_title = g_strdup (_("Search payees"));
+			search_title = g_strdup (_("Search in payees"));
 
 			/* set currency */
 			currency_code = gsb_data_currency_get_nickname_or_code_iso (w_etat->no_devise_totaux_tiers);
