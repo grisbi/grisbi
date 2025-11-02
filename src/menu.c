@@ -825,16 +825,27 @@ void grisbi_cmd_search_acc (GSimpleAction *action,
 
 	devel_debug (NULL);
 	page_number = gsb_gui_navigation_get_current_page ();
-	if (page_number == GSB_ACCOUNT_PAGE)
+	switch (page_number)
 	{
-		account_number = gsb_gui_navigation_get_current_account ();
-		transaction_number = gsb_data_account_get_current_transaction_number (account_number);
-		gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
-	}
-	else
-	{
-		gsb_gui_navigation_select_reports_page ();
-		etats_onglet_create_search_report ();
+		case GSB_ACCOUNT_PAGE:
+			account_number = gsb_gui_navigation_get_current_account ();
+			transaction_number = gsb_data_account_get_current_transaction_number (account_number);
+			gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
+		break;
+
+		case GSB_REPORTS_PAGE:
+			etats_onglet_create_search_report ();
+		break;
+
+		case GSB_CATEGORIES_PAGE:
+		case GSB_BUDGETARY_LINES_PAGE:
+		case GSB_PAYEES_PAGE:
+			gsb_gui_navigation_create_search_report_from_ctrl_f (page_number);
+		break;
+
+		default:
+			gsb_gui_navigation_select_reports_page ();
+			etats_onglet_create_search_report ();
 	}
 }
 
@@ -1204,7 +1215,6 @@ void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
         "file-close",
         "new-acc",
         "show-closed-acc",
-		"search-acc",
         NULL
     };
     const gchar **tmp = items;

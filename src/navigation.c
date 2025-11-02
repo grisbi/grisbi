@@ -1902,6 +1902,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			title = g_strdup(_("My accounts"));
 
+			/* hide menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", FALSE);
+
 			/* what to be done if switch to that page */
 			mise_a_jour_accueil (FALSE);
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -1917,6 +1920,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			/* update title now -- different from others */
 			gsb_gui_navigation_update_account_label (account_number);
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			if (account_number > 0)
@@ -1975,6 +1981,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			/* show menu NewTransaction */
 			gsb_menu_gui_sensitive_win_menu_item ("new-ope", TRUE);
 
+			/* hide menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", FALSE);
+
 			/* show menu InitwidthCol */
 			gsb_menu_gui_sensitive_win_menu_item ("reset-width-col", TRUE);
 
@@ -1985,6 +1994,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 		case GSB_PAYEES_PAGE:
 			notice_debug ("Payee page selected");
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -1998,6 +2010,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			title = g_strdup(_("Credits simulator"));
 
+			/* hide menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", FALSE);
+
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
 			bet_finance_ui_switch_simulator_page ();
@@ -2006,6 +2021,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 		case GSB_CATEGORIES_PAGE:
 			notice_debug ("Category page selected");
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -2016,6 +2034,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 		case GSB_BUDGETARY_LINES_PAGE:
 			notice_debug ("Budgetary page selected");
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -2033,6 +2054,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			title = g_strconcat (_("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL);
 			else
 			title = g_strdup(_("Reports"));
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -2052,6 +2076,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			break;
 
 		default:
+			/* hide menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", FALSE);
+
 			notice_debug ("B0rk page selected");
 			title = g_strdup("B0rk");
 			grisbi_win_form_expander_hide_frame ();
