@@ -185,6 +185,7 @@
 		007A1C74261A1F98003B3311 /* etats_page_category.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C6F261A1F98003B3311 /* etats_page_category.c */; };
 		007A1C75261A1F98003B3311 /* etats_page_budget.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C70261A1F98003B3311 /* etats_page_budget.c */; };
 		007A1C79261A1FD6003B3311 /* widget_list_metatree.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C76261A1FD6003B3311 /* widget_list_metatree.c */; };
+		00954F3D2EB7B09300D79D9D /* widget_search_tiers_categ_ib.c in Sources */ = {isa = PBXBuildFile; fileRef = 00954F3B2EB7B09300D79D9D /* widget_search_tiers_categ_ib.c */; };
 		00972E5A25AC960E00856C07 /* grisbi_osx.m in Sources */ = {isa = PBXBuildFile; fileRef = 00972E5925AC960E00856C07 /* grisbi_osx.m */; };
 		0099AD7F29340BD500ECDBAA /* libintl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0099AD7E29340BD500ECDBAA /* libintl.a */; };
 		0099AD8129340C1300ECDBAA /* libpango-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0099AD8029340C1300ECDBAA /* libpango-1.0.a */; };
@@ -596,6 +597,9 @@
 		007A1C76261A1FD6003B3311 /* widget_list_metatree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_list_metatree.c; sourceTree = "<group>"; };
 		007A1C77261A1FD6003B3311 /* widget_list_metatree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_list_metatree.h; sourceTree = "<group>"; };
 		007A1C78261A1FD6003B3311 /* widget_list_metatree.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_list_metatree.ui; sourceTree = "<group>"; };
+		00954F3A2EB7B09300D79D9D /* widget_search_tiers_categ_ib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = widget_search_tiers_categ_ib.h; sourceTree = "<group>"; };
+		00954F3B2EB7B09300D79D9D /* widget_search_tiers_categ_ib.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = widget_search_tiers_categ_ib.c; sourceTree = "<group>"; };
+		00954F3C2EB7B09300D79D9D /* widget_search_tiers_categ_ib.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = widget_search_tiers_categ_ib.ui; sourceTree = "<group>"; };
 		00972E5825AC960E00856C07 /* grisbi_osx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grisbi_osx.h; sourceTree = "<group>"; };
 		00972E5925AC960E00856C07 /* grisbi_osx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = grisbi_osx.m; sourceTree = "<group>"; };
 		0099AD7E29340BD500ECDBAA /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = ../../../../../../usr/local/Cellar/gettext/0.21.1/lib/libintl.a; sourceTree = "<group>"; };
@@ -749,65 +753,68 @@
 		000B8593244C784B00EE28BD /* widgets */ = {
 			isa = PBXGroup;
 			children = (
-				00A5B0C82868F10E00725C5A /* widget_account_property.c */,
 				00A5B0C92868F10E00725C5A /* widget_account_property.h */,
+				00A5B0C82868F10E00725C5A /* widget_account_property.c */,
 				00A5B0C72868F10E00725C5A /* widget_account_property.ui */,
-				0065DB3328EB4CA100908929 /* widget_assistant.c */,
 				0065DB3528EB4CA100908929 /* widget_assistant.h */,
+				0065DB3328EB4CA100908929 /* widget_assistant.c */,
 				0065DB3428EB4CA100908929 /* widget_assistant.ui */,
-				000B8594244C787E00EE28BD /* widget_bank_details.c */,
 				000B8595244C787E00EE28BD /* widget_bank_details.h */,
+				000B8594244C787E00EE28BD /* widget_bank_details.c */,
 				000B8596244C787E00EE28BD /* widget_bank_details.ui */,
-				00D0C77028B91E8D009B52FC /* widget_bet_graph_options.c */,
 				00D0C76D28B91E8D009B52FC /* widget_bet_graph_options.h */,
+				00D0C77028B91E8D009B52FC /* widget_bet_graph_options.c */,
 				00D0C76E28B91E8D009B52FC /* widget_bet_graph_options.ui */,
-				00D0C76A28B91E8D009B52FC /* widget_bet_graph_others.c */,
 				00D0C76B28B91E8D009B52FC /* widget_bet_graph_others.h */,
+				00D0C76A28B91E8D009B52FC /* widget_bet_graph_others.c */,
 				00D0C76F28B91E8D009B52FC /* widget_bet_graph_others.ui */,
-				00D0C76C28B91E8D009B52FC /* widget_bet_graph_pie.c */,
 				00D0C77128B91E8D009B52FC /* widget_bet_graph_pie.h */,
+				00D0C76C28B91E8D009B52FC /* widget_bet_graph_pie.c */,
 				00D0C77228B91E8D009B52FC /* widget_bet_graph_pie.ui */,
-				00A8F72E2673B3DA007E6D1A /* widget_cmp_amount.c */,
 				00A8F72C2673B3D9007E6D1A /* widget_cmp_amount.h */,
+				00A8F72E2673B3DA007E6D1A /* widget_cmp_amount.c */,
 				00A8F72D2673B3DA007E6D1A /* widget_cmp_amount.ui */,
-				009F38542652BAA10082ED78 /* widget_cmp_text.c */,
 				009F38522652BAA10082ED78 /* widget_cmp_text.h */,
+				009F38542652BAA10082ED78 /* widget_cmp_text.c */,
 				009F38532652BAA10082ED78 /* widget_cmp_text.ui */,
-				0069D0BD2498C36600C4BDAB /* widget_css_rules.c */,
 				0069D0BE2498C36600C4BDAB /* widget_css_rules.h */,
+				0069D0BD2498C36600C4BDAB /* widget_css_rules.c */,
 				0069D0BF2498C36600C4BDAB /* widget_css_rules.ui */,
-				00AAC237245B750C00993764 /* widget_currency_details.c */,
 				00AAC236245B750C00993764 /* widget_currency_details.h */,
+				00AAC237245B750C00993764 /* widget_currency_details.c */,
 				00AAC233245B750C00993764 /* widget_currency_details.ui */,
-				00A496AD245DC94300CB598C /* widget_currency_link.c */,
 				00A496AC245DC94300CB598C /* widget_currency_link.h */,
+				00A496AD245DC94300CB598C /* widget_currency_link.c */,
 				00A496AE245DC94400CB598C /* widget_currency_link.ui */,
-				00AAC238245B750C00993764 /* widget_currency_popup.c */,
 				00AAC235245B750C00993764 /* widget_currency_popup.h */,
+				00AAC238245B750C00993764 /* widget_currency_popup.c */,
 				00AAC234245B750C00993764 /* widget_currency_popup.ui */,
-				00C17BA3246DD19600D9E257 /* widget_import_asso.c */,
 				00C17BA2246DD19500D9E257 /* widget_import_asso.h */,
+				00C17BA3246DD19600D9E257 /* widget_import_asso.c */,
 				00C17BA7246DD19600D9E257 /* widget_import_asso.ui */,
-				00C17BA4246DD19600D9E257 /* widget_import_files.c */,
 				00C17BA5246DD19600D9E257 /* widget_import_files.h */,
+				00C17BA4246DD19600D9E257 /* widget_import_files.c */,
 				00C17BA6246DD19600D9E257 /* widget_import_files.ui */,
-				00550531260BA7FA0008ED75 /* widget_list_accounts.c */,
 				00550532260BA7FA0008ED75 /* widget_list_accounts.h */,
+				00550531260BA7FA0008ED75 /* widget_list_accounts.c */,
 				00550533260BA7FA0008ED75 /* widget_list_accounts.ui */,
-				007A1C76261A1FD6003B3311 /* widget_list_metatree.c */,
 				007A1C77261A1FD6003B3311 /* widget_list_metatree.h */,
+				007A1C76261A1FD6003B3311 /* widget_list_metatree.c */,
 				007A1C78261A1FD6003B3311 /* widget_list_metatree.ui */,
-				00760ECD25C07E320038199C /* widget_loan.c */,
 				00760ECE25C07E320038199C /* widget_loan.h */,
+				00760ECD25C07E320038199C /* widget_loan.c */,
 				00760ECF25C07E320038199C /* widget_loan.ui */,
-				00DB83DB28C11C3100E604D2 /* widget_reconcile.c */,
 				00DB83DD28C11C3100E604D2 /* widget_reconcile.h */,
+				00DB83DB28C11C3100E604D2 /* widget_reconcile.c */,
 				00DB83DC28C11C3100E604D2 /* widget_reconcile.ui */,
-				00684E762A4C735400F12C83 /* widget_search_transaction.c */,
+				00954F3A2EB7B09300D79D9D /* widget_search_tiers_categ_ib.h */,
+				00954F3B2EB7B09300D79D9D /* widget_search_tiers_categ_ib.c */,
+				00954F3C2EB7B09300D79D9D /* widget_search_tiers_categ_ib.ui */,
 				00684E742A4C735400F12C83 /* widget_search_transaction.h */,
+				00684E762A4C735400F12C83 /* widget_search_transaction.c */,
 				00684E752A4C735400F12C83 /* widget_search_transaction.ui */,
-				00FEBE1624965A5000F6405D /* widget_transfer.c */,
 				00FEBE1524965A5000F6405D /* widget_transfer.h */,
+				00FEBE1624965A5000F6405D /* widget_transfer.c */,
 				00FEBE1424965A5000F6405D /* widget_transfer.ui */,
 			);
 			path = widgets;
@@ -1569,6 +1576,7 @@
 				006E68AD1DB3E7AD0038B1F0 /* tip.c in Sources */,
 				006E689B1DB3E7AD0038B1F0 /* gtk_combofix.c in Sources */,
 				000B8597244C787E00EE28BD /* widget_bank_details.c in Sources */,
+				00954F3D2EB7B09300D79D9D /* widget_search_tiers_categ_ib.c in Sources */,
 				006E68481DB3E7AD0038B1F0 /* export.c in Sources */,
 				006E68431DB3E7AD0038B1F0 /* etats_html.c in Sources */,
 				006E68A91DB3E7AD0038B1F0 /* print_transactions_list.c in Sources */,
