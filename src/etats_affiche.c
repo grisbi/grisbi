@@ -854,6 +854,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 		/* (gsb_data_transaction_get_mother_transaction_number (transaction_number)) */
 		{
 			GSList *list_tmp_transactions;
+			gint mother_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
+			gint account_number = gsb_data_transaction_get_account_number (transaction_number);
 
 			/* On récupère donc la liste des opérations du compte et on en fait */
 			/* le tour jusqu'à ce qu'on trouve l'opération mère */
@@ -866,13 +868,11 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 				transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
 
 				if (gsb_data_transaction_get_account_number (transaction_number_tmp) ==
-					gsb_data_transaction_get_account_number (transaction_number))
+					account_number)
 				{
 					const gchar *content;
-					gint mother_number;
 
 					content = gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp);
-					mother_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
 					if (gsb_data_transaction_get_split_of_transaction (transaction_number_tmp)
 						 && transaction_number_tmp == mother_number
 						 && content)
