@@ -243,6 +243,11 @@ static void widget_search_tiers_categ_ib_warning_msg (GtkWindow *parent,
 static void widget_search_tiers_categ_ib_button_cancel_clicked (GtkButton *button,
 																WidgetSearchTiersCategIb *dialog)
 {
+	GrisbiWinRun *w_run;
+
+	w_run = grisbi_win_get_w_run ();
+	w_run->no_show_prefs = FALSE;
+
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
@@ -615,6 +620,12 @@ static void widget_search_tiers_categ_ib_setup_widget (WidgetSearchTiersCategIb 
 					  "key-press-event",
 					  G_CALLBACK (widget_search_tiers_categ_ib_spinbutton_delta_amount_key_press_event),
 					  dialog);
+
+	g_signal_connect (G_OBJECT (dialog),
+					  "destroy",
+					  G_CALLBACK (widget_search_tiers_categ_ib_button_cancel_clicked),
+					  dialog);
+
 }
 
 /******************************************************************************/

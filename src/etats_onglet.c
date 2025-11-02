@@ -1713,6 +1713,7 @@ void etats_onglet_create_search_tiers_categ_ib_report (GtkWindow *dialog,
 	GtkWidget *notebook_general;
 	gchar *report_name;
 	gint report_number;
+	GrisbiWinRun *w_run;
 
 	devel_debug (NULL);
 	notebook_general = grisbi_win_get_notebook_general ();
@@ -1768,6 +1769,10 @@ void etats_onglet_create_search_tiers_categ_ib_report (GtkWindow *dialog,
 		gsb_data_report_set_search_report (report_number);
 	else
 		gsb_file_set_modified (TRUE);
+
+	/* reset w_run->no_show_prefs */
+	w_run = grisbi_win_get_w_run ();
+	w_run->no_show_prefs = FALSE;
 
 	/* close dialog */
 	gtk_widget_destroy (GTK_WIDGET (dialog));
