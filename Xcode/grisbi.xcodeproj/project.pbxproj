@@ -702,7 +702,6 @@
 		00EA608C1F91018500569C19 /* zh_CN.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = zh_CN.po; path = po/zh_CN.po; sourceTree = "<group>"; };
 		00EA608E1F91018500569C19 /* el.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = el.po; path = po/el.po; sourceTree = "<group>"; };
 		00EA60901F91018500569C19 /* ru.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ru.po; path = po/ru.po; sourceTree = "<group>"; };
-		00EA60931F91018600569C19 /* sv.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sv.po; path = po/sv.po; sourceTree = "<group>"; };
 		00EA60951F91018600569C19 /* ro.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ro.po; path = po/ro.po; sourceTree = "<group>"; };
 		00EA60981F91018600569C19 /* pt_BR.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = pt_BR.po; path = po/pt_BR.po; sourceTree = "<group>"; };
 		00EA609B1F91018700569C19 /* es.po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = es.po; path = po/es.po; sourceTree = "<group>"; };
@@ -1327,7 +1326,6 @@
 				00EA60981F91018600569C19 /* pt_BR.po */,
 				00EA60951F91018600569C19 /* ro.po */,
 				00EA60901F91018500569C19 /* ru.po */,
-				00EA60931F91018600569C19 /* sv.po */,
 				00EA608C1F91018500569C19 /* zh_CN.po */,
 			);
 			name = po;
