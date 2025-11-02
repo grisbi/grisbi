@@ -46,6 +46,7 @@
 #include "meta_budgetary.h"
 #include "metatree.h"
 #include "mouse.h"
+#include "navigation.h"
 #include "transaction_list.h"
 #include "structures.h"
 #include "utils.h"
@@ -82,7 +83,42 @@ static struct MetatreeHoldPosition *budgetary_hold_position;
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/******************************************************************************/
+/* Private functions                                                          */
+/******************************************************************************/
+/**
+ * gère le clavier sur la liste des opés
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean budgetary_lines_list_key_press (GtkWidget *widget,
+												GdkEventKey *ev)
+{
+	switch (ev->keyval)
+    {
+		case GDK_KEY_Return :   /* entrée */
+		case GDK_KEY_KP_Enter :
+		case GDK_KEY_Tab :
+			break;
 
+		case GDK_KEY_F:         /* touche F*/
+		case GDK_KEY_f:         /* touche f */
+			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
+			{
+				gsb_gui_navigation_create_search_report_from_ctrl_f (GSB_PAYEES_PAGE);
+			}
+			break;
+    }
+
+    return TRUE;
+}
+
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * réinitialisation des variables globales
  *
@@ -259,7 +295,14 @@ GtkWidget *budgetary_lines_create_list ( void )
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       budgetary_line_tree_model );
 
-    /* création de la structure de sauvegarde de la position */
+    /* check the keys on the list */
+    g_signal_connect (G_OBJECT (budgetary_line_tree),
+		              "key-press-event",
+		              G_CALLBACK (budgetary_lines_list_key_press),
+		              NULL);
+
+
+	/* création de la structure de sauvegarde de la position */
     budgetary_hold_position = g_malloc0 ( sizeof ( struct MetatreeHoldPosition ) );
 
     gtk_widget_show_all ( vbox );

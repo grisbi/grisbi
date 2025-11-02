@@ -25,6 +25,8 @@ gint 		gsb_data_budget_get_no_sub_budget 				(gpointer sub_budget_ptr);
 gint 		gsb_data_budget_get_number_by_name 				(const gchar *name,
 															 gboolean create,
 															 gint budget_type);
+GSList *	gsb_data_budget_get_search_budgets_list 		(const gchar *text,
+															 gboolean ignore_case);
 gpointer 	gsb_data_budget_get_structure 					(gint no_budget);
 GsbReal 	gsb_data_budget_get_sub_budget_balance 			(gint no_budget,
 															 gint no_sub_budget);

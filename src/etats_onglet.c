@@ -38,6 +38,7 @@
 #include "etats_config.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
@@ -1048,6 +1049,58 @@ static void etat_onglet_set_search_report_data_for_categ (gint report_number,
 	}
 }
 
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etat_onglet_set_search_report_data_for_budget (gint report_number,
+														   const gchar *text,
+														   SearchDataReport *search_data_report)
+{
+	GSList *budget_list = NULL;
+	GSList *tmp_list;
+
+	devel_debug (text);
+
+	/* liste des IB */
+	if (search_data_report->search_type == 1)
+	{
+		budget_list = gsb_data_budget_get_search_budgets_list (text, search_data_report->ignore_case);
+		gsb_data_report_set_budget_struct_list (report_number, budget_list);
+	}
+	else /* liste des montants */
+	{
+		etat_onglet_set_search_amount_data_for_tiers_categ_ib (report_number, text, search_data_report);
+	}
+
+	/* classement pour les IB */
+	tmp_list = gsb_string_get_int_list_from_string ("1/-/2/-/3/-/4/-/5/-/6", "/-/");
+	gsb_data_report_set_sorting_type_list (report_number, tmp_list);
+
+
+	/* set budget_used if necessary */
+	if (search_data_report->search_type == 1)
+	{
+		gsb_data_report_set_budget_used (report_number, 1);
+		gsb_data_report_set_budget_detail_used (report_number, 1);
+		gsb_data_report_set_budget_show_name (report_number, 1);
+		gsb_data_report_set_budget_show_budget_amount (report_number, 1);
+		gsb_data_report_set_budget_show_sub_budget (report_number, 1);
+		gsb_data_report_set_budget_show_sub_budget_amount (report_number, 1);
+		gsb_data_report_set_show_report_payee (report_number, 1);
+		gsb_data_report_set_show_report_note (report_number, 1);
+	}
+	else
+	{
+		gsb_data_report_set_show_report_budget (report_number, 1);
+	}
+}
+
 /******************************************************************************/
 /* Public Functions                                                           */
 /******************************************************************************/
@@ -1678,6 +1731,7 @@ void etats_onglet_create_search_tiers_categ_ib_report (GtkWindow *dialog,
 			break;
 		case GSB_BUDGETARY_LINES_PAGE:
 			report_name = g_strconcat (_("Searching IB, Sub_IB containing: "), text, NULL);
+			etat_onglet_set_search_report_data_for_budget (report_number, text, search_data_report);
 			break;
 		case GSB_PAYEES_PAGE:
 		default :
