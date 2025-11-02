@@ -554,7 +554,7 @@ static GtkWidget *export_create_selection_page (GtkWidget *assistant)
 										  &w_etat->export_files_traitement,
 										  NULL,
 										  NULL);
-	gtk_widget_set_tooltip_text (button, _("The generated files will be named as follows::\n[accounting entity]-[account name].[extension]\n\nThe save folder will be the Grisbi file folder"));
+	gtk_widget_set_tooltip_text (button, _("The generated files will be named as follows:\n[accounting entity]-[account name].[extension]\n\nThe save folder will be the Grisbi file folder"));
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
     /* return */
