@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2025-10-29 08:35+0100\n"
+"POT-Creation-Date: 2025-11-02 08:09+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -96,8 +96,8 @@ msgstr ""
 
 #: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:154
 #: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_tiers_categ_ib.ui:381
-#: src/widgets/widget_search_transaction.ui:34 src/etats_onglet.c:1095
-#: src/etats_onglet.c:1325 src/etats_onglet.c:1560
+#: src/widgets/widget_search_transaction.ui:34 src/etats_onglet.c:1190
+#: src/etats_onglet.c:1420 src/etats_onglet.c:1655
 #: src/gsb_transactions_list.c:545
 msgid "Search"
 msgstr "Поиск"
@@ -225,8 +225,8 @@ msgid "Add"
 msgstr "Добавить"
 
 #: src/prefs/prefs_page_accueil.ui:245 src/ui/grisbi_menu.ui:349
-#: src/categories_onglet.c:657 src/gsb_scheduler_list.c:1198
-#: src/gsb_transactions_list.c:2543 src/imputation_budgetaire.c:688
+#: src/categories_onglet.c:693 src/gsb_scheduler_list.c:1198
+#: src/gsb_transactions_list.c:2543 src/imputation_budgetaire.c:731
 #: src/tiers_onglet.c:653
 msgid "Edit"
 msgstr "_Правка"
@@ -348,7 +348,7 @@ msgstr "Получатели платежей"
 #: src/prefs/prefs_page_bet_account.ui:325
 #: src/prefs/prefs_page_bet_account.ui:412
 #: src/prefs/prefs_page_bet_account.ui:497 src/ui/etats_prefs.ui:1452
-#: src/bet_hist.c:2148 src/bet_hist.c:2154 src/categories_onglet.c:383
+#: src/bet_hist.c:2148 src/bet_hist.c:2154 src/categories_onglet.c:419
 #: src/etats_prefs.c:1591 src/grisbi_win.c:482 src/navigation.c:638
 #: src/utils_widgets.c:671 src/etats/etats_page_category.c:82
 msgid "Categories"
@@ -358,7 +358,7 @@ msgstr "Категории"
 #: src/prefs/prefs_page_bet_account.ui:427
 #: src/prefs/prefs_page_bet_account.ui:512 src/ui/etats_prefs.ui:1595
 #: src/bet_hist.c:2152 src/etats_prefs.c:1596 src/export_csv.c:404
-#: src/grisbi_win.c:487 src/import_csv.c:84 src/imputation_budgetaire.c:380
+#: src/grisbi_win.c:487 src/import_csv.c:84 src/imputation_budgetaire.c:423
 #: src/navigation.c:642 src/utils_widgets.c:674
 #: src/etats/etats_page_budget.c:84
 msgid "Budgetary lines"
@@ -451,9 +451,9 @@ msgstr "Добавить валюту"
 #: src/widgets/widget_search_tiers_categ_ib.ui:368
 #: src/widgets/widget_transfer.ui:35 src/accueil.c:1253
 #: src/bet_finance_ui.c:794 src/bet_future.c:1497 src/bet_hist.c:865
-#: src/bet_tab.c:384 src/categories_onglet.c:438 src/categories_onglet.c:497
-#: src/categories_onglet.c:554 src/categories_onglet.c:792
-#: src/etats_onglet.c:364 src/etats_onglet.c:467 src/etats_onglet.c:543
+#: src/bet_tab.c:384 src/categories_onglet.c:474 src/categories_onglet.c:533
+#: src/categories_onglet.c:590 src/categories_onglet.c:828
+#: src/etats_onglet.c:366 src/etats_onglet.c:469 src/etats_onglet.c:545
 #: src/file_obfuscate_qif.c:98 src/gsb_assistant.c:131
 #: src/gsb_assistant_file.c:660 src/gsb_assistant_reconcile_config.c:1273
 #: src/gsb_bank.c:134 src/gsb_currency.c:935
@@ -462,9 +462,9 @@ msgstr "Добавить валюту"
 #: src/gsb_scheduler_list.c:152 src/gsb_scheduler_list.c:2981
 #: src/gsb_select_icon.c:316 src/gsb_select_icon.c:505
 #: src/gsb_transactions_list.c:1133 src/import.c:1253 src/import.c:4377
-#: src/import.c:5276 src/imputation_budgetaire.c:456
-#: src/imputation_budgetaire.c:520 src/imputation_budgetaire.c:582
-#: src/imputation_budgetaire.c:811 src/plugins/openssl/openssl.c:457
+#: src/import.c:5276 src/imputation_budgetaire.c:499
+#: src/imputation_budgetaire.c:563 src/imputation_budgetaire.c:625
+#: src/imputation_budgetaire.c:854 src/plugins/openssl/openssl.c:457
 #: src/prefs/prefs_page_display_fonts.c:307 src/tiers_onglet.c:130
 #: src/tiers_onglet.c:287 src/utils_files.c:754 src/widgets/widget_loan.c:1594
 #, fuzzy
@@ -1198,19 +1198,19 @@ msgid "Neutral"
 msgstr "Нейтральный"
 
 #: src/prefs/prefs_page_payment_method.ui:230 src/bet_future.c:550
-#: src/bet_tab.c:2042 src/categories_onglet.c:845 src/export_csv.c:389
+#: src/bet_tab.c:2042 src/categories_onglet.c:881 src/export_csv.c:389
 #: src/gsb_form.c:2047 src/gsb_form_widget.c:554
 #: src/gsb_transactions_list.c:113 src/import_csv.c:88
-#: src/imputation_budgetaire.c:863 src/prefs/prefs_page_payment_method.c:497
+#: src/imputation_budgetaire.c:906 src/prefs/prefs_page_payment_method.c:497
 #: src/prefs/prefs_page_payment_method.c:958
 msgid "Debit"
 msgstr "Расход"
 
 #: src/prefs/prefs_page_payment_method.ui:231 src/bet_future.c:555
-#: src/bet_tab.c:2060 src/categories_onglet.c:845 src/export_csv.c:386
+#: src/bet_tab.c:2060 src/categories_onglet.c:881 src/export_csv.c:386
 #: src/gsb_form.c:2053 src/gsb_form_widget.c:558
 #: src/gsb_transactions_list.c:114 src/import_csv.c:87
-#: src/imputation_budgetaire.c:863 src/prefs/prefs_page_payment_method.c:511
+#: src/imputation_budgetaire.c:906 src/prefs/prefs_page_payment_method.c:511
 #: src/prefs/prefs_page_payment_method.c:954
 msgid "Credit"
 msgstr "Приход"
@@ -1326,9 +1326,9 @@ msgstr ""
 msgid "Go down"
 msgstr ""
 
-#: src/ui/csv_template_rule.ui:56 src/categories_onglet.c:796
+#: src/ui/csv_template_rule.ui:56 src/categories_onglet.c:832
 #: src/gsb_assistant.c:443 src/gsb_bank.c:138 src/gsb_scheduler_list.c:156
-#: src/imputation_budgetaire.c:815 src/tiers_onglet.c:291
+#: src/imputation_budgetaire.c:858 src/tiers_onglet.c:291
 msgid "Apply"
 msgstr ""
 
@@ -1423,7 +1423,7 @@ msgstr "Бюджетные линии:"
 msgid "Amount comparison currency: "
 msgstr "Валюта счёта:"
 
-#: src/ui/etats_prefs.ui:209 src/etats_onglet.c:753
+#: src/ui/etats_prefs.ui:209 src/etats_onglet.c:755
 #: src/gsb_assistant_archive_export.c:152 src/prefs/prefs_page_archives.c:477
 msgid "Report name"
 msgstr "Название отчёта"
@@ -1711,7 +1711,7 @@ msgstr "Свойства отчёта"
 
 #: src/ui/etats_prefs.ui:2047 src/widgets/widget_reconcile.ui:406
 #: src/widgets/widget_transfer.ui:49 src/accueil.c:1257 src/bet_future.c:1501
-#: src/etats_onglet.c:546 src/gsb_assistant_file.c:664
+#: src/etats_onglet.c:548 src/gsb_assistant_file.c:664
 #: src/gsb_assistant_reconcile_config.c:1277 src/gsb_currency.c:939
 #: src/gsb_data_partial_balance.c:1846 src/gsb_data_partial_balance.c:1932
 #: src/gsb_select_icon.c:509 src/gsb_transactions_list.c:1137 src/import.c:3311
@@ -1826,11 +1826,11 @@ msgid "New account file"
 msgstr "_Создать файл счёта..."
 
 #: src/ui/grisbi_menu.ui:39 src/ui/grisbi_menu.ui:267
-#: src/categories_onglet.c:500 src/categories_onglet.c:557
-#: src/etats_onglet.c:470 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
+#: src/categories_onglet.c:536 src/categories_onglet.c:593
+#: src/etats_onglet.c:472 src/file_obfuscate_qif.c:102 src/grisbi_app.c:117
 #: src/grisbi_app.c:133 src/grisbi_win.c:754 src/gsb_file.c:770
-#: src/gsb_select_icon.c:320 src/import.c:1256 src/imputation_budgetaire.c:523
-#: src/imputation_budgetaire.c:585 src/prefs/prefs_page_display_fonts.c:311
+#: src/gsb_select_icon.c:320 src/import.c:1256 src/imputation_budgetaire.c:566
+#: src/imputation_budgetaire.c:628 src/prefs/prefs_page_display_fonts.c:311
 #, fuzzy
 msgid "Open"
 msgstr "_Открыть"
@@ -1841,10 +1841,10 @@ msgid "Recently opened files"
 msgstr "_Недавние файлы"
 
 #: src/ui/grisbi_menu.ui:51 src/ui/grisbi_menu.ui:279 src/bet_finance_ui.c:798
-#: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:441
-#: src/etats_onglet.c:367 src/grisbi_app.c:118 src/grisbi_app.c:134
+#: src/bet_hist.c:869 src/bet_tab.c:388 src/categories_onglet.c:477
+#: src/etats_onglet.c:369 src/grisbi_app.c:118 src/grisbi_app.c:134
 #: src/gsb_file.c:324 src/gsb_file.c:427 src/gsb_file.c:458
-#: src/imputation_budgetaire.c:459 src/tiers_onglet.c:133
+#: src/imputation_budgetaire.c:502 src/tiers_onglet.c:133
 #, fuzzy
 msgid "Save"
 msgstr "Со_хранить"
@@ -1949,9 +1949,9 @@ msgstr "_Создать счёт"
 msgid "Remove current account"
 msgstr "_Удалить активный счёт"
 
-#: src/ui/grisbi_menu.ui:174 src/categories_onglet.c:669
+#: src/ui/grisbi_menu.ui:174 src/categories_onglet.c:705
 #: src/gsb_scheduler_list.c:1230 src/gsb_transactions_list.c:2570
-#: src/imputation_budgetaire.c:700 src/tiers_onglet.c:665
+#: src/imputation_budgetaire.c:743 src/tiers_onglet.c:665
 msgid "View"
 msgstr "Вид"
 
@@ -2783,13 +2783,11 @@ msgstr "Выверка"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:71
 #, fuzzy
-#| msgid "Select the transactions by amount"
 msgid "Search transactions by name"
 msgstr "Выберите проводки по сумме"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:86
 #, fuzzy
-#| msgid "Select the transactions by amount"
 msgid "Search transactions by amount"
 msgstr "Выберите проводки по сумме"
 
@@ -2808,7 +2806,7 @@ msgstr ""
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:183
 #: src/widgets/widget_search_transaction.ui:266
-#: src/widgets/widget_search_tiers_categ_ib.c:255
+#: src/widgets/widget_search_tiers_categ_ib.c:183
 #: src/widgets/widget_search_transaction.c:767
 #: src/widgets/widget_search_transaction.c:773
 #: src/widgets/widget_search_transaction.c:779
@@ -2865,9 +2863,9 @@ msgstr "Скрыть имена получателей"
 msgid "Configuring a deferred debit account"
 msgstr ""
 
-#: src/widgets/widget_transfer.ui:20 src/categories_onglet.c:645
-#: src/etats_onglet.c:621 src/gsb_scheduler_list.c:1187
-#: src/gsb_transactions_list.c:2534 src/imputation_budgetaire.c:676
+#: src/widgets/widget_transfer.ui:20 src/categories_onglet.c:681
+#: src/etats_onglet.c:623 src/gsb_scheduler_list.c:1187
+#: src/gsb_transactions_list.c:2534 src/imputation_budgetaire.c:719
 #: src/tiers_onglet.c:641
 msgid "Delete"
 msgstr "Удалить"
@@ -2964,7 +2962,6 @@ msgstr "Общедоступное управление личными фина�
 
 #: share/grisbi.metainfo.xml.in:9
 #, fuzzy
-#| msgid "Grisbi"
 msgid "Grisbi Team"
 msgstr "Grisbi"
 
@@ -2991,8 +2988,8 @@ msgstr "Создается главное окно программы"
 msgid "Budget"
 msgstr "Новый бюджет"
 
-#: share/grisbi.metainfo.xml.in:35 src/etats_onglet.c:1399 src/grisbi_win.c:492
-#: src/navigation.c:646 src/navigation.c:2035
+#: share/grisbi.metainfo.xml.in:35 src/etats_onglet.c:1494 src/grisbi_win.c:492
+#: src/navigation.c:646 src/navigation.c:2056
 msgid "Reports"
 msgstr "Отчёты"
 
@@ -3203,7 +3200,7 @@ msgid "credit.csv"
 msgstr "Приход"
 
 #: src/bet_finance_ui.c:823 src/bet_hist.c:894 src/bet_tab.c:413
-#: src/imputation_budgetaire.c:486
+#: src/imputation_budgetaire.c:529
 msgid "Cannot save file."
 msgstr "Невозможно сохранить файл"
 
@@ -3303,7 +3300,7 @@ msgid " of capital"
 msgstr "Банковский счёт:"
 
 #: src/bet_finance_ui.c:1485 src/grisbi_win.c:477 src/navigation.c:634
-#: src/navigation.c:1999
+#: src/navigation.c:2011
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Кредитная карта"
@@ -3341,13 +3338,13 @@ msgid "Credits"
 msgstr "Приход"
 
 #: src/bet_finance_ui.c:2127 src/bet_hist.c:953 src/bet_tab.c:2131
-#: src/etats_onglet.c:612 src/gsb_transactions_list.c:2561
+#: src/etats_onglet.c:614 src/gsb_transactions_list.c:2561
 msgid "Print"
 msgstr "Печать"
 
 #: src/bet_finance_ui.c:2136 src/bet_hist.c:959 src/bet_tab.c:2140
-#: src/categories_onglet.c:636 src/etats_onglet.c:602 src/export.c:504
-#: src/imputation_budgetaire.c:666 src/tiers_onglet.c:632
+#: src/categories_onglet.c:672 src/etats_onglet.c:604 src/export.c:504
+#: src/imputation_budgetaire.c:709 src/tiers_onglet.c:632
 msgid "Export"
 msgstr "Экспортировать"
 
@@ -3387,7 +3384,7 @@ msgstr ""
 
 #: src/bet_future.c:567 src/bet_hist.c:1452 src/etats_affiche.c:307
 #: src/etats_prefs.c:578 src/gsb_form.c:2068 src/gsb_form_widget.c:582
-#: src/gsb_transactions_list.c:112 src/imputation_budgetaire.c:181
+#: src/gsb_transactions_list.c:112 src/imputation_budgetaire.c:217
 #: src/meta_budgetary.c:86 src/utils_widgets.c:134
 #: src/widgets/widget_loan.c:1265 src/widgets/widget_loan.c:1271
 #: src/widgets/widget_loan.c:1358 src/widgets/widget_loan.c:1364
@@ -3468,7 +3465,7 @@ msgstr ""
 
 #: src/bet_future.c:1323 src/bet_future.c:1645 src/etats_affiche.c:2507
 #: src/export_csv.c:676 src/export_csv.c:808 src/export_csv.c:820
-#: src/gsb_data_category.c:1089 src/gsb_data_payment.c:608
+#: src/gsb_data_category.c:1090 src/gsb_data_payment.c:608
 #: src/gsb_data_payment.c:697 src/gsb_data_payment.c:733 src/gsb_form.c:2982
 #: src/import.c:2578 src/import.c:2599 src/import_csv.c:1613
 #: src/plugins/ofx/ofx.c:408
@@ -3712,17 +3709,17 @@ msgstr ""
 msgid "Select"
 msgstr "Выбрать"
 
-#: src/bet_hist.c:1278 src/bet_hist.c:1459 src/categories_onglet.c:184
+#: src/bet_hist.c:1278 src/bet_hist.c:1459 src/categories_onglet.c:214
 #: src/etats_affiche.c:296 src/etats_prefs.c:574 src/export_csv.c:395
 #: src/gsb_transactions_list.c:120 src/import_csv.c:82 src/meta_categories.c:65
 #: src/utils_widgets.c:121
 msgid "Category"
 msgstr "Категория"
 
-#: src/bet_hist.c:1295 src/categories_onglet.c:205 src/etats_affiche.c:383
+#: src/bet_hist.c:1295 src/categories_onglet.c:235 src/etats_affiche.c:383
 #: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:945
 #: src/gsb_transactions_list.c:116 src/import.c:4478 src/import_csv.c:86
-#: src/imputation_budgetaire.c:202 src/tiers_onglet.c:873
+#: src/imputation_budgetaire.c:238 src/tiers_onglet.c:873
 #: src/etats/etats_page_amount.c:281
 msgid "Amount"
 msgstr "Сумма"
@@ -3793,7 +3790,7 @@ msgid "No data by default"
 msgstr "Сбросить до исходных"
 
 #: src/bet_tab.c:987 src/bet_tab.c:1039 src/bet_tab.c:1100
-#: src/etats_affiche.c:2519 src/gsb_data_category.c:167
+#: src/etats_affiche.c:2519 src/gsb_data_category.c:168
 #: src/meta_categories.c:68 src/widgets/widget_list_metatree.c:534
 msgid "No category"
 msgstr ""
@@ -3869,7 +3866,7 @@ msgstr "Подробнее о счёте"
 msgid "Balance at "
 msgstr "Баланс"
 
-#: src/bet_tab.c:2025 src/etats_onglet.c:1063
+#: src/bet_tab.c:2025 src/etats_onglet.c:1158
 msgid "Description"
 msgstr "Описание"
 
@@ -3903,44 +3900,44 @@ msgstr ""
 msgid "Check the box to automatically change start date"
 msgstr ""
 
-#: src/categories_onglet.c:194 src/etats_prefs.c:582
+#: src/categories_onglet.c:224 src/etats_prefs.c:582
 #: src/gsb_assistant_reconcile_config.c:654 src/gsb_scheduler_list.c:944
-#: src/imputation_budgetaire.c:191 src/navigation.c:1826
+#: src/imputation_budgetaire.c:227 src/navigation.c:1826
 #: src/prefs/prefs_page_payment_method.c:1246
 #: src/prefs/prefs_page_reconcile.c:323 src/tiers_onglet.c:862
 msgid "Account"
 msgstr "Счёт"
 
-#: src/categories_onglet.c:432
+#: src/categories_onglet.c:468
 msgid "Export categories"
 msgstr "Экспортировать категории"
 
-#: src/categories_onglet.c:446
+#: src/categories_onglet.c:482
 #, fuzzy
 msgid "Categories.cgsb"
 msgstr "Категории"
 
-#: src/categories_onglet.c:491
+#: src/categories_onglet.c:527
 msgid "Import categories"
 msgstr "Импортировать категории"
 
-#: src/categories_onglet.c:509 src/imputation_budgetaire.c:538
+#: src/categories_onglet.c:545 src/imputation_budgetaire.c:581
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Файлы категорий Grisbi (*.cgsb)"
 
-#: src/categories_onglet.c:515 src/etats_onglet.c:485
+#: src/categories_onglet.c:551 src/etats_onglet.c:487
 #: src/file_obfuscate_qif.c:116 src/gsb_file.c:785 src/import.c:1330
-#: src/imputation_budgetaire.c:543
+#: src/imputation_budgetaire.c:586
 msgid "All files"
 msgstr "Все файлы"
 
-#: src/categories_onglet.c:541
+#: src/categories_onglet.c:577
 msgid ""
 "File already contains categories.  If you decide to continue, existing "
 "categories will be merged with imported ones."
 msgstr ""
 
-#: src/categories_onglet.c:542
+#: src/categories_onglet.c:578
 msgid ""
 "File does not contain categories.  If you decide to continue, existing "
 "categories will be merged with imported ones.  Once performed, there is no "
@@ -3948,15 +3945,15 @@ msgid ""
 "You may also decide to replace existing categories with imported ones."
 msgstr ""
 
-#: src/categories_onglet.c:546
+#: src/categories_onglet.c:582
 msgid "Merge imported categories with existing?"
 msgstr "Объединить импортированные категории с существующими?"
 
-#: src/categories_onglet.c:550 src/imputation_budgetaire.c:578
+#: src/categories_onglet.c:586 src/imputation_budgetaire.c:621
 msgid "Replace existing"
 msgstr "Заменить существующие"
 
-#: src/categories_onglet.c:601
+#: src/categories_onglet.c:637
 msgid ""
 "New\n"
 "category"
@@ -3964,11 +3961,11 @@ msgstr ""
 "Создать\n"
 "категорию"
 
-#: src/categories_onglet.c:602
+#: src/categories_onglet.c:638
 msgid "Create a new category"
 msgstr "Создать новую категорию"
 
-#: src/categories_onglet.c:611
+#: src/categories_onglet.c:647
 msgid ""
 "New sub\n"
 "category"
@@ -3976,115 +3973,115 @@ msgstr ""
 "Создать\n"
 "подкатегорию"
 
-#: src/categories_onglet.c:618
+#: src/categories_onglet.c:654
 msgid "Create a new sub-category"
 msgstr "Создать новую подкатегорию"
 
-#: src/categories_onglet.c:627 src/etats_onglet.c:593 src/grisbi_prefs.c:411
-#: src/grisbi_win.c:767 src/import.c:1903 src/imputation_budgetaire.c:655
+#: src/categories_onglet.c:663 src/etats_onglet.c:595 src/grisbi_prefs.c:411
+#: src/grisbi_win.c:767 src/import.c:1903 src/imputation_budgetaire.c:698
 #: src/prefs/prefs_page_import.c:82 src/utils_files.c:812
 msgid "Import"
 msgstr "Импортировать"
 
-#: src/categories_onglet.c:628
+#: src/categories_onglet.c:664
 msgid "Import a Grisbi category file (.cgsb)"
 msgstr "Импортировать файл с категориями Grisbi (.cgsb)"
 
-#: src/categories_onglet.c:637
+#: src/categories_onglet.c:673
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Экспортировать файл с категориями Grisbi (.cgsb)"
 
-#: src/categories_onglet.c:649 src/navigation.c:291
+#: src/categories_onglet.c:685 src/navigation.c:291
 msgid "Delete selected category"
 msgstr "Удалить выбранную категорию"
 
-#: src/categories_onglet.c:661 src/categories_onglet.c:1187
+#: src/categories_onglet.c:697 src/categories_onglet.c:1223
 #: src/navigation.c:304
 msgid "Edit selected category"
 msgstr "Изменить выбранную категорию"
 
-#: src/categories_onglet.c:670 src/tiers_onglet.c:666
+#: src/categories_onglet.c:706 src/tiers_onglet.c:666
 msgid "Change view mode"
 msgstr "Сменить вид категорий"
 
-#: src/categories_onglet.c:711
+#: src/categories_onglet.c:747
 msgid "Category view"
 msgstr "Видны категории"
 
-#: src/categories_onglet.c:717
+#: src/categories_onglet.c:753
 msgid "Subcategory view"
 msgstr "Видны подкатегории"
 
-#: src/categories_onglet.c:723 src/gsb_transactions_list.c:2442
-#: src/imputation_budgetaire.c:752 src/tiers_onglet.c:563
+#: src/categories_onglet.c:759 src/gsb_transactions_list.c:2442
+#: src/imputation_budgetaire.c:795 src/tiers_onglet.c:563
 msgid "Complete view"
 msgstr "Полный вид"
 
-#: src/categories_onglet.c:773
+#: src/categories_onglet.c:809
 msgid "No sub-category defined"
 msgstr "Подкатегории не определены"
 
-#: src/categories_onglet.c:774 src/categories_onglet.c:782
-#: src/imputation_budgetaire.c:795 src/imputation_budgetaire.c:800
+#: src/categories_onglet.c:810 src/categories_onglet.c:818
+#: src/imputation_budgetaire.c:838 src/imputation_budgetaire.c:843
 #: src/tiers_onglet.c:279
 #, c-format
 msgid "Properties for %s"
 msgstr "Свойства %s"
 
-#: src/categories_onglet.c:781 src/qif.c:1773 src/qif.c:1783
+#: src/categories_onglet.c:817 src/qif.c:1773 src/qif.c:1783
 msgid "No category defined"
 msgstr "Категории не определены"
 
-#: src/categories_onglet.c:817 src/gsb_assistant_archive_export.c:151
-#: src/gsb_transactions_list.c:1114 src/imputation_budgetaire.c:835
+#: src/categories_onglet.c:853 src/gsb_assistant_archive_export.c:151
+#: src/gsb_transactions_list.c:1114 src/imputation_budgetaire.c:878
 #: src/prefs/prefs_page_accueil.c:288 src/prefs/prefs_page_archives.c:477
 #: src/prefs/prefs_page_fyear.c:566 src/widgets/widget_transfer.c:1250
 msgid "Name"
 msgstr "Имя"
 
-#: src/categories_onglet.c:841 src/import.c:1937
-#: src/imputation_budgetaire.c:859 src/widgets/widget_transfer.c:1262
+#: src/categories_onglet.c:877 src/import.c:1937
+#: src/imputation_budgetaire.c:902 src/widgets/widget_transfer.c:1262
 msgid "Type"
 msgstr "Тип"
 
-#: src/categories_onglet.c:879
+#: src/categories_onglet.c:915
 #, c-format
 msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
 "already exists. Please choose another name."
 msgstr ""
 
-#: src/categories_onglet.c:886
+#: src/categories_onglet.c:922
 #, c-format
 msgid ""
 "You tried to rename current category to '%s' but this category already "
 "exists. Please choose another name."
 msgstr ""
 
-#: src/categories_onglet.c:891
+#: src/categories_onglet.c:927
 msgid "Category already exists"
 msgstr "Категория с таким именем уже есть"
 
-#: src/categories_onglet.c:1003 src/meta_categories.c:312
+#: src/categories_onglet.c:1039 src/meta_categories.c:312
 msgid "New sub-category"
 msgstr ""
 
-#: src/categories_onglet.c:1170
+#: src/categories_onglet.c:1206
 #, fuzzy
 msgid "Transfers the identical transactions in another sub-category"
 msgstr "Три линии на транзакцию"
 
-#: src/categories_onglet.c:1189
+#: src/categories_onglet.c:1225
 #, fuzzy
 msgid "Edit selected sub-category"
 msgstr "Изменить выбранную категорию"
 
-#: src/categories_onglet.c:1208
+#: src/categories_onglet.c:1244
 #, fuzzy
 msgid "Manage sub-categories"
 msgstr "Показывать подкатегории"
 
-#: src/categories_onglet.c:1211
+#: src/categories_onglet.c:1247
 #, fuzzy
 msgid "Transfer all transactions in another sub-category"
 msgstr "Три линии на транзакцию"
@@ -4626,7 +4623,7 @@ msgstr[1] "Итого (%d проводка):"
 msgid "General total: "
 msgstr "Итого в целом:"
 
-#: src/etats_affiche.c:2514 src/export_csv.c:647 src/gsb_data_category.c:1088
+#: src/etats_affiche.c:2514 src/export_csv.c:647 src/gsb_data_category.c:1089
 #: src/gsb_data_transaction.c:2688 src/gsb_form.c:243 src/gsb_form.c:916
 #: src/gsb_form.c:1619 src/gsb_form.c:2505 src/gsb_form_scheduler.c:805
 #: src/widgets/widget_loan.c:1158
@@ -4681,7 +4678,7 @@ msgstr ""
 msgid "Cannot open file '%s' for writing"
 msgstr ""
 
-#: src/etats_onglet.c:141
+#: src/etats_onglet.c:143
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -4691,7 +4688,7 @@ msgstr ""
 "сортировкой по категориям и подкатегориям. Вам нужно всего лишь выбрать "
 "счёт. По умолчанию отчёт создаётся по всем счетам."
 
-#: src/etats_onglet.c:150
+#: src/etats_onglet.c:152
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -4701,7 +4698,7 @@ msgstr ""
 "сортировкой по категориям и подкатегориям. Вам нужно всего лишь выбрать "
 "счёт. По умолчанию отчёт создаётся по всем счетам."
 
-#: src/etats_onglet.c:159
+#: src/etats_onglet.c:161
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -4709,13 +4706,13 @@ msgstr ""
 "Этот отчёт выводит годовой бюджет. Вам нужно всего лишь выбрать счёт. По "
 "умолчанию отчёт создаётся по всем счетам."
 
-#: src/etats_onglet.c:167
+#: src/etats_onglet.c:169
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr ""
 "Это совершенно пустой отчёт. Все его параметры вы настроите далее "
 "самостоятельно."
 
-#: src/etats_onglet.c:174
+#: src/etats_onglet.c:176
 msgid ""
 "This report displays the cheques deposit. You just need to select the "
 "account(s). By default all accounts are selected."
@@ -4723,7 +4720,7 @@ msgstr ""
 "Этот отчёт выводит депозит по чекам. Вам нужно всего лишь выбрать счёт. По "
 "умолчанию отчёт создаётся по всем счетам."
 
-#: src/etats_onglet.c:183
+#: src/etats_onglet.c:185
 #, fuzzy
 msgid ""
 "This report shows the month's expenses sorted by payees.You will just have "
@@ -4733,7 +4730,7 @@ msgstr ""
 "получателям. Вам нужно всего лишь выбрать счёт. По умолчанию отчёт создаётся "
 "по всем счетам."
 
-#: src/etats_onglet.c:187
+#: src/etats_onglet.c:189
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
 "need to select the account(s). By default all accounts are selected."
@@ -4742,7 +4739,7 @@ msgstr ""
 "получателям. Вам нужно всего лишь выбрать счёт. По умолчанию отчёт создаётся "
 "по всем счетам."
 
-#: src/etats_onglet.c:195
+#: src/etats_onglet.c:197
 #, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
@@ -4753,106 +4750,106 @@ msgstr ""
 "год. Вам нужно лишь указать желаемые критерии вроде дат и получателей. По "
 "умолчанию все транзакции кликабельны."
 
-#: src/etats_onglet.c:203
+#: src/etats_onglet.c:205
 msgid "No description available"
 msgstr "Описание недоступно"
 
-#: src/etats_onglet.c:358
+#: src/etats_onglet.c:360
 msgid "Export report"
 msgstr "Экспортировать отчёт"
 
-#: src/etats_onglet.c:381
+#: src/etats_onglet.c:383
 #, fuzzy
 msgid "File format: "
 msgstr "Формат файла:"
 
-#: src/etats_onglet.c:385
+#: src/etats_onglet.c:387
 msgid "Grisbi report file (egsb file)"
 msgstr "Файл отчёта Grisbi (файл egsb)"
 
-#: src/etats_onglet.c:386
+#: src/etats_onglet.c:388
 msgid "HTML file"
 msgstr "Файл HTML"
 
-#: src/etats_onglet.c:387
+#: src/etats_onglet.c:389
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: src/etats_onglet.c:406
+#: src/etats_onglet.c:408
 #, fuzzy
 msgid "Exporting report..."
 msgstr "Экспортируется отчёт..."
 
-#: src/etats_onglet.c:431 src/grisbi_prefs.c:792 src/grisbi_prefs.c:816
+#: src/etats_onglet.c:433 src/grisbi_prefs.c:792 src/grisbi_prefs.c:816
 #: src/gsb_debug.c:842 src/gsb_file.c:549 src/gsb_file.c:700
 #: src/gsb_file.c:1039
 msgid "Done"
 msgstr "Готово"
 
-#: src/etats_onglet.c:461
+#: src/etats_onglet.c:463
 msgid "Import a report"
 msgstr "Импортировать отчёт"
 
-#: src/etats_onglet.c:479
+#: src/etats_onglet.c:481
 msgid "Grisbi report files (*.egsb)"
 msgstr "Файлы отчётов Grisbi (*.egsb)"
 
-#: src/etats_onglet.c:537
+#: src/etats_onglet.c:539
 #, fuzzy
 msgid "Create a pdf file of the report"
 msgstr "в верху отчёта"
 
-#: src/etats_onglet.c:584 src/navigation.c:395
+#: src/etats_onglet.c:586 src/navigation.c:395
 msgid "New report"
 msgstr "Новый отчёт"
 
-#: src/etats_onglet.c:585
+#: src/etats_onglet.c:587
 msgid "Create a new report"
 msgstr "Создать новый отчёт"
 
-#: src/etats_onglet.c:594
+#: src/etats_onglet.c:596
 msgid "Import a Grisbi report file (.egsb)"
 msgstr "Импортировать файл отчёта Grisbi (.egsb)"
 
-#: src/etats_onglet.c:604
+#: src/etats_onglet.c:606
 #, fuzzy
 msgid "Export selected report to egsb, HTML, CSV"
 msgstr "Экспортировать в HTML"
 
-#: src/etats_onglet.c:613
+#: src/etats_onglet.c:615
 msgid "Print selected report"
 msgstr "Напечатать выбранный отчёт"
 
-#: src/etats_onglet.c:622
+#: src/etats_onglet.c:624
 msgid "Delete selected report"
 msgstr "Удалить выбранный отчёт"
 
-#: src/etats_onglet.c:631 src/grisbi_win.c:457
+#: src/etats_onglet.c:633 src/grisbi_win.c:457
 msgid "Properties"
 msgstr "Свойства"
 
-#: src/etats_onglet.c:632
+#: src/etats_onglet.c:634
 msgid "Edit selected report"
 msgstr "Изменить выбранный отчёт"
 
-#: src/etats_onglet.c:640
+#: src/etats_onglet.c:642
 msgid "Clone"
 msgstr "Склонировать"
 
-#: src/etats_onglet.c:641
+#: src/etats_onglet.c:643
 msgid "Clone selected report"
 msgstr "Склонировать выбранный отчёт"
 
-#: src/etats_onglet.c:650
+#: src/etats_onglet.c:652
 #, fuzzy
 msgid "Create pdf file"
 msgstr "Укажите имя создаваемого файла"
 
-#: src/etats_onglet.c:651
+#: src/etats_onglet.c:653
 msgid "Creates a pdf file of the report in user directory"
 msgstr ""
 
-#: src/etats_onglet.c:1044
+#: src/etats_onglet.c:1139
 #, fuzzy
 msgid ""
 "You are about to create a new report. For convenience, you can choose "
@@ -4861,74 +4858,74 @@ msgstr ""
 "При создании нового отчёта можно воспользоваться одним из готовых шаблонов и "
 "настроить параметры позднее."
 
-#: src/etats_onglet.c:1048
+#: src/etats_onglet.c:1143
 msgid "Choose template for new report"
 msgstr "Выбрать шаблон для нового отчёта"
 
-#: src/etats_onglet.c:1051
+#: src/etats_onglet.c:1146
 msgid "Report type"
 msgstr "Тип отчёта"
 
-#: src/etats_onglet.c:1058
+#: src/etats_onglet.c:1153
 msgid "Do not show the report preferences"
 msgstr ""
 
-#: src/etats_onglet.c:1083 src/etats_onglet.c:1138
+#: src/etats_onglet.c:1178 src/etats_onglet.c:1233
 msgid "Last month incomes and outgoings"
 msgstr "Доход и расход за последний месяц"
 
-#: src/etats_onglet.c:1087 src/etats_onglet.c:1167
+#: src/etats_onglet.c:1182 src/etats_onglet.c:1262
 msgid "Current month incomes and outgoings"
 msgstr "Доход и расход за текущий месяц"
 
-#: src/etats_onglet.c:1088 src/etats_onglet.c:1193
+#: src/etats_onglet.c:1183 src/etats_onglet.c:1288
 msgid "Annual budget"
 msgstr "Ежегодный бюджет"
 
-#: src/etats_onglet.c:1089 src/etats_onglet.c:1217
+#: src/etats_onglet.c:1184 src/etats_onglet.c:1312
 msgid "Blank report"
 msgstr "Чистый отчёт"
 
-#: src/etats_onglet.c:1090 src/etats_onglet.c:1248
+#: src/etats_onglet.c:1185 src/etats_onglet.c:1343
 msgid "Cheques deposit"
 msgstr "Депозит чеков"
 
-#: src/etats_onglet.c:1094 src/etats_onglet.c:1289
+#: src/etats_onglet.c:1189 src/etats_onglet.c:1384
 msgid "Monthly outgoings by payee"
 msgstr "Ежемесячные исходящие платежи по получателю"
 
-#: src/etats_onglet.c:1136
+#: src/etats_onglet.c:1231
 #, fuzzy
 msgid "Last month products and expenses"
 msgstr "Доход и расход за последний месяц"
 
-#: src/etats_onglet.c:1354
+#: src/etats_onglet.c:1449
 msgid "Unknown report type, creation cancelled"
 msgstr "Неизвестный тип отчёта, создание отменено"
 
-#: src/etats_onglet.c:1446
+#: src/etats_onglet.c:1541
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Удалить отчёт \"%s\"?"
 
-#: src/etats_onglet.c:1448
+#: src/etats_onglet.c:1543
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 
-#: src/etats_onglet.c:1588
+#: src/etats_onglet.c:1683
 #, fuzzy
 msgid "Searching"
 msgstr "Строка поиска"
 
-#: src/etats_onglet.c:1634
+#: src/etats_onglet.c:1729
 msgid "Searching Category, Sub_category containing: "
 msgstr ""
 
-#: src/etats_onglet.c:1637
+#: src/etats_onglet.c:1733
 msgid "Searching IB, Sub_IB containing: "
 msgstr ""
 
-#: src/etats_onglet.c:1641
+#: src/etats_onglet.c:1738
 #, fuzzy
 msgid "Searching Payees containing: "
 msgstr "Скрыть имена получателей"
@@ -6970,11 +6967,11 @@ msgstr "Безымянный счёт"
 msgid "Cash account"
 msgstr "Наличный счёт"
 
-#: src/gsb_data_budget.c:143
+#: src/gsb_data_budget.c:144
 msgid "No budget line"
 msgstr ""
 
-#: src/gsb_data_budget.c:1440 src/gsb_data_category.c:1618
+#: src/gsb_data_budget.c:1441 src/gsb_data_category.c:1619
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr ""
@@ -8474,7 +8471,7 @@ msgstr "Получатели не определены"
 
 #: src/gsb_data_payee.c:610 src/gsb_form.c:1029 src/gtk_combofix.c:412
 #: src/gtk_combofix.c:613 src/gtk_combofix.c:2400 src/gtk_combofix.c:2524
-#: src/navigation.c:2033
+#: src/navigation.c:2054
 msgid "Report"
 msgstr "Отчёт"
 
@@ -9533,7 +9530,7 @@ msgstr "Предупреждения по расписанию"
 msgid "Show transactions for the next: "
 msgstr "Показывать транзакции на следующие:"
 
-#: src/gsb_scheduler_list.c:229 src/navigation.c:1963
+#: src/gsb_scheduler_list.c:229 src/navigation.c:1969
 msgid "Scheduled transactions"
 msgstr "Запланированные транзакции"
 
@@ -10546,30 +10543,30 @@ msgstr "Выберите поля CSV"
 msgid "Create a rule for this import."
 msgstr "Создать правило для этого импорта. Название правила:"
 
-#: src/imputation_budgetaire.c:450
+#: src/imputation_budgetaire.c:493
 msgid "Export the budgetary lines"
 msgstr ""
 
-#: src/imputation_budgetaire.c:464
+#: src/imputation_budgetaire.c:507
 #, fuzzy
 msgid "Budgetary-lines.igsb"
 msgstr "Бюджетные линии"
 
-#: src/imputation_budgetaire.c:514
+#: src/imputation_budgetaire.c:557
 msgid "Import budgetary lines"
 msgstr "Импортировать бюджетные линии"
 
-#: src/imputation_budgetaire.c:532
+#: src/imputation_budgetaire.c:575
 msgid "Grisbi budgetary lines files (*.igsb)"
 msgstr "Файлы бюджетных линий Grisbi (*.igsb)"
 
-#: src/imputation_budgetaire.c:569
+#: src/imputation_budgetaire.c:612
 msgid ""
 "File already contains budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones."
 msgstr ""
 
-#: src/imputation_budgetaire.c:570
+#: src/imputation_budgetaire.c:613
 msgid ""
 "File does not contain budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones.  Once performed, there is "
@@ -10577,11 +10574,11 @@ msgid ""
 "You may also decide to replace existing budgetary lines with imported ones."
 msgstr ""
 
-#: src/imputation_budgetaire.c:574
+#: src/imputation_budgetaire.c:617
 msgid "Merge imported budgetary lines with existing?"
 msgstr ""
 
-#: src/imputation_budgetaire.c:629
+#: src/imputation_budgetaire.c:672
 msgid ""
 "New\n"
 "budgetary line"
@@ -10589,11 +10586,11 @@ msgstr ""
 "Создать\n"
 "бюджетную линию"
 
-#: src/imputation_budgetaire.c:630
+#: src/imputation_budgetaire.c:673
 msgid "Create a new budgetary line"
 msgstr "Создать новую бюджетную линию"
 
-#: src/imputation_budgetaire.c:639
+#: src/imputation_budgetaire.c:682
 msgid ""
 "New sub\n"
 "budgetary line"
@@ -10601,93 +10598,93 @@ msgstr ""
 "Новая суб-\n"
 "бюджетная линия"
 
-#: src/imputation_budgetaire.c:646
+#: src/imputation_budgetaire.c:689
 #, fuzzy
 msgid "Create a new sub-budgetary line"
 msgstr "Создать новый счёт"
 
-#: src/imputation_budgetaire.c:657
+#: src/imputation_budgetaire.c:700
 msgid ""
 "Import a Grisbi budgetary line file (.igsb) or create from a list of "
 "categories (.cgsb)"
 msgstr ""
 
-#: src/imputation_budgetaire.c:668
+#: src/imputation_budgetaire.c:711
 #, fuzzy
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Файлы бюджетных линий Grisbi (*.igsb)"
 
-#: src/imputation_budgetaire.c:680 src/navigation.c:347
+#: src/imputation_budgetaire.c:723 src/navigation.c:347
 msgid "Delete selected budgetary line"
 msgstr ""
 
-#: src/imputation_budgetaire.c:692 src/imputation_budgetaire.c:1189
+#: src/imputation_budgetaire.c:735 src/imputation_budgetaire.c:1232
 #: src/navigation.c:361
 #, fuzzy
 msgid "Edit selected budgetary line"
 msgstr "Бюджетная линия"
 
-#: src/imputation_budgetaire.c:701
+#: src/imputation_budgetaire.c:744
 msgid "Change display mode"
 msgstr "Сменить режим отображения"
 
-#: src/imputation_budgetaire.c:740
+#: src/imputation_budgetaire.c:783
 #, fuzzy
 msgid "Budgetary line view"
 msgstr "Бюджетная линия"
 
-#: src/imputation_budgetaire.c:746
+#: src/imputation_budgetaire.c:789
 #, fuzzy
 msgid "Sub-budgetary line view"
 msgstr "Бюджетная линия"
 
-#: src/imputation_budgetaire.c:798
+#: src/imputation_budgetaire.c:841
 msgid "No sub-budget defined"
 msgstr ""
 
-#: src/imputation_budgetaire.c:803
+#: src/imputation_budgetaire.c:846
 msgid "No budget defined"
 msgstr ""
 
-#: src/imputation_budgetaire.c:898
+#: src/imputation_budgetaire.c:941
 #, c-format
 msgid ""
 "You tried to rename current sub-budgetary line to '%s' but this sub-"
 "budgetary line already exists.  Please choose another name."
 msgstr ""
 
-#: src/imputation_budgetaire.c:905
+#: src/imputation_budgetaire.c:948
 #, c-format
 msgid ""
 "You tried to rename current budgetary line to '%s' but this budgetary line "
 "already exists.  Please choose another name."
 msgstr ""
 
-#: src/imputation_budgetaire.c:910
+#: src/imputation_budgetaire.c:953
 #, fuzzy
 msgid "Budgetary line already exists"
 msgstr "Файл с таким именем уже есть"
 
-#: src/imputation_budgetaire.c:1015 src/meta_budgetary.c:277
+#: src/imputation_budgetaire.c:1058 src/meta_budgetary.c:277
 msgid "New sub-budget"
 msgstr ""
 
-#: src/imputation_budgetaire.c:1172
+#: src/imputation_budgetaire.c:1215
 #, fuzzy
 msgid "Transfers the identical transactions in another sub-budgetary line"
 msgstr "Три линии на транзакцию"
 
-#: src/imputation_budgetaire.c:1191
+#: src/imputation_budgetaire.c:1234
 #, fuzzy
 msgid "Edit selected sub-budgetary line"
 msgstr "Бюджетная линия"
 
-#: src/imputation_budgetaire.c:1210
+#: src/imputation_budgetaire.c:1253
 #, fuzzy
 msgid "Manage sub-budgetary line"
 msgstr "Суббюджетная линия"
 
-#: src/imputation_budgetaire.c:1213
+#: src/imputation_budgetaire.c:1256
 #, fuzzy
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Три линии на транзакцию"
@@ -10913,9 +10910,9 @@ msgstr "Использовать свой шрифт для проводок"
 msgid "You must select at least one search element"
 msgstr "Необходимо выбрать хотя бы два счёта"
 
-#: src/metatree.c:3833 src/widgets/widget_search_tiers_categ_ib.c:349
-#: src/widgets/widget_search_tiers_categ_ib.c:370
-#: src/widgets/widget_search_tiers_categ_ib.c:451
+#: src/metatree.c:3833 src/widgets/widget_search_tiers_categ_ib.c:277
+#: src/widgets/widget_search_tiers_categ_ib.c:298
+#: src/widgets/widget_search_tiers_categ_ib.c:379
 #: src/widgets/widget_search_transaction.c:575
 #: src/widgets/widget_search_transaction.c:840
 msgid "WARNING"
@@ -12856,40 +12853,39 @@ msgstr ""
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>Выверка счёта «%s»</b> "
 
-#: src/widgets/widget_search_tiers_categ_ib.c:261
+#: src/widgets/widget_search_tiers_categ_ib.c:189
 #: src/widgets/widget_search_transaction.c:785
 msgid "Ignore sign"
 msgstr ""
 
-#: src/widgets/widget_search_tiers_categ_ib.c:348
-#: src/widgets/widget_search_tiers_categ_ib.c:450
+#: src/widgets/widget_search_tiers_categ_ib.c:276
+#: src/widgets/widget_search_tiers_categ_ib.c:378
 #: src/widgets/widget_search_transaction.c:574
 #: src/widgets/widget_search_transaction.c:839
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "Необходимо выбрать хотя бы два счёта"
 
-#: src/widgets/widget_search_tiers_categ_ib.c:369
+#: src/widgets/widget_search_tiers_categ_ib.c:297
 #, fuzzy
 msgid "You must enter a valid amount"
 msgstr "Необходимо выбрать хотя бы два счёта"
 
-#: src/widgets/widget_search_tiers_categ_ib.c:554
+#: src/widgets/widget_search_tiers_categ_ib.c:482
 #, fuzzy
-#| msgid "Detail categories"
-msgid "Search categories"
+msgid "Search in categories"
 msgstr "Детализировать категории"
 
-#: src/widgets/widget_search_tiers_categ_ib.c:566
+#: src/widgets/widget_search_tiers_categ_ib.c:494
 #, fuzzy
-msgid "Search budgetary lines"
+msgid "Search in budgetary lines"
 msgstr ""
 "Создать\n"
 "бюджетную линию"
 
-#: src/widgets/widget_search_tiers_categ_ib.c:579
+#: src/widgets/widget_search_tiers_categ_ib.c:507
 #, fuzzy
-msgid "Search payees"
+msgid "Search in payees"
 msgstr "Скрыть имена получателей"
 
 #: src/widgets/widget_search_transaction.c:615
