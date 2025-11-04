@@ -5,7 +5,7 @@
 /*          2003-2004 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
 /*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -76,25 +76,25 @@ gint classement_gslist_echeance_par_date ( gpointer data_1,
 
 }
 
-
-/* ************************************************************************* */
-/* Classement de deux opérations par date croissante                           */
-/* ************************************************************************* */
-gint classement_gslist_transactions_par_date ( gpointer transaction_pointer_1,
-                        gpointer transaction_pointer_2 )
+/**
+ * Classement de deux opérations par date croissante
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+gint classement_gslist_transactions_par_date (gpointer transaction_pointer_1,
+											  gpointer transaction_pointer_2)
 {
-    const GDate *date;
-    gint transaction_number_1;
-    gint transaction_number_2;
+	TransactionStruct *transaction_1;
+	TransactionStruct *transaction_2;
 
-    transaction_number_1 = gsb_data_transaction_get_transaction_number (
-                        transaction_pointer_1 );
-    transaction_number_2 = gsb_data_transaction_get_transaction_number (
-                        transaction_pointer_2 );
-    date = gsb_data_transaction_get_date (transaction_number_1);
-    if ( date )
-        return ( g_date_compare ( date,
-                        gsb_data_transaction_get_date (transaction_number_2) ));
+	transaction_1 = transaction_pointer_1;
+	transaction_2 = transaction_pointer_2;
+
+	if (transaction_1->date)
+        return (g_date_compare (transaction_1->date, transaction_2->date));
     else
         return -1;
 }
@@ -103,29 +103,26 @@ gint classement_gslist_transactions_par_date ( gpointer transaction_pointer_1,
 /**
  * Classement de deux opérations par date décroissante
  *
+ * \param
+ * \param
  *
- *
- * */
-gint classement_gslist_transactions_par_date_decroissante ( gpointer transaction_pointer_1,
-                        gpointer transaction_pointer_2 )
+ * \return
+ **/
+gint classement_gslist_transactions_par_date_decroissante (gpointer transaction_pointer_1,
+														   gpointer transaction_pointer_2)
 {
-    const GDate *date;
-    gint transaction_number_1;
-    gint transaction_number_2;
+	TransactionStruct *transaction_1;
+	TransactionStruct *transaction_2;
 
-    transaction_number_1 = gsb_data_transaction_get_transaction_number (
-                        transaction_pointer_1 );
-    transaction_number_2 = gsb_data_transaction_get_transaction_number (
-                        transaction_pointer_2 );
+	transaction_1 = transaction_pointer_1;
+	transaction_2 = transaction_pointer_2;
 
-    date = gsb_data_transaction_get_date ( transaction_number_1 );
-    if ( date )
-        return - ( g_date_compare ( date,
-                        gsb_data_transaction_get_date ( transaction_number_2 ) ) );
-    else
-        return -1;
+	if (transaction_1->date)
+		return - (g_date_compare (transaction_1->date, transaction_2->date));
+	else
+		return -1;
+
 }
-
 
 /**
  *
