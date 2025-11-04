@@ -1159,32 +1159,28 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances (gint account_num
 	tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-		gint transaction_number;
 		gint res = 0;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+		transaction = tmp_list->data;
 
 		/* on regarde si on tient compte ou pas des échéances pour les soldes */
 		if (a_conf->balances_with_scheduled)
 			res = 0;
 		else
 		{
-			const GDate *date;
-
-			date = gsb_data_transaction_get_value_date_or_date (transaction_number);
-			if (date && g_date_valid (date))
-				res = g_date_compare (date_jour, date);
+			if (transaction->value_date && g_date_valid (transaction->value_date))
+				res = g_date_compare (date_jour, transaction->value_date);
+			else
+				res = g_date_compare (date_jour, transaction->date);
 		}
 
-		if (gsb_data_transaction_get_account_number (transaction_number) == account_number
-			 && !gsb_data_transaction_get_mother_transaction_number (transaction_number)
-			 && res >= 0)
+		if (transaction->account_number == account_number && !transaction->mother_transaction_number && res >= 0)
 		{
-			gint marked_transaction;
 			GsbReal adjusted_amout;
 			GsbReal tmp_balance;
 
-			adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
+			adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction->transaction_number, floating_point);
 			tmp_balance = gsb_real_add (current_balance, adjusted_amout);
 			if(tmp_balance.mantissa != error_real.mantissa)
 			{
@@ -1194,15 +1190,14 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances (gint account_num
 			{
 				current_balance_later = gsb_real_add (current_balance_later, adjusted_amout);
 			}
-			marked_transaction = gsb_data_transaction_get_marked_transaction (transaction_number);
-			if (marked_transaction)
+			if (transaction->marked_transaction)
 			{
 				tmp_balance = gsb_real_add (marked_balance, adjusted_amout);
 				if(tmp_balance.mantissa != error_real.mantissa)
 					marked_balance = tmp_balance;
 				else
 					marked_balance_later = gsb_real_add (marked_balance_later, adjusted_amout);
-				if (marked_transaction == OPERATION_POINTEE)
+				if (transaction->marked_transaction == OPERATION_POINTEE)
 					has_pointed = TRUE;
 			}
 		}
@@ -1287,16 +1282,17 @@ GsbReal gsb_data_account_calculate_waiting_marked_balance (gint account_number)
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-		gint transaction_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		if (gsb_data_transaction_get_account_number (transaction_number) == account_number
-			&& !gsb_data_transaction_get_mother_transaction_number (transaction_number)
-			&& (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_POINTEE
+		transaction = tmp_list->data;
+
+		if (transaction->account_number == account_number
+			&& !transaction->mother_transaction_number
+			&& (transaction->marked_transaction == OPERATION_POINTEE
 			   ||
-			   gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELEPOINTEE))
+			   transaction->marked_transaction == OPERATION_TELEPOINTEE))
 			marked_balance = gsb_real_add (marked_balance,
-										   gsb_data_transaction_get_adjusted_amount (transaction_number,
+										   gsb_data_transaction_get_adjusted_amount (transaction->transaction_number,
 																					 floating_point));
 		tmp_list = tmp_list->next;
     }
@@ -2731,21 +2727,18 @@ GsbReal gsb_data_account_calculate_current_day_balance (gint account_number,
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-        gint transaction_number;
         gint res = 0;
         GsbReal adjusted_amout;
         GsbReal tmp_balance;
+		TransactionStruct *transaction;
 
-        transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+		transaction = tmp_list->data;
 
         /* on ne tient pas compte des échéances futures pour le solde */
-        res = g_date_compare (date_jour,
-							  gsb_data_transaction_get_date (transaction_number));
-        if (gsb_data_transaction_get_account_number (transaction_number) == account_number
-             && !gsb_data_transaction_get_mother_transaction_number (transaction_number)
-             && res > 0)
+        res = g_date_compare (date_jour, transaction->date);
+        if (transaction->account_number == account_number && !transaction->mother_transaction_number && res > 0)
         {
-            adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
+            adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction->transaction_number, floating_point);
             tmp_balance = gsb_real_add (current_balance, adjusted_amout);
 
             if(tmp_balance.mantissa != error_real.mantissa)
@@ -3666,29 +3659,32 @@ GsbReal gsb_data_account_get_balance_at_date (gint account_number,
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-        gint transaction_number;
+		TransactionStruct *transaction;
 
-        transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-
-        if (gsb_data_transaction_get_account_number (transaction_number) != account_number)
+		transaction = tmp_list->data;
+        if (transaction->account_number != account_number)
+        {
+            tmp_list = tmp_list->next;
+            continue;
+        }
+        if (transaction->value_date && g_date_valid (transaction->value_date)
+			&& g_date_compare (transaction->value_date, date) > 0)
+        {
+            tmp_list = tmp_list->next;
+            continue;
+        }
+		else if (g_date_compare (transaction->date, date) > 0)
         {
             tmp_list = tmp_list->next;
             continue;
         }
 
-        if (g_date_compare (gsb_data_transaction_get_value_date_or_date (transaction_number),
-         date) > 0)
-        {
-            tmp_list = tmp_list->next;
-            continue;
-        }
-
-        if (gsb_data_transaction_get_mother_transaction_number (transaction_number) == 0)
+        if (transaction->mother_transaction_number == 0)
         {
             GsbReal adjusted_amout;
             GsbReal tmp_balance;
 
-            adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
+            adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction->transaction_number, floating_point);
             tmp_balance = gsb_real_add (current_balance, adjusted_amout);
 
             if (tmp_balance.mantissa == error_real.mantissa)
@@ -3826,12 +3822,12 @@ gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
 	tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 	while (tmp_list)
 	{
-		gint transaction_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		if (gsb_data_transaction_get_account_number (transaction_number) == 0)
+		transaction = tmp_list->data;
+		if (transaction->account_number == 0)
 		{
-			gsb_data_transaction_set_account_number (transaction_number, account_number);
+			gsb_data_transaction_set_account_number (transaction->transaction_number, account_number);
 		}
 		tmp_list = tmp_list->next;
 	}
@@ -3840,12 +3836,12 @@ gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
 	tmp_list = gsb_data_scheduled_get_scheduled_list ();
 	while (tmp_list)
 	{
-		gint scheduled_number;
+		ScheduledStruct *scheduled;
 
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list->data);
-		if (gsb_data_scheduled_get_account_number (scheduled_number) == 0)
+		scheduled = tmp_list->data;
+		if (scheduled->account_number == 0)
 		{
-			gsb_data_scheduled_set_account_number (scheduled_number, account_number);
+			gsb_data_scheduled_set_account_number (scheduled->scheduled_number, account_number);
 		}
 		tmp_list = tmp_list->next;
 	}
