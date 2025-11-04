@@ -867,14 +867,12 @@ gint gsb_data_payee_remove_unused (void)
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-        gint payee_number;
-		gint transaction_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-        payee_number = gsb_data_transaction_get_payee_number (transaction_number);
-        if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+		transaction = tmp_list->data;
+        if (!g_slist_find (used, GINT_TO_POINTER (transaction->party_number)))
         {
-            used = g_slist_append (used, GINT_TO_POINTER (payee_number));
+            used = g_slist_append (used, GINT_TO_POINTER (transaction->party_number));
         }
         tmp_list = tmp_list->next;
     }
@@ -883,14 +881,12 @@ gint gsb_data_payee_remove_unused (void)
     tmp_list = gsb_data_scheduled_get_scheduled_list ();
     while (tmp_list)
     {
-        gint payee_number;
-		gint scheduled_number;
+		ScheduledStruct *scheduled;
 
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list->data);
-        payee_number = gsb_data_scheduled_get_payee_number (scheduled_number);
-        if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+		scheduled = tmp_list->data;
+        if (!g_slist_find (used, GINT_TO_POINTER (scheduled->party_number)))
         {
-            used = g_slist_append (used, GINT_TO_POINTER (payee_number));
+            used = g_slist_append (used, GINT_TO_POINTER (scheduled->party_number));
         }
         tmp_list = tmp_list->next;
     }
