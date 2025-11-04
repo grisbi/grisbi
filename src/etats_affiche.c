@@ -863,19 +863,15 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 
 			while (list_tmp_transactions)
 			{
-				gint transaction_number_tmp;
+				TransactionStruct *transaction;
 
-				transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
-
-				if (gsb_data_transaction_get_account_number (transaction_number_tmp) ==
-					account_number)
+				transaction = list_tmp_transactions->data;
+				if (transaction->account_number == account_number)
 				{
 					const gchar *content;
 
-					content = gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp);
-					if (gsb_data_transaction_get_split_of_transaction (transaction_number_tmp)
-						 && transaction_number_tmp == mother_number
-						 && content)
+					content = transaction->method_of_payment_content;
+					if (transaction->split_of_transaction && transaction->transaction_number == mother_number && content)
 					{
 						gsb_data_transaction_set_method_of_payment_content (transaction_number, content);
 					}
