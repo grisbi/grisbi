@@ -421,15 +421,17 @@ static gchar *gsb_debug_category_test  (void)
     {
 		gint transaction_number;
 		gint category_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		category_number = gsb_data_transaction_get_category_number (transaction_number);
+		transaction = tmp_list->data;
+		transaction_number = transaction->transaction_number;
+		category_number = transaction->category_number;
 		if (gsb_data_category_get_structure (category_number))
 		{
 			gint sub_category_number;
 
 			/* category found, check sub-category */
-			sub_category_number = gsb_data_transaction_get_sub_category_number (transaction_number);
+			sub_category_number = transaction->sub_category_number;
 			if (sub_category_number
 				&& !gsb_data_category_get_sub_category_structure (category_number, sub_category_number))
 			{
@@ -487,15 +489,17 @@ static gboolean gsb_debug_category_test_fix (void)
     {
 		gint transaction_number;
 		gint category_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		category_number = gsb_data_transaction_get_category_number (transaction_number);
+		transaction = tmp_list->data;
+		transaction_number = transaction->transaction_number;
+		category_number = transaction->category_number;
 		if (gsb_data_category_get_structure (category_number))
 		{
 			gint sub_category_number;
 
 			/* category found, check sub-category */
-			sub_category_number = gsb_data_transaction_get_sub_category_number (transaction_number);
+			sub_category_number = transaction->sub_category_number;
 			if (sub_category_number
 				&& !gsb_data_category_get_sub_category_structure (category_number, sub_category_number))
 				/* sub-category not found */
