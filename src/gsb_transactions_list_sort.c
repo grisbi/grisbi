@@ -194,24 +194,24 @@ static gint gsb_transactions_list_sort_by_party (gint transaction_number_1,
 												 gint transaction_number_2)
 {
     gint return_value = 0;
-    gint party_number_1;
-    gint party_number_2;
+    gint payee_number_1;
+    gint payee_number_2;
 
-    party_number_1 = gsb_data_transaction_get_payee_number (transaction_number_1);
-    party_number_2 = gsb_data_transaction_get_payee_number (transaction_number_2);
+    payee_number_1 = gsb_data_transaction_get_payee_number (transaction_number_1);
+    payee_number_2 = gsb_data_transaction_get_payee_number (transaction_number_2);
 
-    if (party_number_1 == party_number_2)
+    if (payee_number_1 == payee_number_2)
 	    return_value = gsb_transactions_list_sort_by_date_and_no (transaction_number_1, transaction_number_2);
     else
     {
         const gchar *temp_1;
         const gchar *temp_2;
 
-        temp_1 = gsb_data_payee_get_name (party_number_1, TRUE);
+        temp_1 = gsb_data_payee_get_name (payee_number_1, TRUE);
         if (temp_1 == NULL)
             return -1;
 
-        temp_2 = gsb_data_payee_get_name (party_number_2, TRUE);
+        temp_2 = gsb_data_payee_get_name (payee_number_2, TRUE);
         if (temp_2 == NULL)
             return 1;
 

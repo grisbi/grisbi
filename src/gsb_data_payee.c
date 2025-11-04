@@ -870,9 +870,9 @@ gint gsb_data_payee_remove_unused (void)
 		TransactionStruct *transaction;
 
 		transaction = tmp_list->data;
-        if (!g_slist_find (used, GINT_TO_POINTER (transaction->party_number)))
+        if (!g_slist_find (used, GINT_TO_POINTER (transaction->payee_number)))
         {
-            used = g_slist_append (used, GINT_TO_POINTER (transaction->party_number));
+            used = g_slist_append (used, GINT_TO_POINTER (transaction->payee_number));
         }
         tmp_list = tmp_list->next;
     }
@@ -884,9 +884,9 @@ gint gsb_data_payee_remove_unused (void)
 		ScheduledStruct *scheduled;
 
 		scheduled = tmp_list->data;
-        if (!g_slist_find (used, GINT_TO_POINTER (scheduled->party_number)))
+        if (!g_slist_find (used, GINT_TO_POINTER (scheduled->payee_number)))
         {
-            used = g_slist_append (used, GINT_TO_POINTER (scheduled->party_number));
+            used = g_slist_append (used, GINT_TO_POINTER (scheduled->payee_number));
         }
         tmp_list = tmp_list->next;
     }

@@ -546,7 +546,7 @@ gboolean gsb_data_scheduled_set_currency_number (gint scheduled_number,
 }
 
 /**
- * get the party_number
+ * get the payee_number
  *
  * \param scheduled_number the number of the scheduled
  *
@@ -561,11 +561,11 @@ gint gsb_data_scheduled_get_payee_number (gint scheduled_number)
     if (!scheduled)
 		return -1;
 
-    return scheduled->party_number;
+    return scheduled->payee_number;
 }
 
 /**
- * set the party_number
+ * set the payee_number
  * if the scheduled has some children, they change too
  *
  * \param scheduled_number
@@ -574,7 +574,7 @@ gint gsb_data_scheduled_get_payee_number (gint scheduled_number)
  * \return TRUE if ok
  **/
 gboolean gsb_data_scheduled_set_payee_number (gint scheduled_number,
-											  gint no_party)
+											  gint no_payee)
 {
     ScheduledStruct *scheduled;
 
@@ -583,7 +583,7 @@ gboolean gsb_data_scheduled_set_payee_number (gint scheduled_number,
     if (!scheduled)
 		return FALSE;
 
-    scheduled->party_number = no_party;
+    scheduled->payee_number = no_payee;
 
     /* if the scheduled is a split, change all the children */
     if (scheduled->split_of_scheduled)
@@ -597,7 +597,7 @@ gboolean gsb_data_scheduled_set_payee_number (gint scheduled_number,
 		while (tmp_list)
 		{
 			scheduled = tmp_list->data;
-			scheduled->party_number = no_party;
+			scheduled->payee_number = no_payee;
 			tmp_list = tmp_list->next;
 		}
 		g_slist_free (save_tmp_list);

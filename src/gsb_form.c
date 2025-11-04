@@ -3066,9 +3066,9 @@ gboolean gsb_form_finish_edition (void)
     if (!gsb_form_validate_form_transaction (transaction_number, is_transaction))
         return FALSE;
 
-    /* if the party is a report, we make as transactions as the number of parties in the
-     * report. So we create a list with the party's numbers or -1 if it's a normal
-     * party */
+    /* if the payee is a report, we make as transactions as the number of parties in the
+     * report. So we create a list with the payee's numbers or -1 if it's a normal
+     * payee */
     payee_list = gsb_form_transaction_get_parties_list_from_report ();
 
     /* now we go throw the list */
@@ -3076,12 +3076,12 @@ gboolean gsb_form_finish_edition (void)
     while (list_tmp)
     {
         if (GPOINTER_TO_INT (list_tmp->data) == -1)
-            /* it's a normal party, we set the list_tmp to NULL */
+            /* it's a normal payee, we set the list_tmp to NULL */
             list_tmp = NULL;
         else
         {
             /* it's a report, so each time we come here we set the parti's combofix to the
-             * party of the report */
+             * payee of the report */
 
             if (!list_tmp->data)
             {
@@ -3110,8 +3110,8 @@ gboolean gsb_form_finish_edition (void)
                     gsb_data_transaction_set_payee_number (transaction_number,
 														   GPOINTER_TO_INT (list_tmp->data));
 
-                    /* if it's not the first party and the method of payment has to change its number (cheque),
-                     * we increase the number. as we are in a party's list, it's always a new transactio,
+                    /* if it's not the first payee and the method of payment has to change its number (cheque),
+                     * we increase the number. as we are in a payee's list, it's always a new transactio,
                      * so we know that it's not the first if transaction_number is not 0 */
 
                     payment_number = gsb_data_transaction_get_method_of_payment_number (source_transaction_number);
@@ -3210,7 +3210,7 @@ gboolean gsb_form_finish_edition (void)
 				if (gsb_data_transaction_get_split_of_transaction (transaction_number)
 					&& !execute_scheduled
 					&& gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
-					&& (split_transaction_number = gsb_form_transactions_look_for_last_party
+					&& (split_transaction_number = gsb_form_transactions_look_for_last_payee
 						(gsb_data_transaction_get_payee_number (transaction_number),
 						 transaction_number,
 														 gsb_data_transaction_get_account_number(transaction_number))))
@@ -3248,12 +3248,12 @@ gboolean gsb_form_finish_edition (void)
 					gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split)))
 				{
 					gint tmp_account_number;
-					gint party_number;
+					gint payee_number;
 					gint split_transaction_number = 0;
 
 					tmp_account_number = gsb_data_scheduled_get_account_number(transaction_number);
-					party_number = gsb_data_scheduled_get_payee_number (transaction_number);
-					split_transaction_number = gsb_form_transactions_look_for_last_party (party_number,
+					payee_number = gsb_data_scheduled_get_payee_number (transaction_number);
+					split_transaction_number = gsb_form_transactions_look_for_last_payee (payee_number,
 																						  0,
 																						  tmp_account_number);
 					if (split_transaction_number)

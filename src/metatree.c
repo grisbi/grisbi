@@ -4009,7 +4009,7 @@ void metatree_transfer_identical_transactions (GtkWidget *tree_view)
 			{
 				gchar *tmp_key = NULL;
 
-				tmp_str = g_strdup (gsb_data_payee_get_name (transaction->party_number, TRUE));
+				tmp_str = g_strdup (gsb_data_payee_get_name (transaction->payee_number, TRUE));
 
 				if (tmp_str)
 					tmp_key = g_utf8_collate_key (tmp_str, -1);

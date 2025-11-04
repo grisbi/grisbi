@@ -19,7 +19,7 @@ struct _TransactionStruct
     gchar *transaction_id;              /**< filled by ofx */
     gint account_number;
     GsbReal transaction_amount;
-    gint party_number;                  /* payee in transaction */
+    gint payee_number;                  /* payee in transaction */
     gchar *notes;
     gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELEPOINTEE=T, OPERATION_RAPPROCHEE=R */
     gint archive_number;                /**< if it's an archived transaction, contains the number of the archive */
@@ -174,7 +174,7 @@ gboolean 		gsb_data_transaction_set_mother_transaction_number 				(gint transact
 gboolean 		gsb_data_transaction_set_notes 									(gint transaction_number,
                         														 const gchar *notes);
 gboolean 		gsb_data_transaction_set_payee_number 							(gint transaction_number,
-                        														 gint no_party);
+                        														 gint no_payee);
 gboolean 		gsb_data_transaction_set_reconcile_number 						(gint transaction_number,
                         														 gint reconcile_number);
 gboolean 		gsb_data_transaction_set_split_of_transaction 					(gint transaction_number,

@@ -19,7 +19,7 @@ gboolean	gsb_form_transaction_recover_splits_of_transaction	(gint new_transactio
 gint		gsb_form_transaction_validate_transfer				(gint transaction_number,
                         										 gint new_transaction,
                         										 gint account_transfer);
-gint		gsb_form_transactions_look_for_last_party			(gint no_party,
+gint		gsb_form_transactions_look_for_last_payee			(gint no_payee,
                         										 gint no_new_transaction,
                         										 gint account_number);
 /* END_DECLARATION */

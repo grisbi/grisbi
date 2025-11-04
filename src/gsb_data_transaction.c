@@ -1098,7 +1098,7 @@ gboolean gsb_data_transaction_set_exchange_fees (gint transaction_number,
 }
 
 /**
- * get the party_number
+ * get the payee_number
  *
  * \param transaction_number the number of the transaction
  *
@@ -1112,11 +1112,11 @@ gint gsb_data_transaction_get_payee_number (gint transaction_number)
 	if (!transaction)
 		return -1;
 
-	return transaction->party_number;
+	return transaction->payee_number;
 }
 
 /**
- * set the party_number
+ * set the payee_number
  * if the transaction has some children, they change too
  *
  * \param transaction_number
@@ -1125,7 +1125,7 @@ gint gsb_data_transaction_get_payee_number (gint transaction_number)
  * \return TRUE if ok
  **/
 gboolean gsb_data_transaction_set_payee_number (gint transaction_number,
-												gint no_party)
+												gint no_payee)
 {
 	TransactionStruct *transaction;
 
@@ -1133,7 +1133,7 @@ gboolean gsb_data_transaction_set_payee_number (gint transaction_number,
 	if (!transaction)
 		return FALSE;
 
-	transaction->party_number = no_party;
+	transaction->payee_number = no_payee;
 
 	/* if the transaction is a split, change all the children */
 	if (transaction->split_of_transaction)
@@ -1147,7 +1147,7 @@ gboolean gsb_data_transaction_set_payee_number (gint transaction_number,
 		while (tmp_list)
 		{
 			transaction = tmp_list->data;
-			transaction->party_number = no_party;
+			transaction->payee_number = no_payee;
 
 			tmp_list = tmp_list->next;
 		}
@@ -2044,7 +2044,7 @@ gint gsb_data_transaction_new_white_line (gint mother_transaction_number)
 	{
 		transaction->transaction_number = gsb_data_transaction_get_last_white_number () - 1;
 		transaction->date = gsb_date_copy (gsb_data_transaction_get_date (mother_transaction_number));
-		transaction->party_number = gsb_data_transaction_get_payee_number (mother_transaction_number);
+		transaction->payee_number = gsb_data_transaction_get_payee_number (mother_transaction_number);
 		transaction->mother_transaction_number = mother_transaction_number;
 	}
 	else

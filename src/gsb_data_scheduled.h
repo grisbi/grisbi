@@ -14,7 +14,7 @@ struct _ScheduledStruct
     gint 		scheduled_number;
     gint 		account_number;
     GsbReal 	scheduled_amount;
-    gint 		party_number;
+    gint 		payee_number;
     gchar *		notes;
     gshort 		automatic_scheduled;			/* < 0=manual, 1=automatic (scheduled scheduled) */
     guint 		financial_year_number;
@@ -125,7 +125,7 @@ gboolean 	gsb_data_scheduled_set_mother_scheduled_number 				(gint scheduled_num
 gboolean 	gsb_data_scheduled_set_notes 								(gint scheduled_number,
 																		 const gchar *notes);
 gboolean 	gsb_data_scheduled_set_payee_number 						(gint scheduled_number,
-																		 gint no_party);
+																		 gint no_payee);
 gboolean 	gsb_data_scheduled_set_split_of_scheduled 					(gint scheduled_number,
 																		 gint is_split);
 gboolean 	gsb_data_scheduled_set_sub_budgetary_number 				(gint scheduled_number,

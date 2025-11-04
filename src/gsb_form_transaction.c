@@ -122,7 +122,7 @@ gboolean gsb_form_transaction_complete_form_by_payee (const gchar *payee_name)
 
 	/* find the last transaction with that payee */
 	if (a_conf->automatic_completion_payee)
-		transaction_number = gsb_form_transactions_look_for_last_party (payee_number, 0, account_number);
+		transaction_number = gsb_form_transactions_look_for_last_payee (payee_number, 0, account_number);
 
 	/* if no same transaction, go away */
 	if (!transaction_number)
@@ -216,17 +216,17 @@ gboolean gsb_form_transaction_complete_form_by_payee (const gchar *payee_name)
 }
 
 /**
- * Look for the last transaction with the same party. Begin in the current account,
+ * Look for the last transaction with the same payee. Begin in the current account,
  * and continue in other accounts if necessary.
  *
- * \param no_party the party we are looking for
+ * \param no_payee the payee we are looking for
  * \param no_new_transaction if the transaction found is that transaction, we don't
- * \param account_number the account we want to find first the party
+ * \param account_number the account we want to find first the payee
  * keep it
  *
  * \return the number of the transaction found, or 0
  **/
-gint gsb_form_transactions_look_for_last_party (gint no_party,
+gint gsb_form_transactions_look_for_last_payee (gint no_payee,
 												gint no_new_transaction,
 												gint account_number)
 {
@@ -244,11 +244,11 @@ gint gsb_form_transactions_look_for_last_party (gint no_party,
 
 		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
 
-		if (gsb_data_transaction_get_payee_number (transaction_number_tmp) == no_party
+		if (gsb_data_transaction_get_payee_number (transaction_number_tmp) == no_payee
 			&& transaction_number_tmp != no_new_transaction
 			&& !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
 		{
-			/* we are on a transaction with the same party, it's also a split, so we keep it */
+			/* we are on a transaction with the same payee, it's also a split, so we keep it */
 			if (gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
 				last_transaction_with_payee_in_account = transaction_number_tmp;
 			else
@@ -317,12 +317,12 @@ gboolean gsb_form_transaction_recover_splits_of_transaction (gint new_transactio
 }
 
 /**
- * return a list of numbers of parties if the party in the form is a
+ * return a list of numbers of parties if the payee in the form is a
  * report
  *
  * \param none
  *
- * \return a g_slist, with -1 if it's a normal party or a list of parties if it's a report
+ * \return a g_slist, with -1 if it's a normal payee or a list of parties if it's a report
  **/
 GSList *gsb_form_transaction_get_parties_list_from_report (void)
 {
@@ -330,7 +330,7 @@ GSList *gsb_form_transaction_get_parties_list_from_report (void)
 
 	parties_list = NULL;
 
-	/*	 check that the party's form exist, else, append -1 and go away */
+	/*	 check that the payee's form exist, else, append -1 and go away */
 	if (gsb_data_form_check_for_value (TRANSACTION_FORM_PARTY))
 	{
 		GtkWidget *combofix;
@@ -354,7 +354,7 @@ GSList *gsb_form_transaction_get_parties_list_from_report (void)
 		}
 
 		if (strncmp (string, _("Report: "), 7))
-			/* the party is not a report, set -1 and go away */
+			/* the payee is not a report, set -1 and go away */
 			parties_list = g_slist_append (parties_list, GINT_TO_POINTER (-1));
 		else
 		{
@@ -387,7 +387,7 @@ GSList *gsb_form_transaction_get_parties_list_from_report (void)
 		}
 	}
 	else
-		/* no party so not a report */
+		/* no payee so not a report */
 		parties_list = g_slist_append (parties_list, GINT_TO_POINTER (- 1));
 
 	return parties_list;

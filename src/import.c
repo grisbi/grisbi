@@ -921,7 +921,7 @@ static GtkWidget *gsb_import_create_page_recapitulatif (struct ImportAccount *co
 				ImportRule *rule;
 
 				rule = tmp_list->data;
-				gtk_entry_set_text (GTK_ENTRY (compte->entry_name_rule), rule->rule_name);				
+				gtk_entry_set_text (GTK_ENTRY (compte->entry_name_rule), rule->rule_name);
 			}
 		}
 
@@ -2489,7 +2489,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
         else if (payee_number && w_etat->associate_categorie_for_payee &&  !imported_transaction->cheque)
         {
             /* associate the class and the budgetary line to the payee except checks */
-            last_transaction_number = gsb_form_transactions_look_for_last_party (payee_number,
+            last_transaction_number = gsb_form_transactions_look_for_last_payee (payee_number,
 																				 transaction_number,
 																				 account_number);
             div_number = gsb_data_transaction_get_category_number (last_transaction_number);
