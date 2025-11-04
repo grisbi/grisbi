@@ -44,47 +44,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-typedef struct	_ScheduledStruct	ScheduledStruct;  /* Describe a scheduled transaction */
-
-struct _ScheduledStruct
-{
-    /** @name general stuff */
-    gint 		scheduled_number;
-    gint 		account_number;
-    GsbReal 	scheduled_amount;
-    gint 		party_number;
-    gchar *		notes;
-    gshort 		automatic_scheduled;			/* < 0=manual, 1=automatic (scheduled scheduled) */
-    guint 		financial_year_number;
-	gint		fixed_date;						/* 0=flottant 1=fixed 2=last_banking_day */
-
-    /** @name dates of the scheduled */
-    GDate *		date;
-
-    /** @name currency stuff */
-    gint 		currency_number;
-
-    /** @name category stuff */
-    gint 		category_number;
-    gint 		sub_category_number;
-    gint 		budgetary_number;
-    gint 		sub_budgetary_number;
-    gint 		account_number_transfer;		/* < -1 for a scheduled neither categ, neither transfer, neither split */
-    gint 		split_of_scheduled;				/* < 1 if it's a split of scheduled */
-    gint 		mother_scheduled_number;		/* < for a split, the mother's scheduled number */
-
-    /** @name method of payment */
-    gint 		method_of_payment_number;
-    gchar *		method_of_payment_content;
-    gint 		contra_method_of_payment_number;
-
-    /** @name specific stuff for scheduled transactions */
-    gint 		frequency;						/* <  0=once, 1=week, 2=month, 3=year, 4=perso */
-    gint 		user_interval;					/* <  0=days, 1=monthes, 2=years */
-    gint 		user_entry;
-    GDate *		limit_date;
-};
-
 /*END_STATIC*/
 
 /*START_EXTERN*/
