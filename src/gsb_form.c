@@ -326,7 +326,7 @@ static gboolean gsb_form_get_categories (gint transaction_number,
 					/* if the check returns -2, it's a deleted account, so set -1 for transaction number transfer
 					 * normally cannot come here if scheduled transaction, but in case,
 					 * we set data_mix to protect */
-					gsb_data_mix_set_transaction_number_transfer (transaction_number, -1, is_transaction);
+					gsb_data_mix_set_contra_transaction_number (transaction_number, -1, is_transaction);
 					/* we don't set any break here, so with the case -1 the
 					 * category will be set to 0 (!!let the case -1 after here) */
 
@@ -1622,7 +1622,7 @@ void gsb_form_fill_element (gint element_number,
 			{
 				gint contra_transaction_number;
 
-				contra_transaction_number = gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction);
+				contra_transaction_number = gsb_data_mix_get_contra_transaction_number (transaction_number, is_transaction);
 				switch (contra_transaction_number)
 				{
 					case -1:
@@ -1782,7 +1782,7 @@ void gsb_form_fill_element (gint element_number,
 			break;
 
 		case TRANSACTION_FORM_CONTRA:
-			if (gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction) > 0)
+			if (gsb_data_mix_get_contra_transaction_number (transaction_number, is_transaction) > 0)
 			{
 				number = gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction);
 

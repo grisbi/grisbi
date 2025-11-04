@@ -553,17 +553,17 @@ gboolean gsb_data_transaction_set_date (gint transaction_number,
 
 			/* si l'opération fille est un transfert on regarde si la contre opération est rapprochée
 			 * si elle ne l'est pas on peut mettre à jour la date */
-			if (transaction->transaction_number_transfer > 0)
+			if (transaction->contra_transaction_number > 0)
 			{
 				gint contra_marked_transaction = 0;
 
 				contra_marked_transaction = gsb_data_transaction_get_marked_transaction
-													(transaction->transaction_number_transfer);
+													(transaction->contra_transaction_number);
 
 				if (contra_marked_transaction != OPERATION_RAPPROCHEE)
 				{
-					gsb_data_transaction_set_date (transaction->transaction_number_transfer, date);
-					gsb_transactions_list_update_transaction (transaction->transaction_number_transfer);
+					gsb_data_transaction_set_date (transaction->contra_transaction_number, date);
+					gsb_transactions_list_update_transaction (transaction->contra_transaction_number);
 				}
 			}
 
@@ -1849,11 +1849,11 @@ gboolean gsb_data_transaction_set_bank_references (gint transaction_number,
 }
 
 /**
- * get the  transaction_number_transfer
+ * get the  contra_transaction_number
  *
  * \param transaction_number the number of the transaction
  *
- * \return the transaction_number_transfer number of the transaction
+ * \return the contra_transaction_number number of the transaction
  **/
 gint gsb_data_transaction_get_contra_transaction_number (gint transaction_number)
 {
@@ -1864,19 +1864,19 @@ gint gsb_data_transaction_get_contra_transaction_number (gint transaction_number
 	if (!transaction)
 		return -1;
 
-	return transaction->transaction_number_transfer;
+	return transaction->contra_transaction_number;
 }
 
 /**
- * set the transaction_number_transfer
+ * set the contra_transaction_number
  *
  * \param transaction_number
- * \param transaction_number_transfer
+ * \param contra_transaction_number
  *
  * \return TRUE if ok
  **/
 gboolean gsb_data_transaction_set_contra_transaction_number (gint transaction_number,
-															 gint transaction_number_transfer)
+															 gint contra_transaction_number)
 {
 	TransactionStruct *transaction;
 
@@ -1884,7 +1884,7 @@ gboolean gsb_data_transaction_set_contra_transaction_number (gint transaction_nu
 	if (!transaction)
 		return FALSE;
 
-	transaction->transaction_number_transfer = transaction_number_transfer;
+	transaction->contra_transaction_number = contra_transaction_number;
 
 	return TRUE;
 }
@@ -1908,7 +1908,7 @@ gint gsb_data_transaction_get_contra_transaction_account (gint transaction_numbe
 	if (!transaction)
 		return -1;
 
-	contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction->transaction_number_transfer);
+	contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction->contra_transaction_number);
 	if (!contra_transaction)
 	return -1;
 
@@ -2142,11 +2142,11 @@ gboolean gsb_data_transaction_remove_transaction (gint transaction_number)
 		return FALSE;
 
 	/* check if it's a transfer */
-	if (transaction->transaction_number_transfer)
+	if (transaction->contra_transaction_number)
 	{
 		TransactionStruct *contra_transaction;
 
-		contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction->transaction_number_transfer);
+		contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction->contra_transaction_number);
 		if (contra_transaction)
 		{
 			/* we remove the transaction from the counters */
@@ -2174,7 +2174,7 @@ gboolean gsb_data_transaction_remove_transaction (gint transaction_number)
 
 			child_transaction = tmp_list->data;
 
-			contra_transaction = gsb_data_transaction_get_transaction_by_no (child_transaction->transaction_number_transfer);
+			contra_transaction = gsb_data_transaction_get_transaction_by_no (child_transaction->contra_transaction_number);
 			if (contra_transaction)
 			{
 				/* it's a transfer, delete the transfer */

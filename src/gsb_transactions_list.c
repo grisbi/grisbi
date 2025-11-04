@@ -3658,7 +3658,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view (gint transacti
 			TransactionStruct *transaction;
 
 			transaction = tmp_list->data;
-			contra_transaction_number = transaction->transaction_number_transfer;
+			contra_transaction_number = transaction->contra_transaction_number;
 
 			if (transaction->mother_transaction_number == transaction_number && contra_transaction_number > 0)
 				transaction_list_remove_transaction (contra_transaction_number);

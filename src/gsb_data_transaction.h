@@ -47,7 +47,7 @@ struct _TransactionStruct
     gint sub_category_number;
     gint budgetary_number;
     gint sub_budgetary_number;
-    gint transaction_number_transfer;   /**< -1 for a transfer to a deleted account, the contra-transaction number else */
+    gint contra_transaction_number;   	/**< -1 for a transfer to a deleted account, the contra-transaction number else */
     gint split_of_transaction;          /**< 1 if it's a split of transaction */
     gint mother_transaction_number;     /**< for a split, the mother's transaction number */
 
@@ -152,7 +152,7 @@ gboolean 		gsb_data_transaction_set_category_number						(gint transaction_numbe
 gboolean 		gsb_data_transaction_set_change_between 						(gint transaction_number,
                         														 gint value);
 gboolean 		gsb_data_transaction_set_contra_transaction_number				(gint transaction_number,
-                        														 gint transaction_number_transfer);
+                        														 gint contra_transaction_number);
 gboolean 		gsb_data_transaction_set_currency_number						(gint transaction_number,
                         														 gint no_currency);
 gboolean 		gsb_data_transaction_set_date 									(gint transaction_number,

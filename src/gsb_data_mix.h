@@ -47,7 +47,7 @@ gint 			gsb_data_mix_get_sub_budgetary_number 			(gint transaction_number,
 																 gboolean is_transaction);
 gint 			gsb_data_mix_get_sub_category_number 			(gint transaction_number,
 																 gboolean is_transaction);
-gint 			gsb_data_mix_get_transaction_number_transfer 	(gint transaction_number,
+gint 			gsb_data_mix_get_contra_transaction_number 		(gint transaction_number,
 																 gboolean is_transaction);
 const gchar *	gsb_data_mix_get_voucher 						(gint transaction_number,
 																 gboolean is_transaction);
@@ -101,8 +101,8 @@ gboolean 		gsb_data_mix_set_sub_budgetary_number 			(gint transaction_number,
 gboolean 		gsb_data_mix_set_sub_category_number 			(gint transaction_number,
 																 gint no_sub_category,
 																 gboolean is_transaction);
-gboolean 		gsb_data_mix_set_transaction_number_transfer	(gint transaction_number,
-																 gint transaction_number_transfer,
+gboolean 		gsb_data_mix_set_contra_transaction_number	(gint transaction_number,
+																 gint contra_transaction_number,
 																 gboolean is_transaction);
 gboolean 		gsb_data_mix_set_value_date 					(gint transaction_number,
 																 GDate *date,
