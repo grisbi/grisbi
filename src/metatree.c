@@ -1032,7 +1032,7 @@ void metatree_division_column_expanded  (GtkTreeView *treeview,
 	gchar *name;
 	gint no_division, no_sub_division;
 	MetatreeInterface *iface;
-	
+
 	/* Get model and metatree interface */
 	model = gtk_tree_view_get_model(treeview);
 	if (!gtk_tree_model_iter_children(model, &child_iter, iter))
@@ -3994,9 +3994,10 @@ void metatree_transfer_identical_transactions (GtkWidget *tree_view)
 	while (list_tmp)
 	{
 		gint transaction_number_tmp;
+		TransactionStruct *transaction;
 
-		transaction_number_tmp =
-				gsb_data_transaction_get_transaction_number (list_tmp->data);
+		transaction = list_tmp->data;
+		transaction_number_tmp = transaction->transaction_number;
 
 		if (iface->transaction_div_id (transaction_number_tmp) == no_division
 		 &&
@@ -4008,8 +4009,7 @@ void metatree_transfer_identical_transactions (GtkWidget *tree_view)
 			{
 				gchar *tmp_key = NULL;
 
-				tmp_str = g_strdup (gsb_data_payee_get_name (
-						gsb_data_transaction_get_payee_number (transaction_number_tmp), TRUE));
+				tmp_str = g_strdup (gsb_data_payee_get_name (transaction->party_number, TRUE));
 
 				if (tmp_str)
 					tmp_key = g_utf8_collate_key (tmp_str, -1);
@@ -4026,7 +4026,7 @@ void metatree_transfer_identical_transactions (GtkWidget *tree_view)
 			{
 				gchar *tmp_key = NULL;
 
-				tmp_str = g_strdup (gsb_data_transaction_get_notes (transaction_number_tmp));
+				tmp_str = g_strdup (transaction->notes);
 
 				if (tmp_str)
 					tmp_key = g_utf8_collate_key (tmp_str, -1);
