@@ -2203,7 +2203,6 @@ static void gsb_transactions_list_process_orphan_list (GSList *orphan_list)
 static gboolean gsb_transactions_list_fill_model (void)
 {
     GSList *tmp_list;
-    gint transaction_number;
 
     devel_debug (NULL);
 
@@ -2217,9 +2216,11 @@ static gboolean gsb_transactions_list_fill_model (void)
     tmp_list = gsb_data_transaction_get_transactions_list ();
     while (tmp_list)
     {
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-	transaction_list_append_transaction (transaction_number);
-	tmp_list = tmp_list->next;
+		TransactionStruct *transaction;
+
+		transaction = tmp_list->data;
+		transaction_list_append_transaction (transaction->transaction_number);
+		tmp_list = tmp_list->next;
     }
 
     /* if orphan_child_transactions if filled, there are some children which didn't fing their
@@ -3362,19 +3363,16 @@ GsbReal gsb_transactions_list_get_solde_debut_affichage (gint account_number,
 
     while (list_tmp_transactions)
     {
-        gint transaction_number_tmp;
+		TransactionStruct *transaction;
 
-		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
+		transaction = list_tmp_transactions->data;
 
         /* 	si l'opé est ventilée ou non relevée, on saute */
-        if (gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number
-			&&
-            !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp)
-            &&
-            gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_RAPPROCHEE)
-            solde = gsb_real_add (solde,
-								  gsb_data_transaction_get_adjusted_amount (transaction_number_tmp,
-																			floating_point));
+        if (transaction->account_number == account_number
+			&& !transaction->mother_transaction_number
+            && transaction->marked_transaction == OPERATION_RAPPROCHEE)
+            solde = gsb_real_add (solde, gsb_data_transaction_get_adjusted_amount (transaction->transaction_number,
+																				   floating_point));
 
         list_tmp_transactions = list_tmp_transactions->next;
     }
@@ -3657,15 +3655,12 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view (gint transacti
 		tmp_list = gsb_data_transaction_get_transactions_list ();
 		while (tmp_list)
 		{
-			gint test_transaction;
+			TransactionStruct *transaction;
 
-			test_transaction = gsb_data_transaction_get_transaction_number (tmp_list->data);
+			transaction = tmp_list->data;
+			contra_transaction_number = transaction->transaction_number_transfer;
 
-			contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (test_transaction);
-
-			if (gsb_data_transaction_get_mother_transaction_number (test_transaction) == transaction_number
-				&&
-				contra_transaction_number > 0)
+			if (transaction->mother_transaction_number == transaction_number && contra_transaction_number > 0)
 				transaction_list_remove_transaction (contra_transaction_number);
 
 			tmp_list = tmp_list->next;
