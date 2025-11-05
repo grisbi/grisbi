@@ -1296,6 +1296,19 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
 	return FALSE;
 }
 
+/**
+ * use an extra parameter to be of type GCopyFunc ()
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gpointer my_strdup_null(gconstpointer src, gpointer data)
+{
+	return g_strdup(src);
+}
+
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -1779,19 +1792,6 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 	gtk_entry_set_text (GTK_ENTRY (entry), w_etat->csv_separator);
 
 	return FALSE;
-}
-
-/**
- * use an extra parameter to be of type GCopyFunc ()
- *
- * \param
- * \param
- *
- * \return
- **/
-static gpointer my_strdup_null(gconstpointer src, gpointer data)
-{
-	return g_strdup(src);
 }
 
 /**
