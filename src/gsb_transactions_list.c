@@ -4229,17 +4229,18 @@ gboolean gsb_transactions_list_restore_archive (gint archive_number,
         tmp_list = gsb_data_transaction_get_complete_transactions_list ();
         while (tmp_list)
         {
-            transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-            account_number = gsb_data_transaction_get_account_number (transaction_number);
-            if (gsb_data_transaction_get_archive_number (transaction_number) == archive_number
-             &&
-             gsb_data_archive_store_get_transactions_visibles (archive_number, account_number) == FALSE)
+			TransactionStruct *transaction;
+
+			transaction = tmp_list->data;
+
+            if (transaction->archive_number == archive_number
+				&& gsb_data_archive_store_get_transactions_visibles (archive_number, transaction->account_number) == FALSE)
             {
                 /* append the transaction to the list of non archived transactions */
-                gsb_data_transaction_add_archived_to_list (transaction_number);
+                gsb_data_transaction_add_archived_to_list (transaction->transaction_number);
 
                 /* the transaction belongs to the archive we want to show, so append it to the list store */
-                transaction_list_append_transaction (transaction_number);
+                transaction_list_append_transaction (transaction->transaction_number);
             }
             tmp_list = tmp_list->next;
         }
@@ -4344,17 +4345,17 @@ gboolean gsb_transactions_list_add_transactions_from_archive (gint archive_numbe
         tmp_list = gsb_data_transaction_get_complete_transactions_list ();
         while (tmp_list)
         {
-            transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+			TransactionStruct *transaction;
 
-            if (gsb_data_transaction_get_archive_number (transaction_number) == archive_number
-             &&
-             gsb_data_transaction_get_account_number (transaction_number) == account_number)
+			transaction = tmp_list->data;
+            if (transaction->archive_number == archive_number
+             && transaction->account_number == account_number)
             {
                 /* append the transaction to the list of non archived transactions */
-                gsb_data_transaction_add_archived_to_list (transaction_number);
+                gsb_data_transaction_add_archived_to_list (transaction->transaction_number);
 
                 /* the transaction belongs to the archive we want to show, so append it to the list store */
-                transaction_list_append_transaction (transaction_number);
+                transaction_list_append_transaction (transaction->transaction_number);
             }
             tmp_list = tmp_list->next;
         }
