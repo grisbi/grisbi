@@ -703,17 +703,15 @@ static void etats_onglet_fill_reports_list_model (GtkListStore *list_store)
 
 	while (tmp_list)
 	{
-		gint report_number;
-		gchar *report_name;
+		ReportStruct *report_struct;
 
-		report_number = gsb_data_report_get_report_number (tmp_list->data);
-		report_name = gsb_data_report_get_report_name (report_number);
+		report_struct = tmp_list->data;
 
 		gtk_list_store_append (GTK_LIST_STORE (list_store), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (list_store),
 							&iter,
-							0, report_name,
-							1, report_number,
+							0, report_struct->report_name,
+							1, report_struct->report_number,
 							-1);
 
 		tmp_list = tmp_list->next;
