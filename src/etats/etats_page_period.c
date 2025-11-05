@@ -143,13 +143,13 @@ static GtkTreeModel *etats_page_period_get_model_exercices (void)
     {
         GtkTreeIter iter;
         gchar *name;
-        gint fyear_number;
+		FyearStruct *fyear_struct;
 
-        fyear_number = gsb_data_fyear_get_no_fyear (list_tmp->data);
-        name = my_strdup (gsb_data_fyear_get_name (fyear_number));
+        fyear_struct = list_tmp->data;
+        name = my_strdup (fyear_struct->fyear_name);
 
         gtk_list_store_append (list_store, &iter);
-        gtk_list_store_set (list_store, &iter, 0, name, 1, fyear_number, -1);
+        gtk_list_store_set (list_store, &iter, 0, name, 1, fyear_struct->fyear_number, -1);
 
         if (name)
             g_free (name);
