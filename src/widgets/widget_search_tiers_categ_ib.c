@@ -329,6 +329,7 @@ static void widget_search_tiers_categ_ib_button_search_clicked (GtkButton *butto
 
 	/* add a new search report for tiers, categ ib from Ctrl F */
 	etats_onglet_create_search_tiers_categ_ib_report (GTK_WINDOW (dialog) , text, search_data_report);
+	g_free(search_data_report);
 }
 
 /**
