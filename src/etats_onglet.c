@@ -902,8 +902,6 @@ devel_debug (text);
 			tmp_amount_sup = gsb_real_opposite (amount_inf);
 			gsb_data_report_amount_comparison_set_first_amount (tmp_amount_cmp_number, tmp_amount_sup);
 			gsb_data_report_amount_comparison_set_second_amount (tmp_amount_cmp_number, tmp_amount_inf);
-			printf ("amount_inf 2 = %s\n", utils_real_get_string (tmp_amount_inf));
-			printf ("amount_sup 2 = %s\n", utils_real_get_string (tmp_amount_sup));
 
 			gsb_data_report_amount_comparison_set_first_comparison (tmp_amount_cmp_number, 2); /* inferieur ou egal */
 			gsb_data_report_amount_comparison_set_second_comparison (tmp_amount_cmp_number, 4); /* superieur ou egal */
