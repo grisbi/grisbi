@@ -268,9 +268,11 @@ static void widget_currency_popup_setup_page (WidgetCurrencyPopup *page,
 	priv = widget_currency_popup_get_instance_private (page);
 
 	if (model)
+	{
 		gtk_tree_view_set_model (GTK_TREE_VIEW (priv->treeview_currency_popup), GTK_TREE_MODEL (model));
+		g_object_unref (G_OBJECT(model));
+	}
  	gtk_widget_set_name (priv->treeview_currency_popup, "colorized_tree_view");
-    g_object_unref (G_OBJECT(model));
 
     /* Flag */
     cell = gtk_cell_renderer_pixbuf_new ();
