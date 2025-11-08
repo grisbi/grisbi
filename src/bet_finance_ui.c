@@ -2595,6 +2595,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 	}
 
 	date = gsb_date_add_one_month (date, TRUE);
+	g_free(s_amortissement->str_date);
 	s_amortissement->str_date = gsb_format_gdate (date);
 
     /* set the other echeances */
@@ -2685,6 +2686,7 @@ void bet_finance_update_amortization_tab_with_data (gint account_number,
 		}
 
         date = gsb_date_add_one_month (date, TRUE);
+        g_free(s_amortissement->str_date);
         s_amortissement->str_date = gsb_format_gdate (date);
 
 //~ if (index < 11)
