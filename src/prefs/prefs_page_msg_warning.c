@@ -200,7 +200,6 @@ static GtkWidget *prefs_page_msg_warning_create_tree_view (PrefsPageMsgWarning *
 	gtk_widget_set_vexpand (treeview, TRUE);
 
     gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (model));
-    g_object_unref (G_OBJECT(model));
 
 	/* toggled column*/
     cell = gtk_cell_renderer_toggle_new ();
@@ -218,6 +217,8 @@ static GtkWidget *prefs_page_msg_warning_create_tree_view (PrefsPageMsgWarning *
 
 	/* set and fill the model */
 	prefs_page_msg_warning_fill_model (model);
+
+	g_object_unref (G_OBJECT(model));
 
     /* signal of tree_view */
     g_signal_connect (G_OBJECT (treeview),
