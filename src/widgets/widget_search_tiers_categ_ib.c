@@ -293,21 +293,26 @@ static void widget_search_tiers_categ_ib_button_search_clicked (GtkButton *butto
 		GsbReal amount;
 
 		amount = utils_real_get_from_string (text);
-		if (amount.mantissa == error_real.mantissa||
-			strlen (utils_real_get_string (amount)) != strlen (text)) /* test impose par gsb_real_raw_get_from_string () */
+		if (amount.mantissa == error_real.mantissa)
 		{
-			gchar *tmp_str1;
-			gchar *tmp_str2;
+			gchar * string_amount = utils_real_get_string (amount);
+			gboolean test = strlen (string_amount) != strlen (text); /* test impose par gsb_real_raw_get_from_string () */
+			g_free(string_amount);
+			if (test)
+			{
+				gchar *tmp_str1;
+				gchar *tmp_str2;
 
-			tmp_str1 = g_strdup (_("You must enter a valid amount"));
-			tmp_str2 = g_strdup (_("WARNING"));
+				tmp_str1 = g_strdup (_("You must enter a valid amount"));
+				tmp_str2 = g_strdup (_("WARNING"));
 
-			widget_search_tiers_categ_ib_warning_msg (GTK_WINDOW (dialog), tmp_str1, tmp_str2);
+				widget_search_tiers_categ_ib_warning_msg (GTK_WINDOW (dialog), tmp_str1, tmp_str2);
 
-			g_free (tmp_str1);
-			g_free (tmp_str2);
+				g_free (tmp_str1);
+				g_free (tmp_str2);
 
-			return;
+				return;
+			}
 		}
 	}
 
