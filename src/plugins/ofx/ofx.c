@@ -441,6 +441,7 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 						tmp_str = gsb_string_extract_int (ope_import->tiers);
 						if (tmp_str && strlen (tmp_str) > 0)
 						{
+							g_free(ope_import->cheque);
 							ope_import->cheque = tmp_str;
 							ope_import->type_de_transaction = GSB_CHECK;
 						}
