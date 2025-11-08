@@ -1979,7 +1979,6 @@ static GtkWidget *bet_array_create_tree_view (GtkWidget *container)
                     G_TYPE_STRING);    /* SPP_ESTIMATE_TREE_COLOR_STRING */
 
     gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (tree_model));
-    g_object_unref (G_OBJECT (tree_model));
 
     /* sort by date */
     gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (tree_model),
@@ -1990,6 +1989,8 @@ static GtkWidget *bet_array_create_tree_view (GtkWidget *container)
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (tree_model),
                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
                         GTK_SORT_DESCENDING);
+
+    g_object_unref (G_OBJECT (tree_model));
 
     scrolled_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_widget_show (scrolled_window);
