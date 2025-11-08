@@ -7,20 +7,22 @@
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2013, 2018.
 # Martin Stromberger <mstromberger@aon.at>, 2018, 2019, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2025 dom <dbro17@free.fr>
+# SPDX-FileCopyrightText: 2025 brochignac <dbro17@free.fr.invalid>
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
 "POT-Creation-Date: 2025-11-02 08:09+0100\n"
-"PO-Revision-Date: 2023-11-04 13:01+0100\n"
-"Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
-"Language-Team: German <kde-i18n-de@kde.org>\n"
+"PO-Revision-Date: 2025-11-09 00:30+0100\n"
+"Last-Translator: brochignac <dbro17@free.fr>\n"
+"Language-Team: German <>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #: src/etats/etats_page_amount.ui:17 src/etats/etats_page_text.ui:16
 msgid "Select transactions according to content"
@@ -53,7 +55,7 @@ msgstr "Buchungen nach Konten auswählen"
 
 #: src/etats/etats_page_accounts.ui:42
 msgid "Select the accounts included in the report: "
-msgstr "Konten für den Bericht auswählen"
+msgstr "Konten für den Bericht auswählen :"
 
 #: src/etats/etats_page_budget.ui:16
 msgid "Detail budget allocations"
@@ -61,7 +63,7 @@ msgstr "Buchungen nach Gruppen auswählen"
 
 #: src/etats/etats_page_budget.ui:41
 msgid "Select budget allocations to include: "
-msgstr "Gruppen für den Bericht auswählen:"
+msgstr "Gruppen für den Bericht auswählen :"
 
 #: src/etats/etats_page_category.ui:16
 msgid "Detail categories"
@@ -69,7 +71,7 @@ msgstr "Buchungen nach Kategorien auswählen"
 
 #: src/etats/etats_page_category.ui:41
 msgid "Select categories to include: "
-msgstr "Kategorien für den Bericht auswählen"
+msgstr "Kategorien für den Bericht auswählen :"
 
 #: src/etats/etats_page_payee.ui:16
 msgid "Detail payees"
@@ -77,7 +79,7 @@ msgstr "Buchungen nach Empfänger auswählen"
 
 #: src/etats/etats_page_payee.ui:42
 msgid "Select payees to include in this report: "
-msgstr "Empfänger für den Bericht auswählen"
+msgstr "Empfänger für den Bericht auswählen :"
 
 #: src/etats/etats_page_payee.ui:84 src/ui/etats_prefs.ui:2799
 #: src/widgets/widget_list_accounts.ui:49
@@ -91,7 +93,7 @@ msgstr "Alle auswählen"
 
 #: src/etats/etats_page_payee.ui:106
 msgid "<Ctrl> + left click of mouse to add to the selection"
-msgstr "<STRG> + Links Klick für Detailauswahl"
+msgstr "<Strg> + Links Klick für Detailauswahl"
 
 #: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:154
 #: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_tiers_categ_ib.ui:381
@@ -107,7 +109,7 @@ msgid ""
 "<Ctrl> + left click of mouse\n"
 "to add at the selection"
 msgstr ""
-"<STRG> + Links Klick\n"
+"<Strg> + Links Klick\n"
 "für Detailauswahl"
 
 #: src/etats/etats_page_payee.ui:166
@@ -260,11 +262,11 @@ msgstr "Das Archiv und die Buchungen löschen"
 
 #: src/prefs/prefs_page_archives.ui:256
 msgid "Sort the archives by descending date"
-msgstr "nach Datum absteigend sortieren"
+msgstr "Nach Datum absteigend sortieren"
 
 #: src/prefs/prefs_page_archives.ui:291
 msgid "Check at opening if creating archive is needed."
-msgstr "Beim Öffnen prüfen ob ein Archiv erstellt werden soll"
+msgstr "Beim Öffnen prüfen ob ein Archiv erstellt werden soll."
 
 #: src/prefs/prefs_page_archives.ui:313
 msgid "Warn if more than "
@@ -272,7 +274,7 @@ msgstr "Warnung wenn mehr als "
 
 #: src/prefs/prefs_page_archives.ui:343
 msgid " transactions are not archived."
-msgstr " Buchungen nicht archiviert sind"
+msgstr " Buchungen nicht archiviert sind."
 
 #: src/prefs/prefs_page_archives.ui:369 src/prefs/prefs_page_fyear.ui:274
 #: src/ui/etats_prefs.ui:256 src/widgets/widget_bank_details.ui:58
@@ -390,7 +392,7 @@ msgstr "Gemeinsame Einstellungen"
 
 #: src/prefs/prefs_page_bet_general.ui:71
 msgid "Beginning of period: "
-msgstr "Beginndatum:"
+msgstr "Beginndatum :"
 
 #: src/prefs/prefs_page_bet_general.ui:81
 msgid "1st day of month"
@@ -398,13 +400,13 @@ msgstr "erster Tag vom Monat"
 
 #: src/prefs/prefs_page_bet_general.ui:97
 msgid "date today"
-msgstr "aktuelles Datum"
+msgstr "Aktuelles Datum"
 
 #: src/prefs/prefs_page_bet_general.ui:123
 msgid "(This option is used if no starting date for forecasts)"
 msgstr ""
 "Anmerkung: Diese Einstellung wird bei einem fehlenden Datum für die Prognose "
-"herangezogen."
+"herangezogen"
 
 #: src/prefs/prefs_page_bet_general.ui:176
 msgid "Option for cash accounts"
@@ -612,7 +614,7 @@ msgstr "Buchungsübersicht Inhalt"
 
 #: src/prefs/prefs_page_divers.ui:33
 msgid "Number of days before the warning or the execution: "
-msgstr "Hinweis für eine geplante Buchung in Tagen davor anzeigen: "
+msgstr "Hinweis für eine geplante Buchung in Tagen davor anzeigen : "
 
 #: src/prefs/prefs_page_divers.ui:48 src/prefs/prefs_page_files.ui:447
 #: src/prefs/prefs_page_payment_method.ui:216
@@ -641,7 +643,7 @@ msgstr "Einstellungen"
 
 #: src/prefs/prefs_page_divers.ui:199
 msgid "Configuration backend: "
-msgstr "Einstellungen:"
+msgstr "Einstellungen :"
 
 #: src/prefs/prefs_page_divers.ui:227
 msgid "Help display"
@@ -947,7 +949,7 @@ msgstr "Erfasste Geschäftsjahre"
 
 #: src/prefs/prefs_page_fyear.ui:100
 msgid "Sort the exercises by descending name"
-msgstr "nach Name absteigend sortieren"
+msgstr "Sortiere die Geschäftsjahre nach absteigendem Namen"
 
 #: src/prefs/prefs_page_fyear.ui:138
 msgid "Associate operations without financial years"
@@ -1045,15 +1047,15 @@ msgstr "Anzeigeoptionen"
 
 #: src/prefs/prefs_page_options_ope.ui:76
 msgid "In one line visible, show the line:"
-msgstr "Einzeilig - Zeile: "
+msgstr "Eine Zeile anzeige, Zeile anzeigen :"
 
 #: src/prefs/prefs_page_options_ope.ui:89
 msgid "In two lines visibles, show the lines:"
-msgstr "Zweizeilig - Zeilen: "
+msgstr "Zweizeilige Anzeige, Zeilen anzeigen :"
 
 #: src/prefs/prefs_page_options_ope.ui:101
 msgid "In three lines visibles, show the lines:"
-msgstr "Dreizeilig - Zeilen: "
+msgstr "Dreizeilige Anzeige, Zeilen anzeigen :"
 
 #: src/prefs/prefs_page_options_ope.ui:207
 msgid "Transactions options"
@@ -1076,9 +1078,8 @@ msgid "Secondary sorting option"
 msgstr "Sortierung sekundär"
 
 #: src/prefs/prefs_page_options_ope.ui:472
-#, fuzzy
 msgid "Force the sort by type of amount: credit before debit"
-msgstr "nach Art, Einnahmen oder Ausgaben"
+msgstr "Nach Art, Einnahmen oder Ausgaben"
 
 #: src/prefs/prefs_page_options_ope.ui:528
 msgid "Account differentiation"
@@ -1098,19 +1099,19 @@ msgstr "Zahlungsweise Details"
 
 #: src/prefs/prefs_page_payment_method.ui:137
 msgid "Name:"
-msgstr "Name: "
+msgstr "Name :"
 
 #: src/prefs/prefs_page_payment_method.ui:149
 msgid "Automatic numbering:"
-msgstr "Automatische Nr: "
+msgstr "Automatische Nr :"
 
 #: src/prefs/prefs_page_payment_method.ui:161
 msgid "Type:"
-msgstr "Art: "
+msgstr "Art :"
 
 #: src/prefs/prefs_page_payment_method.ui:188
 msgid "Add a number"
-msgstr "nach Nummer"
+msgstr "Nach Nummer"
 
 #: src/prefs/prefs_page_payment_method.ui:200
 msgid "Activate"
@@ -1200,7 +1201,7 @@ msgstr "Erfasste Abstimmungen"
 
 #: src/prefs/prefs_page_reconcile.ui:152
 msgid "Sort by descending date the reconciliations"
-msgstr "nach Datum absteigend sortieren"
+msgstr "Nach Datum absteigend sortieren"
 
 #: src/prefs/prefs_page_reconcile.ui:172
 msgid "Selected reconcile"
@@ -1208,7 +1209,7 @@ msgstr "Abstimmung Details"
 
 #: src/prefs/prefs_page_reconcile.ui:200 src/widgets/widget_reconcile.ui:48
 msgid "Reconciliation number: "
-msgstr "Abstimmung Nummer:"
+msgstr "Abstimmung Nummer :"
 
 #: src/prefs/prefs_page_reconcile.ui:236 src/widgets/widget_reconcile.ui:222
 #: src/gsb_assistant_reconcile_config.c:501
@@ -1274,7 +1275,7 @@ msgstr "Konto Daten"
 
 #: src/ui/csv_template_rule.ui:256
 msgid "Import account Id: "
-msgstr "Importiertes Konto Id:"
+msgstr "Importiertes Konto Id :"
 
 #: src/ui/csv_template_rule.ui:273
 msgid "Row"
@@ -1290,7 +1291,7 @@ msgstr "Daten erste Zeile"
 
 #: src/ui/csv_template_rule.ui:403
 msgid "Indicates the first usable line of the file"
-msgstr "Kennzeichnet die erste verwendbare Zeile in der Datei."
+msgstr "Kennzeichnet die erste verwendbare Zeile in der Datei"
 
 #: src/ui/csv_template_rule.ui:410
 msgid "Line number: "
@@ -1354,15 +1355,15 @@ msgstr "Datum und Zeit"
 
 #: src/ui/etats_prefs.ui:337
 msgid "Start"
-msgstr "am Anfang"
+msgstr "Am Anfang"
 
 #: src/ui/etats_prefs.ui:338
 msgid "End"
-msgstr "am Ende"
+msgstr "Am Ende"
 
 #: src/ui/etats_prefs.ui:339
 msgid "Below"
-msgstr "unterhalb"
+msgstr "Unterhalb"
 
 #: src/ui/etats_prefs.ui:352
 msgid "of title"
@@ -1476,7 +1477,6 @@ msgid "reconciliation reference"
 msgstr "Abstimmung Nr."
 
 #: src/ui/etats_prefs.ui:899
-#, fuzzy
 msgid "account name"
 msgstr "Kontoname"
 
@@ -1621,15 +1621,15 @@ msgstr "Daten Trennung"
 
 #: src/ui/etats_prefs.ui:2201
 msgid "Split incomes and outgoings"
-msgstr "nach Einnahmen und Ausgaben"
+msgstr "Nach Einnahmen und Ausgaben"
 
 #: src/ui/etats_prefs.ui:2216
 msgid "Split by financial year"
-msgstr "nach Geschäftsjahr"
+msgstr "Nach Geschäftsjahr"
 
 #: src/ui/etats_prefs.ui:2231
 msgid "Split by period"
-msgstr "nach Zeitspanne"
+msgstr "Nach Zeitspanne"
 
 #: src/ui/etats_prefs.ui:2277
 msgid "Separation by period"
@@ -1681,7 +1681,7 @@ msgstr "Keine Teilbuchungen von Splittbuchungen anzeigen"
 
 #: src/ui/etats_prefs.ui:2758
 msgid "Select methods of payment to include: "
-msgstr "Zahlungsweisen für den Bericht auswählen"
+msgstr "Zahlungsweisen für den Bericht auswählen :"
 
 #: src/ui/etats_prefs.ui:2912
 msgid "title"
@@ -1731,7 +1731,7 @@ msgstr "Speichern"
 
 #: src/ui/grisbi_menu.ui:56 src/ui/grisbi_menu.ui:284
 msgid "Save As"
-msgstr "Speichern unter ..."
+msgstr "Speichern unter"
 
 #: src/ui/grisbi_menu.ui:63
 msgid "_Import file"
@@ -1851,7 +1851,7 @@ msgstr "2 Zeilen pro Buchung"
 
 #: src/ui/grisbi_menu.ui:205 src/ui/grisbi_menu.ui:446
 msgid "Show three lines per transaction"
-msgstr "3 Zeilen pro Buchung"
+msgstr "Drei Zeilen pro Buchung anzeigen"
 
 #: src/ui/grisbi_menu.ui:210 src/ui/grisbi_menu.ui:451
 msgid "Show four lines per transaction"
@@ -2076,11 +2076,11 @@ msgstr "Position"
 
 #: src/widgets/widget_bet_graph_options.ui:266
 msgid "Low"
-msgstr "unten Anzeigen"
+msgstr "Unten Anzeigen"
 
 #: src/widgets/widget_bet_graph_options.ui:283
 msgid "High"
-msgstr "oben Anzeigen"
+msgstr "Oben Anzeigen"
 
 #: src/widgets/widget_bet_graph_options.ui:301
 msgid "Intersection point of X Y axes"
@@ -2217,7 +2217,7 @@ msgstr "stopp"
 
 #: src/widgets/widget_cmp_text.ui:60
 msgid "Transactions whose "
-msgstr "Buchungen mit einem-/einer"
+msgstr "Buchungen mit einem-/einer "
 
 #: src/widgets/widget_cmp_text.ui:75
 msgid "payee information"
@@ -2257,11 +2257,11 @@ msgstr "nicht leer ist"
 
 #: src/widgets/widget_cmp_text.ui:163
 msgid "is "
-msgstr "welche"
+msgstr "welche "
 
 #: src/widgets/widget_cmp_text.ui:184
 msgid "the biggest"
-msgstr "die größte ist"
+msgstr "Die größte ist"
 
 #: src/widgets/widget_cmp_text.ui:197 src/widgets/widget_cmp_text.ui:289
 #: src/etats_prefs.c:1155 src/etats_support.c:69
@@ -2270,7 +2270,7 @@ msgstr "um"
 
 #: src/widgets/widget_css_rules.ui:40
 msgid "Text height of status bar: "
-msgstr "Text Höhe Status Anzeige:"
+msgstr "Text Höhe Status Anzeige :"
 
 #: src/widgets/widget_css_rules.ui:72 src/widgets/widget_css_rules.ui:86
 #: src/widgets/widget_css_rules.ui:175 src/widgets/widget_css_rules.ui:252
@@ -2297,7 +2297,7 @@ msgstr "Einstellungen"
 
 #: src/widgets/widget_css_rules.ui:387
 msgid "Overall height of characters: "
-msgstr "Allgemeine Schriftgröße:"
+msgstr "Allgemeine Schriftgröße :"
 
 #: src/widgets/widget_css_rules.ui:445
 msgid "Global font size"
@@ -2337,7 +2337,7 @@ msgstr "Wechselkurs Details"
 
 #: src/widgets/widget_currency_link.ui:143
 msgid "Fixed exchange rate"
-msgstr "fixer Wechselkurs"
+msgstr "Fixer Wechselkurs"
 
 #: src/widgets/widget_currency_popup.ui:49
 msgid "Include obsolete currencies"
@@ -2372,9 +2372,8 @@ msgstr ""
 "werden."
 
 #: src/widgets/widget_import_asso.ui:87
-#, fuzzy
 msgid "Warning: you cannot create a payee from this tab"
-msgstr "Warnung: es dürfen keine Empfänger %s erstellt werden."
+msgstr "Warnung : Sie können auf dieser Seite keine Empfänger erstellen"
 
 #: src/widgets/widget_import_asso.ui:205
 msgid "Details of associations"
@@ -2490,7 +2489,7 @@ msgstr "Gebühren pro Monat: "
 
 #: src/widgets/widget_loan.ui:210
 msgid "Interests: "
-msgstr "Zinsanteil:"
+msgstr "Zinsanteil :"
 
 #: src/widgets/widget_loan.ui:252 src/widgets/widget_loan.ui:326
 msgid "From 1 to 600 months or 50 years"
@@ -2526,7 +2525,7 @@ msgstr ""
 
 #: src/widgets/widget_loan.ui:371 src/bet_finance_ui.c:1420
 msgid "Proportional rate"
-msgstr "anteilsmäßige Rate"
+msgstr "Anteilsmäßige Rate"
 
 #: src/widgets/widget_loan.ui:391
 msgid "Date of first repayment: "
@@ -2579,28 +2578,25 @@ msgid "Reconcile"
 msgstr "Abstimmen"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:71
-#, fuzzy
 msgid "Search transactions by name"
-msgstr "Buchungen nach Beträgen auswählen"
+msgstr "Buchungen nach Namen suchen"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:86
-#, fuzzy
 msgid "Search transactions by amount"
-msgstr "Buchungen nach Beträgen auswählen"
+msgstr "Buchungen nach Beträgen suchen"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:109
-#, fuzzy
 msgid "   "
-msgstr "    "
+msgstr "   "
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:121
 #: src/widgets/widget_search_transaction.ui:301
 msgid "Search an amount at + or - "
-msgstr "Betrag im Bereich von  + / -"
+msgstr "Betrag im Bereich von + / -"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:155
 msgid "Devise"
-msgstr ""
+msgstr "Währung"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:183
 #: src/widgets/widget_search_transaction.ui:266
@@ -2610,7 +2606,7 @@ msgstr ""
 #: src/widgets/widget_search_transaction.c:779
 #: src/widgets/widget_search_transaction.c:1124
 msgid "Ignore case"
-msgstr ""
+msgstr "Groß-/Kleinschreibung ignorieren"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:198
 #: src/widgets/widget_search_transaction.ui:251
@@ -2619,7 +2615,7 @@ msgstr "Suche in archivierten Buchungen"
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:238
 msgid "Save this search"
-msgstr ""
+msgstr "Diese Suche speichern"
 
 #: src/widgets/widget_search_transaction.ui:86
 #: src/widgets/widget_search_transaction.c:125
@@ -2636,7 +2632,7 @@ msgstr "Suche nach Notiz"
 
 #: src/widgets/widget_search_transaction.ui:194
 msgid "Continue with another account: "
-msgstr "Mit einem anderen Konto fortfahren:"
+msgstr "Mit einem anderen Konto fortfahren :"
 
 #: src/widgets/widget_search_transaction.ui:236
 msgid "Search from newest to oldest"
@@ -2647,9 +2643,8 @@ msgid "Search an amount"
 msgstr "Suche nach Betrag"
 
 #: src/widgets/widget_search_transaction.ui:380
-#, fuzzy
 msgid "Search in payee and note"
-msgstr "Suche nach Empfängername"
+msgstr "In Empfänger und Notizen suchen"
 
 #: src/widgets/widget_transfer.ui:7
 msgid "Configuring a deferred debit account"
@@ -2672,15 +2667,15 @@ msgstr "Kreditkartenkonto"
 
 #: src/widgets/widget_transfer.ui:241
 msgid "Order date: "
-msgstr "Datum Bestellung:"
+msgstr "Datum Bestellung :"
 
 #: src/widgets/widget_transfer.ui:271 src/widgets/widget_transfer.ui:514
 msgid "Date retained: "
-msgstr "Datum einbehalten:"
+msgstr "Datum einbehalten :"
 
 #: src/widgets/widget_transfer.ui:314
 msgid "Choice of order day: "
-msgstr "Auswahl für Bestelldatum:"
+msgstr "Auswahl für Bestelldatum :"
 
 #: src/widgets/widget_transfer.ui:331 src/widgets/widget_transfer.ui:571
 msgid "Fixed date"
@@ -2700,7 +2695,7 @@ msgstr "Ausgabedatum: "
 
 #: src/widgets/widget_transfer.ui:556
 msgid "Choice of direct debit day: "
-msgstr "Auswahl für Belastungsdatum:"
+msgstr "Auswahl für Belastungsdatum :"
 
 #: src/widgets/widget_transfer.ui:572
 msgid "Last banking day of the month"
@@ -2740,9 +2735,8 @@ msgid "Personal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
 
 #: share/grisbi.metainfo.xml.in:9
-#, fuzzy
 msgid "Grisbi Team"
-msgstr "Grisbi"
+msgstr "Grisbi-Team"
 
 #: share/grisbi.metainfo.xml.in:12
 msgid ""
@@ -2765,14 +2759,12 @@ msgstr ""
 "Benutzerhandbuch."
 
 #: share/grisbi.metainfo.xml.in:27
-#, fuzzy
 msgid "Main window"
-msgstr "Neues Fenster"
+msgstr "Hauptfenster"
 
 #: share/grisbi.metainfo.xml.in:31
-#, fuzzy
 msgid "Budget"
-msgstr "Gruppe erstellen"
+msgstr "Budget"
 
 #: share/grisbi.metainfo.xml.in:35 src/etats_onglet.c:1494 src/grisbi_win.c:492
 #: src/navigation.c:646 src/navigation.c:2056
@@ -2794,11 +2786,11 @@ msgstr "Teilsaldo: "
 
 #: src/accueil.c:544 src/accueil.c:910
 msgid "Reconciled balance"
-msgstr "abgestimmter Saldo"
+msgstr "Abgestimmter Saldo"
 
 #: src/accueil.c:548 src/accueil.c:916
 msgid "Current balance"
-msgstr "aktueller Saldo"
+msgstr "Aktueller Saldo"
 
 #: src/accueil.c:597
 msgid "Global balance: "
@@ -3139,12 +3131,12 @@ msgstr " Monate "
 #: src/bet_future.c:313 src/bet_future.c:1059 src/gsb_form_scheduler.c:140
 #: src/gsb_form_scheduler.c:648 src/gsb_scheduler_list.c:1612
 msgid "Once"
-msgstr "einmal"
+msgstr "Einmal"
 
 #: src/bet_future.c:323 src/bet_future.c:1060 src/gsb_form_scheduler.c:149
 #: src/gsb_form_scheduler.c:649 src/etats/etats_page_period.c:91
 msgid "Custom"
-msgstr "benutzerdefiniert"
+msgstr "Benutzerdefiniert"
 
 #: src/bet_future.c:492 src/bet_future.c:1084 src/gsb_form_scheduler.c:598
 #: src/gsb_form_scheduler.c:699 src/gsb_form_scheduler.c:906
@@ -3155,7 +3147,7 @@ msgstr "Fälligkeitstermin"
 #: src/bet_future.c:495 src/bet_future.c:1108 src/gsb_form_scheduler.c:712
 #: src/gsb_form_scheduler.c:912 src/gsb_form_scheduler.c:1119
 msgid "Own frequency"
-msgstr "eigene Frequenz"
+msgstr "Eigene Frequenz"
 
 #: src/bet_future.c:561 src/gsb_form.c:2059 src/gsb_form_widget.c:574
 #: src/widgets/widget_loan.c:1321 src/widgets/widget_loan.c:1327
@@ -3190,27 +3182,27 @@ msgstr "Zahlungsweise auswählen"
 #: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
 #: src/gsb_scheduler_list.c:1612
 msgid "Weekly"
-msgstr "wöchentlich"
+msgstr "Wöchentlich"
 
 #: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
 #: src/gsb_scheduler_list.c:1612 src/widgets/widget_loan.c:1048
 msgid "Monthly"
-msgstr "monatlich"
+msgstr "Monatlich"
 
 #: src/bet_future.c:1059 src/gsb_form_scheduler.c:648
 #: src/gsb_scheduler_list.c:1613
 msgid "Bimonthly"
-msgstr "zweimonatlich"
+msgstr "Zweimonatlich"
 
 #: src/bet_future.c:1060 src/gsb_form_scheduler.c:649
 #: src/gsb_scheduler_list.c:1613 src/widgets/widget_loan.c:1048
 msgid "Quarterly"
-msgstr "vierteljährlich"
+msgstr "Vierteljährlich"
 
 #: src/bet_future.c:1060 src/gsb_form_scheduler.c:649
 #: src/gsb_scheduler_list.c:1613 src/widgets/widget_loan.c:1048
 msgid "Yearly"
-msgstr "jährlich"
+msgstr "Jährlich"
 
 #: src/bet_future.c:1061 src/gsb_form_scheduler.c:650
 msgid "Days"
@@ -3241,7 +3233,7 @@ msgstr "Datum Ende"
 
 #: src/bet_future.c:1122 src/bet_future.c:1132 src/gsb_form_scheduler.c:717
 msgid "Custom frequency"
-msgstr "benutzerdefinierte Frequenz"
+msgstr "Benutzerdefinierte Frequenz"
 
 #: src/bet_future.c:1323 src/bet_future.c:1645 src/etats_affiche.c:2507
 #: src/export_csv.c:676 src/export_csv.c:808 src/export_csv.c:820
@@ -3645,7 +3637,7 @@ msgstr "Beginndatum: "
 
 #: src/bet_tab.c:2979 src/gsb_form.c:1820
 msgid "Auto"
-msgstr "automatisch"
+msgstr "Automatisch"
 
 #: src/bet_tab.c:2982
 msgid "Check the box to automatically change start date"
@@ -3891,27 +3883,27 @@ msgstr "Eine Import Regel für CSV Dateien bearbeiten"
 
 #: src/dialog.c:45
 msgid "Delete a child transaction."
-msgstr "Eine Teilbuchung löschen"
+msgstr "Eine Teilbuchung löschen."
 
 #: src/dialog.c:49
 msgid "Delete a transaction."
-msgstr "Buchung löschen"
+msgstr "Buchung löschen."
 
 #: src/dialog.c:53
 msgid "Delete a child of scheduled transaction."
-msgstr "Teilbuchung von einer geplanten Buchung löschen"
+msgstr "Teilbuchung von einer geplanten Buchung löschen."
 
 #: src/dialog.c:57
 msgid "Delete a scheduled transaction."
-msgstr "Geplante Buchung löschen"
+msgstr "Geplante Buchung löschen."
 
 #: src/dialog.c:61
 msgid "Delete one or all occurrences of scheduled transaction."
-msgstr "Ein oder alle Vorkommen von einer geplanten Buchung löschen"
+msgstr "Ein oder alle Vorkommen von einer geplanten Buchung löschen."
 
 #: src/dialog.c:66
 msgid "Delete a rule file import."
-msgstr "Eine Importregel löschen"
+msgstr "Eine Importregel löschen."
 
 #: src/dialog.c:76
 #, c-format
@@ -3932,7 +3924,7 @@ msgstr ""
 
 #: src/dialog.c:82
 msgid "Account file is world readable."
-msgstr "Die Datei ist für alle Benutzer lesbar"
+msgstr "Die Datei ist für alle Benutzer lesbar."
 
 #: src/dialog.c:83
 msgid ""
@@ -3959,7 +3951,7 @@ msgstr ""
 
 #: src/dialog.c:93
 msgid "Encryption is irreversible."
-msgstr "Die Verschlüsselung ist nicht reversibel"
+msgstr "Die Verschlüsselung ist nicht reversibel."
 
 #: src/dialog.c:94
 msgid ""
@@ -4369,7 +4361,7 @@ msgstr[1] "Gesamteinnahmen (%d Buchungen): "
 
 #: src/etats_affiche.c:2264
 msgid "Total Products: "
-msgstr "Gesamteinnahmen:"
+msgstr "Gesamteinnahmen :"
 
 #: src/etats_affiche.c:2266
 msgid "Total income: "
@@ -4431,7 +4423,7 @@ msgid "Return to settings"
 msgstr "Einstellungen anzeigen"
 
 #: src/etats_csv.c:175 src/export_csv.c:234
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to create file \"%s\":\n"
 "%s"
@@ -4681,16 +4673,15 @@ msgstr "Suchkriterium"
 
 #: src/etats_onglet.c:1729
 msgid "Searching Category, Sub_category containing: "
-msgstr ""
+msgstr "Suche nach Kategorie, Unterkategorie enthält :"
 
 #: src/etats_onglet.c:1733
 msgid "Searching IB, Sub_IB containing: "
-msgstr ""
+msgstr "Suche nach Gruppe, Untergruppe enthält :"
 
 #: src/etats_onglet.c:1738
-#, fuzzy
 msgid "Searching Payees containing: "
-msgstr "Suche nach Empfängername"
+msgstr "Nach Empfänger suchen, die enthalten :"
 
 #: src/etats_prefs.c:59 src/etats/etats_page_payee.c:55
 #: src/widgets/widget_list_accounts.c:53
@@ -4823,7 +4814,7 @@ msgstr "alle Geschäftsjahre"
 
 #: src/etats_support.c:153 src/etats_support.c:158
 msgid "current financial year"
-msgstr "aktuelles Geschäftsjahr"
+msgstr "Aktuelles Geschäftsjahr"
 
 #: src/etats_support.c:195 src/etats_support.c:200
 msgid "former financial year"
@@ -4883,11 +4874,12 @@ msgstr "nach %s %d"
 
 #: src/export.c:68 src/export.c:249
 msgid "Uncheck to write a date field without quotes"
-msgstr "Bei Auswahl wird das Datum mit Hochkomma geschrieben"
+msgstr ""
+"Deaktivieren Sie sie, um das Datum nicht in Anführungszeichen zu schreiben"
 
 #: src/export.c:70 src/export.c:251
 msgid "Check to write a date field with quotes"
-msgstr "Bei Auswahl wird das Datum mit Hochkomma geschrieben"
+msgstr "Aktivieren Sie sie, um das Datum in Anführungszeichen zu schreiben"
 
 #: src/export.c:196 src/export.c:675 src/gsb_assistant_archive_export.c:304
 msgid "QIF format"
@@ -4925,9 +4917,8 @@ msgid "Select options to export"
 msgstr "Einstellungen für den Export"
 
 #: src/export.c:553
-#, fuzzy
 msgid "Automatically treat the selected account(s)"
-msgstr "Die letzte Datei automatisch öffnen"
+msgstr "Ausgewählte Konten automatisch bearbeiten."
 
 #: src/export.c:557
 msgid ""
@@ -4936,6 +4927,10 @@ msgid ""
 "\n"
 "The save folder will be the Grisbi file folder"
 msgstr ""
+"Die generierten Dateien werden wie folgt benannt :\n"
+"[Bezeichnung]-[Kontoname].[Dateiendung]\n"
+"\n"
+"Der Speicherordner ist der Grisbi-Dateiordner"
 
 #: src/export.c:630
 msgid "Export settings completed successfully"
@@ -5093,9 +5088,8 @@ msgid "Done."
 msgstr "Fertig."
 
 #: src/file_obfuscate.c:460
-#, fuzzy
 msgid "Select features to hide:\n"
-msgstr "Elemente für Anonymisierung auswählen :\n"
+msgstr "Zu versteckende Daten auswählen:\n"
 
 #: src/file_obfuscate.c:462
 msgid "Hide everything"
@@ -5169,8 +5163,7 @@ msgstr ""
 "Die anonymisierte Datei wird in Textform abgespeichert, Sie können den "
 "Inhalt jederzeit mit einem Texteditor prüfen.\n"
 "Grisbi wird nach der Erstellung der anonymisierten Datei automatisch "
-"beendet.\n"
-"Vielen Dank für Ihre Unterstützung!"
+"beendet."
 
 #: src/file_obfuscate_qif.c:66
 msgid "Obfuscating qif file..."
@@ -5210,7 +5203,7 @@ msgstr "QIF Datei auswählen - Grisbi"
 
 #: src/file_obfuscate_qif.c:110
 msgid "QIF files (*.qif)"
-msgstr "QIF Dateien (*.qif)"
+msgstr "QIF Dateien (*.qif) "
 
 #: src/file_obfuscate_qif.c:158
 msgid "Cannot open the QIF file."
@@ -5664,7 +5657,7 @@ msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
 
 #: src/grisbi_app.c:1020 src/menu.c:646
 msgid "Start an action!"
-msgstr "Aktion auswählen"
+msgstr "Aktion auswählen!"
 
 #: src/grisbi_app.c:1056
 msgid ""
@@ -5689,29 +5682,28 @@ msgid "Inconsistency of the command line."
 msgstr "Fehler bei Argumente für Kommandozeile."
 
 #: src/grisbi_app.c:1336
-#, fuzzy
 msgid "<b>Actions in transaction list:</b>"
-msgstr "<b>Aktionen für Buchungsliste :</b>"
+msgstr "<b>Aktionen in der Buchungsliste :</b>"
 
 #: src/grisbi_app.c:1339
-#, fuzzy, c-format
+#, c-format
 msgid "(Un)Pointing a transaction%s-> <Command>P, F12\n"
-msgstr "Buchung verrechnen%s-> <Command>p, <Command>F12\n"
+msgstr "(Un-)Verrechnen einer Buchung%s-> <Command>P, F12\n"
 
 #: src/grisbi_app.c:1342
-#, fuzzy, c-format
+#, c-format
 msgid "(Un)Reconcile a transaction%s-> <Command>R\n"
-msgstr "Buchung abstimmen%s-> <Command>r\n"
+msgstr "(Nicht) Eine Buchung abstimmen%s-> <Command>R\n"
 
 #: src/grisbi_app.c:1346
-#, fuzzy, c-format
+#, c-format
 msgid "(Un)Pointing a transaction%s-> <Ctrl>P, F12\n"
-msgstr "Buchung verrechnen%s-> <Ctrl>p, <Ctrl>F12\n"
+msgstr "(Un-)Verrechnen einer Buchung%s-> <Strg>P, F12\n"
 
 #: src/grisbi_app.c:1349
-#, fuzzy, c-format
+#, c-format
 msgid "(Un)Reconcile a transaction%s-> <Ctrl>R\n"
-msgstr "Buchung abstimmen\t\t-> <Ctrl>r\n"
+msgstr "(Nicht) Eine Buchung abstimmen%s-> <Strg>R\n"
 
 #: src/grisbi_conf.c:1166
 #, c-format
@@ -5923,7 +5915,7 @@ msgid ""
 "Standard account with credit card and cheques."
 msgstr ""
 "Bankkonto\n"
-"Standardkonto bei einer Bank"
+"Standardkonto mit Kreditkarte und Schecks."
 
 #: src/gsb_assistant_account.c:165
 msgid ""
@@ -5939,7 +5931,7 @@ msgid ""
 "Special account to represent a debt, like a long-term loan."
 msgstr ""
 "Kreditkonto\n"
-"Konto für Verbindlichkeiten"
+"Ein Sonderkonto, das eine Schuld darstellt, z. B. einen langfristigen Kredit."
 
 #: src/gsb_assistant_account.c:167
 msgid ""
@@ -5947,7 +5939,7 @@ msgid ""
 "Special account to represent an asset, like a car or special subscriptions."
 msgstr ""
 "Anlagekonto\n"
-"Konto für Vermögen"
+"Konto für Vermögen."
 
 #: src/gsb_assistant_account.c:173
 msgid "Account type selection"
@@ -6292,10 +6284,9 @@ msgstr ""
 #: src/gsb_assistant_file.c:128 src/gsb_assistant_first.c:85
 #: src/gsb_assistant_first.c:138
 msgid "Welcome to Grisbi!"
-msgstr "Willkommen zu Grisbi"
+msgstr "Willkommen zu Grisbi!"
 
 #: src/gsb_assistant_file.c:129
-#, fuzzy
 msgid ""
 "General configuration of Grisbi is done.\n"
 "\n"
@@ -6315,7 +6306,7 @@ msgstr ""
 "'Einstellungen' geändert werden.\n"
 "\n"
 "Wenn die Grisbi Datei erstellt ist können Konten angelegt oder importiert "
-"werden."
+"werden"
 
 #: src/gsb_assistant_file.c:139
 msgid "New file Assistant to import"
@@ -8239,14 +8230,12 @@ msgid "Duplicate currency"
 msgstr "Doppelte Währung"
 
 #: src/gsb_data_currency_link.c:487
-#, fuzzy
 msgid "Warning: the two currencies of the link are identicals."
 msgstr "Warnung : Die zwei Währungen sind identisch."
 
 #: src/gsb_data_currency_link.c:489
-#, fuzzy
 msgid "Warning: that link is already defined."
-msgstr "Warnung : Dieser Wechselkurs wurde bereits definiert."
+msgstr "Warnung : Dieser Wechselkurs ist bereits festgelegt."
 
 #: src/gsb_data_fyear.c:540
 msgid "Warning : the dates are not in good order."
@@ -8398,7 +8387,7 @@ msgid "Try to fix this inconsistency."
 msgstr "Die Inkonsistenz beheben."
 
 #: src/gsb_debug.c:261
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
 "  Last reconciliation amount: %s\n"
@@ -8406,7 +8395,7 @@ msgid ""
 msgstr ""
 "<span weight=\"bold\">%s</span>\n"
 "  Letzter Abstimmungsbetrag : %s\n"
-"  Errechneter Abstimmungsbetrag : %s\n"
+"  Neu berechneter Abstimmungsbetrag : %s\n"
 
 #: src/gsb_debug.c:346
 #, c-format
@@ -8765,9 +8754,8 @@ msgstr ""
 "Die Dateiversion ist kleiner als 0.6. Grisbi kann diese Datei nicht öffnen."
 
 #: src/gsb_file.c:970
-#, fuzzy
 msgid "Version of Grisbi file too old:"
-msgstr "Die Version von Grisbi ist zu alt :"
+msgstr "Zu alte Version der Grisbi-Datei :"
 
 #: src/gsb_file.c:982
 #, c-format
@@ -8868,11 +8856,13 @@ msgid "Cannot open encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
 
 #: src/gsb_file_load.c:4018
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "'%s' is not a valid UTF8 file.\n"
 "Problem at line %d."
-msgstr "'%s' ist keine gültige UTF-8 Datei"
+msgstr ""
+"'%s' ist keine gültige UTF-8 Datei.\n"
+"Problem in Zeile %d."
 
 #: src/gsb_file_load.c:4020
 msgid ""
@@ -8925,7 +8915,7 @@ msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr "Grisbi Datei aus einer Vorversion öffnen"
 
 #: src/gsb_file_load.c:4574
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
 "Error number: %d\n"
@@ -9000,9 +8990,8 @@ msgid "There is no budgetary line to record. Back."
 msgstr "Es ist keine Gruppe für eine Erfassung vorhanden."
 
 #: src/gsb_file_others.c:636
-#, fuzzy
 msgid "There is no payee line to record. Back."
-msgstr "Es ist keine Gruppe für eine Erfassung vorhanden."
+msgstr "Es ist keine Gruppe zu erfassen. Zurück."
 
 #: src/gsb_file_others.c:710
 msgid "There is no report to record. Back."
@@ -9210,7 +9199,7 @@ msgstr "Umbuchung : geschlossenes Konto"
 #: src/gsb_form.c:1822 src/gsb_form_scheduler.c:647
 #: src/gsb_scheduler_list.c:1626
 msgid "Manual"
-msgstr "manuell"
+msgstr "Manuell"
 
 #: src/gsb_form.c:2107 src/gsb_form_widget.c:594
 msgid "Cheque/Transfer number"
@@ -9235,7 +9224,7 @@ msgstr "Für den Bericht wurden keine Empfänger ausgewählt."
 
 #: src/gsb_form_scheduler.c:647 src/gsb_scheduler_list.c:1624
 msgid "Automatic"
-msgstr "automatisch"
+msgstr "Automatisch"
 
 #: src/gsb_form_scheduler.c:667
 msgid "Choose the account"
@@ -9582,9 +9571,9 @@ msgstr "Verwaiste Unterelemente löschen"
 
 #: src/gsb_scheduler_list.c:1919 src/transaction_list.c:173
 #: src/transaction_list.c:484 src/transaction_list.c:1408
-#, fuzzy, c-format
+#, c-format
 msgid "Total: %s (variance: %s)"
-msgstr "Gesamt : %s (variiert : %s)"
+msgstr "Gesamt : %s (Abweichung : %s)"
 
 #: src/gsb_scheduler_list.c:2433
 #, c-format
@@ -9627,7 +9616,7 @@ msgstr ""
 
 #: src/gsb_scheduler_list.c:2979
 msgid "Delete this scheduled transaction?"
-msgstr "Geplante Buchung löschen"
+msgstr "Geplante Buchung löschen?"
 
 #: src/gsb_scheduler_list.c:2984
 msgid "All the occurrences"
@@ -9647,7 +9636,7 @@ msgstr "Symbol auswählen - Grisbi"
 
 #: src/gsb_select_icon.c:525
 msgid "Browse"
-msgstr "durchsuchen"
+msgstr "Durchsuchen"
 
 #: src/gsb_transactions_list.c:126 src/import_csv.c:81
 msgid "Cheque number"
@@ -9913,7 +9902,7 @@ msgstr ""
 "Eine abgestimmte Buchung kann nicht gelöscht werden.\n"
 "Für eine Löschung müssen die Buchung und alle Teil/Gegenbuchungen "
 "\"unabgestimmt\" sein. Sie können die die Abstimmung für die ausgewählte "
-"Buchung mit STRG+R aufheben."
+"Buchung mit Strg+R aufheben."
 
 #: src/gsb_transactions_list.c:3558
 #, c-format
@@ -9955,7 +9944,7 @@ msgstr ""
 #: src/gsb_transactions_list_sort.c:993
 #, c-format
 msgid "Ask for the sort number %d which doesn't exist... return by date"
-msgstr "die Nummer %d ist nicht vorhanden... es wird nach Datum sortiert"
+msgstr "Die Nummer %d ist nicht vorhanden... es wird nach Datum sortiert"
 
 #: src/help.c:80
 msgid "GnuCash support: "
@@ -10070,7 +10059,7 @@ msgstr ""
 
 #: src/import.c:614
 msgid "Import settings completed successfully"
-msgstr "Die Einstellungen für den Import sind festgelegt."
+msgstr "Die Einstellungen für den Import sind festgelegt"
 
 #: src/import.c:619
 msgid "Press the 'Close' button to finish the import."
@@ -10119,7 +10108,7 @@ msgstr "Unbekannt"
 
 #: src/import.c:1247
 msgid "Choose files to import."
-msgstr "Dateien auswählen - Grisbi"
+msgstr "Wählen Sie die zu importierenden Dateien aus."
 
 #: src/import.c:1285
 #, c-format
@@ -10167,7 +10156,7 @@ msgstr "Dateien für den Import auswählen"
 
 #: src/import.c:1856
 msgid "Add file to import..."
-msgstr "Dateien für den Import hinzufügen"
+msgstr "Dateien für den Import hinzufügen..."
 
 #: src/import.c:1944
 msgid "File name"
@@ -10209,13 +10198,13 @@ msgid "The following files are in error: "
 msgstr "Folgende Dateien sind fehlerhaft: "
 
 #: src/import.c:2701
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Warning: the cheque number %s is already used.\n"
 "We skip it"
 msgstr ""
-"Warnung: Diese Schecknummer %s wird bereits benützt.\n"
-"Die Auswahl wird verworfen"
+"Warnung: Die Schecknummer %s wird bereits benützt.\n"
+"Wir überspringen sie"
 
 #: src/import.c:2916
 #, c-format
@@ -10243,7 +10232,7 @@ msgid ""
 msgstr ""
 "Es wurde keine weitere Buchung gefunden.\n"
 "In diesem Fall handelt es sich um eine neuen Buchung, \n"
-"die dazugehörige Auswahl wird deselektiert."
+"die dazugehörige Auswahl wird deselektiert"
 
 #: src/import.c:3102
 msgid ""
@@ -10291,7 +10280,7 @@ msgstr "Bestätigung für das Importieren von Buchungen in: %s"
 msgid "Please select the transactions to be merged"
 msgstr ""
 "Bitte treffen Sie eine Auswahl welche Buchungen zusammengeführt werden "
-"sollen."
+"sollen"
 
 #: src/import.c:3330
 msgid ""
@@ -10546,13 +10535,11 @@ msgstr "Warnung: Ungültige Daten"
 #: src/import_csv.c:744
 msgid "The number of columns is not the same on all useful lines in the file"
 msgstr ""
+"Die Anzahl der Spalten ist nicht in allen nützlichen Zeilen der Datei gleich"
 
 #: src/import_csv.c:745
-#, fuzzy
 msgid "Inconsistency in number of columns"
-msgstr ""
-"Inkonsistenzen gefunden\n"
-"\n"
+msgstr "Inkonsistenzen in der Anzahl der Spalten"
 
 #: src/import_csv.c:869 src/import_csv.c:875
 msgid "Transaction amount"
@@ -10569,7 +10556,7 @@ msgstr "Es sind alle Pflichtfelder befüllt."
 
 #: src/import_csv.c:1084
 msgid "Skip"
-msgstr "verwerfen"
+msgstr "Verwerfen"
 
 #: src/import_csv.c:1329 src/import_csv.c:1485
 msgid "Imported CSV account"
@@ -10581,7 +10568,7 @@ msgstr "CSV Felder auswählen"
 
 #: src/import_csv.c:1718
 msgid "Create a rule for this import."
-msgstr "Eine Regel für diesen Import erstellen"
+msgstr "Eine Regel für diesen Import erstellen."
 
 #: src/imputation_budgetaire.c:493
 msgid "Export the budgetary lines"
@@ -10814,9 +10801,9 @@ msgid "The account no longer exists"
 msgstr "Das Konto ist nicht mehr vorhanden"
 
 #: src/metatree.c:1726
-#, fuzzy, c-format
+#, c-format
 msgid "'%s: %s' still contains transactions or archived transactions."
-msgstr "'%s : %s' sind Buchungen oder archivierte Buchungen zugeordnet."
+msgstr "'%s : %s' enthält noch archivierte oder nicht archivierte Buchungen."
 
 #: src/metatree.c:1730
 #, c-format
@@ -10880,7 +10867,7 @@ msgstr ""
 #: src/metatree.c:1902 src/metatree.c:2940 src/metatree.c:3856
 #, c-format
 msgid "Please enter a %s!"
-msgstr "Bitte Daten für %s eingeben"
+msgstr "Bitte Daten für %s eingeben!"
 
 #: src/metatree.c:2813
 #, c-format
@@ -11029,11 +11016,11 @@ msgstr ""
 
 #: src/navigation.c:1779
 msgid "Pointed balance: "
-msgstr "ausgewiesener Saldo: "
+msgstr "Ausgewiesener Saldo: "
 
 #: src/navigation.c:1781
 msgid "Reconciled balance: "
-msgstr "abgestimmter Saldo: "
+msgstr "Abgestimmter Saldo: "
 
 #: src/navigation.c:1791
 msgid "Last statement: "
@@ -11214,7 +11201,7 @@ msgstr "Passwort anzeigen"
 
 #: src/plugins/openssl/openssl.c:552
 msgid "Don't ask password again for this session."
-msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen"
+msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen."
 
 #: src/plugins/openssl/openssl.c:577
 msgid "The password must contain at least 7 characters"
@@ -11400,7 +11387,7 @@ msgid "Links between currencies"
 msgstr "Wechselkurse"
 
 #: src/prefs/prefs_page_currency_link.c:652
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Warning: The currency '%s' may be used for transactions.\n"
 "The next time you use it, you will need to enter a new exchange rate."
@@ -11492,7 +11479,7 @@ msgstr "Damit die Änderung wirksam wird muss Grisbi neu gestartet werden."
 #: src/prefs/prefs_page_divers.c:464
 #, c-format
 msgid "Changes the language of Grisbi for \"%s\"!"
-msgstr "Ändert die Sprache von Grisbi in \"%s\""
+msgstr "Ändert die Sprache von Grisbi in \"%s\"!"
 
 #: src/prefs/prefs_page_divers.c:520
 msgid "System Language"
@@ -11505,12 +11492,12 @@ msgstr "Dateiname:"
 #: src/prefs/prefs_page_divers.c:626
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
-"am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
+"Am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
 
 #: src/prefs/prefs_page_divers.c:627
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr ""
-"für geplante Buchungen vom Monat einen Hinweis anzeigen und die Buchungen "
+"Für geplante Buchungen vom Monat einen Hinweis anzeigen und die Buchungen "
 "ausführen"
 
 #: src/prefs/prefs_page_files.c:161
@@ -11559,7 +11546,7 @@ msgid ""
 msgstr ""
 "Es wurde die Einstellung \"Symbole für Konten in Verzeichnis von Grisbi "
 "Datei ablegen\" ausgewählt, jedoch wird diese Einstellung nicht verwendet.\n"
-"Diese Einstellung kann je nach Bedarf aus oder abgewählt werden."
+"Diese Einstellung kann je nach Bedarf aus oder abgewählt werden"
 
 #: src/prefs/prefs_page_files.c:255
 msgid "Put the icons of the accounts in the directory of the accounts file"
@@ -11591,7 +11578,7 @@ msgstr "entsprechend Valutadatum"
 
 #: src/prefs/prefs_page_form_options.c:118
 msgid "Sorting descending of the exercises"
-msgstr "nach Name absteigend sortieren"
+msgstr "Nach Name absteigend sortieren"
 
 #: src/prefs/prefs_page_form_options.c:129
 msgid "selects new transaction"
@@ -11667,15 +11654,18 @@ msgid "This feature is useless"
 msgstr "Es wird nicht empfohlen diese Funktionalität zu verwenden"
 
 #: src/prefs/prefs_page_metatree.c:247
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The ratio of the number of payees of the archived transactions (%d) to the "
 "number of payees of non-archived transactions (%d) is greater than or equal "
 "to two.\n"
 "It is advisable to use this feature: answer YES"
 msgstr ""
-"Das Verhältnis für die Anzahl von Empfängern in archivierte Buchungen (%d) "
-"zu Anzahl von Empfängern in Buchungen (%d) ist größer oder gleich als zwei.\n"
+"Das Verhältnis zwischen der Anzahl der Empfänger der archivierten Buchungen ("
+"%d)"
+" und der Anzahl der Empfänger der nicht archivierten Buchungen (%d) ist"
+" größer oder "
+"gleich zwei.\n"
 "Es wird empfohlen diese Funktionalität zu verwenden, dazu Ja auswählen"
 
 #: src/prefs/prefs_page_metatree.c:253
@@ -11683,16 +11673,17 @@ msgid "This feature can be useful"
 msgstr "Es wird empfohlen diese Funktionalität zu verwenden"
 
 #: src/prefs/prefs_page_metatree.c:258
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The ratio of the number of payees of the archived transactions (%d) to the "
 "number of payees of non-archived transactions (%d) is less than two.\n"
 "It is not recommended to use this feature: answer NO"
 msgstr ""
-"Das Verhältnis für die Anzahl von Empfängern in archivierte Buchungen (%d) "
-"zu Anzahl von Empfängern in Buchungen (%d) ist kleiner als zwei.\n"
-"Es wird nicht empfohlen diese Funktionalität zu verwenden, dazu Nein "
-"auswählen"
+"Das Verhältnis zwischen der Anzahl der Empfänger von archivierten Buchungen ("
+"%d)"
+" und der Anzahl der Empfänger  nicht archivierten Buchungen (%d) ist kleiner"
+" als zwei\n"
+"Es wird nicht empfohlen diese Funktionalität zu verwenden, dazu Nein auswählen"
 
 #: src/prefs/prefs_page_metatree.c:314
 msgid "by number"
@@ -11728,32 +11719,32 @@ msgstr "Meldung"
 
 #: src/prefs/prefs_page_options_ope.c:220
 msgid "Sort by value date (if fail, try with the date)"
-msgstr "wenn möglich nach Valutadatum, sonst nach Datum"
+msgstr "Wenn möglich nach Valutadatum, sonst nach Datum"
 
 #: src/prefs/prefs_page_options_ope.c:221
 #: src/prefs/prefs_page_options_ope.c:230
 msgid "Sort by value date and then by date"
-msgstr "zuerst nach Valutadatum, danach nach Datum"
+msgstr "Zuerst nach Valutadatum, danach nach Datum"
 
 #: src/prefs/prefs_page_options_ope.c:222
 msgid "Forced sort by transaction date"
-msgstr "entsprechend Datum der Buchung"
+msgstr "Entsprechend Datum der Buchung"
 
 #: src/prefs/prefs_page_options_ope.c:226
 msgid "Sort by transaction number"
-msgstr "nach Buchungsnummer"
+msgstr "Nach Buchungsnummer"
 
 #: src/prefs/prefs_page_options_ope.c:227
 msgid "Sort by type of amount (credit debit)"
-msgstr "nach Art, Einnahmen oder Ausgaben"
+msgstr "Nach Art, Einnahmen oder Ausgaben"
 
 #: src/prefs/prefs_page_options_ope.c:228
 msgid "Sort by payee name (if fail, by transaction number)"
-msgstr "wenn möglich nach Empfänger, sonst nach Buchungsnummer"
+msgstr "Wenn möglich nach Empfänger, sonst nach Buchungsnummer"
 
 #: src/prefs/prefs_page_options_ope.c:229
 msgid "Sort by date and then by transaction number"
-msgstr "zuerst nach Datum, danach nach Buchungsnummer"
+msgstr "Zuerst nach Datum, danach nach Buchungsnummer"
 
 #: src/prefs/prefs_page_options_ope.c:318
 msgid "Transaction list behavior"
@@ -11907,7 +11898,7 @@ msgstr ""
 "Das Datum %s hat mehr als 2 Trennzeichen.\n"
 "Ein Datumsformat mit mehr als 2 Trennzeichen sollte im 'Regelfall' nicht "
 "vorkommen. Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) "
-"um die Ursache für den Fehler zu finden."
+"um die Ursache für den Fehler zu finden"
 
 #: src/qif.c:336 src/utils_dates.c:955 src/utils_dates.c:1010
 msgid "The order cannot be determined,\n"
@@ -11980,15 +11971,15 @@ msgstr ""
 "Die Buchungen werden mit dem Standarddatum 01.01.2000 importiert"
 
 #: src/qif.c:1495
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
 "but the QIF format only support one file per account,\n"
 "so Grisbi created %d files, one per account:\n"
 msgstr ""
-"Es waren mehrere Konten im Archiv.\n"
+"Es gibt mehrere zu archivierende Konten.\n"
 "Das QIF Format unterstützt nur eine Datei pro Konto,\n"
-"deshalb hat Grisbi %d Dateien erstellt - jeweils eine pro Konto:\n"
+"Grisbi wird daher %d Dateien erstellen, eine pro Konto :\n"
 
 #: src/qif.c:1558
 #, c-format
@@ -11996,18 +11987,16 @@ msgid "Error opening file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
 
 #: src/tiers_onglet.c:124
-#, fuzzy
 msgid "Export payees"
-msgstr "Kategorien exportieren - Grisbi"
+msgstr "Empfänger exportieren"
 
 #: src/tiers_onglet.c:138
-#, fuzzy
 msgid "Payees.xml"
-msgstr "Empfänger"
+msgstr "Empfänger.xml"
 
 #: src/tiers_onglet.c:323
 msgid "Description: "
-msgstr "Beschreibung:"
+msgstr "Beschreibung :"
 
 #: src/tiers_onglet.c:384
 #, c-format
@@ -12036,9 +12025,8 @@ msgid "Create a new payee"
 msgstr "Einen neuen Empfänger erstellen"
 
 #: src/tiers_onglet.c:633
-#, fuzzy
 msgid "Export the list of payees"
-msgstr "Kategorien (*.cgsb) exportieren"
+msgstr "Empfängerliste exportieren"
 
 #: src/tiers_onglet.c:675 src/tiers_onglet.c:2032
 msgid "Manage the payees"
@@ -12091,13 +12079,12 @@ msgid ""
 "\n"
 "You can concatenate several rules: rule1||rule2..."
 msgstr ""
-"Einen oder mehrere Empfänger auswählen - die Mehrfachauswahl ist mit dem '%' "
+"Empfänger auswählen - die Mehrfachauswahl ist mit dem '%' "
 "Zeichen als \"Joker\" möglich.\n"
 "Das '%' Zeichen kann folgend verwendet werden:\n"
-"   %Anfang, Ende%\n"
-"   %Anfang Mit%te und Ende%\n"
+"%string, string%, %string%, %string_1%string_2%"
 "\n"
-"Mehrere Suchbegriffe können mit || verknüpft werden: Such1%||Such2%"
+"Mehrere Suchbegriffe können mit || verknüpft werden: Such1||Such2..."
 
 #: src/tiers_onglet.c:1382
 msgid "Enter the new payee"
@@ -12296,7 +12283,7 @@ msgid ""
 "Encryption is irreversible, if you loose your password, there is NO WAY to "
 "restore your Grisbi accounts. Use with caution!"
 msgstr ""
-"... die Grisbi Datei verschlüsselt werden kann?\n"
+"Die Grisbi Datei verschlüsselt werden kann.\n"
 "\n"
 "Die Verschlüsselung kann im Dialog 'Einstellungen' mit 'Datei verschlüsseln' "
 "aktiviert werden. Das Passwort wird beim ersten Speichern nach dem "
@@ -12304,7 +12291,7 @@ msgstr ""
 "\n"
 "Beachten Sie bitte dass die Verschlüsselung nicht rückgängig gemacht werden "
 "werden kann. Wenn Sie das Passwort vergessen ist der Zugriff auf die Daten "
-"in der Grisbi Datei nicht mehr möglich."
+"in der Grisbi Datei nicht mehr möglich. Mit Vorsicht verwenden!"
 
 #: src/tip.c:62
 msgid ""
@@ -12443,8 +12430,8 @@ msgstr ""
 #: src/tip.c:98
 msgid "You can reorder accounts in the navigation list using drag &amp; drop."
 msgstr ""
-"... das im Navigationsbereich Konten und Berichte mit Drag &amp; Drop "
-"angeordnet werden können?"
+"Im Navigationsbereich Konten und Berichte mit Drag &amp; Drop "
+"angeordnet werden können."
 
 #: src/tip.c:99
 msgid ""
@@ -12548,6 +12535,9 @@ msgid ""
 "\n"
 "Check if it is correct!"
 msgstr ""
+"Grisbi hat 1 Datum gefunden, das dem Muster %s entspricht.\n"
+"\n"
+"Überprüfen Sie, ob es korrekt ist !"
 
 #: src/utils_dates.c:1059
 #, c-format
@@ -12556,6 +12546,9 @@ msgid ""
 "\n"
 "Check if it is correct!"
 msgstr ""
+"Grisbi hat %d Datum gefunden, das dem Muster %s entspricht.\n"
+"\n"
+"Überprüfen Sie, ob es korrekt ist !"
 
 #: src/utils_dates.c:1068
 msgid ""
@@ -12565,7 +12558,7 @@ msgid ""
 msgstr ""
 "Grisbi kann das Datumsformat nicht ermitteln.\n"
 "\n"
-"Bitte das entsprechende Datumsformat festlegen."
+"Bitte erzwingen Sie es!"
 
 #: src/utils_dates.c:1072
 msgid "The dates format is indeterminate"
@@ -12598,7 +12591,6 @@ msgid "Convert to utf8 failed."
 msgstr "Die Konvertierung in \"UTF-8\" ist fehlgeschlagen."
 
 #: src/utils_files.c:682
-#, fuzzy
 msgid "_Open"
 msgstr "Öffnen"
 
@@ -12625,7 +12617,8 @@ msgstr "Ergebnis"
 
 #: src/utils_files.c:832
 msgid "If no proposals above are correct you can choose a different charset."
-msgstr "Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz auswählen"
+msgstr ""
+"Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz auswählen."
 
 #: src/utils_prefs.c:763
 msgid "Could not encrypt file"
@@ -12633,7 +12626,7 @@ msgstr "Die Datei konnte nicht verschlüsselt werden"
 
 #: src/utils_widgets.c:63
 msgid "yyyy/mm/dd"
-msgstr "JJJJ-MM-TT"
+msgstr "JJJJ/MM/TT"
 
 #: src/utils_widgets.c:64
 msgid "yyyy/dd/mm"
@@ -12717,23 +12710,23 @@ msgstr ""
 
 #: src/etats/etats_page_period.c:90
 msgid "All"
-msgstr "alle"
+msgstr "Alle"
 
 #: src/etats/etats_page_period.c:92
 msgid "Total to now"
-msgstr "alle bis jetzt"
+msgstr "Alle bis jetzt"
 
 #: src/etats/etats_page_period.c:93
 msgid "Current month"
-msgstr "aktueller Monat"
+msgstr "Aktueller Monat"
 
 #: src/etats/etats_page_period.c:94
 msgid "Current year"
-msgstr "aktuelles Jahr"
+msgstr "Aktuelles Jahr"
 
 #: src/etats/etats_page_period.c:95
 msgid "Current month to now"
-msgstr "aktueller Monat bis jetzt"
+msgstr "Aktueller Monat bis jetzt"
 
 #: src/etats/etats_page_period.c:96
 msgid "Current year to now"
@@ -12741,27 +12734,27 @@ msgstr "aktuelles Jahr bis jetzt"
 
 #: src/etats/etats_page_period.c:97
 msgid "Previous month"
-msgstr "letzter Monat"
+msgstr "Letzter Monat"
 
 #: src/etats/etats_page_period.c:98
 msgid "Previous year"
-msgstr "letztes Jahr"
+msgstr "Letztes Jahr"
 
 #: src/etats/etats_page_period.c:99
 msgid "Last 30 days"
-msgstr "die letzten 30 Tage"
+msgstr "Die letzten 30 Tage"
 
 #: src/etats/etats_page_period.c:100
 msgid "Last 3 months"
-msgstr "die letzten 3 Monate"
+msgstr "Die letzten 3 Monate"
 
 #: src/etats/etats_page_period.c:101
 msgid "Last 6 months"
-msgstr "die letzten 6 Monate"
+msgstr "Die letzten 6 Monate"
 
 #: src/etats/etats_page_period.c:102
 msgid "Last 12 months"
-msgstr "die letzten 12 Monate"
+msgstr "Die letzten 12 Monate"
 
 #: src/etats/etats_page_period.c:346
 msgid "Date selection"
@@ -12828,7 +12821,7 @@ msgstr "Konto Details"
 
 #: src/widgets/widget_bet_graph_others.c:101
 #: src/widgets/widget_bet_graph_others.c:134
-#, fuzzy, c-format
+#, c-format
 msgid "date %s: value %s"
 msgstr "Datum %s : Betrag %s"
 
@@ -12906,9 +12899,8 @@ msgstr "Zeichen"
 
 #: src/widgets/widget_import_asso.c:104 src/widgets/widget_import_asso.c:334
 #: src/widgets/widget_import_asso.c:605
-#, fuzzy
 msgid "Update"
-msgstr "Datum"
+msgstr "Bearbeiten"
 
 #: src/widgets/widget_import_asso.c:464
 msgid "You will be redirected to the payee management module"
@@ -12932,7 +12924,7 @@ msgstr "Suchkriterium"
 
 #: src/widgets/widget_import_asso.c:814
 msgid "Select a payee from the list of payees"
-msgstr ""
+msgstr "Wählen Sie einen Empfänger aus der Liste der Empfänger aus"
 
 #: src/widgets/widget_import_files.c:127
 msgid "Set the financial year"
@@ -12940,11 +12932,11 @@ msgstr "Geschäftsjahre Zuordnung"
 
 #: src/widgets/widget_import_files.c:128
 msgid "According to the date"
-msgstr "entsprechend Datum der Buchung"
+msgstr "Entsprechend Datum der Buchung"
 
 #: src/widgets/widget_import_files.c:129
 msgid "According to the value date (if fail, try with the date)"
-msgstr "entsprechend Valutadatum (sonst nach Datum)"
+msgstr "Entsprechend Valutadatum (sonst nach Datum)"
 
 #: src/widgets/widget_list_accounts.c:405
 msgid ""
@@ -12952,7 +12944,7 @@ msgid ""
 "\"Detail accounts used\" option activated"
 msgstr ""
 "Es wurden alle Konten ausgewählt.\n"
-"Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
+"Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen"
 
 #: src/widgets/widget_list_metatree.c:330
 msgid "Income budget lines"
@@ -12976,11 +12968,11 @@ msgstr "Zugeordnetes Konto"
 
 #: src/widgets/widget_loan.c:1071
 msgid "Associated account: "
-msgstr "Zugeordnetes Konto:"
+msgstr "Zugeordnetes Konto :"
 
 #: src/widgets/widget_loan.c:1086
 msgid "Frequency: "
-msgstr "Frequenz:"
+msgstr "Frequenz :"
 
 #: src/widgets/widget_loan.c:1105
 msgid "Mother transaction:"
@@ -13101,7 +13093,7 @@ msgstr " <b>%s Abstimmung</b> "
 #: src/widgets/widget_search_tiers_categ_ib.c:189
 #: src/widgets/widget_search_transaction.c:785
 msgid "Ignore sign"
-msgstr ""
+msgstr "Das Zeichen ignorieren"
 
 #: src/widgets/widget_search_tiers_categ_ib.c:276
 #: src/widgets/widget_search_tiers_categ_ib.c:378
@@ -13111,24 +13103,20 @@ msgid "You must enter a search text"
 msgstr "Sie müssen einen Suchbegriff eingeben"
 
 #: src/widgets/widget_search_tiers_categ_ib.c:297
-#, fuzzy
 msgid "You must enter a valid amount"
-msgstr "Sie müssen einen Betrag eingeben."
+msgstr "Sie müssen einen gültigen Betrag eingeben"
 
 #: src/widgets/widget_search_tiers_categ_ib.c:482
-#, fuzzy
 msgid "Search in categories"
-msgstr "Buchungen nach Kategorien auswählen"
+msgstr "Suche in Kategorien"
 
 #: src/widgets/widget_search_tiers_categ_ib.c:494
-#, fuzzy
 msgid "Search in budgetary lines"
-msgstr "Gruppe erstellen"
+msgstr "Suche in den Gruppen"
 
 #: src/widgets/widget_search_tiers_categ_ib.c:507
-#, fuzzy
 msgid "Search in payees"
-msgstr "Suche nach Empfängername"
+msgstr "Suche in Empfänger"
 
 #: src/widgets/widget_search_transaction.c:615
 msgid "1 transaction were found"
