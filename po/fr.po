@@ -5735,7 +5735,7 @@ msgstr "(Dé)Pointe une opération%s-> <Ctrl>P, F12\n"
 #: src/grisbi_app.c:1349
 #, c-format
 msgid "(Un)Reconcile a transaction%s-> <Ctrl>R\n"
-msgstr "(Dé)Rapproche une opération%s-> <Command>R\n"
+msgstr "(Dé)Rapproche une opération%s-> <Ctrl>R\n"
 
 #: src/grisbi_conf.c:1166
 #, c-format
