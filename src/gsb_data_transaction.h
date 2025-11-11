@@ -83,6 +83,7 @@ GsbReal 		gsb_data_transaction_get_adjusted_amount_for_currency 			(gint transac
 																				 gint return_exponent);
 GsbReal 		gsb_data_transaction_get_amount 								(gint transaction_number);
 gint 			gsb_data_transaction_get_archive_number 						(gint transaction_number);
+GSList *		gsb_data_transaction_get_active_transactions_list				(void);
 gint 			gsb_data_transaction_get_automatic_transaction 					(gint transaction_number);
 const gchar *	gsb_data_transaction_get_bank_references 						(gint transaction_number);
 gint 			gsb_data_transaction_get_budgetary_number 						(gint transaction_number);
@@ -131,8 +132,8 @@ gboolean 		gsb_data_transaction_init_variables 							(void);
 gint 			gsb_data_transaction_new_transaction 							(gint no_account);
 gint 			gsb_data_transaction_new_transaction_with_number 				(gint no_account,
                         														 gint transaction_number);
-gint 			gsb_data_transaction_new_white_line (gint mother_transaction_number);
-gboolean 		gsb_data_transaction_remove_transaction (gint transaction_number);
+gint 			gsb_data_transaction_new_white_line								(gint mother_transaction_number);
+gboolean 		gsb_data_transaction_remove_transaction							(gint transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction_in_transaction_list 	(gint transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction_without_check 			(gint transaction_number);
 gboolean 		gsb_data_transaction_set_account_number 						(gint transaction_number,
@@ -189,6 +190,7 @@ gboolean 		gsb_data_transaction_set_value_date 							(gint transaction_number,
                         														 const GDate *date);
 gboolean 		gsb_data_transaction_set_voucher 								(gint transaction_number,
                         														 const gchar *voucher);
+void			gsb_data_transaction_save_transaction_pointer					(gpointer transaction);
 /* END_DECLARATION */
 
 
