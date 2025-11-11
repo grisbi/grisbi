@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
 "POT-Creation-Date: 2025-11-02 08:09+0100\n"
-"PO-Revision-Date: 2025-11-09 00:30+0100\n"
+"PO-Revision-Date: 2025-11-09 17:07+0100\n"
 "Last-Translator: brochignac <dbro17@free.fr>\n"
 "Language-Team: German <>\n"
 "Language: de\n"
@@ -4874,12 +4874,11 @@ msgstr "nach %s %d"
 
 #: src/export.c:68 src/export.c:249
 msgid "Uncheck to write a date field without quotes"
-msgstr ""
-"Deaktivieren Sie sie, um das Datum nicht in Anführungszeichen zu schreiben"
+msgstr "Deaktivieren um das Datum nicht in Anführungszeichen zu schreiben"
 
 #: src/export.c:70 src/export.c:251
 msgid "Check to write a date field with quotes"
-msgstr "Aktivieren Sie sie, um das Datum in Anführungszeichen zu schreiben"
+msgstr "Aktivieren um das Datum in Anführungszeichen zu schreiben"
 
 #: src/export.c:196 src/export.c:675 src/gsb_assistant_archive_export.c:304
 msgid "QIF format"
