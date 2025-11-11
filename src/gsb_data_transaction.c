@@ -68,6 +68,9 @@ static GSList *complete_transactions_list = NULL;
  * and 1 white line per split of transaction */
 static GSList *white_transactions_list = NULL;
 
+/** the g_slist which contains the transactions structures of activ's account */
+static GSList *active_transactions_list = NULL;
+
 /** 2 pointers to the 2 last transaction used (to increase the speed) */
 static TransactionStruct *transaction_buffer[2];
 
@@ -145,6 +148,12 @@ static void gsb_data_transaction_delete_all_transactions (void)
 	transaction_buffer[0] = NULL;
 	transaction_buffer[1] = NULL;
 	current_transaction_buffer = 0;
+
+	if (active_transactions_list)
+	{
+		g_slist_free (active_transactions_list);
+		active_transactions_list = NULL;
+	}
 }
 
 /**
@@ -181,23 +190,6 @@ static gint gsb_data_transaction_get_last_white_number (void)
 		last_number = -1;
 
 	return last_number;
-}
-
-/**
- * save the pointer in a buffer to increase the speed later
- *
- * \param transaction the pointer to the transaction
- *
- * \return
- **/
-static void gsb_data_transaction_save_transaction_pointer (gpointer transaction)
-{
-	/* check if the transaction isn't already saved */
-	if (transaction == transaction_buffer[0] || transaction == transaction_buffer[1])
-		return;
-
-	current_transaction_buffer = !current_transaction_buffer;
-	transaction_buffer[current_transaction_buffer] = transaction;
 }
 
 /**
@@ -277,6 +269,21 @@ gboolean gsb_data_transaction_init_variables (void)
 GSList *gsb_data_transaction_get_transactions_list (void)
 {
 	return transactions_list;
+}
+
+/**
+ * return a pointer to the g_slist of transactions structure
+ * it's not a copy, so we must not free or change it
+ * if we want to change something, use gsb_data_transaction_copy_transactions_list instead
+ * THIS IS THE LIST WITHOUT THE TRANSACTIONS OF CLOSED ACCOUNTS
+ *
+ * \param none
+ *
+ * \return the slist of transactions structures
+ **/
+GSList *gsb_data_transaction_get_active_transactions_list (void)
+{
+	return active_transactions_list;
 }
 
 /**
@@ -1992,6 +1999,10 @@ gint gsb_data_transaction_new_transaction_with_number (gint no_account,
 	transactions_list = g_slist_append (transactions_list, transaction);
 	complete_transactions_list = g_slist_append (complete_transactions_list, transaction);
 
+	/* we append the transaction to the active transactions list if the account is closed */
+	if (!gsb_data_account_get_closed_account (no_account))
+		active_transactions_list = g_slist_append (active_transactions_list, transaction);
+
 	gsb_data_transaction_save_transaction_pointer (transaction);
 
 	return transaction->transaction_number;
@@ -2670,6 +2681,23 @@ gchar *gsb_data_transaction_get_category_real_name (gint transaction_number)
 	}
 
 	return tmp;
+}
+
+/**
+ * save the pointer in a buffer to increase the speed later
+ *
+ * \param transaction the pointer to the transaction
+ *
+ * \return
+ **/
+void gsb_data_transaction_save_transaction_pointer (gpointer transaction)
+{
+	/* check if the transaction isn't already saved */
+	if (transaction == transaction_buffer[0] || transaction == transaction_buffer[1])
+		return;
+
+	current_transaction_buffer = !current_transaction_buffer;
+	transaction_buffer[current_transaction_buffer] = transaction;
 }
 
 /**
