@@ -874,9 +874,6 @@ devel_debug (text);
 		amount_inf = gsb_real_sub (amount, spin_number);
 		amount_sup = gsb_real_add (amount, spin_number);
 
-		printf ("amount_inf = %s\n", utils_real_get_string (amount_inf));
-		printf ("amount_sup = %s\n", utils_real_get_string (amount_sup));
-
 		gsb_data_report_amount_comparison_set_first_comparison (amount_cmp_number, 2); /* inferieur ou egal */
 		gsb_data_report_amount_comparison_set_second_comparison (amount_cmp_number, 4); /* superieur ou egal */
 		gsb_data_report_amount_comparison_set_link_first_to_second_part (amount_cmp_number, 0); /* et */
