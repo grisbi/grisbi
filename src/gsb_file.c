@@ -899,7 +899,18 @@ void gsb_file_set_backup_path (const gchar *path)
 
     if (path && !g_file_test (path, G_FILE_TEST_EXISTS))
     {
-        utils_files_create_XDG_dir ();
+        if (utils_files_create_XDG_dir ())
+        {
+            gchar * previous_backup_path = backup_path;
+
+            backup_path = my_strdup (gsb_dirs_get_user_data_dir ());
+
+            gchar * msg = g_strdup_printf("Backup directory %s has been replaced by %s.", previous_backup_path, backup_path);
+            important_debug(msg);
+            g_free(msg);
+
+            g_free (previous_backup_path);
+        }
     }
 }
 
