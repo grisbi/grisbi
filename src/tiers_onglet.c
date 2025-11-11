@@ -714,7 +714,11 @@ static gboolean etats_onglet_list_key_press (GtkWidget *widget,
 
 		case GDK_KEY_F:         /* touche F*/
 		case GDK_KEY_f:         /* touche f */
+#ifdef GTKOSXAPPLICATION
+			if (ev->state & GDK_META_MASK)	/* Command key */
+#else
 			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
+#endif
 			{
 				gsb_gui_navigation_create_search_report_from_ctrl_f (GSB_PAYEES_PAGE);
 			}

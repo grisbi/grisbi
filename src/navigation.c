@@ -1085,7 +1085,11 @@ static gboolean gsb_gui_navigation_key_press (GtkWidget *widget,
     {
 		case GDK_KEY_F:         /* touche F*/
 		case GDK_KEY_f:         /* touche f */
+#ifdef GTKOSXAPPLICATION
+			if (ev->state & GDK_META_MASK)	/* Command key */
+#else
 			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
+#endif
 			{
 				gint account_number;
 				gint page_number;
