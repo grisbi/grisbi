@@ -854,7 +854,7 @@ static void etat_onglet_set_search_amount_data_for_tiers_categ_ib (gint report_n
 	gint amount_cmp_number;
 	gint tmp_amount_cmp_number = 0;
 	GsbReal amount;
-devel_debug (text);
+
 	gsb_data_report_set_amount_comparison_used (report_number, 1);
 
 	/* on crée une première structure de montant */
@@ -954,8 +954,6 @@ static void etat_onglet_set_search_report_data_for_tiers (gint report_number,
 	GSList *tiers_list = NULL;
 	GSList *tmp_list;
 
-	devel_debug (text);
-
 	/* liste des tiers */
 	if (search_data_report->search_type == 1)
 	{
@@ -1006,8 +1004,6 @@ static void etat_onglet_set_search_report_data_for_categ (gint report_number,
 	GSList *categ_list = NULL;
 	GSList *tmp_list;
 
-	devel_debug (text);
-
 	/* liste des categ */
 	if (search_data_report->search_type == 1)
 	{
@@ -1057,8 +1053,6 @@ static void etat_onglet_set_search_report_data_for_budget (gint report_number,
 {
 	GSList *budget_list = NULL;
 	GSList *tmp_list;
-
-	devel_debug (text);
 
 	/* liste des IB */
 	if (search_data_report->search_type == 1)
@@ -1708,7 +1702,6 @@ void etats_onglet_create_search_tiers_categ_ib_report (GtkWindow *dialog,
 	gint report_number;
 	GrisbiWinRun *w_run;
 
-	devel_debug (NULL);
 	notebook_general = grisbi_win_get_notebook_general ();
 	if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
