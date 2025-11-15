@@ -82,43 +82,6 @@ struct MetatreeHoldPosition *category_hold_position;
 /*END_EXTERN*/
 
 /******************************************************************************/
-/* Private functions                                                          */
-/******************************************************************************/
-/**
- * gère le clavier sur la liste des opés
- *
- * \param
- * \param
- *
- * \return
- **/
-static gboolean categories_list_key_press (GtkWidget *widget,
-										   GdkEventKey *ev)
-{
-	switch (ev->keyval)
-    {
-		case GDK_KEY_Return :   /* entrée */
-		case GDK_KEY_KP_Enter :
-		case GDK_KEY_Tab :
-			break;
-
-		case GDK_KEY_F:         /* touche F*/
-		case GDK_KEY_f:         /* touche f */
-#ifdef GTKOSXAPPLICATION
-			if (ev->state & GDK_META_MASK)	/* Command key */
-#else
-			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
-#endif
-			{
-				gsb_gui_navigation_create_search_report_from_ctrl_f (GSB_PAYEES_PAGE);
-			}
-			break;
-    }
-
-    return TRUE;
-}
-
-/******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
 /**
@@ -296,12 +259,6 @@ GtkWidget *categories_create_list (void)
                         "changed",
                         G_CALLBACK (metatree_selection_changed),
                         categ_tree_model);
-
-    /* check the keys on the list */
-    g_signal_connect (G_OBJECT (arbre_categ),
-		              "key-press-event",
-		              G_CALLBACK (categories_list_key_press),
-		              NULL);
 
     /* création de la structure de sauvegarde de la position */
     category_hold_position = g_malloc0 (sizeof (struct MetatreeHoldPosition));
