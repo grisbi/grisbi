@@ -124,6 +124,7 @@ static struct AcceleratorStruct accels[] = {
 		{ "win.show-reconciled", { "<Alt>R", NULL }, N_("Show reconciled")},
 		{ "win.show-archived", { "<Alt>L", NULL }, N_("Show lines archives")},
 		{ "win.manual", { "F1", NULL }, N_("User's Manual")},
+		{ "win.search-acc", {"<Primary>F", NULL}, N_("Search")},
 		{ "win.fullscreen", {"F11", NULL}, N_("Full screen")}
 	};
 static struct AcceleratorStruct accels_classic[] = {
@@ -140,6 +141,7 @@ static struct AcceleratorStruct accels_classic[] = {
 		{ "win.show-reconciled", { "<Alt>R", NULL }, N_("Show reconciled")},
 		{ "win.show-archived", { "<Alt>L", NULL }, N_("Show lines archives")},
 		{ "win.manual", { "F1", NULL }, N_("User's Manual")},
+		{ "win.search-acc", {"<Primary>F", NULL}, N_("Search")},
 		{ "win.fullscreen", {"F11", NULL}, N_("Full screen")}
 	};
 
