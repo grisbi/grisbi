@@ -84,43 +84,6 @@ static struct MetatreeHoldPosition *budgetary_hold_position;
 /*END_EXTERN*/
 
 /******************************************************************************/
-/* Private functions                                                          */
-/******************************************************************************/
-/**
- * gère le clavier sur la liste des opés
- *
- * \param
- * \param
- *
- * \return
- **/
-static gboolean budgetary_lines_list_key_press (GtkWidget *widget,
-												GdkEventKey *ev)
-{
-	switch (ev->keyval)
-    {
-		case GDK_KEY_Return :   /* entrée */
-		case GDK_KEY_KP_Enter :
-		case GDK_KEY_Tab :
-			break;
-
-		case GDK_KEY_F:         /* touche F*/
-		case GDK_KEY_f:         /* touche f */
-#ifdef GTKOSXAPPLICATION
-			if (ev->state & GDK_META_MASK)	/* Command key */
-#else
-			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
-#endif
-			{
-				gsb_gui_navigation_create_search_report_from_ctrl_f (GSB_PAYEES_PAGE);
-			}
-			break;
-    }
-
-    return TRUE;
-}
-
-/******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
 /**
@@ -298,13 +261,6 @@ GtkWidget *budgetary_lines_create_list ( void )
     g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(budgetary_line_tree)),
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       budgetary_line_tree_model );
-
-    /* check the keys on the list */
-    g_signal_connect (G_OBJECT (budgetary_line_tree),
-		              "key-press-event",
-		              G_CALLBACK (budgetary_lines_list_key_press),
-		              NULL);
-
 
 	/* création de la structure de sauvegarde de la position */
     budgetary_hold_position = g_malloc0 ( sizeof ( struct MetatreeHoldPosition ) );
