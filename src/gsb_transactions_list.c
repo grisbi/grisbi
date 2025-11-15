@@ -1903,19 +1903,6 @@ static gboolean gsb_transactions_list_key_press (GtkWidget *widget,
 							TRUE);
 			break;
 
-		case GDK_KEY_F:         /* touche F*/
-		case GDK_KEY_f:         /* touche f */
-#ifdef GTKOSXAPPLICATION
-			if (ev->state & GDK_META_MASK)	/* Command key */
-#else
-			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
-#endif
-			{
-				transaction_number = gsb_data_account_get_current_transaction_number (account_number);
-				gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
-			}
-			break;
-
 		case GDK_KEY_P:         /* touche P */
 		case GDK_KEY_p:         /* touche p */
 		case GDK_KEY_F12:       /* touche F12 pour pointer dépointer comme avec <ctrl>p*/
