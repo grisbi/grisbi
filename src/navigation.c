@@ -1071,58 +1071,6 @@ static gboolean navigation_tree_drag_data_get (GtkTreeDragSource *drag_source,
 }
 
 /**
- * gère le clavier sur la liste des opés
- *
- * \param
- * \param
- *
- * \return
- **/
-static gboolean gsb_gui_navigation_key_press (GtkWidget *widget,
-											  GdkEventKey *ev)
-{
-	switch (ev->keyval)
-    {
-		case GDK_KEY_F:         /* touche F*/
-		case GDK_KEY_f:         /* touche f */
-#ifdef GTKOSXAPPLICATION
-			if (ev->state & GDK_META_MASK)	/* Command key */
-#else
-			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
-#endif
-			{
-				gint account_number;
-				gint page_number;
-				gint transaction_number;
-
-				page_number = gsb_gui_navigation_get_current_page ();
-				switch (page_number)
-				{
-					case GSB_ACCOUNT_PAGE:
-						account_number = gsb_gui_navigation_get_current_account ();
-						transaction_number = gsb_data_account_get_current_transaction_number (account_number);
-						gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
-					break;
-
-					case GSB_REPORTS_PAGE:
-						etats_onglet_create_search_report ();
-					break;
-
-					case GSB_CATEGORIES_PAGE:
-					case GSB_BUDGETARY_LINES_PAGE:
-					case GSB_PAYEES_PAGE:
-						gsb_gui_navigation_create_search_report_from_ctrl_f (page_number);
-					break;
-				}
-				return TRUE;
-			}
-			break;
-	}
-
-	return FALSE;
-}
-
-/**
  *
  *
  * \param
@@ -1346,12 +1294,6 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane (void)
 					  "row-expanded",
 					  G_CALLBACK (gsb_gui_navigation_activate_expander),
 					  GINT_TO_POINTER (1));
-
-	/* check the keys on the list */
-	g_signal_connect (G_OBJECT (navigation_tree_view),
-					  "key-press-event",
-					  G_CALLBACK (gsb_gui_navigation_key_press),
-					  NULL);
 
 	gtk_widget_show_all (grid);
 	gtk_widget_hide (scheduler_calendar);
