@@ -61,7 +61,10 @@ jobs:
         run: |
           export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/tmp/inst/lib/pkgconfig
 
-          meson setup builddir --prefix /c/projects/grisbi-inst -Dgoffice=false
+          meson setup builddir \
+            --prefix /c/projects/grisbi-inst \
+            -Ddebug=false \
+            -Dgoffice=false
 
           time meson install -C builddir
 
