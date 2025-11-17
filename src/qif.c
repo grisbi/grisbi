@@ -1482,7 +1482,6 @@ gboolean gsb_qif_export_archive (const gchar *filename,
 				name_list = g_slist_append (name_list, new_filename);
 			else
 				error_return = 1;
-			g_free(new_filename);
 		}
 		tmp_list = tmp_list->next;
     }
