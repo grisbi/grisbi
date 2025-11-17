@@ -19,6 +19,7 @@ jobs:
           msystem: UCRT64
           update: true
           install: >-
+            git
             pkg-config
             unzip
           pacboy: >-
