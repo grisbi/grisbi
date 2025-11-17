@@ -4,14 +4,14 @@
 /* Gettext package. */
 #define GETTEXT_PACKAGE "grisbi"
 
-/* Defined if app is GtkOSXApplication */
-/* #undef GTKOSXAPPLICATION */
-
 /* Define to 1 if you have the `backtrace' function. */
 #define HAVE_BACKTRACE 1
 
 /* Define if goffice support is enabled */
 #define HAVE_GOFFICE 1
+
+/* Define to 1 if you have the 'g_sort_array' function. */
+#define HAVE_G_SORT_ARRAY 1
 
 /* Build with ofx support */
 #define HAVE_OFX 1
@@ -60,9 +60,9 @@
 #define HELP_PATH ""
 #define LOGO_PATH ""
 
-#define DATA_PATH "/usr/local/share/grisbi/"
-#define LOCALEDIR "/usr/local/share/locale"
-#define PIXMAPS_DIR "/usr/local/share/pixmaps/grisbi"
+#define DATA_PATH "/tmp/grisbi/share/grisbi/"
+#define LOCALEDIR "/tmp/grisbi/share/locale"
+#define PIXMAPS_DIR "/tmp/grisbi/share/pixmaps/grisbi"
 #define UI_DIR ""
 
 #define USE_CONFIG_FILE

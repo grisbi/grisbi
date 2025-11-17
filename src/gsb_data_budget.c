@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2009-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -27,9 +27,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -40,6 +38,7 @@
 #include "meta_budgetary.h"
 #include "imputation_budgetaire.h"
 #include "gsb_data_form.h"
+#include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_widget.h"
@@ -1593,7 +1592,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
  *
  * \param   budget_number
  *
- * \return  length of sub_category_list
+ * \return  length of sub_budget_list
  * */
 gint gsb_data_budget_get_sub_budget_list_length ( gint budget_number )
 {
@@ -1705,6 +1704,75 @@ gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
     return FALSE;
 }
 
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+GSList *gsb_data_budget_get_search_budgets_list (const gchar *text,
+												 gboolean ignore_case)
+{
+	GSList *list = NULL;
+	GSList *pointer;
+
+	devel_debug_int (ignore_case);
+
+	/* on balaye systematiquement toutes les categories et toutes les sous-categories */
+	pointer = gsb_data_budget_get_budgets_list ();
+	while (pointer)
+	{
+		GSList *tmp_list;
+		BudgetStruct *budget;
+		CategBudgetSel *categ_budget_struct = NULL;
+
+		budget = pointer->data;
+
+		tmp_list = budget->sub_budget_list;	/* on passe en revue toutes les sous ib */
+		while (tmp_list)
+		{
+			SubBudgetStruct *sub_budget;
+
+			sub_budget = tmp_list->data;
+			if (ignore_case)
+			{
+				if (sub_budget->sub_budget_name && utils_str_my_case_strstr (sub_budget->sub_budget_name, text))
+				{
+					if (!categ_budget_struct)
+					{
+						categ_budget_struct = g_malloc0 (sizeof (CategBudgetSel));
+						categ_budget_struct->div_number = sub_budget->mother_budget_number;
+					}
+					categ_budget_struct->sub_div_numbers = g_slist_append (categ_budget_struct->sub_div_numbers,
+																		   GINT_TO_POINTER (sub_budget->sub_budget_number));
+				}
+			}
+			else
+			{
+				if (sub_budget->sub_budget_name && g_strstr_len (sub_budget->sub_budget_name, -1, text))
+				{
+					if (!categ_budget_struct)
+					{
+						categ_budget_struct = g_malloc0 (sizeof (CategBudgetSel));
+						categ_budget_struct->div_number = sub_budget->mother_budget_number;
+					}
+					categ_budget_struct->sub_div_numbers = g_slist_append (categ_budget_struct->sub_div_numbers,
+																		   GINT_TO_POINTER (sub_budget->sub_budget_number));
+				}
+			}
+
+			tmp_list = tmp_list->next;
+		}
+		if (categ_budget_struct)
+			list = g_slist_append (list, categ_budget_struct);
+
+		pointer = pointer->next;
+	}
+
+	return list;
+}
 
 /**
  *

@@ -21,9 +21,7 @@
 /* ************************************************************************** */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <gdk/gdkkeysyms.h>
@@ -73,6 +71,7 @@
 #include "utils_str.h"
 #include "widget_account_property.h"
 #include "widget_reconcile.h"
+#include "widget_search_tiers_categ_ib.h"
 #include "widget_search_transaction.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1072,47 +1071,6 @@ static gboolean navigation_tree_drag_data_get (GtkTreeDragSource *drag_source,
 }
 
 /**
- * gère le clavier sur la liste des opés
- *
- * \param
- * \param
- *
- * \return
- **/
-static gboolean gsb_gui_navigation_key_press (GtkWidget *widget,
-											  GdkEventKey *ev)
-{
-	switch (ev->keyval)
-    {
-		case GDK_KEY_F:         /* touche F*/
-		case GDK_KEY_f:         /* touche f */
-			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
-			{
-				gint account_number;
-				gint page_number;
-				gint transaction_number;
-
-				page_number = gsb_gui_navigation_get_current_page ();
-				if (page_number == GSB_ACCOUNT_PAGE)
-				{
-					account_number = gsb_gui_navigation_get_current_account ();
-					transaction_number = gsb_data_account_get_current_transaction_number (account_number);
-					gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
-				}
-				else if (page_number == GSB_REPORTS_PAGE)
-				{
-					etats_onglet_create_search_report ();
-				}
-
-				return TRUE;
-			}
-			break;
-	}
-
-	return FALSE;
-}
-
-/**
  *
  *
  * \param
@@ -1336,12 +1294,6 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane (void)
 					  "row-expanded",
 					  G_CALLBACK (gsb_gui_navigation_activate_expander),
 					  GINT_TO_POINTER (1));
-
-	/* check the keys on the list */
-	g_signal_connect (G_OBJECT (navigation_tree_view),
-					  "key-press-event",
-					  G_CALLBACK (gsb_gui_navigation_key_press),
-					  NULL);
 
 	gtk_widget_show_all (grid);
 	gtk_widget_hide (scheduler_calendar);
@@ -1896,6 +1848,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			title = g_strdup(_("My accounts"));
 
+			/* hide menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", FALSE);
+
 			/* what to be done if switch to that page */
 			mise_a_jour_accueil (FALSE);
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -1911,6 +1866,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			/* update title now -- different from others */
 			gsb_gui_navigation_update_account_label (account_number);
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			if (account_number > 0)
@@ -1939,6 +1897,16 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			buffer_last_account = account_number;
 
+			if (! grisbi_win_form_expander_is_expanded ())
+			{
+				GtkWidget *form_expander;
+				form_expander = grisbi_win_get_form_expander ();
+
+				/* ugly hack for https://www.grisbi.org/bugsreports/view.php?id=2269 */
+				gtk_expander_set_expanded (GTK_EXPANDER (form_expander), TRUE);
+				gtk_expander_set_expanded (GTK_EXPANDER (form_expander), FALSE);
+			}
+
 			break;
 
 		case GSB_SCHEDULER_PAGE:
@@ -1959,6 +1927,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			/* show menu NewTransaction */
 			gsb_menu_gui_sensitive_win_menu_item ("new-ope", TRUE);
 
+			/* hide menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", FALSE);
+
 			/* show menu InitwidthCol */
 			gsb_menu_gui_sensitive_win_menu_item ("reset-width-col", TRUE);
 
@@ -1969,6 +1940,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 		case GSB_PAYEES_PAGE:
 			notice_debug ("Payee page selected");
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -1982,6 +1956,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 			title = g_strdup(_("Credits simulator"));
 
+			/* hide menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", FALSE);
+
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
 			bet_finance_ui_switch_simulator_page ();
@@ -1990,6 +1967,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 		case GSB_CATEGORIES_PAGE:
 			notice_debug ("Category page selected");
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -2000,6 +1980,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 
 		case GSB_BUDGETARY_LINES_PAGE:
 			notice_debug ("Budgetary page selected");
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -2017,6 +2000,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			title = g_strconcat (_("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL);
 			else
 			title = g_strdup(_("Reports"));
+
+			/* show menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
@@ -2036,6 +2022,9 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			break;
 
 		default:
+			/* hide menu SearchAcc */
+			gsb_menu_gui_sensitive_win_menu_item ("search-acc", FALSE);
+
 			notice_debug ("B0rk page selected");
 			title = g_strdup("B0rk");
 			grisbi_win_form_expander_hide_frame ();
@@ -2679,6 +2668,26 @@ void gsb_gui_navigation_update_localisation (gint type_maj)
 	/* update simulator page */
 	if (current_page == GSB_SIMULATOR_PAGE)
 		bet_finance_ui_switch_simulator_page ();
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_gui_navigation_create_search_report_from_ctrl_f (gint page_num)
+{
+	GrisbiWin *win;
+	WidgetSearchTiersCategIb *search;
+
+	devel_debug_int (page_num);
+	win = grisbi_app_get_active_window (NULL);
+	search = widget_search_tiers_categ_ib_new (GTK_WIDGET (win), page_num);
+
+	gtk_window_present (GTK_WINDOW (search));
+	gtk_widget_show_all (GTK_WIDGET (search));
 }
 
 /**

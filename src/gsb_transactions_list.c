@@ -21,9 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <gdk/gdkkeysyms.h>
@@ -172,8 +170,8 @@ static gboolean gsb_transactions_list_assert_selected_transaction (void)
  *
  * \return FALSE
  **/
-static gboolean gsb_transactions_list_change_cell_content (GtkWidget *item,
-														   gint *element_ptr)
+static void gsb_transactions_list_change_cell_content (GtkWidget *item,
+													   gint *element_ptr)
 {
     gint col, line;
     gint last_col = -1, last_line = -1;
@@ -198,7 +196,7 @@ static gboolean gsb_transactions_list_change_cell_content (GtkWidget *item,
 
     /* if no change, change nothing */
     if (last_col == col && last_line == line)
-        return FALSE;
+        return;
 
     /* save the new position */
     tab_affichage_ope[line][col] = element;
@@ -228,8 +226,6 @@ static gboolean gsb_transactions_list_change_cell_content (GtkWidget *item,
     }
 
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -812,8 +808,8 @@ static gboolean gsb_transactions_list_button_press (GtkWidget *tree_view,
  *
  * \return
  **/
-static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
-														gint *no_column)
+static void gsb_transactions_list_change_alignment (GtkWidget *menu_item,
+													gint *no_column)
 {
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell_renderer;
@@ -822,7 +818,7 @@ static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
     gfloat xalign = 0.0;
 
     if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (menu_item)))
-        return FALSE;
+        return;
 
     column_number = GPOINTER_TO_INT (no_column);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (transactions_tree_view), column_number);
@@ -844,14 +840,12 @@ static gboolean gsb_transactions_list_change_alignment (GtkWidget *menu_item,
 			break;
     }
 
-	printf ("alignment = %d xalign = %f\n", alignment, xalign);
+	//~ printf ("alignment = %d xalign = %f\n", alignment, xalign);
     transaction_col_align[column_number] = alignment;
     gtk_tree_view_column_set_alignment  (column, xalign);
     g_object_set (G_OBJECT (cell_renderer), "xalign", xalign, NULL);
 
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -1002,8 +996,8 @@ static gboolean gsb_transactions_list_change_sort_column (GtkTreeViewColumn *tre
  *
  * \return FALSE
  **/
-static gboolean gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
-														gint *no_column)
+static void gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
+													gint *no_column)
 {
     gint column_number;
     gint account_number;
@@ -1011,7 +1005,7 @@ static gboolean gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
     devel_debug_int (GPOINTER_TO_INT (no_column));
 
     if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (menu_item)))
-		return FALSE;
+		return;
 
     column_number = GPOINTER_TO_INT (no_column);
     account_number = gsb_gui_navigation_get_current_account ();
@@ -1028,8 +1022,6 @@ static gboolean gsb_transactions_list_change_sort_type (GtkWidget *menu_item,
      * invert the order, so set DESCENDING for now */
     transaction_list_sort_set_column (column_number, GTK_SORT_DESCENDING);
     gsb_transactions_list_change_sort_column (NULL, no_column);
-
-	return FALSE;
 }
 
 /**
@@ -1862,7 +1854,7 @@ static void gsb_transactions_list_size_allocate (GtkWidget *tree_view,
     }
 
 	grisbi_win_form_label_align_right (allocation);
-	gsb_transactions_list_update_tree_view (gsb_form_get_account_number (), TRUE);
+	//~ gsb_transactions_list_update_tree_view (gsb_form_get_account_number (), TRUE);
 }
 
 /**
@@ -1909,15 +1901,6 @@ static gboolean gsb_transactions_list_key_press (GtkWidget *widget,
 			gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number
 													  (account_number),
 							TRUE);
-			break;
-
-		case GDK_KEY_F:         /* touche F*/
-		case GDK_KEY_f:         /* touche f */
-			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
-			{
-				transaction_number = gsb_data_account_get_current_transaction_number (account_number);
-				gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
-			}
 			break;
 
 		case GDK_KEY_P:         /* touche P */
@@ -2104,7 +2087,7 @@ static gboolean gsb_transactions_list_delete_archived_transactions (gint account
  *
  * \return TRUE if ok
  **/
-static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_number)
+static void gsb_transactions_list_delete_import_rule (gint import_rule_number)
 {
 	gchar *tmp_str;
 
@@ -2114,18 +2097,23 @@ static gboolean gsb_transactions_list_delete_import_rule (gint import_rule_numbe
     {
         g_free (tmp_str);
 
-		return FALSE;
+		return;
     }
     g_free(tmp_str);
 
-    gsb_data_import_rule_remove (import_rule_number);
+    if (gsb_data_import_rule_remove (import_rule_number))
+	{
+		GSList	*tmp_list;
+		gint number;
 
-    /* on met à jour la barre de menu */
-    gtk_widget_hide (menu_import_rules);
+		/* on met à jour la barre de menu */
+		tmp_list = gsb_data_import_rule_get_from_account (gsb_gui_navigation_get_current_account ());
+		number = g_slist_length (tmp_list);
+		if (!number)
+			gtk_widget_hide (menu_import_rules);
 
-	gsb_file_set_modified (TRUE);
-
-    return TRUE;
+		gsb_file_set_modified (TRUE);
+	}
 }
 
 /**
@@ -2206,7 +2194,6 @@ static void gsb_transactions_list_process_orphan_list (GSList *orphan_list)
 static gboolean gsb_transactions_list_fill_model (void)
 {
     GSList *tmp_list;
-    gint transaction_number;
 
     devel_debug (NULL);
 
@@ -2220,9 +2207,11 @@ static gboolean gsb_transactions_list_fill_model (void)
     tmp_list = gsb_data_transaction_get_transactions_list ();
     while (tmp_list)
     {
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-	transaction_list_append_transaction (transaction_number);
-	tmp_list = tmp_list->next;
+		TransactionStruct *transaction;
+
+		transaction = tmp_list->data;
+		transaction_list_append_transaction (transaction->transaction_number);
+		tmp_list = tmp_list->next;
     }
 
     /* if orphan_child_transactions if filled, there are some children which didn't fing their
@@ -2640,8 +2629,8 @@ static gint gsb_transactions_list_convert_to_scheduled (gint transaction_number)
 								   gsb_data_transaction_get_amount (transaction_number));
     gsb_data_scheduled_set_currency_number (scheduled_number,
 											gsb_data_transaction_get_currency_number (transaction_number));
-    gsb_data_scheduled_set_party_number (scheduled_number,
-										 gsb_data_transaction_get_party_number (transaction_number));
+    gsb_data_scheduled_set_payee_number (scheduled_number,
+										 gsb_data_transaction_get_payee_number (transaction_number));
     gsb_data_scheduled_set_category_number (scheduled_number,
 											gsb_data_transaction_get_category_number (transaction_number));
     gsb_data_scheduled_set_sub_category_number (scheduled_number,
@@ -2750,10 +2739,10 @@ void gsb_transactions_list_update_tree_view (gint account_number,
 		selected_transaction = transaction_list_select_get ();
 
 	/* Fix bug 2172 */
-	if (transaction_list_filter (account_number))
-	{
+	//~ if (transaction_list_filter (account_number))
+	//~ {
 		transaction_list_filter (account_number);
-	}
+	//~ }
     transaction_list_set_balances ();
     transaction_list_sort ();
     transaction_list_colorize ();
@@ -3008,7 +2997,7 @@ gchar *gsb_transactions_list_grep_cell_content (gint transaction_number,
 
 		/* mise en forme du tiers */
 		case ELEMENT_PARTY:
-			return (my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+			return (my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 														(transaction_number),
 														TRUE)));
 
@@ -3365,19 +3354,16 @@ GsbReal gsb_transactions_list_get_solde_debut_affichage (gint account_number,
 
     while (list_tmp_transactions)
     {
-        gint transaction_number_tmp;
+		TransactionStruct *transaction;
 
-		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
+		transaction = list_tmp_transactions->data;
 
         /* 	si l'opé est ventilée ou non relevée, on saute */
-        if (gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number
-			&&
-            !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp)
-            &&
-            gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_RAPPROCHEE)
-            solde = gsb_real_add (solde,
-								  gsb_data_transaction_get_adjusted_amount (transaction_number_tmp,
-																			floating_point));
+        if (transaction->account_number == account_number
+			&& !transaction->mother_transaction_number
+            && transaction->marked_transaction == OPERATION_RAPPROCHEE)
+            solde = gsb_real_add (solde, gsb_data_transaction_get_adjusted_amount (transaction->transaction_number,
+																				   floating_point));
 
         list_tmp_transactions = list_tmp_transactions->next;
     }
@@ -3465,12 +3451,10 @@ gboolean gsb_transactions_list_edit_transaction (gint transaction_number)
  *
  * \return FALSE
  **/
-gboolean gsb_transactions_list_edit_transaction_by_pointer (gint *transaction_number)
+void gsb_transactions_list_edit_transaction_by_pointer (gint *transaction_number)
 {
     devel_debug_int (GPOINTER_TO_INT (transaction_number));
     gsb_transactions_list_edit_transaction (GPOINTER_TO_INT (transaction_number));
-
-	return FALSE;
 }
 
 /**
@@ -3562,7 +3546,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
 			tmp_struct_name = "delete-child-transaction";
             tmp_str = g_strdup_printf (_("Do you really want to delete the child of the transaction "
 										"with party '%s' ?"),
-									  gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+									  gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 															   (transaction_number),
 															   FALSE));
         }
@@ -3570,7 +3554,7 @@ gboolean gsb_transactions_list_delete_transaction (gint transaction_number,
         {
 			tmp_struct_name = "delete-transaction";
             tmp_str = g_strdup_printf (_("Do you really want to delete transaction with party '%s' ?"),
-                         			   gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+                         			   gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 																(transaction_number),
 																FALSE));
         }
@@ -3662,15 +3646,12 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view (gint transacti
 		tmp_list = gsb_data_transaction_get_transactions_list ();
 		while (tmp_list)
 		{
-			gint test_transaction;
+			TransactionStruct *transaction;
 
-			test_transaction = gsb_data_transaction_get_transaction_number (tmp_list->data);
+			transaction = tmp_list->data;
+			contra_transaction_number = transaction->contra_transaction_number;
 
-			contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (test_transaction);
-
-			if (gsb_data_transaction_get_mother_transaction_number (test_transaction) == transaction_number
-				&&
-				contra_transaction_number > 0)
+			if (transaction->mother_transaction_number == transaction_number && contra_transaction_number > 0)
 				transaction_list_remove_transaction (contra_transaction_number);
 
 			tmp_list = tmp_list->next;
@@ -3690,18 +3671,16 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view (gint transacti
  *
  * \return
  **/
-gboolean gsb_transactions_list_select_new_transaction (void)
+void gsb_transactions_list_select_new_transaction (void)
 {
 	if (gsb_gui_navigation_get_current_account () == -1)
-		return FALSE;
+		return;
 
     gtk_notebook_set_current_page (GTK_NOTEBOOK (grisbi_win_get_notebook_general ()), 1);
     gsb_form_escape_form();
     gsb_form_show (TRUE);
     transaction_list_select (-1);
     gsb_transactions_list_edit_transaction (-1);
-
-    return FALSE;
 }
 
 /**
@@ -3731,13 +3710,13 @@ void gsb_transactions_list_remove_transaction (void)
  *
  * \return FALSE
  **/
-gboolean gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
-									 gpointer null)
+void gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
+													   gpointer null)
 {
     gint new_transaction_number;
 
     if (!gsb_transactions_list_assert_selected_transaction())
-        return FALSE;
+        return;
 
     new_transaction_number = gsb_transactions_list_clone_transaction (
                         gsb_data_account_get_current_transaction_number (
@@ -3756,7 +3735,6 @@ gboolean gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
     gsb_data_account_set_bet_maj (gsb_gui_navigation_get_current_account (), BET_MAJ_ALL);
 
     gsb_file_set_modified (TRUE);
-    return FALSE;
 }
 
 /**
@@ -3767,15 +3745,15 @@ gboolean gsb_transactions_list_clone_selected_transaction (GtkWidget *menu_item,
  *
  * \return FALSE
  **/
-gboolean gsb_transactions_list_clone_template (GtkWidget *menu_item,
-											   gpointer null)
+void gsb_transactions_list_clone_template (GtkWidget *menu_item,
+										   gpointer null)
 {
     gint new_transaction_number;
     gint account_number;
     GDate *date;
 
     if (!gsb_transactions_list_assert_selected_transaction ())
-        return FALSE;
+        return;
 
     account_number = gsb_gui_navigation_get_current_account ();
     new_transaction_number = gsb_transactions_list_clone_transaction (
@@ -3803,8 +3781,6 @@ gboolean gsb_transactions_list_clone_template (GtkWidget *menu_item,
     gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
 
     gsb_file_set_modified (TRUE);
-
-    return FALSE;
 }
 
 /**
@@ -3905,8 +3881,8 @@ void gsb_transactions_list_splitted_to_scheduled (gint transaction_number,
 										   gsb_data_transaction_get_amount (transaction_number_tmp));
 			gsb_data_scheduled_set_currency_number (split_scheduled_number,
 													gsb_data_transaction_get_currency_number (transaction_number_tmp));
-			gsb_data_scheduled_set_party_number (split_scheduled_number,
-												 gsb_data_transaction_get_party_number (transaction_number_tmp));
+			gsb_data_scheduled_set_payee_number (split_scheduled_number,
+												 gsb_data_transaction_get_payee_number (transaction_number_tmp));
 			gsb_data_scheduled_set_category_number (split_scheduled_number,
 													gsb_data_transaction_get_category_number (transaction_number_tmp));
 			gsb_data_scheduled_set_sub_category_number (split_scheduled_number,
@@ -4240,17 +4216,18 @@ gboolean gsb_transactions_list_restore_archive (gint archive_number,
         tmp_list = gsb_data_transaction_get_complete_transactions_list ();
         while (tmp_list)
         {
-            transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-            account_number = gsb_data_transaction_get_account_number (transaction_number);
-            if (gsb_data_transaction_get_archive_number (transaction_number) == archive_number
-             &&
-             gsb_data_archive_store_get_transactions_visibles (archive_number, account_number) == FALSE)
+			TransactionStruct *transaction;
+
+			transaction = tmp_list->data;
+
+            if (transaction->archive_number == archive_number
+				&& gsb_data_archive_store_get_transactions_visibles (archive_number, transaction->account_number) == FALSE)
             {
                 /* append the transaction to the list of non archived transactions */
-                gsb_data_transaction_add_archived_to_list (transaction_number);
+                gsb_data_transaction_add_archived_to_list (transaction->transaction_number);
 
                 /* the transaction belongs to the archive we want to show, so append it to the list store */
-                transaction_list_append_transaction (transaction_number);
+                transaction_list_append_transaction (transaction->transaction_number);
             }
             tmp_list = tmp_list->next;
         }
@@ -4355,17 +4332,17 @@ gboolean gsb_transactions_list_add_transactions_from_archive (gint archive_numbe
         tmp_list = gsb_data_transaction_get_complete_transactions_list ();
         while (tmp_list)
         {
-            transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+			TransactionStruct *transaction;
 
-            if (gsb_data_transaction_get_archive_number (transaction_number) == archive_number
-             &&
-             gsb_data_transaction_get_account_number (transaction_number) == account_number)
+			transaction = tmp_list->data;
+            if (transaction->archive_number == archive_number
+             && transaction->account_number == account_number)
             {
                 /* append the transaction to the list of non archived transactions */
-                gsb_data_transaction_add_archived_to_list (transaction_number);
+                gsb_data_transaction_add_archived_to_list (transaction->transaction_number);
 
                 /* the transaction belongs to the archive we want to show, so append it to the list store */
-                transaction_list_append_transaction (transaction_number);
+                transaction_list_append_transaction (transaction->transaction_number);
             }
             tmp_list = tmp_list->next;
         }
@@ -5031,8 +5008,8 @@ void gsb_transactions_list_set_current_tree_view_width (gint new_tree_view_width
  *
  * \return FALSE
  **/
-gboolean gsb_transactions_list_search (GtkWidget *menu_item,
-									   gint *transaction_number)
+void gsb_transactions_list_search (GtkWidget *menu_item,
+								   gint *transaction_number)
 {
 	WidgetSearchTransaction *search;
 	GrisbiWin *win;
@@ -5044,8 +5021,6 @@ gboolean gsb_transactions_list_search (GtkWidget *menu_item,
 	gtk_widget_show_all (GTK_WIDGET (search));
 	result = gtk_dialog_run (GTK_DIALOG (search));
 	widget_search_transaction_dialog_response (GTK_DIALOG (search), result);
-
-	return FALSE;
 }
 
 /**

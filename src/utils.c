@@ -22,9 +22,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include <stdlib.h>
 #include <glib/gi18n.h>
@@ -894,6 +892,50 @@ GtkWidget *utils_menu_item_new_from_resource_label (const gchar *image_name,
     return menu_item;
 }
 
+/**
+ *
+ *
+ * \param	category, payee or IB tree_view 
+ *
+ * \return
+ **/
+void utils_cursor_set_wait_cursor (GtkWidget *widget,
+								   gpointer  data)
+{
+	GdkWindow *run_window;
+	GrisbiWin *win;
+
+	/* set progress cursor */
+	win = grisbi_app_get_active_window (NULL);
+	run_window = gtk_widget_get_window (GTK_WIDGET (win));
+	utils_gdk_window_set_wait_cursor (run_window);
+
+	/* update ui */
+	g_main_context_iteration (NULL, FALSE);
+
+	/* reset cursor */
+	gdk_window_set_cursor (run_window, NULL);
+}
+
+/**
+ *
+ *
+ * \param		GdkWindow run_window
+ *
+ * \return
+ **/
+void utils_gdk_window_set_wait_cursor (GdkWindow *run_window)
+{
+	GdkCursor *cursor;
+	GdkDisplay *display;
+
+	/* set progress cursor */
+	display = gdk_window_get_display (run_window);
+
+	cursor = gdk_cursor_new_from_name (display, "wait");
+	gdk_window_set_cursor (run_window, cursor);
+}
+ 
 /**
  *
  *

@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          http://www.grisbi.org                                                */
+/*          https://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -24,13 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include <errno.h>
 #include <glib/gstdio.h>
@@ -168,12 +162,11 @@ static gboolean prefs_page_payment_method_switch_payment (PrefsPagePaymentMethod
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-		gint transaction_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-
-		if (gsb_data_transaction_get_method_of_payment_number (transaction_number) == payment_number)
-			gsb_data_transaction_set_method_of_payment_number (transaction_number, new_payment_number);
+		transaction = tmp_list->data;
+		if (transaction->method_of_payment_number == payment_number)
+			gsb_data_transaction_set_method_of_payment_number (transaction->transaction_number, new_payment_number);
 
 		tmp_list = tmp_list->next;
     }
@@ -182,12 +175,11 @@ static gboolean prefs_page_payment_method_switch_payment (PrefsPagePaymentMethod
     tmp_list = gsb_data_scheduled_get_scheduled_list ();
     while (tmp_list)
     {
-		gint scheduled_number;
+		ScheduledStruct *scheduled;
 
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list->data);
-
-		if (gsb_data_scheduled_get_method_of_payment_number (scheduled_number) == payment_number)
-			gsb_data_scheduled_set_method_of_payment_number (scheduled_number, new_payment_number);
+		scheduled = tmp_list->data;
+		if (scheduled->method_of_payment_number == payment_number)
+			gsb_data_scheduled_set_method_of_payment_number (scheduled->scheduled_number, new_payment_number);
 
 		tmp_list = tmp_list->next;
     }
@@ -1108,7 +1100,7 @@ static void prefs_page_payment_method_remove_clicked (GtkWidget *button,
     GtkTreeSelection * selection;
     GtkTreeIter iter;
     gboolean good;
-    GSList *list_tmp_transactions;
+    GSList *tmp_list;
     GtkTreeModel *model;
 	PrefsPagePaymentMethodPrivate *priv;
 
@@ -1129,23 +1121,22 @@ static void prefs_page_payment_method_remove_clicked (GtkWidget *button,
      * if yes, we propose to switch to another method of payment or cancel */
 
     /* first, check if there is some transactions */
-	list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
-	while (list_tmp_transactions)
+	tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+	while (tmp_list)
 	{
-		gint transaction_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
-
-		if (gsb_data_transaction_get_method_of_payment_number (transaction_number) == payment_number)
+		transaction = tmp_list->data;
+		if (transaction->method_of_payment_number == payment_number)
 		{
 			/* ok, there is some transactions with that method of payment, we switch to another one or cancel */
 			if (!prefs_page_payment_method_switch_payment (page, payment_number))
 				return;
 
-			list_tmp_transactions = NULL;
+			tmp_list = NULL;
 		}
 		else
-			list_tmp_transactions = list_tmp_transactions->next;
+			tmp_list = tmp_list->next;
 	}
 
     account_number = gsb_data_payment_get_account_number (payment_number);

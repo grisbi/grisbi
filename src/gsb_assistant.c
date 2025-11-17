@@ -26,9 +26,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -454,6 +452,11 @@ void gsb_assistant_change_button_next (GtkWidget *assistant,
 	g_object_set_data (G_OBJECT (assistant), "button_next", button_next);
 }
 
+void gsb_assistant_disable_next_prev(GtkWidget *assistant)
+{
+	gsb_assistant_sensitive_button_prev ( assistant, FALSE );
+	gsb_assistant_sensitive_button_next ( assistant, FALSE );
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

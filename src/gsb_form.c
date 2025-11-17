@@ -27,9 +27,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <gdk/gdkkeysyms.h>
@@ -328,7 +326,7 @@ static gboolean gsb_form_get_categories (gint transaction_number,
 					/* if the check returns -2, it's a deleted account, so set -1 for transaction number transfer
 					 * normally cannot come here if scheduled transaction, but in case,
 					 * we set data_mix to protect */
-					gsb_data_mix_set_transaction_number_transfer (transaction_number, -1, is_transaction);
+					gsb_data_mix_set_contra_transaction_number (transaction_number, -1, is_transaction);
 					/* we don't set any break here, so with the case -1 the
 					 * category will be set to 0 (!!let the case -1 after here) */
 
@@ -536,13 +534,13 @@ static void gsb_form_take_datas_from_form (gint transaction_number,
 
 			case TRANSACTION_FORM_PARTY:
 			if (gsb_form_widget_check_empty (element->element_widget))
-				gsb_data_mix_set_party_number (transaction_number, 0, is_transaction);
+				gsb_data_mix_set_payee_number (transaction_number, 0, is_transaction);
 			else
 			{
 				const gchar *tmp_name;
 
 				tmp_name = gtk_combofix_get_text (GTK_COMBOFIX (element->element_widget));
-				gsb_data_mix_set_party_number (transaction_number,
+				gsb_data_mix_set_payee_number (transaction_number,
 											   gsb_data_payee_get_number_by_name (tmp_name, TRUE),
 											   is_transaction);
 			}
@@ -1568,7 +1566,7 @@ void gsb_form_fill_element (gint element_number,
 			break;
 
 		case TRANSACTION_FORM_PARTY:
-			number = gsb_data_mix_get_party_number (transaction_number, is_transaction);
+			number = gsb_data_mix_get_payee_number (transaction_number, is_transaction);
 			if (number)
 			{
 				const gchar *tmp_name;
@@ -1624,7 +1622,7 @@ void gsb_form_fill_element (gint element_number,
 			{
 				gint contra_transaction_number;
 
-				contra_transaction_number = gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction);
+				contra_transaction_number = gsb_data_mix_get_contra_transaction_number (transaction_number, is_transaction);
 				switch (contra_transaction_number)
 				{
 					case -1:
@@ -1715,6 +1713,7 @@ void gsb_form_fill_element (gint element_number,
 			}
 			/* don't show the cheque entry for a child of split */
 			tmp_widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
+			gboolean show_widget = FALSE;
 			if (gtk_widget_get_visible (widget))
 			{
 				/* we show the cheque entry only for transactions */
@@ -1736,12 +1735,13 @@ void gsb_form_fill_element (gint element_number,
 						if (tmp_content)
 							gtk_entry_set_text (GTK_ENTRY (tmp_widget), tmp_content);
 
-						gtk_widget_show (tmp_widget);
+						show_widget = TRUE;
 					}
 				}
-				else
-					gtk_widget_hide (tmp_widget);
 			}
+
+			if (show_widget)
+				gtk_widget_show (tmp_widget);
 			else
 				gtk_widget_hide (tmp_widget);
 			break;
@@ -1782,7 +1782,7 @@ void gsb_form_fill_element (gint element_number,
 			break;
 
 		case TRANSACTION_FORM_CONTRA:
-			if (gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction) > 0)
+			if (gsb_data_mix_get_contra_transaction_number (transaction_number, is_transaction) > 0)
 			{
 				number = gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction);
 
@@ -3066,9 +3066,9 @@ gboolean gsb_form_finish_edition (void)
     if (!gsb_form_validate_form_transaction (transaction_number, is_transaction))
         return FALSE;
 
-    /* if the party is a report, we make as transactions as the number of parties in the
-     * report. So we create a list with the party's numbers or -1 if it's a normal
-     * party */
+    /* if the payee is a report, we make as transactions as the number of parties in the
+     * report. So we create a list with the payee's numbers or -1 if it's a normal
+     * payee */
     payee_list = gsb_form_transaction_get_parties_list_from_report ();
 
     /* now we go throw the list */
@@ -3076,12 +3076,12 @@ gboolean gsb_form_finish_edition (void)
     while (list_tmp)
     {
         if (GPOINTER_TO_INT (list_tmp->data) == -1)
-            /* it's a normal party, we set the list_tmp to NULL */
+            /* it's a normal payee, we set the list_tmp to NULL */
             list_tmp = NULL;
         else
         {
             /* it's a report, so each time we come here we set the parti's combofix to the
-             * party of the report */
+             * payee of the report */
 
             if (!list_tmp->data)
             {
@@ -3107,11 +3107,11 @@ gboolean gsb_form_finish_edition (void)
 
                     gsb_data_transaction_copy_transaction (source_transaction_number,
 														   transaction_number, TRUE);
-                    gsb_data_transaction_set_party_number (transaction_number,
+                    gsb_data_transaction_set_payee_number (transaction_number,
 														   GPOINTER_TO_INT (list_tmp->data));
 
-                    /* if it's not the first party and the method of payment has to change its number (cheque),
-                     * we increase the number. as we are in a party's list, it's always a new transactio,
+                    /* if it's not the first payee and the method of payment has to change its number (cheque),
+                     * we increase the number. as we are in a payee's list, it's always a new transactio,
                      * so we know that it's not the first if transaction_number is not 0 */
 
                     payment_number = gsb_data_transaction_get_method_of_payment_number (source_transaction_number);
@@ -3210,8 +3210,8 @@ gboolean gsb_form_finish_edition (void)
 				if (gsb_data_transaction_get_split_of_transaction (transaction_number)
 					&& !execute_scheduled
 					&& gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
-					&& (split_transaction_number = gsb_form_transactions_look_for_last_party
-						(gsb_data_transaction_get_party_number (transaction_number),
+					&& (split_transaction_number = gsb_form_transactions_look_for_last_payee
+						(gsb_data_transaction_get_payee_number (transaction_number),
 						 transaction_number,
 														 gsb_data_transaction_get_account_number(transaction_number))))
 					gsb_form_transaction_recover_splits_of_transaction (transaction_number,
@@ -3248,12 +3248,12 @@ gboolean gsb_form_finish_edition (void)
 					gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split)))
 				{
 					gint tmp_account_number;
-					gint party_number;
+					gint payee_number;
 					gint split_transaction_number = 0;
 
 					tmp_account_number = gsb_data_scheduled_get_account_number(transaction_number);
-					party_number = gsb_data_scheduled_get_party_number (transaction_number);
-					split_transaction_number = gsb_form_transactions_look_for_last_party (party_number,
+					payee_number = gsb_data_scheduled_get_payee_number (transaction_number);
+					split_transaction_number = gsb_form_transactions_look_for_last_payee (payee_number,
 																						  0,
 																						  tmp_account_number);
 					if (split_transaction_number)

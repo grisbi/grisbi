@@ -1,7 +1,7 @@
 1. Set up the environement
 
 You need to install `jhbuild' environment. Full documentation is available here:
-https://developer.gnome.org/Jhbuild/
+https://gnome.pages.gitlab.gnome.org/jhbuild/
 
 
 Note that jhbuild environment is not compatible with homebrew nor macport.

@@ -23,9 +23,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -307,14 +305,18 @@ static GSList *utils_files_check_UTF8_validity (const gchar *contents,
  *
  * \return
  **/
-static void utils_files_file_chooser_cancel (GtkWidget *bouton,
-											 GtkWidget *chooser)
+static void utils_files_file_chooser (GtkDialog *chooser,
+	int response)
 {
     gchar *path;
+
+    if (response != GTK_RESPONSE_ACCEPT)
+	return;
 
     path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
     devel_debug (path);
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (chooser), path);
+
     if (path && strlen (path) > 0)
         g_free (path);
 }
@@ -671,33 +673,23 @@ GtkWidget *utils_files_create_file_chooser (GtkWidget *parent,
 											gchar *titre)
 {
     GtkWidget *chooser;
-    GtkWidget *bouton_cancel;
-    GtkWidget *bouton_open;
 
 	chooser = gtk_file_chooser_dialog_new (titre,
 										   GTK_WINDOW (parent),
 										   GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-										   NULL, NULL,
+										   _("_Cancel"),
+										   GTK_RESPONSE_CANCEL,
+										   _("_Open"),
+										   GTK_RESPONSE_ACCEPT,
 										   NULL);
 
-	bouton_cancel = gtk_button_new_with_label (_("Cancel"));
-	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), bouton_cancel, GTK_RESPONSE_CANCEL);
-    g_signal_connect (G_OBJECT (bouton_cancel),
-		       "clicked",
-		       G_CALLBACK (utils_files_file_chooser_cancel),
-		       chooser);
-
-    bouton_open = gtk_button_new_with_label (_("Open"));
-	gtk_dialog_add_action_widget (GTK_DIALOG (chooser), bouton_open, GTK_RESPONSE_ACCEPT);
+	g_signal_connect (chooser, "response",
+						G_CALLBACK (utils_files_file_chooser),
+						NULL);
 
 	gtk_window_set_position (GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (parent));
     gtk_widget_set_size_request (chooser, 600, 750);
-
-	gtk_widget_set_can_default (bouton_open, TRUE);
-	gtk_dialog_set_default_response (GTK_DIALOG (chooser), GTK_RESPONSE_ACCEPT);
-
-	gtk_widget_show_all (chooser);
 
     return  chooser;
 }

@@ -15,7 +15,8 @@ if [ "$RUNNER_OS" == "Linux" ]; then
 		libgtk-3-dev \
 		libofx-dev \
 		libssl-dev \
-		libtool-bin m4
+		libtool-bin m4 \
+		meson
 elif [ "$RUNNER_OS" == "Windows" ]; then
 	#choco install important_windows_software
 	echo "Windows"

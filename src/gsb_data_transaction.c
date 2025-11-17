@@ -26,9 +26,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -58,56 +56,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-
-/**
- * \struct
- * Describe a transaction
- */
-struct _TransactionStruct
-{
-    /** @name general stuff */
-    gint transaction_number;
-    gchar *transaction_id;              /**< filled by ofx */
-    gint account_number;
-    GsbReal transaction_amount;
-    gint party_number;                  /* payee in transaction */
-    gchar *notes;
-    gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELEPOINTEE=T, OPERATION_RAPPROCHEE=R */
-    gint archive_number;                /**< if it's an archived transaction, contains the number of the archive */
-    gshort automatic_transaction;       /**< 0=manual, 1=automatic (scheduled transaction) */
-    gint reconcile_number;              /**< the number of reconciliation, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
-                                             it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them
-                                             will re-R after the change, and that value will help the user to find which statement it belong.
-                                             o always check marked_transaction before checking reconcile_number here */
-    guint financial_year_number;
-    gchar *voucher;
-    gchar *bank_references;
-
-    /** @name dates of the transaction */
-    GDate *date;
-    GDate *value_date;
-
-    /** @name currency stuff */
-    gint currency_number;
-    gint change_between_account_and_transaction;    /**< if 1 : 1 account_currency = (exchange_rate * amount) transaction_currency */
-    GsbReal exchange_rate;
-    GsbReal exchange_fees;
-
-    /** @name category stuff */
-    gint category_number;
-    gint sub_category_number;
-    gint budgetary_number;
-    gint sub_budgetary_number;
-    gint transaction_number_transfer;   /**< -1 for a transfer to a deleted account, the contra-transaction number else */
-    gint split_of_transaction;          /**< 1 if it's a split of transaction */
-    gint mother_transaction_number;     /**< for a split, the mother's transaction number */
-
-    /** @name method of payment */
-    gint method_of_payment_number;
-    gchar *method_of_payment_content;
-};
-
-
 /*START_STATIC*/
 /** the g_slist which contains the transactions structures not archived */
 static GSList *transactions_list = NULL;
@@ -119,6 +67,9 @@ static GSList *complete_transactions_list = NULL;
  * ie : 1 general white line
  * and 1 white line per split of transaction */
 static GSList *white_transactions_list = NULL;
+
+/** the g_slist which contains the transactions structures of activ's account */
+static GSList *active_transactions_list = NULL;
 
 /** 2 pointers to the 2 last transaction used (to increase the speed) */
 static TransactionStruct *transaction_buffer[2];
@@ -197,6 +148,12 @@ static void gsb_data_transaction_delete_all_transactions (void)
 	transaction_buffer[0] = NULL;
 	transaction_buffer[1] = NULL;
 	current_transaction_buffer = 0;
+
+	if (active_transactions_list)
+	{
+		g_slist_free (active_transactions_list);
+		active_transactions_list = NULL;
+	}
 }
 
 /**
@@ -233,23 +190,6 @@ static gint gsb_data_transaction_get_last_white_number (void)
 		last_number = -1;
 
 	return last_number;
-}
-
-/**
- * save the pointer in a buffer to increase the speed later
- *
- * \param transaction the pointer to the transaction
- *
- * \return
- **/
-static void gsb_data_transaction_save_transaction_pointer (gpointer transaction)
-{
-	/* check if the transaction isn't already saved */
-	if (transaction == transaction_buffer[0] || transaction == transaction_buffer[1])
-		return;
-
-	current_transaction_buffer = !current_transaction_buffer;
-	transaction_buffer[current_transaction_buffer] = transaction;
 }
 
 /**
@@ -329,6 +269,21 @@ gboolean gsb_data_transaction_init_variables (void)
 GSList *gsb_data_transaction_get_transactions_list (void)
 {
 	return transactions_list;
+}
+
+/**
+ * return a pointer to the g_slist of transactions structure
+ * it's not a copy, so we must not free or change it
+ * if we want to change something, use gsb_data_transaction_copy_transactions_list instead
+ * THIS IS THE LIST WITHOUT THE TRANSACTIONS OF CLOSED ACCOUNTS
+ *
+ * \param none
+ *
+ * \return the slist of transactions structures
+ **/
+GSList *gsb_data_transaction_get_active_transactions_list (void)
+{
+	return active_transactions_list;
 }
 
 /**
@@ -605,17 +560,17 @@ gboolean gsb_data_transaction_set_date (gint transaction_number,
 
 			/* si l'opération fille est un transfert on regarde si la contre opération est rapprochée
 			 * si elle ne l'est pas on peut mettre à jour la date */
-			if (transaction->transaction_number_transfer > 0)
+			if (transaction->contra_transaction_number > 0)
 			{
 				gint contra_marked_transaction = 0;
 
 				contra_marked_transaction = gsb_data_transaction_get_marked_transaction
-													(transaction->transaction_number_transfer);
+													(transaction->contra_transaction_number);
 
 				if (contra_marked_transaction != OPERATION_RAPPROCHEE)
 				{
-					gsb_data_transaction_set_date (transaction->transaction_number_transfer, date);
-					gsb_transactions_list_update_transaction (transaction->transaction_number_transfer);
+					gsb_data_transaction_set_date (transaction->contra_transaction_number, date);
+					gsb_transactions_list_update_transaction (transaction->contra_transaction_number);
 				}
 			}
 
@@ -1150,13 +1105,13 @@ gboolean gsb_data_transaction_set_exchange_fees (gint transaction_number,
 }
 
 /**
- * get the party_number
+ * get the payee_number
  *
  * \param transaction_number the number of the transaction
  *
  * \return the currency number of the transaction
  **/
-gint gsb_data_transaction_get_party_number (gint transaction_number)
+gint gsb_data_transaction_get_payee_number (gint transaction_number)
 {
 	TransactionStruct *transaction;
 
@@ -1164,11 +1119,11 @@ gint gsb_data_transaction_get_party_number (gint transaction_number)
 	if (!transaction)
 		return -1;
 
-	return transaction->party_number;
+	return transaction->payee_number;
 }
 
 /**
- * set the party_number
+ * set the payee_number
  * if the transaction has some children, they change too
  *
  * \param transaction_number
@@ -1176,8 +1131,8 @@ gint gsb_data_transaction_get_party_number (gint transaction_number)
  *
  * \return TRUE if ok
  **/
-gboolean gsb_data_transaction_set_party_number (gint transaction_number,
-												gint no_party)
+gboolean gsb_data_transaction_set_payee_number (gint transaction_number,
+												gint no_payee)
 {
 	TransactionStruct *transaction;
 
@@ -1185,7 +1140,7 @@ gboolean gsb_data_transaction_set_party_number (gint transaction_number,
 	if (!transaction)
 		return FALSE;
 
-	transaction->party_number = no_party;
+	transaction->payee_number = no_payee;
 
 	/* if the transaction is a split, change all the children */
 	if (transaction->split_of_transaction)
@@ -1199,7 +1154,7 @@ gboolean gsb_data_transaction_set_party_number (gint transaction_number,
 		while (tmp_list)
 		{
 			transaction = tmp_list->data;
-			transaction->party_number = no_party;
+			transaction->payee_number = no_payee;
 
 			tmp_list = tmp_list->next;
 		}
@@ -1901,11 +1856,11 @@ gboolean gsb_data_transaction_set_bank_references (gint transaction_number,
 }
 
 /**
- * get the  transaction_number_transfer
+ * get the  contra_transaction_number
  *
  * \param transaction_number the number of the transaction
  *
- * \return the transaction_number_transfer number of the transaction
+ * \return the contra_transaction_number number of the transaction
  **/
 gint gsb_data_transaction_get_contra_transaction_number (gint transaction_number)
 {
@@ -1916,19 +1871,19 @@ gint gsb_data_transaction_get_contra_transaction_number (gint transaction_number
 	if (!transaction)
 		return -1;
 
-	return transaction->transaction_number_transfer;
+	return transaction->contra_transaction_number;
 }
 
 /**
- * set the transaction_number_transfer
+ * set the contra_transaction_number
  *
  * \param transaction_number
- * \param transaction_number_transfer
+ * \param contra_transaction_number
  *
  * \return TRUE if ok
  **/
 gboolean gsb_data_transaction_set_contra_transaction_number (gint transaction_number,
-															 gint transaction_number_transfer)
+															 gint contra_transaction_number)
 {
 	TransactionStruct *transaction;
 
@@ -1936,7 +1891,7 @@ gboolean gsb_data_transaction_set_contra_transaction_number (gint transaction_nu
 	if (!transaction)
 		return FALSE;
 
-	transaction->transaction_number_transfer = transaction_number_transfer;
+	transaction->contra_transaction_number = contra_transaction_number;
 
 	return TRUE;
 }
@@ -1960,7 +1915,7 @@ gint gsb_data_transaction_get_contra_transaction_account (gint transaction_numbe
 	if (!transaction)
 		return -1;
 
-	contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction->transaction_number_transfer);
+	contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction->contra_transaction_number);
 	if (!contra_transaction)
 	return -1;
 
@@ -2044,6 +1999,10 @@ gint gsb_data_transaction_new_transaction_with_number (gint no_account,
 	transactions_list = g_slist_append (transactions_list, transaction);
 	complete_transactions_list = g_slist_append (complete_transactions_list, transaction);
 
+	/* we append the transaction to the active transactions list if the account is closed */
+	if (!gsb_data_account_get_closed_account (no_account))
+		active_transactions_list = g_slist_append (active_transactions_list, transaction);
+
 	gsb_data_transaction_save_transaction_pointer (transaction);
 
 	return transaction->transaction_number;
@@ -2096,7 +2055,7 @@ gint gsb_data_transaction_new_white_line (gint mother_transaction_number)
 	{
 		transaction->transaction_number = gsb_data_transaction_get_last_white_number () - 1;
 		transaction->date = gsb_date_copy (gsb_data_transaction_get_date (mother_transaction_number));
-		transaction->party_number = gsb_data_transaction_get_party_number (mother_transaction_number);
+		transaction->payee_number = gsb_data_transaction_get_payee_number (mother_transaction_number);
 		transaction->mother_transaction_number = mother_transaction_number;
 	}
 	else
@@ -2194,11 +2153,11 @@ gboolean gsb_data_transaction_remove_transaction (gint transaction_number)
 		return FALSE;
 
 	/* check if it's a transfer */
-	if (transaction->transaction_number_transfer)
+	if (transaction->contra_transaction_number)
 	{
 		TransactionStruct *contra_transaction;
 
-		contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction->transaction_number_transfer);
+		contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction->contra_transaction_number);
 		if (contra_transaction)
 		{
 			/* we remove the transaction from the counters */
@@ -2226,7 +2185,7 @@ gboolean gsb_data_transaction_remove_transaction (gint transaction_number)
 
 			child_transaction = tmp_list->data;
 
-			contra_transaction = gsb_data_transaction_get_transaction_by_no (child_transaction->transaction_number_transfer);
+			contra_transaction = gsb_data_transaction_get_transaction_by_no (child_transaction->contra_transaction_number);
 			if (contra_transaction)
 			{
 				/* it's a transfer, delete the transfer */
@@ -2641,14 +2600,17 @@ GSList *gsb_data_transaction_get_list_for_import (gint account_number,
 		else
 			ope_date = transaction->date;
 
-		if (transaction->account_number == account_number
-			&&
-			g_date_compare (ope_date, first_date_import) >= 0)
+		if (transaction->account_number == account_number)
 		{
-			ope_list = g_slist_insert_sorted (ope_list,
-											  transaction,
-											  (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
-		}
+			/* remove the selection of a child operation */
+			if (!gsb_data_transaction_get_mother_transaction_number (transaction->transaction_number)
+				&& g_date_compare (ope_date, first_date_import) >= 0)
+			{
+				ope_list = g_slist_insert_sorted (ope_list,
+												  transaction,
+												  (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
+			}
+}
 
 		tmp_list = tmp_list->next;
 	}
@@ -2719,6 +2681,23 @@ gchar *gsb_data_transaction_get_category_real_name (gint transaction_number)
 	}
 
 	return tmp;
+}
+
+/**
+ * save the pointer in a buffer to increase the speed later
+ *
+ * \param transaction the pointer to the transaction
+ *
+ * \return
+ **/
+void gsb_data_transaction_save_transaction_pointer (gpointer transaction)
+{
+	/* check if the transaction isn't already saved */
+	if (transaction == transaction_buffer[0] || transaction == transaction_buffer[1])
+		return;
+
+	current_transaction_buffer = !current_transaction_buffer;
+	transaction_buffer[current_transaction_buffer] = transaction;
 }
 
 /**

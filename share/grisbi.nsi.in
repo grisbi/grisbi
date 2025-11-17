@@ -16,7 +16,7 @@ RequestExecutionLevel admin
 !endif
 
 
-!define MUI_ICON "@NSIS_SRCDIR@/pixmaps/grisbi-32.ico"
+!define MUI_ICON "@NSIS_SRCDIR@/win32/grisbi.ico"
 /* !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP "path\to\InstallerLogo.bmp"
 */
@@ -25,6 +25,7 @@ RequestExecutionLevel admin
 !define PACKAGERDIR "@NSIS_INSTDIR@"
 !define SRCDIR "@NSIS_SRCDIR@"
 !define DATE "@NSIS_DATE@"
+!define DEFAULTINSTDIR "@NSIS_DEFAULTINSTDIR@"
 
 Name "Grisbi @NSIS_BITS@"
 Icon "${SRCDIR}\win32\grisbi.ico"
@@ -34,7 +35,7 @@ OutFile "Grisbi-@NSIS_BITS@-${VERSION}${DATE}-setup.exe"
 Caption "Grisbi @NSIS_BITS@ ${VERSION} Setup"
 
 # $PROGRAMFILES
-InstallDir "C:\@NSIS_DEFAULTINSTDIR@\Grisbi-${VERSION}${DATE}"
+InstallDir "C:\${DEFAULTINSTDIR}\Grisbi-${VERSION}${DATE}"
 
 
 InstType "full"
@@ -68,12 +69,12 @@ FunctionEnd
 !insertmacro MUI_LANGUAGE "Danish"
 !insertmacro MUI_LANGUAGE "German"
 !insertmacro MUI_LANGUAGE "Greek"
-!insertmacro MUI_LANGUAGE "Esperanto"
+/*!insertmacro MUI_LANGUAGE "Esperanto" */
 !insertmacro MUI_LANGUAGE "Spanish"
 /* !insertmacro MUI_LANGUAGE "Persian" */
 !insertmacro MUI_LANGUAGE "Hebrew"
 !insertmacro MUI_LANGUAGE "Italian"
-!insertmacro MUI_LANGUAGE "Latvian"
+/*!insertmacro MUI_LANGUAGE "Latvian" */
 !insertmacro MUI_LANGUAGE "Dutch"
 !insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "Portuguese"
@@ -83,7 +84,18 @@ FunctionEnd
 
 LangString desktopShortcut ${LANG_English} "Create shortcut on Desktop"
 LangString desktopShortcut ${LANG_French} "Créer une icône sur le bureau"
-
+LangString desktopShortcut ${LANG_GERMAN} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_SPANISH} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_ITALIAN} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_DUTCH} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_DANISH} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_GREEK} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_RUSSIAN} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_PORTUGUESE} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_POLISH} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_CZECH} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_ROMANIAN} "Create shortcut on Desktop"
+LangString desktopShortcut ${LANG_HEBREW} "Create shortcut on Desktop"
 Section "" SecBin
   SetOutPath "$INSTDIR\bin"
   File /a /r "${PACKAGERDIR}\bin\"
@@ -132,7 +144,7 @@ SectionEnd
 
 Section "Uninstall"
   Delete "$INSTDIR\Uninstall.exe"
-  Delete "$DESKTOP\Grisbi-1.2.lnk"
+  Delete "$DESKTOP\Grisbi.lnk"
   Delete "$SMPROGRAMS\${COMPANYNAME}\Grisbi @NSIS_BITS@-bit @VERSION@.lnk"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME}"
 

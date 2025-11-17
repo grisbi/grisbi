@@ -4,7 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -23,14 +23,13 @@
 /* ************************************************************************** */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <stdlib.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
+#include <glib/gprintf.h>
 
 /*START_INCLUDE*/
 #include "erreur.h"
@@ -146,9 +145,9 @@ void debug_traitement_sigsegv ( gint signal_nb )
     GtkWidget *dialog;
     const gchar *gsb_file_default_dir;
 	const gchar *filename;
+    const gchar *signal_name;
     gchar *errmsg = g_strdup ( "" );
 	gchar *old_errmsg;
-    const gchar *signal_name;
     gchar *tmp_str;
 	gboolean file_is_loading;
 #ifdef HAVE_BACKTRACE
@@ -157,7 +156,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
 #endif
 	GrisbiWinRun *w_run;
 
-	switch ( signal_nb )
+	switch (signal_nb)
 	{
 		case 2:
 			signal_name = "SIGINT";
@@ -170,10 +169,10 @@ void debug_traitement_sigsegv ( gint signal_nb )
 			break;
 		default:
 			signal_name = "NA";
-			printf ("signal number: %d\n", signal_nb );
+			g_printf ("signal number: %d\n", signal_nb);
 	}
 
-	printf ("\nsignal name = %s\n", signal_name );
+	g_printf ("\nsignal name = %s\n", signal_name);
 
 	/* on récupère le nom du fichier si possible */
 	filename = grisbi_win_get_filename (NULL);
@@ -187,7 +186,7 @@ void debug_traitement_sigsegv ( gint signal_nb )
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
-    if (file_is_loading || w_run->file_is_saving || !gsb_file_get_modified ())
+    if (file_is_loading || w_run->file_is_saving || !gsb_file_get_modified (FALSE))
     {
 		if (file_is_loading )
 		{
@@ -380,7 +379,7 @@ void debug_set_cmd_line_debug_level ( gint debug_level )
 	tmp_str1 = g_strdup_printf ( _("GRISBI %s Debug"), VERSION );
 	tmp_str2 = g_strdup_printf ( _("Debug updated by cmd line, level is '%s'"), str_debug_level );
 
-	printf ("%s, %2f : %s - %s\n", debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, tmp_str1, tmp_str2);
+	//~ printf ("%s, %2f : %s - %s\n", debug_get_debug_time (), (clock() + 0.0)/ CLOCKS_PER_SEC, tmp_str1, tmp_str2);
 	g_free ( tmp_str1 );
 	g_free ( tmp_str2 );
 }

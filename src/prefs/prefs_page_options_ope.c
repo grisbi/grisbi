@@ -24,13 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include <errno.h>
 #include <glib/gstdio.h>
@@ -60,6 +54,7 @@ struct _PrefsPageOptionsOpePrivate
 
 	GtkWidget *			checkbutton_retient_affichage_par_compte;
     GtkWidget *			checkbutton_show_transaction_gives_balance;
+	GtkWidget *			checkbutton_force_credit_before_debit;
     GtkWidget *			checkbutton_show_transaction_selected_in_form;
 	GtkWidget *			combo_display_one_line;
 	GtkWidget *			combo_display_two_lines;
@@ -75,6 +70,25 @@ G_DEFINE_TYPE_WITH_PRIVATE (PrefsPageOptionsOpe, prefs_page_options_ope, GTK_TYP
 /******************************************************************************/
 /* Private functions                                                          */
 /******************************************************************************/
+/**
+ * update the account page if necessary
+ *
+ * \param self
+ * \param NULL
+ *
+ * \return
+ **/
+static void prefs_page_options_ope_checkbutton_force_credit_before_debit_toggled (GtkCheckButton* self,
+																				  gpointer user_data)
+{
+	gint current_page;
+
+	devel_debug (NULL);
+	current_page = gsb_gui_navigation_get_current_page ();
+	if (current_page == GSB_ACCOUNT_PAGE)
+		gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account(), TRUE);
+}
+
 /**
  * called when we change a button for the display mode
  *
@@ -141,9 +155,37 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     {
         case PRIMARY_SORT:
             a_conf->transactions_list_primary_sorting = value;
+			if (value == 1)
+			{
+				GtkWidget *combo;
+
+				combo = g_object_get_data (G_OBJECT (widget), "secondary_combo");
+				g_signal_handlers_block_by_func (G_OBJECT (combo),
+												 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+												 pointeur);
+				a_conf->transactions_list_secondary_sorting = 4;
+				gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_secondary_sorting);
+				g_signal_handlers_unblock_by_func (G_OBJECT (combo),
+												   G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+												   pointeur);
+			}
             break;
         case SECONDARY_SORT:
             a_conf->transactions_list_secondary_sorting = value;
+			if (value == 4)
+			{
+				GtkWidget *combo;
+
+				combo = g_object_get_data (G_OBJECT (widget), "primary_combo");
+				g_signal_handlers_block_by_func (G_OBJECT (combo),
+												 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+												 pointeur);
+				a_conf->transactions_list_primary_sorting = 1;
+				gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_primary_sorting);
+				g_signal_handlers_unblock_by_func (G_OBJECT (combo),
+												   G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+												   pointeur);
+			}
             break;
     }
     gsb_file_set_modified (TRUE);
@@ -185,6 +227,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 		_("Sort by type of amount (credit debit)"),
 		_("Sort by payee name (if fail, by transaction number)"),
 		_("Sort by date and then by transaction number"),
+		_("Sort by value date and then by date"),
 		NULL
     };
 	gint i = 0;
@@ -222,7 +265,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 
 	/* Secondary sorting option for the transactions */
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 5; i++)
 	{
         gtk_list_store_append (store, &iter);
         gtk_list_store_set (store, &iter, 0, options_tri_secondaire[i], 1, i, 2, str_color, -1);
@@ -282,17 +325,24 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
 								  w_etat->retient_affichage_par_compte);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_transaction_gives_balance),
 								  a_conf->show_transaction_gives_balance);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_force_credit_before_debit),
+								  w_etat->force_credit_before_debit);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_show_transaction_selected_in_form),
 								  a_conf->show_transaction_selected_in_form);
 
 	/* set combos sorting */
 	prefs_page_options_ope_init_combo_sorting (page, a_conf);
+	g_object_set_data (G_OBJECT (priv->combo_transactions_list_primary_sorting),
+					   "secondary_combo",
+					   priv->combo_transactions_list_secondary_sorting),
+	g_object_set_data (G_OBJECT (priv->combo_transactions_list_secondary_sorting),
+					   "primary_combo",
+					   priv->combo_transactions_list_primary_sorting);
 
 	/* set combo display lines */
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->combo_display_one_line), w_run->display_one_line);
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->combo_display_two_lines), w_run->display_two_lines);
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (priv->combo_display_three_lines), w_run->display_three_lines);
-
 
 	if (!is_loading)
 	{
@@ -322,6 +372,17 @@ static void prefs_page_options_ope_setup_options_ope_page (PrefsPageOptionsOpe *
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &a_conf->show_transaction_gives_balance);
+    g_signal_connect (priv->checkbutton_force_credit_before_debit,
+					  "toggled",
+					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
+					  &w_etat->force_credit_before_debit);
+
+	/* update tree_view if necessary */
+    g_signal_connect (priv->checkbutton_force_credit_before_debit,
+					  "toggled",
+					  G_CALLBACK (prefs_page_options_ope_checkbutton_force_credit_before_debit_toggled),
+					  NULL);
+
     g_signal_connect (priv->checkbutton_show_transaction_selected_in_form,
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
@@ -357,6 +418,9 @@ static void prefs_page_options_ope_class_init (PrefsPageOptionsOpeClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
 												  PrefsPageOptionsOpe,
 												  checkbutton_show_transaction_gives_balance);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+												  PrefsPageOptionsOpe,
+												  checkbutton_force_credit_before_debit);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
 												  PrefsPageOptionsOpe,
 												  checkbutton_show_transaction_selected_in_form);

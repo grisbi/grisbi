@@ -19,9 +19,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <math.h>
@@ -123,7 +121,7 @@ gdouble bet_data_finance_get_frais_par_echeance (gdouble capital,
 {
     gdouble number;
 
-    number = capital * taux_frais / 100 / nbre_echeances;
+    number = capital * taux_frais / 100 / 12;
     number = bet_data_finance_troncate_number (number, 2);
 
     return number;

@@ -1,16 +1,64 @@
 #!/bin/bash
 
+# fail on first error
 set -e
 
-if [ "x$JHBUILD_LIBDIR" = "x" ]
+# fail on undefined variable
+set -u
+
+# debug
+set -x
+
+if [ -z "$JHBUILD_LIBDIR" ]
 then
 	echo "Use: jhbuild shell"
 	exit
 fi
 
-share/create_git_distrib.sh --prefix=$PREFIX --enable-config-file "$@"
+BUILD_DIR="snapshot"
+rm -rf "$BUILD_DIR"
 
-make
-make install
+meson setup "$BUILD_DIR" --prefix="$PREFIX" "$@"
+
+meson compile -C "$BUILD_DIR"
+meson install -C "$BUILD_DIR"
+
 rm -f MacOS/Grisbi-*.dmg
-make bundle
+rm -rf MacOS/dist
+
+# CPU architecture
+ARCH=$(uname -m)
+
+# extract version from config.h
+GRISBI_VERSION=$(grep VERSION $BUILD_DIR/config.h | cut -f 3 -d ' ' | tr -d '"')
+
+sed -e "s/VERSION/$GRISBI_VERSION/" MacOS/Info.plist.in > MacOS/Info.plist
+
+GRIBSI_BUNDLE_PATH=. gtk-mac-bundler MacOS/Grisbi.bundle
+
+./MacOS/manual_add.sh
+
+CUSTOM_ARGS=""
+if [ "$(uname -m)" = "arm64" ]
+then
+    echo "On ARM CPU"
+    CUSTOM_ARGS+="--add-file CtrlClickOpenMe.command CtrlClickOpenMe.command 325 100"
+fi
+
+(
+cd MacOS
+touch .this-is-the-create-dmg-repo
+./create-dmg \
+	--volname Grisbi \
+	--volicon Grisbi.icns \
+	--window-size 640 400 \
+	--background background.png \
+	--icon-size 96 \
+	--app-drop-link 500 250 \
+	--icon "Grisbi.app" 150 250 \
+	$CUSTOM_ARGS \
+	Grisbi-"$GRISBI_VERSION"-"$ARCH".dmg \
+	dist
+)
+
+rm -r "$BUILD_DIR"

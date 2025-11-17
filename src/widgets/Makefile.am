@@ -39,6 +39,8 @@ libwidgets_la_SOURCES = \
 	widget_loan.h \
 	widget_reconcile.c \
 	widget_reconcile.h \
+	widget_search_tiers_categ_ib.c \
+	widget_search_tiers_categ_ib.h \
 	widget_search_transaction.c \
 	widget_search_transaction.h \
 	widget_transfer.c \
@@ -81,6 +83,7 @@ EXTRA_DIST = \
 	widget_list_metatree.ui \
 	widget_loan.ui \
 	widget_reconcile.ui \
+	widget_search_tiers_categ_ib.ui \
 	widget_search_transaction.ui \
 	widget_transfer.ui \
 	widget_bet_graph_options.ui \

@@ -26,9 +26,7 @@
  * save the file
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -952,6 +950,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  "\t\tMetatree_sort_transactions=\"%d\"\n"
 										  "\t\tMetatree_unarchived_payees=\"%d\"\n"
 										  "\t\tAdd_archive_in_total_balance=\"%d\"\n"
+										  "\t\tForce-credit-before-debit=\"%d\"\n"
 										  "\t\tBet_array_column_width=\"%s\"\n"
 										  "\t\tBet_capital=\"%s\"\n"
 										  "\t\tBet_currency=\"%d\"\n"
@@ -1020,6 +1019,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  w_etat->metatree_sort_transactions,
 										  w_etat->metatree_unarchived_payees,
 										  w_etat->metatree_add_archive_in_totals,
+										  w_etat->force_credit_before_debit,
 										  my_safe_null_str (bet_array_column_width_write),
 										  my_safe_null_str (string_to_free1),
 										  w_etat->bet_currency,
@@ -1228,60 +1228,6 @@ static gulong gsb_file_save_partial_balance_part (gulong iterator,
 
 	/* and return the new iterator */
     return iterator;
-}
-
-/**
- * save the parties
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- *
- * \return the new iterator
- **/
-static gulong gsb_file_save_party_part (gulong iterator,
-										gulong *length_calculated,
-										gchar **file_content)
-{
-    GSList *list_tmp;
-
-    list_tmp = gsb_data_payee_get_payees_list ();
-
-    while (list_tmp)
-    {
-        gchar *new_string;
-        gint payee_number;
-
-        payee_number = gsb_data_payee_get_no_payee (list_tmp->data);
-        /* now we can fill the file content */
-
-        if (gsb_data_payee_get_name (payee_number, TRUE) == NULL)
-        {
-            list_tmp = list_tmp->next;
-            continue;
-        }
-
-        new_string = g_markup_printf_escaped ("\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" "
-											  "Search=\"%s\" IgnCase=\"%d\" UseRegex=\"%d\" />\n",
-											  payee_number,
-											  my_safe_null_str(gsb_data_payee_get_name (payee_number, TRUE)),
-											  my_safe_null_str(gsb_data_payee_get_description (payee_number)),
-											  my_safe_null_str(gsb_data_payee_get_search_string (payee_number)),
-											  gsb_data_payee_get_ignore_case (payee_number),
-											  gsb_data_payee_get_use_regex (payee_number));
-
-		/* append the new string to the file content and take the new iterator */
-		iterator = gsb_file_save_append_part (iterator,
-											  length_calculated,
-											  file_content,
-											  new_string);
-		g_free(new_string);
-
-		list_tmp = list_tmp->next;
-    }
-
-	/* and return the new iterator */
-	return iterator;
 }
 
 /**
@@ -1551,7 +1497,7 @@ static gulong gsb_file_save_scheduled_part (gulong iterator,
 											  gsb_data_scheduled_get_account_number (scheduled_number),
 											  my_safe_null_str(amount),
 											  gsb_data_scheduled_get_currency_number (scheduled_number),
-											  gsb_data_scheduled_get_party_number (scheduled_number),
+											  gsb_data_scheduled_get_payee_number (scheduled_number),
 											  gsb_data_scheduled_get_category_number (scheduled_number),
 											  gsb_data_scheduled_get_sub_category_number (scheduled_number),
 											  gsb_data_scheduled_get_account_number_transfer (scheduled_number),
@@ -1674,7 +1620,7 @@ static gulong gsb_file_save_transaction_part (gulong iterator,
 											  gsb_data_transaction_get_change_between (transaction_number),
 											  my_safe_null_str(exchange_rate),
 											  my_safe_null_str(exchange_fees),
-											  gsb_data_transaction_get_party_number (transaction_number),
+											  gsb_data_transaction_get_payee_number (transaction_number),
 											  gsb_data_transaction_get_category_number (transaction_number),
 											  gsb_data_transaction_get_sub_category_number (transaction_number),
 											  gsb_data_transaction_get_split_of_transaction (transaction_number),
@@ -1857,7 +1803,7 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 						  &length_calculated,
 						  &file_content);
 
-	iterator = gsb_file_save_party_part (iterator,
+	iterator = gsb_file_save_payee_part (iterator,
 					  &length_calculated,
 					  &file_content);
 
@@ -2153,6 +2099,59 @@ gulong gsb_file_save_budgetary_part (gulong iterator,
 			sub_list_tmp = sub_list_tmp->next;
 		}
 
+		list_tmp = list_tmp->next;
+    }
+
+	return iterator;
+}
+
+/**
+ * save the payees
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ **/
+gulong gsb_file_save_payee_part (gulong iterator,
+								 gulong *length_calculated,
+								 gchar **file_content)
+{
+    GSList *list_tmp;
+
+    list_tmp = gsb_data_payee_get_payees_list ();
+
+    while (list_tmp)
+    {
+		gchar *new_string;
+		gint payee_number;
+
+		payee_number = gsb_data_payee_get_no_payee (list_tmp->data);
+
+		/* now we can fill the file content */
+        if (gsb_data_payee_get_name (payee_number, TRUE) == NULL)
+        {
+            list_tmp = list_tmp->next;
+
+            continue;
+        }
+
+		new_string = g_markup_printf_escaped ("\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" "
+											  "Search=\"%s\" IgnCase=\"%d\" UseRegex=\"%d\" />\n",
+											  payee_number,
+											  my_safe_null_str(gsb_data_payee_get_name (payee_number, TRUE)),
+											  my_safe_null_str(gsb_data_payee_get_description (payee_number)),
+											  my_safe_null_str(gsb_data_payee_get_search_string (payee_number)),
+											  gsb_data_payee_get_ignore_case (payee_number),
+											  gsb_data_payee_get_use_regex (payee_number));
+
+		/* append the new string to the file content and take the new iterator */
+		iterator = gsb_file_save_append_part (iterator,
+											  length_calculated,
+										      file_content,
+											  new_string);
+		g_free (new_string);
 		list_tmp = list_tmp->next;
     }
 

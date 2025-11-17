@@ -21,9 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <stdlib.h>
@@ -1496,7 +1494,7 @@ gboolean gsb_qif_export_archive (const gchar *filename,
 
 		string = g_strdup_printf (_("There were many accounts to export in the archive,\n"
 									"but the QIF format only support one file per account,\n"
-									"so Grisbi created %d files, one per account :\n"),
+									"so Grisbi created %d files, one per account:\n"),
 								  g_slist_length (name_list));
 
 		/* add the name to the string */
@@ -1715,7 +1713,7 @@ gboolean qif_export (const gchar *filename,
 				/* met le tiers */
 				fprintf (fichier_qif,
 						 "P%s\n",
-						 gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number_tmp),
+						 gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (transaction_number_tmp),
 												  FALSE));
 
 				/*  on met soit un virement, soit une ventil, soit les catégories */

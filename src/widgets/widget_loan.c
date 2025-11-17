@@ -24,13 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include <errno.h>
 #include <glib/gstdio.h>
@@ -1131,7 +1125,7 @@ static DialogScheduled *widget_loan_dialog_scheduled_init (GtkWidget *page,
 
 	if (scheduled_number)
 	{
-		tmp_number = gsb_data_scheduled_get_party_number (scheduled_number);
+		tmp_number = gsb_data_scheduled_get_payee_number (scheduled_number);
 		gtk_combofix_set_text (GTK_COMBOFIX (s_sch_dialog->APayeeCombo),
 											  gsb_data_payee_get_name (tmp_number, FALSE));
 		utils_set_image_with_state (GTK_WIDGET (s_sch_dialog->APayeeCombo), TRUE);
@@ -1662,7 +1656,7 @@ dialog_return:
 		/* set payee_number */
 		text = gtk_combofix_get_text (GTK_COMBOFIX (s_sch_dialog->APayeeCombo));
 		associated_payee = gsb_data_payee_get_number_by_name (text, TRUE);
-		gsb_data_scheduled_set_party_number (scheduled_number, associated_payee);
+		gsb_data_scheduled_set_payee_number (scheduled_number, associated_payee);
 		/* set payment_number */
 		associated_payment = gsb_payment_method_get_selected_number (s_sch_dialog->APaymentCombo);
 		gsb_data_scheduled_set_method_of_payment_number (scheduled_number, associated_payment);
@@ -1688,7 +1682,7 @@ dialog_return:
 		amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->principal));
 		gsb_data_scheduled_set_amount (scheduled_number, amount);
 		/* set payee_number */
-		gsb_data_scheduled_set_party_number (scheduled_number, associated_payee);
+		gsb_data_scheduled_set_payee_number (scheduled_number, associated_payee);
 		/* set payment_number */
 		gsb_data_scheduled_set_method_of_payment_number (scheduled_number, associated_payment);
 		/* set budgetary_number */
@@ -1720,7 +1714,7 @@ dialog_return:
 		amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->interets));
 		gsb_data_scheduled_set_amount (scheduled_number, amount);
 		/* set payee_number */
-		gsb_data_scheduled_set_party_number (scheduled_number, associated_payee);
+		gsb_data_scheduled_set_payee_number (scheduled_number, associated_payee);
 		/* set payment_number */
 		gsb_data_scheduled_set_method_of_payment_number (scheduled_number, associated_payment);
 		/* set budgetary_number */
@@ -1754,7 +1748,7 @@ dialog_return:
 		amount = gsb_real_opposite (gsb_real_double_to_real (s_amortissement->frais));
 		gsb_data_scheduled_set_amount (scheduled_number, amount);
 		/* set payee_number */
-		gsb_data_scheduled_set_party_number (scheduled_number, associated_payee);
+		gsb_data_scheduled_set_payee_number (scheduled_number, associated_payee);
 		/* set payment_number */
 		gsb_data_scheduled_set_method_of_payment_number (scheduled_number, associated_payment);
 		/* set budgetary_number */

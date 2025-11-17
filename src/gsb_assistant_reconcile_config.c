@@ -26,9 +26,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -1164,7 +1162,7 @@ gboolean gsb_assistant_reconcile_config_update_manu_asso (GtkWidget *assistant,
 	    gtk_list_store_set ( GTK_LIST_STORE (store),
 				 &iter,
 				 TRANSACTION_DATE, date_str,
-				 TRANSACTION_PAYEE, gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), TRUE),
+				 TRANSACTION_PAYEE, gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (transaction_number), TRUE),
 				 TRANSACTION_AMOUNT, amount_str,
 				 TRANSACTION_ACCOUNT, gsb_data_account_get_name (gsb_data_transaction_get_account_number (transaction_number)),
 				 TRANSACTION_NUMBER, transaction_number,

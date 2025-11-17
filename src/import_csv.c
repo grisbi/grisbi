@@ -21,9 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -61,8 +59,6 @@ static gint *csv_fields_config = NULL;
 /* Mémorise la première ligne avec max columns */
 static gint first_line_with_cols;
 
-/* data for rule */
-static gboolean csv_create_rule = FALSE;
 /*END_STATIC*/
 
 struct CsvField {
@@ -392,9 +388,10 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 
 	dialog = csv_template_rule_new (assistant);
 
-	gtk_dialog_run (GTK_DIALOG (dialog));
+	int result = gtk_dialog_run (GTK_DIALOG (dialog));
 
-	csv_import_rule = g_object_get_data (G_OBJECT (dialog), "csv-import-rule");
+	if (GTK_RESPONSE_APPLY == result)
+		csv_import_rule = g_object_get_data (G_OBJECT (dialog), "csv-import-rule");
 
 	if (csv_import_rule)
 	{
@@ -402,7 +399,6 @@ static void csv_import_button_rule_clicked (GtkButton *button,
 		gint i = 0;
 		CsvSpecConfData *spec_conf_data;
 
-		csv_create_rule = TRUE;
 		g_object_set_data (G_OBJECT (assistant), "csv-import-rule", csv_import_rule);
 		list = csv_import_rule->csv_spec_lines_list;
 		if (!list)
@@ -1300,6 +1296,19 @@ static gboolean csv_import_update_preview (GtkWidget *assistant)
 	return FALSE;
 }
 
+/**
+ * use an extra parameter to be of type GCopyFunc ()
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gpointer my_strdup_null(gconstpointer src, gpointer data)
+{
+	return g_strdup(src);
+}
+
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
@@ -1481,6 +1490,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 	GSList *list;
 	gint index = 0;
 	GrisbiWinEtat *w_etat;
+	CSVImportRule *csv_import_rule;
 
 	devel_debug (imported->name);
 	w_etat = grisbi_win_get_w_etat ();
@@ -1498,18 +1508,17 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 	}
 
 	/* On complète les données du compte */
-	compte->create_rule = csv_create_rule;
-	if (csv_create_rule)
+	csv_import_rule = g_object_get_data (G_OBJECT (assistant), "csv-import-rule");
+	if (csv_import_rule)
 	{
 		GSList *lines_list;
 		gchar *first_string_to_free;
 		gchar *second_string_to_free;
 		gchar *csv_fields_str;
 		gint i;
-		CSVImportRule *csv_import_rule;
 		CsvSpecConfData *spec_conf_data;
 
-		csv_import_rule = g_object_get_data (G_OBJECT (assistant), "csv-import-rule");
+		compte->create_rule = TRUE;
 		compte->csv_rule_name = csv_import_rule->csv_rule_name;
 		compte->csv_first_line_data = csv_import_rule->csv_first_line_data;
 		compte->csv_headers_present = csv_import_rule->csv_headers_present;
@@ -1783,19 +1792,6 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 	gtk_entry_set_text (GTK_ENTRY (entry), w_etat->csv_separator);
 
 	return FALSE;
-}
-
-/**
- * use an extra parameter to be of type GCopyFunc ()
- *
- * \param
- * \param
- *
- * \return
- **/
-static gpointer my_strdup_null(gconstpointer src, gpointer data)
-{
-	return g_strdup(src);
 }
 
 /**

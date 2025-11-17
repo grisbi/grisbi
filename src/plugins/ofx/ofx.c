@@ -1,7 +1,7 @@
 /******************************************************************************/
 /*                                                                            */
 /*     Copyright (C)    2006-2006 Benjamin Drieu (bdrieu@april.org)           */
-/*          http://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -19,9 +19,7 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 
@@ -443,6 +441,7 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 						tmp_str = gsb_string_extract_int (ope_import->tiers);
 						if (tmp_str && strlen (tmp_str) > 0)
 						{
+							g_free(ope_import->cheque);
 							ope_import->cheque = tmp_str;
 							ope_import->type_de_transaction = GSB_CHECK;
 						}

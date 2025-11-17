@@ -11,7 +11,7 @@
 /* the VERSION_FICHIER is in fact the lowest version which can be used to open the */
 /* file, so each time we make an incompatibility issue, VERSION_FICHIER must be set */
 /* to VERSION_GRISBI */
-#define VERSION_FICHIER         "2.0.0"
+#define VERSION_FICHIER         "2.3.1"
 #define OLD_VERSION_FICHIER		"0.6.0"
 
 #define VERSION_FICHIER_ETAT    "0.6.0"
@@ -192,9 +192,12 @@ struct _GrisbiWinEtat
     gint		metatree_sort_transactions;					/* 1 = sorting by increasing date 2 = Sort by date descending */
 	gboolean	metatree_unarchived_payees;					/* TRUE = limit the list of payees for combofix */
 
+	/* variable for sorting the list of transactions */
+	gboolean	force_credit_before_debit;					/* Force the sort by type of amount: credit before debit */
+
     /* variables for the module estimate balance */
     gint		bet_debut_period;
-    gint		bet_cash_account_option;				/* ajoute l'onglet prévision aux comptes de caisse */
+    gint		bet_cash_account_option;					/* ajoute l'onglet prévision aux comptes de caisse */
 
     /* variables pour le simulateur de crédits */
     gdouble		bet_capital;
@@ -205,7 +208,7 @@ struct _GrisbiWinEtat
     gint		bet_type_taux;
 };
 
-/* structure conf variables configured by gsettings or grisbi.conf */
+/* structure conf variables configured by grisbi.conf */
 struct _GrisbiAppConf
 {
 /* root part*/
@@ -283,8 +286,6 @@ struct _GrisbiAppConf
     gint        main_width;                                 /* main_window width */
     gint        main_height;                                /* main_window height */
 	gboolean	low_definition_screen;						/* TRUE use a low resolution screen */
-    gboolean    full_screen;                                /* TRUE to full screen, 0 else */
-    gboolean    maximize_screen;                            /* TRUE to maximize screen, 0 else */
 
 /* panel part */
     gboolean 	active_scrolling_left_pane;                 /* TRUE active mouse scrolling in the left_pane. */
@@ -341,6 +342,7 @@ struct _GrisbiWinRun
 
     /* file stuff */
     time_t		file_modification;
+    time_t		file_backup_saved;
     gboolean	file_is_saving;
     gboolean	file_is_loading;
     gboolean	menu_save;
@@ -386,6 +388,8 @@ struct _GrisbiWinRun
 	gint		display_one_line;			/* 1 fixes bug 1875 */
 	gint		display_two_lines;			/* 1-2, 1-3, "1-4 */
 	gint		display_three_lines;		/* 1-2-3, 1-2-4, 1-3-4 */
+
+	gboolean	backwards_search;			/* recherche des operations du plus recent au plus vieux par defaut */
 
 	/* import fichier CSV */
 	gboolean	import_force_date;			/* force le choix du format et de la colonne date du fichier importé */

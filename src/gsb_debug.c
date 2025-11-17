@@ -19,9 +19,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -261,8 +259,8 @@ static gchar *gsb_debug_reconcile_test (void)
 																	 gsb_data_account_get_currency (account_nb),
 																	 TRUE);
 				tmp_str1 = g_strdup_printf (_("<span weight=\"bold\">%s</span>\n"
-											  "  Last reconciliation amount : %s\n"
-											  "  Computed reconciliation amount : %s\n"),
+											  "  Last reconciliation amount: %s\n"
+											  "  Computed reconciliation amount: %s\n"),
 											gsb_data_account_get_name (account_nb),
 											tmp_real_str1,
 											tmp_real_str2);
@@ -394,7 +392,7 @@ static gchar *gsb_debug_transfer_test (void)
     {
 		/* Skip both last and first carriage return. */
 		pText [ strlen(pText) - 1 ] = '\0';
-		printf ("%s\n", pText);
+		//~ printf ("%s\n", pText);
 		return pText + 1;
     }
 
@@ -423,15 +421,17 @@ static gchar *gsb_debug_category_test  (void)
     {
 		gint transaction_number;
 		gint category_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		category_number = gsb_data_transaction_get_category_number (transaction_number);
+		transaction = tmp_list->data;
+		transaction_number = transaction->transaction_number;
+		category_number = transaction->category_number;
 		if (gsb_data_category_get_structure (category_number))
 		{
 			gint sub_category_number;
 
 			/* category found, check sub-category */
-			sub_category_number = gsb_data_transaction_get_sub_category_number (transaction_number);
+			sub_category_number = transaction->sub_category_number;
 			if (sub_category_number
 				&& !gsb_data_category_get_sub_category_structure (category_number, sub_category_number))
 			{
@@ -489,15 +489,17 @@ static gboolean gsb_debug_category_test_fix (void)
     {
 		gint transaction_number;
 		gint category_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		category_number = gsb_data_transaction_get_category_number (transaction_number);
+		transaction = tmp_list->data;
+		transaction_number = transaction->transaction_number;
+		category_number = transaction->category_number;
 		if (gsb_data_category_get_structure (category_number))
 		{
 			gint sub_category_number;
 
 			/* category found, check sub-category */
-			sub_category_number = gsb_data_transaction_get_sub_category_number (transaction_number);
+			sub_category_number = transaction->sub_category_number;
 			if (sub_category_number
 				&& !gsb_data_category_get_sub_category_structure (category_number, sub_category_number))
 				/* sub-category not found */
@@ -657,7 +659,7 @@ static gchar *gsb_debug_payee_test  (void)
 		gint payee_number;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		payee_number = gsb_data_transaction_get_party_number (transaction_number);
+		payee_number = gsb_data_transaction_get_payee_number (transaction_number);
 		if (!gsb_data_payee_get_structure (payee_number))
 		{
 			/* payee not found */
@@ -702,10 +704,10 @@ static gboolean gsb_debug_payee_test_fix (void)
 		gint payee_number;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-		payee_number = gsb_data_transaction_get_party_number (transaction_number);
+		payee_number = gsb_data_transaction_get_payee_number (transaction_number);
 
 		if (!gsb_data_payee_get_structure (payee_number))
-			gsb_data_transaction_set_party_number (transaction_number, 0);
+			gsb_data_transaction_set_payee_number (transaction_number, 0);
 
 		tmp_list = tmp_list->next;
     }

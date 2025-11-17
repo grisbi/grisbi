@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          http://www.grisbi.org                                                */
+/*          https://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -24,13 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include <errno.h>
 #include <glib/gstdio.h>
@@ -378,7 +372,7 @@ static gboolean prefs_page_fyear_button_remove_clicked (GtkWidget *tree_view)
 static gboolean prefs_page_fyear_button_associate_clicked (GtkWidget *button,
 														   gpointer null)
 {
-    GSList *list_tmp;
+    GSList *tmp_list;
     gint modification_number = 0;
 
     if (!dialogue_yes_no (_("This function assigns each transaction without a financial year "
@@ -388,28 +382,28 @@ static gboolean prefs_page_fyear_button_associate_clicked (GtkWidget *button,
 						  GTK_RESPONSE_NO))
 		return FALSE;
 
-    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
-    while (list_tmp)
+    while (tmp_list)
     {
-		gint transaction_number;
 		gint fyear_ope;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
-		fyear_ope = gsb_data_transaction_get_financial_year_number (transaction_number);
+		transaction = tmp_list->data;
+		fyear_ope = transaction->financial_year_number;
 		if (fyear_ope <= 0)
 		{
 			gint fyear_number;
-printf ("fyear_ope = %d transaction_number = %d\n", fyear_ope, transaction_number);
+//~ printf ("fyear_ope = %d transaction_number = %d\n", fyear_ope, transaction_number);
 
-			fyear_number = gsb_data_fyear_get_from_date (gsb_data_transaction_get_date (transaction_number));
+			fyear_number = gsb_data_fyear_get_from_date (transaction->date);
 			if (fyear_number)
 			{
-				gsb_data_transaction_set_financial_year_number (transaction_number, fyear_number);
+				gsb_data_transaction_set_financial_year_number (transaction->transaction_number, fyear_number);
 				modification_number++;
 			}
 		}
-		list_tmp = list_tmp -> next;
+		tmp_list = tmp_list -> next;
     }
 
     if (modification_number)

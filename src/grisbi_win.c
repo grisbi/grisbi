@@ -22,9 +22,7 @@
 /* ************************************************************************** */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include <string.h>
 #include <unistd.h>
@@ -831,36 +829,6 @@ static void grisbi_win_no_file_page_new (GrisbiWin *win)
 	gtk_widget_show_all (priv->no_file_frame);
 }
 
-/* WIN CALLBACK */
-/**
- * check on any change on the main window
- * for now, only to check if we set/unset the full-screen
- *
- * \param window
- * \param event
- * \param null
- *
- * \return FALSE
- * */
-static gboolean grisbi_win_change_state_window (GtkWidget *window,
-												GdkEventWindowState *event,
-												gpointer null)
-{
-	GrisbiAppConf *a_conf;
-
-	a_conf = grisbi_app_get_a_conf ();
-
-	/* en premier on fixe a_conf->maximize_screen */
-	if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
-	{
-		gboolean show;
-
-		show = !(event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED);
-		a_conf->maximize_screen = !show;
-	}
-
-	return FALSE;
-}
 
 /* FREE STRUCTURES */
 /**
@@ -941,6 +909,7 @@ static void grisbi_win_init (GrisbiWin *win)
 	(priv->w_run)->new_account_file = FALSE;
 	(priv->w_run)->prefs_expand_tree = TRUE;
 	(priv->w_run)->prefs_selected_row = g_strdup ("0:0");
+	(priv->w_run)->backwards_search = TRUE;
 
 	/* initialisation de la variable w_etat */
 	priv->w_etat = g_malloc0 (sizeof (GrisbiWinEtat));
@@ -1006,9 +975,6 @@ static void grisbi_win_class_init (GrisbiWinClass *class)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, statusbar);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, no_file_frame);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (class), GrisbiWin, no_file_grid);
-
-	/* signaux */
-	gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (class), grisbi_win_change_state_window);
 }
 
 /******************************************************************************/
@@ -1032,18 +998,11 @@ void grisbi_win_open (GrisbiWin *win,
 	if (gsb_file_open_file (filename))
 	{
 		GrisbiWinPrivate *priv;
-		GrisbiAppConf *a_conf;
 
-		a_conf = grisbi_app_get_a_conf ();
 		priv = grisbi_win_get_instance_private (GRISBI_WIN (win));
 
 		utils_files_append_name_to_recent_array (filename);
 		(priv->w_run)->file_is_loading = TRUE;
-
-		/* Si sauvegarde automatique on la lance ici */
-		if (a_conf->make_backup_every_minutes
-			&& a_conf->make_backup_nb_minutes)
-			gsb_file_automatic_backup_start (NULL, NULL);
 
 		grisbi_app_set_has_started_true ();
 	}
@@ -1420,6 +1379,7 @@ void grisbi_win_init_menubar (GrisbiWin *win,
 		"template-ope",
 		"clone-ope",
 		"convert-ope",
+		"search-acc",
 		"new-acc",
 		"remove-acc",
 		"show-form",
@@ -1757,14 +1717,6 @@ void grisbi_win_set_size_and_position (GtkWindow *win)
 
 	/* display window at position */
 	gtk_window_move (GTK_WINDOW (win), a_conf->x_position, a_conf->y_position);
-
-	/* set the full screen if necessary */
-	if (a_conf->full_screen)
-		gtk_window_fullscreen (GTK_WINDOW (win));
-
-	/* put up the screen if necessary */
-	if (a_conf->maximize_screen)
-		gtk_window_maximize (GTK_WINDOW (win));
 }
 
 /**
@@ -2468,7 +2420,7 @@ void grisbi_win_status_bar_wait (gboolean force_update)
 
 	run_window = gtk_widget_get_window (GTK_WIDGET (win));
 	display = gdk_window_get_display (run_window);
-	cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
+	cursor = gdk_cursor_new_from_name (display, "wait");
 	gdk_window_set_cursor (run_window, cursor);
 
 	default_seat = gdk_display_get_default_seat (display);

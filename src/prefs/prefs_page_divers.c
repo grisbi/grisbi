@@ -24,13 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include <errno.h>
 #include <glib/gstdio.h>
@@ -67,7 +61,6 @@ struct _PrefsPageDiversPrivate
 
 	/* generalities */
     GtkWidget *			grid_generalities;
-	GtkWidget *			button_reset_prefs_window;
 	GtkWidget *			entry_web_browser;
 	GtkWidget *			hbox_display_pdf;
 	GtkWidget *			label_prefs_settings;
@@ -129,36 +122,6 @@ static gboolean prefs_page_divers_radiobutton_help_press_event (GtkWidget *butto
 		a_conf->display_help = 1;
 
 	return FALSE;
-}
-/**
- *
- *
- * \param
- *
- * \return
- **/
-static void prefs_page_divers_button_reset_prefs_window_clicked (GtkButton *button,
-																 GrisbiPrefs *prefs)
-{
-	GtkWidget *paned_prefs;
- 	GrisbiAppConf *a_conf;
-
-	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
-	paned_prefs = grisbi_prefs_get_prefs_hpaned (GRISBI_PREFS (prefs));
-	a_conf->prefs_height = PREFS_WIN_MIN_HEIGHT;
-	a_conf->prefs_panel_width = PREFS_PANED_MIN_WIDTH;
-
-	if (a_conf->low_definition_screen)
-	{
-		a_conf->prefs_width = PREFS_WIN_MIN_WIDTH_LOW;
-		gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_LOW, PREFS_WIN_MIN_HEIGHT);
-	}
-	else
-	{
-		a_conf->prefs_width = PREFS_WIN_MIN_WIDTH_HIGH;
-		gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_HIGH, PREFS_WIN_MIN_HEIGHT);
-	}
-	gtk_paned_set_position (GTK_PANED (paned_prefs), PREFS_PANED_MIN_WIDTH);
 }
 
 /**
@@ -659,12 +622,6 @@ static void prefs_page_divers_setup_divers_page (PrefsPageDivers *page,
 	gtk_label_set_text	(GTK_LABEL (priv->label_prefs_settings), config_file);
 	g_free (config_file);
 
-	/* set signal button_reset_prefs_window */
-	g_signal_connect (priv->button_reset_prefs_window,
-					  "clicked",
-					  G_CALLBACK (prefs_page_divers_button_reset_prefs_window_clicked),
-					  win);
-
 	/* set the scheduled variables */
 	vbox_button = gsb_automem_radiobutton_gsettings_new (_("Warn/Execute the scheduled transactions arriving at expiration date"),
 													_("Warn/Execute the scheduled transactions of the month"),
@@ -853,7 +810,6 @@ static void prefs_page_divers_class_init (PrefsPageDiversClass *klass)
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, grid_generalities);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, notebook_divers);
 
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, button_reset_prefs_window);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, entry_web_browser);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDivers, label_prefs_settings);
 

@@ -1,8 +1,8 @@
 dnl Process this file with autoconf to produce a configure script.
 
 m4_define(grisbi_major_version, 3)
-m4_define(grisbi_minor_version, 0)
-m4_define(grisbi_micro_version, 4)
+m4_define(grisbi_minor_version, 90)
+m4_define(grisbi_micro_version, 0)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
 m4_pattern_allow([AM_PROG_AR])
@@ -85,6 +85,11 @@ PKG_CHECK_MODULES(LIBGSF, libgsf-1 >= $LIBGSF_REQUIRED)
 AS_IF([test "$have_zlib_pc" = "no"],
 	[AC_CHECK_LIB([z],[gzwrite])
 	 AC_SUBST(GRISBI_LIBS)])
+
+old_libs=$LIBS
+LIBS=$GLIB_LIBS
+AC_CHECK_FUNCS(g_sort_array)
+LIBS=$old_libs
 
 # $LIBM courtesy of LT_LIB_M
 GRISBI_LIBS="$LIBM $GRISBI_LIBS"

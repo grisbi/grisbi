@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          http://www.grisbi.org                                                */
+/*          https://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -24,9 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -844,7 +842,7 @@ void utils_widget_import_csv_options_widget_new (GtkWidget *parent,
 	gtk_grid_attach (GTK_GRID (grid), hbox_format_date, 3, 1, 1 , 1);
 
 	/* set label */
-	label = gtk_label_new ("Select new date format : ");
+	label = gtk_label_new (_("Select new date format : "));
 	gtk_box_pack_start (GTK_BOX (hbox_format_date), label, TRUE, TRUE, 0);
 
 	/* set combo date format */

@@ -21,9 +21,7 @@
 /*                                                                            */
 /* ***************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -1407,7 +1405,7 @@ static void update_liste_echeances_manuelles_accueil (gboolean force)
 			date = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
 			tmp_str = g_strconcat (date,
 								   " : ",
-								   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
+								   gsb_data_payee_get_name (gsb_data_scheduled_get_payee_number (scheduled_number),
 															FALSE),
 								  NULL);
 			label = gtk_label_new (tmp_str);
@@ -1544,7 +1542,7 @@ static void update_liste_echeances_auto_accueil (gboolean force)
 			date = gsb_format_gdate (gsb_data_transaction_get_date (transaction_number));
 			tmp_str = g_strconcat (date,
 								   " : ",
-								   gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+								   gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 															(transaction_number),
 															FALSE),
 								  NULL);
@@ -2157,7 +2155,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions (gint scheduled_nu
 	date = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
 	tmp_str = g_strconcat (date,
 						   " : ",
-						   gsb_data_payee_get_name (gsb_data_scheduled_get_party_number
+						   gsb_data_payee_get_name (gsb_data_scheduled_get_payee_number
 													(scheduled_number),
 													FALSE),
 						   NULL);

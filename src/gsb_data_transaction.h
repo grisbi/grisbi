@@ -8,6 +8,54 @@
 
 typedef struct _TransactionStruct		TransactionStruct;
 
+/**
+ * \struct
+ * Describe a transaction
+ */
+struct _TransactionStruct
+{
+    /** @name general stuff */
+    gint transaction_number;
+    gchar *transaction_id;              /**< filled by ofx */
+    gint account_number;
+    GsbReal transaction_amount;
+    gint payee_number;                  /* payee in transaction */
+    gchar *notes;
+    gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELEPOINTEE=T, OPERATION_RAPPROCHEE=R */
+    gint archive_number;                /**< if it's an archived transaction, contains the number of the archive */
+    gshort automatic_transaction;       /**< 0=manual, 1=automatic (scheduled transaction) */
+    gint reconcile_number;              /**< the number of reconciliation, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
+                                             it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them
+                                             will re-R after the change, and that value will help the user to find which statement it belong.
+                                             o always check marked_transaction before checking reconcile_number here */
+    guint financial_year_number;
+    gchar *voucher;
+    gchar *bank_references;
+
+    /** @name dates of the transaction */
+    GDate *date;
+    GDate *value_date;
+
+    /** @name currency stuff */
+    gint currency_number;
+    gint change_between_account_and_transaction;    /**< if 1 : 1 account_currency = (exchange_rate * amount) transaction_currency */
+    GsbReal exchange_rate;
+    GsbReal exchange_fees;
+
+    /** @name category stuff */
+    gint category_number;
+    gint sub_category_number;
+    gint budgetary_number;
+    gint sub_budgetary_number;
+    gint contra_transaction_number;   	/**< -1 for a transfer to a deleted account, the contra-transaction number else */
+    gint split_of_transaction;          /**< 1 if it's a split of transaction */
+    gint mother_transaction_number;     /**< for a split, the mother's transaction number */
+
+    /** @name method of payment */
+    gint method_of_payment_number;
+    gchar *method_of_payment_content;
+};
+
 /** Etat de rapprochement d'une opération */
 enum OperationEtatRapprochement
 {
@@ -35,6 +83,7 @@ GsbReal 		gsb_data_transaction_get_adjusted_amount_for_currency 			(gint transac
 																				 gint return_exponent);
 GsbReal 		gsb_data_transaction_get_amount 								(gint transaction_number);
 gint 			gsb_data_transaction_get_archive_number 						(gint transaction_number);
+GSList *		gsb_data_transaction_get_active_transactions_list				(void);
 gint 			gsb_data_transaction_get_automatic_transaction 					(gint transaction_number);
 const gchar *	gsb_data_transaction_get_bank_references 						(gint transaction_number);
 gint 			gsb_data_transaction_get_budgetary_number 						(gint transaction_number);
@@ -66,7 +115,7 @@ const gchar *	gsb_data_transaction_get_method_of_payment_content				(gint transa
 gint 			gsb_data_transaction_get_method_of_payment_number 				(gint transaction_number);
 gint 			gsb_data_transaction_get_mother_transaction_number 				(gint transaction_number);
 const gchar *	gsb_data_transaction_get_notes 									(gint transaction_number);
-gint 			gsb_data_transaction_get_party_number 							(gint transaction_number);
+gint 			gsb_data_transaction_get_payee_number 							(gint transaction_number);
 gpointer 		gsb_data_transaction_get_pointer_of_transaction 				(gint transaction_number);
 gint 			gsb_data_transaction_get_reconcile_number 						(gint transaction_number);
 gint 			gsb_data_transaction_get_split_of_transaction 					(gint transaction_number);
@@ -83,10 +132,11 @@ gboolean 		gsb_data_transaction_init_variables 							(void);
 gint 			gsb_data_transaction_new_transaction 							(gint no_account);
 gint 			gsb_data_transaction_new_transaction_with_number 				(gint no_account,
                         														 gint transaction_number);
-gint 			gsb_data_transaction_new_white_line (gint mother_transaction_number);
-gboolean 		gsb_data_transaction_remove_transaction (gint transaction_number);
+gint 			gsb_data_transaction_new_white_line								(gint mother_transaction_number);
+gboolean 		gsb_data_transaction_remove_transaction							(gint transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction_in_transaction_list 	(gint transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction_without_check 			(gint transaction_number);
+void			gsb_data_transaction_save_transaction_pointer					(gpointer transaction);
 gboolean 		gsb_data_transaction_set_account_number 						(gint transaction_number,
 																				 gint no_account);
 gboolean 		gsb_data_transaction_set_amount 								(gint transaction_number,
@@ -104,7 +154,7 @@ gboolean 		gsb_data_transaction_set_category_number						(gint transaction_numbe
 gboolean 		gsb_data_transaction_set_change_between 						(gint transaction_number,
                         														 gint value);
 gboolean 		gsb_data_transaction_set_contra_transaction_number				(gint transaction_number,
-                        														 gint transaction_number_transfer);
+                        														 gint contra_transaction_number);
 gboolean 		gsb_data_transaction_set_currency_number						(gint transaction_number,
                         														 gint no_currency);
 gboolean 		gsb_data_transaction_set_date 									(gint transaction_number,
@@ -125,8 +175,8 @@ gboolean 		gsb_data_transaction_set_mother_transaction_number 				(gint transact
                         														 gint mother_transaction_number);
 gboolean 		gsb_data_transaction_set_notes 									(gint transaction_number,
                         														 const gchar *notes);
-gboolean 		gsb_data_transaction_set_party_number 							(gint transaction_number,
-                        														 gint no_party);
+gboolean 		gsb_data_transaction_set_payee_number 							(gint transaction_number,
+                        														 gint no_payee);
 gboolean 		gsb_data_transaction_set_reconcile_number 						(gint transaction_number,
                         														 gint reconcile_number);
 gboolean 		gsb_data_transaction_set_split_of_transaction 					(gint transaction_number,

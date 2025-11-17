@@ -52,6 +52,7 @@ gboolean 		gsb_gui_navigation_check_scroll 				(GtkWidget *tree_view,
 void 			gsb_gui_navigation_create_account_list 			(GtkTreeModel *model);
 GtkWidget *		gsb_gui_navigation_create_navigation_pane 		(void);
 void			gsb_gui_navigation_create_report_list			(GtkTreeModel *model);
+void			gsb_gui_navigation_create_search_report_from_ctrl_f (gint page_num);
 gboolean 		gsb_gui_navigation_drag_data_received 			(GtkTreeDragDest *drag_dest,
 																 GtkTreePath *dest_path,
 																 GtkSelectionData *selection_data);

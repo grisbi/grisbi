@@ -22,9 +22,7 @@
 /* ************************************************************************** */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include <string.h>
 #include <unistd.h>
@@ -643,17 +641,16 @@ static void grisbi_prefs_setup_page (GrisbiPrefs *prefs,
 	/* initialise left_tree_view */
 	grisbi_prefs_left_tree_view_setup (prefs, priv->treeview_left, w_run);
 
-	/* set geometry */
+	/* set minimum size */
+	if (a_conf->low_definition_screen)
+		gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_LOW, PREFS_WIN_MIN_HEIGHT);
+	else
+		gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_HIGH, PREFS_WIN_MIN_HEIGHT);
+
+	/* set geometry of the window */
 	if (a_conf->prefs_height && a_conf->prefs_width)
 	{
-        gtk_widget_set_size_request (GTK_WIDGET (prefs), a_conf->prefs_width, a_conf->prefs_height);
-	}
-    else
-	{
-		if (a_conf->low_definition_screen)
-			gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_LOW, PREFS_WIN_MIN_HEIGHT);
-		else
-			gtk_widget_set_size_request(GTK_WIDGET (prefs), PREFS_WIN_MIN_WIDTH_HIGH, PREFS_WIN_MIN_HEIGHT);
+		gtk_window_set_default_size(GTK_WINDOW(prefs), a_conf->prefs_width, a_conf->prefs_height);
 	}
 
 	if (a_conf->prefs_panel_width)

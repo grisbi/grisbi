@@ -25,9 +25,7 @@
  * \file data_partial_balance.c
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <gdk/gdkkeysyms.h>
@@ -1718,8 +1716,8 @@ void gsb_partial_balance_remove_from_account (gint deleted_account)
 					partial_balance->liste_cptes = gsb_string_remplace_string (str_to_free_2, str_to_free_1, "");
 					g_free(str_to_free_1);
 				}
-
 			}
+			g_strfreev(tab);
 		}
 		tmp_list = tmp_list->next;
 	}

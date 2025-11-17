@@ -21,9 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -827,16 +825,27 @@ void grisbi_cmd_search_acc (GSimpleAction *action,
 
 	devel_debug (NULL);
 	page_number = gsb_gui_navigation_get_current_page ();
-	if (page_number == GSB_ACCOUNT_PAGE)
+	switch (page_number)
 	{
-		account_number = gsb_gui_navigation_get_current_account ();
-		transaction_number = gsb_data_account_get_current_transaction_number (account_number);
-		gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
-	}
-	else
-	{
-		gsb_gui_navigation_select_reports_page ();
-		etats_onglet_create_search_report ();
+		case GSB_ACCOUNT_PAGE:
+			account_number = gsb_gui_navigation_get_current_account ();
+			transaction_number = gsb_data_account_get_current_transaction_number (account_number);
+			gsb_transactions_list_search (NULL, GINT_TO_POINTER (transaction_number));
+		break;
+
+		case GSB_REPORTS_PAGE:
+			etats_onglet_create_search_report ();
+		break;
+
+		case GSB_CATEGORIES_PAGE:
+		case GSB_BUDGETARY_LINES_PAGE:
+		case GSB_PAYEES_PAGE:
+			gsb_gui_navigation_create_search_report_from_ctrl_f (page_number);
+		break;
+
+		default:
+			gsb_gui_navigation_select_reports_page ();
+			etats_onglet_create_search_report ();
 	}
 }
 
@@ -998,7 +1007,7 @@ void grisbi_cmd_reset_width_col (GSimpleAction *action,
  *
  * \return FALSE
  */
-gboolean gsb_menu_gui_toggle_show_reconciled (void)
+void gsb_menu_gui_toggle_show_reconciled (void)
 {
     gint current_account;
 	GrisbiWinRun *w_run;
@@ -1006,14 +1015,12 @@ gboolean gsb_menu_gui_toggle_show_reconciled (void)
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
     current_account = gsb_gui_navigation_get_current_account ();
     if (current_account == -1 || w_run->equilibrage == TRUE)
-        return FALSE;
+        return;
 
     if (gsb_data_account_get_r (current_account))
 	    gsb_transactions_list_change_aspect_liste (6);
     else
 	    gsb_transactions_list_change_aspect_liste (5);
-
-    return FALSE;
 }
 
 
@@ -1022,20 +1029,18 @@ gboolean gsb_menu_gui_toggle_show_reconciled (void)
  *
  * \return FALSE
  */
-gboolean gsb_menu_gui_toggle_show_archived (void)
+void gsb_menu_gui_toggle_show_archived (void)
 {
     gint current_account;
 
     current_account = gsb_gui_navigation_get_current_account ();
     if (current_account == -1)
-        return FALSE;
+        return;
 
     if (gsb_data_account_get_l (current_account))
 	    gsb_transactions_list_change_aspect_liste (8);
     else
 	    gsb_transactions_list_change_aspect_liste (7);
-
-    return FALSE;
 }
 
 
@@ -1044,7 +1049,7 @@ gboolean gsb_menu_gui_toggle_show_archived (void)
  *
  * \return FALSE
  */
-gboolean gsb_menu_gui_toggle_show_form (void)
+void gsb_menu_gui_toggle_show_form (void)
 {
     GrisbiWin *win;
     GAction *action;
@@ -1055,8 +1060,6 @@ gboolean gsb_menu_gui_toggle_show_form (void)
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     g_action_change_state (G_ACTION (action),
                            g_variant_new_boolean (a_conf->formulaire_toujours_affiche));
-
-    return FALSE;
 }
 
 /**
@@ -1066,7 +1069,7 @@ gboolean gsb_menu_gui_toggle_show_form (void)
  *
  * \return FALSE
  * */
-gboolean gsb_menu_update_view_menu (gint account_number)
+void gsb_menu_update_view_menu (gint account_number)
 {
     GrisbiWin *win;
     GAction *action;
@@ -1104,9 +1107,6 @@ gboolean gsb_menu_update_view_menu (gint account_number)
 
     action = g_action_map_lookup_action (G_ACTION_MAP (win), "show-ope");
     g_action_change_state (G_ACTION (action), parameter);
-
-    /* return value*/
-    return FALSE;
 }
 
 /* SENSITIVE MENUS */
@@ -1215,7 +1215,6 @@ void gsb_menu_set_menus_with_file_sensitive (gboolean sensitive)
         "file-close",
         "new-acc",
         "show-closed-acc",
-		"search-acc",
         NULL
     };
     const gchar **tmp = items;

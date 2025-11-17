@@ -27,9 +27,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 
@@ -149,6 +147,7 @@ static void gtktable_attach_label (gchar *text,
 	}
 
 	label = gtk_label_new (text);
+	gtk_widget_set_margin_end (label, MARGIN_BOX);
 	gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
 
 	switch (align)
@@ -303,7 +302,8 @@ static gint gtktable_initialise (GSList *opes_selectionnees,
 	update_gui ();
 
 	table_etat = gtk_grid_new ();
-	gtk_grid_set_column_spacing (GTK_GRID (table_etat), 5);
+	gtk_widget_set_margin_end (table_etat, MARGIN_BOX);
+	gtk_grid_set_column_spacing (GTK_GRID (table_etat), MARGIN_BOX);
 
 	return 1;
 }

@@ -30,9 +30,7 @@
  * Grisbi shouldn't work directly on the CustomList except by those files
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -172,7 +170,7 @@ static gboolean transaction_list_update_white_child (CustomRecord *white_record)
 
 	if (variance.mantissa)
     {
-		white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
+		white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance: %s)"),
 														amount_string,
 														variance_string);
 		mother_text_color = gsb_rgba_get_couleur ("text_unfinished_split");
@@ -414,6 +412,9 @@ gboolean transaction_list_create (void)
 {
     CustomList *custom_list;
 
+    /* reset to a safe value */
+    last_mother_appended = NULL;
+
     custom_list = custom_list_new ();
     transaction_model_set_model (custom_list);
     g_object_unref (custom_list);
@@ -480,7 +481,7 @@ void transaction_list_append_transaction (gint transaction_number)
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
+	white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance: %s)"),
 							   amount_string,
 							   variance_string);
 	g_free (amount_string);
@@ -1117,7 +1118,12 @@ gboolean transaction_list_filter (gint account_number)
 	gsb_transactions_list_set_secondary_sort (a_conf->transactions_list_secondary_sorting);
 
     /* initial sort of the list */
-    g_qsort_with_data (custom_list->visibles_rows,
+#ifdef HAVE_G_SORT_ARRAY
+    g_sort_array
+#else
+    g_qsort_with_data
+#endif
+		 (custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_transactions_list_sort_initial,
@@ -1399,7 +1405,7 @@ gboolean transaction_list_update_transaction (gint transaction_number)
                                    gsb_data_transaction_get_currency_number (transaction_number), TRUE);
         variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
                                      gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-        white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance : %s)"),
+        white_record->visible_col[2] = g_strdup_printf (_("Total: %s (variance: %s)"),
                                    amount_string,
                                    variance_string);
         g_free (amount_string);

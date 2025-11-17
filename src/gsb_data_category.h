@@ -31,6 +31,8 @@ gint 		gsb_data_category_get_no_sub_category 				(gpointer sub_category_ptr);
 gint 		gsb_data_category_get_number_by_name 				(const gchar *name,
 																 gboolean create,
 																 gint category_type);
+GSList *	gsb_data_category_get_search_category_list			(const gchar *text,
+																 gboolean ignore_case);
 gpointer 	gsb_data_category_get_structure 					(gint no_category);
 GsbReal 	gsb_data_category_get_sub_category_balance 			(gint no_category,
 																 gint no_sub_category);

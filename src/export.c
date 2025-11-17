@@ -21,9 +21,7 @@
 /* ************************************************************************** */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -552,10 +550,11 @@ static GtkWidget *export_create_selection_page (GtkWidget *assistant)
 
 
 	/* Adding treat all files button */
-    button = gsb_automem_checkbutton_new (_("Treat all files as the first"),
+    button = gsb_automem_checkbutton_new (_("Automatically treat the selected account(s)"),
 										  &w_etat->export_files_traitement,
 										  NULL,
 										  NULL);
+	gtk_widget_set_tooltip_text (button, _("The generated files will be named as follows:\n[accounting entity]-[account name].[extension]\n\nThe save folder will be the Grisbi file folder"));
     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
     /* return */
@@ -766,7 +765,7 @@ static gboolean export_enter_resume_page (GtkWidget *assistant)
 				account->extension = g_strdup ("qif");
 			exported_accounts = g_slist_append (exported_accounts, account);
 
-			if (!w_etat->export_files_traitement || g_slist_length (selected_accounts) == 1)
+			if (!w_etat->export_files_traitement)
 			{
 				gsb_assistant_add_page (assistant,
 										create_export_account_resume_page (account),
@@ -829,7 +828,6 @@ void export_accounts (void)
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-    selected_accounts = NULL;
     exported_accounts = NULL;
 
     dialog = gsb_assistant_new (_("Exporting Grisbi accounts"),
@@ -866,7 +864,7 @@ void export_accounts (void)
 
             account = (struct ExportedAccount *) list->data;
 
-            if (w_etat->export_files_traitement && g_slist_length (selected_accounts) > 1)
+            if (w_etat->export_files_traitement)
             {
                 const gchar *title;
                 gchar *tmp_str;
@@ -901,6 +899,7 @@ void export_accounts (void)
     }
 
     g_slist_free (selected_accounts);
+    selected_accounts = NULL;
     g_slist_free_full (exported_accounts, (GDestroyNotify) expert_account_free_account_structure);
 
     gtk_widget_destroy (dialog);

@@ -22,9 +22,7 @@
 /* ************************************************************************** */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <errno.h>
@@ -2136,6 +2134,11 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                     g_strfreev (pointeur_char);
                 }
 
+				else if (!strcmp (attribute_names[i], "Force-credit-before-debit"))
+				{
+					w_etat->force_credit_before_debit = utils_str_atoi (attribute_values[i]);
+				}
+
 				else
                     unknown = 1;
                 break;
@@ -2692,7 +2695,7 @@ static void gsb_file_load_partial_balance_part (const gchar **attribute_names,
  *
  * \return
  **/
-static void gsb_file_load_party_part (const gchar **attribute_names,
+static void gsb_file_load_payee_part (const gchar **attribute_names,
 									  const gchar **attribute_values)
 {
     gint i=0;
@@ -3225,7 +3228,7 @@ static void gsb_file_load_scheduled_transactions_part (const gchar **attribute_n
 
     if (!strcmp (attribute_names[i], "Pa"))
     {
-        gsb_data_scheduled_set_party_number (scheduled_number, utils_str_atoi (attribute_values[i]));
+        gsb_data_scheduled_set_payee_number (scheduled_number, utils_str_atoi (attribute_values[i]));
         i++;
         continue;
     }
@@ -3584,7 +3587,7 @@ static void gsb_file_load_transactions_part (const gchar **attribute_names,
 
                 else if (!strcmp (attribute_names[i], "Pa"))
                 {
-                    gsb_data_transaction_set_party_number (transaction_number,
+                    gsb_data_transaction_set_payee_number (transaction_number,
 														   utils_str_atoi (attribute_values[i]));
                 }
 
@@ -3821,7 +3824,7 @@ static void gsb_file_load_start_element (GMarkupParseContext *context,
 
             else if (!strcmp (element_name, "Party"))
             {
-                gsb_file_load_party_part (attribute_names, attribute_values);
+                gsb_file_load_payee_part (attribute_names, attribute_values);
             }
 
             else
@@ -3964,6 +3967,7 @@ gboolean gsb_file_load_open_file (const gchar *filename)
         GMarkupParseContext *context;
 		gboolean is_crypt = FALSE;
 		GrisbiWinRun *w_run;
+		const gchar* end;
 
 		/* first, we check if the file is crypted, if it is, we decrypt it */
 		if (!strncmp (tmp_file_content, "Grisbi encrypted file ", 22) ||
@@ -3999,27 +4003,27 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 		}
 
 		/* si le fichier n'a pas été chiffré et n'est pas un fichier UTF8 valide on le corrige si possible */
-		if (!is_crypt && !g_utf8_validate (tmp_file_content, length, NULL))
+		if (!is_crypt && !g_utf8_validate (tmp_file_content, length, &end))
 		{
 			GtkWidget *dialog;
-			GtkWidget *button_NO;
-			GtkWidget *button_OK;
 			gchar *text;
 			gchar *hint;
+			int line = 1;
 
-			hint = g_strdup_printf (_("'%s' is not a valid UTF8 file"), filename);
+			/* compute the line number with the encoding problem */
+			for (const char *p = tmp_file_content; p<end; p++)
+				if ('\n' == *p)
+					line++;
 
+			hint = g_strdup_printf (_("'%s' is not a valid UTF8 file.\nProblem at line %d."), filename, line);
 
 			text = g_strdup_printf (_("You can choose to fix the file with the substitution character? "
 									  "or return to the file choice.\n"));
 
 			dialog = dialogue_special_no_run (GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE, text, hint);
 
-			button_NO = gtk_button_new_with_label (_("Load another file"));
-			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_NO, GTK_RESPONSE_NO);
-
-			button_OK = gtk_button_new_with_label (_("Correct the file"));
-			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_OK, GTK_RESPONSE_OK);
+			gtk_dialog_add_button (GTK_DIALOG (dialog), _("Load another file"), GTK_RESPONSE_NO);
+			gtk_dialog_add_button (GTK_DIALOG (dialog), _("Correct the file"), GTK_RESPONSE_OK);
 
 			if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
 			{
@@ -4567,7 +4571,7 @@ void gsb_file_load_error (GMarkupParseContext *context,
 	valid_utf8 = g_utf8_make_valid (error->message, -1);
 
 	/* the first time we come here, we check if it's a Grisbi file */
-    tmp_str = g_strdup_printf (_("An error occurred while parsing the file :\nError number : %d\n%s"),
+    tmp_str = g_strdup_printf (_("An error occurred while parsing the file :\nError number: %d\n%s"),
 							   error->code,
 							   valid_utf8);
     dialogue_error (tmp_str);

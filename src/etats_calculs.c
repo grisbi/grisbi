@@ -22,9 +22,7 @@
 /* ************************************************************************** */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <string.h>
@@ -48,6 +46,7 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "structures.h"
@@ -131,6 +130,7 @@ static gint etats_dialog_warning_report_too_big (gint report_number,
 	GtkWidget *dialog;
 	gchar *message = NULL;
 	gint result;
+	GdkWindow *run_window;
 
 	message = g_strdup_printf (_("The number of transactions selected by the report is very "
 								 "important (%d) and > to %d.\n"
@@ -155,8 +155,14 @@ static gint etats_dialog_warning_report_too_big (gint report_number,
 
 	g_free (message);
 
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	/* set wait cursor */
+	gtk_widget_show_all (dialog);
+	run_window = gtk_widget_get_window (GTK_WIDGET (dialog));
+	utils_gdk_window_set_wait_cursor (run_window);
 
+	/* set modal */
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
@@ -221,14 +227,14 @@ static gint classement_ope_perso_etat (gpointer transaction_1,
 
 		case 3:
 			/* tiers  */
-			if (!gsb_data_transaction_get_party_number (transaction_number_1)
-				|| !gsb_data_transaction_get_party_number (transaction_number_2))
-				return_value = gsb_data_transaction_get_party_number (transaction_number_2) -
-								gsb_data_transaction_get_party_number (transaction_number_1);
+			if (!gsb_data_transaction_get_payee_number (transaction_number_1)
+				|| !gsb_data_transaction_get_payee_number (transaction_number_2))
+				return_value = gsb_data_transaction_get_payee_number (transaction_number_2) -
+								gsb_data_transaction_get_payee_number (transaction_number_1);
 			else
-				return_value = my_strcasecmp (gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				return_value = my_strcasecmp (gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 																	   (transaction_number_1), TRUE),
-											  gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+											  gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 																	   (transaction_number_2), TRUE));
 			break;
 
@@ -721,9 +727,9 @@ classement_suivant:
 				const gchar *party_name_1;
 				const gchar *party_name_2;
 
-				party_name_1 = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				party_name_1 = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 														(transaction_number_1), TRUE);
-				party_name_2 = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				party_name_2 = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 														(transaction_number_2), TRUE);
 				return_value = my_strcasecmp (party_name_1, party_name_2);
 
@@ -911,12 +917,12 @@ static const gchar *recupere_texte_test_etat (gint transaction_number,
 	{
 		case 0:
 			/* tiers  */
-			texte = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), TRUE);
+			texte = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (transaction_number), TRUE);
 			break;
 
 		case 1:
 			/* info du tiers */
-			texte = gsb_data_payee_get_description (gsb_data_transaction_get_party_number (transaction_number));
+			texte = gsb_data_payee_get_description (gsb_data_transaction_get_payee_number (transaction_number));
 			break;
 
 		case 2:
@@ -2298,7 +2304,7 @@ GSList *recupere_opes_etat (gint report_number)
 					if (gsb_data_report_get_payee_detail_used (report_number)
 						&&
 						g_slist_index (gsb_data_report_get_payee_numbers_list (report_number),
-									   GINT_TO_POINTER (gsb_data_transaction_get_party_number
+									   GINT_TO_POINTER (gsb_data_transaction_get_payee_number
 														(transaction_number_tmp))) == -1)
 						goto operation_refusee;
 

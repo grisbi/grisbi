@@ -1,0 +1,30 @@
+name: build_meson
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-22.04]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup prerequisites
+        shell: bash
+        run: github-actions/setup.sh
+
+      - name: compile
+        shell: bash
+        run: |
+          meson setup builddir --werror
+          cd builddir
+
+          meson dist

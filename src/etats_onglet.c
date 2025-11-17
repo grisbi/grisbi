@@ -26,9 +26,7 @@
  * Handle all UI actions for the reports.
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -40,6 +38,9 @@
 #include "etats_config.h"
 #include "grisbi_app.h"
 #include "gsb_automem.h"
+#include "gsb_data_budget.h"
+#include "gsb_data_category.h"
+#include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_dirs.h"
@@ -52,6 +53,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_files.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -701,17 +703,15 @@ static void etats_onglet_fill_reports_list_model (GtkListStore *list_store)
 
 	while (tmp_list)
 	{
-		gint report_number;
-		gchar *report_name;
+		ReportStruct *report_struct;
 
-		report_number = gsb_data_report_get_report_number (tmp_list->data);
-		report_name = gsb_data_report_get_report_name (report_number);
+		report_struct = tmp_list->data;
 
 		gtk_list_store_append (GTK_LIST_STORE (list_store), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (list_store),
 							&iter,
-							0, report_name,
-							1, report_number,
+							0, report_struct->report_name,
+							1, report_struct->report_number,
 							-1);
 
 		tmp_list = tmp_list->next;
@@ -836,6 +836,256 @@ static void etats_onglet_set_devises (gint report_number)
 	gsb_data_report_set_budget_currency (report_number, 1);
 	gsb_data_report_set_payee_currency (report_number, 1);
 	gsb_data_report_set_amount_comparison_currency (report_number, 1);
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etat_onglet_set_search_amount_data_for_tiers_categ_ib (gint report_number,
+																   const gchar *text,
+																   SearchDataReport *search_data_report)
+{
+	gint amount_cmp_number;
+	gint tmp_amount_cmp_number = 0;
+	GsbReal amount;
+
+	gsb_data_report_set_amount_comparison_used (report_number, 1);
+
+	/* on crée une première structure de montant */
+	amount_cmp_number = gsb_data_report_amount_comparison_new (0);
+	gsb_data_report_amount_comparison_set_report_number (amount_cmp_number, report_number);
+	gsb_data_report_amount_comparison_set_link_to_last_amount_comparison (amount_cmp_number, -1);
+
+	if (search_data_report->search_delta_amount)
+	{
+		GsbReal amount_sup;
+		GsbReal amount_inf;
+		GsbReal spin_number;
+
+		/* calcul des montants */
+		amount = utils_real_get_from_string (text);
+		spin_number = gsb_real_double_to_real (search_data_report->spin_value);
+		amount_inf = gsb_real_sub (amount, spin_number);
+		amount_sup = gsb_real_add (amount, spin_number);
+
+		gsb_data_report_amount_comparison_set_first_comparison (amount_cmp_number, 2); /* inferieur ou egal */
+		gsb_data_report_amount_comparison_set_second_comparison (amount_cmp_number, 4); /* superieur ou egal */
+		gsb_data_report_amount_comparison_set_link_first_to_second_part (amount_cmp_number, 0); /* et */
+
+		/* set amount 1 et 2 */
+		gsb_data_report_amount_comparison_set_first_amount (amount_cmp_number, amount_sup);
+		gsb_data_report_amount_comparison_set_second_amount (amount_cmp_number, amount_inf);
+
+		if (search_data_report->ignore_sign)
+		{
+			GsbReal tmp_amount_inf;
+			GsbReal tmp_amount_sup;
+
+			/* set new amount_cmp_number */
+			tmp_amount_cmp_number = gsb_data_report_amount_comparison_new (0);
+			gsb_data_report_amount_comparison_set_report_number (tmp_amount_cmp_number, report_number);
+			gsb_data_report_amount_comparison_set_link_to_last_amount_comparison (tmp_amount_cmp_number, 1); /* ou */
+
+			/* set amount inf et sup */
+			tmp_amount_inf = gsb_real_opposite (amount_sup);
+			tmp_amount_sup = gsb_real_opposite (amount_inf);
+			gsb_data_report_amount_comparison_set_first_amount (tmp_amount_cmp_number, tmp_amount_sup);
+			gsb_data_report_amount_comparison_set_second_amount (tmp_amount_cmp_number, tmp_amount_inf);
+
+			gsb_data_report_amount_comparison_set_first_comparison (tmp_amount_cmp_number, 2); /* inferieur ou egal */
+			gsb_data_report_amount_comparison_set_second_comparison (tmp_amount_cmp_number, 4); /* superieur ou egal */
+			gsb_data_report_amount_comparison_set_link_first_to_second_part (tmp_amount_cmp_number, 0); /* et */
+		}
+	}
+	else
+	{
+		gsb_data_report_amount_comparison_set_first_comparison (amount_cmp_number, 0); /* egal */
+
+		/* set amount */
+		amount = utils_real_get_from_string (text);
+		gsb_data_report_amount_comparison_set_first_amount (amount_cmp_number, amount);
+
+		if (search_data_report->ignore_sign)
+		{
+			GsbReal tmp_amount;
+
+			tmp_amount = gsb_real_opposite (amount);
+			gsb_data_report_amount_comparison_set_second_amount (amount_cmp_number, tmp_amount);
+			gsb_data_report_amount_comparison_set_link_first_to_second_part (amount_cmp_number, 1); /* ou */
+		}
+		else
+			gsb_data_report_amount_comparison_set_link_first_to_second_part (amount_cmp_number, 3); /* stop */
+	}
+
+	/* add comparison in list */
+	gsb_data_report_set_amount_comparison_list (report_number,
+												g_slist_append (gsb_data_report_get_amount_comparison_list
+																(report_number),
+																GINT_TO_POINTER (amount_cmp_number)));
+
+	if (tmp_amount_cmp_number)
+	{							/* add comparison 2 in list */
+		gsb_data_report_set_amount_comparison_list (report_number,
+													g_slist_append (gsb_data_report_get_amount_comparison_list
+																	(report_number),
+																	GINT_TO_POINTER (tmp_amount_cmp_number)));
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etat_onglet_set_search_report_data_for_tiers (gint report_number,
+														  const gchar *text,
+														  SearchDataReport *search_data_report)
+{
+	GSList *tiers_list = NULL;
+	GSList *tmp_list;
+
+	/* liste des tiers */
+	if (search_data_report->search_type == 1)
+	{
+		tiers_list = gsb_data_payee_get_search_payee_list (text, search_data_report->ignore_case);
+		gsb_data_report_set_payee_numbers_list (report_number, tiers_list);
+	}
+	else /* liste des montants */
+	{
+		etat_onglet_set_search_amount_data_for_tiers_categ_ib (report_number, text, search_data_report);
+	}
+
+	/* classement pour les tiers */
+	tmp_list = gsb_string_get_int_list_from_string ("6/-/1/-/2/-/3/-/4/-/5", "/-/");
+	gsb_data_report_set_sorting_type_list (report_number, tmp_list);
+
+	/* Others parameters */
+	gsb_data_report_set_show_report_note (report_number, 1);
+	gsb_data_report_set_payee_show_payee_amount (report_number, 1);
+	gsb_data_report_set_payee_show_name (report_number, 1);
+
+	/* set payee_used if necessary */
+	if (search_data_report->search_type == 1)
+	{
+		gsb_data_report_set_payee_detail_used (report_number, 1);
+		gsb_data_report_set_payee_used (report_number, 1);
+		gsb_data_report_set_show_report_category (report_number, 1);
+		gsb_data_report_set_show_report_sub_category (report_number, 1);
+	}
+	else
+	{
+		gsb_data_report_set_show_report_payee (report_number, 1);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etat_onglet_set_search_report_data_for_categ (gint report_number,
+														  const gchar *text,
+														  SearchDataReport *search_data_report)
+{
+	GSList *categ_list = NULL;
+	GSList *tmp_list;
+
+	/* liste des categ */
+	if (search_data_report->search_type == 1)
+	{
+		categ_list = gsb_data_category_get_search_category_list (text, search_data_report->ignore_case);
+		gsb_data_report_set_category_struct_list (report_number, categ_list);
+	}
+	else /* liste des montants */
+	{
+		etat_onglet_set_search_amount_data_for_tiers_categ_ib (report_number, text, search_data_report);
+	}
+
+	/* classement pour les categ */
+	tmp_list = gsb_string_get_int_list_from_string ("1/-/2/-/3/-/4/-/5/-/6", "/-/");
+	gsb_data_report_set_sorting_type_list (report_number, tmp_list);
+
+
+	/* set categ_used if necessary */
+	if (search_data_report->search_type == 1)
+	{
+		gsb_data_report_set_category_used (report_number, 1);
+		gsb_data_report_set_category_detail_used (report_number, 1);
+		gsb_data_report_set_category_show_name (report_number, 1);
+		gsb_data_report_set_category_show_category_amount (report_number, 1);
+		gsb_data_report_set_category_show_sub_category (report_number, 1);
+		gsb_data_report_set_category_show_sub_category_amount (report_number, 1);
+		gsb_data_report_set_show_report_payee (report_number, 1);
+		gsb_data_report_set_show_report_note (report_number, 1);
+	}
+	else
+	{
+		gsb_data_report_set_show_report_category (report_number, 1);
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void etat_onglet_set_search_report_data_for_budget (gint report_number,
+														   const gchar *text,
+														   SearchDataReport *search_data_report)
+{
+	GSList *budget_list = NULL;
+	GSList *tmp_list;
+
+	/* liste des IB */
+	if (search_data_report->search_type == 1)
+	{
+		budget_list = gsb_data_budget_get_search_budgets_list (text, search_data_report->ignore_case);
+		gsb_data_report_set_budget_struct_list (report_number, budget_list);
+	}
+	else /* liste des montants */
+	{
+		etat_onglet_set_search_amount_data_for_tiers_categ_ib (report_number, text, search_data_report);
+	}
+
+	/* classement pour les IB */
+	tmp_list = gsb_string_get_int_list_from_string ("1/-/2/-/3/-/4/-/5/-/6", "/-/");
+	gsb_data_report_set_sorting_type_list (report_number, tmp_list);
+
+
+	/* set budget_used if necessary */
+	if (search_data_report->search_type == 1)
+	{
+		gsb_data_report_set_budget_used (report_number, 1);
+		gsb_data_report_set_budget_detail_used (report_number, 1);
+		gsb_data_report_set_budget_show_name (report_number, 1);
+		gsb_data_report_set_budget_show_budget_amount (report_number, 1);
+		gsb_data_report_set_budget_show_sub_budget (report_number, 1);
+		gsb_data_report_set_budget_show_sub_budget_amount (report_number, 1);
+		gsb_data_report_set_show_report_payee (report_number, 1);
+		gsb_data_report_set_show_report_note (report_number, 1);
+	}
+	else
+	{
+		gsb_data_report_set_show_report_budget (report_number, 1);
+	}
 }
 
 /******************************************************************************/
@@ -1432,6 +1682,86 @@ void etats_onglet_create_search_report (void)
 
 	etats_onglet_force_fill_reports_list (GTK_NOTEBOOK (notebook_etats));
 	w_run->empty_report = FALSE;
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void etats_onglet_create_search_tiers_categ_ib_report (GtkWindow *dialog,
+													   const gchar *text,
+													   SearchDataReport *search_data_report)
+{
+	GtkWidget *notebook_general;
+	gchar *report_name;
+	gint report_number;
+	GrisbiWinRun *w_run;
+
+	notebook_general = grisbi_win_get_notebook_general ();
+	if (gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook_general)) != GSB_REPORTS_PAGE)
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_general), GSB_REPORTS_PAGE);
+
+	/* create report */
+	report_number = gsb_data_report_new ("Searching");
+
+	/* set data for tiers, categ, ib */
+	switch (search_data_report->page_num)
+	{
+		case GSB_CATEGORIES_PAGE:
+			report_name = g_strconcat (_("Searching Category, Sub_category containing: "), text, NULL);
+			etat_onglet_set_search_report_data_for_categ (report_number, text, search_data_report);
+			break;
+		case GSB_BUDGETARY_LINES_PAGE:
+			report_name = g_strconcat (_("Searching IB, Sub_IB containing: "), text, NULL);
+			etat_onglet_set_search_report_data_for_budget (report_number, text, search_data_report);
+			break;
+		case GSB_PAYEES_PAGE:
+		default :
+			report_name = g_strconcat (_("Searching Payees containing: "), text, NULL);
+			etat_onglet_set_search_report_data_for_tiers (report_number, text, search_data_report);
+	}
+
+	/* name report */
+	gsb_data_report_set_report_name (report_number, report_name);
+	g_free (report_name);
+
+	/* data communes */
+	/* les devises sont à 1 (euro) */
+	etats_onglet_set_devises (report_number);
+
+	/* Others parameters */
+	gsb_data_report_set_compl_name_function (report_number, 1);
+	gsb_data_report_set_compl_name_position (report_number, 1);
+	gsb_data_report_set_show_report_transactions (report_number, 1);
+	gsb_data_report_set_show_report_date (report_number, 1);
+	gsb_data_report_set_show_report_value_date (report_number, 1);
+	gsb_data_report_set_column_title_show (report_number, 1);
+	gsb_data_report_set_report_can_click (report_number, 1);
+	gsb_data_report_set_ignore_archives (report_number, !search_data_report->search_in_archive);
+
+	/* Add an entry in navigation pane. */
+	gsb_gui_navigation_add_report (report_number);
+	etats_onglet_update_gui_to_report (report_number);
+
+	etats_onglet_force_fill_reports_list (GTK_NOTEBOOK (notebook_etats));
+
+	/* save ou pas le rapport */
+	if (search_data_report->search_save_report == FALSE)
+		gsb_data_report_set_search_report (report_number);
+	else
+		gsb_file_set_modified (TRUE);
+
+	/* reset w_run->no_show_prefs */
+	w_run = grisbi_win_get_w_run ();
+	w_run->no_show_prefs = FALSE;
+
+	/* close dialog */
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 /**

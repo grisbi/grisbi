@@ -26,9 +26,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -486,9 +484,9 @@ const gchar *gsb_data_currency_link_get_invalid_message ( gint currency_link_num
         return NULL;
 
     if ( currency_link -> first_currency == currency_link -> second_currency)
-        return dialogue_make_red ( _("Warning : the two currencies of the link are identicals.") );
+        return dialogue_make_red ( _("Warning: the two currencies of the link are identicals.") );
 
-    return dialogue_make_red ( _("Warning : that link is already defined.") );
+    return dialogue_make_red ( _("Warning: that link is already defined.") );
 }
 
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)    2000-2005 Cédric Auger (cedric@grisbi.org)            */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -25,10 +25,7 @@
  * for now : export/import categories, budgetaries, reports
  */
 
-
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <errno.h>
@@ -39,6 +36,7 @@
 #include "dialog.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_payee.h"
 #include "gsb_data_report.h"
 #include "gsb_file.h"
 #include "gsb_file_load.h"
@@ -54,33 +52,401 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_file_others_check_file ( gchar *file_content,
-				      gint origin );
-static gboolean gsb_file_others_load ( gchar *filename,
-				gint origin );
-static gulong gsb_file_others_save_general_part ( gulong iterator,
-					   gulong *length_calculated,
-					   gchar **file_content,
-					   const gchar *version );
-static void gsb_file_others_start_budget_from_category ( GMarkupParseContext *context,
-				     const gchar *element_name,
-				     const gchar **attribute_names,
-				     const gchar **attribute_values,
-				     GSList **import_list,
-				     GError **error);
-static void gsb_file_others_start_element ( GMarkupParseContext *context,
-				     const gchar *element_name,
-				     const gchar **attribute_names,
-				     const gchar **attribute_values,
-				     GSList **import_list,
-				     GError **error);
 /*END_STATIC*/
-
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/******************************************************************************/
+/* Private Functions                                                          */
+/******************************************************************************/
+/**
+ * called to load the category/budget/report function from the element_name given in param
+ *
+ * \param GMarkupParseContext 		context
+ * \param const gchar 				element_name
+ * \param const gchar 				attribute_names
+ * \param const gchar 				attribute_values
+ * \param GSList 					import_list
+ * \param GError 					error
+ * \return
+ **/
+static void gsb_file_others_start_element (GMarkupParseContext *context,
+										   const gchar *element_name,
+										   const gchar **attribute_names,
+										   const gchar **attribute_values,
+										   GSList **import_list,
+										   GError **error)
+{
+	if (!strcmp (element_name, "Category"))
+	{
+		gsb_file_load_category_part (attribute_names, attribute_values);
 
+		return;
+	}
+
+	if (!strcmp (element_name, "Sub_category"))
+	{
+		gsb_file_load_sub_category_part (attribute_names, attribute_values);
+
+		return;
+	}
+
+	if (!strcmp (element_name, "Budgetary"))
+	{
+		gsb_file_load_budgetary_part (attribute_names, attribute_values);
+
+		return;
+	}
+
+	if (!strcmp (element_name, "Sub_budgetary"))
+	{
+		gsb_file_load_sub_budgetary_part (attribute_names, attribute_values);
+
+		return;
+	}
+
+	if (!strcmp (element_name, "Report"))
+	{
+		gsb_file_load_report_part (attribute_names, attribute_values);
+
+		return;
+	}
+
+	if (!strcmp (element_name, "Text_comparison"))
+	{
+		gsb_file_load_text_comparison_part (attribute_names, attribute_values);
+
+		return;
+	}
+
+	if (!strcmp (element_name, "Amount_comparison"))
+	{
+		gsb_file_load_amount_comparison_part (attribute_names, attribute_values);
+
+		return;
+	}
+}
+
+/**
+ * check if the file given in param is a good file with the origin
+ *
+ * \param file_content the file loaded
+ * \param origin what we want (0: category, 1:budget, 2:report)
+ *
+ * \return TRUE ok, FALSE else
+ **/
+static gboolean gsb_file_others_check_file (gchar *file_content,
+											gint origin)
+{
+	if (!file_content || strlen (file_content) < 37)
+	{
+		dialogue_error (_("This is not a Grisbi file, loading canceled..."));
+
+		return FALSE;
+	}
+
+	file_content = gsb_string_uniform_new_line (file_content, 37);
+	if (!file_content)
+	{
+		dialogue_error (_("This is not a Grisbi file, loading canceled..."));
+
+		return FALSE;
+	}
+
+	switch (origin)
+	{
+		case 0:
+			if (!strncmp (file_content, "<?xml version=\"1.0\"?>\n<Grisbi_categ>", 36))
+			{
+				/* check if not before 0.6 */
+				if (!strncmp (file_content, "<?xml version=\"1.0\"?>\n<Grisbi_categ>\n	<General\n", 47))
+					return TRUE;
+				else
+					dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
+			}
+			else
+				dialogue_error (_("This is not a category file, loading canceled..."));
+			break;
+
+		case 1:
+			/* check first if it's not below 0.6 */
+			if (!strncmp (file_content, "<?xml version=\"1.0\"?>\n<Grisbi_ib>", 33))
+				dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
+			else
+			{
+				if (!strncmp (file_content, "<?xml version=\"1.0\"?>\n<Grisbi_budget>", 37))
+					return TRUE;
+				else
+					dialogue_error (_("This is not a budget file, loading canceled..."));
+			}
+			break;
+
+		case 2:
+			/* check first if it's not below 0.6 */
+			if (!strncmp (file_content, "<?xml version=\"1.0\"?>\n<Grisbi_etat>", 35))
+				dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
+			else
+			{
+				if (!strncmp (file_content, "<?xml version=\"1.0\"?>\n<Grisbi_report>", 37))
+					return TRUE;
+				else
+					dialogue_error (_("This is not a report file, loading canceled..."));
+			}
+			break;
+
+		case 5:
+			if (!strncmp (file_content, "<?xml version=\"1.0\"?>\n<Grisbi_categ>", 36))
+			{
+				/* check if not before 0.6 */
+				if (!strncmp (file_content, "<?xml version=\"1.0\"?>\n<Grisbi_categ>\n	<General\n", 47))
+					return TRUE;
+				else
+					dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
+			}
+			else
+				dialogue_error (_("This is not a category file, loading canceled..."));
+			break;
+	}
+
+	return FALSE;
+}
+
+/**
+ * called to load the category/budget/report file given in param
+ *
+ * \filename the filename to load with full path
+ * \param origin what we want (0: category, 1:budget, 2:report)
+ *
+ * \return TRUE if ok
+ **/
+static gboolean gsb_file_others_load (gchar *filename,
+									  gint origin)
+{
+	gchar *file_content;
+	GSList *import_list = NULL;
+	GError *error = NULL;
+
+	devel_debug (filename);
+
+	/* general check */
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+	{
+		gchar* tmp_str;
+
+		tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"), filename, g_strerror(errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+
+		return FALSE;
+	}
+
+	/* check here if it's not a regular file */
+	if (!g_file_test (filename, G_FILE_TEST_IS_REGULAR))
+	{
+		gchar* tmp_str;
+
+		tmp_str = g_strdup_printf (_("%s doesn't seem to be a regular file,\nplease check it and try again."),
+								   filename);
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+
+		return (FALSE);
+	}
+
+	/* load the file */
+	if (g_file_get_contents (filename, &file_content, NULL, NULL))
+	{
+		GMarkupParser *markup_parser;
+		GMarkupParseContext *context;
+
+		/* check if it's a good file */
+		if (!gsb_file_others_check_file (file_content, origin))
+		{
+			g_free (file_content);
+
+			return FALSE;
+		}
+
+		/* we load only after 0.6 files,
+		 * there is very few people who will want to upgrade previous categories, budgets...
+		 * and i'm too lazy to create an import for old files */
+		/* fill the GMarkupParser for a new xml structure */
+		markup_parser = g_malloc0 (sizeof (GMarkupParser));
+		markup_parser->start_element = (void *) gsb_file_others_start_element;
+		markup_parser->error = (void *) gsb_file_load_error;
+
+		context = g_markup_parse_context_new (markup_parser, 0, &import_list, NULL);
+
+		if (!g_markup_parse_context_parse (context, file_content, strlen (file_content), &error))
+		{
+			gchar* tmp_str;
+
+			tmp_str = g_strdup_printf (_("Error parsing file '%s': %s"), filename, error->message);
+			dialogue_error (tmp_str);
+
+			g_free (tmp_str);
+			g_markup_parse_context_free (context);
+			g_free (markup_parser);
+			g_free (file_content);
+
+			return FALSE;
+		}
+
+		gint report_number;
+
+		/* now, import_list contains the list of categories/budget or report */
+		switch (origin)
+		{
+			case 0:
+			/* comes for category */
+			categories_fill_list ();
+			break;
+
+			case 1:
+			/* comes for budget */
+			budgetary_lines_fill_list ();
+			break;
+
+			case 2:
+			/* comes for report,
+			 * as we cannot have the same things between differents grisbi files,
+			 * we cannot export/import currencies, financial years, accounts names,
+			 * categories, budgetaries and parties
+			 * so we erase them here because perhaps they doesn't exist and show
+			 * a warning : the user has to do it by himself (untill a druid to help him ?) */
+
+			/* we import only 1 report, so it's the last one */
+			report_number = gsb_data_report_max_number ();
+
+			if (report_number)
+			{
+				/* set the currencies */
+				gsb_data_report_set_currency_general (report_number, 1);
+				gsb_data_report_set_category_currency (report_number, 1);
+				gsb_data_report_set_budget_currency (report_number, 1);
+				gsb_data_report_set_payee_currency (report_number, 1);
+				gsb_data_report_set_amount_comparison_currency (report_number, 1);
+
+				/* erase the financials years */
+				gsb_data_report_set_financial_year_list (report_number, NULL);
+
+				/* erase the accounts */
+				gsb_data_report_set_account_numbers_list (report_number, NULL);
+
+				/* erase the transferts accounts */
+				gsb_data_report_set_transfer_account_numbers_list (report_number, NULL);
+
+				/* erase the categories */
+				gsb_data_report_set_category_struct_list (report_number,
+								  NULL);
+				/* erase the parties */
+				gsb_data_report_set_payee_numbers_list (report_number, NULL);
+
+				/* erase the kinds of payment */
+				gsb_data_report_set_method_of_payment_list (report_number, NULL);
+
+				gsb_gui_navigation_add_report (report_number);
+
+				/* inform the user of that */
+				dialogue_hint (_("Some things in a report cannot be imported:\n"
+								 "The selected lists of financial years, accounts, transfer accounts, "
+								 "categories, budgetaries, parties and kind of payments.\nSo that lists "
+								 "have been erased while the import.\nThe currencies have been set too "
+								 "on the first currency of this Grisbi file.\nYou should check and modify "
+								 "that in the property box of that account."),
+								 _("Importing a report"));
+			}
+			break;
+		}
+
+		g_markup_parse_context_free (context);
+		g_free (markup_parser);
+		g_free (file_content);
+
+		gsb_file_set_modified (TRUE);
+	}
+	else
+	{
+		gchar* tmp_str;
+
+		tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"), filename, g_strerror(errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+/**
+ * save the general part for the others files
+ * for now, it's just the version of grisbi and the version of the file
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ * \param version the version of the file (depends of categ, budget or report)
+ *
+ * \return the new iterator
+ **/
+static gulong gsb_file_others_save_general_part (gulong iterator,
+												 gulong *length_calculated,
+												 gchar **file_content,
+												 const gchar *version)
+{
+	gulong result;
+	gchar *new_string;
+
+	/* save the general information */
+	new_string = g_strdup_printf ("\t<General\n\t\tFile_version=\"%s\"\n\t\tGrisbi_version=\"%s\" />\n",
+								  version,
+								  VERSION);
+
+	/* append the new string to the file content and return the new iterator */
+	result = gsb_file_save_append_part (iterator, length_calculated, file_content, new_string);
+	g_free(new_string);
+
+	return result;
+}
+
+/**
+ * called to load the category/budget function from the element_name given in param
+ *
+ * \param GMarkupParseContext 		context
+ * \param const gchar 				element_name
+ * \param const gchar 				attribute_names
+ * \param const gchar 				attribute_values
+ * \param GSList 					import_list
+ * \param GError 					error
+ * \return
+ **/
+static void gsb_file_others_start_budget_from_category (GMarkupParseContext *context,
+														const gchar *element_name,
+														const gchar **attribute_names,
+														const gchar **attribute_values,
+														GSList **import_list,
+														GError **error)
+{
+	if (!strcmp (element_name, "Category"))
+	{
+		gsb_file_load_budgetary_part (attribute_names, attribute_values);
+
+		return;
+	}
+
+	if (!strcmp (element_name, "Sub_category"))
+	{
+		gsb_file_load_sub_budgetary_part (attribute_names, attribute_values);
+
+		return;
+	}
+}
+
+/******************************************************************************/
+/* Public Functions                                                           */
+/******************************************************************************/
 /**
  * save the category file
  * we don't check anything here, all must be done before, here we just write
@@ -90,87 +456,73 @@ static void gsb_file_others_start_element ( GMarkupParseContext *context,
  * \param filename the name of the file
  *
  * \return TRUE : ok, FALSE : problem
- * */
-gboolean gsb_file_others_save_category ( gchar *filename )
+ **/
+gboolean gsb_file_others_save_category (gchar *filename)
 {
-    gchar *file_content;
-    gchar *tmp_str;
-    FILE *file;
-    gulong iterator;
-    gulong length_calculated;
-    gulong length_part;
+	gchar *file_content;
+	gchar *tmp_str;
+	FILE *file;
+	gulong iterator;
+	gulong length_calculated;
+	gulong length_part;
 
-    devel_debug (filename);
+	devel_debug (filename);
 
-    /* we begin to try to reserve enough memory to make the entire file
-     * if not enough, we will make it growth later
-     * the data below are about the memory to take for each part and for 1 of this part
-     * with that i think we will allocate enough memory in one time but not too much */
+	/* we begin to try to reserve enough memory to make the entire file
+	 * if not enough, we will make it growth later
+	 * the data below are about the memory to take for each part and for 1 of this part
+	 * with that i think we will allocate enough memory in one time but not too much */
+	length_part = 500;
 
-    length_part = 500;
+	length_calculated = length_part * g_slist_length (gsb_data_category_get_categories_list());
+	if (length_calculated == 0)
+	{
+		tmp_str = g_strdup (_("There is no category to record. Back."));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
 
-    length_calculated = length_part * g_slist_length (gsb_data_category_get_categories_list());
-    if ( length_calculated == 0 )
-    {
-        tmp_str = g_strdup ( _("There is no category to record. Back.") );
-        dialogue_error ( tmp_str );
-        g_free ( tmp_str );
+		return (TRUE);
+	}
 
-        return ( TRUE );
-    }
+	iterator = 0;
+	file_content = g_malloc0 (length_calculated);
 
-    iterator = 0;
-    file_content = g_malloc0 ( length_calculated );
+	/* begin the file whit xml markup */
+	iterator = gsb_file_save_append_part (iterator,
+										  &length_calculated,
+										  &file_content,
+										  "<?xml version=\"1.0\"?>\n<Grisbi_categ>\n");
 
-    /* begin the file whit xml markup */
+	iterator = gsb_file_others_save_general_part (iterator,
+												  &length_calculated,
+												  &file_content,
+												  VERSION_FICHIER_CATEG);
 
-    iterator = gsb_file_save_append_part ( iterator,
-					   &length_calculated,
-					   &file_content,
-					   "<?xml version=\"1.0\"?>\n<Grisbi_categ>\n");
+	iterator = gsb_file_save_category_part (iterator,
+											&length_calculated,
+											&file_content);
 
-    iterator = gsb_file_others_save_general_part ( iterator,
-						   &length_calculated,
-						   &file_content,
-						   VERSION_FICHIER_CATEG );
+	/* finish the file */
+	iterator = gsb_file_save_append_part (iterator, &length_calculated, &file_content, "</Grisbi_categ>");
 
-    iterator = gsb_file_save_category_part ( iterator,
-					     &length_calculated,
-					     &file_content );
+	/* the file is in memory, we can save it */
+	file = utils_files_utf8_fopen (filename, "w");
+	if (!file || !fwrite (file_content, sizeof (gchar), iterator, file))
+	{
+		tmp_str = g_strdup_printf (_("Cannot save file '%s': %s"), filename, g_strerror (errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+		g_free (file_content);
+		if (file)
+			fclose(file);
 
-    /* finish the file */
+		return (FALSE);
+	}
 
-    iterator = gsb_file_save_append_part ( iterator,
-					   &length_calculated,
-					   &file_content,
-					   "</Grisbi_categ>");
+	fclose (file);
+	g_free (file_content);
 
-    /* the file is in memory, we can save it */
-
-	file = utils_files_utf8_fopen ( filename, "w" );
-
-    if ( !file
-	 ||
-	 !fwrite ( file_content,
-		   sizeof (gchar),
-		   iterator,
-		   file ))
-    {
-        tmp_str = g_strdup_printf ( _("Cannot save file '%s': %s"),
-                        filename,
-                        g_strerror ( errno ) );
-        dialogue_error ( tmp_str );
-        g_free ( tmp_str );
-        g_free ( file_content );
-        if (file)
-            fclose(file);
-        return ( FALSE );
-    }
-
-    fclose (file);
-    g_free ( file_content);
-
-    return ( TRUE );
+	return (TRUE);
 }
 
 /**
@@ -183,85 +535,146 @@ gboolean gsb_file_others_save_category ( gchar *filename )
  *
  * \return TRUE : ok, FALSE : problem
  * */
-gboolean gsb_file_others_save_budget ( gchar *filename )
+gboolean gsb_file_others_save_budget (gchar *filename)
 {
-    gchar *file_content;
-    gchar *tmp_str;
-    FILE *file;
-    gulong iterator;
-    gulong length_calculated;
-    gulong length_part;
+	gchar *file_content;
+	gchar *tmp_str;
+	FILE *file;
+	gulong iterator;
+	gulong length_calculated;
+	gulong length_part;
+	gboolean ret;
 
-    devel_debug (filename);
-    gboolean ret = TRUE;
+	devel_debug (filename);
+	ret = TRUE;
 
-    /* we begin to try to reserve enough memory to make the entire file
-     * if not enough, we will make it growth later
-     * the data below are about the memory to take for each part and for 1 of this part
-     * with that i think we will allocate enough memory in one time but not too much */
+	/* we begin to try to reserve enough memory to make the entire file
+	 * if not enough, we will make it growth later
+	 * the data below are about the memory to take for each part and for 1 of this part
+	 * with that i think we will allocate enough memory in one time but not too much */
+	length_part = 500;
 
-    length_part = 500;
+	length_calculated = length_part * g_slist_length (gsb_data_budget_get_budgets_list ());
+	if (length_calculated == 0)
+	{
+		tmp_str = g_strdup (_("There is no budgetary line to record. Back."));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
 
-    length_calculated = length_part * g_slist_length ( gsb_data_budget_get_budgets_list () );
-    if ( length_calculated == 0 )
-    {
-        tmp_str = g_strdup ( _("There is no budgetary line to record. Back.") );
-        dialogue_error ( tmp_str );
-        g_free ( tmp_str );
+		return (TRUE);
+	}
 
-        return ( TRUE );
-    }
+	iterator = 0;
+	file_content = g_malloc0 (length_calculated);
 
-    iterator = 0;
-    file_content = g_malloc0 ( length_calculated );
+	/* begin the file whit xml markup */
+	iterator = gsb_file_save_append_part (iterator,
+										  &length_calculated,
+										  &file_content,
+										  "<?xml version=\"1.0\"?>\n<Grisbi_budget>\n");
 
-    /* begin the file whit xml markup */
+	iterator = gsb_file_others_save_general_part (iterator,
+												  &length_calculated,
+												  &file_content,
+												  VERSION_FICHIER_IB);
 
-    iterator = gsb_file_save_append_part ( iterator,
-					   &length_calculated,
-					   &file_content,
-					   "<?xml version=\"1.0\"?>\n<Grisbi_budget>\n");
+	iterator = gsb_file_save_budgetary_part (iterator, &length_calculated, &file_content);
 
-    iterator = gsb_file_others_save_general_part ( iterator,
-						   &length_calculated,
-						   &file_content,
-						   VERSION_FICHIER_IB );
+	/* finish the file */
+	iterator = gsb_file_save_append_part (iterator, &length_calculated, &file_content, "</Grisbi_budget>");
 
-    iterator = gsb_file_save_budgetary_part ( iterator,
-					      &length_calculated,
-					      &file_content );
+	/* the file is in memory, we can save it */
+	file = utils_files_utf8_fopen (filename, "w");
 
-    /* finish the file */
+	if (!file || !fwrite (file_content, sizeof (gchar), iterator, file))
+	{
+		tmp_str = g_strdup_printf (_("Cannot save file '%s': %s"), filename, g_strerror (errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+		ret = FALSE;
+	}
 
-    iterator = gsb_file_save_append_part ( iterator,
-					   &length_calculated,
-					   &file_content,
-					   "</Grisbi_budget>");
+	if (file)
+		fclose (file);
+	g_free (file_content);
 
-    /* the file is in memory, we can save it */
+	return (ret);
+}
 
-	file = utils_files_utf8_fopen ( filename, "w" );
+/**
+ * save the payee file
+ * we don't check anything here, all must be done before, here we just write
+ * the file
+ * use the same method as gsb_file_save_save_file
+ *
+ * \param filename the name of the file
+ *
+ * \return TRUE : ok, FALSE : problem
+ * */
+gboolean gsb_file_others_save_payee (gchar *filename)
+{
+	gchar *file_content;
+	gchar *tmp_str;
+	FILE *file;
+	gulong iterator;
+	gulong length_calculated;
+	gulong length_part;
+	gboolean ret;
 
-    if ( !file
-	 ||
-	 !fwrite ( file_content,
-		   sizeof (gchar),
-		   iterator,
-		   file ))
-    {
-        tmp_str = g_strdup_printf ( _("Cannot save file '%s': %s"),
-                        filename,
-                        g_strerror ( errno ) );
-        dialogue_error ( tmp_str );
-        g_free ( tmp_str );
-        ret = FALSE;
-    }
+	devel_debug (filename);
+	ret = TRUE;
 
-    if (file)
-	fclose ( file );
-    g_free ( file_content);
+	/* we begin to try to reserve enough memory to make the entire file
+	 * if not enough, we will make it growth later
+	 * the data below are about the memory to take for each part and for 1 of this part
+	 * with that i think we will allocate enough memory in one time but not too much */
+	length_part = 500;
 
-    return ( ret );
+	length_calculated = length_part * g_slist_length (gsb_data_payee_get_payees_list ());
+	if (length_calculated == 0)
+	{
+		tmp_str = g_strdup (_("There is no payee line to record. Back."));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+
+		return (TRUE);
+	}
+
+	iterator = 0;
+	file_content = g_malloc0 (length_calculated);
+
+	/* begin the file whit xml markup */
+	iterator = gsb_file_save_append_part (iterator,
+										  &length_calculated,
+										  &file_content,
+										  "<?xml version=\"1.0\"?>\n<Grisbi_payee>\n");
+
+	iterator = gsb_file_others_save_general_part (iterator,
+												  &length_calculated,
+												  &file_content,
+												  VERSION_FICHIER);
+
+	iterator = gsb_file_save_payee_part (iterator, &length_calculated, &file_content);
+
+	/* finish the file */
+	iterator = gsb_file_save_append_part (iterator, &length_calculated, &file_content, "</Grisbi_payee>");
+
+	/* the file is in memory, we can save it */
+	file = utils_files_utf8_fopen (filename, "w");
+
+	if (!file || !fwrite (file_content, sizeof (gchar), iterator, file))
+	{
+		tmp_str = g_strdup_printf (_("Cannot save file '%s': %s"), filename, g_strerror (errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+		ret = FALSE;
+	}
+
+	if (file)
+		fclose (file);
+	g_free (file_content);
+
+	return (ret);
 }
 
 /**
@@ -273,129 +686,73 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
  * \param filename the name of the file
  *
  * \return TRUE : ok, FALSE : problem
- * */
-gboolean gsb_file_others_save_report ( gchar *filename )
+ **/
+gboolean gsb_file_others_save_report (gchar *filename)
 {
-    gchar *file_content;
-    gchar *tmp_str;
-    FILE *file;
-    gulong iterator;
-    gulong length_calculated;
-    gulong length_part;
+	gchar *file_content;
+	gchar *tmp_str;
+	FILE *file;
+	gulong iterator;
+	gulong length_calculated;
+	gulong length_part;
 
-    devel_debug (filename);
+	devel_debug (filename);
 
-    /* we begin to try to reserve enough memory to make the entire file
-     * if not enough, we will make it growth later
-     * the data below are about the memory to take for each part and for 1 of this part
-     * with that i think we will allocate enough memory in one time but not too much */
+	/* we begin to try to reserve enough memory to make the entire file
+	 * if not enough, we will make it growth later
+	 * the data below are about the memory to take for each part and for 1 of this part
+	 * with that i think we will allocate enough memory in one time but not too much */
+	length_part = 2500;
 
-    length_part = 2500;
+	length_calculated = length_part * g_slist_length (gsb_data_report_get_report_list ());
+	if (length_calculated == 0)
+	{
+		tmp_str = g_strdup (_("There is no report to record. Back."));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
 
-    length_calculated = length_part * g_slist_length (gsb_data_report_get_report_list ());
-    if ( length_calculated == 0 )
-    {
-        tmp_str = g_strdup ( _("There is no report to record. Back.") );
-        dialogue_error ( tmp_str );
-        g_free ( tmp_str );
+		return (TRUE);
+	}
 
-        return ( TRUE );
-    }
+	iterator = 0;
+	file_content = g_malloc0 (length_calculated);
 
-    iterator = 0;
-    file_content = g_malloc0 ( length_calculated );
+	/* begin the file whit xml markup */
+	iterator = gsb_file_save_append_part (iterator,
+										  &length_calculated,
+										  &file_content,
+										  "<?xml version=\"1.0\"?>\n<Grisbi_report>\n");
 
-    /* begin the file whit xml markup */
+	iterator = gsb_file_others_save_general_part (iterator,
+												  &length_calculated,
+												  &file_content,
+												  VERSION_FICHIER_ETAT);
 
-    iterator = gsb_file_save_append_part ( iterator,
-					   &length_calculated,
-					   &file_content,
-					   "<?xml version=\"1.0\"?>\n<Grisbi_report>\n");
+	iterator = gsb_file_save_report_part (iterator, &length_calculated, &file_content, TRUE);
 
-    iterator = gsb_file_others_save_general_part ( iterator,
-						   &length_calculated,
-						   &file_content,
-						   VERSION_FICHIER_ETAT );
+	/* finish the file */
+	iterator = gsb_file_save_append_part (iterator, &length_calculated, &file_content, "</Grisbi_report>");
 
-    iterator = gsb_file_save_report_part ( iterator,
-					   &length_calculated,
-					   &file_content,
-					   TRUE );
+	/* the file is in memory, we can save it */
+	file = utils_files_utf8_fopen (filename, "w");
 
-    /* finish the file */
+	if (!file || !fwrite (file_content, sizeof (gchar), iterator, file))
+	{
+		tmp_str = g_strdup_printf (_("Cannot save file '%s': %s"), filename, g_strerror (errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+		g_free (file_content);
+		if (file)
+			fclose(file);
 
-    iterator = gsb_file_save_append_part ( iterator,
-					   &length_calculated,
-					   &file_content,
-					   "</Grisbi_report>");
+		return (FALSE);
+	}
 
-    /* the file is in memory, we can save it */
+	fclose (file);
+	g_free (file_content);
 
-    file = utils_files_utf8_fopen ( filename, "w" );
-
-    if ( !file
-	 ||
-	 !fwrite ( file_content,
-		   sizeof (gchar),
-		   iterator,
-		   file ))
-    {
-        tmp_str = g_strdup_printf ( _("Cannot save file '%s': %s"),
-                        filename,
-                        g_strerror ( errno ) );
-        dialogue_error ( tmp_str);
-        g_free ( tmp_str );
-        g_free ( file_content );
-        if (file)
-            fclose(file);
-        return ( FALSE );
-    }
-
-    fclose ( file );
-    g_free ( file_content);
-
-    return ( TRUE );
+	return (TRUE);
 }
-
-
-/**
- * save the general part for the others files
- * for now, it's just the version of grisbi and the version of the file
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- * \param version the version of the file (depends of categ, budget or report)
- *
- * \return the new iterator
- * */
-gulong gsb_file_others_save_general_part ( gulong iterator,
-					   gulong *length_calculated,
-					   gchar **file_content,
-					   const gchar *version )
-{
-	gulong result;
-    gchar *new_string;
-
-    /* save the general information */
-
-    new_string = g_strdup_printf ( "\t<General\n"
-				   "\t\tFile_version=\"%s\"\n"
-				   "\t\tGrisbi_version=\"%s\" />\n",
-				   version,
-				   VERSION );
-
-    /* append the new string to the file content
-     * and return the new iterator */
-
-    result = gsb_file_save_append_part ( iterator,
-						length_calculated,
-						file_content,
-						new_string );
-	g_free(new_string);
-    return result;
-}
-
 
 /**
  * load a category file
@@ -404,12 +761,10 @@ gulong gsb_file_others_save_general_part ( gulong iterator,
  *
  * \return TRUE ok
  * */
-gboolean gsb_file_others_load_category ( gchar *filename )
+gboolean gsb_file_others_load_category (gchar *filename)
 {
-    return gsb_file_others_load ( filename,
-				  0 );
+	return gsb_file_others_load (filename, 0);
 }
-
 
 /**
  * load a budgetary file
@@ -417,13 +772,11 @@ gboolean gsb_file_others_load_category ( gchar *filename )
  * \param filename
  *
  * \return TRUE ok
- * */
-gboolean gsb_file_others_load_budget ( gchar *filename )
+ **/
+gboolean gsb_file_others_load_budget (gchar *filename)
 {
-    return gsb_file_others_load ( filename,
-				  1 );
+	return gsb_file_others_load (filename, 1);
 }
-
 
 /**
  * load a report file
@@ -431,455 +784,94 @@ gboolean gsb_file_others_load_budget ( gchar *filename )
  * \param filename
  *
  * \return TRUE ok
- * */
-gboolean gsb_file_others_load_report ( gchar *filename )
+ **/
+gboolean gsb_file_others_load_report (gchar *filename)
 {
-    return gsb_file_others_load ( filename,
-				  2 );
+	return gsb_file_others_load (filename, 2);
 }
 
-
-
-/**
- * called to load the category/budget/report file given in param
- *
- * \filename the filename to load with full path
- *
- * \return TRUE if ok
- * */
-gboolean gsb_file_others_load ( gchar *filename,
-				gint origin )
+gboolean gsb_file_others_load_budget_from_category (const gchar *filename)
 {
-    gchar *file_content;
-    GSList *import_list = NULL;
-    GError *error = NULL;
+	gchar *file_content;
+	gchar* tmp_str;
+	GSList *import_list = NULL;
 
-    devel_debug (filename);
+	devel_debug (filename);
 
-    /* general check */
-
-    if ( !g_file_test ( filename,
-			G_FILE_TEST_EXISTS ))
-    {
-        gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s': %s"),
-					 filename,
-					 g_strerror(errno));
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	return FALSE;
-    }
-
-    /* check here if it's not a regular file */
-    if ( !g_file_test ( filename,
-			G_FILE_TEST_IS_REGULAR ))
-    {
-        gchar* tmpstr = g_strdup_printf (
-                        _("%s doesn't seem to be a regular file,\nplease check it and try again."),
-					   filename );
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	return ( FALSE );
-    }
-
-    /* load the file */
-
-    if ( g_file_get_contents ( filename,
-			       &file_content,
-			       NULL,
-			       NULL ))
-    {
-	GMarkupParser *markup_parser;
-	GMarkupParseContext *context;
-
-	/* check if it's a good file */
-	if ( !gsb_file_others_check_file ( file_content,
-					   origin ))
+	/* general check */
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
 	{
-	    g_free (file_content);
-	    return FALSE;
+		tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"), filename, g_strerror (errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+
+		return FALSE;
 	}
 
-	/* we load only after 0.6 files,
-	 * there is very few people who will want to upgrade previous categories, budgets...
-	 * and i'm too lazy to create an import for old files */
-	/* fill the GMarkupParser for a new xml structure */
-
-	markup_parser = g_malloc0 ( sizeof ( GMarkupParser ) );
-	markup_parser -> start_element = ( void * ) gsb_file_others_start_element;
-	markup_parser -> error = ( void * ) gsb_file_load_error;
-
-    context = g_markup_parse_context_new ( markup_parser, 0, &import_list, NULL );
-
-    if ( !g_markup_parse_context_parse ( context, file_content, strlen ( file_content ), &error ) )
-    {
-        gchar* tmpstr;
-
-        tmpstr = g_strdup_printf (_("Error parsing file '%s': %s"), filename, error->message );
-        dialogue_error ( tmpstr );
-
-        g_free ( tmpstr );
-        g_markup_parse_context_free ( context );
-        g_free ( markup_parser );
-        g_free ( file_content );
-
-        return FALSE;
-    }
-
-    gint report_number;
-
-	/* now, import_list contains the list of categories/budget or report */
-	switch ( origin )
+	/* check here if it's not a regular file */
+	if (!g_file_test (filename, G_FILE_TEST_IS_REGULAR))
 	{
-	    case 0:
-		/* comes for category */
-		categories_fill_list ();
-		break;
+		tmp_str = g_strdup_printf (_("%s doesn't seem to be a regular file,\nplease check it and try again."),
+								   filename);
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
 
-	    case 1:
-		/* comes for budget */
-		budgetary_lines_fill_list ();
-		break;
+		return (FALSE);
+	}
 
-	    case 2:
-		/* comes for report,
-		 * as we cannot have the same things between differents grisbi files,
-		 * we cannot export/import currencies, financial years, accounts names,
-		 * categories, budgetaries and parties
-		 * so we erase them here because perhaps they doesn't exist and show
-		 * a warning : the user has to do it by himself (untill a druid to help him ?) */
+	/* load the file */
+	if (g_file_get_contents (filename, &file_content, NULL, NULL))
+	{
+		GMarkupParser *markup_parser;
+		GMarkupParseContext *context;
 
-		/* we import only 1 report, so it's the last one */
-		report_number = gsb_data_report_max_number ();
-
-		if (report_number)
+		/* check if it's a good file */
+		if (!gsb_file_others_check_file (file_content, 5))
 		{
-		    /* set the currencies */
-		    gsb_data_report_set_currency_general ( report_number,
-							   1 );
-		    gsb_data_report_set_category_currency ( report_number,
-							    1 );
-		    gsb_data_report_set_budget_currency ( report_number,
-							  1 );
-		    gsb_data_report_set_payee_currency ( report_number,
-							 1 );
-		    gsb_data_report_set_amount_comparison_currency ( report_number,
-								     1 );
-		    /* erase the financials years */
-		    gsb_data_report_set_financial_year_list ( report_number,
-							      NULL );
-		    /* erase the accounts */
-		    gsb_data_report_set_account_numbers_list ( report_number,
-							  NULL);
-		    /* erase the transferts accounts */
-		    gsb_data_report_set_transfer_account_numbers_list ( report_number,
-								   NULL );
-		    /* erase the categories */
-		    gsb_data_report_set_category_struct_list ( report_number,
-							  NULL );
-		    /* erase the parties */
-		    gsb_data_report_set_payee_numbers_list ( report_number,
-							NULL );
-		    /* erase the kinds of payment */
-		    gsb_data_report_set_method_of_payment_list ( report_number,
-								 NULL );
+			g_free (file_content);
 
-		    gsb_gui_navigation_add_report ( report_number );
-
-		    /* inform the user of that */
-		    dialogue_hint ( _("Some things in a report cannot be imported:\n"
-                        "The selected lists of financial years, accounts, transfer accounts, "
-                        "categories, budgetaries, parties and kind of payments.\nSo that lists "
-                        "have been erased while the import.\nThe currencies have been set too "
-                        "on the first currency of this Grisbi file.\nYou should check and modify "
-                        "that in the property box of that account."),
-				        _("Importing a report"));
+			return FALSE;
 		}
-		break;
+
+		/* we load only after 0.6 files,
+		 * there is very few people who will want to upgrade previous categories, budgets...
+		 * and i'm too lazy to create an import for old files */
+		/* fill the GMarkupParser for a new xml structure */
+		markup_parser = g_malloc0 (sizeof (GMarkupParser));
+		markup_parser->start_element = (void *) gsb_file_others_start_budget_from_category;
+		markup_parser->error = (void *) gsb_file_load_error;
+
+		context = g_markup_parse_context_new (markup_parser, 0, &import_list, NULL);
+		g_markup_parse_context_parse (context, file_content, strlen (file_content), NULL);
+
+		/* on remplit l'arbre des imputation */
+		budgetary_lines_fill_list ();
+
+		g_markup_parse_context_free (context);
+		g_free (markup_parser);
+		g_free (file_content);
+
+		gsb_file_set_modified (TRUE);
+	}
+	else
+	{
+		tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"), filename, g_strerror (errno));
+		dialogue_error (tmp_str);
+		g_free (tmp_str);
+
+		return FALSE;
 	}
 
-	g_markup_parse_context_free (context);
-	g_free (markup_parser);
-	g_free (file_content);
-
-        gsb_file_set_modified ( TRUE );
-    }
-    else
-    {
-        gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s': %s"),
-					 filename,
-					 g_strerror(errno));
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	return FALSE;
-    }
-
-    return TRUE;
+	return TRUE;
 }
 
 /**
- * check if the file given in param is a good file with the origin
  *
- * \param file_content the file loaded
- * \param origin what we want (0: category, 1:budget, 2:report)
  *
- * \return TRUE ok, FALSE else
- * */
-gboolean gsb_file_others_check_file ( gchar *file_content,
-				      gint origin )
-{
-    if ( !file_content
-	 ||
-	 strlen (file_content) < 37 )
-    {
-	dialogue_error ( _("This is not a Grisbi file, loading canceled..."));
-	return FALSE;
-    }
-
-    file_content = gsb_string_uniform_new_line ( file_content, 37 );
-    if ( !file_content )
-    {
-        dialogue_error ( _("This is not a Grisbi file, loading canceled..."));
-        return FALSE;
-    }
-
-    switch ( origin )
-    {
-	case 0:
-	    if ( !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\n<Grisbi_categ>",
-			    36 ) )
-	    {
-		/* check if not before 0.6 */
-		if ( !strncmp ( file_content,
-				"<?xml version=\"1.0\"?>\n<Grisbi_categ>\n	<General\n",
-				47 ) )
-		    return TRUE;
-		else
-		    dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
-	    }
-	    else
-		dialogue_error ( _("This is not a category file, loading canceled..."));
-	    break;
-
-	case 1:
-	    /* check first if it's not below 0.6 */
-	    if ( !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\n<Grisbi_ib>",
-			    33 ) )
-		    dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
-	    else
-	    {
-		if ( !strncmp ( file_content,
-				"<?xml version=\"1.0\"?>\n<Grisbi_budget>",
-				37 ) )
-		    return TRUE;
-		else
-		    dialogue_error ( _("This is not a budget file, loading canceled..."));
-	    }
-	    break;
-
-	case 2:
-	    /* check first if it's not below 0.6 */
-	    if ( !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\n<Grisbi_etat>",
-			    35 ) )
-		dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
-	    else
-	    {
-		if ( !strncmp ( file_content,
-				"<?xml version=\"1.0\"?>\n<Grisbi_report>",
-				37 ) )
-		    return TRUE;
-		else
-		    dialogue_error ( _("This is not a report file, loading canceled..."));
-	    }
-	    break;
-
-	case 5:
-	    if ( !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\n<Grisbi_categ>",
-			    36 ) )
-	    {
-		/* check if not before 0.6 */
-		if ( !strncmp ( file_content,
-				"<?xml version=\"1.0\"?>\n<Grisbi_categ>\n	<General\n",
-				47 ) )
-		    return TRUE;
-		else
-		    dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
-	    }
-	    else
-		dialogue_error ( _("This is not a category file, loading canceled..."));
-	    break;
-    }
-
-    return FALSE;
-}
-
-void gsb_file_others_start_element ( GMarkupParseContext *context,
-				     const gchar *element_name,
-				     const gchar **attribute_names,
-				     const gchar **attribute_values,
-				     GSList **import_list,
-				     GError **error)
-{
-    if ( !strcmp ( element_name,
-		   "Category" ))
-    {
-	gsb_file_load_category_part ( attribute_names,
-				 attribute_values );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Sub_category" ))
-    {
-	gsb_file_load_sub_category_part ( attribute_names,
-				     attribute_values );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Budgetary" ))
-    {
-	gsb_file_load_budgetary_part ( attribute_names,
-				  attribute_values );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Sub_budgetary" ))
-    {
-	gsb_file_load_sub_budgetary_part ( attribute_names,
-				      attribute_values );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Report" ))
-    {
-	gsb_file_load_report_part ( attribute_names,
-			       attribute_values );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Text_comparison" ))
-    {
-	gsb_file_load_text_comparison_part ( attribute_names,
-					attribute_values );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Amount_comparison" ))
-    {
-	gsb_file_load_amount_comparison_part ( attribute_names,
-					  attribute_values );
-	return;
-    }
-}
-
-
-gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
-{
-    gchar *file_content;
-    gchar* tmp_str;
-    GSList *import_list = NULL;
-
-    devel_debug (filename);
-
-    /* general check */
-    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
-    {
-        tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"),
-					 filename,
-					 g_strerror ( errno ) );
-        dialogue_error ( tmp_str );
-        g_free ( tmp_str );
-        return FALSE;
-    }
-
-    /* check here if it's not a regular file */
-    if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) )
-    {
-        tmp_str = g_strdup_printf (
-                        _("%s doesn't seem to be a regular file,\nplease check it and try again."),
-					   filename );
-        dialogue_error ( tmp_str );
-        g_free ( tmp_str );
-        return ( FALSE );
-    }
-
-    /* load the file */
-    if ( g_file_get_contents ( filename, &file_content, NULL, NULL ) )
-    {
-        GMarkupParser *markup_parser;
-        GMarkupParseContext *context;
-
-        /* check if it's a good file */
-        if ( !gsb_file_others_check_file ( file_content, 5 ) )
-        {
-            g_free ( file_content );
-            return FALSE;
-        }
-
-        /* we load only after 0.6 files,
-         * there is very few people who will want to upgrade previous categories, budgets...
-         * and i'm too lazy to create an import for old files */
-        /* fill the GMarkupParser for a new xml structure */
-        markup_parser = g_malloc0 (sizeof (GMarkupParser));
-        markup_parser -> start_element = (void *) gsb_file_others_start_budget_from_category;
-        markup_parser -> error = (void *) gsb_file_load_error;
-
-        context = g_markup_parse_context_new ( markup_parser,
-                               0,
-                               &import_list,
-                               NULL );
-        g_markup_parse_context_parse ( context,
-                           file_content,
-                           strlen ( file_content ),
-                           NULL );
-
-        /* on remplit l'arbre des imputation */
-        budgetary_lines_fill_list ( );
-
-        g_markup_parse_context_free ( context );
-        g_free ( markup_parser );
-        g_free ( file_content );
-
-        gsb_file_set_modified ( TRUE );
-    }
-    else
-    {
-        tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"),
-					 filename,
-					 g_strerror ( errno ) );
-        dialogue_error ( tmp_str );
-        g_free ( tmp_str );
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
-
-void gsb_file_others_start_budget_from_category ( GMarkupParseContext *context,
-				     const gchar *element_name,
-				     const gchar **attribute_names,
-				     const gchar **attribute_values,
-				     GSList **import_list,
-				     GError **error)
-{
-    if ( !strcmp ( element_name, "Category" ) )
-    {
-	    gsb_file_load_budgetary_part ( attribute_names, attribute_values );
-	    return;
-    }
-
-    if ( !strcmp ( element_name, "Sub_category" ))
-    {
-	    gsb_file_load_sub_budgetary_part ( attribute_names, attribute_values );
-	    return;
-    }
-}
+ * \param
+ *
+ * \return
+ **/
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

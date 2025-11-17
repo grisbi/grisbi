@@ -6,7 +6,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*          2008-2020 Pierre Biava (grisbi@pierre.biava.name)                    */
-/*          http://www.grisbi.org                                                */
+/*          https://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -24,13 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include <errno.h>
 #include <glib/gstdio.h>
@@ -655,7 +649,7 @@ test:
     }
     else if (devise_name)
 	{
-		markup = g_strdup_printf (_("Warning : The currency '%s' may be used for transactions.\n"
+		markup = g_strdup_printf (_("Warning: The currency '%s' may be used for transactions.\n"
 									"The next time you use it, you will need to enter a new exchange rate."),
 								  devise_name);
 		gtk_label_set_markup (GTK_LABEL (label_warning), markup);

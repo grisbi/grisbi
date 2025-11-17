@@ -20,9 +20,7 @@
 /*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
 /* ************************************************************************** */
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 /**
  * \file gsb_file_config.c
@@ -136,10 +134,8 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
     a_conf->transactions_list_secondary_sorting = 0;		/* "Sort by transaction number" */
 
     /* settings_geometry */
-	a_conf->full_screen = FALSE;
     a_conf->main_height = WIN_MIN_HEIGHT;
     a_conf->main_width = WIN_MIN_WIDTH;
-    a_conf->maximize_screen = FALSE;
     a_conf->x_position = WIN_POS_X;
    	a_conf->y_position= WIN_POS_Y;
 
@@ -582,8 +578,10 @@ gboolean grisbi_conf_load_app_config (void)
         a_conf->transactions_list_secondary_sorting = 1;
     else if (g_strcmp0 (tmp_str, "Sort by payee name") == 0)
         a_conf->transactions_list_secondary_sorting = 2;
-    else
+    else if (g_strcmp0 (tmp_str, "Sort by date and then by transaction number") == 0)
         a_conf->transactions_list_secondary_sorting = 3;
+    else
+        a_conf->transactions_list_secondary_sorting = 4;
     g_free (tmp_str);
 
     /* settings_geometry */
@@ -591,10 +589,6 @@ gboolean grisbi_conf_load_app_config (void)
 															"Geometry",
 													    	"low-definition-screen",
 													    	NULL);
-	a_conf->full_screen = g_key_file_get_boolean (config,
-												  "Geometry",
-												  "fullscreen",
-												  NULL);
     a_conf->main_height = g_key_file_get_integer (config,
 												  "Geometry",
 												  "main-height",
@@ -603,10 +597,6 @@ gboolean grisbi_conf_load_app_config (void)
 												 "Geometry",
 												 "main-width",
 												 NULL);
-    a_conf->maximize_screen = g_key_file_get_boolean (config,
-													  "Geometry",
-													  "maximized",
-													  NULL);
     a_conf->x_position = g_key_file_get_integer (config,
 												 "Geometry",
 												 "x-position",
@@ -1033,6 +1023,9 @@ gboolean grisbi_conf_save_app_config (void)
         case 2:
             tmp_str = "Sort by payee name";
             break;
+        case 3:
+            tmp_str = "Sort by date and then by transaction number";
+            break;
         default:
             tmp_str = "default";
 	}
@@ -1046,10 +1039,6 @@ gboolean grisbi_conf_save_app_config (void)
 							"Geometry",
 							"low-definition-screen",
 							a_conf->low_definition_screen);
-	g_key_file_set_boolean (config,
-							"Geometry",
-							"fullscreen",
-                        	a_conf->full_screen);
     g_key_file_set_integer (config,
 							"Geometry",
                         	"main-height",
@@ -1058,10 +1047,6 @@ gboolean grisbi_conf_save_app_config (void)
 							"Geometry",
                         	"main-width",
                         	a_conf->main_width);
-    g_key_file_set_boolean (config,
-							"Geometry",
-                        	"maximized",
-                        	a_conf->maximize_screen);
     g_key_file_set_integer (config,
 							"Geometry",
                         	"x-position",

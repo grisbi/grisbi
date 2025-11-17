@@ -28,9 +28,7 @@
  * cunit tests for gsb_real
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <stdlib.h>

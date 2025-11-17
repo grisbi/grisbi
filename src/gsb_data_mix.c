@@ -48,9 +48,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 
@@ -167,23 +165,23 @@ gboolean gsb_data_mix_set_currency_number ( gint transaction_number,
 }
 
 
-gint gsb_data_mix_get_party_number ( gint transaction_number,
+gint gsb_data_mix_get_payee_number ( gint transaction_number,
                         gboolean is_transaction )
 {
     if ( is_transaction )
-        return ( gsb_data_transaction_get_party_number ( transaction_number ) );
+        return ( gsb_data_transaction_get_payee_number ( transaction_number ) );
     else
-        return ( gsb_data_scheduled_get_party_number ( transaction_number ) );
+        return ( gsb_data_scheduled_get_payee_number ( transaction_number ) );
 }
 
-gboolean gsb_data_mix_set_party_number ( gint transaction_number,
+gboolean gsb_data_mix_set_payee_number ( gint transaction_number,
                         gint no_party,
                         gboolean is_transaction )
 {
     if ( is_transaction )
-        return ( gsb_data_transaction_set_party_number ( transaction_number, no_party ) );
+        return ( gsb_data_transaction_set_payee_number ( transaction_number, no_party ) );
     else
-        return ( gsb_data_scheduled_set_party_number ( transaction_number, no_party ) );
+        return ( gsb_data_scheduled_set_payee_number ( transaction_number, no_party ) );
 }
 
 gint gsb_data_mix_get_category_number ( gint transaction_number,
@@ -407,24 +405,23 @@ gboolean gsb_data_mix_set_bank_references ( gint transaction_number,
     return FALSE;
 }
 
-gint gsb_data_mix_get_transaction_number_transfer ( gint transaction_number,
-                        gboolean is_transaction )
+gint gsb_data_mix_get_contra_transaction_number (gint transaction_number,
+												 gboolean is_transaction)
 {
     if ( is_transaction )
-        return ( gsb_data_transaction_get_contra_transaction_number ( transaction_number ) );
+        return (gsb_data_transaction_get_contra_transaction_number (transaction_number) );
     else
         /* if we come here for a scheduled transaction, usually it's to know if it's a transfer or not
          * because it's like that we test for normal transactions */
         return ( gsb_data_scheduled_is_transfer ( transaction_number ) );
 }
 
-gboolean gsb_data_mix_set_transaction_number_transfer ( gint transaction_number,
-                        gint transaction_number_transfer,
-                        gboolean is_transaction )
+gboolean gsb_data_mix_set_contra_transaction_number (gint transaction_number,
+													 gint contra_transaction_number,
+													 gboolean is_transaction )
 {
     if ( is_transaction )
-        return ( gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-                        transaction_number_transfer ) );
+        return (gsb_data_transaction_set_contra_transaction_number (transaction_number, contra_transaction_number));
     return FALSE;
 }
 

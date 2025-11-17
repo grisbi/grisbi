@@ -12,12 +12,157 @@
  * we have here the numbers of categories/budgets selected, and for each one, the sub-categories/budgets selected
  * */
 typedef struct _CategBudgetSel	CategBudgetSel;
+typedef struct _SearchDataReport SearchDataReport;
+typedef struct _ReportStruct	ReportStruct;
 
-struct _CategBudgetSel {
+/** \ReportStruct
+ * describe an report
+ **/
+struct _ReportStruct
+{
+    /** @name general stuff */
+    gint report_number;
+    gchar *report_name;
+	gboolean compl_name_used;						/* TRUE si utilisation d'un complément au nom du rapport */
+	gint compl_name_function;						/* Date ou Date + heure système */
+	gint compl_name_position;						/* Devant, derrière ou dessous le nom du rapport */
+	gchar *export_pdf_name;							/* Nom du fichier pour l'export pdf */
+	gboolean search_report;							/* type recherche à ne pas sauvegarder */
+
+    /** @name what we show of the transactions */
+    gint show_m;                                    /**< 0=all the reports, 1=report not marked R, 2=report marked P,R or T */
+    gint show_p;                                    /**< 0=report not marked P, 1=report marked P */
+    gint show_r;                                    /**< 0=report not marked R, 1=report marked R */
+    gint show_t;                                    /**< 0=report not marked T, 1=report marked T */
+    gint show_report_transactions;
+    gint show_report_transaction_amount;
+    gint show_report_date;
+    gint show_report_value_date;
+    gint show_report_payee;
+    gint show_report_category;
+    gint show_report_sub_category;
+    gint show_report_budget;
+    gint show_report_sub_budget;
+    gint show_report_note;
+    gint show_report_voucher;
+    gint show_report_bank_references;
+    gint show_report_transaction_number;
+    gint show_report_method_of_payment;
+    gint show_report_method_of_payment_content;
+    gint show_report_marked;
+    gint show_report_financial_year;
+    gint show_report_account_name;
+
+    /** @name stuff showed in the report */
+    gint sorting_report;                            /**< 0=date, 1=tr number, 2=payee, 3=categ, 4=budget, 5=notes, 6=method payment, 7=method paym content, 8=voucher, 9=bank ref, 10=marked number */
+
+    gint not_detail_split;							/* TRUE = ne pas détailler les opérations ventilées (onglet divers) */
+    gint split_credit_debit;
+
+    gint currency_general;
+    gint column_title_show;
+    gint column_title_type;                         /* 0 = botton, 1 = each section */
+    gint append_in_payee;                           /* TRUE : the name of the report will be in the payee list */
+    gint report_can_click;                          /* TRUE : we can click on the reports */
+    gint ignore_archives;                           /* TRUE ignore les opérations archivées choix manuel */
+
+
+    /** @name period part of the report */
+    /** exercices */
+    gint use_financial_year;                        /* TRUE : use the financial year, FALSE : use the dates */
+    gint financial_year_type;                       /* 0=all, 1=current, 2=last, 3=personnal */
+    GSList *financial_year_list;                    /* list of the numbers of financials years used */
+    gint financial_year_split;                      /* TRUE : split by financial year */
+
+    /** dates */
+    gint date_type;                                 /* 0=all, 1=perso ... */
+    gint date_select_value;                         /* 0=date (default), 1=value date */
+    GDate *personal_date_start;
+    GDate *personal_date_end;
+
+    /** affichage */
+    gint period_split;                              /* TRUE : split by period */
+    gint period_split_type;                         /* 0=day, 1=week, 2=month, 3=year */
+    gint period_split_day;                          /* 0 = monday ... */
+
+    /** à compléter  */
+    GSList *sorting_type;                           /* list of numbers : 1=categ,2=sub-categ,3=budget,4=sub-budget,5=account,6=payee */
+
+    /** @name account part of the report */
+    gint account_use_chosen;
+    GSList *account_numbers;
+    gint account_group_reports;
+    gint account_show_amount;
+    gint account_show_name;
+
+    /** @name transfer part of the report */
+    gint transfer_choice;                           /* 0: no transfer / 1: transfers only on liabilities and assets accounts/2:transfer outside the report/3:perso */
+    GSList *transfer_account_numbers;
+    gint transfer_reports_only;
+
+    /** @name category part of the report */
+    gint category_used;								/* TRUE = Regrouper les opérations par catégorie */
+    gint category_detail_used;						/* TRUE = Détailler les catégories utilisées (onglet Catégories) */
+    GSList *categ_select_struct;                    /* list of CategBudgetSel containing the selected categories and sub-categories */
+    gint category_show_sub_category;
+    gint category_show_category_amount;
+    gint category_show_sub_category_amount;
+    gint category_currency;
+    gint category_show_without_category;
+    gint category_show_name;
+
+    /** @name budget part of the report */
+    gint budget_used;
+    gint budget_detail_used;
+    GSList *budget_select_struct;                   /* list of CategBudgetSel containing the selected budgets and sub-budgets */
+    gint budget_show_sub_budget;
+    gint budget_show_budget_amount;
+    gint budget_show_sub_budget_amount;
+    gint budget_currency;
+    gint budget_show_without_budget;
+    gint budget_show_name;
+
+    /** @name payee part of the report */
+    gint payee_used;
+    gint payee_detail_used;
+    GSList *payee_numbers;
+    gint payee_show_payee_amount;
+    gint payee_currency;
+    gint payee_show_name;
+
+    /** @name text comparison part of the report */
+    gint text_comparison_used;
+    GSList *text_comparison_list;
+
+    /** @name amount comparison part of the report */
+    gint amount_comparison_used;
+    gint amount_comparison_currency;
+    GSList *amount_comparison_list;
+    gint amount_comparison_only_report_non_null;
+
+    /** @name method of payment part of the report */
+    gint method_of_payment_used;
+    GSList *method_of_payment_list;
+};
+
+struct _CategBudgetSel
+{
     gint div_number;
     GSList *sub_div_numbers;	/* list of number of sub-categories/budgets selected for the category/budget */
 };
 
+
+struct _SearchDataReport
+{
+	gint		search_type;			/* 1 = text, 2 = amount */
+	gint		spin_value;				/* valeur du spin button */
+	gint 		page_num;				/* GSB_PAYEES_PAGE, GSB_CATEGORIES_PAGE, GSB_BUDGETARY_LINES_PAGE */
+	gboolean	ignore_case;
+	gboolean	ignore_sign;
+	gboolean	search_in_archive;
+	gboolean	search_delta_amount;
+	gboolean	search_save_report;
+};
 
 /* START_DECLARATION */
 gboolean 	gsb_data_report_check_categ_budget_in_report 				(GSList *list_struct_report,
@@ -84,7 +229,7 @@ gint 		gsb_data_report_get_payee_show_name 						(gint report_number);
 gint 		gsb_data_report_get_payee_show_payee_amount 				(gint report_number);
 gint 		gsb_data_report_get_payee_used 								(gint report_number);
 gint 		gsb_data_report_get_period_split 							(gint report_number);
-GDateWeekday	gsb_data_report_get_period_split_day 						(gint report_number);
+GDateWeekday	gsb_data_report_get_period_split_day 					(gint report_number);
 gint 		gsb_data_report_get_period_split_type 						(gint report_number);
 GDate *		gsb_data_report_get_personal_date_end 						(gint report_number);
 GDate *		gsb_data_report_get_personal_date_start						(gint report_number);
@@ -281,7 +426,7 @@ gboolean 	gsb_data_report_set_show_report_sub_budget 					(gint report_number,
                         												 gint show_report_sub_budget);
 gboolean 	gsb_data_report_set_show_report_sub_category 				(gint report_number,
                         												 gint show_report_sub_category);
-gboolean	 gsb_data_report_set_show_report_transaction_amount 		(gint report_number,
+gboolean	gsb_data_report_set_show_report_transaction_amount			(gint report_number,
                         												 gint show_report_transaction_amount);
 gboolean 	gsb_data_report_set_show_report_transaction_number 			(gint report_number,
                         												 gint show_report_transaction_number);

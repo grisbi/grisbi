@@ -30,9 +30,7 @@
  */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -157,6 +155,10 @@ static gboolean gsb_bank_edit_bank (gint bank_number,
 	/* set bank details */
 	bank_details = GTK_WIDGET (widget_bank_details_new (NULL, combobox));
 	gtk_box_pack_start (GTK_BOX (vbox), bank_details, FALSE, FALSE, 0);
+
+	/* affiche le widget bank_details */
+	if (gtk_widget_get_no_show_all (bank_details))
+		gtk_widget_set_no_show_all (bank_details, FALSE);
 
     gtk_widget_show_all (dialog);
 

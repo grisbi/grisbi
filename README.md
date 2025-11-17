@@ -10,7 +10,7 @@ and receipt categories, budgetary lines, financial years, budget
 estimates, bankcard management and other information that make Grisbi
 adapted for associations.
 
-The complete manual is [available on line](https://sourceforge.net/projects/grisbi/files/Documentation/manual_1.0/). The version that comes with
+The complete manual is [available on line](https://grisbi.sourceforge.net/html/). The version that comes with
 the software is illustrated, but you can replace it by the
 non-illustrated version at any time, which is available for download on
 line.
@@ -18,11 +18,14 @@ line.
 Grisbi is free software, any contribution is welcome.
 
 This product includes software developed by the OpenSSL Project for
-use in the OpenSSL Toolkit (http://www.openssl.org/).
+use in the OpenSSL Toolkit (https://www.openssl.org/).
 
 Website :     https://www.grisbi.org/
 
 Bug reports : https://www.grisbi.org/bugsreports/
 
-[![Windows 64-bit](https://ci.appveyor.com/api/projects/status/k0hlhmde559ju7e2?svg=true)](https://ci.appveyor.com/project/LudovicRousseau/grisbi)
-[![CodeFactor](https://www.codefactor.io/repository/github/grisbi/grisbi/badge)](https://www.codefactor.io/repository/github/grisbi/grisbi)
+Contributors
+============
+<a href="https://github.com/grisbi/grisbi/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=grisbi/grisbi" />
+</a>

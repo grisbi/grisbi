@@ -27,9 +27,7 @@
  * \todo make the CSV parameter configurable
  */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <errno.h>
@@ -233,7 +231,7 @@ static FILE *gsb_csv_export_open_file (const gchar *filename)
     {
         gchar *sMessage = NULL;
 
-        sMessage = g_strdup_printf (_("Unable to create file \"%s\" :\n%s"),
+        sMessage = g_strdup_printf (_("Unable to create file \"%s\":\n%s"),
                          filename, g_strerror (errno));
         dialogue (sMessage);
 
@@ -554,7 +552,7 @@ static gboolean gsb_csv_export_transaction (gint transaction_number,
 
 	/* met le tiers */
 	CSV_CLEAR_FIELD(csv_field_tiers);
-	csv_field_tiers = g_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), FALSE));
+	csv_field_tiers = g_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_payee_number (transaction_number), FALSE));
 
 	/* met le numero du rapprochement */
 	reconcile_number = gsb_data_transaction_get_reconcile_number (transaction_number);
@@ -964,6 +962,9 @@ gboolean gsb_csv_export_account (const gchar *filename, gint account_number)
     FILE *csv_file;
     GSList *pTransactionList;
     GSList *tmp_list;
+
+    if (!gsb_file_util_test_overwrite (filename))
+        return FALSE;
 
     csv_file = gsb_csv_export_open_file (filename);
 

@@ -20,9 +20,7 @@
 /* ************************************************************************** */
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -98,7 +96,7 @@ static MetatreeInterface _payee_interface = {
 
     payee_transaction_div_id,
     payee_transaction_sub_div_id,
-    gsb_data_transaction_set_party_number,
+    gsb_data_transaction_set_payee_number,
     payee_transaction_set_sub_div_id,
     payee_scheduled_div_id,
     payee_scheduled_sub_div_id,
@@ -148,10 +146,10 @@ static gint payee_transaction_div_id (gint transaction_number)
 			if (tmp_number > contra_number)
 				return -1;
 			else
-				return gsb_data_transaction_get_party_number (transaction_number);
+				return gsb_data_transaction_get_payee_number (transaction_number);
 		}
 		else
-			return gsb_data_transaction_get_party_number (transaction_number);
+			return gsb_data_transaction_get_payee_number (transaction_number);
 	}
 
     return 0;

@@ -19,29 +19,29 @@ struct ImportAccount
     gchar *nom_de_compte;
     gchar *filename;
     gchar *real_filename;	/* needed because filename is overwritten, need to fix that when work again with imports */
-    gint type_de_compte;  /* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
+    gint type_de_compte;	/* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
     gchar *devise;
 
     GDate *date_depart;
     GDate *date_fin;
 
-    GSList *operations_importees;          /* liste des struct des opés importées */
+    GSList *operations_importees;			/* liste des struct des opés importées */
 
     GsbReal solde;
-    gchar *date_solde_qif;            /* utilisé temporairement pour un fichier qif */
+    gchar *date_solde_qif;					/* utilisé temporairement pour un fichier qif */
 
-    GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le récapitulatif */
-    gint action;				/* IMPORT_CREATE_ACCOUNT, IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
+    GtkWidget *bouton_devise;				/* adr du bouton de la devise dans le récapitulatif */
+    gint action;							/* IMPORT_CREATE_ACCOUNT, IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
 
     gboolean	invert_transaction_amount;	/* if TRUE, all the transactions imported will have their amount inverted */
 
-    gboolean	create_rule;			/* if TRUE, we create a rule according the values of this structure */
+    gboolean	create_rule;				/* if TRUE, we create a rule according the values of this structure */
     GtkWidget	*entry_name_rule;			/* entry containing the name of the rule */
     GtkWidget	*hbox_rule;
 
-    GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
-    GtkWidget *bouton_compte_add;             /* adr du bouton du compte dans le récapitulatif */
-    GtkWidget *bouton_compte_mark;             /* adr du bouton du compte dans le récapitulatif */
+    GtkWidget *bouton_type_compte;			/* adr du bouton du type de compte dans le récapitulatif */
+    GtkWidget *bouton_compte_add;			/* adr du bouton du compte dans le récapitulatif */
+    GtkWidget *bouton_compte_mark;			/* adr du bouton du compte dans le récapitulatif */
 
     GtkWidget * hbox1;
     GtkWidget * hbox2;
@@ -157,7 +157,7 @@ gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
 															 struct ImportPayeeAsso *assoc);
 void 		gsb_import_associations_remove_assoc 			(gint payee_number);
 
-gboolean 	gsb_import_by_rule 								(gint rule);
+void	 	gsb_import_by_rule 								(gint rule);
 void		gsb_import_free_transaction						(struct ImportTransaction *transaction);
 gchar *		gsb_ImportFormats_get_list_formats_to_string 	(void);
 GSList *	gsb_import_import_selected_files 				(GtkWidget *assistant);

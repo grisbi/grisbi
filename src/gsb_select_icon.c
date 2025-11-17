@@ -21,9 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -140,7 +138,7 @@ static gchar *gsb_select_icon_troncate_name_icon (gchar *name_icon,
         tmpstr = g_utf8_strncpy (tmpstr, name_icon, trunc);
         do
         {
-            end = g_utf8_offset_to_pointer (name_icon, i *trunc);
+            end = g_utf8_offset_to_pointer (name_icon, (i *trunc));
             /* devel_debug (end); */
             if (i < n)
                 ptr = g_utf8_offset_to_pointer (name_icon, (i + 1) *10);
@@ -199,7 +197,7 @@ static GtkTreePath *gsb_select_icon_fill_icon_view (const gchar *name_icon)
         {
             liste = g_slist_append (liste, g_strdup (name));
         }
-		printf ("nbre elements = %u\n", g_slist_length (liste));
+		//~ printf ("nbre elements = %u\n", g_slist_length (liste));
         liste = g_slist_sort (liste, (GCompareFunc) my_strcasecmp);
 
         list_store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);

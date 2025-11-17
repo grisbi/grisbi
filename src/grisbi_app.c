@@ -24,9 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 #include "include.h"
 #include <stdlib.h>
 #include <glib/gprintf.h>
@@ -113,37 +111,37 @@ struct AcceleratorStruct
 };
 
 static struct AcceleratorStruct accels[] = {
-		{ "app.new-window", { "<Alt>n", NULL }, N_("New_window")},
-		{ "app.prefs", { "<Primary><Shift>p", NULL }, N_("Preferences")},
-		{ "app.quit", { "<Primary>q", NULL }, N_("Quit")},
-		{ "win.new-acc-file", { "<Primary>n", NULL }, N_("New account file")},
-		{ "win.open-file", { "<Primary>o", NULL }, N_("Open")},
-		{ "win.save", { "<Primary>s", NULL }, N_("Save")},
-		{ "win.import-file", { "<Primary>i", NULL }, N_("Import file")},
-		{ "win.export-accounts", { "<Primary>e", NULL }, N_("Export as QIF/CSV file")},
-		{ "win.file-close", { "<Primary>w", NULL }, N_("Close")},
-		{ "win.new-ope", { "<Primary>t", NULL }, N_("New transaction")},
-		{ "win.new-acc", { "<Primary><Shift>n", NULL }, N_("New account")},
-		{ "win.show-reconciled", { "<Alt>r", NULL }, N_("Show reconciled")},
-		{ "win.show-archived", { "<Alt>l", NULL }, N_("Show lines archives")},
+		{ "app.prefs", { "<Primary><Shift>P", NULL }, N_("Preferences")},
+		{ "app.quit", { "<Primary>Q", NULL }, N_("Quit")},
+		{ "win.new-acc-file", { "<Primary>N", NULL }, N_("New account file")},
+		{ "win.open-file", { "<Primary>O", NULL }, N_("Open")},
+		{ "win.save", { "<Primary>S", NULL }, N_("Save")},
+		{ "win.import-file", { "<Primary>I", NULL }, N_("Import file")},
+		{ "win.export-accounts", { "<Primary>E", NULL }, N_("Export as QIF/CSV file")},
+		{ "win.file-close", { "<Primary>W", NULL }, N_("Close")},
+		{ "win.new-ope", { "<Primary>T", NULL }, N_("New transaction")},
+		{ "win.new-acc", { "<Primary><Shift>N", NULL }, N_("New account")},
+		{ "win.show-reconciled", { "<Alt>R", NULL }, N_("Show reconciled")},
+		{ "win.show-archived", { "<Alt>L", NULL }, N_("Show lines archives")},
 		{ "win.manual", { "F1", NULL }, N_("User's Manual")},
+		{ "win.search-acc", {"<Primary>F", NULL}, N_("Search")},
 		{ "win.fullscreen", {"F11", NULL}, N_("Full screen")}
 	};
 static struct AcceleratorStruct accels_classic[] = {
-		{ "win.new-window", { "<Alt>n", NULL }, N_("New_window")},
-		{ "win.prefs", { "<Primary><Shift>p", NULL }, N_("Preferences")},
-		{ "win.quit", { "<Primary>q", NULL }, N_("Quit")},
-		{ "win.new-acc-file", { "<Primary>n", NULL }, N_("New account file")},
-		{ "win.open-file", { "<Primary>o", NULL }, N_("Open")},
-		{ "win.save", { "<Primary>s", NULL }, N_("Save")},
-		{ "win.import-file", { "<Primary>i", NULL }, N_("Import file")},
-		{ "win.export-accounts", { "<Primary>e", NULL }, N_("Export as QIF/CSV file")},
-		{ "win.file-close", { "<Primary>w", NULL }, N_("Close")},
-		{ "win.new-ope", { "<Primary>t", NULL }, N_("New transaction")},
-		{ "win.new-acc", { "<Primary><Shift>n", NULL }, N_("New account")},
-		{ "win.show-reconciled", { "<Alt>r", NULL }, N_("Show reconciled")},
-		{ "win.show-archived", { "<Alt>l", NULL }, N_("Show lines archives")},
+		{ "win.prefs", { "<Primary><Shift>P", NULL }, N_("Preferences")},
+		{ "win.quit", { "<Primary>Q", NULL }, N_("Quit")},
+		{ "win.new-acc-file", { "<Primary>N", NULL }, N_("New account file")},
+		{ "win.open-file", { "<Primary>O", NULL }, N_("Open")},
+		{ "win.save", { "<Primary>S", NULL }, N_("Save")},
+		{ "win.import-file", { "<Primary>I", NULL }, N_("Import file")},
+		{ "win.export-accounts", { "<Primary>E", NULL }, N_("Export as QIF/CSV file")},
+		{ "win.file-close", { "<Primary>W", NULL }, N_("Close")},
+		{ "win.new-ope", { "<Primary>T", NULL }, N_("New transaction")},
+		{ "win.new-acc", { "<Primary><Shift>N", NULL }, N_("New account")},
+		{ "win.show-reconciled", { "<Alt>R", NULL }, N_("Show reconciled")},
+		{ "win.show-archived", { "<Alt>L", NULL }, N_("Show lines archives")},
 		{ "win.manual", { "F1", NULL }, N_("User's Manual")},
+		{ "win.search-acc", {"<Primary>F", NULL}, N_("Search")},
 		{ "win.fullscreen", {"F11", NULL}, N_("Full screen")}
 	};
 
@@ -276,14 +274,11 @@ static void grisbi_app_save_win_geometry_data (GrisbiApp *app,
 
 	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
-	if ((priv->a_conf)->full_screen == 0 && (priv->a_conf)->maximize_screen == 0)
-	{
-		/* sauvegarde la position de la fenetre principale */
-		gtk_window_get_position (GTK_WINDOW (win), &(priv->a_conf)->x_position, &(priv->a_conf)->y_position);
+	/* sauvegarde la position de la fenetre principale */
+	gtk_window_get_position (GTK_WINDOW (win), &(priv->a_conf)->x_position, &(priv->a_conf)->y_position);
 
-		/* sauvegarde de la taille de la fenêtre si nécessaire */
-		gtk_window_get_size (GTK_WINDOW (win), &(priv->a_conf)->main_width, &(priv->a_conf)->main_height);
-	}
+	/* sauvegarde de la taille de la fenêtre si nécessaire */
+	gtk_window_get_size (GTK_WINDOW (win), &(priv->a_conf)->main_width, &(priv->a_conf)->main_height);
 }
 
 /**
@@ -301,22 +296,14 @@ static void grisbi_app_change_fullscreen_state (GSimpleAction *action,
 {
 	GtkWindow *win;
 	GrisbiApp *app;
-	GrisbiAppPrivate *priv;
 
 	app = GRISBI_APP (user_data);
-	priv = grisbi_app_get_instance_private (GRISBI_APP (app));
 
 	win = GTK_WINDOW (grisbi_app_get_active_window (app));
 	if (g_variant_get_boolean (state))
-	{
-		(priv->a_conf)->full_screen = TRUE;
 		gtk_window_fullscreen (win);
-	}
 	else
-	{
-		(priv->a_conf)->full_screen = FALSE;
 		gtk_window_unfullscreen (win);
-	}
 
 	g_simple_action_set_state (action, state);
 }
@@ -384,6 +371,10 @@ static void grisbi_app_quit (GSimpleAction *action,
 	/* Do not exit while the preferences dialog is open.
 	 * Otherwise we get a crash when the dialog is closed. */
 	if (w_run->menu_prefs)
+		return;
+
+	/* Do not exit while the new account dialog is open, or we get a crash. */
+	if (w_run->new_account_file)
 		return;
 
 	/* Remove all windows registered in the application */
@@ -544,7 +535,7 @@ static gboolean grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
 {
 	GrisbiWinRun *w_run;
 
-	devel_debug (NULL);
+	devel_debug (path);
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
 
 	/* continue only if can close the current file */
@@ -553,16 +544,20 @@ static gboolean grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
 
 	if (path)
 	{
+		/* Convert "file:///Users/xxx/Mes%20comptes.gsb" in "/Users/xxx/Mes comptes.gsb" */
+		gchar * filename = g_filename_from_uri(path, NULL, NULL);
+		devel_debug (filename);
+
 		if (has_started)
 		{
-			if (gsb_file_open_file (path))
+			if (gsb_file_open_file (filename))
 			{
 				if (!w_run->file_is_loading)
 				{
 					gsb_gui_navigation_select_line (NULL, NULL);
 					w_run->file_is_loading = TRUE;
 				}
-				utils_files_append_name_to_recent_array (path);
+				utils_files_append_name_to_recent_array (filename);
 			}
 		}
 		else
@@ -572,7 +567,7 @@ static gboolean grisbi_app_osx_openfile_callback(GtkosxApplication *osxapp,
 			GrisbiAppPrivate *priv;
 
 			priv = grisbi_app_get_instance_private (GRISBI_APP (app));
-			priv->file_list = g_slist_prepend (priv->file_list, g_strdup (path));
+			priv->file_list = g_slist_prepend (priv->file_list, g_strdup (filename));
 		}
 	}
 
@@ -614,7 +609,7 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 
 	if (has_app_menu)
 	{
-		GAction *action;
+		//GAction *action;
 
 		g_action_map_add_action_entries (G_ACTION_MAP (app), app_entries, G_N_ELEMENTS (app_entries), app);
 
@@ -626,8 +621,8 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 		priv->prefs_action = g_action_map_lookup_action (G_ACTION_MAP (app), "prefs");
 		priv->item_recent_files = G_MENU (gtk_builder_get_object (builder, "recent-file"));
 		priv->item_edit = G_MENU (gtk_builder_get_object (builder, "edit"));
-		action = g_action_map_lookup_action (G_ACTION_MAP (app), "new-window");
-		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
+		//action = g_action_map_lookup_action (G_ACTION_MAP (app), "new-window");
+		//g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 
 	}
 	else
@@ -1020,11 +1015,6 @@ static void grisbi_app_activate (GApplication *application)
 		if (load_file)
 		{
 			display_tip (FALSE);
-
-			/* Si sauvegarde automatique on la lance ici */
-			if ((priv->a_conf)->make_backup_every_minutes
-				&& (priv->a_conf)->make_backup_nb_minutes)
-				gsb_file_automatic_backup_start (NULL, NULL);
 		}
 		else
 		{
@@ -1315,7 +1305,7 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 #endif
 			g_free (str_to_free);
 
-			text = g_strdup_printf ("%s%s-> %s.\n", gettext (accels[i].translate_string), tab, str);
+			text = g_strdup_printf ("%s%s-> %s\n", gettext (accels[i].translate_string), tab, str);
 			gtk_text_buffer_insert (buffer, &iter, text, -1);
 			g_free (str);
 			g_free (text);
@@ -1337,28 +1327,39 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 #endif
 			g_free (str_to_free);
 
-			text = g_strdup_printf ("%s%s-> %s.\n", gettext (accels[i].translate_string), tab, str);
+			text = g_strdup_printf ("%s%s-> %s\n", gettext (accels[i].translate_string), tab, str);
 			gtk_text_buffer_insert (buffer, &iter, text, -1);
 			g_free (str);
 			g_free (text);
 		}
 	}
 
+	gchar * str_to_free = g_strdup_printf (_("Search%s-> <Primary>F\n"), tab);
+	gchar * str;
+#ifdef GTKOSXAPPLICATION
+	str = gsb_string_remplace_string (str_to_free, "Primary", "Command");
+#else
+	str = gsb_string_remplace_string (str_to_free, "Primary", "Ctrl");
+#endif
+	g_free (str_to_free);
+	gtk_text_buffer_insert (buffer, &iter, str, -1);
+	g_free(str);
+
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
-	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list :</b>"), -1);
+	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list:</b>"), -1);
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
 #ifdef GTKOSXAPPLICATION
-	tmp_str = g_strdup_printf (_("(Un)Pointing a transaction%s-> <Command>p, <Command>F12\n"), tab);
+	tmp_str = g_strdup_printf (_("(Un)Pointing a transaction%s-> <Command>P, F12\n"), tab);
 	gtk_text_buffer_insert (buffer, &iter, tmp_str, -1);
 	g_free (tmp_str);
-	tmp_str = g_strdup_printf (_("(Un)Reconcile a transaction%s-> <Command>r\n"), tab);
+	tmp_str = g_strdup_printf (_("(Un)Reconcile a transaction%s-> <Command>R\n"), tab);
 	gtk_text_buffer_insert (buffer, &iter, tmp_str, -1);
 	g_free (tmp_str);
 #else
-	tmp_str = g_strdup_printf (_("(Un)Pointing a transaction%s-> <Ctrl>p, <Ctrl>F12\n"), tab);
+	tmp_str = g_strdup_printf (_("(Un)Pointing a transaction%s-> <Ctrl>P, F12\n"), tab);
 	gtk_text_buffer_insert (buffer, &iter, tmp_str, -1);
 	g_free (tmp_str);
-	tmp_str = g_strdup_printf (_("(Un)Reconcile a transaction%s-> <Ctrl>p, <Ctrl>F12\n"), tab);
+	tmp_str = g_strdup_printf (_("(Un)Reconcile a transaction%s-> <Ctrl>R\n"), tab);
 	gtk_text_buffer_insert (buffer, &iter, tmp_str, -1);
 	g_free (tmp_str);
 #endif

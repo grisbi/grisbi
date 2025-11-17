@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*                      2009-2011 Pierre Biava (grisbi@pierre.biava.name)     */
-/*          https://www.grisbi.org/                                            */
+/*          https://www.grisbi.org/                                           */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -23,9 +23,7 @@
 
 
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -48,6 +46,7 @@
 #include "meta_budgetary.h"
 #include "metatree.h"
 #include "mouse.h"
+#include "navigation.h"
 #include "transaction_list.h"
 #include "structures.h"
 #include "utils.h"
@@ -84,7 +83,9 @@ static struct MetatreeHoldPosition *budgetary_hold_position;
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
+/******************************************************************************/
+/* Public functions                                                           */
+/******************************************************************************/
 /**
  * réinitialisation des variables globales
  *
@@ -220,10 +221,15 @@ GtkWidget *budgetary_lines_create_list ( void )
                         G_CALLBACK ( division_column_collapsed ),
                         NULL );
 
-    g_signal_connect ( G_OBJECT ( budgetary_line_tree ),
-                        "row-expanded",
-                        G_CALLBACK ( division_column_expanded ),
-                        NULL );
+	g_signal_connect (G_OBJECT (budgetary_line_tree),
+					  "row-expanded",
+					  G_CALLBACK (utils_cursor_set_wait_cursor),
+					  NULL);
+
+    g_signal_connect_after ( G_OBJECT ( budgetary_line_tree ),
+							"row-expanded",
+							G_CALLBACK (metatree_division_column_expanded),
+							NULL);
 
     g_signal_connect( G_OBJECT ( budgetary_line_tree ),
                         "row-activated",
@@ -256,7 +262,7 @@ GtkWidget *budgetary_lines_create_list ( void )
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       budgetary_line_tree_model );
 
-    /* création de la structure de sauvegarde de la position */
+	/* création de la structure de sauvegarde de la position */
     budgetary_hold_position = g_malloc0 ( sizeof ( struct MetatreeHoldPosition ) );
 
     gtk_widget_show_all ( vbox );

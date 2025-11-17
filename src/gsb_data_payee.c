@@ -26,9 +26,7 @@
  * work with the payee structure, no GUI here
  **/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -791,7 +789,7 @@ void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
 	}
 
 	/* if no payee in that transaction and it's neither a split transaction, we work with empty_payee */
-    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_party_number (transaction_number));
+    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_payee_number (transaction_number));
 
     /* should not happen, this is if the transaction has a payee which doesn't exists
      * we show a debug warning and get without payee */
@@ -801,7 +799,7 @@ void gsb_data_payee_add_transaction_to_payee (gint transaction_number)
 
         tmpstr = g_strdup_printf ("The transaction %d has a payee %d but it doesn't exist.",
 								  transaction_number,
-								  gsb_data_transaction_get_party_number (transaction_number));
+								  gsb_data_transaction_get_payee_number (transaction_number));
         warning_debug (tmpstr);
         g_free (tmpstr);
         payee = empty_payee;
@@ -826,7 +824,7 @@ void gsb_data_payee_remove_transaction_from_payee (gint transaction_number)
 {
     PayeeStruct *payee;
 
-    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_party_number (transaction_number));
+    payee = gsb_data_payee_get_structure (gsb_data_transaction_get_payee_number (transaction_number));
 
     /* if no payee in that transaction, and it's neither a split, neither a transfer,
      * we work with empty_payee */
@@ -869,14 +867,12 @@ gint gsb_data_payee_remove_unused (void)
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-        gint payee_number;
-		gint transaction_number;
+		TransactionStruct *transaction;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-        payee_number = gsb_data_transaction_get_party_number (transaction_number);
-        if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+		transaction = tmp_list->data;
+        if (!g_slist_find (used, GINT_TO_POINTER (transaction->payee_number)))
         {
-            used = g_slist_append (used, GINT_TO_POINTER (payee_number));
+            used = g_slist_append (used, GINT_TO_POINTER (transaction->payee_number));
         }
         tmp_list = tmp_list->next;
     }
@@ -885,14 +881,12 @@ gint gsb_data_payee_remove_unused (void)
     tmp_list = gsb_data_scheduled_get_scheduled_list ();
     while (tmp_list)
     {
-        gint payee_number;
-		gint scheduled_number;
+		ScheduledStruct *scheduled;
 
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list->data);
-        payee_number = gsb_data_scheduled_get_party_number (scheduled_number);
-        if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+		scheduled = tmp_list->data;
+        if (!g_slist_find (used, GINT_TO_POINTER (scheduled->payee_number)))
         {
-            used = g_slist_append (used, GINT_TO_POINTER (payee_number));
+            used = g_slist_append (used, GINT_TO_POINTER (scheduled->payee_number));
         }
         tmp_list = tmp_list->next;
     }
@@ -992,7 +986,7 @@ gint gsb_data_payee_get_unused_payees (void)
         {
             gint payee_number;
 
-            payee_number = gsb_data_scheduled_get_party_number (
+            payee_number = gsb_data_scheduled_get_payee_number (
                                 gsb_data_scheduled_get_scheduled_number (
                                 tmp_list->data));
             if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
@@ -1031,7 +1025,7 @@ gint gsb_data_payee_get_unused_payees (void)
     {
         gint payee_number;
 
-        payee_number = gsb_data_transaction_get_party_number (
+        payee_number = gsb_data_transaction_get_payee_number (
                     gsb_data_transaction_get_transaction_number (tmp_list->data));
         if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
         {
@@ -1046,7 +1040,7 @@ gint gsb_data_payee_get_unused_payees (void)
     {
         gint payee_number;
 
-        payee_number = gsb_data_scheduled_get_party_number (
+        payee_number = gsb_data_scheduled_get_payee_number (
                         gsb_data_scheduled_get_scheduled_number (
                         tmp_list->data));
         if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
@@ -1177,7 +1171,7 @@ GSList *gsb_data_payee_get_unarchived_payees_list (void)
 		PayeeStruct *payee;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (transactions_list->data);
-		payee_number = gsb_data_transaction_get_party_number (transaction_number);
+		payee_number = gsb_data_transaction_get_payee_number (transaction_number);
 		payee = gsb_data_payee_get_structure (payee_number);
 
 		if (payee)
@@ -1199,9 +1193,45 @@ GSList *gsb_data_payee_get_unarchived_payees_list (void)
  *
  *
  * \param
+ * \param
  *
  * \return
  **/
+GSList *gsb_data_payee_get_search_payee_list (const gchar *text,
+											  gboolean ignore_case)
+{
+	devel_debug (text);
+	GSList *list = NULL;
+	GSList *pointer;
+	pointer = gsb_data_payee_get_payees_list ();
+	while (pointer)
+	{
+		const gchar *name;
+		gint payee_number;
+		PayeeStruct *payee;
+
+		payee = pointer->data;
+		name = payee->payee_name;
+		payee_number = payee->payee_number;
+		if (ignore_case)
+		{
+			if (name && utils_str_my_case_strstr (name, text))
+			{
+				list = g_slist_append (list, GINT_TO_POINTER (payee_number));
+			}
+		}
+		else
+		{
+			if (name && g_strstr_len (name, -1, text))
+			{
+				list = g_slist_append (list, GINT_TO_POINTER (payee_number));
+			}
+		}
+		pointer = pointer->next;
+	}
+
+	return list;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

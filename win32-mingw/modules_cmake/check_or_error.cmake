@@ -1,6 +1,0 @@
-MACRO(check_or_error _testvar)
-		CHECK_INCLUDE_FILES (${_testvar} RET)
-		if (NOT ${RET})
-			message (FATAL_ERROR "manque "${_testvar})
-		endif (NOT ${RET})
-ENDMACRO(check_or_error _testvar)

@@ -24,9 +24,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "include.h"
 #include <glib/gi18n.h>
@@ -667,9 +665,9 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 
 	if (gsb_data_report_get_show_report_payee (current_report_number))
 	{
-		if (gsb_data_transaction_get_party_number (transaction_number))
+		if (gsb_data_transaction_get_payee_number (transaction_number))
 		{
-		text = my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+		text = my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 												   (transaction_number),
 												   TRUE));
 
@@ -856,6 +854,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 		/* (gsb_data_transaction_get_mother_transaction_number (transaction_number)) */
 		{
 			GSList *list_tmp_transactions;
+			gint mother_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
+			gint account_number = gsb_data_transaction_get_account_number (transaction_number);
 
 			/* On récupère donc la liste des opérations du compte et on en fait */
 			/* le tour jusqu'à ce qu'on trouve l'opération mère */
@@ -863,21 +863,15 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 
 			while (list_tmp_transactions)
 			{
-				gint transaction_number_tmp;
+				TransactionStruct *transaction;
 
-				transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
-
-				if (gsb_data_transaction_get_account_number (transaction_number_tmp) ==
-					gsb_data_transaction_get_account_number (transaction_number))
+				transaction = list_tmp_transactions->data;
+				if (transaction->account_number == account_number)
 				{
 					const gchar *content;
-					gint mother_number;
 
-					content = gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp);
-					mother_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
-					if (gsb_data_transaction_get_split_of_transaction (transaction_number_tmp)
-						 && transaction_number_tmp == mother_number
-						 && content)
+					content = transaction->method_of_payment_content;
+					if (transaction->split_of_transaction && transaction->transaction_number == mother_number && content)
 					{
 						gsb_data_transaction_set_method_of_payment_content (transaction_number, content);
 					}
@@ -2844,7 +2838,7 @@ gint etat_affiche_affiche_tiers_etat (gint transaction_number,
 
 	/* affiche le tiers */
 	if (gsb_data_report_get_payee_used (current_report_number)
-		&& gsb_data_transaction_get_party_number (transaction_number) != ancien_tiers_etat)
+		&& gsb_data_transaction_get_payee_number (transaction_number) != ancien_tiers_etat)
 	{
 		/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 		if (!debut_affichage_etat && !changement_de_groupe_etat)
@@ -2862,9 +2856,9 @@ gint etat_affiche_affiche_tiers_etat (gint transaction_number,
 		/*	   si on a demandé de ne pas afficher les noms des tiers, on saute la partie suivante */
 		if (gsb_data_report_get_payee_show_name (current_report_number))
 		{
-			if (gsb_data_transaction_get_party_number (transaction_number))
+			if (gsb_data_transaction_get_payee_number (transaction_number))
 			{
-				nom_tiers_en_cours = gsb_data_payee_get_name (gsb_data_transaction_get_party_number
+				nom_tiers_en_cours = gsb_data_payee_get_name (gsb_data_transaction_get_payee_number
 															  (transaction_number),
 															  TRUE);
 
@@ -2885,7 +2879,7 @@ gint etat_affiche_affiche_tiers_etat (gint transaction_number,
 		ligne_debut_partie = ligne;
 		denote_struct_sous_jaccentes (6);
 
-		ancien_tiers_etat = gsb_data_transaction_get_party_number (transaction_number);
+		ancien_tiers_etat = gsb_data_transaction_get_payee_number (transaction_number);
 
 		debut_affichage_etat = 0;
 		changement_de_groupe_etat = 1;
