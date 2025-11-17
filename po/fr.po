@@ -4948,7 +4948,6 @@ msgid "Automatically treat the selected account(s)"
 msgstr "Traiter automatiquement les comptes sélectionnés"
 
 #: src/export.c:557
-#, fuzzy
 msgid ""
 "The generated files will be named as follows:\n"
 "[accounting entity]-[account name].[extension]\n"
