@@ -1470,19 +1470,27 @@ gboolean gsb_qif_export_archive (const gchar *filename,
 		if (gsb_data_archive_store_get_archive_number (archive_store_number) == archive_number)
 		{
 			gchar *new_filename;
+			gchar *archive_name = gsb_data_account_get_name (gsb_data_archive_store_get_account_number
+															(archive_store_number));
+
+			/* replace "/" by "-" in the archive name */
+			GString *string = g_string_new(archive_name);
+			g_string_replace(string, "/", "-", 0);
+			archive_name = string->str;
 
 			new_filename = g_strconcat (filename,
 										"-",
-										gsb_data_account_get_name (gsb_data_archive_store_get_account_number
-																   (archive_store_number)),
+										archive_name,
 										".qif",
 										NULL);
+
+			g_string_free(string, TRUE);
+
 			if (qif_export (new_filename,
 							gsb_data_archive_store_get_account_number (archive_store_number), archive_number))
 				name_list = g_slist_append (name_list, new_filename);
 			else
 				error_return = 1;
-			g_free(new_filename);
 		}
 		tmp_list = tmp_list->next;
     }
@@ -1513,13 +1521,7 @@ gboolean gsb_qif_export_archive (const gchar *filename,
     }
 
     /* free the names */
-    tmp_list = name_list;
-    while (tmp_list)
-    {
-		g_free (tmp_list->data);
-		tmp_list = tmp_list->next;
-    }
-    g_slist_free (name_list);
+    g_slist_free_full(name_list, (GDestroyNotify)g_free);
 
     return !error_return;
 }
