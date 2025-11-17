@@ -1,3 +1,11 @@
+New in version 3.90.0
+- Redesign of search functions
+- Improved response times
+- Added a progress slider in case of long loading times
+- Various feature improvements
+- Added Meson build system
+- Bug fixes
+
 New in version 3.0.4
 - Bug fixes
 
