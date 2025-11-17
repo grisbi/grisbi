@@ -26,6 +26,8 @@
 
 #include "config.h"
 
+#ifdef HAVE_GOFFICE
+
 #include <glib/gi18n.h>
 
 #include <goffice/goffice.h>
@@ -507,3 +509,4 @@ GtkWidget *widget_bet_graph_pie_get_notebook (GtkWidget *dialog)
 /* c-basic-offset: 4 */
 /* End: */
 
+#endif
