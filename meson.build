@@ -12,7 +12,7 @@ project('grisbi', 'c',
 conf_data = configuration_data({
   'VERSION' : '"' + meson.project_version() + '"',
   'PACKAGE' : '"grisbi"',
-  'HAVE_GOFFICE' : true,
+  'HAVE_GOFFICE' : get_option('goffice'),
   'HAVE_OFX' : true,
   'HAVE_SSL' : true,
   'HAVE_XML2' : true,
@@ -39,7 +39,11 @@ if get_option('debug') or minor_version % 2 == 1
 endif
 
 # dependencies
-goffice_dep = dependency('libgoffice-0.10')
+if get_option('goffice')
+  goffice_dep = dependency('libgoffice-0.10')
+else
+  goffice_dep = dependency('libgsf-1')
+endif
 gtk_dep = dependency('gtk+-3.0')
 libofx_dep = dependency('libofx')
 libxml2_dep = dependency('libxml-2.0')
