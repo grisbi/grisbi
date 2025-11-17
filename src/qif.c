@@ -1512,13 +1512,7 @@ gboolean gsb_qif_export_archive (const gchar *filename,
     }
 
     /* free the names */
-    tmp_list = name_list;
-    while (tmp_list)
-    {
-		g_free (tmp_list->data);
-		tmp_list = tmp_list->next;
-    }
-    g_slist_free (name_list);
+    g_slist_free_full(name_list, (GDestroyNotify)g_free);
 
     return !error_return;
 }
