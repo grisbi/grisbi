@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#ifdef HAVE_GOFFICE
+
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 #include <strings.h>
@@ -1314,3 +1316,5 @@ void struct_free_bet_graph_data (BetGraphDataStruct *self)
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
+
+#endif

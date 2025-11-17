@@ -26,6 +26,7 @@
 
 #include "config.h"
 
+#ifdef HAVE_GOFFICE
 #include <errno.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
@@ -607,3 +608,4 @@ WidgetBetGraphOthers *widget_bet_graph_others_new (BetGraphDataStruct *self,
 /* c-basic-offset: 4 */
 /* End: */
 
+#endif

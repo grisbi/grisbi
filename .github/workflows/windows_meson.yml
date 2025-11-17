@@ -19,6 +19,7 @@ jobs:
           msystem: UCRT64
           update: true
           install: >-
+            git
             pkg-config
             unzip
           pacboy: >-
@@ -45,11 +46,11 @@ jobs:
 
           pwd
           cd /
-          wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/$libofx_version/libofx_$MSYSTEM.zip"
+          wget -O /libofx.zip "$git_src/libofx/releases/download/$libofx_version/libofx_$MSYSTEM.zip"
           unzip /libofx.zip
 
-          wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-$libgoffice_version/goffice-$bits-$libgoffice_version-archive.zip"
-          unzip /goffice.zip
+          # wget -O /goffice.zip "$git_src/goffice/releases/download/v-$libgoffice_version/goffice-$bits-$libgoffice_version-archive.zip"
+          # unzip /goffice.zip
 
           wget -O /nsis.zip 'https://downloads.sourceforge.net/project/nsis/NSIS 3/3.10/nsis-3.10.zip'
           unzip nsis.zip
@@ -60,7 +61,10 @@ jobs:
         run: |
           export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/tmp/inst/lib/pkgconfig
 
-          meson setup builddir --prefix /c/projects/grisbi-inst
+          meson setup builddir \
+            --prefix /c/projects/grisbi-inst \
+            -Ddebug=false \
+            -Dgoffice=false
 
           time meson install -C builddir
 

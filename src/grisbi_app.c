@@ -1334,17 +1334,6 @@ void grisbi_app_display_gui_dump_accels (GtkApplication *application,
 		}
 	}
 
-	gchar * str_to_free = g_strdup_printf (_("Search%s-> <Primary>F\n"), tab);
-	gchar * str;
-#ifdef GTKOSXAPPLICATION
-	str = gsb_string_remplace_string (str_to_free, "Primary", "Command");
-#else
-	str = gsb_string_remplace_string (str_to_free, "Primary", "Ctrl");
-#endif
-	g_free (str_to_free);
-	gtk_text_buffer_insert (buffer, &iter, str, -1);
-	g_free(str);
-
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);
 	gtk_text_buffer_insert_markup (buffer, &iter, _("<b>Actions in transaction list:</b>"), -1);
 	gtk_text_buffer_insert (buffer, &iter, "\n", -1);

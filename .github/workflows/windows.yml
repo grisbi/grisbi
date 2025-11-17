@@ -51,8 +51,8 @@ jobs:
           wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/$libofx_version/libofx_$MSYSTEM.zip"
           unzip /libofx.zip
 
-          wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-$libgoffice_version/goffice-$bits-$libgoffice_version-archive.zip"
-          unzip /goffice.zip
+          # wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-$libgoffice_version/goffice-$bits-$libgoffice_version-archive.zip"
+          # unzip /goffice.zip
 
           wget -O /nsis.zip 'https://downloads.sourceforge.net/project/nsis/NSIS 3/3.10/nsis-3.10.zip'
           unzip nsis.zip
@@ -66,7 +66,6 @@ jobs:
           export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/tmp/inst/lib/pkgconfig
 
           ./github-actions/build.sh \
-            --with-goffice \
             --with-openssl \
             --with-ofx \
             --prefix /c/projects/grisbi-inst
