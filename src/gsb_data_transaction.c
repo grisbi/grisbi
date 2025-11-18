@@ -2168,6 +2168,7 @@ gboolean gsb_data_transaction_remove_transaction (gint transaction_number)
 			/* we remove the transaction from the 2 lists */
 			transactions_list = g_slist_remove (transactions_list, contra_transaction);
 			complete_transactions_list = g_slist_remove (complete_transactions_list, contra_transaction);
+			active_transactions_list = g_slist_remove (active_transactions_list, transaction);
 			gsb_data_transaction_free (contra_transaction);
 		}
 	}
@@ -2197,6 +2198,7 @@ gboolean gsb_data_transaction_remove_transaction (gint transaction_number)
 
 				transactions_list = g_slist_remove (transactions_list, contra_transaction);
 				complete_transactions_list = g_slist_remove (complete_transactions_list, contra_transaction);
+				active_transactions_list = g_slist_remove (active_transactions_list, transaction);
 				gsb_data_transaction_free (contra_transaction);
 			}
 
@@ -2208,6 +2210,7 @@ gboolean gsb_data_transaction_remove_transaction (gint transaction_number)
 
 			transactions_list = g_slist_remove (transactions_list, child_transaction);
 			complete_transactions_list = g_slist_remove (complete_transactions_list, child_transaction);
+			active_transactions_list = g_slist_remove (active_transactions_list, transaction);
 			gsb_data_transaction_free (child_transaction);
 			tmp_list = tmp_list->next;
 		}
@@ -2221,6 +2224,7 @@ gboolean gsb_data_transaction_remove_transaction (gint transaction_number)
 	/* now can remove safely the transaction */
 	transactions_list = g_slist_remove (transactions_list, transaction);
 	complete_transactions_list = g_slist_remove (complete_transactions_list, transaction);
+	active_transactions_list = g_slist_remove (active_transactions_list, transaction);
 
 	/* force the update module budget */
 	gsb_data_account_set_bet_maj (transaction->account_number, BET_MAJ_ALL);
