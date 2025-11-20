@@ -23,8 +23,8 @@ pixmaps_dir = join_paths(localdir, 'pixmaps', 'grisbi')
 conf_data.set_quoted('LOCALEDIR', join_paths(localdir, 'locale'))
 conf_data.set_quoted('PIXMAPS_DIR', pixmaps_dir)
 conf_data.set_quoted('DATA_PATH', join_paths(localdir, 'grisbi'))
-conf_data.set_quoted('HELP_PATH', join_paths(get_option('prefix'), 'share', 'doc', 'grisbi'))
-conf_data.set_quoted('UI_DIR', join_paths(localdir, 'grisbi', 'ui'))
+conf_data.set_quoted('HELP_PATH', join_paths(get_option('prefix'), 'share/doc/grisbi'))
+conf_data.set_quoted('UI_DIR', join_paths(localdir, 'grisbi/ui'))
 
 minor_version = meson.project_version().split('.')[1].to_int()
 if get_option('debug') or minor_version % 2 == 1
