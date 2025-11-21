@@ -50,7 +50,6 @@ install_data(
   'fr/grisbi-manuel023.html',
   'fr/grisbi-manuel024.html',
   'fr/grisbi-manuel025.html',
-  'fr/grisbi-manuel-1page.html',
   'fr/grisbi-manuel.css',
   'fr/grisbi-manuel.html',
   'fr/grisbi-manuel.pdf',
