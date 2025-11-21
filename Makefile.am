@@ -5,6 +5,11 @@ man_MANS = grisbi.1
 
 EXTRA_DIST = \
     grisbi.spec \
+    help/meson.build \
+    meson.build \
+    meson_options.txt \
+    pixmaps/meson.build \
+    po/meson.build \
     win32 \
     win32-msys2\
     $(man_MANS)
