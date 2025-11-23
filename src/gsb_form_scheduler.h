@@ -34,7 +34,7 @@ gboolean 	gsb_form_scheduler_change_account 					(GtkWidget *button,
 gboolean 	gsb_form_scheduler_clean 							(void);
 gboolean 	gsb_form_scheduler_create 							(GtkWidget *table);
 gboolean 	gsb_form_scheduler_entry_lose_focus 				(GtkWidget *entry,
-																 GdkEventFocus *ev,
+																 GdkEvent *ev,
 																 gint *ptr_origin);
 gboolean 	gsb_form_scheduler_free_list 						(void);
 gint 		gsb_form_scheduler_get_account 						(void);

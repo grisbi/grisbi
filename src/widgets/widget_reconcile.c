@@ -98,7 +98,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (WidgetReconcile, widget_reconcile, GTK_TYPE_BOX)
  * \return FALSE
  **/
 static gboolean widget_reconcile_entry_lose_focus (GtkWidget *entry,
-												   GdkEventFocus *ev,
+												   GdkEvent *ev,
 												   gpointer data)
 {
 	gsb_form_check_auto_separator (entry);

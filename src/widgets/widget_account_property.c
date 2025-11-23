@@ -503,7 +503,7 @@ static void widget_account_property_bank_data_display (gint account_number,
  * \return
  **/
 static gboolean widget_account_property_focus_out (GtkWidget *widget,
-												   GdkEventFocus *event,
+												   GdkEvent *event,
 												   gint *p_property_origin)
 {
 	gint account_number;
@@ -893,7 +893,7 @@ static void widget_account_property_iban_insert_text (GtkEditable *entry,
  * \return
  **/
 static gboolean widget_account_property_iban_focus_in_event (GtkWidget *entry,
-															 GdkEventFocus *ev,
+															 GdkEvent *ev,
 															 gpointer data)
 {
 	gint current_account;
@@ -942,7 +942,7 @@ static void widget_account_property_iban_set_iban (const gchar *iban,
  * \return
  **/
 static gboolean widget_account_property_iban_focus_out_event (GtkWidget *entry,
-															  GdkEventFocus *ev,
+															  GdkEvent *ev,
 															  WidgetAccountPropertyPrivate *priv)
 {
 	gchar *iban;

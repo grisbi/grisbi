@@ -595,7 +595,7 @@ static gboolean bet_form_clean (gint account_number)
  * \return FALSE
  **/
 static gboolean bet_form_entry_lose_focus (GtkWidget *entry,
-										   GdkEventFocus *ev,
+										   GdkEvent *ev,
 										   gint *ptr_origin)
 {
     GtkWidget *widget;
@@ -1207,7 +1207,7 @@ static void bet_form_set_organization (void)
  * \return FALSE
  **/
 gboolean bet_form_entry_get_focus (GtkWidget *entry,
-										  GdkEventFocus *ev,
+										  GdkEvent *ev,
 										  GtkWidget *dialog)
 {
     /* the entry can be a combofix or a real entry */

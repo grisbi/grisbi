@@ -523,7 +523,7 @@ static void widget_transfert_calendar_entry_changed (GtkWidget *entry,
  * \return FALSE
  **/
 static gboolean widget_transfert_entry_focus_in (GtkWidget *entry,
-												 GdkEventFocus *ev,
+												 GdkEvent *ev,
 												 gpointer user_data)
 {
 	devel_debug (NULL);
@@ -548,7 +548,7 @@ static gboolean widget_transfert_entry_focus_in (GtkWidget *entry,
  * \return true
  * */
 static gboolean widget_transfert_calendar_entry_focus_out (GtkWidget *entry,
-														   GdkEventFocus *event,
+														   GdkEvent *event,
 														   WidgetTransfer *dialog)
 {
 	devel_debug (NULL);
@@ -573,7 +573,7 @@ static gboolean widget_transfert_calendar_entry_focus_out (GtkWidget *entry,
  * \return
  **/
 static gboolean widget_transfert_div_entry_focus_out (GtkWidget *entry,
-													  GdkEventFocus *ev,
+													  GdkEvent *ev,
 													  WidgetTransfer *dialog)
 {
 	GtkWidget *widget;
