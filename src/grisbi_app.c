@@ -64,8 +64,7 @@ static GtkCssProvider *	css_provider = NULL;	/* css provider */
 static gchar *			css_data = NULL;		/* fichier css sous forme de string */
 static gboolean			has_started = FALSE;	/* TRUE when grisbi_app_activate() finishes */
 
-static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
-											GdkScreen *screen);
+static GrisbiWin *grisbi_app_create_window (GrisbiApp *app);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -339,7 +338,7 @@ static void grisbi_app_new_window (GSimpleAction *action,
 	GrisbiApp *app;
 
 	app = GRISBI_APP (user_data);
-	grisbi_app_create_window (GRISBI_APP (app), NULL);
+	grisbi_app_create_window (GRISBI_APP (app));
 }
 
 /**
@@ -693,8 +692,7 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
  *
  * \return une fenêtre pour Grisbi
  */
-static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
-											GdkScreen *screen)
+static GrisbiWin *grisbi_app_create_window (GrisbiApp *app)
 {
 	GdkWindow *window;
 	GdkDisplay *display;
@@ -750,9 +748,6 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 
 	/* affiche la fenêtre principale */
 	gtk_window_present (GTK_WINDOW (win));
-
-	if (screen != NULL)
-		gtk_window_set_screen (GTK_WINDOW (win), screen);
 
 	/* on teste s'il faut changer de résolution */
 	if (!(priv->a_conf)->low_definition_screen)
@@ -999,7 +994,7 @@ static void grisbi_app_activate (GApplication *application)
 	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 
 	/* création de la fenêtre pincipale */
-	win = grisbi_app_create_window (GRISBI_APP (application), NULL);
+	win = grisbi_app_create_window (GRISBI_APP (application));
 
 	/* lance un assistant si première utilisation */
 	if ((priv->a_conf)->first_use)
@@ -1044,7 +1039,7 @@ static void grisbi_app_open (GApplication *application,
 	if (windows)
 		win = GRISBI_WIN (windows->data);
 	else
-		win = grisbi_app_create_window (GRISBI_APP (application), NULL);
+		win = grisbi_app_create_window (GRISBI_APP (application));
 
 	if (n_files == 1)
 	{
