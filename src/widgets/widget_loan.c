@@ -337,7 +337,7 @@ static gint widget_loan_combo_frequency_get_frequency (gint index)
  * \return FALSE
  **/
 static gboolean widget_loan_combofix_enter_focus (GtkWidget *entry,
-														GdkEventFocus *ev,
+														GdkEvent *ev,
 														gpointer user_data)
 {
     /* the entry is a real entry */
@@ -360,7 +360,7 @@ static gboolean widget_loan_combofix_enter_focus (GtkWidget *entry,
  * \return FALSE
  **/
 static gboolean widget_loan_combofix_lose_focus (GtkWidget *entry,
-												 GdkEventFocus *ev,
+												 GdkEvent *ev,
 												 GtkWidget *combo)
 {
     const gchar *string;

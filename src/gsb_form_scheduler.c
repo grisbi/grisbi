@@ -1083,7 +1083,7 @@ gboolean gsb_form_scheduler_button_press_event (GtkWidget *entry,
  * \return FALSE
  **/
 gboolean gsb_form_scheduler_entry_lose_focus (GtkWidget *entry,
-											  GdkEventFocus *ev,
+											  GdkEvent *ev,
 											  gint *ptr_origin)
 {
 	gint element_number;

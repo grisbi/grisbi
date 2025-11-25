@@ -1686,7 +1686,7 @@ static gboolean bet_array_sort_scheduled_transactions (gint div_number,
  * \return
  **/
 static gboolean bet_array_start_date_focus_out (GtkWidget *entry,
-                        						GdkEventFocus *ev,
+                        						GdkEvent *ev,
                         						gpointer null)
 {
     gint account_number;

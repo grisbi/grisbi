@@ -28,7 +28,7 @@ gboolean		gsb_form_widget_check_empty						(GtkWidget *entry);
 GtkWidget *		gsb_form_widget_create							(gint element_number,
                         										 gint account_number);
 gboolean		gsb_form_widget_entry_get_focus					(GtkWidget *entry,
-																 GdkEventFocus *ev,
+																 GdkEvent *ev,
 																 gint *ptr_origin);
 gboolean		gsb_form_widget_free_list						(void);
 gboolean		gsb_form_widget_free_list_without_widgets		(void);

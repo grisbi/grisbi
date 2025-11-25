@@ -829,7 +829,7 @@ void gsb_form_widget_set_empty (GtkWidget *entry,
  * \return FALSE
  **/
 gboolean gsb_form_widget_entry_get_focus (GtkWidget *entry,
-										  GdkEventFocus *ev,
+										  GdkEvent *ev,
 										  gint *ptr_origin)
 {
     GtkWidget *widget;

@@ -387,7 +387,7 @@ static gboolean gsb_calendar_entry_changed (GtkWidget *entry,
  * \return FALSE
  **/
 static gboolean gsb_calendar_entry_focus_out (GtkWidget *entry,
-											  GdkEventFocus *event,
+											  GdkEvent *event,
 											  gint *set_today)
 {
 	gint valid;

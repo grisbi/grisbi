@@ -2211,7 +2211,7 @@ gboolean gsb_form_entry_get_focus (GtkWidget *entry)
  * \return FALSE
  **/
 gboolean gsb_form_entry_lose_focus (GtkWidget *entry,
-									GdkEventFocus *ev,
+									GdkEvent *ev,
 									gint *ptr_origin)
 {
     const gchar *string;

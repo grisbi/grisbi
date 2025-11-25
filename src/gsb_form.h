@@ -26,7 +26,7 @@ gboolean 	gsb_form_clean 							(gint account_number);
 void 		gsb_form_create_widgets 				(void);
 gboolean 	gsb_form_entry_get_focus 				(GtkWidget *entry);
 gboolean 	gsb_form_entry_lose_focus 				(GtkWidget *entry,
-													 GdkEventFocus *ev,
+													 GdkEvent *ev,
 													 gint *ptr_origin);
 gboolean 	gsb_form_escape_form 					(void);
 void	 	gsb_form_expander_is_extanded 			(GtkWidget *expander);
