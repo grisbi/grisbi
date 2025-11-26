@@ -746,6 +746,7 @@ void gsb_css_set_color_property (GdkRGBA *color,
 	if (new_data)
 	{
 		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
+/* GTK4: gtk_css_provider_load_from_string (css_provider, new_data); */
 		grisbi_app_set_css_data (new_data);
 		gsb_css_count_change_inc ();
 
@@ -785,6 +786,7 @@ void gsb_css_set_property_from_name (const gchar *name,
 
 		css_provider = grisbi_app_get_css_provider ();
 		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
+/* GTK4: gtk_css_provider_load_from_string (css_provider, new_data); */
 		grisbi_app_set_css_data (new_data);
 		gsb_css_count_change_inc ();
 
@@ -848,7 +850,8 @@ void gsb_css_set_property_from_selector (const gchar *selector,
 	}
 
 	/* set new css datas */
-	gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
+		gtk_css_provider_load_from_data (css_provider, new_data, -1, NULL);
+/* GTK4: gtk_css_provider_load_from_string (css_provider, new_data); */
 	grisbi_app_set_css_data (new_data);
 	gsb_css_count_change_inc ();
 
@@ -909,6 +912,7 @@ void gsb_css_load_css_data_from_file (GtkCssProvider *css_provider)
 	css_filename = gsb_css_get_filename ();
 	file = g_file_new_for_path (css_filename);
 	gtk_css_provider_load_from_file (css_provider, file, NULL);
+/* GTK4: gtk_css_provider_load_from_file (css_provider, file); */
 	g_free (css_filename);
 	g_object_unref (file);
 
