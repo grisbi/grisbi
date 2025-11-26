@@ -158,6 +158,7 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 
 		data = utils_prefs_fonts_get_css_data_for_font (font_name);
 		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
+/* GTK4: gtk_css_provider_load_from_string (css_provider, data); */
 		context = gtk_widget_get_style_context (font_name_label);
 		gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (css_provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 		g_free (data);
