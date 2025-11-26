@@ -240,8 +240,8 @@ static void grisbi_app_setup_accelerators (GApplication *application,
 		{
 
 			gtk_application_set_accels_for_action (GTK_APPLICATION (application),
-											   accels[i].action_and_target,
-											   accels[i].accelerators);
+												   accels[i].action_and_target,
+												   accels[i].accelerators);
 		}
 	}
 	else
@@ -607,8 +607,6 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 
 	if (has_app_menu)
 	{
-		//GAction *action;
-
 		g_action_map_add_action_entries (G_ACTION_MAP (app), app_entries, G_N_ELEMENTS (app_entries), app);
 
 		priv->appmenu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
@@ -619,9 +617,6 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 		priv->prefs_action = g_action_map_lookup_action (G_ACTION_MAP (app), "prefs");
 		priv->item_recent_files = G_MENU (gtk_builder_get_object (builder, "recent-file"));
 		priv->item_edit = G_MENU (gtk_builder_get_object (builder, "edit"));
-		//action = g_action_map_lookup_action (G_ACTION_MAP (app), "new-window");
-		//g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
-
 	}
 	else
 	{
