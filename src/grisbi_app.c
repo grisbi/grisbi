@@ -745,7 +745,7 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app)
 	gtk_window_present (GTK_WINDOW (win));
 
 	/* on teste s'il faut changer de résolution */
-	if (!(priv->a_conf)->low_definition_screen)
+	if (!(priv->a_conf)->low_definition_screen) /* GTK4: partie a reprendre */
 	{
 		window = gtk_widget_get_window (GTK_WIDGET (win));
 		display = gdk_window_get_display (GDK_WINDOW (window));
@@ -955,6 +955,7 @@ static void grisbi_app_startup (GApplication *application)
 	css_data = gtk_css_provider_to_string (css_provider);
 
 	/* set the CSS properties */
+/* GTK4: gtk_style_context_add_provider_for_display (gdk_display_get_default (), */
 	gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
 											   GTK_STYLE_PROVIDER (css_provider),
 											   GTK_STYLE_PROVIDER_PRIORITY_USER);
