@@ -7,10 +7,8 @@
 # Benjamin Drieu <benj@atlin>, 2006.
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2006-2007.
 #
-# Please follow the guidelines you'll find here: http://wiki.traduc.org/gnomefr/
+# Please follow the guidelines you'll find here: https://traduc.org/gnomefr/Presentation
 # Pierre Biava <pierre@pierre.biava.name>, 2008-2010, 2011, 2012, 2016, 2017, 2018.
-#
-# SPDX-FileCopyrightText: 2025 dom <dbro17@free.fr>
 # SPDX-FileCopyrightText: 2025 brochignac <dbro17@free.fr.invalid>
 msgid ""
 msgstr ""
