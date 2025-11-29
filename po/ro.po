@@ -1,35 +1,5 @@
 # translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
-# translation of ro.po to
 # This file is distributed under the same license as the PACKAGE package.
-# Mircea Aronovici, 2005.
-# Mircea Aronovici, 2005.
-# Mircea Aronovici, 2005.
-# Mircea Aronovici, 2005.
-# Mircea Aronovici, 2005.
-# Mircea Aronovici, 2005.
-# Mircea Aronovici, 2005.
-# Mircea Aronovici, 2005.
-# Mircea Aronovici, 2005.
 # Mircea Aronovici, 2005.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Mircea Aronovici <bucuresti@free.fr>, 2005.
@@ -39,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-17 18:20+0100\n"
-"PO-Revision-Date: 2005-12-19 11:24+0100\n"
+"PO-Revision-Date: 2025-11-29 21:27+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
 "Language: ro\n"
@@ -5346,6 +5316,10 @@ msgid ""
 "\n"
 "The save folder will be the Grisbi file folder"
 msgstr ""
+"Fișierele generate vor fi denumite după cum urmează:\n"
+"[detalii a contului]-[numele contului].[extensie]\n"
+"\n"
+"Dosarul de salvare va fi dosarul de fișiere Grisbi"
 
 #: src/export.c:630
 msgid "Export settings completed successfully"

@@ -1,4 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
+[ex# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-17 18:20+0100\n"
-"PO-Revision-Date: 2007-04-05 00:03+0000\n"
+"PO-Revision-Date: 2025-11-29 20:50+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
 "Language: it\n"
@@ -5312,6 +5312,10 @@ msgid ""
 "\n"
 "The save folder will be the Grisbi file folder"
 msgstr ""
+"I file creati saranno denominati come segue:\n"
+"[dettagli conto]-[nome conto].[estensione]\n"
+"\n"
+"La cartella di salvataggio sarà la cartella dei file Grisbi"
 
 #: src/export.c:630
 msgid "Export settings completed successfully"
