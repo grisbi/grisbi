@@ -19,8 +19,7 @@
 /*     GNU General Public License for more details.                              */
 /*                                                                               */
 /*     You should have received a copy of the GNU General Public License         */
-/*     along with this program; if not, write to the Free Software               */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*     along with this program; if not, see <https://www.gnu.org/licenses/>.     */
 /*                                                                               */
 /* *******************************************************************************/
 
@@ -65,8 +64,7 @@ static GtkCssProvider *	css_provider = NULL;	/* css provider */
 static gchar *			css_data = NULL;		/* fichier css sous forme de string */
 static gboolean			has_started = FALSE;	/* TRUE when grisbi_app_activate() finishes */
 
-static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
-											GdkScreen *screen);
+static GrisbiWin *grisbi_app_create_window (GrisbiApp *app);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -242,8 +240,8 @@ static void grisbi_app_setup_accelerators (GApplication *application,
 		{
 
 			gtk_application_set_accels_for_action (GTK_APPLICATION (application),
-											   accels[i].action_and_target,
-											   accels[i].accelerators);
+												   accels[i].action_and_target,
+												   accels[i].accelerators);
 		}
 	}
 	else
@@ -340,7 +338,7 @@ static void grisbi_app_new_window (GSimpleAction *action,
 	GrisbiApp *app;
 
 	app = GRISBI_APP (user_data);
-	grisbi_app_create_window (GRISBI_APP (app), NULL);
+	grisbi_app_create_window (GRISBI_APP (app));
 }
 
 /**
@@ -609,8 +607,6 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 
 	if (has_app_menu)
 	{
-		//GAction *action;
-
 		g_action_map_add_action_entries (G_ACTION_MAP (app), app_entries, G_N_ELEMENTS (app_entries), app);
 
 		priv->appmenu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
@@ -621,9 +617,6 @@ static void grisbi_app_set_main_menu (GrisbiApp *app,
 		priv->prefs_action = g_action_map_lookup_action (G_ACTION_MAP (app), "prefs");
 		priv->item_recent_files = G_MENU (gtk_builder_get_object (builder, "recent-file"));
 		priv->item_edit = G_MENU (gtk_builder_get_object (builder, "edit"));
-		//action = g_action_map_lookup_action (G_ACTION_MAP (app), "new-window");
-		//g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
-
 	}
 	else
 	{
@@ -694,8 +687,7 @@ static gboolean grisbi_app_window_delete_event (GrisbiWin *win,
  *
  * \return une fenêtre pour Grisbi
  */
-static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
-											GdkScreen *screen)
+static GrisbiWin *grisbi_app_create_window (GrisbiApp *app)
 {
 	GdkWindow *window;
 	GdkDisplay *display;
@@ -752,11 +744,8 @@ static GrisbiWin *grisbi_app_create_window (GrisbiApp *app,
 	/* affiche la fenêtre principale */
 	gtk_window_present (GTK_WINDOW (win));
 
-	if (screen != NULL)
-		gtk_window_set_screen (GTK_WINDOW (win), screen);
-
 	/* on teste s'il faut changer de résolution */
-	if (!(priv->a_conf)->low_definition_screen)
+	if (!(priv->a_conf)->low_definition_screen) /* GTK4: partie a reprendre */
 	{
 		window = gtk_widget_get_window (GTK_WIDGET (win));
 		display = gdk_window_get_display (GDK_WINDOW (window));
@@ -966,6 +955,7 @@ static void grisbi_app_startup (GApplication *application)
 	css_data = gtk_css_provider_to_string (css_provider);
 
 	/* set the CSS properties */
+/* GTK4: gtk_style_context_add_provider_for_display (gdk_display_get_default (), */
 	gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
 											   GTK_STYLE_PROVIDER (css_provider),
 											   GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -1000,7 +990,7 @@ static void grisbi_app_activate (GApplication *application)
 	priv = grisbi_app_get_instance_private (GRISBI_APP (application));
 
 	/* création de la fenêtre pincipale */
-	win = grisbi_app_create_window (GRISBI_APP (application), NULL);
+	win = grisbi_app_create_window (GRISBI_APP (application));
 
 	/* lance un assistant si première utilisation */
 	if ((priv->a_conf)->first_use)
@@ -1045,7 +1035,7 @@ static void grisbi_app_open (GApplication *application,
 	if (windows)
 		win = GRISBI_WIN (windows->data);
 	else
-		win = grisbi_app_create_window (GRISBI_APP (application), NULL);
+		win = grisbi_app_create_window (GRISBI_APP (application));
 
 	if (n_files == 1)
 	{

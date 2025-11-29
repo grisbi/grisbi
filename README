@@ -104,8 +104,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+along with this program; if not, see <https://www.gnu.org/licenses/>.
 
 In addition, as a special exception, you have permission to link the
 code of its release of Grisbi with the OpenSSL project's "OpenSSL"

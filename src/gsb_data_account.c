@@ -16,8 +16,7 @@
 /*  GNU General Public License for more details.                              */
 /*                                                                            */
 /*  You should have received a copy of the GNU General Public License         */
-/*  along with this program; if not, write to the Free Software               */
-/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*  along with this program; if not, see <https://www.gnu.org/licenses/>.     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1162,29 +1161,32 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances (gint account_num
 	tmp_list = gsb_data_transaction_get_active_transactions_list ();
     while (tmp_list)
     {
+		gint transaction_number;
 		gint res = 0;
-		TransactionStruct *transaction;
 
-		transaction = tmp_list->data;
-		gsb_data_transaction_save_transaction_pointer (transaction);
+		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
 
 		/* on regarde si on tient compte ou pas des échéances pour les soldes */
 		if (a_conf->balances_with_scheduled)
 			res = 0;
 		else
 		{
-			if (transaction->value_date && g_date_valid (transaction->value_date))
-				res = g_date_compare (date_jour, transaction->value_date);
-			else
-				res = g_date_compare (date_jour, transaction->date);
+			const GDate *date;
+
+			date = gsb_data_transaction_get_value_date_or_date (transaction_number);
+			if (date && g_date_valid (date))
+				res = g_date_compare (date_jour, date);
 		}
 
-		if (transaction->account_number == account_number && !transaction->mother_transaction_number && res >= 0)
+		if (gsb_data_transaction_get_account_number (transaction_number) == account_number
+			&& !gsb_data_transaction_get_mother_transaction_number (transaction_number)
+			&& res >= 0)
 		{
+			gint marked_transaction;
 			GsbReal adjusted_amout;
 			GsbReal tmp_balance;
 
-			adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction->transaction_number, floating_point);
+			adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
 			tmp_balance = gsb_real_add (current_balance, adjusted_amout);
 			if(tmp_balance.mantissa != error_real.mantissa)
 			{
@@ -1194,14 +1196,15 @@ GsbReal gsb_data_account_calculate_current_and_marked_balances (gint account_num
 			{
 				current_balance_later = gsb_real_add (current_balance_later, adjusted_amout);
 			}
-			if (transaction->marked_transaction)
+			marked_transaction = gsb_data_transaction_get_marked_transaction (transaction_number);
+			if (marked_transaction)
 			{
 				tmp_balance = gsb_real_add (marked_balance, adjusted_amout);
 				if(tmp_balance.mantissa != error_real.mantissa)
 					marked_balance = tmp_balance;
 				else
 					marked_balance_later = gsb_real_add (marked_balance_later, adjusted_amout);
-				if (transaction->marked_transaction == OPERATION_POINTEE)
+				if (marked_transaction == OPERATION_POINTEE)
 					has_pointed = TRUE;
 			}
 		}
@@ -1286,18 +1289,16 @@ GsbReal gsb_data_account_calculate_waiting_marked_balance (gint account_number)
     tmp_list = gsb_data_transaction_get_active_transactions_list ();
     while (tmp_list)
     {
-		TransactionStruct *transaction;
+		gint transaction_number;
 
-		transaction = tmp_list->data;
-		gsb_data_transaction_save_transaction_pointer (transaction);
-
-		if (transaction->account_number == account_number
-			&& !transaction->mother_transaction_number
-			&& (transaction->marked_transaction == OPERATION_POINTEE
+		transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+		if (gsb_data_transaction_get_account_number (transaction_number) == account_number
+			&& !gsb_data_transaction_get_mother_transaction_number (transaction_number)
+			&& (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_POINTEE
 			   ||
-			   transaction->marked_transaction == OPERATION_TELEPOINTEE))
+			   gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELEPOINTEE))
 			marked_balance = gsb_real_add (marked_balance,
-										   gsb_data_transaction_get_adjusted_amount (transaction->transaction_number,
+										   gsb_data_transaction_get_adjusted_amount (transaction_number,
 																					 floating_point));
 		tmp_list = tmp_list->next;
     }

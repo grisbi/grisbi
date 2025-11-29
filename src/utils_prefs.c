@@ -17,8 +17,7 @@
 /*  GNU General Public License for more details.                              */
 /*                                                                            */
 /*  You should have received a copy of the GNU General Public License         */
-/*  along with this program; if not, write to the Free Software               */
-/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*  along with this program; if not, see <https://www.gnu.org/licenses/>.     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +158,7 @@ static void utils_prefs_fonts_update_labels (GtkWidget *button,
 
 		data = utils_prefs_fonts_get_css_data_for_font (font_name);
 		gtk_css_provider_load_from_data (css_provider, data, -1, NULL);
+/* GTK4: gtk_css_provider_load_from_string (css_provider, data); */
 		context = gtk_widget_get_style_context (font_name_label);
 		gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (css_provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 		g_free (data);

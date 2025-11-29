@@ -16,8 +16,7 @@
 /*  GNU General Public License for more details.                              */
 /*                                                                            */
 /*  You should have received a copy of the GNU General Public License         */
-/*  along with this program; if not, write to the Free Software               */
-/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*  along with this program; if not, see <https://www.gnu.org/licenses/>.     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -596,7 +595,7 @@ static gboolean bet_form_clean (gint account_number)
  * \return FALSE
  **/
 static gboolean bet_form_entry_lose_focus (GtkWidget *entry,
-										   GdkEventFocus *ev,
+										   GdkEvent *ev,
 										   gint *ptr_origin)
 {
     GtkWidget *widget;
@@ -1208,7 +1207,7 @@ static void bet_form_set_organization (void)
  * \return FALSE
  **/
 gboolean bet_form_entry_get_focus (GtkWidget *entry,
-										  GdkEventFocus *ev,
+										  GdkEvent *ev,
 										  GtkWidget *dialog)
 {
     /* the entry can be a combofix or a real entry */

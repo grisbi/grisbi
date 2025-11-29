@@ -12,7 +12,7 @@
 /* START_DECLARATION */
 /* BET_FORM */
 gboolean	bet_form_entry_get_focus		(GtkWidget *entry,
-											 GdkEventFocus *ev,
+											 GdkEvent *ev,
 											 GtkWidget *dialog);
 
 

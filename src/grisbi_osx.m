@@ -19,8 +19,7 @@
 /*     GNU General Public License for more details.                              */
 /*                                                                               */
 /*     You should have received a copy of the GNU General Public License         */
-/*     along with this program; if not, write to the Free Software               */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*     along with this program; if not, see <https://www.gnu.org/licenses/>.     */
 /*                                                                               */
 /* *******************************************************************************/
 
@@ -74,8 +73,21 @@ static gchar *get_program_dir(void)
 }
 
 /**
+ * wrapper around setenv. It adds some debug logs
+ *
+ */
+static void my_setenv(const gchar *key, const gchar *value) {
+	char set_env[255];
+
+	snprintf(set_env, sizeof(set_env), "SET: %s = %s", key, value);
+	devel_debug(set_env);
+	g_setenv(key, value, TRUE);
+}
+
+/**
  * Guess the bundle directory. If executable is run outside bundle, return the parent directory
  */
+#ifdef HAVE_GOFFICE
 static gchar *get_bundle_prefix(void) {
     gchar *get_bundle_prefix;
     gchar *program_dir = get_program_dir();
@@ -91,18 +103,6 @@ static gchar *get_bundle_prefix(void) {
     g_free(prefix);
 
     return get_bundle_prefix; /* should be g_freed by the caller */
-}
-
-/**
- * wrapper around setenv. It adds some debug logs
- *
- */
-static void my_setenv(const gchar *key, const gchar *value) {
-    char set_env[255];
-
-    snprintf(set_env, sizeof(set_env), "SET: %s = %s", key, value);
-    devel_debug(set_env);
-    g_setenv(key, value, TRUE);
 }
 
 /**
@@ -203,6 +203,7 @@ static gchar *set_macos_app_bundle_env(gchar const *program_dir)
 
     return bundle_resources_dir;
 }
+#endif
 
 static void set_theme(void) {
     NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
@@ -230,7 +231,9 @@ static void set_locale(void) {
 GSList *grisbi_osx_init(int *pargc, char *argv[]) {
     char *program_dir = get_program_dir();
     GSList *goffice_plugins_dirs = NULL;
+#ifdef HAVE_GOFFICE
     gchar *bundle_resources_dir = NULL;
+#endif
 	int argc = *pargc;
 
     devel_debug("MACOSX: Start initialization");
@@ -253,6 +256,7 @@ GSList *grisbi_osx_init(int *pargc, char *argv[]) {
             *pargc = new_argc;
         }
 
+#ifdef HAVE_GOFFICE
         // Step 2
         // In the past, a launch script/wrapper was used to setup necessary environment
         // variables to facilitate relocatability for the application bundle. Starting
@@ -260,6 +264,7 @@ GSList *grisbi_osx_init(int *pargc, char *argv[]) {
         // that get misdirected by using a launcher. The launcher needs to go and the
         // binary needs to setup the environment itself.
         bundle_resources_dir = set_macos_app_bundle_env(program_dir);
+#endif
         free(program_dir);
     } else {
         devel_debug("Running outside bundle");

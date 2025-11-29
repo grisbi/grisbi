@@ -19,8 +19,7 @@
 /*     GNU General Public License for more details.                              */
 /*                                                                               */
 /*     You should have received a copy of the GNU General Public License         */
-/*     along with this program; if not, write to the Free Software               */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*     along with this program; if not, see <https://www.gnu.org/licenses/>.     */
 /*                                                                               */
 /* *******************************************************************************/
 
@@ -338,7 +337,7 @@ static gint widget_loan_combo_frequency_get_frequency (gint index)
  * \return FALSE
  **/
 static gboolean widget_loan_combofix_enter_focus (GtkWidget *entry,
-														GdkEventFocus *ev,
+														GdkEvent *ev,
 														gpointer user_data)
 {
     /* the entry is a real entry */
@@ -361,7 +360,7 @@ static gboolean widget_loan_combofix_enter_focus (GtkWidget *entry,
  * \return FALSE
  **/
 static gboolean widget_loan_combofix_lose_focus (GtkWidget *entry,
-												 GdkEventFocus *ev,
+												 GdkEvent *ev,
 												 GtkWidget *combo)
 {
     const gchar *string;

@@ -19,8 +19,7 @@
 /*     GNU General Public License for more details.                              */
 /*                                                                               */
 /*     You should have received a copy of the GNU General Public License         */
-/*     along with this program; if not, write to the Free Software               */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*     along with this program; if not, see <https://www.gnu.org/licenses/>.     */
 /*                                                                               */
 /* *******************************************************************************/
 
@@ -99,7 +98,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (WidgetReconcile, widget_reconcile, GTK_TYPE_BOX)
  * \return FALSE
  **/
 static gboolean widget_reconcile_entry_lose_focus (GtkWidget *entry,
-												   GdkEventFocus *ev,
+												   GdkEvent *ev,
 												   gpointer data)
 {
 	gsb_form_check_auto_separator (entry);

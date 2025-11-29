@@ -19,8 +19,7 @@
 /*     GNU General Public License for more details.                              */
 /*                                                                               */
 /*     You should have received a copy of the GNU General Public License         */
-/*     along with this program; if not, write to the Free Software               */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*     along with this program; if not, see <https://www.gnu.org/licenses/>.     */
 /*                                                                               */
 /* *******************************************************************************/
 
@@ -504,7 +503,7 @@ static void widget_account_property_bank_data_display (gint account_number,
  * \return
  **/
 static gboolean widget_account_property_focus_out (GtkWidget *widget,
-												   GdkEventFocus *event,
+												   GdkEvent *event,
 												   gint *p_property_origin)
 {
 	gint account_number;
@@ -894,7 +893,7 @@ static void widget_account_property_iban_insert_text (GtkEditable *entry,
  * \return
  **/
 static gboolean widget_account_property_iban_focus_in_event (GtkWidget *entry,
-															 GdkEventFocus *ev,
+															 GdkEvent *ev,
 															 gpointer data)
 {
 	gint current_account;
@@ -943,7 +942,7 @@ static void widget_account_property_iban_set_iban (const gchar *iban,
  * \return
  **/
 static gboolean widget_account_property_iban_focus_out_event (GtkWidget *entry,
-															  GdkEventFocus *ev,
+															  GdkEvent *ev,
 															  WidgetAccountPropertyPrivate *priv)
 {
 	gchar *iban;
