@@ -3562,9 +3562,9 @@ static void gsb_file_load_transactions_part (const gchar **attribute_names,
 
                 else if (!strcmp (attribute_names[i], "Nb"))
                 {
-                    transaction_number = gsb_data_transaction_new_transaction_with_number (account_number,
-																						   utils_str_atoi
-																						   (attribute_values[i]));
+                    transaction_number = gsb_data_transaction_new_transaction_from_file (account_number,
+																						 utils_str_atoi
+																						 (attribute_values[i]));
                 }
 
                 else
@@ -4077,6 +4077,8 @@ gboolean gsb_file_load_open_file (const gchar *filename)
 		{
 			download_tmp_values.download_ok = FALSE;
 		}
+
+		gsb_data_transaction_reverse_lists ();
 
 		g_markup_parse_context_free (context);
 		g_free (markup_parser);

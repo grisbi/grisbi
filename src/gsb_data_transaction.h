@@ -130,12 +130,15 @@ const gchar *	gsb_data_transaction_get_voucher 								(gint transaction_number)
 gint 			gsb_data_transaction_get_white_line 							(gint transaction_number);
 gboolean 		gsb_data_transaction_init_variables 							(void);
 gint 			gsb_data_transaction_new_transaction 							(gint no_account);
+gint 			gsb_data_transaction_new_transaction_from_file	 				(gint no_account,
+                        														 gint transaction_number);
 gint 			gsb_data_transaction_new_transaction_with_number 				(gint no_account,
                         														 gint transaction_number);
 gint 			gsb_data_transaction_new_white_line								(gint mother_transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction							(gint transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction_in_transaction_list 	(gint transaction_number);
 gboolean 		gsb_data_transaction_remove_transaction_without_check 			(gint transaction_number);
+void			gsb_data_transaction_reverse_lists								(void);
 void			gsb_data_transaction_save_transaction_pointer					(gpointer transaction);
 gboolean 		gsb_data_transaction_set_account_number 						(gint transaction_number,
 																				 gint no_account);

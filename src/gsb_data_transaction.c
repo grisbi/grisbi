@@ -241,6 +241,14 @@ static TransactionStruct *gsb_data_transaction_get_transaction_by_no (gint trans
 /******************************************************************************/
 /* Public functions                                                           */
 /******************************************************************************/
+
+void gsb_data_transaction_reverse_lists (void)
+{
+	transactions_list = g_slist_reverse (transactions_list);
+	complete_transactions_list = g_slist_reverse (complete_transactions_list);
+	active_transactions_list = g_slist_reverse (active_transactions_list);
+}
+
 /**
  * set the transactions global variables to NULL, usually when we init all the global variables
  *
@@ -1962,6 +1970,51 @@ gboolean gsb_data_transaction_set_mother_transaction_number (gint transaction_nu
 }
 
 /**
+ * create a new transaction during the start-up of Grisbi. Necessary to avoid breaking
+ * the order of transactions created subsequently.
+ * the g_slist_prepend() function is not used in this case.
+ *
+ * \param no_account the number of the account where the transaction should be made
+ * \param transaction_number the number of the transaction
+ *
+ * \return the number of the new transaction
+ **/
+gint gsb_data_transaction_new_transaction_from_file (gint no_account,
+													 gint transaction_number)
+{
+	TransactionStruct *transaction;
+
+	transaction = g_malloc0 (sizeof (TransactionStruct));
+	if (!transaction)
+	{
+		dialogue_error (_("Cannot allocate memory, bad things will happen soon"));
+
+		return FALSE;
+	}
+
+	if (!transaction_number)
+		transaction_number = gsb_data_transaction_get_last_number () + 1;
+
+	transaction->account_number = no_account;
+	transaction->transaction_number = transaction_number;
+	transaction->currency_number = gsb_data_account_get_currency (no_account);
+	transaction->voucher = g_strdup("");
+	transaction->bank_references = g_strdup("");
+
+	/* we append the transaction to the complete transactions list and the non archive transaction list */
+	transactions_list = g_slist_prepend (transactions_list, transaction);
+	complete_transactions_list = g_slist_prepend (complete_transactions_list, transaction);
+
+	/* we append the transaction to the active transactions list if the account isn't closed */
+	if (!gsb_data_account_get_closed_account (no_account))
+		active_transactions_list = g_slist_prepend (active_transactions_list, transaction);
+
+	gsb_data_transaction_save_transaction_pointer (transaction);
+
+	return transaction->transaction_number;
+}
+
+/**
  * create a new transaction and append it to the list in the right account
  * set the transaction number given in param (if no number, give the last number + 1)
  * set the number of the account, the number of the transaction and the currency number
@@ -1998,7 +2051,7 @@ gint gsb_data_transaction_new_transaction_with_number (gint no_account,
 	transactions_list = g_slist_append (transactions_list, transaction);
 	complete_transactions_list = g_slist_append (complete_transactions_list, transaction);
 
-	/* we append the transaction to the active transactions list if the account is closed */
+	/* we append the transaction to the active transactions list if the account isn't closed */
 	if (!gsb_data_account_get_closed_account (no_account))
 		active_transactions_list = g_slist_append (active_transactions_list, transaction);
 
