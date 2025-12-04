@@ -1096,6 +1096,9 @@ GtkResponseType gsb_assistant_archive_run (gboolean origin)
 	return_value = gsb_assistant_run (assistant);
 	gtk_widget_destroy (assistant);
 
+	/* force a reload of list of reports on next call */
+	gsb_report_init_variables();
+
 	/* the fyear combobox in grisbi are used with the "Automatic" line,
 	 * so show it again */
 	gsb_fyear_set_automatic (TRUE);
