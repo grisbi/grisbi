@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-17 18:20+0100\n"
-"PO-Revision-Date: 2007-04-05 00:03+0000\n"
+"PO-Revision-Date: 2025-12-04 18:59+0100\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/etats/etats_page_amount.ui:17 src/etats/etats_page_text.ui:16
 #, fuzzy
@@ -1190,7 +1192,7 @@ msgstr "Ricorda i settaggi di visualizzazione separatamente per ogni conto"
 
 #: src/prefs/prefs_page_payment_method.ui:34
 msgid "Known payment methods"
-msgstr "Metodi di pagamento conosciuti."
+msgstr "Metodi di pagamento conosciuti"
 
 #: src/prefs/prefs_page_payment_method.ui:110
 msgid "Payment method details"
@@ -4255,7 +4257,7 @@ msgstr "Elimina rapporto"
 #: src/dialog.c:76
 #, c-format
 msgid "File \"%s\" is already opened"
-msgstr "Il file \"%s\" è già aperto."
+msgstr "Il file \"%s\" è già aperto"
 
 #: src/dialog.c:77
 msgid ""
@@ -4868,7 +4870,7 @@ msgstr ""
 
 #: src/etats_onglet.c:360
 msgid "Export report"
-msgstr "Esporta rapporto."
+msgstr "Esporta rapporto"
 
 #: src/etats_onglet.c:383
 #, fuzzy
@@ -5312,6 +5314,10 @@ msgid ""
 "\n"
 "The save folder will be the Grisbi file folder"
 msgstr ""
+"I file creati saranno denominati come segue:\n"
+"[dettagli conto]-[nome conto].[estensione]\n"
+"\n"
+"La cartella di salvataggio sarà la cartella dei file Grisbi"
 
 #: src/export.c:630
 msgid "Export settings completed successfully"
@@ -6256,7 +6262,7 @@ msgstr "Sposta la transazione ad un altro conto"
 
 #: src/grisbi_win.c:1683 src/gsb_file.c:419 src/gsb_file.c:453
 msgid "unnamed"
-msgstr "Senza nome"
+msgstr "senza nome"
 
 #: src/grisbi_win.c:2009
 msgid "Creating main window"
@@ -11307,7 +11313,7 @@ msgstr "Chiudi"
 #: src/plugins/gnucash/gnucash.c:296
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
-msgstr "Il file \"%s\" non esiste o non è valido"
+msgstr "Il file \"%s\" non esiste o non è valido."
 
 #: src/plugins/gnucash/gnucash.c:298
 #, c-format
@@ -12213,7 +12219,7 @@ msgstr ""
 
 #: src/qif.c:928 src/qif.c:931
 msgid " [Transaction imported without date]"
-msgstr "[Transazione importata senza data]"
+msgstr " [Transazione importata senza data]"
 
 #: src/qif.c:1272
 #, fuzzy
@@ -12611,9 +12617,8 @@ msgstr "Transazioni manuali pianificate"
 
 #: src/tip.c:100
 msgid ""
-"No more tip available!  Please send any tips you know to "
-"devel@listes.grisbi.org so that we can include them in next version for all "
-"users."
+"No more tip available!  Please send any tips you know to devel@listes.grisbi."
+"org so that we can include them in next version for all users."
 msgstr ""
 
 #: src/tip.c:137
@@ -13056,7 +13061,7 @@ msgstr "Simbolo"
 #: src/widgets/widget_import_asso.c:104 src/widgets/widget_import_asso.c:334
 #: src/widgets/widget_import_asso.c:605
 msgid "Update"
-msgstr "data"
+msgstr "Modifica"
 
 #: src/widgets/widget_import_asso.c:464
 msgid "You will be redirected to the payee management module"
