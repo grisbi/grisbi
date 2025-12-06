@@ -39,16 +39,15 @@ jobs:
 
       - name: install_extra
         run: |
-          libofx_version="0.9.15"
+          libofx_version="0.10.9"
           libgoffice_version="2019.10.16-19"
 
-          git_src="https://github.com/xfred81"
+          git_src="https://github.com/LudovicRousseau"
           bits="64bit"
-          MSYSTEM="MINGW64"
 
           pwd
           cd /
-          wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/$libofx_version/libofx_$MSYSTEM.zip"
+          wget -m --no-verbose -O /libofx.zip "$git_src/libofx/releases/download/$libofx_version/libofx.zip"
           unzip /libofx.zip
 
           # wget -m --no-verbose -O /goffice.zip "$git_src/goffice/releases/download/v-$libgoffice_version/goffice-$bits-$libgoffice_version-archive.zip"
