@@ -3892,6 +3892,71 @@ gboolean gsb_data_account_renum_account_number_0 (const gchar *filename)
 }
 
 /**
+ * test simplification du calcul des soldes.
+ *
+ * \param
+ * \param
+ * \param sens 	= OPERATION_NORMALE si soustraire et = OPERATION_POINTEE si additionner
+ *
+ * \return
+ **/
+void gsb_data_account_set_current_balance_from_transaction	(gint account_number,
+															 gint transaction_number,
+															 gint sens)
+{
+    gint floating_point;
+	GsbReal adjusted_amout;
+	GsbReal tmp_balance;
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+    floating_point = gsb_data_currency_get_floating_point (account->currency);
+	adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
+	tmp_balance = gsb_real_add (account->current_balance, adjusted_amout);
+	if(tmp_balance.mantissa != error_real.mantissa)
+	{
+		account->current_balance = tmp_balance;
+	}
+	else
+	{
+		account->init_balance = error_real;
+		account->current_balance = account->init_balance;
+	}
+}
+
+/**
+ *
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ **/
+void gsb_data_account_set_marked_balance_from_transaction	(gint account_number,
+															 gint transaction_number,
+															 gint sens)
+{
+    gint floating_point;
+	GsbReal adjusted_amout;
+	GsbReal tmp_balance;
+    AccountStruct *account;
+
+    account = gsb_data_account_get_structure (account_number);
+    floating_point = gsb_data_currency_get_floating_point (account->currency);
+	adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
+	if (sens == OPERATION_POINTEE)
+		tmp_balance = gsb_real_add (account->marked_balance, adjusted_amout);
+	else
+		tmp_balance = gsb_real_sub (account->marked_balance, adjusted_amout);
+
+	if(tmp_balance.mantissa != error_real.mantissa)
+		account->marked_balance = tmp_balance;
+	else
+		account->marked_balance = error_real;
+}
+
+/**
  *
  *
  * \param
