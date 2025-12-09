@@ -1475,7 +1475,9 @@ gboolean gsb_data_transaction_set_marked_transaction (gint transaction_number,
 	if (!transaction)
 		return FALSE;
 
-	gsb_data_account_set_balances_are_dirty (transaction->account_number);
+	gsb_data_account_set_marked_balance_from_transaction (transaction->account_number,
+														  transaction_number,
+														  marked_transaction);
 	transaction->marked_transaction = marked_transaction;
 
 	/* if the transaction is a split, change all the children */
