@@ -8,3 +8,6 @@ grisbi_resources.c
 org.gtk.grisbi.gschema.valid
 win-main.rc
 .goutputstream*
+gmon.out
+analysis.txt
+
