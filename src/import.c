@@ -2322,7 +2322,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 		if (contra_number)
 		{
 			gsb_data_transaction_set_value_date (transaction_number, imported_transaction->date_de_valeur);
-			gsb_transactions_list_update_transaction (contra_number);
+			transaction_list_update_transaction (contra_number);
 
 		}
 		/* on regarde aussi dans les opérations filles */
@@ -2342,7 +2342,7 @@ static gint gsb_import_create_transaction (struct ImportTransaction *imported_tr
 					if (contra_number)
 					{
 						gsb_data_transaction_set_value_date (contra_number, imported_transaction->date_de_valeur);
-						gsb_transactions_list_update_transaction (contra_number);
+						transaction_list_update_transaction (contra_number);
 					}
 				}
 
@@ -3883,7 +3883,7 @@ static void gsb_import_add_imported_transactions (struct ImportAccount *imported
 			if (w_etat->fusion_import_transactions
 				&& imported_transaction->ope_correspondante > 0)
         {
-            gsb_transactions_list_update_transaction (transaction_number);
+            transaction_list_update_transaction (transaction_number);
             tmp_list = tmp_list->next;
 				continue;
 			}
@@ -4651,7 +4651,7 @@ static void gsb_import_pointe_opes_importees (struct ImportAccount *imported_acc
 						transaction_number = gsb_import_create_transaction (ope_import,
 																			account_number,
 																			imported_account->origine);
-						gsb_transactions_list_update_transaction (transaction_number);
+						transaction_list_update_transaction (transaction_number);
 					}
 				}
 			}
