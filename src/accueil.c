@@ -72,6 +72,12 @@ static GtkSizeGroup *size_group_accueil;
 static const gchar *chaine_espace = "                         ";
 
 static gint LIGNE_SOMME_SIZE = 100;
+
+static gint currency;
+static GsbReal current_balance;
+static GsbReal marked_balance;
+static GsbReal mini_balance_authorized;
+static GsbReal mini_balance_wanted;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -344,7 +350,13 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 	GtkWidget *pLabel;
 	GtkStyleContext* context;
 	gchar *tmp_str;
-	GsbReal current_balance;
+
+	/* Récupération des balances et de la devise */
+	currency = gsb_data_account_get_currency (account_number);
+	current_balance = gsb_data_account_get_current_balance (account_number);
+	marked_balance = gsb_data_account_get_marked_balance (account_number);
+	mini_balance_authorized = gsb_data_account_get_mini_balance_authorized (account_number);
+	mini_balance_wanted = gsb_data_account_get_mini_balance_wanted (account_number);
 
 	/* Première colonne : elle contient le nom du compte */
 	tmp_str = g_strconcat (gsb_data_account_get_name (account_number), " : ", NULL);
@@ -377,9 +389,7 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 	gtk_widget_show (pLabel);
 
 	/* Deuxième colonne : elle contient le solde pointé du compte */
-	tmp_str = utils_real_get_string_with_currency (gsb_data_account_get_marked_balance (account_number),
-												   gsb_data_account_get_currency (account_number),
-												   TRUE);
+	tmp_str = utils_real_get_string_with_currency (marked_balance, currency, TRUE);
 	pLabel = gtk_label_new (tmp_str);
 	g_free (tmp_str);
 	utils_labels_set_alignment (GTK_LABEL (pLabel), MISC_RIGHT, MISC_VERT_CENTER);
@@ -388,15 +398,13 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 	pEventBox = gtk_event_box_new ();
 
 	/* Mise en place du style du label en fonction du solde courant */
-	if (gsb_real_cmp (gsb_data_account_get_marked_balance (account_number),
-					  gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
+	if (gsb_real_cmp (marked_balance, mini_balance_wanted) != -1)
 	{
 		gtk_widget_set_name (pEventBox, "accueil_solde_normal");
 	}
 	else
 	{
-		if (gsb_real_cmp (gsb_data_account_get_marked_balance (account_number),
-						  gsb_data_account_get_mini_balance_authorized (account_number)) != -1)
+		if (gsb_real_cmp (marked_balance, mini_balance_authorized) != -1)
 		{
 			gtk_widget_set_name (pEventBox, "accueil_solde_alarme_low");
 		}
@@ -427,13 +435,10 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 	gtk_widget_show (pLabel);
 
 	/* Troisième colonne : elle contient le solde courant du compte */
-	current_balance = gsb_data_account_get_current_balance (account_number);
 	if (current_balance.mantissa == G_MININT64)
 		tmp_str =  g_strdup (ERROR_REAL_STRING);
 	else
-		tmp_str = utils_real_get_string_with_currency (current_balance,
-													   gsb_data_account_get_currency (account_number),
-													   TRUE);
+		tmp_str = utils_real_get_string_with_currency (current_balance, currency, TRUE);
 	pLabel = gtk_label_new (tmp_str);
 	g_free (tmp_str);
 	utils_labels_set_alignment (GTK_LABEL (pLabel), MISC_RIGHT, MISC_VERT_CENTER);
@@ -442,15 +447,13 @@ static void gsb_main_page_affiche_ligne_du_compte (GtkWidget *pTable,
 	pEventBox = gtk_event_box_new ();
 
 	/* Mise en place du style du label en fonction du solde courant */
-	if (gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
-					  gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
+	if (gsb_real_cmp (current_balance, mini_balance_wanted) != -1)
 	{
 		gtk_widget_set_name (pEventBox, "accueil_solde_normal");
 	}
 	else
 	{
-		if (gsb_real_cmp (gsb_data_account_get_current_balance (account_number),
-						  gsb_data_account_get_mini_balance_authorized (account_number)) != -1)
+		if (gsb_real_cmp (current_balance, mini_balance_authorized) != -1)
 		{
 			gtk_widget_set_name (pEventBox, "accueil_solde_alarme_low");
 		}
@@ -711,6 +714,10 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 			if (kind == type_compte
 			 || (kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES))
 			{
+				/* on récupère les balances */
+				current_balance = gsb_data_account_get_current_balance (account_number);
+				marked_balance = gsb_data_account_get_marked_balance (account_number);
+
 				/* on regarde si ce compte appartient à un solde partiel */
 				if (gsb_main_page_account_have_partial_balance (account_number, list_partial))
 				{
@@ -751,10 +758,8 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 								compte_simple = FALSE;
 							}
 							gsb_main_page_affiche_ligne_du_compte (pTable, tmp_number, i);
-							solde_global_courant = gsb_real_add (solde_global_courant,
-																 gsb_data_account_get_current_balance (tmp_number));
-							solde_global_pointe = gsb_real_add (solde_global_pointe,
-																gsb_data_account_get_marked_balance (tmp_number));
+							solde_global_courant = gsb_real_add (solde_global_courant, current_balance);
+							solde_global_pointe = gsb_real_add (solde_global_pointe, marked_balance);
 
 							partial_buffer->displayed = TRUE;
 							i++;
@@ -773,10 +778,8 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 				{
 					/* on affiche la ligne du compte avec les soldes pointé et courant */
 					gsb_main_page_affiche_ligne_du_compte (pTable, account_number, i);
-					solde_global_courant = gsb_real_add (solde_global_courant,
-														 gsb_data_account_get_current_balance (account_number));
-					solde_global_pointe = gsb_real_add (solde_global_pointe,
-														gsb_data_account_get_marked_balance (account_number));
+					solde_global_courant = gsb_real_add (solde_global_courant, current_balance);
+					solde_global_pointe = gsb_real_add (solde_global_pointe, marked_balance);
 					i++;
 					compte_simple = TRUE;
 				}
@@ -815,15 +818,17 @@ static void gsb_main_page_diplays_accounts (GtkWidget *pTable,
 			if (kind == type_compte
 				|| (kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES))
 			{
+				/* on récupère les balances */
+				current_balance = gsb_data_account_get_current_balance (account_number);
+				marked_balance = gsb_data_account_get_marked_balance (account_number);
+
 				/* on affiche la ligne du compte avec les soldes pointé et courant */
 				gsb_main_page_affiche_ligne_du_compte (pTable, account_number, i);
 
 				/* ATTENTION : les sommes effectuées ici présupposent que
 				   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-				solde_global_courant = gsb_real_add (solde_global_courant,
-													 gsb_data_account_get_current_balance (account_number));
-				solde_global_pointe = gsb_real_add (solde_global_pointe,
-													gsb_data_account_get_marked_balance (account_number));
+				solde_global_courant = gsb_real_add (solde_global_courant, current_balance );
+				solde_global_pointe = gsb_real_add (solde_global_pointe, marked_balance);
 				i++;
 			}
 
@@ -1643,8 +1648,12 @@ static void update_soldes_minimaux (gboolean force,
 			continue;
 		}
 
-		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-						  gsb_data_account_get_mini_balance_authorized (i)) == -1
+		/* Récupération des balances */
+		current_balance = gsb_data_account_get_current_balance (i);
+		marked_balance = gsb_data_account_get_marked_balance (i);
+		mini_balance_authorized = gsb_data_account_get_mini_balance_authorized (i);
+		mini_balance_wanted = gsb_data_account_get_mini_balance_wanted (i);
+		if (gsb_real_cmp (current_balance, mini_balance_authorized) == -1
 			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
 		{
 			if (!vbox_1)
@@ -1663,11 +1672,9 @@ static void update_soldes_minimaux (gboolean force,
 			show_paddingbox (frame_etat_soldes_minimaux_autorises);
 		}
 
-		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-						  gsb_data_account_get_mini_balance_wanted (i)) == -1
+		if (gsb_real_cmp (current_balance, mini_balance_wanted) == -1
 			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
-			&& gsb_real_cmp (gsb_data_account_get_current_balance (i),
-							 gsb_data_account_get_mini_balance_authorized (i)) == -1
+			&& gsb_real_cmp (current_balance, mini_balance_authorized) == -1
 			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
 		{
 			if (!vbox_2)
@@ -1954,13 +1961,18 @@ void affiche_dialogue_soldes_minimaux (void)
 
 		i = gsb_data_account_get_no_account (list_tmp -> data);
 
-		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-						  gsb_data_account_get_mini_balance_authorized (i)) == -1
+		/* Récupération des balances et de la devise */
+		currency = gsb_data_account_get_currency (i);
+		current_balance = gsb_data_account_get_current_balance (i);
+		marked_balance = gsb_data_account_get_marked_balance (i);
+		mini_balance_authorized = gsb_data_account_get_mini_balance_authorized (i);
+		mini_balance_wanted = gsb_data_account_get_mini_balance_wanted (i);
+
+		if (gsb_real_cmp (current_balance, mini_balance_authorized) == -1
 			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
 			&& !gsb_data_account_get_mini_balance_authorized_message (i))
 		{
-			if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-							  gsb_data_account_get_mini_balance_wanted (i)) == -1)
+			if (gsb_real_cmp (current_balance, mini_balance_wanted) == -1)
 			{
 				liste_autorise_et_voulu = g_slist_append (liste_autorise_et_voulu,
 														  gsb_data_account_get_name (i));
@@ -1973,10 +1985,8 @@ void affiche_dialogue_soldes_minimaux (void)
 			gsb_data_account_set_mini_balance_authorized_message (i, 1);
 		}
 
-		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-						  gsb_data_account_get_mini_balance_wanted (i)) == -1
-			&& gsb_real_cmp (gsb_data_account_get_current_balance (i),
-							 gsb_data_account_get_mini_balance_authorized (i)) == 1
+		if (gsb_real_cmp (current_balance, mini_balance_wanted) == -1
+			&& gsb_real_cmp (current_balance, mini_balance_authorized) == 1
 			&& gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
 			&& !gsb_data_account_get_mini_balance_wanted_message (i))
 		{
@@ -1985,11 +1995,9 @@ void affiche_dialogue_soldes_minimaux (void)
 		}
 
 		/* 	si on repasse au dessus des seuils, c'est comme si on n'avait rien affiché */
-		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-						  gsb_data_account_get_mini_balance_authorized (i)) == 1)
+		if (gsb_real_cmp (current_balance, mini_balance_authorized) == 1)
 			gsb_data_account_set_mini_balance_authorized_message (i, 0);
-		if (gsb_real_cmp (gsb_data_account_get_current_balance (i),
-						  gsb_data_account_get_mini_balance_wanted (i)) == 1)
+		if (gsb_real_cmp (current_balance, mini_balance_wanted) == 1)
 			gsb_data_account_set_mini_balance_wanted_message (i, 0);
 
 		list_tmp = list_tmp -> next;
