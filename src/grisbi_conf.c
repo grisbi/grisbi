@@ -130,8 +130,8 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
 	/* variables for the list of transactions */
 	a_conf->show_transaction_gives_balance = FALSE;
     a_conf->show_transaction_selected_in_form = TRUE;
-    a_conf->transactions_list_primary_sorting = 0; 		/* "Sort by value date" */
-    a_conf->transactions_list_secondary_sorting = 0;		/* "Sort by transaction number" */
+    a_conf->transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE; 		/* "Sort by value date" */
+    a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_TRANSACTION_NUMBER;		/* "Sort by transaction number" */
 
     /* settings_geometry */
     a_conf->main_height = WIN_MIN_HEIGHT;
@@ -561,11 +561,11 @@ gboolean grisbi_conf_load_app_config (void)
 									 "transactions-list-primary-sorting",
 									 NULL);
     if (g_strcmp0 (tmp_str, "Sort by value date") == 0)
-        a_conf->transactions_list_primary_sorting = 0;
+        a_conf->transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE;
     else if (g_strcmp0 (tmp_str, "Forced sort by date") == 0)
-        a_conf->transactions_list_primary_sorting = 2;
+        a_conf->transactions_list_primary_sorting = PRIMARY_SORT_FORCED_BY_DATE;
     else
-        a_conf->transactions_list_primary_sorting = 1;
+        a_conf->transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA;
     g_free (tmp_str);
 
     tmp_str = g_key_file_get_string (config,
@@ -573,15 +573,15 @@ gboolean grisbi_conf_load_app_config (void)
 									 "transactions-list-secondary-sorting",
 									 NULL);
     if (g_strcmp0 (tmp_str, "Sort by transaction number") == 0)
-        a_conf->transactions_list_secondary_sorting = 0;
+        a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_TRANSACTION_NUMBER;
     else if (g_strcmp0 (tmp_str, "Sort by type of amount") == 0)
-        a_conf->transactions_list_secondary_sorting = 1;
+        a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_TYPE_OF_AMOUNT;
     else if (g_strcmp0 (tmp_str, "Sort by payee name") == 0)
-        a_conf->transactions_list_secondary_sorting = 2;
+        a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_PAYEE_NAME;
     else if (g_strcmp0 (tmp_str, "Sort by date and then by transaction number") == 0)
-        a_conf->transactions_list_secondary_sorting = 3;
+        a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_DATE_THEN_TRANSACTION_NUMBER;
     else
-        a_conf->transactions_list_secondary_sorting = 4;
+        a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE;
     g_free (tmp_str);
 
     /* settings_geometry */
@@ -998,12 +998,13 @@ gboolean grisbi_conf_save_app_config (void)
 
 	switch (a_conf->transactions_list_primary_sorting)
     {
-        case 0:
+        case PRIMARY_SORT_BY_VALUE_DATE:
             tmp_str = "Sort by value date";
             break;
-        case 2:
+        case PRIMARY_SORT_FORCED_BY_DATE:
             tmp_str = "Forced sort by date";
             break;
+        case PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA:
         default:
             tmp_str = "default";
 	}
@@ -1014,18 +1015,19 @@ gboolean grisbi_conf_save_app_config (void)
 
 	switch (a_conf->transactions_list_secondary_sorting)
     {
-        case 0:
+        case SECONDARY_SORT_BY_TRANSACTION_NUMBER:
             tmp_str = "Sort by transaction number";
             break;
-        case 1:
+        case SECONDARY_SORT_BY_TYPE_OF_AMOUNT:
             tmp_str = "Sort by type of amount";
             break;
-        case 2:
+        case SECONDARY_SORT_BY_PAYEE_NAME:
             tmp_str = "Sort by payee name";
             break;
-        case 3:
+        case SECONDARY_SORT_BY_DATE_THEN_TRANSACTION_NUMBER:
             tmp_str = "Sort by date and then by transaction number";
             break;
+        case SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE:
         default:
             tmp_str = "default";
 	}

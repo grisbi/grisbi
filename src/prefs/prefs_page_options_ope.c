@@ -155,7 +155,7 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     {
         case PRIMARY_SORT:
             a_conf->transactions_list_primary_sorting = value;
-			if (value == 1)
+			if (value == PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA)
 			{
 				GtkWidget *combo;
 
@@ -163,7 +163,7 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
 				g_signal_handlers_block_by_func (G_OBJECT (combo),
 												 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
 												 pointeur);
-				a_conf->transactions_list_secondary_sorting = 4;
+				a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE;
 				gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_secondary_sorting);
 				g_signal_handlers_unblock_by_func (G_OBJECT (combo),
 												   G_CALLBACK (prefs_page_options_ope_display_sort_changed),
@@ -172,7 +172,7 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
             break;
         case SECONDARY_SORT:
             a_conf->transactions_list_secondary_sorting = value;
-			if (value == 4)
+			if (value == SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE)
 			{
 				GtkWidget *combo;
 
@@ -180,7 +180,7 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
 				g_signal_handlers_block_by_func (G_OBJECT (combo),
 												 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
 												 pointeur);
-				a_conf->transactions_list_primary_sorting = 1;
+				a_conf->transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA;
 				gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_primary_sorting);
 				g_signal_handlers_unblock_by_func (G_OBJECT (combo),
 												   G_CALLBACK (prefs_page_options_ope_display_sort_changed),

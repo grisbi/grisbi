@@ -563,5 +563,20 @@ enum _TransactionsField				/* the element number for each showable in the list *
     ELEMENT_CHQ
 };
 
+enum _PrimarySort
+{
+	PRIMARY_SORT_BY_VALUE_DATE,						/* 0, "Sort by value date" */
+	PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA,	/* 1, "default" (Sort by value date and then by date) */
+	PRIMARY_SORT_FORCED_BY_DATE,					/* 2, "Forced sort by date" */
+};
+
+enum _SecondarytSort
+{
+	SECONDARY_SORT_BY_TRANSACTION_NUMBER,			/* 0, "Sort by transaction number" */
+	SECONDARY_SORT_BY_TYPE_OF_AMOUNT, 				/* 1, "Sort by type of amount" */
+	SECONDARY_SORT_BY_PAYEE_NAME, 					/* 2, "Sort by payee name */
+	SECONDARY_SORT_BY_DATE_THEN_TRANSACTION_NUMBER, /* 3, "Sort by date and then by transaction number" */
+	SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE, 		/* 4, "default" (Sort by value date and then by date) */
+};
 
 #endif
