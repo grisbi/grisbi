@@ -245,6 +245,7 @@ static gboolean widget_bet_graph_others_display_XY_line (BetGraphDataStruct *sel
 	gog_series_set_dim (series, 0, data, &error);
 	if (error != NULL)
 	{
+		g_print ("Error gog_series_set_dim(): %s\n", error->message);
 		g_error_free (error);
 		error = NULL;
 		return FALSE;
@@ -254,6 +255,7 @@ static gboolean widget_bet_graph_others_display_XY_line (BetGraphDataStruct *sel
 	gog_series_set_dim (series, 1, data, &error);
 	if (error != NULL)
 	{
+		g_print ("Error gog_series_set_dim(): %s\n", error->message);
 		g_error_free (error);
 		error = NULL;
 		return FALSE;
@@ -275,6 +277,7 @@ static gboolean widget_bet_graph_others_display_XY_line (BetGraphDataStruct *sel
 		gog_series_set_dim (series2, 1, data, &error);
 		if (error != NULL)
 		{
+			g_print ("Error gog_series_set_dim(): %s\n", error->message);
 			g_error_free (error);
 			error = NULL;
 			return FALSE;
