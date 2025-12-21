@@ -59,7 +59,7 @@ modulesets_dir = "PATH_TO_grisbi/contrib/jhbuild/modulesets/"
 % jhbuild build openssl
 
 % # install gtk-mac-bundler
-Download gtk-mac-bundler from https://wiki.gnome.org/Projects/GTK+/OSX/Bundling
+Download gtk-mac-bundler from https://gitlab.gnome.org/GNOME/gtk-mac-bundler
 Use the git version. Version 0.7.4 failed for me.
 
 2. Compile

@@ -591,6 +591,7 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf (void)
 
     if (!pixbuf)
     {
+		alert_debug(error->message);
         g_error_free (error);
 		return NULL;
     }

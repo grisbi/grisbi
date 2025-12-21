@@ -63,11 +63,6 @@
     ${prefix}/lib/${gtkdir}/${pkg:${gtk}:gtk_binary_version}/printbackends/*.so
   </binary>
 
-<!-- Starting with 2.24, gdk-pixbuf installs into its own directory. -->
-  <binary>
-    ${prefix}/lib/gdk-pixbuf-2.0/${pkg:gdk-pixbuf-2.0:gdk_pixbuf_binary_version}/loaders/*.so
-  </binary>
-
   <!-- goffice display plugins -->
   <binary>${prefix}/lib/goffice/0.10.60/plugins/plot_barcol/*.so</binary>
   <data>${prefix}/lib/goffice/0.10.60/plugins/plot_barcol/*.xml</data>

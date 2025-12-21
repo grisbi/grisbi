@@ -37,20 +37,12 @@ jobs:
 
       - name: install_extra
         run: |
-          libofx_version="0.9.15"
-          libgoffice_version="2019.10.16-19"
+          libofx_version="0.10.9"
+          git_src="https://github.com/LudovicRousseau"
 
-          git_src="https://github.com/xfred81"
-          bits="64bit"
-          MSYSTEM="MINGW64"
-
-          pwd
           cd /
-          wget -O /libofx.zip "$git_src/libofx/releases/download/$libofx_version/libofx_$MSYSTEM.zip"
+          wget -O /libofx.zip "$git_src/libofx/releases/download/$libofx_version/libofx.zip"
           unzip /libofx.zip
-
-          # wget -O /goffice.zip "$git_src/goffice/releases/download/v-$libgoffice_version/goffice-$bits-$libgoffice_version-archive.zip"
-          # unzip /goffice.zip
 
           wget -O /nsis.zip 'https://downloads.sourceforge.net/project/nsis/NSIS 3/3.10/nsis-3.10.zip'
           unzip nsis.zip

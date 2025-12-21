@@ -82,7 +82,7 @@ static gboolean transaction_list_sort_get_initial_sort (void)
 	{
         return TRUE;
 	}
-    else if (a_conf->transactions_list_primary_sorting < 2)
+    else if (a_conf->transactions_list_primary_sorting < PRIMARY_SORT_FORCED_BY_DATE)
 	{
 		/* fixe bug (2363) de calcul de solde si utilisation des dates de valeur sans leur affichage */
         return TRUE;

@@ -1122,6 +1122,10 @@ static void widget_account_property_setup (WidgetAccountProperty *widget)
 					  G_CALLBACK (utils_buttons_sensitive_by_checkbutton),
 					  priv->textview_holder_address);
 
+	/* init state of holder address textview */
+	if (priv->checkbutton_holder_address)
+		gtk_widget_set_sensitive (priv->textview_holder_address, FALSE);
+
 	/* create bank list */
 	gsb_bank_new_combobox_from_ui (priv->combo_bank_list, 0);
 	g_signal_connect (G_OBJECT (priv->combo_bank_list),

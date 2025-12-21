@@ -51,8 +51,8 @@
 
 /*START_STATIC*/
 /* variables de tri primaire et secondaire */
-static gint transactions_list_primary_sorting = 0;
-static gint transactions_list_secondary_sorting = 0;
+static gint transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE;
+static gint transactions_list_secondary_sorting = SECONDARY_SORT_BY_TRANSACTION_NUMBER;
 
 static gint gsb_transactions_list_sort_initial_by_secondary_key (gint transaction_number_1,
 																 gint transaction_number_2);
@@ -288,9 +288,9 @@ static gint gsb_transactions_list_sort_by_no (gint transaction_number_1,
 static gint gsb_transactions_list_sort_by_date (gint transaction_number_1,
 												gint transaction_number_2)
 {
-    if (transactions_list_secondary_sorting == 1)
+    if (transactions_list_secondary_sorting == SECONDARY_SORT_BY_TYPE_OF_AMOUNT)
         return gsb_transactions_list_sort_by_date_and_amount_type (transaction_number_1, transaction_number_2);
-    else if (transactions_list_secondary_sorting == 2)
+    else if (transactions_list_secondary_sorting == SECONDARY_SORT_BY_PAYEE_NAME)
         return gsb_transactions_list_sort_by_date_and_party (transaction_number_1, transaction_number_2);
     else
         return gsb_transactions_list_sort_by_date_and_no (transaction_number_1, transaction_number_2);
@@ -314,7 +314,7 @@ static gint gsb_transactions_list_sort_by_value_date (gint transaction_number_1,
 	GrisbiWinEtat *w_etat;
 
 	/* On force le tri par date si besoin */
-	if (transactions_list_primary_sorting == 2)
+	if (transactions_list_primary_sorting == PRIMARY_SORT_FORCED_BY_DATE)
 		return gsb_transactions_list_sort_by_date (transaction_number_1, transaction_number_2);
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
@@ -903,13 +903,13 @@ static gint gsb_transactions_list_secondary_sort_by_value_date_and_date (gint tr
 gint gsb_transactions_list_sort_initial_by_secondary_key (gint transaction_number_1,
 														  gint transaction_number_2)
 {
-    if (transactions_list_secondary_sorting == 1)
+    if (transactions_list_secondary_sorting == SECONDARY_SORT_BY_TYPE_OF_AMOUNT)
         return gsb_transactions_list_sort_by_amount (transaction_number_1, transaction_number_2);
-    else if (transactions_list_secondary_sorting == 2)
+    else if (transactions_list_secondary_sorting == SECONDARY_SORT_BY_PAYEE_NAME)
         return gsb_transactions_list_sort_by_party (transaction_number_1, transaction_number_2);
-    else if (transactions_list_secondary_sorting == 3)
+    else if (transactions_list_secondary_sorting == SECONDARY_SORT_BY_DATE_THEN_TRANSACTION_NUMBER)
         return gsb_transactions_list_sort_by_date_and_no (transaction_number_1, transaction_number_2);
-    else if (transactions_list_secondary_sorting == 4)
+    else if (transactions_list_secondary_sorting == SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE)
 		return gsb_transactions_list_secondary_sort_by_value_date_and_date (transaction_number_1,
 																			transaction_number_2);
     else
