@@ -69,7 +69,9 @@ static gboolean transaction_list_sort_get_initial_sort (void)
 {
     gint account_number;
     gint element_number;
+	GrisbiAppConf *a_conf;
 
+	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
     account_number = gsb_gui_navigation_get_current_account ();
     if (account_number == -1)
         return FALSE;
@@ -78,9 +80,18 @@ static gboolean transaction_list_sort_get_initial_sort (void)
 														gsb_data_account_get_sort_column (account_number));
 
     if (element_number == ELEMENT_VALUE_DATE)
+	{
         return TRUE;
-    else
+	}
+    else if (a_conf->transactions_list_primary_sorting < PRIMARY_SORT_FORCED_BY_DATE)
+	{
+		/* fixe bug (2363) de calcul de solde si utilisation des dates de valeur sans leur affichage */
+        return TRUE;
+	}
+	else
+	{
         return FALSE;
+	}
 }
 
 /******************************************************************************/

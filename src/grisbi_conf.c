@@ -130,7 +130,7 @@ static void grisbi_conf_clean_config (GrisbiAppConf *a_conf)
 	/* variables for the list of transactions */
 	a_conf->show_transaction_gives_balance = FALSE;
     a_conf->show_transaction_selected_in_form = TRUE;
-    a_conf->transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE; 		/* "Sort by value date" */
+    a_conf->transactions_list_primary_sorting = PRIMARY_SORT_FORCED_BY_DATE; 		/* "Sort by date" */
     a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_TRANSACTION_NUMBER;		/* "Sort by transaction number" */
 
     /* settings_geometry */
