@@ -3327,11 +3327,15 @@ gboolean gsb_form_finish_edition (void)
 			else
 			{
 				gsb_scheduler_list_delete_scheduled_transaction (saved_scheduled_number, FALSE);
-				gsb_scheduler_list_remove_transaction_from_list (saved_scheduled_number);
+				gsb_data_scheduled_remove_scheduled (saved_scheduled_number);
 			}
 
             gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
         }
+		else if (!frequency)
+		{
+			gsb_data_scheduled_remove_scheduled (saved_scheduled_number);
+		}
     }
 
     /* if it was a new transaction, do the stuff to do another new transaction */
