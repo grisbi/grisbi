@@ -3261,12 +3261,14 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 															   gint account_number,
 															   GtkWindow *parent)
 {
-    GtkWidget *dialog;
+    GdkCursor *cursor;
+	GtkWidget *dialog;
 	GtkWidget *button_OK;
 	GtkWidget *button_select_all;
 	GtkWidget *button_unselect_all;
     GtkWidget *vbox;
     GtkWidget *hbox;
+	GdkWindow *run_window;
     GtkWidget *scrolled_window;
     GtkWidget *label;
     GtkWidget *frame;
@@ -3532,6 +3534,11 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	else
 		gtk_widget_show_all (dialog);
 
+	/* set cursor */
+	run_window = gtk_widget_get_window (GTK_WIDGET (dialog));
+	cursor = gdk_cursor_new_from_name (gdk_window_get_display (run_window), "wait");
+	gdk_window_set_cursor (run_window, cursor);
+
 	dialog_return:
     result = gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -3598,6 +3605,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	if (list_ope_doublons)
 		g_slist_free (list_ope_doublons);
 
+	gdk_window_set_cursor (run_window, NULL);
     gtk_widget_destroy (dialog);
 }
 
@@ -5406,6 +5414,9 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
  **/
 void gsb_import_by_rule (gint rule)
 {
+	GdkCursor *cursor;
+	GdkDisplay *display;
+	GdkWindow *run_window;
     gint account_number;
     gchar **array;
     gint i=0;
@@ -5414,6 +5425,13 @@ void gsb_import_by_rule (gint rule)
 
     devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	/* set cursor */
+	run_window = gtk_widget_get_window (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
+	display = gdk_window_get_display (run_window);
+	cursor = gdk_cursor_new_from_name (display, "wait");
+	gdk_window_set_cursor (run_window, cursor);
+
     charmap_imported = my_strdup (gsb_data_import_rule_get_charmap (rule));
     array = gsb_import_by_rule_ask_filename (rule, a_conf);
     if (!array)
@@ -5547,6 +5565,7 @@ void gsb_import_by_rule (gint rule)
     /* force the update module budget */
     gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
 
+	gdk_window_set_cursor (run_window, NULL);
     gsb_file_set_modified (TRUE);
 }
 

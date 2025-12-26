@@ -1000,8 +1000,8 @@ GtkWidget *dialog_get_warning_widget (const gchar *text)
     dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-									 text,
 									 NULL);
+	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), text);
 
 	return dialog;
 }
