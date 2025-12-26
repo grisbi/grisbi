@@ -3098,9 +3098,16 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 
 		if (nbre_resultat == 1)
 		{
+			GtkWidget *dialog;
+			GtkWidget *parent;
+
+			parent = g_object_get_data (G_OBJECT (button), "dialog");
 			ope_import->ope_correspondante = GPOINTER_TO_INT (list_resultats->data);
-			dialogue_warning (_("Only one operation was found. \n"
-								"The correction has been made."));
+			dialog = dialog_get_warning_widget (_("Only one operation was found. \n"
+												  "The correction has been made."));
+			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
 		}
 		else if (nbre_resultat > 1)
 		{
@@ -3161,12 +3168,14 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 	GtkWidget *button_change;
 	GtkWidget *hbox;
     GtkWidget *label;
+	GtkWidget *parent;
 	GSList *tmp_list_ope;
     gchar *tmp_str2;
 	gchar *tmp_date;
 	GrisbiWinEtat *w_etat;
 
 	w_etat = grisbi_win_get_w_etat ();
+	parent = g_object_get_data (G_OBJECT (vbox), "dialog");
 
 	/* traitement des opérations */
 	tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (transaction_number));
@@ -3224,6 +3233,7 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 
 			/* Ajout du bouton de traitement */
 			button_change = gtk_button_new_with_label (_("Find other transaction"));
+			g_object_set_data (G_OBJECT (button_change), "dialog", parent);
 			gtk_box_pack_start (GTK_BOX (hbox), button_change, TRUE, TRUE, 0);
 			gtk_widget_show (button_change);
 			g_signal_connect (G_OBJECT (button_change),
@@ -3318,6 +3328,8 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
     gtk_container_set_border_width (GTK_CONTAINER(dialog), BOX_BORDER_WIDTH);
 
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent));
+
     if (w_etat->fusion_import_transactions)
     {
         gtk_dialog_set_response_sensitive   (GTK_DIALOG (dialog), -12, FALSE);
@@ -3380,7 +3392,8 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	gtk_widget_set_size_request (scrolled_window, -1, SW_MIN_HEIGHT);
 
     vbox_alert_lignes = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    gtk_container_add (GTK_CONTAINER (scrolled_window), vbox_alert_lignes);
+	g_object_set_data (G_OBJECT (vbox_alert_lignes), "dialog", dialog);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), vbox_alert_lignes);
     gtk_container_set_border_width (GTK_CONTAINER (vbox_alert_lignes), BOX_BORDER_WIDTH);
 
     /* on fait maintenant le tour des opés importées et affichent celles à problème */

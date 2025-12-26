@@ -59,5 +59,8 @@ void 		dialogue_warning_hint 						(const gchar *text,
 gboolean 	dialogue_yes_no 							(const gchar *text,
 														 const gchar *hint,
 														 gint default_answer);
+
+/* New functions */
+GtkWidget *	dialog_get_warning_widget					(const gchar *text);
 /* END_DECLARATION */
 #endif

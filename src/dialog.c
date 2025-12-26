@@ -983,6 +983,29 @@ gpointer dialogue_get_tab_warning_msg (void)
 	return &tab_warning_msg[0];
 }
 
+/******************************************************************************/
+/* Nouvelles fonctions générales de dialogue                                                     */
+/* ****************************************************************************/
+/**
+ * Display a warning dialog window
+ *
+ * \param text Text to display in window
+ *
+ * \return dialog
+ **/
+GtkWidget *dialog_get_warning_widget (const gchar *text)
+{
+    GtkWidget *dialog;
+
+    dialog = gtk_message_dialog_new (GTK_WINDOW (grisbi_app_get_active_window (NULL)),
+									 GTK_DIALOG_DESTROY_WITH_PARENT,
+									 GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
+									 text,
+									 NULL);
+
+	return dialog;
+}
+
 /**
  *
  *
