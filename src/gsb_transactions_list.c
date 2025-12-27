@@ -3146,7 +3146,7 @@ gboolean gsb_transactions_list_update_transaction (gint transaction_number)
     transaction_list_update_transaction (transaction_number);
 
     /* update the balances */
-    transaction_list_set_balances ();
+    //~ transaction_list_set_balances (); /* TEST pour detection effets de bord */
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
     gsb_data_account_colorize_current_balance (account_number);
