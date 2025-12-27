@@ -3640,6 +3640,11 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
         struct ImportTransaction *imported_transaction;
 
         imported_transaction = tmp_list->data;
+		if (g_date_compare (imported_transaction->date, first_date_import) < 0)
+		{
+			tmp_list = tmp_list->next;
+			continue;
+		}
 
         tmp_list_ope_retenues = list_ope_retenues;
         while (tmp_list_ope_retenues)
@@ -3746,12 +3751,26 @@ static GDate *gsb_import_get_first_date (GSList *import_list)
 {
     GSList *tmp_list;
     GDate *first_date = NULL;
+	GDate *mini_date = NULL;
 	GrisbiWinEtat *w_etat;
 
 	w_etat = grisbi_win_get_w_etat ();
+	if (w_etat->import_ope_nb_days_max)
+	{
+		gint nbre_days = 0;
+
+		if (w_etat->import_files_nb_days < w_etat->import_ope_nb_days_max)
+			nbre_days = w_etat->import_ope_nb_days_max;
+		else
+			nbre_days = w_etat->import_files_nb_days;
+
+		mini_date = gdate_today ();
+		g_date_subtract_days (mini_date, nbre_days);
+
+		return mini_date;
+	}
 
     tmp_list = import_list;
-
     while (tmp_list)
     {
         struct ImportTransaction *imported_transaction;
