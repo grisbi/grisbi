@@ -1355,8 +1355,7 @@ gboolean transaction_list_update_transaction (gint transaction_number)
     CustomRecord *white_record = NULL;
     CustomRecord **children_rows = NULL;
 
-    devel_debug_int (transaction_number);
-
+    /* devel_debug_int (transaction_number);  */
     if (transaction_number == 0)
         return FALSE;
 

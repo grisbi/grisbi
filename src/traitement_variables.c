@@ -217,6 +217,7 @@ void init_variables (void)
     w_run->display_three_lines = 0;
 
     w_etat->import_files_nb_days = 2;
+	w_etat->import_ope_nb_days_max = 45;
     w_etat->get_fyear_by_value_date = FALSE;
 
     /* init default combofix values */

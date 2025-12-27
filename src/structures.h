@@ -11,7 +11,7 @@
 /* the VERSION_FICHIER is in fact the lowest version which can be used to open the */
 /* file, so each time we make an incompatibility issue, VERSION_FICHIER must be set */
 /* to VERSION_GRISBI */
-#define VERSION_FICHIER         "2.3.1"
+#define VERSION_FICHIER         "2.3.2"
 #define OLD_VERSION_FICHIER		"0.6.0"
 
 #define VERSION_FICHIER_ETAT    "0.6.0"
@@ -151,6 +151,7 @@ struct _GrisbiWinEtat
     gint		associate_categorie_for_payee;				/* TRUE to automatically retrieve the category of the payee if it exists */
     gint		get_fyear_by_value_date;					/* TRUE to get the fyear by value date, FALSE by date */
 	gint		import_files_nb_days;						/* Number of days for search transactions */
+	gint		import_ope_nb_days_max;						/* Number max of days imported. 0: no time limit */
 
     gchar *		csv_separator;                              /* CSV separator to use while parsing a CSV file. */
     gboolean	csv_skipped_lines [ CSV_MAX_TOP_LINES ];	/* Contains a pointer to skipped lines in CSV preview. */

@@ -2177,6 +2177,9 @@ static void gsb_file_load_general_part (const gchar **attribute_names,
                 else if (!strcmp (attribute_names[i], "Import_fyear_by_value_date"))
                     w_etat->get_fyear_by_value_date = utils_str_atoi (attribute_values[i]);
 
+                else if (!strcmp (attribute_names[i], "Import-ope-nbre-max"))
+					w_etat->import_ope_nb_days_max = utils_str_atoi (attribute_values[i]);
+
                 else if (!strcmp (attribute_names[i], "Import_qif_no_import_categories"))
                     w_etat->qif_no_import_categories = utils_str_atoi (attribute_values[i]);
 

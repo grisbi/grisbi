@@ -3097,9 +3097,16 @@ static void gsb_import_correct_opes_import_button_find_clicked (GtkWidget *butto
 
 		if (nbre_resultat == 1)
 		{
+			GtkWidget *dialog;
+			GtkWidget *parent;
+
+			parent = g_object_get_data (G_OBJECT (button), "dialog");
 			ope_import->ope_correspondante = GPOINTER_TO_INT (list_resultats->data);
-			dialogue_warning (_("Only one operation was found. \n"
-								"The correction has been made."));
+			dialog = dialog_get_warning_widget (_("Only one operation was found. \n"
+												  "The correction has been made."));
+			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
 		}
 		else if (nbre_resultat > 1)
 		{
@@ -3160,12 +3167,14 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 	GtkWidget *button_change;
 	GtkWidget *hbox;
     GtkWidget *label;
+	GtkWidget *parent;
 	GSList *tmp_list_ope;
     gchar *tmp_str2;
 	gchar *tmp_date;
 	GrisbiWinEtat *w_etat;
 
 	w_etat = grisbi_win_get_w_etat ();
+	parent = g_object_get_data (G_OBJECT (vbox), "dialog");
 
 	/* traitement des opérations */
 	tmp_str2 = utils_real_get_string (gsb_data_transaction_get_amount (transaction_number));
@@ -3223,6 +3232,7 @@ static GtkWidget *gsb_import_correct_opes_import_create_box_doublons (GtkWidget 
 
 			/* Ajout du bouton de traitement */
 			button_change = gtk_button_new_with_label (_("Find other transaction"));
+			g_object_set_data (G_OBJECT (button_change), "dialog", parent);
 			gtk_box_pack_start (GTK_BOX (hbox), button_change, TRUE, TRUE, 0);
 			gtk_widget_show (button_change);
 			g_signal_connect (G_OBJECT (button_change),
@@ -3250,12 +3260,14 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 															   gint account_number,
 															   GtkWindow *parent)
 {
-    GtkWidget *dialog;
+    GdkCursor *cursor;
+	GtkWidget *dialog;
 	GtkWidget *button_OK;
 	GtkWidget *button_select_all;
 	GtkWidget *button_unselect_all;
     GtkWidget *vbox;
     GtkWidget *hbox;
+	GdkWindow *run_window;
     GtkWidget *scrolled_window;
     GtkWidget *label;
     GtkWidget *frame;
@@ -3316,6 +3328,8 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
     gtk_container_set_border_width (GTK_CONTAINER(dialog), BOX_BORDER_WIDTH);
+
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent));
 
     if (w_etat->fusion_import_transactions)
     {
@@ -3379,7 +3393,8 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	gtk_widget_set_size_request (scrolled_window, -1, SW_MIN_HEIGHT);
 
     vbox_alert_lignes = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
-    gtk_container_add (GTK_CONTAINER (scrolled_window), vbox_alert_lignes);
+	g_object_set_data (G_OBJECT (vbox_alert_lignes), "dialog", dialog);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), vbox_alert_lignes);
     gtk_container_set_border_width (GTK_CONTAINER (vbox_alert_lignes), BOX_BORDER_WIDTH);
 
     /* on fait maintenant le tour des opés importées et affichent celles à problème */
@@ -3518,6 +3533,11 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	else
 		gtk_widget_show_all (dialog);
 
+	/* set cursor */
+	run_window = gtk_widget_get_window (GTK_WIDGET (dialog));
+	cursor = gdk_cursor_new_from_name (gdk_window_get_display (run_window), "wait");
+	gdk_window_set_cursor (run_window, cursor);
+
 	dialog_return:
     result = gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -3584,6 +3604,7 @@ static void gsb_import_confirmation_enregistrement_ope_import (struct ImportAcco
 	if (list_ope_doublons)
 		g_slist_free (list_ope_doublons);
 
+	gdk_window_set_cursor (run_window, NULL);
     gtk_widget_destroy (dialog);
 }
 
@@ -3618,6 +3639,11 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
         struct ImportTransaction *imported_transaction;
 
         imported_transaction = tmp_list->data;
+		if (g_date_compare (imported_transaction->date, first_date_import) < 0)
+		{
+			tmp_list = tmp_list->next;
+			continue;
+		}
 
         tmp_list_ope_retenues = list_ope_retenues;
         while (tmp_list_ope_retenues)
@@ -3724,12 +3750,26 @@ static GDate *gsb_import_get_first_date (GSList *import_list)
 {
     GSList *tmp_list;
     GDate *first_date = NULL;
+	GDate *mini_date = NULL;
 	GrisbiWinEtat *w_etat;
 
 	w_etat = grisbi_win_get_w_etat ();
+	if (w_etat->import_ope_nb_days_max)
+	{
+		gint nbre_days = 0;
+
+		if (w_etat->import_files_nb_days < w_etat->import_ope_nb_days_max)
+			nbre_days = w_etat->import_ope_nb_days_max;
+		else
+			nbre_days = w_etat->import_files_nb_days;
+
+		mini_date = gdate_today ();
+		g_date_subtract_days (mini_date, nbre_days);
+
+		return mini_date;
+	}
 
     tmp_list = import_list;
-
     while (tmp_list)
     {
         struct ImportTransaction *imported_transaction;
@@ -5392,6 +5432,9 @@ static gchar **gsb_import_by_rule_ask_filename (gint rule,
  **/
 void gsb_import_by_rule (gint rule)
 {
+	GdkCursor *cursor;
+	GdkDisplay *display;
+	GdkWindow *run_window;
     gint account_number;
     gchar **array;
     gint i=0;
@@ -5400,6 +5443,13 @@ void gsb_import_by_rule (gint rule)
 
     devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	/* set cursor */
+	run_window = gtk_widget_get_window (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
+	display = gdk_window_get_display (run_window);
+	cursor = gdk_cursor_new_from_name (display, "wait");
+	gdk_window_set_cursor (run_window, cursor);
+
     charmap_imported = my_strdup (gsb_data_import_rule_get_charmap (rule));
     array = gsb_import_by_rule_ask_filename (rule, a_conf);
     if (!array)
@@ -5533,6 +5583,7 @@ void gsb_import_by_rule (gint rule)
     /* force the update module budget */
     gsb_data_account_set_bet_maj (account_number, BET_MAJ_ALL);
 
+	gdk_window_set_cursor (run_window, NULL);
     gsb_file_set_modified (TRUE);
 }
 

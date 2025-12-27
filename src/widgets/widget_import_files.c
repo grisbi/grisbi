@@ -49,6 +49,7 @@ struct _WidgetImportFilesPrivate
 	GtkWidget *			vbox_import_files;
 
     GtkWidget *         spinbutton_import_files_nb_days;
+    GtkWidget *         spinbutton_import_limit_ope_days;
     GtkWidget *			checkbutton_fusion_import_transactions;
     GtkWidget *			checkbutton_associate_categorie_for_payee;
     GtkWidget *			checkbutton_extract_number_for_check;
@@ -86,6 +87,26 @@ static gboolean widget_import_files_spinbutton_import_files_nb_days_changed (Gtk
 }
 
 /**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static gboolean widget_import_files_spinbutton_import_limit_ope_days_changed (GtkWidget *spinbutton,
+																			  gpointer null)
+{
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+    w_etat->import_ope_nb_days_max = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton));
+    gsb_file_set_modified (TRUE);
+
+    return ( FALSE );
+}
+
+/**
  * Création de la page de gestion des import_files
  *
  * \param prefs
@@ -105,6 +126,9 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
 	/* set the variables for import of files*/
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_import_files_nb_days),
 							   w_etat->import_files_nb_days);
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->spinbutton_import_limit_ope_days),
+							   w_etat->import_ope_nb_days_max);
 
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->checkbutton_fusion_import_transactions),
 								  w_etat->fusion_import_transactions);
@@ -134,6 +158,12 @@ static void widget_import_files_setup_import_files_page (WidgetImportFiles *page
     g_signal_connect ( G_OBJECT (priv->spinbutton_import_files_nb_days),
 					  "value-changed",
 					  G_CALLBACK (widget_import_files_spinbutton_import_files_nb_days_changed),
+					  NULL );
+
+    /* Connect signal spinbutton_import_limit_ope_days */
+    g_signal_connect ( G_OBJECT (priv->spinbutton_import_limit_ope_days),
+					  "value-changed",
+					  G_CALLBACK (widget_import_files_spinbutton_import_limit_ope_days_changed),
 					  NULL );
 
     /* Connect signal checkbutton_fusion_import_transactions */
@@ -231,6 +261,7 @@ static void widget_import_files_class_init (WidgetImportFilesClass *klass)
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, vbox_import_files);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, spinbutton_import_files_nb_days);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, spinbutton_import_limit_ope_days);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_fusion_import_transactions);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_associate_categorie_for_payee);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), WidgetImportFiles, checkbutton_extract_number_for_check);
