@@ -917,6 +917,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  "\t\tImport_fusion_transactions=\"%d\"\n"
 										  "\t\tImport_categorie_for_payee=\"%d\"\n"
 										  "\t\tImport_fyear_by_value_date=\"%d\"\n"
+										  "\t\tImport-ope-nbre-max=\"%d\"\n"
 										  "\t\tImport_qif_no_import_categories=\"%d\"\n"
 										  "\t\tImport_qif_use_field_extract_method_payment=\"%d\"\n"
 										  "\t\tExport_file_format=\"%d\"\n"
@@ -986,6 +987,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 										  w_etat->fusion_import_transactions,
 										  w_etat->associate_categorie_for_payee,
 										  w_etat->get_fyear_by_value_date,
+										  w_etat->import_ope_nb_days_max,
 										  w_etat->qif_no_import_categories,
 										  w_etat->qif_use_field_extract_method_payment,
 										  w_etat->export_file_format,

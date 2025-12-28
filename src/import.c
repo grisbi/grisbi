@@ -3735,6 +3735,50 @@ static gboolean gsb_import_define_action (struct ImportAccount *imported_account
 }
 
 /**
+ *
+ *
+ * \param
+ *
+ * \return new list of imported transactions
+ **/
+static GSList *gsb_import_limits_number_imported_ope (GSList *ope_list)
+{
+	GSList *new_list = NULL;
+	GrisbiWinEtat *w_etat;
+
+	w_etat = grisbi_win_get_w_etat ();
+	if (w_etat->import_ope_nb_days_max)
+	{
+		GSList *tmp_list;
+		GDate *mini_date;
+		gint nbre_days = 0;
+
+		if (w_etat->import_files_nb_days < w_etat->import_ope_nb_days_max)
+			nbre_days = w_etat->import_ope_nb_days_max;
+		else
+			nbre_days = w_etat->import_files_nb_days;
+
+		mini_date = gdate_today ();
+		g_date_subtract_days (mini_date, nbre_days);
+
+		tmp_list = ope_list;
+		while (tmp_list)
+		{
+			struct ImportTransaction *ope_import;
+
+			ope_import = tmp_list->data;
+			if (g_date_compare (ope_import->date, mini_date) >= 0)
+			{
+				new_list = g_slist_prepend (new_list, ope_import);
+			}
+				tmp_list = tmp_list->next;
+		}
+	}
+
+	return new_list;
+}
+
+/**
  * get first date of the imported file
  *
  *
@@ -4746,6 +4790,7 @@ static void traitement_operations_importees (GtkWindow *parent)
 
     while (tmp_list)
     {
+		GSList *new_list = NULL;
 		struct ImportAccount *compte;
 		gint account_number = 0;
 
@@ -4786,12 +4831,18 @@ static void traitement_operations_importees (GtkWindow *parent)
 
 			case IMPORT_ADD_TRANSACTIONS:
 			account_number = gsb_account_get_combo_account_number (compte->bouton_compte_add);
-			gsb_import_add_imported_transactions (compte,account_number, parent);
+			new_list = gsb_import_limits_number_imported_ope (compte->operations_importees);
+			g_slist_free (compte->operations_importees);
+			compte->operations_importees = new_list;
+			gsb_import_add_imported_transactions (compte, account_number, parent);
 
 			break;
 
 			case IMPORT_MARK_TRANSACTIONS:
 			account_number = gsb_account_get_combo_account_number (compte->bouton_compte_mark);
+			new_list = gsb_import_limits_number_imported_ope (compte->operations_importees);
+			g_slist_free (compte->operations_importees);
+			compte->operations_importees = new_list;
 			gsb_import_pointe_opes_importees (compte, account_number);
 			transaction_list_update_element (ELEMENT_MARK);
 			break;
@@ -5506,6 +5557,7 @@ void gsb_import_by_rule (gint rule)
 
         while (liste_comptes_importes)
         {
+			GSList *new_list;
             struct ImportAccount *account;
 
             account = liste_comptes_importes->data;
@@ -5518,7 +5570,11 @@ void gsb_import_by_rule (gint rule)
                         gsb_data_import_rule_get_currency (rule)));
             }
 
-            switch (gsb_data_import_rule_get_action (rule))
+			new_list = gsb_import_limits_number_imported_ope (account->operations_importees);
+			g_slist_free (account->operations_importees);
+			account->operations_importees = new_list;
+
+			switch (gsb_data_import_rule_get_action (rule))
             {
                 case IMPORT_ADD_TRANSACTIONS:
                 gsb_import_add_imported_transactions (account, account_number, NULL);
