@@ -1901,8 +1901,15 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 	if (compress)
 	{
 		gzFile grisbi_file;
+		gchar *os_filename;
 
-		grisbi_file = gzopen (filename, "wb9");
+#ifdef G_OS_WIN32
+		os_filename = g_locale_from_utf8(filename, -1, NULL, NULL, NULL);
+#else
+		os_filename = strdup(filename);
+#endif
+		grisbi_file = gzopen (os_filename, "wb9");
+		g_free (os_filename);
 
 		if (!grisbi_file
 		 ||
