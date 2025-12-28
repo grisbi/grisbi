@@ -880,7 +880,7 @@ static gulong gsb_file_save_general_part (gulong iterator,
 
 	/* protect adr_secondary */
 	adr_secondary_str = utils_str_protect_unprotect_multilines_text (w_etat->adr_secondary, TRUE);
-printf ("w_etat->import_ope_nb_days_max = %d\n", w_etat->import_ope_nb_days_max);
+
 	/* save the general information */
 	string_to_free1 = utils_str_dtostr (w_etat->bet_capital,
 											 gsb_data_currency_get_floating_point (w_etat->bet_currency),
@@ -1902,8 +1902,15 @@ gboolean gsb_file_save_save_file (const gchar *filename,
 	if (compress)
 	{
 		gzFile grisbi_file;
+		gchar *os_filename;
 
-		grisbi_file = gzopen (filename, "wb9");
+#ifdef G_OS_WIN32
+		os_filename = g_locale_from_utf8(filename, -1, NULL, NULL, NULL);
+#else
+		os_filename = strdup(filename);
+#endif
+		grisbi_file = gzopen (os_filename, "wb9");
+		g_free (os_filename);
 
 		if (!grisbi_file
 		 ||
