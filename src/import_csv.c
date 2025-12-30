@@ -784,10 +784,7 @@ static gint *csv_import_update_fields_config (GArray *lines_tab,
 		csv_fields_config[i] = 0;
 	}
 
-	if (old_csv_fields_config)
-	{
-		g_free (old_csv_fields_config);
-	}
+	g_free (old_csv_fields_config);
 	csv_fields_config [i] = -1;
 
 	return csv_fields_config;
