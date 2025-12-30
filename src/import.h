@@ -18,42 +18,42 @@ typedef struct _ImportTransaction		ImportTransaction;
 /* struture d'une importation : compte contient la liste des opés importées */
 struct _ImportAccount
 {
-    gchar *id_compte;
+	gchar *id_compte;
 
-    gchar * origine;    /* QIF, OFX ... */
+	gchar * origine;	/* QIF, OFX ... */
 
-    gchar *nom_de_compte;
-    gchar *filename;
-    gchar *real_filename;	/* needed because filename is overwritten, need to fix that when work again with imports */
-    gint type_de_compte;	/* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
-    gchar *devise;
+	gchar *nom_de_compte;
+	gchar *filename;
+	gchar *real_filename;	/* needed because filename is overwritten, need to fix that when work again with imports */
+	gint type_de_compte;	/* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
+	gchar *devise;
 
-    GDate *date_depart;
-    GDate *date_fin;
+	GDate *date_depart;
+	GDate *date_fin;
 
-    GSList *operations_importees;			/* liste des struct des opés importées */
+	GSList *operations_importees;			/* liste des struct des opés importées */
 
-    GsbReal solde;
-    gchar *date_solde_qif;					/* utilisé temporairement pour un fichier qif */
+	GsbReal solde;
+	gchar *date_solde_qif;					/* utilisé temporairement pour un fichier qif */
 
-    GtkWidget *bouton_devise;				/* adr du bouton de la devise dans le récapitulatif */
-    gint action;							/* IMPORT_CREATE_ACCOUNT, IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
+	GtkWidget *bouton_devise;				/* adr du bouton de la devise dans le récapitulatif */
+	gint action;							/* IMPORT_CREATE_ACCOUNT, IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
 
-    gboolean	invert_transaction_amount;	/* if TRUE, all the transactions imported will have their amount inverted */
+	gboolean	invert_transaction_amount;	/* if TRUE, all the transactions imported will have their amount inverted */
 
-    gboolean	create_rule;				/* if TRUE, we create a rule according the values of this structure */
-    GtkWidget	*entry_name_rule;			/* entry containing the name of the rule */
-    GtkWidget	*hbox_rule;
+	gboolean	create_rule;				/* if TRUE, we create a rule according the values of this structure */
+	GtkWidget	*entry_name_rule;			/* entry containing the name of the rule */
+	GtkWidget	*hbox_rule;
 
-    GtkWidget *bouton_type_compte;			/* adr du bouton du type de compte dans le récapitulatif */
-    GtkWidget *bouton_compte_add;			/* adr du bouton du compte dans le récapitulatif */
-    GtkWidget *bouton_compte_mark;			/* adr du bouton du compte dans le récapitulatif */
+	GtkWidget *bouton_type_compte;			/* adr du bouton du type de compte dans le récapitulatif */
+	GtkWidget *bouton_compte_add;			/* adr du bouton du compte dans le récapitulatif */
+	GtkWidget *bouton_compte_mark;			/* adr du bouton du compte dans le récapitulatif */
 
-    GtkWidget * hbox1;
-    GtkWidget * hbox2;
-    GtkWidget * hbox3;
+	GtkWidget * hbox1;
+	GtkWidget * hbox2;
+	GtkWidget * hbox3;
 
-    /* Used by gnucash import */
+	/* Used by gnucash import */
 	gchar * guid;
 
 	/* for CSV type */
@@ -75,72 +75,71 @@ struct _ImportAccount
 /** Imported transaction.  */
 struct _ImportTransaction
 {
-    gchar *id_operation;
+	gchar *id_operation;
 
-    gint no_compte;             /* mis à jour si lors du marquage, si pas d'opé associée trouvée */
-    gint devise;                /* mis à jour au moment de l'enregistrement de l'opé */
-    GDate *date;
-    GDate *date_de_valeur;
-    gchar *date_tmp;            /* pour un fichier qif, utilisé en tmp avant de le transformer en gdate */
+	gint no_compte;             /* mis à jour si lors du marquage, si pas d'opé associée trouvée */
+	gint devise;                /* mis à jour au moment de l'enregistrement de l'opé */
+	GDate *date;
+	GDate *date_de_valeur;
+	gchar *date_tmp;            /* pour un fichier qif, utilisé en tmp avant de le transformer en gdate */
 
-    gint action;		        /* IMPORT_TRANSACTION_GET_TRANSACTION, IMPORT_TRANSACTION_ASK_FOR_TRANSACTION, IMPORT_TRANSACTION_LEAVE_TRANSACTION*/
-    gint ope_correspondante;    /* contient l'adr de l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
-    GtkWidget *bouton;          /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
+	gint action;		        /* IMPORT_TRANSACTION_GET_TRANSACTION, IMPORT_TRANSACTION_ASK_FOR_TRANSACTION, IMPORT_TRANSACTION_LEAVE_TRANSACTION*/
+	gint ope_correspondante;    /* contient l'adr de l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
+	GtkWidget *bouton;          /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
 	GtkWidget *label_ope_find;	/* label de l'opération trouvée peut être remplacé par l'utilisateur */
 
-    gchar *tiers;
-    gchar *notes;
-    gchar *cheque;
-    gchar *payment_method;		/* Ajout pour l'importation des fichiers CSV */
-    gchar *categ;
+	gchar *tiers;
+	gchar *notes;
+	gchar *cheque;
+	gchar *payment_method;		/* Ajout pour l'importation des fichiers CSV */
+	gchar *categ;
 	gchar *budget;
 
-    GsbReal montant;
+	GsbReal montant;
 
-    gint p_r;					/* OPERATION_NORMALE = 0, OPERATION_POINTEE, OPERATION_TELEPOINTEE, OPERATION_RAPPROCHEE */
+	gint p_r;					/* OPERATION_NORMALE = 0, OPERATION_POINTEE, OPERATION_TELEPOINTEE, OPERATION_RAPPROCHEE */
 
-    gint type_de_transaction;   /* Utilisé pour les fichiers OFX étendu à certains fichiers QIF (Champs N du fichier QIF) */
+	gint type_de_transaction;   /* Utilisé pour les fichiers OFX étendu à certains fichiers QIF (Champs N du fichier QIF) */
 	gboolean ope_memorized;		/* memorized transaction voir à quoi ça sert */
 
-    gboolean operation_ventilee;/* TRUE si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à TRUE */
-    gboolean ope_de_ventilation;
+	gboolean operation_ventilee;/* TRUE si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à TRUE */
+	gboolean ope_de_ventilation;
 
 	gboolean transfert;			/* Pour fichier QIF */
 	gchar *dest_account_name;	/* Nom du compte destinataire */
 
-    /* Used by gnucash import */
-    gchar * guid;
+	/* Used by gnucash import */
+	gchar * guid;
 };
 
-/* possible actions to the transaction */
-#define IMPORT_TRANSACTION_GET_TRANSACTION 0
-#define IMPORT_TRANSACTION_ASK_FOR_TRANSACTION 1
-#define IMPORT_TRANSACTION_LEAVE_TRANSACTION 2
+	/* possible actions to the transaction */
+	#define IMPORT_TRANSACTION_GET_TRANSACTION 0
+	#define IMPORT_TRANSACTION_ASK_FOR_TRANSACTION 1
+	#define IMPORT_TRANSACTION_LEAVE_TRANSACTION 2
 
 struct _ImportFile
 {
-    gchar * 		name;
-    const gchar * 	coding_system;
-    const gchar * 	type;
+	gchar * 		name;
+	const gchar * 	coding_system;
+	const gchar * 	type;
 	gboolean		import_categories;
 };
 
-
 struct _ImportFormat
 {
-    const gchar * name;
-    const gchar * complete_name;
-    const gchar * extension;
-    gboolean (* import) (GtkWidget * assistant, ImportFile *);
+	const gchar * name;
+	const gchar * complete_name;
+	const gchar * extension;
+	gboolean (* import) (GtkWidget * assistant, ImportFile *);
 };
 
-/* structure définissant une association entre un tiers
- * et une chaine de recherche contenant un ou des jokers (%)
- */
+	/* structure définissant une association entre un tiers
+	* et une chaine de recherche contenant un ou des jokers (%)
+	*/
 struct _ImportPayeeAsso
 {
-    gint    payee_number;
-    gchar   *search_str;
+	gint    payee_number;
+	gchar   *search_str;
 	gboolean	ignore_case;
 	gboolean	use_regex;
 };
