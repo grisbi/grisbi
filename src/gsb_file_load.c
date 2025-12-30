@@ -2702,7 +2702,7 @@ static void gsb_file_load_payee_part (const gchar **attribute_names,
 {
     gint i=0;
     gint payee_number;
-	struct ImportPayeeAsso *assoc = NULL;
+	ImportPayeeAsso *assoc = NULL;
 
     if (!attribute_names[i])
     return;
@@ -2747,7 +2747,7 @@ static void gsb_file_load_payee_part (const gchar **attribute_names,
         {
             gsb_data_payee_set_search_string (payee_number, attribute_values[i]);
 			g_free(assoc); /* in case it was already allocated */
-			assoc = g_malloc (sizeof (struct ImportPayeeAsso));
+			assoc = g_malloc (sizeof (ImportPayeeAsso));
 			assoc->payee_number = payee_number;
 			assoc->search_str = g_strdup (attribute_values[i]);
         }

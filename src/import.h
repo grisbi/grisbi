@@ -9,8 +9,14 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
+typedef struct _ImportAccount			ImportAccount;
+typedef struct _ImportFile				ImportFile;
+typedef struct _ImportFormat			ImportFormat;
+typedef struct _ImportPayeeAsso			ImportPayeeAsso;
+typedef struct _ImportTransaction		ImportTransaction;
+
 /* struture d'une importation : compte contient la liste des opés importées */
-struct ImportAccount
+struct _ImportAccount
 {
     gchar *id_compte;
 
@@ -66,9 +72,8 @@ struct ImportAccount
 #define IMPORT_ADD_TRANSACTIONS 1
 #define IMPORT_MARK_TRANSACTIONS 2
 
-
 /** Imported transaction.  */
-struct ImportTransaction
+struct _ImportTransaction
 {
     gchar *id_operation;
 
@@ -112,7 +117,7 @@ struct ImportTransaction
 #define IMPORT_TRANSACTION_ASK_FOR_TRANSACTION 1
 #define IMPORT_TRANSACTION_LEAVE_TRANSACTION 2
 
-struct ImportFile
+struct _ImportFile
 {
     gchar * 		name;
     const gchar * 	coding_system;
@@ -121,18 +126,18 @@ struct ImportFile
 };
 
 
-struct ImportFormat
+struct _ImportFormat
 {
     const gchar * name;
     const gchar * complete_name;
     const gchar * extension;
-    gboolean (* import) (GtkWidget * assistant, struct ImportFile *);
+    gboolean (* import) (GtkWidget * assistant, ImportFile *);
 };
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)
  */
-struct ImportPayeeAsso
+struct _ImportPayeeAsso
 {
     gint    payee_number;
     gchar   *search_str;
@@ -147,22 +152,22 @@ gboolean 	gsb_import_associations_add_assoc 				(gint payee_number,
 															 const gchar *search_str,
 															 gint ignore_case,
 															 gint use_regex);
-gint 		gsb_import_associations_cmp_assoc 				(struct ImportPayeeAsso *assoc_1,
-															 struct ImportPayeeAsso *assoc_2);
+gint 		gsb_import_associations_cmp_assoc 				(ImportPayeeAsso *assoc_1,
+															 ImportPayeeAsso *assoc_2);
 gint		gsb_import_associations_get_last_payee_number	(void);
 GSList *	gsb_import_associations_get_liste_associations	(void);
 void 		gsb_import_associations_free_liste				(void);
 void 		gsb_import_associations_init_variables 			(void);
 gint 		gsb_import_associations_list_append_assoc 		(gint payee_number,
-															 struct ImportPayeeAsso *assoc);
+															 ImportPayeeAsso *assoc);
 void 		gsb_import_associations_remove_assoc 			(gint payee_number);
 
 void	 	gsb_import_by_rule 								(gint rule);
-void		gsb_import_free_transaction						(struct ImportTransaction *transaction);
+void		gsb_import_free_transaction						(ImportTransaction *transaction);
 gchar *		gsb_ImportFormats_get_list_formats_to_string 	(void);
 GSList *	gsb_import_import_selected_files 				(GtkWidget *assistant);
-void 		gsb_import_register_account 					(struct ImportAccount *account);
-void 		gsb_import_register_account_error 				(struct ImportAccount *account);
+void 		gsb_import_register_account 					(ImportAccount *account);
+void 		gsb_import_register_account_error 				(ImportAccount *account);
 void 		gsb_import_register_import_formats 				(void);
 gchar * 	gsb_import_unique_imported_name 				(const gchar *account_name);
 /* END_DECLARATION */

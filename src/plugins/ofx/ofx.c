@@ -65,7 +65,7 @@
 /* la libofx puisse le traiter de plus un fichier ofx peut intégrer */
 /* plusieurs comptes, donc on crée une liste... */
 static GSList *					liste_comptes_importes_ofx;
-static struct ImportAccount *	compte_ofx_importation_en_cours;
+static ImportAccount *	compte_ofx_importation_en_cours;
 
 static gchar *					ofx_filename;
 static gint						erreur_import_ofx;
@@ -105,7 +105,7 @@ static int ofx_proc_account_cb (struct OfxAccountData data,
 		liste_comptes_importes_ofx = g_slist_append (liste_comptes_importes_ofx,
 													 compte_ofx_importation_en_cours);
 
-	compte_ofx_importation_en_cours = g_malloc0 (sizeof (struct ImportAccount));
+	compte_ofx_importation_en_cours = g_malloc0 (sizeof (ImportAccount));
 
 	if (data.account_id_valid)
 	{
@@ -256,7 +256,7 @@ static int ofx_proc_status_cb (struct OfxStatusData data,
 static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 									void *security_data)
 {
-	struct ImportTransaction *ope_import;
+	ImportTransaction *ope_import;
 	GDate *date;
 
 	/* printf ("ofx_proc_transaction_cb\n"); */
@@ -318,7 +318,7 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 	}
 
 	/* c'est parti, on crée et remplit l'opération */
-	ope_import = g_malloc0 (sizeof (struct ImportTransaction));
+	ope_import = g_malloc0 (sizeof (ImportTransaction));
 
 	if (data.fi_id_valid)
 		ope_import->id_operation = g_convert (data.fi_id, -1, "UTF-8", coding_system, NULL, NULL, NULL);
@@ -473,7 +473,7 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
  * \return
  **/
 gboolean recuperation_donnees_ofx (GtkWidget *assistant,
-								   struct ImportFile *imported)
+								   ImportFile *imported)
 {
 	GSList *liste_tmp;
 
@@ -500,9 +500,9 @@ gboolean recuperation_donnees_ofx (GtkWidget *assistant,
 
 	if (!compte_ofx_importation_en_cours)
 	{
-		struct ImportAccount * account;
+		ImportAccount * account;
 
-		account = g_malloc0 (sizeof (struct ImportAccount));
+		account = g_malloc0 (sizeof (ImportAccount));
 		account->nom_de_compte = gsb_import_unique_imported_name (_("Invalid OFX file"));
 		account->filename = g_strdup (ofx_filename);
 		account->real_filename = g_strdup (ofx_filename);

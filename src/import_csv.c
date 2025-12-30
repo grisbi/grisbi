@@ -64,7 +64,7 @@ struct CsvField {
 	const gchar *	name;
 	gfloat			alignment;
 	gboolean		(*validate) (gchar *);
-	gboolean		(*parse) (struct ImportTransaction *, gchar *);
+	gboolean		(*parse) (ImportTransaction *, gchar *);
 	const gchar *	alias;
 };
 
@@ -162,7 +162,7 @@ static void csv_import_free_lines_tab (GArray *lines_tab)
  *
  * \return TRUE if OK FALSE other
  **/
-static gchar *gsb_file_test_and_load_csv_file (struct ImportFile *imported)
+static gchar *gsb_file_test_and_load_csv_file (ImportFile *imported)
 {
 	gchar* tmp_str1 = NULL;
 	gchar *contents;
@@ -1320,9 +1320,9 @@ static gpointer my_strdup_null(gconstpointer src, gpointer data)
  * \return
  **/
 gboolean csv_import_file_by_rule (gint rule,
-								  struct ImportFile *imported)
+								  ImportFile *imported)
 {
-	struct ImportAccount *compte;
+	ImportAccount *compte;
 	GArray *lines_tab;
 	GSList *list;
 	gchar **pointeur_char;
@@ -1337,7 +1337,7 @@ gboolean csv_import_file_by_rule (gint rule,
 		if (!contents || strlen (contents) == 0)
 		return FALSE;
 
-	compte = g_malloc0 (sizeof (struct ImportAccount));
+	compte = g_malloc0 (sizeof (ImportAccount));
 	compte->nom_de_compte = gsb_import_unique_imported_name (my_strdup (_("Imported CSV account")));
 	compte->origine = my_strdup ("CSV");
 	compte->real_filename = my_strdup (imported->name);
@@ -1395,10 +1395,10 @@ gboolean csv_import_file_by_rule (gint rule,
 	list = g_array_index (lines_tab, GSList *, index);
 	do
 	{
-		struct ImportTransaction *ope;
+		ImportTransaction *ope;
 		gint i;
 
-		ope = g_malloc0 (sizeof (struct ImportTransaction));
+		ope = g_malloc0 (sizeof (ImportTransaction));
 		ope->date = gdate_today ();
 		ope->date_tmp = my_strdup ("");
 		ope->tiers = my_strdup ("");
@@ -1422,9 +1422,9 @@ gboolean csv_import_file_by_rule (gint rule,
 							if (field->parse (ope, list->data))
 							{
 								gint nbre_element = g_slist_length (compte->operations_importees);
-								struct ImportTransaction *ope_tmp;
+								ImportTransaction *ope_tmp;
 
-								ope_tmp = (struct ImportTransaction *) g_slist_nth_data  (compte->operations_importees,
+								ope_tmp = (ImportTransaction *) g_slist_nth_data  (compte->operations_importees,
 																						  nbre_element -1);
 								if (ope_tmp->operation_ventilee == FALSE && ope_tmp->ope_de_ventilation == FALSE)
 									ope_tmp->operation_ventilee = TRUE;
@@ -1482,9 +1482,9 @@ gboolean csv_import_file_by_rule (gint rule,
  * \return			FALSE
  **/
 gboolean csv_import_csv_account (GtkWidget *assistant,
-								 struct ImportFile *imported)
+								 ImportFile *imported)
 {
-	struct ImportAccount *compte;
+	ImportAccount *compte;
 	GArray *lines_tab;
 	GSList *list;
 	gint index = 0;
@@ -1493,7 +1493,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 
 	devel_debug (imported->name);
 	w_etat = grisbi_win_get_w_etat ();
-	compte = g_malloc0 (sizeof (struct ImportAccount));
+	compte = g_malloc0 (sizeof (ImportAccount));
 	compte->nom_de_compte = gsb_import_unique_imported_name (_("Imported CSV account"));
 	compte->origine = my_strdup ("CSV");
 	compte->real_filename = my_strdup (imported->name);
@@ -1572,7 +1572,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 	list = g_array_index (lines_tab, GSList *, index);
 	do
 	{
-		struct ImportTransaction *ope;
+		ImportTransaction *ope;
 		gint i;
 
 		/* Check if this line was specified as to be skipped earlier. */
@@ -1585,7 +1585,7 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 			continue;
 		}
 
-		ope = g_malloc0 (sizeof (struct ImportTransaction));
+		ope = g_malloc0 (sizeof (ImportTransaction));
 		ope->date = gdate_today ();
 		ope->date_tmp = my_strdup ("");
 		ope->tiers = my_strdup ("");
@@ -1609,9 +1609,9 @@ gboolean csv_import_csv_account (GtkWidget *assistant,
 							if (field->parse (ope, list->data))
 							{
 								gint nbre_element = g_slist_length (compte->operations_importees);
-								struct ImportTransaction *ope_tmp;
+								ImportTransaction *ope_tmp;
 
-								ope_tmp = (struct ImportTransaction *) g_slist_nth_data  (compte->operations_importees,
+								ope_tmp = (ImportTransaction *) g_slist_nth_data  (compte->operations_importees,
 																						  nbre_element -1);
 								if (ope_tmp->operation_ventilee == FALSE && ope_tmp->ope_de_ventilation == FALSE)
 									ope_tmp->operation_ventilee = TRUE;
@@ -1753,7 +1753,7 @@ gboolean import_enter_csv_preview_page (GtkWidget *assistant)
 	GSList *files;
 	gchar *contents;
 	gchar *filename = NULL;
-	struct ImportFile *imported = NULL;
+	ImportFile *imported = NULL;
 	GrisbiWinEtat *w_etat;
 
 	w_etat = grisbi_win_get_w_etat ();

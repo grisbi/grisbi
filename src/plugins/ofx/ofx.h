@@ -9,7 +9,7 @@
 
 /* START_DECLARATION */
 gboolean 	recuperation_donnees_ofx 		(GtkWidget *assistant,
-											 struct ImportFile *imported);
+											 ImportFile *imported);
 /* END_DECLARATION */
 
 #endif /* GSB_OFX_H */

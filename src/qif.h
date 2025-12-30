@@ -12,6 +12,6 @@ gboolean	qif_export					(const gchar *filename,
                         				 gint account_nb,
                         				 gint archive_number);
 gboolean	recuperation_donnees_qif	(GtkWidget *assistant,
-										 struct ImportFile *imported);
+										 ImportFile *imported);
 /* END_DECLARATION */
 #endif

@@ -357,7 +357,7 @@ static void widget_import_asso_fill_model (GtkListStore *list_store)
 		const gchar *payee_name;
 		gchar *tmp_str1;
 		gchar *tmp_str2;
-		struct ImportPayeeAsso *assoc;
+		ImportPayeeAsso *assoc;
 
 		assoc = list_tmp->data;
 		payee_name = gsb_data_payee_get_name (assoc->payee_number, TRUE);
@@ -554,7 +554,7 @@ static void widget_import_asso_update_assoc (const gchar *rule,
 		list_tmp = gsb_import_associations_get_liste_associations ();
 		while (list_tmp)
 		{
-			struct ImportPayeeAsso *assoc;
+			ImportPayeeAsso *assoc;
 
 			assoc = list_tmp->data;
 			if (assoc->payee_number == payee_number)

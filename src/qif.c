@@ -78,7 +78,7 @@ extern GSList *liste_comptes_importes_error;
  *
  * \return
  **/
-static void gsb_qif_free_struct_account (struct ImportAccount *imported_account)
+static void gsb_qif_free_struct_account (ImportAccount *imported_account)
 {
 	if (imported_account)
 	{
@@ -98,13 +98,13 @@ static void gsb_qif_free_struct_account (struct ImportAccount *imported_account)
  *
  * \return an account structure
  **/
-static struct ImportAccount *gsb_qif_init_struct_account (const gchar *account_name,
+static ImportAccount *gsb_qif_init_struct_account (const gchar *account_name,
 														  const gchar *filename)
 {
-	struct ImportAccount *imported_account;
+	ImportAccount *imported_account;
 
 	/* create and fill the new account */
-    imported_account = g_malloc0 (sizeof (struct ImportAccount));
+    imported_account = g_malloc0 (sizeof (ImportAccount));
     imported_account->origine = my_strdup ("QIF");
 
 	/* save filename */
@@ -128,7 +128,7 @@ static struct ImportAccount *gsb_qif_init_struct_account (const gchar *account_n
  *
  * \return 0 si trouvé
  **/
-static gint gsb_qif_name_compare (struct ImportAccount *imported_account,
+static gint gsb_qif_name_compare (ImportAccount *imported_account,
 								  const gchar *name)
 {
     if (!imported_account->nom_de_compte || !name )
@@ -239,7 +239,7 @@ static gint gsb_qif_get_date_order (GSList *transactions_list)
     tmp_list = transactions_list;
     while (tmp_list)
     {
-        struct ImportTransaction *transaction = tmp_list->data;
+        ImportTransaction *transaction = tmp_list->data;
         gchar **array;
         gint year = 0, month = 0, day = 0;
 
@@ -445,7 +445,7 @@ static GDate *gsb_qif_get_date (gchar *date_string, gint order)
  *
  * \return TRUE si OK
  **/
-static gboolean qif_traite_champs_n (struct ImportTransaction *imported_transaction)
+static gboolean qif_traite_champs_n (ImportTransaction *imported_transaction)
 {
 	GrisbiWinEtat *w_etat;
 
@@ -628,7 +628,7 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 				tmp_list = g_slist_find_custom (liste_comptes_importes, name, (GCompareFunc) gsb_qif_name_compare);
 				if (!tmp_list)
 				{
-					struct ImportAccount *imported_account;
+					ImportAccount *imported_account;
 
 					imported_account = gsb_qif_init_struct_account (name, filename);
 					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
@@ -659,7 +659,7 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
 				}
 				else
 				{
-					struct ImportAccount *imported_account;
+					ImportAccount *imported_account;
 
 					imported_account = tmp_list->data;
 					returned_value = utils_files_get_utf8_line_from_file (qif_file, &tmp_str, coding_system);
@@ -727,15 +727,15 @@ static gint gsb_qif_cree_liste_comptes (FILE *qif_file,
  **/
 static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
 													  const gchar *coding_system,
-													  struct ImportAccount *imported_account)
+													  ImportAccount *imported_account)
 {
     gchar *string;
     gint returned_value;
-    struct ImportTransaction *imported_splitted = NULL;
-    struct ImportTransaction *imported_transaction;
+    ImportTransaction *imported_splitted = NULL;
+    ImportTransaction *imported_transaction;
 	GrisbiWinEtat *w_etat;
 
-	imported_transaction = g_try_malloc0 (sizeof (struct ImportTransaction));
+	imported_transaction = g_try_malloc0 (sizeof (ImportTransaction));
 	if (!imported_transaction)
 		return 0;
 
@@ -857,7 +857,7 @@ static gint gsb_qif_recupere_operations_from_account (FILE *qif_file,
                     imported_account->operations_importees = g_slist_append (imported_account->operations_importees,
 																			 imported_splitted);
 
-                imported_splitted = g_malloc0 (sizeof (struct ImportTransaction));
+                imported_splitted = g_malloc0 (sizeof (ImportTransaction));
 
                 if (imported_transaction)
                 {
@@ -1118,10 +1118,10 @@ static gint gsb_qif_passe_ligne (FILE *qif_file,
  * \return		TRUE on success.
  **/
 gboolean recuperation_donnees_qif (GtkWidget *assistant,
-								   struct ImportFile *imported)
+								   ImportFile *imported)
 {
     gchar *tmp_str;
-    struct ImportAccount *imported_account = NULL;
+    ImportAccount *imported_account = NULL;
     gint returned_value = 0;
 	gboolean accounts_liste = FALSE;
 	gboolean premier_compte = TRUE;
@@ -1149,7 +1149,7 @@ gboolean recuperation_donnees_qif (GtkWidget *assistant,
         gchar *account_name = NULL;
         gint order = 0;
         gboolean name_preced = FALSE;
-        struct ImportTransaction *imported_transaction;
+        ImportTransaction *imported_transaction;
 
         do
         {
