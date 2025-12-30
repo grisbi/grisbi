@@ -1852,6 +1852,11 @@ gboolean csv_import_change_separator (GtkEntry *entry,
 		lines_tab = csv_import_init_lines_tab (&contents, w_etat->csv_separator);
 		g_object_set_data (G_OBJECT(assistant), "lines-tab", lines_tab);
 		first_line_with_cols = 0;
+
+		/* reset csv_fields_config */
+		g_free (csv_fields_config);
+		csv_fields_config = NULL;
+
 		csv_import_update_preview (assistant);
 	}
 	else
