@@ -1,3 +1,7 @@
+New in version 3.90.1
+- update libofx on the Windows build
+- Bug fixes
+
 New in version 3.90.0
 - Redesign of search functions
 - Improved response times
