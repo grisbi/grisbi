@@ -1839,7 +1839,7 @@ gboolean csv_import_change_separator (GtkEntry *entry,
 		GArray *lines_tab;
 
 		g_object_set_data (G_OBJECT(assistant), "separator", separator);
-		if (w_etat->csv_separator && strlen (w_etat->csv_separator) > 0)
+		if (w_etat->csv_separator)
 			g_free (w_etat->csv_separator);
 		w_etat->csv_separator = separator;
 		contents = g_object_get_data (G_OBJECT(assistant), "contents");
@@ -1864,7 +1864,7 @@ gboolean csv_import_change_separator (GtkEntry *entry,
 	{
 		if (w_etat->csv_separator)
 			g_free (w_etat->csv_separator);
-		w_etat->csv_separator = (gchar*)"";
+		w_etat->csv_separator = NULL;
 		g_object_set_data (G_OBJECT(assistant), "separator", NULL);
 	}
 
