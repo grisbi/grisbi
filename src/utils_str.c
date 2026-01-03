@@ -1255,19 +1255,19 @@ gchar *utils_str_remove_accents (const gchar *text)
 }
 
 /**
- *	recherche needle après suppression des accents et mise en majuscule
+ *	recherche needle dans haystack après mise en majuscule
  *
  * \param 	chaine pour la recherche
  * \param	chaine recherchée
  *
- * \return un ptr vers la première occurence
+ * \return TRUE if needle is found in haystack
  **/
-gchar *utils_str_my_case_strstr (const gchar *haystack,
+gboolean utils_str_my_case_strstr (const gchar *haystack,
 								 const gchar *needle)
 {
 	gchar *new_haystack;
 	gchar *new_needle;
-	gchar *ptr;
+	gboolean ret;
 
 	/* uniformise needle */
 	new_needle = g_utf8_strup (needle, -1);
@@ -1275,11 +1275,11 @@ gchar *utils_str_my_case_strstr (const gchar *haystack,
 	/* uniformise haystack */
 	new_haystack = g_utf8_strup (haystack, -1);
 
-	ptr = g_strdup (g_strstr_len (new_haystack, -1, new_needle));
+	ret = NULL != g_strstr_len (new_haystack, -1, new_needle);
 	g_free (new_haystack);
 	g_free (new_needle);
 
-	return ptr;
+	return ret;
 }
 
 /**

@@ -431,10 +431,7 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 			case OFX_OTHER:
 				if (w_etat->extract_number_for_check)
 				{
-					gchar *str_to_free = NULL;
-
-					str_to_free = utils_str_my_case_strstr (ope_import->tiers, _("Check"));
-					if (str_to_free)
+					if (utils_str_my_case_strstr (ope_import->tiers, _("Check")))
 					{
 						gchar *tmp_str;
 						tmp_str = gsb_string_extract_int (ope_import->tiers);
@@ -448,7 +445,6 @@ static int ofx_proc_transaction_cb (struct OfxTransactionData data,
 						{
 							g_free (tmp_str);
 						}
-						g_free (str_to_free);
 					}
 				}
 				break;

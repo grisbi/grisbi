@@ -2388,10 +2388,7 @@ static gint gsb_import_create_transaction (ImportTransaction *imported_transacti
 		}
 		if (!imported_transaction->cheque && w_etat->extract_number_for_check)
 		{
-			gchar *str_to_free = NULL;
-
-			str_to_free = utils_str_my_case_strstr (imported_transaction->tiers, _("Check"));
-			if (str_to_free)
+			if (utils_str_my_case_strstr (imported_transaction->tiers, _("Check")))
 			{
 				tmp_str = gsb_string_extract_int (imported_transaction->tiers);
 				if (tmp_str && strlen (tmp_str) > 0)
@@ -2402,7 +2399,6 @@ static gint gsb_import_create_transaction (ImportTransaction *imported_transacti
 				{
 					g_free (tmp_str);
 				}
-				g_free (str_to_free);
 			}
 		}
 
