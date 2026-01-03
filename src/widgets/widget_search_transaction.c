@@ -859,39 +859,6 @@ static gboolean widget_search_transaction_spinbutton_delta_amount_key_press_even
 	return FALSE;
 }
 
-/**
- *
- *
- * \param
- * \param
- * \param
- *
- * \return
- **/
-static gboolean widget_search_transaction_entry_lose_focus (GtkWidget *entry,
-															GdkEvent  *event,
-															WidgetSearchTransactionPrivate *priv)
-{
-	if (gtk_entry_buffer_get_length (gtk_entry_get_buffer (GTK_ENTRY (entry))))
-	{
-		const gchar *text;
-
-		text = gtk_entry_get_text (GTK_ENTRY (priv->entry_search_str));
-
-		/* on reinitialise eventuellement la recherche */
-		if (old_recherche && strcmp (old_recherche, text))
-			widget_search_transaction_reset_search (priv);
-
-		gtk_widget_set_sensitive (priv->button_search, TRUE);
-	}
-	else
-	{
-		gtk_widget_set_sensitive (priv->button_search, FALSE);
-	}
-
-	return FALSE;
-}
-
 static void widget_search_transaction_combo_other_account_changed (GtkComboBox *combo,
 																   WidgetSearchTransaction *dialog)
 {
@@ -1150,10 +1117,6 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 					  "changed",
 					  G_CALLBACK (widget_search_transaction_combo_other_account_changed),
 					  dialog);
-	g_signal_connect (G_OBJECT (priv->entry_search_str),
-					  "focus-out-event",
-					  G_CALLBACK (widget_search_transaction_entry_lose_focus),
-					  priv);
 	g_signal_connect (G_OBJECT (priv->entry_search_str),
 					  "key-press-event",
 					  G_CALLBACK (widget_search_transaction_entry_key_press_event),
