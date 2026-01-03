@@ -794,8 +794,7 @@ static gboolean widget_search_transaction_radiobutton_toggled (GtkWidget *button
 									   priv);
 
 	/* on reinitialise la recherche */
-	search_active = -1;
-	gtk_widget_hide (priv->box_result);
+	widget_search_transaction_reset_search (priv);
 
 	return FALSE;
 }
