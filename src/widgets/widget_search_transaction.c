@@ -656,12 +656,10 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 		/* on affiche le resultat */
 		gtk_widget_show (priv->box_result);
 	}
-
 	else /* on reinitialise la recherche et on cache le resultat */
-	{		
+	{
 		widget_search_transaction_reset_search (priv);
-		gtk_widget_hide (priv->box_result);
-	}	
+	}
 }
 
 /**
