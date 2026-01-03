@@ -55,7 +55,6 @@
 /*START_STATIC*/
 static gint				search_active = -1;
 static gint				search_result = 0; 
-static gchar *			old_recherche = NULL;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -581,13 +580,6 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 		g_free (tmp_str2);
 
 		return;
-	}
-	else
-	{
-		/* on le memorise pour plus tard */
-		if (old_recherche)
-			g_free (old_recherche);
-		old_recherche = g_strdup (text);
 	}
 
 	if (search_active == -1)
