@@ -570,6 +570,8 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 		gchar *tmp_str1;
 		gchar *tmp_str2;
 
+		widget_search_transaction_reset_search (priv);
+
 		tmp_str1 = g_strdup (_("You must enter a search text"));
 		tmp_str2 = g_strdup (_("WARNING"));
 
