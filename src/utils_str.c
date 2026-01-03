@@ -1267,18 +1267,13 @@ gchar *utils_str_my_case_strstr (const gchar *haystack,
 {
 	gchar *new_haystack;
 	gchar *new_needle;
-	gchar *str_to_free;
 	gchar *ptr;
 
 	/* uniformise needle */
-	str_to_free = utils_str_remove_accents (needle);
-	new_needle = g_ascii_strup (str_to_free, -1);
-	g_free (str_to_free);
+	new_needle = g_utf8_strup (needle, -1);
 
-	/* uniformise needle */
-	str_to_free = utils_str_remove_accents (haystack);
-	new_haystack = g_ascii_strup (str_to_free, -1);
-	g_free (str_to_free);
+	/* uniformise haystack */
+	new_haystack = g_utf8_strup (haystack, -1);
 
 	ptr = g_strdup (g_strstr_len (new_haystack, -1, new_needle));
 	g_free (new_haystack);
