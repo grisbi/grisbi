@@ -812,52 +812,14 @@ static gboolean widget_search_transaction_entry_key_press_event  (GtkWidget *ent
 																  GdkEventKey *ev,
 																  WidgetSearchTransaction *dialog)
 {
-	WidgetSearchTransactionPrivate *priv;
-
-	priv = widget_search_transaction_get_instance_private (dialog);
 	switch (ev->keyval)
     {
 		case GDK_KEY_KP_Enter :
 		case GDK_KEY_Return :
-			if (gtk_entry_buffer_get_length (gtk_entry_get_buffer (GTK_ENTRY (entry))))
-			{
-				/* on réinitialise la recherche */
-				search_active = -1;
-				widget_search_transaction_button_search_clicked (NULL, dialog);
-			}
-			else
-			{
-				gchar *tmp_str1;
-				gchar *tmp_str2;
-
-				gtk_entry_set_text (GTK_ENTRY (entry), "");
-				gtk_editable_set_position (GTK_EDITABLE (entry), 0);
-				gtk_widget_grab_focus (entry);
-
-				tmp_str1 = g_strdup (_("You must enter a search text"));
-				tmp_str2 = g_strdup (_("WARNING"));
-
-				dialogue_warning_hint (tmp_str1, tmp_str2);
-
-				g_free (tmp_str1);
-				g_free (tmp_str2);
-
-				return TRUE;
-			}
+			/* on réinitialise la recherche */
+			search_active = -1;
+			widget_search_transaction_button_search_clicked (NULL, dialog);
 			break;
-
-		case GDK_KEY_v:         /* touche v */
-			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
-			{
-				gtk_widget_set_sensitive (priv->button_search, TRUE);
-			}
-			break;
-
-		default:
-			if (gtk_entry_buffer_get_length (gtk_entry_get_buffer (GTK_ENTRY (entry))))
-				gtk_widget_set_sensitive (priv->button_search, TRUE);
-			else
-				gtk_widget_set_sensitive (priv->button_search, FALSE);
 	}
 	return FALSE;
 }
