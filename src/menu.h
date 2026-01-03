@@ -153,6 +153,8 @@ void        gsb_menu_set_menus_select_transaction_sensitive (gboolean sensitive)
 void        gsb_menu_set_menus_view_account_sensitive       (gboolean sensitive);
 void        gsb_menu_set_menus_with_file_sensitive          (gboolean sensitive);
 void	    gsb_menu_update_view_menu                       (gint account_number);
+gboolean    gsb_menu_is_search_ongoing                      (void);
+void        gsb_menu_set_search_ongoing                     (gboolean status);
 
 
 /* END_DECLARATION */

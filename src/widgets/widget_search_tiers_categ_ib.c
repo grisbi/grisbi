@@ -46,6 +46,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
+#include "menu.h"
 #include "navigation.h"
 #include "structures.h"
 #include "utils_prefs.h"
@@ -249,6 +250,7 @@ static void widget_search_tiers_categ_ib_button_cancel_clicked (GtkButton *butto
 	w_run->no_show_prefs = FALSE;
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+	gsb_menu_set_search_ongoing(FALSE);
 }
 
 /**

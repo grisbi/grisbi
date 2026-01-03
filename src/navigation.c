@@ -2001,7 +2001,8 @@ gboolean gsb_gui_navigation_select_line (GtkTreeSelection *selection,
 			title = g_strdup(_("Reports"));
 
 			/* show menu SearchAcc */
-			gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
+			if (! gsb_menu_is_search_ongoing())
+				gsb_menu_gui_sensitive_win_menu_item ("search-acc", TRUE);
 
 			/* what to be done if switch to that page */
 			grisbi_win_set_form_expander_visible (FALSE, FALSE);
