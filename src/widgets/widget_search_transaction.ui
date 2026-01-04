@@ -85,7 +85,6 @@
               <object class="GtkButton" id="button_search">
                 <property name="label" translatable="yes">Find</property>
                 <property name="visible">True</property>
-                <property name="sensitive">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
                 <property name="image">image_search</property>
@@ -165,6 +164,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="halign">center</property>
+                    <property name="placeholder-text" translatable="yes">Search</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
