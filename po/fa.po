@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
-"POT-Creation-Date: 2026-01-01 07:33+0100\n"
+"POT-Creation-Date: 2026-01-04 17:50+0100\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -84,7 +84,7 @@ msgstr "جستجوی تراکنش:"
 #: src/etats/etats_page_payee.ui:84 src/ui/etats_prefs.ui:2799
 #: src/widgets/widget_list_accounts.ui:49
 #: src/widgets/widget_list_metatree.ui:46 src/export.c:420
-#: src/gsb_assistant.c:126 src/import.c:3316 src/import.c:4420
+#: src/gsb_assistant.c:126 src/import.c:3312 src/import.c:4416
 #: src/tiers_onglet.c:1502 src/tiers_onglet.c:1520 src/utils_buttons.c:122
 #: src/widgets/widget_assistant.c:126 src/widgets/widget_list_accounts.c:128
 #: src/widgets/widget_list_metatree.c:171
@@ -97,7 +97,8 @@ msgstr ""
 
 #: src/etats/etats_page_payee.ui:107 src/ui/grisbi_menu.ui:154
 #: src/ui/grisbi_menu.ui:388 src/widgets/widget_search_tiers_categ_ib.ui:381
-#: src/widgets/widget_search_transaction.ui:34 src/etats_onglet.c:1176
+#: src/widgets/widget_search_transaction.ui:34
+#: src/widgets/widget_search_transaction.ui:167 src/etats_onglet.c:1176
 #: src/etats_onglet.c:1406 src/etats_onglet.c:1641 src/grisbi_app.c:125
 #: src/grisbi_app.c:142 src/gsb_transactions_list.c:544
 msgid "Search"
@@ -458,8 +459,8 @@ msgstr ""
 #: src/gsb_file.c:320 src/gsb_file.c:423 src/gsb_file.c:454 src/gsb_file.c:766
 #: src/gsb_scheduler_list.c:151 src/gsb_scheduler_list.c:2980
 #: src/gsb_select_icon.c:315 src/gsb_select_icon.c:504
-#: src/gsb_transactions_list.c:1132 src/import.c:1253 src/import.c:4423
-#: src/import.c:5300 src/imputation_budgetaire.c:458
+#: src/gsb_transactions_list.c:1132 src/import.c:1253 src/import.c:4419
+#: src/import.c:5296 src/imputation_budgetaire.c:458
 #: src/imputation_budgetaire.c:522 src/imputation_budgetaire.c:584
 #: src/imputation_budgetaire.c:813 src/plugins/openssl/openssl.c:456
 #: src/prefs/prefs_page_display_fonts.c:306 src/tiers_onglet.c:129
@@ -1332,7 +1333,7 @@ msgstr ""
 msgid "General Options"
 msgstr "عمومی"
 
-#: src/ui/csv_template_rule.ui:149 src/import.c:4832
+#: src/ui/csv_template_rule.ui:149 src/import.c:4828
 #, fuzzy
 msgid "Name of the rule: "
 msgstr "حذف گزارش"
@@ -1425,7 +1426,7 @@ msgstr ""
 #: src/bet_future.c:528 src/bet_tab.c:2008 src/etats_affiche.c:240
 #: src/export_csv.c:367 src/gsb_assistant_reconcile_config.c:653
 #: src/gsb_form.c:2017 src/gsb_form_widget.c:549 src/gsb_scheduler_list.c:943
-#: src/gsb_transactions_list.c:108 src/import.c:1955 src/import.c:4494
+#: src/gsb_transactions_list.c:108 src/import.c:1955 src/import.c:4490
 #: src/import_csv.c:76
 msgid "Date"
 msgstr "تاریخ"
@@ -1612,7 +1613,7 @@ msgstr ""
 #: src/etats_prefs.c:585 src/etats_prefs.c:1585 src/export_csv.c:382
 #: src/grisbi_win.c:471 src/gsb_assistant_reconcile_config.c:653
 #: src/gsb_form.c:2040 src/gsb_form_widget.c:569 src/gsb_scheduler_list.c:943
-#: src/gsb_transactions_list.c:110 src/import.c:4498 src/import_csv.c:78
+#: src/gsb_transactions_list.c:110 src/import.c:4494 src/import_csv.c:78
 #: src/meta_payee.c:76 src/widgets/widget_loan.c:1134
 #: src/widgets/widget_transfer.c:909 src/widgets/widget_transfer.c:1033
 #: src/widgets/widget_transfer.c:1464 src/widgets/widget_transfer.c:1563
@@ -1703,8 +1704,8 @@ msgstr ""
 #: src/etats_onglet.c:547 src/gsb_assistant_file.c:663
 #: src/gsb_assistant_reconcile_config.c:1276 src/gsb_currency.c:938
 #: src/gsb_data_partial_balance.c:1845 src/gsb_data_partial_balance.c:1931
-#: src/gsb_select_icon.c:508 src/gsb_transactions_list.c:1136 src/import.c:3322
-#: src/import.c:4426 src/import.c:5303 src/utils_files.c:757
+#: src/gsb_select_icon.c:508 src/gsb_transactions_list.c:1136 src/import.c:3318
+#: src/import.c:4422 src/import.c:5299 src/utils_files.c:757
 #: src/widgets/widget_loan.c:1597
 #, fuzzy
 msgid "Validate"
@@ -1881,6 +1882,7 @@ msgstr ""
 #: src/widgets/widget_bet_graph_pie.ui:26 src/grisbi_app.c:119
 #: src/grisbi_app.c:136 src/gsb_assistant.c:444 src/gsb_currency.c:1327
 #: src/tip.c:154 src/widgets/widget_loan.c:949
+#: src/widgets/widget_search_transaction.c:626
 #, fuzzy
 msgid "Close"
 msgstr "بستن"
@@ -2786,11 +2788,11 @@ msgstr ""
 
 #: src/widgets/widget_search_tiers_categ_ib.ui:183
 #: src/widgets/widget_search_transaction.ui:266
-#: src/widgets/widget_search_tiers_categ_ib.c:183
-#: src/widgets/widget_search_transaction.c:766
-#: src/widgets/widget_search_transaction.c:772
-#: src/widgets/widget_search_transaction.c:778
-#: src/widgets/widget_search_transaction.c:1123
+#: src/widgets/widget_search_tiers_categ_ib.c:184
+#: src/widgets/widget_search_transaction.c:761
+#: src/widgets/widget_search_transaction.c:767
+#: src/widgets/widget_search_transaction.c:773
+#: src/widgets/widget_search_transaction.c:1055
 msgid "Ignore case"
 msgstr ""
 
@@ -2809,12 +2811,12 @@ msgstr ""
 msgid "Find"
 msgstr ""
 
-#: src/widgets/widget_search_transaction.ui:114
+#: src/widgets/widget_search_transaction.ui:113
 #, fuzzy
 msgid "Search in payee name"
 msgstr "نام فایل"
 
-#: src/widgets/widget_search_transaction.ui:143
+#: src/widgets/widget_search_transaction.ui:142
 #, fuzzy
 msgid "Search in note"
 msgstr "جستجو:"
@@ -3437,7 +3439,7 @@ msgstr ""
 #: src/export_csv.c:675 src/export_csv.c:807 src/export_csv.c:819
 #: src/gsb_data_category.c:1089 src/gsb_data_payment.c:607
 #: src/gsb_data_payment.c:696 src/gsb_data_payment.c:732 src/gsb_form.c:2981
-#: src/import.c:2579 src/import.c:2600 src/import_csv.c:1622
+#: src/import.c:2575 src/import.c:2596 src/import_csv.c:1622
 #: src/plugins/ofx/ofx.c:407
 msgid "Transfer"
 msgstr ""
@@ -3677,7 +3679,7 @@ msgstr "بخش"
 
 #: src/bet_hist.c:1294 src/categories_onglet.c:201 src/etats_affiche.c:382
 #: src/gsb_assistant_reconcile_config.c:653 src/gsb_scheduler_list.c:944
-#: src/gsb_transactions_list.c:115 src/import.c:4502 src/import_csv.c:85
+#: src/gsb_transactions_list.c:115 src/import.c:4498 src/import_csv.c:85
 #: src/imputation_budgetaire.c:204 src/tiers_onglet.c:841
 #: src/etats/etats_page_amount.c:280
 msgid "Amount"
@@ -5079,7 +5081,7 @@ msgstr ""
 msgid "Quote the dates"
 msgstr "مرتب سازی بر اساس تاریخ"
 
-#: src/export.c:415 src/import.c:3319 src/tiers_onglet.c:1504
+#: src/export.c:415 src/import.c:3315 src/tiers_onglet.c:1504
 #: src/tiers_onglet.c:1685 src/utils_buttons.c:117
 #: src/widgets/widget_list_accounts.c:126
 #: src/widgets/widget_list_metatree.c:169
@@ -5798,7 +5800,7 @@ msgstr ""
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: src/grisbi_app.c:1012 src/menu.c:645
+#: src/grisbi_app.c:1012 src/menu.c:646
 #, fuzzy
 msgid "Start an action!"
 msgstr "جستجوی تراکنش"
@@ -8378,17 +8380,17 @@ msgstr ""
 msgid "Report"
 msgstr "گزارش"
 
-#: src/gsb_data_payment.c:701 src/import.c:2558 src/plugins/ofx/ofx.c:395
+#: src/gsb_data_payment.c:701 src/import.c:2554 src/plugins/ofx/ofx.c:395
 msgid "Deposit"
 msgstr ""
 
-#: src/gsb_data_payment.c:709 src/gsb_form.c:2934 src/import.c:2565
-#: src/import.c:2572
+#: src/gsb_data_payment.c:709 src/gsb_form.c:2934 src/import.c:2561
+#: src/import.c:2568
 msgid "Credit card"
 msgstr ""
 
-#: src/gsb_data_payment.c:717 src/gsb_form.c:2970 src/import.c:2586
-#: src/import.c:2609 src/widgets/widget_loan.c:1171
+#: src/gsb_data_payment.c:717 src/gsb_form.c:2970 src/import.c:2582
+#: src/import.c:2605 src/widgets/widget_loan.c:1171
 #: src/widgets/widget_loan.c:1174
 msgid "Direct debit"
 msgstr ""
@@ -9144,12 +9146,12 @@ msgstr ""
 msgid "Direct deposit"
 msgstr ""
 
-#: src/gsb_form.c:2952 src/import.c:2393 src/import.c:2414 src/import.c:2540
-#: src/plugins/ofx/ofx.c:375 src/plugins/ofx/ofx.c:436
+#: src/gsb_form.c:2952 src/import.c:2391 src/import.c:2410 src/import.c:2536
+#: src/plugins/ofx/ofx.c:375 src/plugins/ofx/ofx.c:434
 msgid "Check"
 msgstr "چک"
 
-#: src/gsb_form.c:2961 src/import.c:2593
+#: src/gsb_form.c:2961 src/import.c:2589
 msgid "Cash withdrawal"
 msgstr ""
 
@@ -10115,95 +10117,95 @@ msgstr ""
 msgid "The following files are in error: "
 msgstr ""
 
-#: src/import.c:2701
+#: src/import.c:2697
 #, c-format
 msgid ""
 "Warning: the cheque number %s is already used.\n"
 "We skip it"
 msgstr ""
 
-#: src/import.c:2917
+#: src/import.c:2913
 #, c-format
 msgid ""
 "Choose from the list below that which will be selected \n"
 "for the payee: \"%s\""
 msgstr ""
 
-#: src/import.c:2923
+#: src/import.c:2919
 #, fuzzy
 msgid "Several transactions have been found"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:2965
+#: src/import.c:2961
 #, fuzzy, c-format
 msgid "Transaction N° %d found: %s ; %s ; %s"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:3087
+#: src/import.c:3083
 msgid ""
 "No other operation was found.\n"
 "In this case it is a new operation and\n"
 "the associated box has been unchecked"
 msgstr ""
 
-#: src/import.c:3107
+#: src/import.c:3103
 msgid ""
 "Only one operation was found. \n"
 "The correction has been made."
 msgstr ""
 
-#: src/import.c:3128 src/import.c:3493
+#: src/import.c:3124 src/import.c:3489
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s ; %s"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:3142 src/import.c:3198 src/import.c:3507
+#: src/import.c:3138 src/import.c:3194 src/import.c:3503
 #, fuzzy, c-format
 msgid "Transaction found: %s ; %s ; %s"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:3212 src/import.c:3435
+#: src/import.c:3208 src/import.c:3431
 #, fuzzy, c-format
 msgid "Transaction to be merged: %s ; %s ; %s"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:3217 src/import.c:3440
+#: src/import.c:3213 src/import.c:3436
 #, fuzzy, c-format
 msgid "Transaction to import: %s ; %s ; %s"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:3234
+#: src/import.c:3230
 #, fuzzy
 msgid "Find other transaction"
 msgstr "حذف تراکنش"
 
-#: src/import.c:3296
+#: src/import.c:3292
 #, fuzzy, c-format
 msgid "Confirmation of transactions to be merged in: %s"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:3301
+#: src/import.c:3297
 #, fuzzy, c-format
 msgid "Confirmation of importation of transactions in: %s"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:3337
+#: src/import.c:3333
 #, fuzzy
 msgid "Please select the transactions to be merged"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:3342
+#: src/import.c:3338
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
 msgstr ""
 
-#: src/import.c:3382 src/import.c:3471
+#: src/import.c:3378 src/import.c:3467
 #, fuzzy
 msgid "Duplicate transactions"
 msgstr "حذف تراکنش"
 
-#: src/import.c:3820
+#: src/import.c:3816
 #, c-format
 msgid ""
 "Perhaps you choose a wrong account?\n"
@@ -10214,53 +10216,53 @@ msgid ""
 "Do you want to continue?"
 msgstr ""
 
-#: src/import.c:3826
+#: src/import.c:3822
 msgid "The id of the imported and chosen accounts are different"
 msgstr ""
 
-#: src/import.c:4055
+#: src/import.c:4051
 #, c-format
 msgid ""
 "You have imported transaction of transfer to an inexistent account: '%s'"
 msgstr ""
 
-#: src/import.c:4058
+#: src/import.c:4054
 #, fuzzy
 msgid "Transfer transaction in error"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:4409
+#: src/import.c:4405
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "جستجوی تراکنش"
 
-#: src/import.c:4436
+#: src/import.c:4432
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 
-#: src/import.c:4490
+#: src/import.c:4486
 msgid "Mark"
 msgstr ""
 
-#: src/import.c:4760
+#: src/import.c:4756
 #, c-format
 msgid ""
 "An error occurred while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
 
-#: src/import.c:4826
+#: src/import.c:4822
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
 
-#: src/import.c:4831
+#: src/import.c:4827
 msgid "No name for the import rule"
 msgstr ""
 
-#: src/import.c:4872
+#: src/import.c:4868
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -10268,18 +10270,18 @@ msgid ""
 "Please contact the Grisbi team to find the problem."
 msgstr ""
 
-#: src/import.c:4882
+#: src/import.c:4878
 msgid "Please wait"
 msgstr "لطفا صبر کنید"
 
-#: src/import.c:4904
+#: src/import.c:4900
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
 "via the preferences windows."
 msgstr ""
 
-#: src/import.c:4946
+#: src/import.c:4942
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -10289,66 +10291,66 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/import.c:4955
+#: src/import.c:4951
 msgid "Importing transactions into Grisbi"
 msgstr ""
 
-#: src/import.c:5163
+#: src/import.c:5159
 #, c-format
 msgid "%s #%d"
 msgstr ""
 
-#: src/import.c:5294
+#: src/import.c:5290
 msgid "Import a file with a rule"
 msgstr ""
 
-#: src/import.c:5310
+#: src/import.c:5306
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr ""
 
-#: src/import.c:5329
+#: src/import.c:5325
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr ""
 
-#: src/import.c:5332
+#: src/import.c:5328
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 
-#: src/import.c:5336
+#: src/import.c:5332
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr ""
 
-#: src/import.c:5346
+#: src/import.c:5342
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr ""
 
-#: src/import.c:5359
+#: src/import.c:5355
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "ویرایش گزارش:"
 
-#: src/import.c:5376
+#: src/import.c:5372
 #, fuzzy
 msgid "Select a new file"
 msgstr "حساب حذف شده"
 
-#: src/import.c:5390
+#: src/import.c:5386
 #, fuzzy
 msgid "Remove the imported file"
 msgstr "حذف گزارش"
 
-#: src/import.c:5457
+#: src/import.c:5453
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: src/import.c:5501
+#: src/import.c:5497
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occurred while getting the "
@@ -10586,7 +10588,7 @@ msgstr "بخش های درآمد"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "جستجوی تراکنش"
 
-#: src/menu.c:94 src/menu.c:111
+#: src/menu.c:95 src/menu.c:112
 #, fuzzy
 msgid "en"
 msgstr "دستی"
@@ -10805,11 +10807,10 @@ msgstr "جستجوی تراکنش"
 msgid "You must select at least one search element"
 msgstr "باید تاریخ را وارد کنید."
 
-#: src/metatree.c:3832 src/widgets/widget_search_tiers_categ_ib.c:282
-#: src/widgets/widget_search_tiers_categ_ib.c:307
-#: src/widgets/widget_search_tiers_categ_ib.c:390
-#: src/widgets/widget_search_transaction.c:574
-#: src/widgets/widget_search_transaction.c:839
+#: src/metatree.c:3832 src/widgets/widget_search_tiers_categ_ib.c:284
+#: src/widgets/widget_search_tiers_categ_ib.c:309
+#: src/widgets/widget_search_tiers_categ_ib.c:392
+#: src/widgets/widget_search_transaction.c:576
 msgid "WARNING"
 msgstr ""
 
@@ -10981,7 +10982,7 @@ msgstr ""
 msgid "Repeating payment/standing order"
 msgstr ""
 
-#: src/plugins/ofx/ofx.c:506
+#: src/plugins/ofx/ofx.c:502
 msgid "Invalid OFX file"
 msgstr ""
 
@@ -12745,55 +12746,54 @@ msgstr ""
 msgid " <b>%s reconciliation</b> "
 msgstr ""
 
-#: src/widgets/widget_search_tiers_categ_ib.c:189
-#: src/widgets/widget_search_transaction.c:784
+#: src/widgets/widget_search_tiers_categ_ib.c:190
+#: src/widgets/widget_search_transaction.c:779
 msgid "Ignore sign"
 msgstr ""
 
-#: src/widgets/widget_search_tiers_categ_ib.c:281
-#: src/widgets/widget_search_tiers_categ_ib.c:389
-#: src/widgets/widget_search_transaction.c:573
-#: src/widgets/widget_search_transaction.c:838
+#: src/widgets/widget_search_tiers_categ_ib.c:283
+#: src/widgets/widget_search_tiers_categ_ib.c:391
+#: src/widgets/widget_search_transaction.c:575
 #, fuzzy
 msgid "You must enter a search text"
 msgstr "باید تاریخ را وارد کنید."
 
-#: src/widgets/widget_search_tiers_categ_ib.c:306
+#: src/widgets/widget_search_tiers_categ_ib.c:308
 #, fuzzy
 msgid "You must enter a valid amount"
 msgstr "باید تاریخ را وارد کنید."
 
-#: src/widgets/widget_search_tiers_categ_ib.c:493
+#: src/widgets/widget_search_tiers_categ_ib.c:495
 #, fuzzy
 msgid "Search in categories"
 msgstr "بخش های درآمد"
 
-#: src/widgets/widget_search_tiers_categ_ib.c:505
+#: src/widgets/widget_search_tiers_categ_ib.c:507
 #, fuzzy
 msgid "Search in budgetary lines"
 msgstr "بخش های درآمد"
 
-#: src/widgets/widget_search_tiers_categ_ib.c:518
+#: src/widgets/widget_search_tiers_categ_ib.c:520
 #, fuzzy
 msgid "Search in payees"
 msgstr "نام فایل"
 
-#: src/widgets/widget_search_transaction.c:614
+#: src/widgets/widget_search_transaction.c:609
 #, fuzzy
 msgid "1 transaction were found"
 msgstr "جستجوی تراکنش"
 
-#: src/widgets/widget_search_transaction.c:616
+#: src/widgets/widget_search_transaction.c:611
 #, fuzzy
 msgid " transactions were found"
 msgstr "جستجوی تراکنش"
 
-#: src/widgets/widget_search_transaction.c:647
+#: src/widgets/widget_search_transaction.c:644
 #, fuzzy
 msgid "No transaction was found"
 msgstr "تراکنش"
 
-#: src/widgets/widget_search_transaction.c:1030
+#: src/widgets/widget_search_transaction.c:962
 #, fuzzy
 msgid "Choose another account"
 msgstr "حساب بسته شده"
