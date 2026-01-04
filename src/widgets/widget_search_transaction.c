@@ -621,11 +621,13 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 			else
 				transaction_list_select (transaction_number);
 
-			/* on initialise les boutons next et previous et modifie le bouton search si search_active > 1 */
+			/* on modifie le bouton search */
+			gtk_button_set_label (GTK_BUTTON (priv->button_search), _("Close"));
+
+			/* on initialise les boutons next et previous si search_active > 1 */
 			if (search_active > 1)
 			{
 				gtk_button_set_image (GTK_BUTTON (priv->button_search), priv->image_cancel);
-				gtk_button_set_label (GTK_BUTTON (priv->button_search), "Stop");
 				gtk_widget_set_sensitive (priv->button_next, TRUE);
 				gtk_widget_set_sensitive (priv->button_previous, FALSE);
 			}
@@ -650,9 +652,9 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 		/* on affiche le resultat */
 		gtk_widget_show (priv->box_result);
 	}
-	else /* on reinitialise la recherche et on cache le resultat */
+	else /* on ferme la fenêtre de recherche */
 	{
-		widget_search_transaction_reset_search (priv);
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 	}
 }
 
