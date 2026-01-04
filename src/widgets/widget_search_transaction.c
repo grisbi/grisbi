@@ -54,7 +54,7 @@
 
 /*START_STATIC*/
 static gint				search_active = -1;
-static gint				search_result = 0; 
+static gint				search_result = 0;
 static gint				last_transaction = -1;
 /*END_STATIC*/
 
@@ -68,7 +68,7 @@ struct _WidgetSearchTransactionPrivate
 	GtkWidget *			vbox_widget_search_transaction;
 	GtkWidget *			button_next;
 	GtkWidget *			button_previous;
-    GtkWidget *         button_search;
+	GtkWidget *			button_search;
 	GtkWidget *			image_cancel;
 	GtkWidget *			image_search;
 
@@ -148,11 +148,11 @@ static gint widget_search_transaction_sort_result (gconstpointer a,
 												   gconstpointer b,
 												   WidgetSearchTransactionPrivate *priv)
 {
-    const GDate *value_date_1 = NULL;
-    const GDate *value_date_2 = NULL;
+	const GDate *value_date_1 = NULL;
+	const GDate *value_date_2 = NULL;
 	gint return_value;
 	gint transaction_number_1;
-    gint transaction_number_2;
+	gint transaction_number_2;
 
 	transaction_number_1 = GPOINTER_TO_INT (a);
 	transaction_number_2 = GPOINTER_TO_INT (b);
@@ -223,12 +223,12 @@ static void widget_search_transaction_warning_msg (GtkWindow *parent,
 												   const gchar *text,
 												   const gchar *hint)
 {
-    GtkWidget *dialog;
+	GtkWidget *dialog;
 	gchar *tmp_markup_str;
 
-    tmp_markup_str = g_markup_printf_escaped ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint);
+	tmp_markup_str = g_markup_printf_escaped ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint);
 
-    dialog = gtk_message_dialog_new (GTK_WINDOW (parent),
+	dialog = gtk_message_dialog_new (GTK_WINDOW (parent),
 									 GTK_DIALOG_DESTROY_WITH_PARENT,
 									 GTK_MESSAGE_WARNING,
 									 GTK_BUTTONS_CLOSE,
@@ -237,10 +237,10 @@ static void widget_search_transaction_warning_msg (GtkWindow *parent,
 	gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), tmp_markup_str);
 	gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text);
 
-    gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_set_transient_for  (GTK_WINDOW (dialog), GTK_WINDOW (parent));
-    gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy (dialog);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 /**
@@ -367,7 +367,7 @@ static gboolean widget_search_transaction_str_is_valide (gint transaction_number
 
 		case 4:		/* inutilise correspond à la recherche d'un montant */
 			break;
-		
+
 		case 5:		/* ignore case = TRUE, search_type = payee, pas d'operation fille */
 			if (mother_number)
 			{
@@ -460,7 +460,7 @@ static GSList *widget_search_transaction_get_list (gint account_number,
 					{
 						list = g_slist_append (list, GINT_TO_POINTER (transaction_number));
 					}
-				}					
+				}
 			}
 			else if (widget_search_transaction_str_is_valide (transaction_number, text, priv))
 			{
@@ -614,7 +614,7 @@ static void widget_search_transaction_button_search_clicked (GtkButton *button,
 			transaction_number = GPOINTER_TO_INT (g_slist_nth_data (priv->list, search_active-1));
 			if (priv->search_archive)
 				archive_number = gsb_data_transaction_get_archive_number (transaction_number);
-    		if (archive_number)
+			if (archive_number)
 			{
 				widget_search_transaction_select_archived (transaction_number, priv->account_number, archive_number);
 				gsb_transactions_list_set_visible_archived_button (TRUE);
@@ -808,7 +808,7 @@ static gboolean widget_search_transaction_entry_key_press_event  (GtkWidget *ent
 																  WidgetSearchTransaction *dialog)
 {
 	switch (ev->keyval)
-    {
+	{
 		case GDK_KEY_KP_Enter :
 		case GDK_KEY_Return :
 			/* on réinitialise la recherche */
@@ -845,7 +845,7 @@ static gboolean widget_search_transaction_spinbutton_delta_amount_key_press_even
 
 	priv = widget_search_transaction_get_instance_private (dialog);
 	switch (ev->keyval)
-    {
+	{
 		case GDK_KEY_KP_Enter :
 		case GDK_KEY_Return :
 			/* on réinitialise la recherche */
@@ -853,7 +853,7 @@ static gboolean widget_search_transaction_spinbutton_delta_amount_key_press_even
 			widget_search_transaction_button_search_clicked (NULL, dialog);
 			break;
 
-		case GDK_KEY_v:         /* touche v */
+		case GDK_KEY_v:			/* touche v */
 			if ((ev->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
 			{
 				gtk_widget_set_sensitive (priv->button_search, TRUE);
@@ -876,7 +876,7 @@ static void widget_search_transaction_combo_other_account_changed (GtkComboBox *
 		WidgetSearchTransactionPrivate *priv;
 
 		store = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
-        gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, 1, &account_number, -1);
+		gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, 1, &account_number, -1);
 
 		priv = widget_search_transaction_get_instance_private (dialog);
 
@@ -900,9 +900,9 @@ static void widget_search_transaction_combo_other_account_changed (GtkComboBox *
 		}
 
 		/* on change pour le nouveau compte */
-	    gsb_gui_navigation_change_account (account_number);
-	    widget_account_property_fill ();
-	    gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, account_number, 0);
+		gsb_gui_navigation_change_account (account_number);
+		widget_account_property_fill ();
+		gsb_gui_navigation_set_selection (GSB_ACCOUNT_PAGE, account_number, 0);
 
 		/* on réinitialise la recherche */
 		priv->account_number = account_number;
@@ -925,13 +925,13 @@ static gboolean widget_search_transaction_combo_separator_func (GtkTreeModel *mo
 																GtkTreeIter *iter,
 																GtkComboBox *combo)
 {
-    gboolean value;
+	gboolean value;
 
-    gtk_tree_model_get (GTK_TREE_MODEL (model), iter, 2, &value, -1);
+	gtk_tree_model_get (GTK_TREE_MODEL (model), iter, 2, &value, -1);
 
-    if (value)
-	    return TRUE;
-    return FALSE;
+	if (value)
+		return TRUE;
+	return FALSE;
 }
 
 /**
@@ -943,13 +943,13 @@ static gboolean widget_search_transaction_combo_separator_func (GtkTreeModel *mo
  * */
 static void widget_search_transaction_init_combo_other_account (WidgetSearchTransactionPrivate *priv)
 {
-    GSList *list_tmp;
-    GtkListStore *store;
+	GSList *list_tmp;
+	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	GtkTreeIter iter;
 	gchar *msg;
 
-    store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN);
+	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN);
 
 	/* set separator before current account : col 2 of model */
 	gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (priv->combo_other_account),
@@ -1006,14 +1006,14 @@ static void widget_search_transaction_init_combo_other_account (WidgetSearchTran
 						2, FALSE,
 						-1);
 
-    gtk_combo_box_set_model (GTK_COMBO_BOX (priv->combo_other_account), GTK_TREE_MODEL (store));
+	gtk_combo_box_set_model (GTK_COMBO_BOX (priv->combo_other_account), GTK_TREE_MODEL (store));
 
-    /* by default, this is blank, so set the first */
-    gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_other_account), 0);
+	/* by default, this is blank, so set the first */
+	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->combo_other_account), 0);
 
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (priv->combo_other_account), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (priv->combo_other_account), renderer, "text", 0, NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (priv->combo_other_account), renderer, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (priv->combo_other_account), renderer, "text", 0, NULL);
 }
 
 /**
@@ -1046,10 +1046,10 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 	priv->search_type = 1;
 
 	/* set number for radiobutton */
-    g_object_set_data (G_OBJECT (priv->radiobutton_search_payee), "pointer", GINT_TO_POINTER (1));
-    g_object_set_data (G_OBJECT (priv->radiobutton_search_note), "pointer", GINT_TO_POINTER (2));
-    g_object_set_data (G_OBJECT (priv->radiobutton_search_all), "pointer", GINT_TO_POINTER (3));
-    g_object_set_data (G_OBJECT (priv->radiobutton_search_amount), "pointer", GINT_TO_POINTER (4));
+	g_object_set_data (G_OBJECT (priv->radiobutton_search_payee), "pointer", GINT_TO_POINTER (1));
+	g_object_set_data (G_OBJECT (priv->radiobutton_search_note), "pointer", GINT_TO_POINTER (2));
+	g_object_set_data (G_OBJECT (priv->radiobutton_search_all), "pointer", GINT_TO_POINTER (3));
+	g_object_set_data (G_OBJECT (priv->radiobutton_search_amount), "pointer", GINT_TO_POINTER (4));
 
 	/* set ignore case label */
 	gtk_button_set_label (GTK_BUTTON (priv->checkbutton_ignore_case), _("Ignore case"));
@@ -1242,7 +1242,7 @@ WidgetSearchTransaction *widget_search_transaction_new (GtkWidget *win,
 
 	/* set position of dialog */
 	a_conf = grisbi_app_get_a_conf ();
-    if (!a_conf->low_definition_screen)
+	if (!a_conf->low_definition_screen)
 	{
 		gtk_window_set_gravity (GTK_WINDOW (dialog), GDK_GRAVITY_SOUTH_EAST);
 		gtk_window_get_size (GTK_WINDOW (win), &width, &height);
