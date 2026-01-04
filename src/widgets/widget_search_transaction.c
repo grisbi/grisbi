@@ -812,6 +812,15 @@ static gboolean widget_search_transaction_entry_key_press_event  (GtkWidget *ent
 			search_active = -1;
 			widget_search_transaction_button_search_clicked (NULL, dialog);
 			break;
+
+		default:
+			if (!gtk_entry_buffer_get_length (gtk_entry_get_buffer (GTK_ENTRY (entry))))
+			{
+				WidgetSearchTransactionPrivate *priv;
+
+				priv = widget_search_transaction_get_instance_private (dialog);
+				widget_search_transaction_reset_search (priv);
+			}
 	}
 	return FALSE;
 }
@@ -1110,7 +1119,7 @@ static void widget_search_transaction_setup_dialog (WidgetSearchTransaction *dia
 					  G_CALLBACK (widget_search_transaction_combo_other_account_changed),
 					  dialog);
 	g_signal_connect (G_OBJECT (priv->entry_search_str),
-					  "key-press-event",
+					  "key-release-event",
 					  G_CALLBACK (widget_search_transaction_entry_key_press_event),
 					  dialog);
 	g_signal_connect (G_OBJECT (priv->radiobutton_search_all),
