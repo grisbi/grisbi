@@ -55,6 +55,7 @@
 /*START_STATIC*/
 static gint				search_active = -1;
 static gint				search_result = 0; 
+static gint				last_transaction = -1;
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -1161,6 +1162,13 @@ static void widget_search_transaction_dispose (GObject *object)
 	WidgetSearchTransactionPrivate *priv;
 
 	priv = widget_search_transaction_get_instance_private (WIDGET_SEARCH_TRANSACTION (object));
+
+	/* On recupere le numero de la derniere transaction */
+	if (last_transaction == -1)
+	{
+		last_transaction = gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ());
+	}
+
 	gsb_transactions_list_change_aspect_liste (priv->display_nb_rows);
 
 	/* on supprime éventuellement la demande de sauvegarde */
@@ -1168,14 +1176,11 @@ static void widget_search_transaction_dispose (GObject *object)
 	if (!priv->file_is_modified && priv->file_modified >= w_run->file_modification)
 	{
 		gsb_file_set_modified (FALSE);
+	}
 
-	}
-	if (gsb_data_account_get_r (priv->account_number) != priv->display_r)
-	{
-		gsb_data_account_set_r (priv->account_number, FALSE);
-		gsb_menu_update_view_menu (priv->account_number);
-        gsb_transactions_list_mise_a_jour_affichage_r (FALSE);
-	}
+	/* On reste sur la dernière transaction sélectionnée */
+	transaction_list_select (last_transaction);
+	last_transaction = -1;
 
 	G_OBJECT_CLASS (widget_search_transaction_parent_class)->dispose (object);
 }
