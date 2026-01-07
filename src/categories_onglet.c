@@ -280,9 +280,16 @@ void categories_fill_list (void)
 {
     GSList *category_list;
     GtkTreeIter iter_categ, iter_sous_categ;
+    GtkTreeSelection *selection;
     MetatreeInterface *category_interface;
 
     devel_debug (NULL);
+
+    /* on bloque la fonction pendant la mise à jour du model */
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (arbre_categ));
+    g_signal_handlers_block_by_func (G_OBJECT (selection),
+                        G_CALLBACK (metatree_selection_changed),
+                        categ_tree_model);
 
     /* Model might be empty because we are importing categories
      * before file is opened.  So don't do anything. */
@@ -349,10 +356,13 @@ void categories_fill_list (void)
 	category_list = category_list->next;
     }
 
-    if (category_hold_position->path)
-    {
-        GtkTreeSelection *selection;
+    /* on débloque la fonction de callback */
+    g_signal_handlers_unblock_by_func (G_OBJECT (selection),
+                        G_CALLBACK (metatree_selection_changed),
+                        categ_tree_model);
 
+	if (category_hold_position->path)
+    {
         if (category_hold_position->expand)
         {
             GtkTreePath *ancestor;

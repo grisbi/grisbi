@@ -286,6 +286,12 @@ void budgetary_lines_fill_list ( void )
 
     devel_debug (NULL);
 
+	/* on bloque la fonction pendant la mise à jour du model */
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (budgetary_line_tree));
+    g_signal_handlers_block_by_func (G_OBJECT (selection),
+                        G_CALLBACK (metatree_selection_changed),
+                        budgetary_line_tree_model);
+
     /** First, remove previous tree */
 	if (!budgetary_line_tree_model || !GTK_IS_TREE_STORE (budgetary_line_tree_model))
 		return;
@@ -353,7 +359,13 @@ void budgetary_lines_fill_list ( void )
 	}
 	budget_list = budget_list -> next;
     }
-    /* replace le curseur sur la division, sub_division ou opération initiale */
+
+    /* on débloque la fonction de callback */
+    g_signal_handlers_unblock_by_func (G_OBJECT (selection),
+                        G_CALLBACK (metatree_selection_changed),
+                        budgetary_line_tree_model);
+
+	/* replace le curseur sur la division, sub_division ou opération initiale */
     if ( budgetary_hold_position -> path )
     {
         if ( budgetary_hold_position -> expand )
