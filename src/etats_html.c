@@ -288,8 +288,10 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
     html_out = utils_files_utf8_fopen ( filename, "w" );
     if ( ! html_out )
     {
+      gchar * tmp_str = g_strdup_printf (_("Cannot open file '%s' for writing"), filename);
       dialogue_error_hint ( _("Make sure file exists and is writable."),
-			   g_strdup_printf (_("Cannot open file '%s' for writing"), filename));
+          tmp_str);
+      g_free(tmp_str);
       return FALSE;
     }
 

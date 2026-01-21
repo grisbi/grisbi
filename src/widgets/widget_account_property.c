@@ -771,7 +771,9 @@ static gint widget_account_property_iban_control_iban (const gchar *iban)
 		if (gstring->len >= 9)
 		{
 			gstring = g_string_erase (gstring, 0, 9);
-			gstring = g_string_prepend (gstring, g_strdup_printf ("%d", reste));
+			tmp_str = g_strdup_printf ("%d", reste);
+			gstring = g_string_prepend (gstring, tmp_str);
+			g_free(tmp_str);
 		}
 		else
 			break;

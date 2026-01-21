@@ -1248,7 +1248,11 @@ gboolean gsb_partial_balance_select_account ( GtkTreeSelection *selection,
 					g_free(tmp_str);
                 }
                 else
-                    gtk_entry_set_text ( GTK_ENTRY ( entry ), g_strdup_printf ( "%d", account_nb ) );
+				{
+					gchar * tmp_str = g_strdup_printf ( "%d", account_nb );
+					gtk_entry_set_text ( GTK_ENTRY ( entry ), tmp_str );
+					g_free(tmp_str);
+				}
             }
             list = list -> next;
         }

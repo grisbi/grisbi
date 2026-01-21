@@ -654,9 +654,11 @@ static GtkWidget *create_export_account_resume_page (struct ExportedAccount *acc
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, MARGIN_BOX);
     gtk_container_set_border_width (GTK_CONTAINER(vbox), BOX_BORDER_WIDTH);
 
+    gchar * tmp_str = g_strdup_printf (_("Export of: %s"),
+            gsb_data_account_get_name (account->account_nb));
     tmpstr = dialogue_make_pango_attribut ("size=\"x-large\"",
-                        g_strdup_printf (_("Export of: %s"),
-                        gsb_data_account_get_name (account->account_nb)));
+            tmp_str);
+    g_free(tmp_str);
 
     label = gtk_label_new (NULL);
     utils_labels_set_alignment (GTK_LABEL (label), 0, 0.5);
