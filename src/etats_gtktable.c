@@ -132,7 +132,8 @@ static void gtktable_attach_label (gchar *text,
 								   gdouble properties,
 								   int x, int x2, int y, int y2,
 								   GtkJustification align,
-								   gint transaction_number)
+								   gint transaction_number,
+								   const gchar *class)
 {
 	GtkWidget *label;
 	PangoContext *p_context;

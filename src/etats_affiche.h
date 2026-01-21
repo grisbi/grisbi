@@ -16,7 +16,7 @@ struct EtatAffichage
 	gint (* finish) 	  	(void);																/** End of drawing session  */
 	void (* attach_hsep)  	(int, int, int, int); 												/** Draw horizontal separator (aka "-")  */
 	void (* attach_vsep)  	(int, int, int, int); 												/** Draw vertical separator (aka "|") */
-	void (* attach_label)	(gchar *, gdouble, int, int, int, int, GtkJustification, gint);		/** Draw a label with properties  */
+	void (* attach_label)	(gchar *, gdouble, int, int, int, int, GtkJustification, gint, const gchar *);		/** Draw a label with properties  */
 };
 
 

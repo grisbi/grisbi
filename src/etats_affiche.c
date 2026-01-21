@@ -155,9 +155,10 @@ static void etat_affiche_attach_label (gchar *text,
 									   gint properties,
 									   int x, int x2, int y, int y2,
 									   GtkJustification align,
-									   gint transaction_number)
+									   gint transaction_number,
+									   const gchar *class)
 {
-	etat_affichage_output->attach_label (text, properties, x, x2, y, y2, align, transaction_number);
+	etat_affichage_output->attach_label (text, properties, x, x2, y, y2, align, transaction_number, class);
 }
 
 /******************************************************************************/
@@ -188,12 +189,14 @@ gint etat_affiche_affiche_titre_etat (gint ligne)
 								   TEXT_BOLD | TEXT_HUGE,
 								   0, nb_colonnes, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "title");
 		etat_affiche_attach_label (tab[1],
 								   TEXT_NORMAL,
 								   0, nb_colonnes, ligne + 1, ligne + 2,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "title");
 		g_strfreev (tab);
 
 		return 2;
@@ -204,7 +207,8 @@ gint etat_affiche_affiche_titre_etat (gint ligne)
 								   TEXT_BOLD | TEXT_HUGE,
 								   0, nb_colonnes, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "title");
 
 		return 1;
 	}
@@ -230,7 +234,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -241,7 +246,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -252,7 +258,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -263,7 +270,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -274,7 +282,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+							   "header");
 	etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 	colonne = colonne + 2;
 	}
@@ -285,7 +294,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -296,7 +306,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -307,7 +318,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -318,7 +330,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -329,7 +342,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -340,7 +354,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -351,7 +366,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -362,7 +378,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -373,7 +390,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 								   TEXT_BOLD,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "header");
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
 	}
@@ -383,7 +401,8 @@ gint etat_affiche_affiche_titres_colonnes (gint ligne)
 							   TEXT_BOLD,
 							   colonne, colonne + 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   "header");
 	ligne++;
 
 	etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -410,7 +429,8 @@ gint etat_affiche_affiche_titre_revenus_etat (gint ligne)
 							   0,
 							   nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	if (w_etat->metatree_assoc_mode)
@@ -418,13 +438,15 @@ gint etat_affiche_affiche_titre_revenus_etat (gint ligne)
 								   TEXT_LARGE, 0,
 								   nb_colonnes, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "sub_title");
 	else
 		etat_affiche_attach_label (_("Incomes"),
 								   TEXT_LARGE,
 								   0, nb_colonnes, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "sub_title");
 
 	ligne++;
 
@@ -432,7 +454,8 @@ gint etat_affiche_affiche_titre_revenus_etat (gint ligne)
 							   TEXT_NORMAL,
 							   0, nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	return (ligne);
@@ -454,7 +477,8 @@ gint etat_affiche_affiche_titre_depenses_etat (gint ligne)
 							   TEXT_NORMAL,
 							   0, nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	if (w_etat->metatree_assoc_mode)
@@ -462,20 +486,23 @@ gint etat_affiche_affiche_titre_depenses_etat (gint ligne)
 								   TEXT_LARGE,
 								   0, nb_colonnes, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "sub_title");
 	else
 		etat_affiche_attach_label (_("Outgoings"),
 								   TEXT_LARGE,
 								   0, nb_colonnes, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   "sub_title");
 	ligne++;
 
 	etat_affiche_attach_label (NULL,
 							   TEXT_NORMAL,
 							   0, nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	return (ligne);
@@ -532,7 +559,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 								   TEXT_NORMAL,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_LEFT,
-								   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+								   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+								   "transaction_number");
 
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
@@ -547,7 +575,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 								   TEXT_NORMAL,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_LEFT,
-								   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+								   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+								   "date");
 
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
@@ -563,7 +592,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 								   TEXT_NORMAL,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_LEFT,
-								   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+								   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+								   "value_date");
 
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
 		colonne = colonne + 2;
@@ -581,7 +611,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 								   TEXT_NORMAL,
 								   colonne, colonne + 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_LEFT,
-								   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+								   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+								   "account_name");
 		g_free (text);
 
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
@@ -599,7 +630,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "financial_year");
 			g_free (text);
 		}
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
@@ -618,7 +650,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "payee_name");
 			g_free (text);
 		}
 
@@ -660,7 +693,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "payee_category");
 			g_free (text);
 		}
 
@@ -682,7 +716,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "budget");
 			g_free (text);
 		}
 
@@ -699,7 +734,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "notes");
 			g_free (text);
 		}
 		else
@@ -708,7 +744,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   NULL);
 		}
 
 		etat_affiche_attach_vsep (colonne + 1, colonne + 2, ligne, ligne + 1);
@@ -725,7 +762,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "payment_name");
 			g_free (text);
 		}
 
@@ -773,7 +811,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "method_of_payment");
 			g_free (text);
 		}
 
@@ -791,7 +830,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "voucher");
 			g_free (text);
 		}
 
@@ -809,7 +849,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "bank_references");
 			g_free (text);
 		}
 
@@ -828,7 +869,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 									   TEXT_NORMAL,
 									   colonne, colonne + 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+									   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+									   "reconcile");
 			g_free (text);
 		}
 
@@ -846,7 +888,8 @@ gint etat_affiche_affichage_ligne_ope (gint transaction_number,
 							   TEXT_NORMAL,
 							   colonne, colonne + 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_RIGHT,
-							   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0);
+							   gsb_data_report_get_report_can_click (current_report_number) ? transaction_number : 0,
+							   "amount");
 	g_free (text);
 
 	if (ligne_debut_partie == -1)
@@ -887,7 +930,8 @@ gint etat_affiche_affiche_total_categories (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 
 			etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -922,7 +966,8 @@ gint etat_affiche_affiche_total_categories (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "total_category");
 			g_free (text);
 
 			text = utils_real_get_string_with_currency (montant_categ_etat,
@@ -932,7 +977,8 @@ gint etat_affiche_affiche_total_categories (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount_total_category");
 			g_free (text);
 			ligne++;
 
@@ -940,7 +986,8 @@ gint etat_affiche_affiche_total_categories (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   NULL);
 
 			ligne++;
 		}
@@ -968,7 +1015,8 @@ gint etat_affiche_affiche_total_categories (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes,ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount");
 			g_free (text);
 
 			ligne++;
@@ -1012,7 +1060,8 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 
 			etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -1050,7 +1099,8 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "sub_total");
 			g_free (text);
 
 			text = utils_real_get_string_with_currency (montant_sous_categ_etat,
@@ -1060,7 +1110,8 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount_sub_total");
 			g_free (text);
 			ligne++;
 
@@ -1068,7 +1119,8 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 		}
 		else
@@ -1096,7 +1148,8 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount");
 			g_free (text);
 			ligne++;
 		}
@@ -1139,7 +1192,8 @@ gint etat_affiche_affiche_total_ib (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 
 			etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -1175,7 +1229,8 @@ gint etat_affiche_affiche_total_ib (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "total_budget");
 			g_free (text);
 
 			text = utils_real_get_string_with_currency (montant_ib_etat, devise_ib_etat, TRUE);
@@ -1183,7 +1238,8 @@ gint etat_affiche_affiche_total_ib (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount_total_budget");
 			g_free (text);
 			ligne++;
 
@@ -1191,7 +1247,8 @@ gint etat_affiche_affiche_total_ib (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_CENTER,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 		}
 		else
@@ -1215,7 +1272,8 @@ gint etat_affiche_affiche_total_ib (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "total");
 			g_free (text);
 			ligne++;
 		}
@@ -1257,7 +1315,8 @@ gint etat_affiche_affiche_total_sous_ib (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 
 			etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -1293,7 +1352,8 @@ gint etat_affiche_affiche_total_sous_ib (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "sub_total");
 			g_free (text);
 
 			text = utils_real_get_string_with_currency (montant_sous_ib_etat, devise_ib_etat, TRUE);
@@ -1301,7 +1361,8 @@ gint etat_affiche_affiche_total_sous_ib (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount_sub_total");
 			g_free (text);
 			ligne++;
 
@@ -1309,7 +1370,8 @@ gint etat_affiche_affiche_total_sous_ib (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_CENTER,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 		}
 		else
@@ -1337,7 +1399,8 @@ gint etat_affiche_affiche_total_sous_ib (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount");
 			g_free (text);
 			ligne++;
 		}
@@ -1379,7 +1442,8 @@ gint etat_affiche_affiche_total_compte (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_CENTER,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 
 			etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -1415,7 +1479,8 @@ gint etat_affiche_affiche_total_compte (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "total_account");
 			g_free (text);
 
 			text = utils_real_get_string_with_currency (montant_compte_etat,
@@ -1425,7 +1490,8 @@ gint etat_affiche_affiche_total_compte (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount_total");
 			g_free (text);
 			ligne++;
 
@@ -1433,7 +1499,8 @@ gint etat_affiche_affiche_total_compte (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_CENTER,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 		}
 		else
@@ -1461,7 +1528,8 @@ gint etat_affiche_affiche_total_compte (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount");
 			g_free (text);
 			ligne++;
 		}
@@ -1503,7 +1571,8 @@ gint etat_affiche_affiche_total_tiers (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_CENTER,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 
 			etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -1540,7 +1609,8 @@ gint etat_affiche_affiche_total_tiers (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "total_payee");
 			g_free (text);
 
 			text = utils_real_get_string_with_currency (montant_tiers_etat, devise_tiers_etat, TRUE);
@@ -1548,7 +1618,8 @@ gint etat_affiche_affiche_total_tiers (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount_payee");
 			g_free (text);
 			ligne++;
 
@@ -1556,7 +1627,8 @@ gint etat_affiche_affiche_total_tiers (gint ligne)
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
 									   GTK_JUSTIFY_CENTER,
-									   0);
+									   0,
+									   NULL);
 			ligne++;
 		}
 		else
@@ -1584,7 +1656,8 @@ gint etat_affiche_affiche_total_tiers (gint ligne)
 									   TEXT_NORMAL,
 									   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 									   GTK_JUSTIFY_RIGHT,
-									   0);
+									   0,
+									   "amount");
 			g_free (text);
 			ligne++;
 		}
@@ -1816,7 +1889,8 @@ gint etat_affiche_affiche_total_periode (gint transaction_number,
 							   TEXT_NORMAL,
 							   1, nb_colonnes - 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -1826,7 +1900,8 @@ gint etat_affiche_affiche_total_periode (gint transaction_number,
 							   TEXT_NORMAL,
 							   1, nb_colonnes - 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_LEFT,
-							   0);
+							   0,
+							   "result");
 	g_free (text);
 
 	text = utils_real_get_string_with_currency (montant_periode_etat,
@@ -1836,7 +1911,8 @@ gint etat_affiche_affiche_total_periode (gint transaction_number,
 							   TEXT_NORMAL,
 							   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_RIGHT,
-							   0);
+							   0,
+							   "amount_result");
 	g_free (text);
 	ligne++;
 
@@ -1844,7 +1920,8 @@ gint etat_affiche_affiche_total_periode (gint transaction_number,
 							   TEXT_NORMAL,
 							   1, nb_colonnes - 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	montant_periode_etat = null_real;
@@ -1969,7 +2046,8 @@ gint etat_affiche_affiche_total_exercice (gint transaction_number,
 								   TEXT_NORMAL,
 								   1, nb_colonnes - 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_CENTER,
-								   0);
+								   0,
+								   NULL);
 		ligne++;
 
 		etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
@@ -1979,7 +2057,8 @@ gint etat_affiche_affiche_total_exercice (gint transaction_number,
 								   TEXT_NORMAL,
 								   1, nb_colonnes - 1, ligne, ligne + 1,
 								   GTK_JUSTIFY_LEFT,
-								   0);
+								   0,
+								   "result");
 		g_free (text);
 
 		text = utils_real_get_string_with_currency (montant_exo_etat, devise_generale_etat, TRUE);
@@ -1987,7 +2066,8 @@ gint etat_affiche_affiche_total_exercice (gint transaction_number,
 								   TEXT_NORMAL,
 								   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 								   GTK_JUSTIFY_RIGHT,
-								   0);
+								   0,
+								   "amount_result");
 		g_free (text);
 		ligne++;
 
@@ -1995,7 +2075,7 @@ gint etat_affiche_affiche_total_exercice (gint transaction_number,
 								   TEXT_NORMAL,
 								   1, nb_colonnes - 1,
 								   ligne, ligne + 1,
-								   GTK_JUSTIFY_CENTER, 0);
+								   GTK_JUSTIFY_CENTER, 0, NULL);
 		ligne++;
 
 		montant_exo_etat = null_real;
@@ -2035,7 +2115,8 @@ gint etat_affiche_affiche_total_partiel (GsbReal total_partie,
 							   TEXT_NORMAL,
 							   1, nb_colonnes - 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	etat_affiche_attach_hsep (0, nb_colonnes, ligne, ligne + 1);
@@ -2092,7 +2173,8 @@ gint etat_affiche_affiche_total_partiel (GsbReal total_partie,
 							   TEXT_NORMAL,
 							   0, nb_colonnes - 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_LEFT,
-							   0);
+							   0,
+							   "total_part");
 	g_free (text);
 
 	text = utils_real_get_string_with_currency (total_partie, devise_generale_etat, TRUE);
@@ -2100,7 +2182,8 @@ gint etat_affiche_affiche_total_partiel (GsbReal total_partie,
 							   TEXT_NORMAL,
 							   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_RIGHT,
-							   0);
+							   0,
+							   "amount_part");
 	g_free (text);
 	ligne++;
 
@@ -2111,7 +2194,8 @@ gint etat_affiche_affiche_total_partiel (GsbReal total_partie,
 							   TEXT_NORMAL,
 							   1, nb_colonnes - 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	nom_categ_en_cours = NULL;
@@ -2144,7 +2228,8 @@ gint etat_affiche_affiche_total_general (GsbReal total_general,
 							   TEXT_NORMAL,
 							   1, nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	etat_affiche_attach_hsep (0, nb_colonnes, ligne, ligne + 1);
@@ -2164,7 +2249,8 @@ gint etat_affiche_affiche_total_general (GsbReal total_general,
 							   TEXT_NORMAL,
 							   0, nb_colonnes - 1, ligne, ligne + 1,
 							   GTK_JUSTIFY_LEFT,
-							   0);
+							   0,
+							   "total_general");
 	g_free (text);
 
 	text = utils_real_get_string_with_currency (total_general, devise_generale_etat, TRUE);
@@ -2172,7 +2258,8 @@ gint etat_affiche_affiche_total_general (GsbReal total_general,
 							   TEXT_NORMAL,
 							   nb_colonnes - 1, nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_RIGHT,
-							   0);
+							   0,
+							   "amount_general");
 	g_free (text);
 	ligne++;
 
@@ -2183,7 +2270,8 @@ gint etat_affiche_affiche_total_general (GsbReal total_general,
 							   TEXT_NORMAL,
 							   1, nb_colonnes, ligne, ligne + 1,
 							   GTK_JUSTIFY_CENTER,
-							   0);
+							   0,
+							   NULL);
 	ligne++;
 
 	return (ligne);
@@ -2347,7 +2435,8 @@ gint etat_affiche_affiche_categ_etat (gint transaction_number,
 									   TEXT_NORMAL,
 									   0, nb_colonnes-1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "category");
 			g_free (pointeur_char);
 			ligne++;
 		}
@@ -2425,7 +2514,8 @@ gint etat_affiche_affiche_sous_categ_etat (gint transaction_number,
 									   TEXT_NORMAL,
 									   0, nb_colonnes-1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "sub_category");
 			g_free (pointeur_char);
 			ligne++;
 		}
@@ -2490,7 +2580,7 @@ gint etat_affiche_affiche_ib_etat (gint transaction_number,
 			pointeur_char = g_strconcat (decalage_ib, _("No budgetary line"), NULL);
 
 			etat_affiche_attach_label (pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
-						ligne, ligne + 1, GTK_JUSTIFY_LEFT, 0);
+						ligne, ligne + 1, GTK_JUSTIFY_LEFT, 0, "budget");
 			g_free (pointeur_char);
 			ligne++;
 		}
@@ -2564,7 +2654,8 @@ gint etat_affiche_affiche_sous_ib_etat (gint transaction_number,
 									   TEXT_NORMAL,
 									   0, nb_colonnes-1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "sub_budget");
 			g_free (pointeur_char);
 			ligne++;
 		}
@@ -2626,7 +2717,8 @@ gint etat_affiche_affiche_compte_etat (gint transaction_number,
 									   TEXT_NORMAL,
 									   0, nb_colonnes-1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "account_name");
 			g_free (pointeur_char);
 			ligne++;
 		}
@@ -2696,7 +2788,8 @@ gint etat_affiche_affiche_tiers_etat (gint transaction_number,
 									   TEXT_NORMAL,
 									   0, nb_colonnes-1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
-									   0);
+									   0,
+									   "payee");
 			g_free (pointeur_char);
 			ligne++;
 		}
