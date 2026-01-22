@@ -1,0 +1,170 @@
+/* -----------------
+Grisbi : Feuille de style des états
+-------------------- */
+
+body {
+	background: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	margin: 10px;
+}
+
+table tr td {
+	padding: 0px; 	/* Equivalent de cellpadding */
+}
+
+table.table_globale {
+	border-spacing: 0px;		/* Espace entre les cellules, sans effet si collapse */
+	border-collapse: collapse;	/* Les bordures des cellules sont communes */
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td.title {
+	color: navy;
+	font-size: 32pt;
+	padding: 3px;
+	text-align: center;
+}
+
+td.sub_title {
+	color: navy;
+	border-bottom: 1px solid #404040;
+	font-size: 20pt;
+	margin: 1px;
+	padding-top: 60px;
+	text-align: center;
+}
+
+td.header {
+	font-weight: bold;
+}
+
+td.transaction_number, td.date, td.payee_category {
+	padding-right: 1em;
+}
+
+td.category {
+	color: black;
+	font-size: 16pt;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-top: 15px;
+	text-align: left;
+}
+
+td.sub_category {
+	border-bottom: 1px solid #f0f0f0;
+	color: black;
+	font-weight: bold;
+	padding: 2px;
+	padding-left: 40px;
+	padding-right: 100px;
+	padding-top: 15px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+td.sub_total {
+	color: navy;
+	font-style: italic;
+	padding: 2px;
+	padding-left: 40px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+td.amount_sub_total {
+	color: navy;
+	font-style: italic;
+	padding: 2px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+td.payee_name {
+	border-bottom: 1px solid #f0f0f0;
+	color: black;
+	font-weight: italic;
+	padding: 2px;
+	padding-left: 70px;
+	padding-right: 100px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+td.amount {
+	border-bottom: 1px solid #f0f0f0;
+	color: black;
+	font-weight: normal;
+	padding: 2px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+td.total_category {
+	border-top: 2px dashed navy;
+	color: navy;
+	font-size: 14pt;
+	margin: 10px;
+	padding: 5px;
+	padding-left: 40px;
+	padding-top: 10px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+td.amount_total_category {
+	border-top: 2px dashed navy;
+	color: navy;
+	font-size: 14pt;
+	font-weight: bold;
+	padding: 5px;
+	padding-top: 10px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+td.total_general {
+	color: maroon;
+	border-bottom: 1px solid #404040;
+	font-size: 18pt;
+	font-weight: bold;
+	margin: 0px;
+	padding-top: 50px;
+	text-align: left;
+}
+
+td.amount_general {
+	border-bottom: 1px solid #404040;
+	color: maroon;
+	font-size: 16pt;
+	font-weight: bold;
+	padding: 2px;
+	padding-top: 50px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+td.total_part {
+	background: #fafafa;
+	color: navy;
+	border-bottom: 1px solid #404040;
+	border-top: 1px solid #404040;
+	font-size: 18pt;
+	margin: 0px;
+	padding-top: 20px;
+	text-align: left;
+}
+
+td.amount_part {
+	background: #fafafa;
+	border-bottom: 1px solid #404040;
+	border-top: 1px solid #404040;
+	color: navy;
+	font-size: 16pt;
+	font-weight: bold;
+	padding-top: 20px;
+	text-align: right;
+	white-space: nowrap;
+}
