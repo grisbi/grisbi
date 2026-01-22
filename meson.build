@@ -322,12 +322,13 @@ install_man('grisbi.1')
 install_data([
   'src/ui/csv_template_rule.ui',
   'src/ui/etats_prefs.ui',
+  'src/ui/grisbi_menu.ui',
+  'src/ui/grisbi_prefs.ui',
+  'src/ui/grisbi_report_default.css',
+  'src/ui/grisbi_win.ui',
   'src/ui/grisbi-dark.css',
   'src/ui/grisbi-widgets.css',
   'src/ui/grisbi.css',
-  'src/ui/grisbi_menu.ui',
-  'src/ui/grisbi_prefs.ui',
-  'src/ui/grisbi_win.ui',
   ],
   install_dir : join_paths (get_option ('datadir'), 'grisbi/ui')
   )
