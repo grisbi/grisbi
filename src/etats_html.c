@@ -32,6 +32,8 @@
 #include "structures.h"
 #include "etats_config.h"
 #include "etats_affiche.h"
+#include "gsb_dirs.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /* FOLLOWING LINES REVERTS BACK TO THE ORIGINAL FPRINTF (LIBINTL_FPRINTF IS BUGGY) */
@@ -211,12 +213,34 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
 	     "  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\n"
 	     "<html>\n"
 	     "  <head>\n"
-	     "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"
-		 "    <link rel=\"stylesheet\" href=\"grisbi_default.css\" />\n"
-		 "    <link rel=\"stylesheet\" href=\"grisbi_perso.css\" />\n"
-	     "    <title>");
+		 "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n");
 
-    if (!gsb_gui_navigation_get_current_report ())
+	gchar * css_filename = g_build_filename (gsb_dirs_get_ui_dir(), "grisbi_report_default.css", NULL);
+	FILE * fd_css = fopen(css_filename, "r");
+	if (fd_css)
+	{
+		fprintf (html_out, "<style>\n");
+		char buffer[1024];
+		while (! feof(fd_css))
+		{
+			ssize_t s = fread(buffer, 1, sizeof buffer, fd_css);
+			fwrite(buffer, 1, s, html_out);
+		}
+		fclose(fd_css);
+		fprintf (html_out, "</style>");
+	}
+	else
+	{
+		gchar * tmp_str = g_strdup_printf("CSS file not found in %s", css_filename);
+		alert_debug(tmp_str);
+		g_free(tmp_str);
+	}
+
+	fprintf (html_out,
+		 "    <link rel=\"stylesheet\" href=\"grisbi_report_perso.css\" />\n"
+		 "    <title>");
+
+	if (!gsb_gui_navigation_get_current_report ())
 	return FALSE;
 
     html_safe (etats_support_get_titre (gsb_gui_navigation_get_current_report ()));
