@@ -181,6 +181,7 @@
 		006E68D41DB425DB0038B1F0 /* libpangocairo-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 006E68D31DB425DB0038B1F0 /* libpangocairo-1.0.a */; };
 		006E68DC1DB426EE0038B1F0 /* gnucash.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68DA1DB426EE0038B1F0 /* gnucash.c */; };
 		006E68E21DB4276C0038B1F0 /* ofx.c in Sources */ = {isa = PBXBuildFile; fileRef = 006E68E01DB4276C0038B1F0 /* ofx.c */; };
+		0073F9762F22CA6D005B34B3 /* grisbi_report_default.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0073F9752F22CA45005B34B3 /* grisbi_report_default.css */; };
 		00760ED025C07E320038199C /* widget_loan.c in Sources */ = {isa = PBXBuildFile; fileRef = 00760ECD25C07E320038199C /* widget_loan.c */; };
 		007A1C74261A1F98003B3311 /* etats_page_category.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C6F261A1F98003B3311 /* etats_page_category.c */; };
 		007A1C75261A1F98003B3311 /* etats_page_budget.c in Sources */ = {isa = PBXBuildFile; fileRef = 007A1C70261A1F98003B3311 /* etats_page_budget.c */; };
@@ -226,6 +227,7 @@
 			dstPath = ui;
 			dstSubfolderSpec = 16;
 			files = (
+				0073F9762F22CA6D005B34B3 /* grisbi_report_default.css in CopyFiles */,
 				001E823623CA2832007366A9 /* grisbi-dark.css in CopyFiles */,
 				001E823723CA2832007366A9 /* grisbi-widgets.css in CopyFiles */,
 				00BCBD381E0701C100579172 /* grisbi.css in CopyFiles */,
@@ -585,6 +587,7 @@
 		006E68DB1DB426EE0038B1F0 /* gnucash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gnucash.h; sourceTree = "<group>"; };
 		006E68E01DB4276C0038B1F0 /* ofx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ofx.c; sourceTree = "<group>"; };
 		006E68E11DB4276C0038B1F0 /* ofx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofx.h; sourceTree = "<group>"; };
+		0073F9752F22CA45005B34B3 /* grisbi_report_default.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = grisbi_report_default.css; path = src/ui/grisbi_report_default.css; sourceTree = "<group>"; };
 		00760ECD25C07E320038199C /* widget_loan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = widget_loan.c; sourceTree = "<group>"; };
 		00760ECE25C07E320038199C /* widget_loan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = widget_loan.h; sourceTree = "<group>"; };
 		00760ECF25C07E320038199C /* widget_loan.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = widget_loan.ui; sourceTree = "<group>"; };
@@ -1271,14 +1274,15 @@
 		00BCBD2E1E07016F00579172 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				0073F9752F22CA45005B34B3 /* grisbi_report_default.css */,
+				001E823523CA2817007366A9 /* grisbi-dark.css */,
+				001E823423CA2817007366A9 /* grisbi-widgets.css */,
+				00BCBD331E07018400579172 /* grisbi.css */,
 				00EA60F01F91503000569C19 /* csv_template_rule.ui */,
 				00BCBD301E07018400579172 /* etats_prefs.ui */,
 				00BCBD311E07018400579172 /* grisbi_menu.ui */,
 				00EA60ED1F91502F00569C19 /* grisbi_prefs.ui */,
 				00BCBD321E07018400579172 /* grisbi_win.ui */,
-				001E823523CA2817007366A9 /* grisbi-dark.css */,
-				001E823423CA2817007366A9 /* grisbi-widgets.css */,
-				00BCBD331E07018400579172 /* grisbi.css */,
 			);
 			name = ui;
 			sourceTree = "<group>";
