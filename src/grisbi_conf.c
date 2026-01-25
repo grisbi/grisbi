@@ -564,7 +564,7 @@ gboolean grisbi_conf_load_app_config (void)
     else if (g_strcmp0 (tmp_str, "Forced sort by date") == 0)
         a_conf->transactions_list_primary_sorting = PRIMARY_SORT_FORCED_BY_DATE;
     else
-        a_conf->transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA;
+        a_conf->transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATE;
     g_free (tmp_str);
 
     tmp_str = g_key_file_get_string (config,
@@ -1003,7 +1003,7 @@ gboolean grisbi_conf_save_app_config (void)
         case PRIMARY_SORT_FORCED_BY_DATE:
             tmp_str = "Forced sort by date";
             break;
-        case PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA:
+        case PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATE:
         default:
             tmp_str = "default";
 	}

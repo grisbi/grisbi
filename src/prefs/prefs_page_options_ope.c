@@ -150,11 +150,11 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     value = gtk_combo_box_get_active (widget);
     sort_type = GPOINTER_TO_INT (pointeur);
 
-	/* On force le tri secondaire si on choisit PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA */
+	/* On force le tri secondaire si on choisit PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATE */
     if (sort_type == PRIMARY_SORT)
     {
 		a_conf->transactions_list_primary_sorting = value;
-		if (value == PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA)
+		if (value == PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATE)
 		{
 			GtkWidget *combo;
 

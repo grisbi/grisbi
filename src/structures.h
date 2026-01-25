@@ -567,7 +567,7 @@ enum _TransactionsField				/* the element number for each showable in the list *
 enum _PrimarySort
 {
 	PRIMARY_SORT_BY_VALUE_DATE,						/* 0, "Sort by value date" */
-	PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA,	/* 1, "default" (Sort by value date and then by date) */
+	PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATE,	/* 1, "default" (Sort by value date and then by date) */
 	PRIMARY_SORT_FORCED_BY_DATE,					/* 2, "Forced sort by date" */
 };
 
