@@ -857,26 +857,47 @@ static gint gsb_transactions_list_sort_by_chq (gint transaction_number_1,
 static gint gsb_transactions_list_secondary_sort_by_value_date_and_date (gint transaction_number_1,
 																		 gint transaction_number_2)
 {
+    const GDate *date_1 = NULL;
+    const GDate *date_2 = NULL;
     const GDate *value_date_1 = NULL;
     const GDate *value_date_2 = NULL;
+	gint return_value = 0;
 
-   /* if we compare 2 transactions and 1 has no value date, set the value date before */
+   /* if we compare 2 transactions and 1 has no value date, set the date before */
     value_date_1 = gsb_data_transaction_get_value_date (transaction_number_1);
-    value_date_2 = gsb_data_transaction_get_value_date (transaction_number_2);
+	if (!value_date_1)
+		date_1 = gsb_data_transaction_get_date (transaction_number_1);
 
-    if (value_date_1)
-    {
-        if (value_date_2)
-            return gsb_transactions_list_sort_by_date_and_no (transaction_number_1, transaction_number_2);
-        else
-            return -1;
-    }
+	value_date_2 = gsb_data_transaction_get_value_date (transaction_number_2);
+	if (!value_date_2)
+		date_2 = gsb_data_transaction_get_date (transaction_number_2);
+
+	if (value_date_1 && value_date_2)
+	{
+		return gsb_transactions_list_sort_by_value_date (transaction_number_1, transaction_number_2);
+	}
+	else if (value_date_1)
+	{
+		return_value = g_date_compare (value_date_1, date_2);
+		if (return_value == 0)
+		{
+			return -1;
+		}
+		else
+			return return_value;
+	}
     else if (value_date_2)
     {
-            return 1;
+		return_value = g_date_compare (date_1, value_date_2);
+		if (return_value == 0)
+		{
+			return 1;
+		}
+		else
+			return return_value;
     }
     else
-        return 1;
+        return gsb_transactions_list_sort_by_date_and_no (transaction_number_1, transaction_number_2);
 }
 
 /**
