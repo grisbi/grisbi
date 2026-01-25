@@ -319,32 +319,21 @@ static gint gsb_transactions_list_sort_by_value_date (gint transaction_number_1,
 
 	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
 
-	/* on récupère les dates de valeur */
+	/* need to work a little more here because value date is not obligatory filled,
+	* if we compare 2 transactions and 1 has no value date, set the value date before */
     value_date_1 = gsb_data_transaction_get_value_date (transaction_number_1);
-    value_date_2 = gsb_data_transaction_get_value_date (transaction_number_2);
+	if (!value_date_1 && !transactions_list_primary_sorting)
+		value_date_1 = gsb_data_transaction_get_date (transaction_number_1);
+
+	value_date_2 = gsb_data_transaction_get_value_date (transaction_number_2);
+	if (!value_date_2 && !transactions_list_primary_sorting)
+		value_date_2 = gsb_data_transaction_get_date (transaction_number_2);
 
 	if (value_date_1 && value_date_2)
 	{
 		return_value = g_date_compare (value_date_1, value_date_2);
 		if (return_value == 0)
 		{
-			if (w_etat->force_credit_before_debit)
-			{
-				return_value = gsb_transactions_list_sort_by_amount_type (transaction_number_1,
-																		  transaction_number_2);
-				if (return_value == 0)
-					return_value = transaction_number_1 - transaction_number_2;
-			}
-			else
-				return_value = transaction_number_1 - transaction_number_2;
-		}
-	}
-	else if (!value_date_1 && !value_date_2)
-	{
-		return_value = gsb_transactions_list_sort_by_date (transaction_number_1, transaction_number_2);
-		if (return_value == 0)
-		{
-			/* no difference in the dates, sort by amount or by number of transaction */
 			if (w_etat->force_credit_before_debit)
 			{
 				return_value = gsb_transactions_list_sort_by_amount_type (transaction_number_1,
