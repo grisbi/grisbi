@@ -150,43 +150,25 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
     value = gtk_combo_box_get_active (widget);
     sort_type = GPOINTER_TO_INT (pointeur);
 
-    switch (sort_type)
+	/* On force le tri secondaire si on choisit PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA */
+    if (sort_type == PRIMARY_SORT)
     {
-        case PRIMARY_SORT:
-            a_conf->transactions_list_primary_sorting = value;
-			if (value == PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA)
-			{
-				GtkWidget *combo;
+		a_conf->transactions_list_primary_sorting = value;
+		if (value == PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA)
+		{
+			GtkWidget *combo;
 
-				combo = g_object_get_data (G_OBJECT (widget), "secondary_combo");
-				g_signal_handlers_block_by_func (G_OBJECT (combo),
-												 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
-												 pointeur);
-				a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE;
-				gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_secondary_sorting);
-				g_signal_handlers_unblock_by_func (G_OBJECT (combo),
-												   G_CALLBACK (prefs_page_options_ope_display_sort_changed),
-												   pointeur);
-			}
-            break;
-        case SECONDARY_SORT:
-            a_conf->transactions_list_secondary_sorting = value;
-			if (value == SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE)
-			{
-				GtkWidget *combo;
-
-				combo = g_object_get_data (G_OBJECT (widget), "primary_combo");
-				g_signal_handlers_block_by_func (G_OBJECT (combo),
-												 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
-												 pointeur);
-				a_conf->transactions_list_primary_sorting = PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATA;
-				gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_primary_sorting);
-				g_signal_handlers_unblock_by_func (G_OBJECT (combo),
-												   G_CALLBACK (prefs_page_options_ope_display_sort_changed),
-												   pointeur);
-			}
-            break;
-    }
+			combo = g_object_get_data (G_OBJECT (widget), "secondary_combo");
+			g_signal_handlers_block_by_func (G_OBJECT (combo),
+											 G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+											 pointeur);
+			a_conf->transactions_list_secondary_sorting = SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE;
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), a_conf->transactions_list_secondary_sorting);
+			g_signal_handlers_unblock_by_func (G_OBJECT (combo),
+											   G_CALLBACK (prefs_page_options_ope_display_sort_changed),
+											   pointeur);
+		}
+	}
     gsb_file_set_modified (TRUE);
 
     switch (page_number)
