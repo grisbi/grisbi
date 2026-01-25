@@ -2789,7 +2789,7 @@ gint etat_affiche_affiche_tiers_etat (gint transaction_number,
 									   0, nb_colonnes-1, ligne, ligne + 1,
 									   GTK_JUSTIFY_LEFT,
 									   0,
-									   "payee");
+									   "payee_name");
 			g_free (pointeur_char);
 			ligne++;
 		}
