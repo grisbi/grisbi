@@ -104,7 +104,6 @@ gint devise_tiers_etat;
 gint devise_generale_etat;
 
 const gchar *nom_categ_en_cours;
-const gchar *nom_ss_categ_en_cours;
 const gchar *nom_ib_en_cours;
 const gchar *nom_ss_ib_en_cours;
 const gchar *nom_compte_en_cours;
@@ -1420,7 +1419,6 @@ pas_decalage:
 	ligne_debut_partie = -1;
 
 	nom_categ_en_cours = NULL;
-	nom_ss_categ_en_cours = NULL;
 	nom_ib_en_cours = NULL;
 	nom_ss_ib_en_cours = NULL;
 	nom_compte_en_cours = NULL;

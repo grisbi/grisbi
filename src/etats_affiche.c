@@ -97,7 +97,6 @@ extern gint nb_ope_tiers_etat;
 extern const gchar *nom_categ_en_cours;
 extern const gchar *nom_compte_en_cours;
 extern const gchar *nom_ib_en_cours;
-extern const gchar *nom_ss_categ_en_cours;
 extern const gchar *nom_ss_ib_en_cours;
 extern const gchar *nom_tiers_en_cours;
 /*END_EXTERN*/
@@ -1067,24 +1066,6 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 			etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
 			ligne++;
 
-			if (nom_categ_en_cours && nom_ss_categ_en_cours)
-			{
-				if (gsb_data_report_get_show_report_transaction_amount (current_report_number))
-				{
-					text = g_strdup_printf (ngettext ("Total %s: %s (%d transaction): ",
-													  "Total %s: %s (%d transactions): ",
-													  nb_ope_sous_categ_etat),
-											nom_categ_en_cours,
-											nom_ss_categ_en_cours,
-											nb_ope_sous_categ_etat);
-				}
-				else
-					text = g_strdup_printf (_("Total %s: %s"),
-											nom_categ_en_cours,
-											nom_ss_categ_en_cours);
-			}
-			else
-			{
 				if (gsb_data_report_get_show_report_transaction_amount (current_report_number))
 				{
 					text = g_strdup_printf (ngettext ("Sub-categories total (%d transaction): ",
@@ -1094,7 +1075,6 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 				}
 				else
 					text = g_strdup(_("Sub-categories total: "));
-			}
 			etat_affiche_attach_label (text,
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
@@ -1156,7 +1136,6 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 	}
 
 	montant_sous_categ_etat = null_real;
-	nom_ss_categ_en_cours = NULL;
 	titres_affiches = 0;
 	nb_ope_sous_categ_etat = 0;
 
@@ -2199,7 +2178,6 @@ gint etat_affiche_affiche_total_partiel (GsbReal total_partie,
 	ligne++;
 
 	nom_categ_en_cours = NULL;
-	nom_ss_categ_en_cours = NULL;
 	nom_ib_en_cours = NULL;
 	nom_ss_ib_en_cours = NULL;
 	nom_compte_en_cours = NULL;
