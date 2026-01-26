@@ -1066,15 +1066,15 @@ gint etat_affiche_affiche_total_sous_categ (gint ligne)
 			etat_affiche_attach_hsep (1, nb_colonnes, ligne, ligne + 1);
 			ligne++;
 
-				if (gsb_data_report_get_show_report_transaction_amount (current_report_number))
-				{
-					text = g_strdup_printf (ngettext ("Sub-categories total (%d transaction): ",
-													  "Sub-categories total (%d transactions): ",
-													  nb_ope_sous_categ_etat),
-											nb_ope_sous_categ_etat);
-				}
-				else
-					text = g_strdup(_("Sub-categories total: "));
+			if (gsb_data_report_get_show_report_transaction_amount (current_report_number))
+			{
+				text = g_strdup_printf (ngettext ("Sub-categories total (%d transaction): ",
+												  "Sub-categories total (%d transactions): ",
+												  nb_ope_sous_categ_etat),
+										nb_ope_sous_categ_etat);
+			}
+			else
+				text = g_strdup(_("Sub-categories total: "));
 			etat_affiche_attach_label (text,
 									   TEXT_NORMAL,
 									   1, nb_colonnes - 1, ligne, ligne + 1,
