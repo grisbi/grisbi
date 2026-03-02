@@ -3958,6 +3958,8 @@ void gsb_data_account_renum_non_existent_account (gint account_number,
 		}
 		tmp_list = tmp_list->next;
 	}
+
+	gsb_file_set_modified (TRUE);
 }
 
 /**
