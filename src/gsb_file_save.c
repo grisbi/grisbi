@@ -132,6 +132,7 @@ static gulong gsb_file_save_account_part (gulong iterator,
 		gchar *owner_str;
 		gchar *bet_str;
 		gchar *tmp_str;
+		gint bank_number;
 		KindAccount kind;
 		GrisbiWinEtat *w_etat;
 
@@ -212,6 +213,11 @@ static gulong gsb_file_save_account_part (gulong iterator,
 				icon_name = g_strdup (account_icon_name);
 		}
 
+		/* fixe bank_number negatif */
+		bank_number = gsb_data_account_get_bank (account_number);
+		if (bank_number < 0)
+			bank_number = 0;
+
 		/* now we can fill the file content */
 		string_to_free1 = g_markup_printf_escaped ("\t<Account\n"
 												   "\t\tName=\"%s\"\n"
@@ -251,7 +257,7 @@ static gulong gsb_file_save_account_part (gulong iterator,
 												   kind,
 												   gsb_data_account_get_currency (account_number),
 												   my_safe_null_str (icon_name),
-												   gsb_data_account_get_bank (account_number),
+												   bank_number,
 												   my_safe_null_str (gsb_data_account_get_bank_branch_code
 																	 (account_number)),
 												   my_safe_null_str (gsb_data_account_get_bank_account_number
@@ -457,7 +463,7 @@ static gulong gsb_file_save_bank_part (gulong iterator,
 
     while (list_tmp)
     {
-		gint bank_number;
+		gint bank_number = 0;
 		gchar *new_string;
 		gchar *adr_str;
 		gchar *rem_str;

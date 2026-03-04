@@ -1934,7 +1934,7 @@ gint gsb_form_get_account_number (void)
     switch (origin)
     {
 		case ORIGIN_VALUE_OTHER:
-			return -2;
+			return 0;
 			break;
 
 		case ORIGIN_VALUE_HOME:
@@ -1947,11 +1947,11 @@ gint gsb_form_get_account_number (void)
 				scheduled_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (transaction_form),
 																	   "transaction_number_in_form"));
 				if (!scheduled_number)
-					return -2;
+					return 0;
 				account_number = gsb_data_scheduled_get_account_number (scheduled_number);
 			}
 			else
-				return -2;
+				return 0;
 			break;
 
 		case ORIGIN_VALUE_SCHEDULED:
@@ -1969,7 +1969,7 @@ gint gsb_form_get_account_number (void)
  * ORIGIN_VALUE_OTHER : we are neither on scheduled transactions, neither transactions list, neither welcome page
  * ORIGIN_VALUE_HOME : we are on the welcome page
  * ORIGIN_VALUE_SCHEDULED : we are on the scheduled transactions
- *  0 to x : the account number where we are
+ *  1 to x : the account number where we are
  *  that function is called at each beginning to know where we are and what to do...
  *
  *  \param
@@ -1978,14 +1978,14 @@ gint gsb_form_get_account_number (void)
  **/
 gint gsb_form_get_origin (void)
 {
-    gint account_number;
+    gint account_number = 0;
 
     switch (gsb_gui_navigation_get_current_page())
     {
 		case GSB_ACCOUNT_PAGE:
 			account_number = gsb_gui_navigation_get_current_account ();
 
-			if (account_number != -1)
+			if (account_number > 0)
 				return account_number;
 			break;
 

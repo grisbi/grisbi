@@ -199,7 +199,18 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
 
                 else if (!strcmp (attribute_names[i], "Bank"))
                 {
-                    gsb_data_account_set_bank (account_number, utils_str_atoi (attribute_values[i]));
+					gint bank_number;
+
+					bank_number = utils_str_atoi (attribute_values[i]);
+					if (bank_number > 0)
+					{
+						gsb_data_account_set_bank (account_number, bank_number);
+					}
+					else
+					{
+						gsb_data_account_set_bank (account_number, 0);
+						gsb_file_set_modified (TRUE);
+					}
                 }
 
                 else if (!strcmp (attribute_names[i], "Bank_branch_code"))
