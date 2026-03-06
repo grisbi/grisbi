@@ -3563,8 +3563,13 @@ static void gsb_file_load_transactions_part (const gchar **attribute_names,
             case 'F':
                 if (!strcmp (attribute_names[i], "Fi"))
                 {
-                    gsb_data_transaction_set_financial_year_number (transaction_number,
-																	utils_str_atoi (attribute_values[i]));
+					gint financial_year = 0;
+
+					financial_year = utils_str_atoi (attribute_values[i]);
+					if (financial_year < 0)
+						financial_year = 0;
+
+					gsb_data_transaction_set_financial_year_number (transaction_number, financial_year);
                 }
 
                 else
