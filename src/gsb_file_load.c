@@ -3308,9 +3308,15 @@ static void gsb_file_load_scheduled_transactions_part (const gchar **attribute_n
 
     if (!strcmp (attribute_names[i], "Fi"))
     {
-        gsb_data_scheduled_set_financial_year_number (scheduled_number, utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
+		gint financial_year = 0;
+
+		/* fixes bug 2374 */
+		financial_year = utils_str_atoi (attribute_values[i]);
+		if (financial_year < 0)
+			financial_year = 0;
+		gsb_data_scheduled_set_financial_year_number (scheduled_number, financial_year);
+		i++;
+		continue;
     }
 
     if (!strcmp (attribute_names[i], "Bu"))
