@@ -279,7 +279,7 @@ struct _GrisbiAppConf
     gboolean    show_transaction_gives_balance;             /* TRUE si on visualise l'opération qui donne le solde du jour */
     gboolean    show_transaction_selected_in_form;          /* TRUE will show the selected transaction in the form */
     gint		transactions_list_primary_sorting;          /* Primary sorting option for the transactions */
-    gint    	transactions_list_secondary_sorting;        /* Secondary sorting option for the transactions */
+    gint		transactions_list_secondary_sorting;        /* Secondary sorting option for the transactions */
 
 /* geometry part */
     gint        x_position;                                 /* main_window x position */
@@ -567,20 +567,22 @@ enum _TransactionsField				/* the element number for each showable in the list *
     ELEMENT_CHQ
 };
 
-enum _PrimarySort
+enum TransactionPrimarySort
 {
 	PRIMARY_SORT_BY_VALUE_DATE,						/* 0, "Sort by value date" */
 	PRIMARY_SORT_BY_VALUE_DATE_THEN_OPERATION_DATE,	/* 1, "default" (Sort by value date and then by date) */
 	PRIMARY_SORT_FORCED_BY_DATE,					/* 2, "Forced sort by date" */
+	PRIMARY_SORT_ITEMS_NUMBER						/* 3   nbre d'items */
 };
 
-enum _SecondarytSort
+enum TransactionSecondarySort
 {
 	SECONDARY_SORT_BY_TRANSACTION_NUMBER,			/* 0, "Sort by transaction number" */
 	SECONDARY_SORT_BY_TYPE_OF_AMOUNT, 				/* 1, "Sort by type of amount" */
 	SECONDARY_SORT_BY_PAYEE_NAME, 					/* 2, "Sort by payee name */
 	SECONDARY_SORT_BY_DATE_THEN_TRANSACTION_NUMBER, /* 3, "Sort by date and then by transaction number" */
 	SECONDARY_SORT_BY_VALUE_DATE_THEN_DATE, 		/* 4, "default" (Sort by value date and then by date) */
+	SECONDARY_SORT_ITEMS_NUMBER						/* 5   nbre d'items */
 };
 
 #endif
