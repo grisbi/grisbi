@@ -169,6 +169,9 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
 											   pointeur);
 		}
 	}
+	else
+		a_conf->transactions_list_secondary_sorting = value;
+
     gsb_file_set_modified (TRUE);
 
     switch (page_number)
