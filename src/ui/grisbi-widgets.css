@@ -5,6 +5,22 @@ combobox arrow {
     -gtk-icon-source: -gtk-icontheme("pan-down-symbolic");
 }
 
+/* Transactions list: search entry states */
+entry.transactions-search-too-short {
+	background-color: #fff2b3;
+	background-image: none;
+}
+
+entry.transactions-search-match {
+	background-color: #ccffcc;
+	background-image: none;
+}
+
+entry.transactions-search-no-match {
+	background-color: #ffcccc;
+	background-image: none;
+}
+
 /************/
 /* private  */
 /************/
