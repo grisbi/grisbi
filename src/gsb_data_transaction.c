@@ -2649,17 +2649,18 @@ GSList *gsb_data_transaction_get_list_for_import (gint account_number,
 	while (tmp_list)
 	{
 		TransactionStruct *transaction;
-		GDate *ope_date;
 
 		transaction = tmp_list->data;
 
-		if (transaction->value_date && g_date_valid (transaction->value_date))
-			ope_date = transaction->value_date;
-		else
-			ope_date = transaction->date;
-
 		if (transaction->account_number == account_number)
 		{
+			GDate *ope_date;
+
+			if (transaction->value_date && g_date_valid (transaction->value_date))
+				ope_date = transaction->value_date;
+			else
+				ope_date = transaction->date;
+
 			/* remove the selection of a child operation */
 			if (!gsb_data_transaction_get_mother_transaction_number (transaction->transaction_number)
 				&& g_date_compare (ope_date, first_date_import) >= 0)
@@ -2668,7 +2669,7 @@ GSList *gsb_data_transaction_get_list_for_import (gint account_number,
 												  transaction,
 												  (GCompareFunc) classement_gslist_transactions_par_date_decroissante);
 			}
-}
+		}
 
 		tmp_list = tmp_list->next;
 	}
