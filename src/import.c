@@ -3657,8 +3657,13 @@ static gboolean gsb_import_define_action (ImportAccount *imported_account,
 				tmp_str = gsb_data_transaction_get_id (transaction_number);
 				if (tmp_str && strcmp (imported_transaction->id_operation, tmp_str) == 0)
 				{
-					imported_transaction->action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-					break;
+					/* check the amount and date are same */
+					if (0 == gsb_real_cmp (gsb_data_transaction_get_amount (transaction_number), imported_transaction->montant)
+						&& 0 == g_date_compare(gsb_data_transaction_get_date (transaction_number), imported_transaction->date))
+					{
+						imported_transaction->action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+						break;
+					}
 				}
 			}
 
