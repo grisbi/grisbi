@@ -3624,18 +3624,29 @@ static gboolean gsb_import_define_action (ImportAccount *imported_account,
 	{
 		GSList *tmp_list_ope_retenues;
 		ImportTransaction *imported_transaction;
+		GDate *date_debut_comparaison;
+		GDate *date_fin_comparaison;
+		GDateDay day;
+		GDateMonth month;
+		GDateYear year;
 
 		imported_transaction = tmp_list->data;
+
+		day = g_date_get_day (imported_transaction->date);
+		month = g_date_get_month (imported_transaction->date);
+		year = g_date_get_year (imported_transaction->date);
+
+		date_debut_comparaison = g_date_new_dmy (day, month, year);
+		g_date_subtract_days (date_debut_comparaison, w_etat->import_files_nb_days);
+
+		date_fin_comparaison = g_date_new_dmy (day, month, year);
+		g_date_add_days (date_fin_comparaison, w_etat->import_files_nb_days);
+
 		tmp_list_ope_retenues = list_ope_retenues;
 		while (tmp_list_ope_retenues)
 		{
 			gint transaction_number;
 			const gchar *tmp_str;
-			GDate *date_debut_comparaison;
-			GDate *date_fin_comparaison;
-			GDateDay day;
-			GDateMonth month;
-			GDateYear year;
 
 			transaction_number = GPOINTER_TO_INT (tmp_list_ope_retenues->data);
 			tmp_list_ope_retenues = tmp_list_ope_retenues->next;
@@ -3675,16 +3686,6 @@ static gboolean gsb_import_define_action (ImportAccount *imported_account,
 			}
 
 			/* no id, no cheque, try to find the transaction */
-			day = g_date_get_day (imported_transaction->date);
-			month = g_date_get_month (imported_transaction->date);
-			year = g_date_get_year (imported_transaction->date);
-
-			date_debut_comparaison = g_date_new_dmy (day, month, year);
-			g_date_subtract_days (date_debut_comparaison, w_etat->import_files_nb_days);
-
-			date_fin_comparaison = g_date_new_dmy (day, month, year);
-			g_date_add_days (date_fin_comparaison, w_etat->import_files_nb_days);
-
 			if (!gsb_real_cmp (gsb_data_transaction_get_amount (transaction_number), imported_transaction->montant)
 			 && (g_date_compare (gsb_data_transaction_get_date (transaction_number), date_debut_comparaison) >= 0)
 			 && (g_date_compare (gsb_data_transaction_get_date (transaction_number), date_fin_comparaison) <= 0)
@@ -3698,9 +3699,11 @@ static gboolean gsb_import_define_action (ImportAccount *imported_account,
 				imported_transaction->ope_correspondante = transaction_number;
 				demande_confirmation = TRUE;
 			}
-			g_date_free (date_debut_comparaison);
-			g_date_free (date_fin_comparaison);
 		}
+
+		g_date_free (date_debut_comparaison);
+		g_date_free (date_fin_comparaison);
+
 		tmp_list = tmp_list->next;
 	}
 
