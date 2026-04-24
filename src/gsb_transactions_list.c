@@ -247,7 +247,7 @@ static void transactions_search_entry_icon_released (GtkEntry *entry,
 static void gsb_transactions_list_update_search_filter (void)
 {
 	gint account_number;
-	gint len = 0;
+	glong len = 0;
 	gint matches = 0;
 	const gchar *text = NULL;
 
