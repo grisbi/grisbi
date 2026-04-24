@@ -2877,7 +2877,7 @@ static GtkWidget *gsb_transactions_list_new_toolbar (void)
         gtk_entry_set_placeholder_text (GTK_ENTRY (entry), _("Search"));
         gtk_entry_set_width_chars (GTK_ENTRY (entry), 30);
         gtk_widget_set_size_request (entry, 260, -1);
-        gtk_widget_set_tooltip_text (entry, _("Type at least 4 characters to filter"));
+        gtk_widget_set_tooltip_text (entry, _("Type at least 3 characters to filter"));
 		g_signal_connect (G_OBJECT (entry),
 						  "icon-release",
 						  G_CALLBACK (transactions_search_entry_icon_released),
