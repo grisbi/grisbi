@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-24 22:14+0200\n"
-"PO-Revision-Date: 2008-10-02 10:07+0330\n"
+"PO-Revision-Date: 2026-04-25 17:10+0200\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
 "Language: fa\n"
@@ -363,7 +363,7 @@ msgstr ""
 #: src/navigation.c:641 src/utils_widgets.c:673
 #: src/etats/etats_page_budget.c:83
 msgid "Budgetary lines"
-msgstr ""
+msgstr "ردیف بودجه‌ای"
 
 #: src/prefs/prefs_page_bet_account.ui:368
 #, fuzzy
@@ -2193,7 +2193,7 @@ msgstr "فاکس"
 #: src/gsb_scheduler_list.c:944 src/gsb_scheduler_list.c:1208
 #: src/gsb_transactions_list.c:122 src/import_csv.c:79
 msgid "Notes"
-msgstr ""
+msgstr "یادداشت‌ها"
 
 #: src/widgets/widget_bet_graph_options.ui:24
 #, fuzzy
@@ -2541,7 +2541,7 @@ msgstr "جستجوی تراکنش"
 #: src/widgets/widget_import_asso.ui:253
 #, fuzzy
 msgid "Payee name: "
-msgstr "نام فایل:"
+msgstr "نام ذینفع:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 #, fuzzy
@@ -2582,7 +2582,7 @@ msgstr ""
 
 #: src/widgets/widget_import_files.ui:122
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: src/widgets/widget_import_files.ui:151
 #, fuzzy
@@ -3673,7 +3673,7 @@ msgstr "حذف"
 #: src/gsb_transactions_list.c:119 src/gsb_transactions_list.c:133
 #: src/import_csv.c:81 src/meta_categories.c:64 src/utils_widgets.c:120
 msgid "Category"
-msgstr "بخش"
+msgstr "دسته‌بندی"
 
 #: src/bet_hist.c:1294 src/categories_onglet.c:201 src/etats_affiche.c:399
 #: src/gsb_assistant_reconcile_config.c:653 src/gsb_scheduler_list.c:944
@@ -9700,12 +9700,12 @@ msgstr "نام فایل"
 
 #: src/gsb_transactions_list.c:130
 msgid "Note"
-msgstr ""
+msgstr "یادداشت"
 
 #: src/gsb_transactions_list.c:131
 #, fuzzy
 msgid "Payee and note"
-msgstr "نام فایل"
+msgstr "ذینفع و یادداشت"
 
 #: src/gsb_transactions_list.c:193
 #, fuzzy
@@ -9911,8 +9911,9 @@ msgid "Quick file import by rules"
 msgstr ""
 
 #: src/gsb_transactions_list.c:2880
+#: fuzzy
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "برای فیلتر کردن حداقل ۳ کاراکتر وارد کنید"
 
 #: src/gsb_transactions_list.c:2914
 msgid "Recreates archive"

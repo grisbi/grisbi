@@ -2423,9 +2423,8 @@ msgid "Limits the number of days that can be imported (1 year max): "
 msgstr ""
 
 #: src/widgets/widget_import_files.ui:122
-#, fuzzy
 msgid "30"
-msgstr "0"
+msgstr "30"
 
 #: src/widgets/widget_import_files.ui:151
 msgid "Merge the imported transactions with the transactions found"
@@ -9707,7 +9706,7 @@ msgstr "Pozn."
 #: src/gsb_transactions_list.c:131
 #, fuzzy
 msgid "Payee and note"
-msgstr "Hledat v názvu plátce/příjemce"
+msgstr "Příjemce a pozn."
 
 #: src/gsb_transactions_list.c:193
 #, fuzzy
@@ -9935,7 +9934,7 @@ msgstr "Rychlý import souboru podle pravidel"
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Zadejte alespoň 3 znaky pro filtrování"
 
 #: src/gsb_transactions_list.c:2914
 msgid "Recreates archive"

@@ -2635,7 +2635,7 @@ msgstr "Nu detaliaţi operaţiile ventilate"
 #: src/widgets/widget_import_asso.ui:253
 #, fuzzy
 msgid "Payee name: "
-msgstr "Total general:"
+msgstr "Numele beneficiarului:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 #, fuzzy
@@ -10078,17 +10078,17 @@ msgstr "numărul de cec"
 #: src/widgets/widget_import_asso.c:738
 #, fuzzy
 msgid "Payee name"
-msgstr "Total general"
+msgstr "Numele beneficiarului"
 
 #: src/gsb_transactions_list.c:130
 #, fuzzy
 msgid "Note"
-msgstr "Observaţii"
+msgstr "Observaţie"
 
 #: src/gsb_transactions_list.c:131
 #, fuzzy
 msgid "Payee and note"
-msgstr "Afişa numele terţului"
+msgstr "Beneficiar și observație"
 
 #: src/gsb_transactions_list.c:193
 #, fuzzy
@@ -10298,8 +10298,9 @@ msgid "Print the transactions list"
 msgstr "A tria lista de tranzacţiuni"
 
 #: src/gsb_transactions_list.c:2847
+#, fuzzy
 msgid "Change display mode of the list"
-msgstr ""
+msgstr "Modificați modul de afișare a listei"
 
 #: src/gsb_transactions_list.c:2855
 #, fuzzy
@@ -10307,12 +10308,13 @@ msgid "Import rules"
 msgstr "Exportaţi categoriile."
 
 #: src/gsb_transactions_list.c:2856
+#, fuzzy
 msgid "Quick file import by rules"
-msgstr ""
+msgstr "Import rapid de fișiere pe baza unor reguli"
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Introduceți cel puțin 3 caractere pentru a filtra"
 
 #: src/gsb_transactions_list.c:2914
 #, fuzzy

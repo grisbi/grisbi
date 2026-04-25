@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-24 22:14+0200\n"
-"PO-Revision-Date: 2025-12-04 18:59+0100\n"
+"PO-Revision-Date: 2026-04-25 18:15+0100\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
 "Language: it\n"
@@ -375,7 +375,7 @@ msgstr "Categorie"
 #: src/navigation.c:641 src/utils_widgets.c:673
 #: src/etats/etats_page_budget.c:83
 msgid "Budgetary lines"
-msgstr "Controllo spese"
+msgstr "Linea di bilancio"
 
 #: src/prefs/prefs_page_bet_account.ui:368
 #, fuzzy
@@ -2636,7 +2636,7 @@ msgstr "Non dettagliare transazioni conciliate"
 #: src/widgets/widget_import_asso.ui:253
 #, fuzzy
 msgid "Payee name: "
-msgstr "Totale generale:"
+msgstr "Nome del beneficiario:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 #, fuzzy
@@ -3476,7 +3476,7 @@ msgstr "Categorie : Sottocategorie"
 #: src/widgets/widget_transfer.c:1102 src/widgets/widget_transfer.c:1520
 #: src/widgets/widget_transfer.c:1608
 msgid "Budgetary line"
-msgstr "Imputazione del budget"
+msgstr "Linea di bilancio"
 
 #: src/bet_future.c:895 src/gsb_form_widget.c:346
 msgid "Choose the financial year"
@@ -10054,17 +10054,17 @@ msgstr "il numero dell'assegno"
 #: src/widgets/widget_import_asso.c:738
 #, fuzzy
 msgid "Payee name"
-msgstr "Totale generale"
+msgstr "Nome del beneficiario"
 
 #: src/gsb_transactions_list.c:130
 #, fuzzy
 msgid "Note"
-msgstr "Note"
+msgstr "Nota"
 
 #: src/gsb_transactions_list.c:131
 #, fuzzy
 msgid "Payee and note"
-msgstr "Visualizza il nome delle categorie personalizzate"
+msgstr "Beneficiario e nota"
 
 #: src/gsb_transactions_list.c:193
 #, fuzzy
@@ -10278,7 +10278,7 @@ msgstr ""
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Digita almeno 3 caratteri per filtrare"
 
 #: src/gsb_transactions_list.c:2914
 #, fuzzy

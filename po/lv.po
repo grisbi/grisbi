@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-24 22:14+0200\n"
-"PO-Revision-Date: 2025-11-29 20:58+0300\n"
+"PO-Revision-Date: 2026-04-25 18:20+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
 "Language: lv\n"
@@ -2514,7 +2514,7 @@ msgstr "Saites informācija"
 
 #: src/widgets/widget_import_asso.ui:253
 msgid "Payee name: "
-msgstr "Partnera nosaukums:"
+msgstr "Saņēmēja vārds:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 msgid "Search string: "
@@ -9919,7 +9919,7 @@ msgstr "Čeka numurs"
 #: src/gsb_transactions_list.c:129 src/tiers_onglet.c:1656
 #: src/widgets/widget_import_asso.c:738
 msgid "Payee name"
-msgstr "Partnera nosaukums"
+msgstr "Saņēmēja vārds"
 
 #: src/gsb_transactions_list.c:130
 #, fuzzy
@@ -9929,7 +9929,7 @@ msgstr "Piezīmes"
 #: src/gsb_transactions_list.c:131
 #, fuzzy
 msgid "Payee and note"
-msgstr "Slēpt partnera nosaukumu"
+msgstr "Saņēmējs un piezīme"
 
 #: src/gsb_transactions_list.c:193
 #, fuzzy
@@ -10159,7 +10159,7 @@ msgstr "Failu importēšana pēc likumiem"
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Ierakstiet vismaz 3 rakstzīmes, lai filtrētu"
 
 #: src/gsb_transactions_list.c:2914
 #, fuzzy

@@ -2635,7 +2635,7 @@ msgstr "Nie pokazuj potwierdzonych transakcji"
 #: src/widgets/widget_import_asso.ui:253
 #, fuzzy
 msgid "Payee name: "
-msgstr "Razem:"
+msgstr "Nazwa odbiorcy:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 #, fuzzy
@@ -10047,17 +10047,17 @@ msgstr "numer czeku"
 #: src/widgets/widget_import_asso.c:738
 #, fuzzy
 msgid "Payee name"
-msgstr "Razem"
+msgstr "Nazwa odbiorcy"
 
 #: src/gsb_transactions_list.c:130
 #, fuzzy
 msgid "Note"
-msgstr "Opis"
+msgstr "Komentarz"
 
 #: src/gsb_transactions_list.c:131
 #, fuzzy
 msgid "Payee and note"
-msgstr "Pokaż nazwę beneficjenta"
+msgstr "Odbiorca i komentarz"
 
 #: src/gsb_transactions_list.c:193
 #, fuzzy
@@ -10282,7 +10282,7 @@ msgstr ""
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Wpisz co najmniej 3 znaki, aby zastosować filtr"
 
 #: src/gsb_transactions_list.c:2914
 #, fuzzy

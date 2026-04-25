@@ -2666,7 +2666,7 @@ msgstr "Laat geen details zien van de gecontroleerde transacties"
 #: src/widgets/widget_import_asso.ui:253
 #, fuzzy
 msgid "Payee name: "
-msgstr "Totaal algemeen:"
+msgstr "Naam begunstigde:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 #, fuzzy
@@ -10143,17 +10143,17 @@ msgstr "het cheque nummer"
 #: src/widgets/widget_import_asso.c:738
 #, fuzzy
 msgid "Payee name"
-msgstr "Totaal algemeen"
+msgstr "Naam begunstigde"
 
 #: src/gsb_transactions_list.c:130
 #, fuzzy
 msgid "Note"
-msgstr "Aantekeningen"
+msgstr "Aantekeninge"
 
 #: src/gsb_transactions_list.c:131
 #, fuzzy
 msgid "Payee and note"
-msgstr "Toon naam van begunstigde"
+msgstr "Begunstigde en aantekeninge"
 
 #: src/gsb_transactions_list.c:193
 #, fuzzy
@@ -10381,7 +10381,7 @@ msgstr ""
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Voer minimaal 3 tekens in om te filteren"
 
 #: src/gsb_transactions_list.c:2914
 #, fuzzy
