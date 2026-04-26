@@ -9922,19 +9922,16 @@ msgid "Payee name"
 msgstr "Saņēmēja vārds"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "Piezīmes"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "Saņēmējs un piezīme"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Notīrīt šūnas"
+msgstr "Notīrīt"
 
 #: src/gsb_transactions_list.c:558
 msgid "Clear cell"

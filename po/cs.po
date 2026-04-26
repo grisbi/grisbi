@@ -9704,14 +9704,12 @@ msgid "Note"
 msgstr "Pozn."
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "Příjemce a pozn."
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Vymazat buňku"
+msgstr "Vymazat"
 
 #: src/gsb_transactions_list.c:558
 msgid "Clear cell"

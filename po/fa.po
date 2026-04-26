@@ -2539,7 +2539,6 @@ msgid "Details of associations"
 msgstr "جستجوی تراکنش"
 
 #: src/widgets/widget_import_asso.ui:253
-#, fuzzy
 msgid "Payee name: "
 msgstr "نام ذینفع:"
 
@@ -9694,28 +9693,24 @@ msgstr "نام کشور:"
 
 #: src/gsb_transactions_list.c:129 src/tiers_onglet.c:1656
 #: src/widgets/widget_import_asso.c:738
-#, fuzzy
 msgid "Payee name"
-msgstr "نام فایل"
+msgstr "نام ذینفع"
 
 #: src/gsb_transactions_list.c:130
 msgid "Note"
 msgstr "یادداشت"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "ذینفع و یادداشت"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "انصراف"
+msgstr "شفاف"
 
 #: src/gsb_transactions_list.c:558
-#, fuzzy
 msgid "Clear cell"
-msgstr "انصراف"
+msgstr "سلول شفاف"
 
 #: src/gsb_transactions_list.c:630
 msgid "Cannot move a transfer on his contra-account"
@@ -9911,7 +9906,6 @@ msgid "Quick file import by rules"
 msgstr ""
 
 #: src/gsb_transactions_list.c:2880
-#: fuzzy
 msgid "Type at least 3 characters to filter"
 msgstr "برای فیلتر کردن حداقل ۳ کاراکتر وارد کنید"
 

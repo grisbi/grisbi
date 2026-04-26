@@ -10069,29 +10069,24 @@ msgstr "o cheque número"
 
 #: src/gsb_transactions_list.c:129 src/tiers_onglet.c:1656
 #: src/widgets/widget_import_asso.c:738
-#, fuzzy
 msgid "Payee name"
 msgstr "Nome do beneficiário"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "Observação"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "Beneficiário e observação"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Cancelar"
+msgstr "Limpar"
 
 #: src/gsb_transactions_list.c:558
-#, fuzzy
 msgid "Clear cell"
-msgstr "Cancelar"
+msgstr "Limpar célula"
 
 #: src/gsb_transactions_list.c:630
 msgid "Cannot move a transfer on his contra-account"

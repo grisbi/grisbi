@@ -10033,29 +10033,24 @@ msgstr "מספר ההמחאה"
 
 #: src/gsb_transactions_list.c:129 src/tiers_onglet.c:1656
 #: src/widgets/widget_import_asso.c:738
-#, fuzzy
 msgid "Payee name"
 msgstr "שם המוטב"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "הערות"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "מוטב והערה"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "ביטול"
+msgstr "נקו"
 
 #: src/gsb_transactions_list.c:558
-#, fuzzy
 msgid "Clear cell"
-msgstr "ביטול"
+msgstr "נקו את התא"
 
 #: src/gsb_transactions_list.c:630
 msgid "Cannot move a transfer on his contra-account"
@@ -10268,7 +10263,6 @@ msgid "Quick file import by rules"
 msgstr ""
 
 #: src/gsb_transactions_list.c:2880
-#, fuzzy
 msgid "Type at least 3 characters to filter"
 msgstr "הקלד לפחות 3 תווים כדי לסנן"
 

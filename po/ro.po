@@ -10076,29 +10076,24 @@ msgstr "numărul de cec"
 
 #: src/gsb_transactions_list.c:129 src/tiers_onglet.c:1656
 #: src/widgets/widget_import_asso.c:738
-#, fuzzy
 msgid "Payee name"
 msgstr "Numele beneficiarului"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "Observaţie"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "Beneficiar și observație"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Anulare"
+msgstr "Curăță"
 
 #: src/gsb_transactions_list.c:558
-#, fuzzy
 msgid "Clear cell"
-msgstr "Anulare"
+msgstr "Curăță o celulă"
 
 #: src/gsb_transactions_list.c:630
 msgid "Cannot move a transfer on his contra-account"
@@ -10298,7 +10293,6 @@ msgid "Print the transactions list"
 msgstr "A tria lista de tranzacţiuni"
 
 #: src/gsb_transactions_list.c:2847
-#, fuzzy
 msgid "Change display mode of the list"
 msgstr "Modificați modul de afișare a listei"
 
@@ -10308,7 +10302,6 @@ msgid "Import rules"
 msgstr "Exportaţi categoriile."
 
 #: src/gsb_transactions_list.c:2856
-#, fuzzy
 msgid "Quick file import by rules"
 msgstr "Import rapid de fișiere pe baza unor reguli"
 

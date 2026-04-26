@@ -9803,19 +9803,16 @@ msgid "Payee name"
 msgstr "Название получателя"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "Заметка"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "Получатель и заметка"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Очистить ячейку"
+msgstr "Очистить"
 
 #: src/gsb_transactions_list.c:558
 msgid "Clear cell"
@@ -10006,12 +10003,10 @@ msgid "Import rules"
 msgstr "Импортировать правила"
 
 #: src/gsb_transactions_list.c:2856
-#: fuzzy
 msgid "Quick file import by rules"
 msgstr "Быстрый импорт файла по правилам"
 
 #: src/gsb_transactions_list.c:2880
-#: fuzzy
 msgid "Type at least 3 characters to filter"
 msgstr "Введите не менее 3 символов для фильтрации"
 

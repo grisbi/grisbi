@@ -9749,17 +9749,14 @@ msgid "Payee name"
 msgstr "Empfänger Name"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "Notiz"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "Empfänger und Notiz"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
 msgstr "Löschen"
 
@@ -10785,11 +10782,11 @@ msgstr "Die Darstellung ändern"
 
 #: src/imputation_budgetaire.c:754
 msgid "Budgetary line view"
-msgstr "Gruppen"
+msgstr "Gruppenzeile anzeigen"
 
 #: src/imputation_budgetaire.c:760
 msgid "Sub-budgetary line view"
-msgstr "Untergruppen"
+msgstr "Untergruppenzeile anzeigen"
 
 #: src/imputation_budgetaire.c:812
 msgid "No sub-budget defined"

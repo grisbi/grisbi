@@ -10275,24 +10275,20 @@ msgid "Payee name"
 msgstr "Όνομα δικαιούχων πληρωμής"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "Σημείωση"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "Δικαιούχος και σημείωση"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Ακύρωση"
+msgstr "Καθαρισμός"
 
 #: src/gsb_transactions_list.c:558
-#, fuzzy
 msgid "Clear cell"
-msgstr "Ακύρωση"
+msgstr "Καθαρισμός κελιού"
 
 #: src/gsb_transactions_list.c:630
 msgid "Cannot move a transfer on his contra-account"

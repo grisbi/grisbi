@@ -9785,19 +9785,16 @@ msgid "Payee name"
 msgstr "Nombre del beneficiario"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "Observación"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
 msgstr "Beneficiario el observación"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Purgar celda"
+msgstr "Purgar"
 
 #: src/gsb_transactions_list.c:558
 msgid "Clear cell"
