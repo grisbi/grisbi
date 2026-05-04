@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-24 22:14+0200\n"
-"PO-Revision-Date: 2025-11-29 20:45+0200\n"
+"PO-Revision-Date: 2026-04-25 17:15+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
 "Language: he\n"
@@ -2632,7 +2632,7 @@ msgstr "לא לפרט עיסקאות מתואמות"
 #: src/widgets/widget_import_asso.ui:253
 #, fuzzy
 msgid "Payee name: "
-msgstr "סך הכל הכללי:"
+msgstr "שם המוטב:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 #, fuzzy
@@ -3472,7 +3472,7 @@ msgstr "קטגוריות : תתי-קטגוריות"
 #: src/widgets/widget_transfer.c:1102 src/widgets/widget_transfer.c:1520
 #: src/widgets/widget_transfer.c:1608
 msgid "Budgetary line"
-msgstr "קו תקציבי"
+msgstr "סעיפי תקציב"
 
 #: src/bet_future.c:895 src/gsb_form_widget.c:346
 msgid "Choose the financial year"
@@ -10033,29 +10033,24 @@ msgstr "מספר ההמחאה"
 
 #: src/gsb_transactions_list.c:129 src/tiers_onglet.c:1656
 #: src/widgets/widget_import_asso.c:738
-#, fuzzy
 msgid "Payee name"
-msgstr "סך הכל הכללי"
+msgstr "שם המוטב"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "הערות"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
-msgstr "הצגת שמות צדדים שלישיים"
+msgstr "מוטב והערה"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "ביטול"
+msgstr "נקו"
 
 #: src/gsb_transactions_list.c:558
-#, fuzzy
 msgid "Clear cell"
-msgstr "ביטול"
+msgstr "נקו את התא"
 
 #: src/gsb_transactions_list.c:630
 msgid "Cannot move a transfer on his contra-account"
@@ -10269,7 +10264,7 @@ msgstr ""
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "הקלד לפחות 3 תווים כדי לסנן"
 
 #: src/gsb_transactions_list.c:2914
 #, fuzzy

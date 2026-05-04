@@ -364,7 +364,7 @@ msgstr "Категории"
 #: src/navigation.c:641 src/utils_widgets.c:673
 #: src/etats/etats_page_budget.c:83
 msgid "Budgetary lines"
-msgstr "Бюджетные линии"
+msgstr "Бюджетные статьи"
 
 #: src/prefs/prefs_page_bet_account.ui:368
 #, fuzzy
@@ -9803,19 +9803,16 @@ msgid "Payee name"
 msgstr "Название получателя"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
-msgstr "Заметки"
+msgstr "Заметка"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
-msgstr "Скрыть имена получателей"
+msgstr "Получатель и заметка"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Очистить ячейку"
+msgstr "Очистить"
 
 #: src/gsb_transactions_list.c:558
 msgid "Clear cell"
@@ -10007,11 +10004,11 @@ msgstr "Импортировать правила"
 
 #: src/gsb_transactions_list.c:2856
 msgid "Quick file import by rules"
-msgstr ""
+msgstr "Быстрый импорт файла по правилам"
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Введите не менее 3 символов для фильтрации"
 
 #: src/gsb_transactions_list.c:2914
 #, fuzzy

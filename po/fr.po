@@ -9,14 +9,14 @@
 #
 # Please follow the guidelines you'll find here: https://traduc.org/gnomefr/Presentation
 # Pierre Biava <pierre@pierre.biava.name>, 2008-2010, 2011, 2012, 2016, 2017, 2018.
-# SPDX-FileCopyrightText: 2025 brochignac <dbro17@free.fr.invalid>
+# SPDX-FileCopyrightText: 2025, 2026 brochignac <dbro17@free.fr.invalid>
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-24 22:14+0200\n"
-"PO-Revision-Date: 2026-02-28 16:24+0100\n"
-"Last-Translator: brochignac <dbro17@free.fr>\n"
+"PO-Revision-Date: 2026-04-25 17:30+0100\n"
+"Last-Translator: brochignac <dbro17@free.fr.invalid>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -9790,19 +9790,16 @@ msgid "Payee name"
 msgstr "Nom du tiers"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
-msgstr "Remarques"
+msgstr "Remarque"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
-msgstr "Rechercher dans les tiers et les notes"
+msgstr "Tiers et remarque"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Effacer la cellule"
+msgstr "Effacer"
 
 #: src/gsb_transactions_list.c:558
 msgid "Clear cell"
@@ -10028,7 +10025,7 @@ msgstr "Règles d'import rapide d'un fichier"
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Tapez au moins 3 caractères pour filtrer"
 
 #: src/gsb_transactions_list.c:2914
 msgid "Recreates archive"

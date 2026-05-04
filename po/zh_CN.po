@@ -2627,9 +2627,8 @@ msgid "Details of associations"
 msgstr "不要详列调整交易"
 
 #: src/widgets/widget_import_asso.ui:253
-#, fuzzy
 msgid "Payee name: "
-msgstr "一般总计:"
+msgstr "收款人姓名:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 #, fuzzy
@@ -3790,7 +3789,7 @@ msgstr "选择所有"
 #: src/gsb_transactions_list.c:119 src/gsb_transactions_list.c:133
 #: src/import_csv.c:81 src/meta_categories.c:64 src/utils_widgets.c:120
 msgid "Category"
-msgstr "种类"
+msgstr "类别"
 
 #: src/bet_hist.c:1294 src/categories_onglet.c:201 src/etats_affiche.c:399
 #: src/gsb_assistant_reconcile_config.c:653 src/gsb_scheduler_list.c:944
@@ -9998,29 +9997,24 @@ msgstr "支票编号"
 
 #: src/gsb_transactions_list.c:129 src/tiers_onglet.c:1656
 #: src/widgets/widget_import_asso.c:738
-#, fuzzy
 msgid "Payee name"
-msgstr "一般总计"
+msgstr "收款人姓名"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
 msgstr "备注"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
-msgstr "一般总计"
+msgstr "收款人和备注"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "取消"
+msgstr "清理"
 
 #: src/gsb_transactions_list.c:558
-#, fuzzy
 msgid "Clear cell"
-msgstr "取消"
+msgstr "清理单元格"
 
 #: src/gsb_transactions_list.c:630
 msgid "Cannot move a transfer on his contra-account"
@@ -10232,7 +10226,7 @@ msgstr ""
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "请输入至少 3 个字符进行筛选"
 
 #: src/gsb_transactions_list.c:2914
 #, fuzzy

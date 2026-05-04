@@ -2590,7 +2590,7 @@ msgstr "Skjul afstemte transaktioner"
 #: src/widgets/widget_import_asso.ui:253
 #, fuzzy
 msgid "Payee name: "
-msgstr "Kategori ialt:"
+msgstr "Modtagerens navn:"
 
 #: src/widgets/widget_import_asso.ui:265 src/tiers_onglet.c:336
 msgid "Search string: "
@@ -2631,7 +2631,7 @@ msgstr ""
 
 #: src/widgets/widget_import_files.ui:122
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: src/widgets/widget_import_files.ui:151
 #, fuzzy
@@ -9824,29 +9824,24 @@ msgstr "Check/Øverførselsnr."
 
 #: src/gsb_transactions_list.c:129 src/tiers_onglet.c:1656
 #: src/widgets/widget_import_asso.c:738
-#, fuzzy
 msgid "Payee name"
-msgstr "Kategori ialt"
+msgstr "Modtagerens navn"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
-msgstr "Noter"
+msgstr "Bemærkning"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
-msgstr "Visninger"
+msgstr "Modtager og bemærkning"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Annulér"
+msgstr "Ryd"
 
 #: src/gsb_transactions_list.c:558
-#, fuzzy
 msgid "Clear cell"
-msgstr "Annulér"
+msgstr "Ryd celle"
 
 #: src/gsb_transactions_list.c:630
 msgid "Cannot move a transfer on his contra-account"
@@ -10048,7 +10043,7 @@ msgstr ""
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Indtast mindst 3 tegn for at filtrere"
 
 #: src/gsb_transactions_list.c:2914
 msgid "Recreates archive"
