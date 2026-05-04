@@ -117,7 +117,7 @@ static const gchar *labels_titres_colonnes_liste_ope[] = {	/* names of the data 
     N_("Reconciliation reference"),
     N_("Financial year"),
     N_("Category"),
-    N_("C/R"),
+    N_("P/R"),
     N_("Voucher"),
     N_("Notes"),
     N_("Bank references"),
