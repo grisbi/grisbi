@@ -118,6 +118,8 @@ static void widget_reconcile_sensitive (gboolean sensitive)
 {
 	gtk_widget_set_sensitive (gsb_gui_navigation_get_tree_view (), sensitive);
 	grisbi_win_headings_sensitive_headings (sensitive);
+
+	gtk_widget_set_sensitive(gsb_transactions_list_get_toolbar(), sensitive);
 }
 
 /**
