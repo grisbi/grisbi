@@ -9790,19 +9790,16 @@ msgid "Payee name"
 msgstr "Nom du tiers"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
-msgstr "Remarques"
+msgstr "Remarque"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
-msgstr "Rechercher dans les tiers et les notes"
+msgstr "Tiers et note"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Effacer la cellule"
+msgstr "Effacer"
 
 #: src/gsb_transactions_list.c:558
 msgid "Clear cell"
@@ -9941,7 +9938,7 @@ msgstr "À gauche"
 
 #: src/gsb_transactions_list.c:2037
 msgid "CENTER"
-msgstr "Centré"
+msgstr "Au Centre"
 
 #: src/gsb_transactions_list.c:2052
 msgid "RIGHT"
