@@ -579,7 +579,7 @@ static void grisbi_prefs_left_tree_view_setup (GrisbiPrefs *prefs,
 
     /* make column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Categories",
+    column = gtk_tree_view_column_new_with_attributes (_("Categories"),
 													   cell,
 													   "text", LEFT_PANEL_TREE_TEXT_COLUMN,
 													   "weight", LEFT_PANEL_TREE_BOLD_COLUMN,
