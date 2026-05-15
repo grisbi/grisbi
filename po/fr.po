@@ -9795,11 +9795,7 @@ msgstr "Remarque"
 
 #: src/gsb_transactions_list.c:131
 msgid "Payee and note"
-<<<<<<< master
 msgstr "Tiers et remarque"
-=======
-msgstr "Tiers et note"
->>>>>>> master
 
 #: src/gsb_transactions_list.c:193
 msgid "Clear"
