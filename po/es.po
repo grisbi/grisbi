@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-24 22:14+0200\n"
-"PO-Revision-Date: 2025-11-29 20:22+0200\n"
+"PO-Revision-Date: 2026-04-25 17:10+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <fserrador@proton.me>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
@@ -2061,7 +2061,7 @@ msgstr "Fax: "
 #: src/gsb_scheduler_list.c:944 src/gsb_scheduler_list.c:1208
 #: src/gsb_transactions_list.c:122 src/import_csv.c:79
 msgid "Notes"
-msgstr "Anotaciones"
+msgstr "Observaciónes"
 
 #: src/widgets/widget_bet_graph_options.ui:24
 msgid "<b>Options for the axis</b>"
@@ -2440,9 +2440,8 @@ msgid "Limits the number of days that can be imported (1 year max): "
 msgstr ""
 
 #: src/widgets/widget_import_files.ui:122
-#, fuzzy
 msgid "30"
-msgstr "0"
+msgstr "30"
 
 #: src/widgets/widget_import_files.ui:151
 msgid "Merge the imported transactions with the transactions found"
@@ -9786,19 +9785,16 @@ msgid "Payee name"
 msgstr "Nombre del beneficiario"
 
 #: src/gsb_transactions_list.c:130
-#, fuzzy
 msgid "Note"
-msgstr "Anotaciones"
+msgstr "Observación"
 
 #: src/gsb_transactions_list.c:131
-#, fuzzy
 msgid "Payee and note"
-msgstr "Buscar en el nombre beneficiario"
+msgstr "Beneficiario el observación"
 
 #: src/gsb_transactions_list.c:193
-#, fuzzy
 msgid "Clear"
-msgstr "Purgar celda"
+msgstr "Purgar"
 
 #: src/gsb_transactions_list.c:558
 msgid "Clear cell"
@@ -10026,7 +10022,7 @@ msgstr "Importación rápida de archivo por reglas"
 
 #: src/gsb_transactions_list.c:2880
 msgid "Type at least 3 characters to filter"
-msgstr ""
+msgstr "Escribe al menos 3 caracteres para filtrar"
 
 #: src/gsb_transactions_list.c:2914
 msgid "Recreates archive"
