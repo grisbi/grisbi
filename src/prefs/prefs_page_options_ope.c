@@ -169,6 +169,9 @@ static gboolean prefs_page_options_ope_display_sort_changed (GtkComboBox *widget
 											   pointeur);
 		}
 	}
+	else
+		a_conf->transactions_list_secondary_sorting = value;
+
     gsb_file_set_modified (TRUE);
 
     switch (page_number)
@@ -221,7 +224,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 
 	/* Primary sorting option for the transactions */
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
-	for (i = 0; i < 3; i++)
+	for (i = 0; i < PRIMARY_SORT_ITEMS_NUMBER; i++)
 	{
         gtk_list_store_append (store, &iter);
         gtk_list_store_set (store, &iter, 0, options_tri_primaire[i], 1, i, 2, str_color, -1);
@@ -246,7 +249,7 @@ static void prefs_page_options_ope_init_combo_sorting (PrefsPageOptionsOpe *page
 
 	/* Secondary sorting option for the transactions */
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < SECONDARY_SORT_ITEMS_NUMBER; i++)
 	{
         gtk_list_store_append (store, &iter);
         gtk_list_store_set (store, &iter, 0, options_tri_secondaire[i], 1, i, 2, str_color, -1);

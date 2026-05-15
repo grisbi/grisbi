@@ -117,7 +117,7 @@ static const gchar *labels_titres_colonnes_liste_ope[] = {	/* names of the data 
     N_("Reconciliation reference"),
     N_("Financial year"),
     N_("Category"),
-    N_("C/R"),
+    N_("P/R"),
     N_("Voucher"),
     N_("Notes"),
     N_("Bank references"),
@@ -1511,7 +1511,7 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
                 date_debut = gsb_parse_date_string (init_date);
                 date_fin = gsb_parse_date_string (final_date);
                 date = gsb_data_transaction_get_date (transaction_number);
-                if (g_date_compare (date, date_debut) >= 0
+                if (date_debut && g_date_compare (date, date_debut) >= 0
 					&&
 					g_date_compare (date, date_fin) <= 0)
                 {
@@ -1521,7 +1521,8 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
 
                     gtk_tree_path_free (path);
                 }
-                g_date_free (date_debut);
+                if (date_debut)
+                    g_date_free (date_debut);
                 g_date_free (date_fin);
             }
             else if (tmp_reconcile_number == reconcile_number)
@@ -1531,7 +1532,8 @@ static gint gsb_transactions_list_choose_reconcile (gint account_number,
                 gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (tree_view), path, NULL, FALSE, 0.0, 0.0);
             }
 
-            g_free (init_date);
+            if (init_date)
+                g_free (init_date);
             g_free (final_date);
 
         }

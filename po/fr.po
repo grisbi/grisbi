@@ -9795,7 +9795,11 @@ msgstr "Remarque"
 
 #: src/gsb_transactions_list.c:131
 msgid "Payee and note"
+<<<<<<< master
 msgstr "Tiers et remarque"
+=======
+msgstr "Tiers et note"
+>>>>>>> master
 
 #: src/gsb_transactions_list.c:193
 msgid "Clear"
@@ -9938,7 +9942,7 @@ msgstr "À gauche"
 
 #: src/gsb_transactions_list.c:2037
 msgid "CENTER"
-msgstr "Centré"
+msgstr "Au Centre"
 
 #: src/gsb_transactions_list.c:2052
 msgid "RIGHT"

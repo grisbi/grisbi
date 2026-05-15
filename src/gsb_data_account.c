@@ -1351,7 +1351,7 @@ gint gsb_data_account_get_element_sort (gint account_number,
         g_print ("%s", tmp_str);
         g_free(tmp_str);
 
-        return FALSE;
+		return 0;
     }
 
     account = gsb_data_account_get_structure (account_number);
