@@ -43,7 +43,7 @@
 
 /*START_STATIC*/
 static void html_attach_hsep ( int x, int x2, int y, int y2);
-static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
+static void html_attach_label ( gchar * text, int properties, int x, int x2, int y, int y2,
 							   GtkJustification align, gint transaction_number, const gchar *class );
 static void html_attach_vsep ( int x, int x2, int y, int y2);
 static gint html_finish ( void );
@@ -93,7 +93,7 @@ struct EtatAffichage html_affichage = {
  * \param transaction_number the number of a transaction to link to (not used as html
  *            backend is not interactive)
  */
-void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
+void html_attach_label ( gchar * text, int properties, int x, int x2, int y, int y2,
 						GtkJustification align, gint transaction_number, const gchar *class )
 {
     int pad, realsize;

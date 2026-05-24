@@ -129,7 +129,7 @@ static void gtktable_click_sur_ope_etat (gint transaction_number)
  * \return
  **/
 static void gtktable_attach_label (gchar *text,
-								   gdouble properties,
+								   int properties,
 								   int x, int x2, int y, int y2,
 								   GtkJustification align,
 								   gint transaction_number,
