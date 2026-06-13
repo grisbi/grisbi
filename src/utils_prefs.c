@@ -648,6 +648,7 @@ void utils_prefs_spinbutton_changed (GtkSpinButton *spinbutton,
  * \return a GtkButton
  * */
 GtkWidget *utils_prefs_fonts_create_button (gchar **fontname,
+											gboolean settings,
 											GCallback hook,
 											gpointer data)
 {
@@ -667,11 +668,13 @@ GtkWidget *utils_prefs_fonts_create_button (gchar **fontname,
     gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
 
     font_name_label = gtk_label_new (NULL);
-	gtk_widget_set_name (font_name_label, "label_gsetting_option");
+	if (settings)
+		gtk_widget_set_name (font_name_label, "label_gsetting_option");
     gtk_box_pack_start (GTK_BOX (hbox_font), font_name_label, TRUE, TRUE, 5);
 
     font_size_label = gtk_label_new (NULL);
-	gtk_widget_set_name (font_size_label, "label_gsetting_option");
+	if (settings)
+		gtk_widget_set_name (font_size_label, "label_gsetting_option");
     gtk_box_pack_start (GTK_BOX (hbox_font), font_size_label, FALSE, FALSE, 5);
     g_object_set_data (G_OBJECT (font_button), "hook", hook);
     g_object_set_data (G_OBJECT (font_button), "data", data);

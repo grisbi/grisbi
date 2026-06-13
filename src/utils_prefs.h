@@ -11,6 +11,7 @@ GtkWidget *		utils_prefs_create_combo_list_indisponible 				(void);
 gboolean		utils_prefs_encryption_toggled							(GtkWidget *checkbox,
 																		 gpointer data);
 GtkWidget *		utils_prefs_fonts_create_button 						(gchar **fontname,
+																		 gboolean settings,
 																		 GCallback hook,
 																		 gpointer data);
 void 			utils_prefs_gsb_file_set_modified						(void);
