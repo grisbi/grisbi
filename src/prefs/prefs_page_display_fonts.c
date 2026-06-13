@@ -37,6 +37,7 @@
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_data_account.h"
+#include "gsb_data_print_config.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_save.h"
@@ -69,7 +70,9 @@ struct _PrefsPageDisplayFontsPrivate
     GtkWidget *         vbox_display_logo;				/* sert à invalider le choix quand pas de fichier chargé */
 
     GtkWidget *			checkbutton_display_fonts;
-    GtkWidget *         hbox_display_fonts;
+	GtkWidget *			grid_display_fonts;
+
+    GtkWidget *         grid_reports_fonts;
 
 	GtkWidget *			combo_force_theme;
 	GtkWidget *			label_theme_selected;
@@ -152,6 +155,42 @@ static void prefs_page_display_fonts_update_fonte_listes (gchar *fontname,
     g_value_init (&value, G_TYPE_STRING);
     g_value_set_string (&value, font);
     transaction_list_update_column (CUSTOM_MODEL_FONT, &value);
+}
+
+/**
+ * update the title of font in reports
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_update_reports_font_titles (gchar *fontname,
+												   GrisbiWinEtat *w_etat)
+{
+	gsb_data_print_config_set_report_font_title (pango_font_description_from_string (fontname));
+
+	if (w_etat->reports_font_titles)
+		g_free (w_etat->reports_font_titles);
+	w_etat->reports_font_titles = g_strdup (fontname);
+}
+
+/**
+ * update the font in reports
+ *
+ * \param
+ * \param
+ *
+ * \return
+ **/
+static void prefs_page_update_reports_font_transactions (gchar *fontname,
+														 GrisbiWinEtat *w_etat)
+{
+	gsb_data_print_config_set_report_font_transaction (pango_font_description_from_string (fontname));
+
+	if (w_etat->reports_font_transactions)
+		g_free (w_etat->reports_font_transactions);
+	w_etat->reports_font_transactions = g_strdup (fontname);
 }
 
 /**
@@ -481,6 +520,8 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 	GtkWidget *head_page;
 	GtkWidget *font_button;
 	GtkWidget *preview;
+	GtkWidget *reports_font_button;
+	GtkWidget *reports_titles_font_button;
 	GdkPixbuf *pixbuf = NULL;
 	gboolean is_loading;
 	GrisbiAppConf *a_conf;
@@ -537,12 +578,13 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 
 	/* Create font button */
     font_button = utils_prefs_fonts_create_button (&a_conf->font_string,
+												   TRUE,
                                                    G_CALLBACK (prefs_page_display_fonts_update_fonte_listes),
                                                    a_conf);
 	g_object_set_data (G_OBJECT (priv->checkbutton_display_fonts), "widget", font_button);
-    gtk_box_pack_start (GTK_BOX (priv->hbox_display_fonts), font_button, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (priv->grid_display_fonts), font_button, 1, 0, 1, 1);
 
-    if (!a_conf->custom_fonte_listes)
+	if (!a_conf->custom_fonte_listes)
     {
         gtk_widget_set_sensitive (font_button, FALSE);
     }
@@ -553,6 +595,21 @@ static void prefs_page_display_fonts_setup_page (PrefsPageDisplayFonts *page)
 					  "toggled",
 					  G_CALLBACK (utils_prefs_page_checkbutton_changed),
 					  &a_conf->custom_fonte_listes);
+
+	/* Create report_titles_font button */
+    reports_titles_font_button = utils_prefs_fonts_create_button (&w_etat->reports_font_titles,
+																  FALSE,
+																  G_CALLBACK (prefs_page_update_reports_font_titles),
+																  w_etat);
+	gtk_grid_attach (GTK_GRID (priv->grid_reports_fonts), reports_titles_font_button, 1, 0, 1, 1);
+
+	/* Create report_font button */
+    reports_font_button = utils_prefs_fonts_create_button (&w_etat->reports_font_transactions,
+														   FALSE,
+														   G_CALLBACK (prefs_page_update_reports_font_transactions),
+														   w_etat);
+
+	gtk_grid_attach (GTK_GRID (priv->grid_reports_fonts), reports_font_button, 1, 1, 1, 1);
 
 	/* set the themes buttons */
 	prefs_page_display_fonts_init_combo_force_theme (page);
@@ -615,9 +672,10 @@ static void prefs_page_display_fonts_class_init (PrefsPageDisplayFontsClass *kla
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, vbox_display_logo);
 
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, checkbutton_display_fonts);
-	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, hbox_display_fonts);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, grid_display_fonts);
 
-	//~ gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, box_select_theme);
+	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, grid_reports_fonts);
+
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, label_theme_selected);
 	gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass), PrefsPageDisplayFonts, combo_force_theme);
 

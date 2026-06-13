@@ -327,6 +327,12 @@ void free_variables (void)
 	/* free account list */
 	gsb_data_account_init_variables ();
 
+	/* free the fonts */
+	if (w_etat->reports_font_titles)
+		g_free (w_etat->reports_font_titles);
+	if (w_etat->reports_font_transactions)
+		g_free (w_etat->reports_font_transactions);
+
 	/* free the form */
     gsb_form_widget_free_list_without_widgets ();
     gsb_form_scheduler_free_list ();
@@ -349,6 +355,10 @@ void free_variables (void)
 	/* raz variables of etat */
 	if (w_etat->name_logo && strlen (w_etat->name_logo))
 		g_free (w_etat->name_logo);
+	if (w_etat->reports_font_titles)
+		g_free (w_etat->reports_font_titles);
+	if (w_etat->reports_font_transactions)
+		g_free (w_etat->reports_font_transactions);
 
     /* free the variables for the estimate balance module */
     bet_data_variables_free ();

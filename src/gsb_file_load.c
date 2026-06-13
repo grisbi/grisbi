@@ -2911,11 +2911,14 @@ static void gsb_file_load_print_part (const gchar **attribute_names,
 									  const gchar **attribute_values)
 {
     gint i=0;
+	GrisbiWinEtat *w_etat;
 
     if (!attribute_names[i])
     return;
 
-    do
+	w_etat = (GrisbiWinEtat *) grisbi_win_get_w_etat ();
+
+	do
     {
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
     /*        go to the next */
@@ -2978,16 +2981,17 @@ static void gsb_file_load_print_part (const gchar **attribute_names,
 
     else if (!strcmp (attribute_names[i], "Report_font_transactions"))
     {
-        gsb_data_print_config_set_report_font_transaction (pango_font_description_from_string
-														   (attribute_values[i]));
+		w_etat->reports_font_transactions = g_strdup (attribute_values[i]);
+		gsb_data_print_config_set_report_font_transaction (pango_font_description_from_string
+														   (w_etat->reports_font_transactions));
     }
 
     else if (!strcmp (attribute_names[i], "Report_font_title"))
     {
-        gsb_data_print_config_set_report_font_title (pango_font_description_from_string
-													 (attribute_values[i]));
+		w_etat->reports_font_titles = g_strdup (attribute_values[i]);
+		gsb_data_print_config_set_report_font_title (pango_font_description_from_string
+													 (w_etat->reports_font_titles));
     }
-
 
     i++;
     }

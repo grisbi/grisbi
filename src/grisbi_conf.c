@@ -478,7 +478,7 @@ gboolean grisbi_conf_load_app_config (void)
 											    	 NULL);
 		if (!a_conf->font_string || strlen (a_conf->font_string) == 0)
 		{
-			a_conf->font_string = g_strdup ("Monospace 10");
+			a_conf->font_string = g_strdup ("Sans 10");
 			a_conf->custom_fonte_listes = FALSE;
 		}
     }

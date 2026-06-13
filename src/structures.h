@@ -141,6 +141,8 @@ struct _GrisbiWinEtat
     /* Fonts & logo */
     gint		utilise_logo;
     gchar		*name_logo;
+	gchar		*reports_font_titles;
+	gchar		*reports_font_transactions;
 
     gboolean	automatic_separator;   						/* TRUE if do automatic separator */
 
