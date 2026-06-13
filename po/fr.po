@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 22:14+0200\n"
+"Report-Msgid-Bugs-To: devel@listes.grisbi.org\n"
+"POT-Creation-Date: 2026-06-13 20:31+0200\n"
 "PO-Revision-Date: 2026-04-25 17:30+0100\n"
 "Last-Translator: brochignac <dbro17@free.fr.invalid>\n"
 "Language-Team: French <>\n"
@@ -105,7 +105,7 @@ msgstr "<Ctrl> + clic gauche de la souris pour ajouter à la sélection"
 #: src/widgets/widget_search_transaction.ui:167 src/etats_onglet.c:1176
 #: src/etats_onglet.c:1406 src/etats_onglet.c:1641 src/grisbi_app.c:125
 #: src/grisbi_app.c:142 src/gsb_transactions_list.c:829
-#: src/gsb_transactions_list.c:2877
+#: src/gsb_transactions_list.c:2879
 msgid "Search"
 msgstr "Rechercher"
 
@@ -228,7 +228,7 @@ msgstr "Ajouter"
 
 #: src/prefs/prefs_page_accueil.ui:245 src/ui/grisbi_menu.ui:349
 #: src/categories_onglet.c:663 src/gsb_scheduler_list.c:1197
-#: src/gsb_transactions_list.c:2819 src/imputation_budgetaire.c:702
+#: src/gsb_transactions_list.c:2821 src/imputation_budgetaire.c:702
 #: src/tiers_onglet.c:652
 msgid "Edit"
 msgstr "Éditer"
@@ -342,8 +342,9 @@ msgstr "Tiers"
 #: src/prefs/prefs_page_bet_account.ui:412
 #: src/prefs/prefs_page_bet_account.ui:497 src/ui/etats_prefs.ui:1452
 #: src/bet_hist.c:2147 src/bet_hist.c:2153 src/categories_onglet.c:389
-#: src/etats_prefs.c:1590 src/grisbi_win.c:481 src/navigation.c:637
-#: src/utils_widgets.c:670 src/etats/etats_page_category.c:81
+#: src/etats_prefs.c:1590 src/etats_prefs.c:1690 src/grisbi_prefs.c:582
+#: src/grisbi_win.c:481 src/navigation.c:637 src/utils_widgets.c:670
+#: src/etats/etats_page_category.c:81
 msgid "Categories"
 msgstr "Catégories"
 
@@ -454,7 +455,7 @@ msgstr "Ajout d'une devise"
 #: src/import.c:5304 src/imputation_budgetaire.c:470
 #: src/imputation_budgetaire.c:534 src/imputation_budgetaire.c:596
 #: src/imputation_budgetaire.c:825 src/plugins/openssl/openssl.c:456
-#: src/prefs/prefs_page_display_fonts.c:306 src/tiers_onglet.c:129
+#: src/prefs/prefs_page_display_fonts.c:345 src/tiers_onglet.c:129
 #: src/tiers_onglet.c:286 src/utils_files.c:753 src/widgets/widget_loan.c:1593
 msgid "Cancel"
 msgstr "Annuler"
@@ -517,15 +518,31 @@ msgstr "Cliquer sur la prévisualisation pour modifier le logo"
 msgid "Fonts"
 msgstr "Polices"
 
-#: src/prefs/prefs_page_display_fonts.ui:210
+#: src/prefs/prefs_page_display_fonts.ui:224
 msgid "Use a custom font for the transactions: "
 msgstr "Choisir une police pour les opérations : "
 
-#: src/prefs/prefs_page_display_fonts.ui:271
+#: src/prefs/prefs_page_display_fonts.ui:255
+msgid "Transactions custom fonts"
+msgstr "Polices personnalisées des transactions"
+
+#: src/prefs/prefs_page_display_fonts.ui:276
+msgid "Reports data font: "
+msgstr "Police de caractères des données des états :"
+
+#: src/prefs/prefs_page_display_fonts.ui:288
+msgid "Reports titles font: "
+msgstr "Polices d'impression des titres des états :"
+
+#: src/prefs/prefs_page_display_fonts.ui:310
+msgid "Reports print fonts"
+msgstr "Polices d’impression des états"
+
+#: src/prefs/prefs_page_display_fonts.ui:374
 msgid "Theme"
 msgstr "Thème"
 
-#: src/prefs/prefs_page_display_fonts.ui:314 src/prefs/prefs_page_files.ui:192
+#: src/prefs/prefs_page_display_fonts.ui:417 src/prefs/prefs_page_files.ui:192
 #: src/widgets/widget_list_metatree.ui:70
 #: src/widgets/widget_list_metatree.ui:91 src/widgets/widget_reconcile.ui:269
 #: src/widgets/widget_reconcile.ui:281 src/widgets/widget_reconcile.ui:293
@@ -534,7 +551,7 @@ msgstr "Thème"
 msgid "label"
 msgstr "label"
 
-#: src/prefs/prefs_page_display_fonts.ui:329
+#: src/prefs/prefs_page_display_fonts.ui:432
 msgid ""
 "(If the rendering is not correct, you can force the type of theme by "
 "selecting one of options below)"
@@ -542,7 +559,7 @@ msgstr ""
 "(Si le rendu n'est pas correct, vous pouvez forcer le type de thème en "
 "sélectionnant une des options ci-dessous)"
 
-#: src/prefs/prefs_page_display_fonts.ui:395
+#: src/prefs/prefs_page_display_fonts.ui:498
 msgid "CSS rules"
 msgstr "Règles CSS"
 
@@ -1734,7 +1751,7 @@ msgstr "Nouveau fichier de comptes"
 #: src/etats_onglet.c:471 src/file_obfuscate_qif.c:101 src/grisbi_app.c:115
 #: src/grisbi_app.c:132 src/grisbi_win.c:753 src/gsb_file.c:769
 #: src/gsb_select_icon.c:319 src/import.c:1256 src/imputation_budgetaire.c:537
-#: src/imputation_budgetaire.c:599 src/prefs/prefs_page_display_fonts.c:310
+#: src/imputation_budgetaire.c:599 src/prefs/prefs_page_display_fonts.c:349
 msgid "Open"
 msgstr "Ouvrir"
 
@@ -1808,7 +1825,7 @@ msgstr "Éditer l'opération"
 
 #: src/ui/grisbi_menu.ui:126 src/ui/grisbi_menu.ui:359 src/grisbi_app.c:120
 #: src/grisbi_app.c:137 src/gsb_scheduler_list.c:374
-#: src/gsb_transactions_list.c:758 src/gsb_transactions_list.c:2801
+#: src/gsb_transactions_list.c:758 src/gsb_transactions_list.c:2803
 msgid "New transaction"
 msgstr "Nouvelle opération"
 
@@ -1840,7 +1857,7 @@ msgid "Remove current account"
 msgstr "Supprimer le compte courant"
 
 #: src/ui/grisbi_menu.ui:174 src/categories_onglet.c:675
-#: src/gsb_scheduler_list.c:1229 src/gsb_transactions_list.c:2846
+#: src/gsb_scheduler_list.c:1229 src/gsb_transactions_list.c:2848
 #: src/imputation_budgetaire.c:714 src/tiers_onglet.c:664
 msgid "View"
 msgstr "Affichage"
@@ -1855,7 +1872,7 @@ msgid "Show reconciled"
 msgstr "Montrer les opérations rapprochées"
 
 #: src/ui/grisbi_menu.ui:185 src/ui/grisbi_menu.ui:426 src/grisbi_app.c:123
-#: src/grisbi_app.c:140 src/gsb_transactions_list.c:2759
+#: src/grisbi_app.c:140 src/gsb_transactions_list.c:2761
 msgid "Show lines archives"
 msgstr "Montrer les lignes d'archives"
 
@@ -2592,12 +2609,12 @@ msgid "Invert the columns \"Remaining capital\" and \"Due date\""
 msgstr "Inverser les colonnes «Capital restant» et «Échéance»"
 
 #: src/widgets/widget_reconcile.ui:61 src/gsb_bank.c:438
-#: src/widgets/widget_reconcile.c:760
+#: src/widgets/widget_reconcile.c:762
 msgid "None"
 msgstr "Aucune"
 
 #: src/widgets/widget_reconcile.ui:126 src/bet_tab.c:2079 src/export_csv.c:391
-#: src/gsb_transactions_list.c:114 src/gsb_transactions_list.c:1951
+#: src/gsb_transactions_list.c:114 src/gsb_transactions_list.c:1953
 msgid "Balance"
 msgstr "Solde"
 
@@ -2613,7 +2630,7 @@ msgstr "Écart : "
 msgid "Sort by method of payment"
 msgstr "Tri par mode de règlement"
 
-#: src/widgets/widget_reconcile.ui:434 src/gsb_transactions_list.c:2828
+#: src/widgets/widget_reconcile.ui:434 src/gsb_transactions_list.c:2830
 msgid "Reconcile"
 msgstr "Rapprocher"
 
@@ -2692,7 +2709,7 @@ msgstr "Configuration d'un compte à débit différé"
 
 #: src/widgets/widget_transfer.ui:20 src/categories_onglet.c:651
 #: src/etats_onglet.c:622 src/gsb_scheduler_list.c:1186
-#: src/gsb_transactions_list.c:2810 src/imputation_budgetaire.c:690
+#: src/gsb_transactions_list.c:2812 src/imputation_budgetaire.c:690
 #: src/tiers_onglet.c:640
 msgid "Delete"
 msgstr "Supprimer"
@@ -2757,22 +2774,26 @@ msgstr "Remplacement de l'opération planifiée dans les prévisions"
 msgid "Allows you to select the working day following the date entered"
 msgstr "Permet de sélectionner le jour ouvrable suivant la date entrée"
 
-#: share/grisbi.desktop.in:2 share/grisbi.metainfo.xml.in:6
+#: share/grisbi.desktop.in:3 share/grisbi.metainfo.xml.in:6
 #: src/grisbi_win.c:1628 src/grisbi_win.c:1677
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: share/grisbi.desktop.in:3
+#: share/grisbi.desktop.in:4
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
 
-#: share/grisbi.desktop.in:4
+#: share/grisbi.desktop.in:5
 msgid "finance"
 msgstr "finance"
 
 #: share/grisbi.metainfo.xml.in:7
 msgid "Personal finances manager"
 msgstr "Gestionnaire de finances personnelles"
+
+#: share/grisbi.metainfo.xml.in:9
+msgid "Grisbi Team"
+msgstr "Grisbi"
 
 #: share/grisbi.metainfo.xml.in:12
 msgid ""
@@ -2790,12 +2811,12 @@ msgstr ""
 "comprenant de nombreuses fonctionnalités : compte bancaires, de caisse et de "
 "passif, comptes multiples avec contre-opérations automatiques, devises "
 "multiples incluant l'euro, devise arbitraire pour chaque opération, frais de "
-"conversion, passage à l'euro par compte, description des opérations "
-"externes,catégories, sous-catégories, année fiscale, notes, résumés, "
-"transferts entre comptes même pour des comptes avec des devises différentes, "
-"réconciliation bancaire, opérations programmées, rappel de la dernière "
-"opération pour chaque tiers, interface simple et agréable, manuel "
-"utilisateur, import/export QIF/CSV."
+"conversion, passage à l'euro par compte, description des opérations externes,"
+"catégories, sous-catégories, année fiscale, notes, résumés, transferts entre "
+"comptes même pour des comptes avec des devises différentes, réconciliation "
+"bancaire, opérations programmées, rappel de la dernière opération pour "
+"chaque tiers, interface simple et agréable, manuel utilisateur, import/"
+"export QIF/CSV."
 
 #: share/grisbi.metainfo.xml.in:27
 msgid "Main window"
@@ -3153,7 +3174,7 @@ msgid "Credits"
 msgstr "Crédits"
 
 #: src/bet_finance_ui.c:2126 src/bet_hist.c:952 src/bet_tab.c:2131
-#: src/etats_onglet.c:613 src/gsb_transactions_list.c:2837
+#: src/etats_onglet.c:613 src/gsb_transactions_list.c:2839
 msgid "Print"
 msgstr "Imprimer"
 
@@ -3805,7 +3826,7 @@ msgstr "Vue des catégories uniquement"
 msgid "Subcategory view"
 msgstr "Vue des catégories et sous-catégories"
 
-#: src/categories_onglet.c:729 src/gsb_transactions_list.c:2718
+#: src/categories_onglet.c:729 src/gsb_transactions_list.c:2720
 #: src/imputation_budgetaire.c:766 src/tiers_onglet.c:562
 msgid "Complete view"
 msgstr "Vue complète"
@@ -5028,7 +5049,7 @@ msgstr "Ventilation"
 msgid "Cheques"
 msgstr "Chèques"
 
-#: src/export_csv.c:379 src/gsb_transactions_list.c:120 src/import_csv.c:89
+#: src/export_csv.c:379 src/import_csv.c:89
 msgid "C/R"
 msgstr "P/R"
 
@@ -5222,8 +5243,8 @@ msgid ""
 "That said, please check that bugs you submit are still valid with anonymized "
 "version of that anonymized QIF file.\n"
 "\n"
-"In next page, you will have to choose a QIF file which will be renamedwith "
-"-obfuscate at the end."
+"In next page, you will have to choose a QIF file which will be renamedwith -"
+"obfuscate at the end."
 msgstr ""
 "Cet assistant produit une copie rendue anonyme de votre fichier de comptes, "
 "avec vos données personnelles remplacées par des valeurs non significatives. "
@@ -8951,7 +8972,7 @@ msgstr ""
 "Certaines transactions peuvent être liées à un compte inexistant.\n"
 "Exécutez le menu « Déboguer les fichiers de compte »."
 
-#: src/gsb_file_load.c:3455
+#: src/gsb_file_load.c:3459
 #, c-format
 msgid ""
 "The account number (%d) is < to 0. This is not normal.\n"
@@ -8960,11 +8981,11 @@ msgstr ""
 "Le numéro de compte (%d) est < à 0. Ce n'est pas normal.\n"
 "Cette opération ne sera pas importée"
 
-#: src/gsb_file_load.c:3749
+#: src/gsb_file_load.c:3753
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Ce n'est pas un fichier Grisbi... Chargement interrompu."
 
-#: src/gsb_file_load.c:4046 src/gsb_file_save.c:1906 src/utils_prefs.c:759
+#: src/gsb_file_load.c:4050 src/gsb_file_save.c:1906 src/utils_prefs.c:762
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -8972,12 +8993,12 @@ msgstr ""
 "Cette version compilée de Grisbi ne gère pas le chiffrement.\n"
 "Veuillez recompiler Grisbi avec le chiffrement OpenSSL activé."
 
-#: src/gsb_file_load.c:4049
+#: src/gsb_file_load.c:4053
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Impossible d'ouvrir le fichier chiffré « %s »"
 
-#: src/gsb_file_load.c:4072
+#: src/gsb_file_load.c:4076
 #, c-format
 msgid ""
 "'%s' is not a valid UTF8 file.\n"
@@ -8986,7 +9007,7 @@ msgstr ""
 "« %s » n'est pas un fichier UTF8 valide \n"
 "Le problème est à la ligne %d."
 
-#: src/gsb_file_load.c:4074
+#: src/gsb_file_load.c:4078
 msgid ""
 "You can choose to fix the file with the substitution character? or return to "
 "the file choice.\n"
@@ -8994,15 +9015,15 @@ msgstr ""
 "Vous pouvez choisir de corriger le fichier avec le caractère de "
 "substitution ? ou revenir au choix du fichier.\n"
 
-#: src/gsb_file_load.c:4079
+#: src/gsb_file_load.c:4083
 msgid "Load another file"
 msgstr "Ouvrir un autre fichier"
 
-#: src/gsb_file_load.c:4080
+#: src/gsb_file_load.c:4084
 msgid "Correct the file"
 msgstr "Corriger le fichier"
 
-#: src/gsb_file_load.c:4181
+#: src/gsb_file_load.c:4185
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9015,11 +9036,11 @@ msgstr ""
 "c'est une archive avant de modifier certaines opérations ou informations "
 "importantes."
 
-#: src/gsb_file_load.c:4185
+#: src/gsb_file_load.c:4189
 msgid "Grisbi archive opened"
 msgstr "Archive Grisbi ouverte"
 
-#: src/gsb_file_load.c:4195
+#: src/gsb_file_load.c:4199
 #, c-format
 msgid ""
 "You import a file from version %s of Grisbi. After updating your file will "
@@ -9032,13 +9053,13 @@ msgstr ""
 "\n"
 "Vous devrez refaire la personnalisation des icônes et des couleurs."
 
-#: src/gsb_file_load.c:4201
+#: src/gsb_file_load.c:4205
 msgid "Importing a file whose version is for an earlier version of Grisbi"
 msgstr ""
 "Importation d'un fichier dont la version est pour une version antérieure de "
 "Grisbi"
 
-#: src/gsb_file_load.c:4630
+#: src/gsb_file_load.c:4634
 #, c-format
 msgid ""
 "An error occurred while parsing the file :\n"
@@ -9554,7 +9575,7 @@ msgstr "Couleur du texte des options gsetting"
 msgid "Color of gsetting text hovered"
 msgstr "Couleur du texte des options gsetting survolées"
 
-#: src/gsb_rgba.c:133 src/utils_prefs.c:703
+#: src/gsb_rgba.c:133 src/utils_prefs.c:706
 #: src/widgets/widget_list_metatree.c:590
 msgid "Not available"
 msgstr "Indisponible"
@@ -9706,7 +9727,7 @@ msgstr ""
 "\n"
 "Voulez-vous les supprimer ?"
 
-#: src/gsb_scheduler_list.c:1781 src/gsb_transactions_list.c:2454
+#: src/gsb_scheduler_list.c:1781 src/gsb_transactions_list.c:2456
 msgid "Remove orphan children"
 msgstr "Supprimer les opérations orphelines"
 
@@ -9779,6 +9800,10 @@ msgstr "Parcourir les fichiers d'icônes"
 #: src/gsb_select_icon.c:524
 msgid "Browse"
 msgstr "Parcourir"
+
+#: src/gsb_transactions_list.c:120
+msgid "P/R"
+msgstr "P/R"
 
 #: src/gsb_transactions_list.c:125 src/import_csv.c:80
 msgid "Cheque number"
@@ -9855,11 +9880,11 @@ msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr ""
 "Sélectionnez le rapprochement à associer aux opérations sélectionnées : "
 
-#: src/gsb_transactions_list.c:1566
+#: src/gsb_transactions_list.c:1568
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Grisbi ne trouve pas le rapprochement sélectionné, action annulée..."
 
-#: src/gsb_transactions_list.c:1766
+#: src/gsb_transactions_list.c:1768
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
@@ -9867,7 +9892,7 @@ msgstr ""
 "Vous ne pouvez pas (dé-)rapprocher une opération pendant un rapprochement.\n"
 "Il faut d'abord terminer ou annuler le rapprochement."
 
-#: src/gsb_transactions_list.c:1777
+#: src/gsb_transactions_list.c:1779
 msgid ""
 "You are trying to unreconcile a transaction manually, which is not a "
 "recommended action. This is the wrong approach.\n"
@@ -9885,7 +9910,7 @@ msgstr ""
 "\n"
 "Êtes-vous vraiment sûr que vous savez ce que vous faites ?"
 
-#: src/gsb_transactions_list.c:1786
+#: src/gsb_transactions_list.c:1788
 msgid ""
 "You are trying to reconcile a transaction manually, which is not a "
 "recommended action. This is the wrong approach.\n"
@@ -9903,11 +9928,11 @@ msgstr ""
 "\n"
 "Êtes-vous vraiment sûr que vous savez ce que vous faites ?"
 
-#: src/gsb_transactions_list.c:1856 src/gsb_transactions_list.c:3425
+#: src/gsb_transactions_list.c:1858 src/gsb_transactions_list.c:3427
 msgid "R"
 msgstr "R"
 
-#: src/gsb_transactions_list.c:1868
+#: src/gsb_transactions_list.c:1870
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -9920,35 +9945,35 @@ msgstr ""
 "Il vous suffit de les faire apparaître (alt+R) pour vérifier ce que vous "
 "avez fait."
 
-#: src/gsb_transactions_list.c:1869
+#: src/gsb_transactions_list.c:1871
 msgid "Marking a transaction as R"
 msgstr "Marquer l'opération comme Rapprochée"
 
-#: src/gsb_transactions_list.c:1968
+#: src/gsb_transactions_list.c:1970
 msgid "Sort list by: "
 msgstr "Tri par : "
 
-#: src/gsb_transactions_list.c:2014
+#: src/gsb_transactions_list.c:2016
 msgid "alignment: "
 msgstr "alignement : "
 
-#: src/gsb_transactions_list.c:2022
+#: src/gsb_transactions_list.c:2024
 msgid "LEFT"
 msgstr "À gauche"
 
-#: src/gsb_transactions_list.c:2037
+#: src/gsb_transactions_list.c:2039
 msgid "CENTER"
 msgstr "Au Centre"
 
-#: src/gsb_transactions_list.c:2052
+#: src/gsb_transactions_list.c:2054
 msgid "RIGHT"
 msgstr "À droite"
 
-#: src/gsb_transactions_list.c:2378
+#: src/gsb_transactions_list.c:2380
 msgid "Do you really want to delete this file import rule?"
 msgstr "Voulez vous vraiment supprimer cette règle d'importation de fichier ?"
 
-#: src/gsb_transactions_list.c:2448
+#: src/gsb_transactions_list.c:2450
 #, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
@@ -9967,87 +9992,87 @@ msgstr ""
 "\n"
 "Voulez-vous les supprimer ?"
 
-#: src/gsb_transactions_list.c:2627
+#: src/gsb_transactions_list.c:2629
 msgid "Edit the rule"
 msgstr "Editer la règle"
 
-#: src/gsb_transactions_list.c:2635
+#: src/gsb_transactions_list.c:2637
 msgid "Remove the rule"
 msgstr "Effacer la règle"
 
-#: src/gsb_transactions_list.c:2700
+#: src/gsb_transactions_list.c:2702
 msgid "Simple view"
 msgstr "Vue simple"
 
-#: src/gsb_transactions_list.c:2706
+#: src/gsb_transactions_list.c:2708
 msgid "Two lines view"
 msgstr "Mode « deux lignes »"
 
-#: src/gsb_transactions_list.c:2712
+#: src/gsb_transactions_list.c:2714
 msgid "Three lines view"
 msgstr "Mode « trois lignes »"
 
-#: src/gsb_transactions_list.c:2745
+#: src/gsb_transactions_list.c:2747
 msgid "Show reconciled transactions"
 msgstr "Montrer les opérations rapprochées"
 
-#: src/gsb_transactions_list.c:2802
+#: src/gsb_transactions_list.c:2804
 msgid "Blank the form to create a new transaction"
 msgstr "Effacer le formulaire pour créer une nouvelle opération"
 
-#: src/gsb_transactions_list.c:2811
+#: src/gsb_transactions_list.c:2813
 msgid "Delete selected transaction"
 msgstr "Effacer l'opération sélectionnée"
 
-#: src/gsb_transactions_list.c:2820
+#: src/gsb_transactions_list.c:2822
 msgid "Edit current transaction"
 msgstr "Éditer l'opération sélectionnée"
 
-#: src/gsb_transactions_list.c:2829
+#: src/gsb_transactions_list.c:2831
 msgid "Start account reconciliation"
 msgstr "Commencer à effectuer un rapprochement sur le compte"
 
-#: src/gsb_transactions_list.c:2838
+#: src/gsb_transactions_list.c:2840
 msgid "Print the transactions list"
 msgstr "Imprimer la liste des opérations"
 
-#: src/gsb_transactions_list.c:2847
+#: src/gsb_transactions_list.c:2849
 msgid "Change display mode of the list"
 msgstr "Changer le mode d'affichage de la liste"
 
-#: src/gsb_transactions_list.c:2855
+#: src/gsb_transactions_list.c:2857
 msgid "Import rules"
 msgstr "Import rapide"
 
-#: src/gsb_transactions_list.c:2856
+#: src/gsb_transactions_list.c:2858
 msgid "Quick file import by rules"
 msgstr "Règles d'import rapide d'un fichier"
 
-#: src/gsb_transactions_list.c:2880
+#: src/gsb_transactions_list.c:2882
 msgid "Type at least 3 characters to filter"
 msgstr "Tapez au moins 3 caractères pour filtrer"
 
-#: src/gsb_transactions_list.c:2914
+#: src/gsb_transactions_list.c:2916
 msgid "Recreates archive"
 msgstr "Recréer l'archive"
 
-#: src/gsb_transactions_list.c:2916
+#: src/gsb_transactions_list.c:2918
 msgid "Recreates the line of the archive and hiding the transactions"
 msgstr "Recrée la ligne de l'archive et cache ses opérations"
 
-#: src/gsb_transactions_list.c:3417
+#: src/gsb_transactions_list.c:3419
 msgid "P"
 msgstr "P"
 
-#: src/gsb_transactions_list.c:3421
+#: src/gsb_transactions_list.c:3423
 msgid "T"
 msgstr "T"
 
-#: src/gsb_transactions_list.c:3842
+#: src/gsb_transactions_list.c:3844
 msgid "Impossible to delete an archived transaction."
 msgstr "Impossible d'effacer une opération archivée."
 
-#: src/gsb_transactions_list.c:3862
+#: src/gsb_transactions_list.c:3864
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -10059,19 +10084,19 @@ msgstr ""
 "ventilation sont marquées comme rapprochées. Vous pouvez supprimer le "
 "rapprochement avec Ctrl-R si c'est vraiment nécessaire."
 
-#: src/gsb_transactions_list.c:3879
+#: src/gsb_transactions_list.c:3881
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 "Voulez-vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
 
-#: src/gsb_transactions_list.c:3888
+#: src/gsb_transactions_list.c:3890
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr "Voulez-vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
-#: src/gsb_transactions_list.c:4594 src/gsb_transactions_list.c:4709
+#: src/gsb_transactions_list.c:4596 src/gsb_transactions_list.c:4711
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -10083,7 +10108,7 @@ msgstr ""
 "S'il vous plaît contactez les développeurs de Grisbi.\n"
 "Les numéros des sous-opérations concernées sont :\n"
 
-#: src/gsb_transactions_list.c:4626 src/gsb_transactions_list.c:4735
+#: src/gsb_transactions_list.c:4628 src/gsb_transactions_list.c:4737
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -11544,32 +11569,32 @@ msgstr ""
 "La prochaine fois que vous l'utiliserez, il faudra saisir un nouveau taux de "
 "change."
 
-#: src/prefs/prefs_page_display_fonts.c:300
+#: src/prefs/prefs_page_display_fonts.c:339
 msgid "Select a new logo"
 msgstr "Sélectionner un nouveau logo"
 
-#: src/prefs/prefs_page_display_fonts.c:369
+#: src/prefs/prefs_page_display_fonts.c:408
 msgid "Automatic selection"
 msgstr "Sélection automatique"
 
-#: src/prefs/prefs_page_display_fonts.c:370
+#: src/prefs/prefs_page_display_fonts.c:409
 msgid "Force the use of clear theme"
 msgstr "Forcer l'utilisation d'un thème clair"
 
-#: src/prefs/prefs_page_display_fonts.c:371
+#: src/prefs/prefs_page_display_fonts.c:410
 msgid "Force the use of dark theme"
 msgstr "Forcer l'utilisation d'un thème sombre"
 
-#: src/prefs/prefs_page_display_fonts.c:372
+#: src/prefs/prefs_page_display_fonts.c:411
 msgid "Force the use of light theme"
 msgstr "Forcer l'utilisation d'un thème léger"
 
-#: src/prefs/prefs_page_display_fonts.c:384
+#: src/prefs/prefs_page_display_fonts.c:423
 #, c-format
 msgid "The automatically selected theme is: '%s'"
 msgstr "Le thème sélectionné automatiquement est : « %s »"
 
-#: src/prefs/prefs_page_display_fonts.c:497
+#: src/prefs/prefs_page_display_fonts.c:538
 msgid "Fonts & logo"
 msgstr "Polices et logo"
 
@@ -11860,36 +11885,36 @@ msgstr "Aucun fichier chargé"
 msgid "Message"
 msgstr "Message"
 
-#: src/prefs/prefs_page_options_ope.c:201
+#: src/prefs/prefs_page_options_ope.c:204
 msgid "Sort by value date (if fail, try with the date)"
 msgstr "Tri par date de valeur (par date de l'opération si absente)"
 
-#: src/prefs/prefs_page_options_ope.c:202
-#: src/prefs/prefs_page_options_ope.c:211
+#: src/prefs/prefs_page_options_ope.c:205
+#: src/prefs/prefs_page_options_ope.c:214
 msgid "Sort by value date and then by date"
 msgstr "Tri par date de valeur puis par date de l'opération"
 
-#: src/prefs/prefs_page_options_ope.c:203
+#: src/prefs/prefs_page_options_ope.c:206
 msgid "Forced sort by transaction date"
 msgstr "Tri forcé par date de l'opération"
 
-#: src/prefs/prefs_page_options_ope.c:207
+#: src/prefs/prefs_page_options_ope.c:210
 msgid "Sort by transaction number"
 msgstr "Tri par N° d'opération"
 
-#: src/prefs/prefs_page_options_ope.c:208
+#: src/prefs/prefs_page_options_ope.c:211
 msgid "Sort by type of amount (credit debit)"
 msgstr "Tri par type de montant (crédit débit)"
 
-#: src/prefs/prefs_page_options_ope.c:209
+#: src/prefs/prefs_page_options_ope.c:212
 msgid "Sort by payee name (if fail, by transaction number)"
 msgstr "Tri par tiers ou par N° d'opération si non présent"
 
-#: src/prefs/prefs_page_options_ope.c:210
+#: src/prefs/prefs_page_options_ope.c:213
 msgid "Sort by date and then by transaction number"
 msgstr "Tri par date puis par N° d'opération"
 
-#: src/prefs/prefs_page_options_ope.c:299
+#: src/prefs/prefs_page_options_ope.c:302
 msgid "Transaction list behavior"
 msgstr "Comportement de la liste des opérations"
 
@@ -12582,15 +12607,14 @@ msgstr ""
 
 #: src/tip.c:99
 msgid ""
-"No more tip available!  Please send any tips you know to "
-"devel@listes.grisbi.org so that we can include them in next version for all "
-"users."
+"No more tip available!  Please send any tips you know to devel@listes.grisbi."
+"org so that we can include them in next version for all users."
 msgstr ""
 "Plus d'astuce disponible !\n"
 "\n"
-"Si vous en avez, envoyez les astuces que vous connaissez à "
-"devel@listes.grisbi.org pour que nous puissions les inclure dans la "
-"prochaine version et en faire profiter tous les utilisateurs de Grisbi."
+"Si vous en avez, envoyez les astuces que vous connaissez à devel@listes."
+"grisbi.org pour que nous puissions les inclure dans la prochaine version et "
+"en faire profiter tous les utilisateurs de Grisbi."
 
 #: src/tip.c:136
 msgid "Did you know that..."
@@ -12760,7 +12784,7 @@ msgstr ""
 "Si aucune des propositions ci-dessus ne sont correctes,\n"
 "vous pouvez choisir un jeu de caractères différent."
 
-#: src/utils_prefs.c:763
+#: src/utils_prefs.c:766
 msgid "Could not encrypt file"
 msgstr "Impossible de chiffrer le fichier"
 
@@ -13153,7 +13177,7 @@ msgstr "Créer une nouvelle opération planifiée"
 msgid "Delete scheduled transaction"
 msgstr "Supprimer l'opération planifiée"
 
-#: src/widgets/widget_reconcile.c:215
+#: src/widgets/widget_reconcile.c:217
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
@@ -13161,12 +13185,12 @@ msgstr ""
 "Il y a une incohérence dans les soldes, vérifiez que le solde de départ "
 "moins les opérations marquées donnent bien le solde final."
 
-#: src/widgets/widget_reconcile.c:217 src/widgets/widget_reconcile.c:231
-#: src/widgets/widget_reconcile.c:287 src/widgets/widget_reconcile.c:309
+#: src/widgets/widget_reconcile.c:219 src/widgets/widget_reconcile.c:233
+#: src/widgets/widget_reconcile.c:289 src/widgets/widget_reconcile.c:311
 msgid "Reconciliation can't be completed."
 msgstr "Le rapprochement ne peut pas être terminé."
 
-#: src/widgets/widget_reconcile.c:227
+#: src/widgets/widget_reconcile.c:229
 msgid ""
 "There is already a reconciliation with that name, you must use another name "
 "or let it free.\n"
@@ -13178,20 +13202,20 @@ msgstr ""
 " Si le nom du rapprochement se termine par un chiffre,\n"
 "il sera automatiquement incrémenté."
 
-#: src/widgets/widget_reconcile.c:240
+#: src/widgets/widget_reconcile.c:242
 msgid "There must be at least one pointed or teletransmise operation"
 msgstr "Il faut au moins une opération pointée ou télétransmise"
 
-#: src/widgets/widget_reconcile.c:241
+#: src/widgets/widget_reconcile.c:243
 msgid "No pointed transaction"
 msgstr "Aucune opération pointée"
 
-#: src/widgets/widget_reconcile.c:254 src/widgets/widget_reconcile.c:285
+#: src/widgets/widget_reconcile.c:256 src/widgets/widget_reconcile.c:287
 #, c-format
 msgid "Invalid date: '%s'"
 msgstr "Date invalide: '%s'"
 
-#: src/widgets/widget_reconcile.c:264
+#: src/widgets/widget_reconcile.c:266
 msgid ""
 "There are pointed transactions that occur later than the reconciliation end "
 "date.\n"
@@ -13205,16 +13229,16 @@ msgstr ""
 "\n"
 "Voulez-vous continuer ?"
 
-#: src/widgets/widget_reconcile.c:268
+#: src/widgets/widget_reconcile.c:270
 msgid "Warning: the reconciliation may be incomplete!"
 msgstr "Le rapprochement n'est peut-être pas complet !"
 
-#: src/widgets/widget_reconcile.c:299
+#: src/widgets/widget_reconcile.c:301
 msgid "You can set the initial date of the reconciliation in the preferences."
 msgstr ""
 "Vous pouvez fixer la date initiale du rapprochement dans les préférences."
 
-#: src/widgets/widget_reconcile.c:307
+#: src/widgets/widget_reconcile.c:309
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
@@ -13222,12 +13246,12 @@ msgstr ""
 "Pour le rapprochement, vous devez définir un nom ou, au moins, un numéro,\n"
 "il sera automatiquement incrémenté plus tard"
 
-#: src/widgets/widget_reconcile.c:323
+#: src/widgets/widget_reconcile.c:325
 #, c-format
 msgid "Last statement: %s"
 msgstr "Dernier relevé : %s"
 
-#: src/widgets/widget_reconcile.c:786
+#: src/widgets/widget_reconcile.c:788
 #, c-format
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>%s rapprochement</b> "
@@ -13282,9 +13306,6 @@ msgstr "Solde partiel"
 #: src/widgets/widget_transfer.c:929
 msgid "One of the two fields is recommended"
 msgstr "Il est recommandé d'utiliser un des deux champs"
-
-#~ msgid "Grisbi Team"
-#~ msgstr "Grisbi"
 
 #~ msgid "Name files automatically"
 #~ msgstr "Nommer les fichiers automatiquement"
