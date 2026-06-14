@@ -202,14 +202,14 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
 					gint bank_number;
 
 					bank_number = utils_str_atoi (attribute_values[i]);
-					if (bank_number > 0)
-					{
-						gsb_data_account_set_bank (account_number, bank_number);
-					}
-					else
+					if (bank_number < 0)
 					{
 						gsb_data_account_set_bank (account_number, 0);
 						gsb_file_set_modified (TRUE);
+					}
+					else
+					{
+						gsb_data_account_set_bank (account_number, bank_number);
 					}
                 }
 
@@ -391,7 +391,7 @@ static void gsb_file_load_account_part (const gchar **attribute_names,
 				{
 					gsb_data_form_new_organization ();
 					gsb_data_form_set_nb_columns (utils_str_atoi (attribute_values[i]));
-					gsb_file_set_modified (TRUE);
+					//~ gsb_file_set_modified (TRUE);
 				}
 
 				else if (!strcmp (attribute_names[i], "Form_lines_number"))
