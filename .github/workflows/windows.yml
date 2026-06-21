@@ -49,7 +49,7 @@ jobs:
           wget -O /nsis.zip 'https://downloads.sourceforge.net/project/nsis/NSIS 3/3.10/nsis-3.10.zip'
           unzip nsis.zip
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: compile
         run: |
