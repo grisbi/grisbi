@@ -299,12 +299,14 @@ static gboolean gsb_file_others_load (gchar *filename,
 		{
 			case 0:
 			/* comes for category */
-			categories_fill_list ();
+				if (categories_get_tree_view ())
+					categories_fill_list ();
 			break;
 
 			case 1:
 			/* comes for budget */
-			budgetary_lines_fill_list ();
+				if (budgetary_lines_get_tree_view ())
+					budgetary_lines_fill_list ();
 			break;
 
 			case 2:
