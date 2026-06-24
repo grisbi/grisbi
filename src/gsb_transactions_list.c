@@ -3055,35 +3055,41 @@ GtkWidget *gsb_transactions_list_get_tree_view (void)
 void gsb_transactions_list_update_tree_view (gint account_number,
 											 gboolean keep_selected_transaction)
 {
-    gint selected_transaction = 0;
+	gint selected_transaction = 0;
 	GrisbiAppConf *a_conf;
 
-	/* called sometimes with gsb_gui_navigation_get_current_account, so check we are
-     * on an account */
+	/* called sometimes with gsb_gui_navigation_get_current_account, so check we are on an account */
 	if (account_number <= 0)
 		return;
 
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
+
+	/* on sauvegarde la transaction selectionnee pour plus tard */
 	if (keep_selected_transaction)
+	{
 		selected_transaction = transaction_list_select_get ();
+	}
 
 	/* Fix bug 2172 */
 	//~ if (transaction_list_filter (account_number))
 	//~ {
 		transaction_list_filter (account_number);
 	//~ }
-    transaction_list_set_balances ();
-    transaction_list_sort ();
-    transaction_list_colorize ();
-    if (a_conf->show_transaction_gives_balance)
+	transaction_list_set_balances ();
+	transaction_list_sort ();
+	transaction_list_colorize ();
+	if (a_conf->show_transaction_gives_balance)
+	{
 		transaction_list_set_color_jour (account_number);
+	}
+
 	if (keep_selected_transaction)
 	{
-        transaction_list_select (selected_transaction);
+		transaction_list_select (selected_transaction);
 	}
-    else
+	else
 	{
-        transaction_list_select (-1);
+		transaction_list_select (-1);
 	}
 }
 
@@ -4444,49 +4450,52 @@ gboolean gsb_transactions_list_transaction_visible (gpointer transaction_ptr,
 													gint line_in_transaction,
 													gint what_is_line)
 {
-    gint transaction_number;
-    gint r_shown;
-    gint nb_rows;
+	gint transaction_number;
+	gint r_shown;
+	gint nb_rows;
 
-    r_shown = gsb_data_account_get_r (account_number);
-    nb_rows = gsb_data_account_get_nb_rows (account_number);
+	r_shown = gsb_data_account_get_r (account_number);
+	nb_rows = gsb_data_account_get_nb_rows (account_number);
 
-    /* first check if it's an archive, if yes and good account, always show it */
-    if (what_is_line == IS_ARCHIVE)
-    {
-        if (gsb_data_account_get_l (account_number))
-	        return (gsb_data_archive_store_get_account_number (
-                        gsb_data_archive_store_get_number (transaction_ptr)) == account_number);
-        else
-            return FALSE;
-    }
+	/* first check if it's an archive, if yes and good account, always show it */
+	if (what_is_line == IS_ARCHIVE)
+	{
+		if (gsb_data_account_get_l (account_number))
+		{
+			gint tmp_account_number;
 
-    /* we don't check now for the separator, because it won't be shown if the transaction
-     * is not shown, so check the basics for the transaction, and show or not after the separator */
+			tmp_account_number = gsb_data_archive_store_get_account_number (gsb_data_archive_store_get_number (transaction_ptr));
+			if (tmp_account_number == account_number)
+				return TRUE;
+			else
+				return FALSE;
+		}
+	}
 
-    /*  check now for transactions */
-    transaction_number = gsb_data_transaction_get_transaction_number (transaction_ptr);
+	/* we don't check now for the separator, because it won't be shown if the transaction
+	 * is not shown, so check the basics for the transaction, and show or not after the separator */
 
-    /* check the general white line (one for all the list, so no account number) */
-    if (transaction_number == -1)
-	    return (transaction_list_check_line_is_visible (line_in_transaction, nb_rows));
+	/*  check now for transactions */
+	transaction_number = gsb_data_transaction_get_transaction_number (transaction_ptr);
 
-    /* check the account */
-    if (gsb_data_transaction_get_account_number (transaction_number) != account_number)
-	return FALSE;
+	/* check the general white line (one for all the list, so no account number) */
+	if (transaction_number == -1)
+		return (transaction_list_check_line_is_visible (line_in_transaction, nb_rows));
 
-    /* 	    check if it's R and if r is shown */
-    if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
-	 &&
-	 !r_shown)
-	return FALSE;
+	/* check the account */
+	if (gsb_data_transaction_get_account_number (transaction_number) != account_number)
+		return FALSE;
 
-    /* search filter: only apply when query length >= min chars */
+	/* 		check if it's R and if r is shown */
+	if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE && !r_shown)
+		return FALSE;
+
+	/* search filter: only apply when query length >= min chars */
 	if (!gsb_transactions_list_transaction_match_search (transaction_number))
 		return FALSE;
 
-    /* 	    now we check if we show 1, 2, 3 or 4 lines */
-    return transaction_list_check_line_is_visible (line_in_transaction, nb_rows);
+	/* now we check if we show 1, 2, 3 or 4 lines */
+	return transaction_list_check_line_is_visible (line_in_transaction, nb_rows);
 }
 
 /**
