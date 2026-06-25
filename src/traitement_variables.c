@@ -355,10 +355,6 @@ void free_variables (void)
 	/* raz variables of etat */
 	if (w_etat->name_logo && strlen (w_etat->name_logo))
 		g_free (w_etat->name_logo);
-	if (w_etat->reports_font_titles)
-		g_free (w_etat->reports_font_titles);
-	if (w_etat->reports_font_transactions)
-		g_free (w_etat->reports_font_transactions);
 
     /* free the variables for the estimate balance module */
     bet_data_variables_free ();
