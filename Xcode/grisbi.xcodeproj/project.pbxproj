@@ -1423,7 +1423,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/glib-compile-resources --target=$PROJECT_DIR/../src/grisbi_resources.c --generate-source --c-name grisbi --sourcedir=$PROJECT_DIR/../src $PROJECT_DIR/../src/grisbi.gresource.xml\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nHOMEBREW_PATH=\"/opt/homebrew\"\nif [ ! -d \"/opt/homebrew\" ]\nthen\n    HOMEBREW_PATH=\"/usr/local\"\nfi\n$HOMEBREW_PATH/bin/glib-compile-resources --target=$PROJECT_DIR/../src/grisbi_resources.c --generate-source --c-name grisbi --sourcedir=$PROJECT_DIR/../src $PROJECT_DIR/../src/grisbi.gresource.xml\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
