@@ -3936,9 +3936,11 @@ static void gsb_import_add_imported_transactions (ImportAccount *imported_accoun
 
 		/* invert the amount of the transaction if asked */
 		if (imported_account->invert_transaction_amount)
+		{
 			gsb_data_transaction_set_amount (transaction_number,
 												 gsb_real_opposite
 												 (gsb_data_transaction_get_amount (transaction_number)));
+		}
 
 		/* we need to add the transaction now to the tree model here
 		 * to avoid to write again all the account */
