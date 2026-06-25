@@ -424,6 +424,7 @@ static gint gsb_file_dialog_save (const gchar *filename,
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_REJECT);
 
 			button_save = gtk_button_new_with_label (_("Save"));
+			gtk_widget_set_can_default(button_save, TRUE);
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_save, GTK_RESPONSE_OK);
 
 			if (difference >= 120)
@@ -455,6 +456,7 @@ static gint gsb_file_dialog_save (const gchar *filename,
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_cancel, GTK_RESPONSE_NO);
 
 			button_save = gtk_button_new_with_label (_("Save"));
+			gtk_widget_set_can_default(button_save, TRUE);
 			gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button_save, GTK_RESPONSE_OK);
 
 			message = g_strdup("");
