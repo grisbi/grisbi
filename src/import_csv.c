@@ -336,11 +336,9 @@ static GArray *csv_import_button_rule_traite_spec_line (CsvSpecConfData *spec_co
 				montant = gsb_real_opposite (utils_real_get_from_string (str_montant));
 				if (montant.mantissa == error_real.mantissa)
 				{
-					const gchar *action_name;
+					const gchar *action_name = "Invert the amount";
 					gchar *tmp_str;
 
-					if (action == 1)
-						action_name = "Invert the amount";
 					tmp_str = g_strdup_printf (_("The data associated with action \"%s\" are invalid.\n"
 												 "This rule will not be applied and you will have to modify it"),
 											   _(action_name));
