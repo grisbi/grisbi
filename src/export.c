@@ -383,8 +383,8 @@ static gboolean export_account_change_format (GtkWidget *combo,
 						   ".",
 						   account->extension,
 						   NULL);
-    /* replace any / by - in the filename since / is illegal on Unix */
-    g_strdelimit(tmp_str, "/", '-');
+    /* replace any / or \ by - in the filename since / is illegal on Unix and \ on Windows */
+    g_strdelimit(tmp_str, "/\\", '-');
 
     gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (account->chooser), tmp_str);
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (account->chooser), gsb_file_get_last_path ());
