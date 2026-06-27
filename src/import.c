@@ -5435,16 +5435,16 @@ void gsb_import_by_rule (gint rule)
 	devel_debug (NULL);
 	a_conf = (GrisbiAppConf *) grisbi_app_get_a_conf ();
 
+	charmap_imported = my_strdup (gsb_data_import_rule_get_charmap (rule));
+	array = gsb_import_by_rule_ask_filename (rule, a_conf);
+	if (!array)
+		return;
+
 	/* set cursor */
 	run_window = gtk_widget_get_window (GTK_WIDGET (grisbi_app_get_active_window (NULL)));
 	display = gdk_window_get_display (run_window);
 	cursor = gdk_cursor_new_from_name (display, "wait");
 	gdk_window_set_cursor (run_window, cursor);
-
-	charmap_imported = my_strdup (gsb_data_import_rule_get_charmap (rule));
-	array = gsb_import_by_rule_ask_filename (rule, a_conf);
-	if (!array)
-		return;
 
 	account_number = gsb_data_import_rule_get_account (rule);
 	while (array[i])
