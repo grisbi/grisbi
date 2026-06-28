@@ -1750,7 +1750,7 @@ gint etat_affiche_affiche_total_periode (gint transaction_number,
 			/* ok, not the same day, we show a separation */
 			rc = g_date_strftime (buffer, sizeof (buffer), "%A %d %B %Y", date_debut_periode);
 			if (rc == 0)
-				strcpy (buffer, "???");
+				g_strlcpy (buffer, "???", sizeof (buffer));
 
 			if (gsb_data_report_get_show_report_transaction_amount (current_report_number))
 			{
@@ -1827,7 +1827,7 @@ gint etat_affiche_affiche_total_periode (gint transaction_number,
 
 		rc = g_date_strftime (buffer, sizeof (buffer), "%B %Y", date_debut_periode);
 		if (rc == 0)
-			strcpy(buffer, "???");
+			g_strlcpy (buffer, "???", sizeof (buffer));
 
 		if (gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
@@ -1848,7 +1848,7 @@ gint etat_affiche_affiche_total_periode (gint transaction_number,
 
 		rc = g_date_strftime (buffer, sizeof (buffer), "%Y", date_debut_periode);
 		if (rc == 0)
-			strcpy(buffer, "???");
+			g_strlcpy (buffer, "???", sizeof (buffer));
 
 		if (gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
