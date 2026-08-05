@@ -802,8 +802,6 @@ static gchar *gsb_debug_non_existent_account_test (void)
 			returned_text = g_strdup_printf (_("%d transactions have account number %d, which does not exist.\n"),
 											 transaction_nbre,
 											 GPOINTER_TO_INT (non_existent_accounts->data));
-
-			return returned_text;
 		}
 		else if (account_nbre > 1)
 		{
@@ -832,17 +830,10 @@ static gchar *gsb_debug_non_existent_account_test (void)
 			g_free (returned_text);
 			g_free (tmp_str);
 			returned_text = tmp_str1;
-
-			return returned_text;
 		}
 	}
-	else
-	{
-		g_free (returned_text);
 
-		return NULL;
-	}
-	return NULL;
+	return returned_text;
 }
 
 /**
