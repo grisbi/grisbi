@@ -174,9 +174,6 @@ gboolean 		gsb_data_account_set_bet_split_transaction				(gint account_number,
 																		 gboolean split_transaction);
 gboolean 		gsb_data_account_set_bet_use_budget 					(gint account_number,
 																		 gint value);
-void			gsb_data_account_set_current_balance_from_transaction	(gint account_number,
-																		 gint transaction_number,
-																		 gint sens);
 gboolean 		gsb_data_account_set_closed_account 					(gint account_number,
 																		 gint closed_account);
 gboolean 		gsb_data_account_set_comment 							(gint account_number,
