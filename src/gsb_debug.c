@@ -807,11 +807,10 @@ static gchar *gsb_debug_non_existent_account_test (void)
 		{
 			gchar *tmp_str;
 			gchar *tmp_str1;
-			tmp_str = g_strdup_printf (_("%d transactions have %d accounts which does not exist. "
+			returned_text = g_strdup_printf (_("%d transactions have %d accounts which does not exist. "
 										 "The accounts concerned are:\n"),
 									   transaction_nbre,
 									   account_nbre);
-			returned_text = g_strdup (tmp_str);
 
 			while (non_existent_accounts)
 			{
