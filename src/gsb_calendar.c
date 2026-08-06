@@ -105,9 +105,9 @@ gboolean gsb_calendar_update ( void )
 
     gtk_calendar_clear_marks ( GTK_CALENDAR ( scheduled_calendar ) );
     gtk_calendar_get_date ( GTK_CALENDAR ( scheduled_calendar ),
-                        &calendar_day,
+                        &calendar_year,
                         &calendar_month,
-                        &calendar_year );
+                        &calendar_day );
 
     /* select the current day */
     time ( &temps );
@@ -161,9 +161,9 @@ void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 
     time ( &temps );
     gtk_calendar_get_date ( GTK_CALENDAR ( scheduled_calendar ),
-                        &calendar_day,
+                        &calendar_year,
                         &calendar_month,
-                        &calendar_year );
+                        &calendar_day );
 
     g_signal_handlers_block_by_func ( G_OBJECT ( calendrier ),
 				       G_CALLBACK ( click_sur_jour_calendrier_echeance ),
