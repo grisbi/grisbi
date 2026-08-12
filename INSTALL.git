@@ -1,3 +1,18 @@
+Meson
+=====
+
+If you get Grisbi source code from Git, please install and use meson to
+configure and build Grisbi.
+
+	meson setup builddir
+	meson compile -C builddir
+	meson install -C builddir
+
+You can replace "builddir" by another directory of your choice.
+
+Alternative method using autotools
+==================================
+
 If you get Grisbi source code from Git, please run the autogen script to
 create the configure script :
 
