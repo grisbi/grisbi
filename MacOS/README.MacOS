@@ -62,18 +62,19 @@ modulesets_dir = "PATH_TO_grisbi/contrib/jhbuild/modulesets/"
 Download gtk-mac-bundler from https://gitlab.gnome.org/GNOME/gtk-mac-bundler
 Use the git version. Version 0.7.4 failed for me.
 
-2. Compile
+
+2. Local compilation and installation
 
 % jhbuild shell
-% ./autogen.sh
-% ./configure --prefix=$PREFIX # PREFIX var is set by jhbuild
-% make
+% BUILD_DIR=builddir
+% meson setup "$BUILD_DIR" --prefix="$PREFIX" # PREFIX var is set by jhbuild
+% meson compile -C "$BUILD_DIR"
+% meson install -C "$BUILD_DIR"
 
 
 3. Package
 
 % jhbuild shell
-% make install
-% make bundle
+% ./MacOS/create_git_snapshot.sh
 
 Grisbi.dmg should appear in MacOS/ directory
