@@ -340,8 +340,14 @@ gboolean transaction_list_select_down ( gboolean into_children )
 	    gtk_tree_path_append_index (path, record -> filtered_pos);
 	}
 	else
-	    /* check with the last visible line of the transaction */
-	    gtk_tree_path_append_index (path, record -> transaction_records[custom_list -> nb_rows_by_transaction - 1] -> filtered_pos);
+	{
+		int  index = record -> transaction_records[custom_list -> nb_rows_by_transaction - 1] -> filtered_pos;
+		if (index < 0)
+			return FALSE;
+
+		/* check with the last visible line of the transaction */
+		gtk_tree_path_append_index (path, index);
+	}
 
 	if (gtk_tree_path_compare (end_path_list, path) == -1)
 	    /* the last line of the transaction is above the last visible row */
