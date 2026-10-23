@@ -348,10 +348,7 @@ static void prefs_page_accueil_setup_accueil_page (PrefsPageAccueil *page)
 
 		src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (list_store);
 		if (src_iface)
-		{
-			gtk_selection_add_target (treeview, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_ATOM, 1);
 			src_iface -> drag_data_get = &gsb_data_partial_balance_drag_data_get;
-		}
 
 		 utils_set_list_store_background_color (treeview, PARTIAL_BACKGROUND_COLOR);
 		g_object_unref (list_store);
