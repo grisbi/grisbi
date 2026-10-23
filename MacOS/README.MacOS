@@ -45,7 +45,7 @@ modulesets_dir = "PATH_TO_grisbi/contrib/jhbuild/modulesets/"
 
 % This jhbuild modulesets defines the grisbi depencencies
 
-% # ensure that mac-integration is properly installed for both GTK2 and GTK3
+% # ensure that mac-integration is properly installed
 % jhbuild build -f gtk-mac-integration
 
 
