@@ -332,31 +332,31 @@ gboolean transaction_list_select_down ( gboolean into_children )
 					   NULL,
 					   &end_path_list ))
     {
-	path = gtk_tree_path_new ();
+		path = gtk_tree_path_new ();
 
-	if (record -> mother_row)
-	{
-	    gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
-	    gtk_tree_path_append_index (path, record -> filtered_pos);
-	}
-	else
-	{
-		int  index = record -> transaction_records[custom_list -> nb_rows_by_transaction - 1] -> filtered_pos;
-		if (index < 0)
-			return FALSE;
+		if (record -> mother_row)
+		{
+			gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
+			gtk_tree_path_append_index (path, record -> filtered_pos);
+		}
+		else
+		{
+			int  index = record -> transaction_records[custom_list -> nb_rows_by_transaction - 1] -> filtered_pos;
+			if (index < 0)
+				return FALSE;
 
-		/* check with the last visible line of the transaction */
-		gtk_tree_path_append_index (path, index);
-	}
+			/* check with the last visible line of the transaction */
+			gtk_tree_path_append_index (path, index);
+		}
 
-	if (gtk_tree_path_compare (end_path_list, path) == -1)
-	    /* the last line of the transaction is above the last visible row */
-	    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-					   path, NULL,
-					   TRUE, 1.0, 0.0 );
+		if (gtk_tree_path_compare (end_path_list, path) == -1)
+		/* the last line of the transaction is above the last visible row */
+			gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+										  path, NULL,
+										  TRUE, 1.0, 0.0 );
 
-	gtk_tree_path_free (path);
-	gtk_tree_path_free (end_path_list);
+		gtk_tree_path_free (path);
+		gtk_tree_path_free (end_path_list);
     }
     return TRUE;
 }
