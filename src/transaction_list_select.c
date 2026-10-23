@@ -263,8 +263,8 @@ gboolean transaction_list_select_up ( gboolean into_children )
 gboolean transaction_list_select_down ( gboolean into_children )
 {
     CustomRecord *record;
-    GtkTreePath *end_path_list;
-    GtkTreePath *path;
+    GtkTreePath *end_path_list = NULL;
+    GtkTreePath *path = NULL;
     CustomList *custom_list;
 
     custom_list = transaction_model_get_model ();
@@ -343,7 +343,7 @@ gboolean transaction_list_select_down ( gboolean into_children )
 		{
 			int  index = record -> transaction_records[custom_list -> nb_rows_by_transaction - 1] -> filtered_pos;
 			if (index < 0)
-				return FALSE;
+				goto end;
 
 			/* check with the last visible line of the transaction */
 			gtk_tree_path_append_index (path, index);
@@ -354,7 +354,7 @@ gboolean transaction_list_select_down ( gboolean into_children )
 			gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
 										  path, NULL,
 										  TRUE, 1.0, 0.0 );
-
+end:
 		gtk_tree_path_free (path);
 		gtk_tree_path_free (end_path_list);
     }
