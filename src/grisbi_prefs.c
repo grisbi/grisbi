@@ -394,9 +394,11 @@ static void grisbi_prefs_left_panel_populate_tree_model (GrisbiPrefs *prefs)
 	utils_prefs_left_panel_add_line (tree_model, NULL, NULL, _("Generalities"), -1);
 
     /* append page Fichiers */
+#ifndef __arm64__
 	widget = GTK_WIDGET (prefs_page_files_new (prefs));
 	utils_prefs_left_panel_add_line (tree_model, priv->notebook_prefs, widget, _("Files"), page);
 	page++;
+#endif
 
 	/* append page Archives */
 	widget = GTK_WIDGET (prefs_page_archives_new (prefs));
