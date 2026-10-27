@@ -84,9 +84,13 @@ gboolean transaction_list_select ( gint transaction_number )
     /* if we want the white line, this will increase a little the speed */
     if (transaction_number == -1)
     {
-	record = custom_list -> visibles_rows [custom_list -> num_visibles_rows - custom_list -> nb_rows_by_transaction];
-	if (gsb_data_transaction_get_transaction_number (record -> transaction_pointer) != -1)
-	    record = NULL;
+		int index = custom_list -> num_visibles_rows - custom_list -> nb_rows_by_transaction;
+		if (index >= 0)
+		{
+			record = custom_list -> visibles_rows [index];
+			if (gsb_data_transaction_get_transaction_number (record -> transaction_pointer) != -1)
+				record = NULL;
+		}
     }
 
     if (!record)
