@@ -4990,7 +4990,7 @@ void gsb_transactions_list_init_tab_width_col_treeview (const gchar *description
 			if (strlen ((const gchar *) pointeur_char[i]) == 0)
 				transaction_col_width[i] = transaction_col_width_init[i];
 			else
-				transaction_col_width[i] = utils_str_atoi (pointeur_char[i]);
+				transaction_col_width[i] = MAX(2, utils_str_atoi (pointeur_char[i]));
 
 			somme+= transaction_col_width[i];
 		}
