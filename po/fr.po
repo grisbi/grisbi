@@ -2685,7 +2685,7 @@ msgstr "Rechercher dans les tiers"
 
 #: src/widgets/widget_search_transaction.ui:142
 msgid "Search in note"
-msgstr "Rechercher dans les notes"
+msgstr "Rechercher dans les remarques"
 
 #: src/widgets/widget_search_transaction.ui:194
 msgid "Continue with another account: "
@@ -2701,7 +2701,7 @@ msgstr "Rechercher un montant"
 
 #: src/widgets/widget_search_transaction.ui:380
 msgid "Search in payee and note"
-msgstr "Rechercher dans les tiers et les notes"
+msgstr "Rechercher dans les tiers et les remarques"
 
 #: src/widgets/widget_transfer.ui:7
 msgid "Configuring a deferred debit account"
@@ -2812,7 +2812,7 @@ msgstr ""
 "passif, comptes multiples avec contre-opérations automatiques, devises "
 "multiples incluant l'euro, devise arbitraire pour chaque opération, frais de "
 "conversion, passage à l'euro par compte, description des opérations externes,"
-"catégories, sous-catégories, année fiscale, notes, résumés, transferts entre "
+"catégories, sous-catégories, année fiscale, remarquess, résumés, transferts entre "
 "comptes même pour des comptes avec des devises différentes, réconciliation "
 "bancaire, opérations programmées, rappel de la dernière opération pour "
 "chaque tiers, interface simple et agréable, manuel utilisateur, import/"
