@@ -13265,7 +13265,7 @@ msgstr "Ignorer le signe"
 #: src/widgets/widget_search_tiers_categ_ib.c:391
 #: src/widgets/widget_search_transaction.c:575
 msgid "You must enter a search text"
-msgstr "Vous devez entrer un text à rechercher"
+msgstr "Vous devez entrer un texte à rechercher"
 
 #: src/widgets/widget_search_tiers_categ_ib.c:308
 msgid "You must enter a valid amount"
