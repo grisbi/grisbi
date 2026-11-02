@@ -470,21 +470,14 @@ static gint widget_list_metatree_sort_function (GtkTreeModel *model,
 			return_value = 1;
 		else
 			return_value =  strcmp (g_utf8_collate_key (name_1, -1), g_utf8_collate_key (name_2, -1));
-
-		if (name_1)
-		{
-			g_free (name_1);
-			name_1 = NULL;
-		}
-		if (name_2)
-		{
-			g_free (name_2);
-			name_2 = NULL;
-		}
 	}
 
 	if (return_value)
+	{
+		g_free (name_1);
+		g_free (name_2);
 		return return_value;
+	}
 
 	/* puis les sous-divisions */
 	if (sub_number_1 == 0)
