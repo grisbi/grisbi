@@ -3758,6 +3758,16 @@ static GSList *gsb_import_limits_number_imported_ope (GSList *ope_list)
 			tmp_list = tmp_list->next;
 		}
 	}
+	else
+	{
+		/* import_ope_nb_days_max is 0 so import every operation */
+		GSList *tmp_list = ope_list;
+		while (tmp_list)
+		{
+			new_list = g_slist_prepend (new_list, tmp_list->data);
+			tmp_list = tmp_list->next;
+		}
+	}
 
 	return new_list;
 }
