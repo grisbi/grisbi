@@ -4793,17 +4793,23 @@ static void traitement_operations_importees (GtkWindow *parent)
 			account_number = gsb_account_get_combo_account_number (compte->bouton_compte_add);
 			new_list = gsb_import_limits_number_imported_ope (compte->operations_importees);
 			g_slist_free (compte->operations_importees);
-			compte->operations_importees = new_list;
-			gsb_import_add_imported_transactions (compte, account_number, parent);
+				if (new_list)
+				{
+					compte->operations_importees = new_list;
+					gsb_import_add_imported_transactions (compte, account_number, parent);
+				}
 			break;
 
 			case IMPORT_MARK_TRANSACTIONS:
 			account_number = gsb_account_get_combo_account_number (compte->bouton_compte_mark);
 			new_list = gsb_import_limits_number_imported_ope (compte->operations_importees);
 			g_slist_free (compte->operations_importees);
-			compte->operations_importees = new_list;
-			gsb_import_pointe_opes_importees (compte, account_number);
-			transaction_list_update_element (ELEMENT_MARK);
+				if (new_list)
+				{
+					compte->operations_importees = new_list;
+					gsb_import_pointe_opes_importees (compte, account_number);
+					transaction_list_update_element (ELEMENT_MARK);
+				}
 			break;
 		}
 
