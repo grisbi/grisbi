@@ -3769,6 +3769,9 @@ static GSList *gsb_import_limits_number_imported_ope (GSList *ope_list)
 		}
 	}
 
+	/* reserse the list since we added elements using g_slist_prepend() (to go faster) and not g_slist_append() */
+	new_list = g_slist_reverse(new_list);
+
 	return new_list;
 }
 
