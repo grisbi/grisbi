@@ -1539,6 +1539,7 @@ void etats_onglet_efface_etat (void)
 	/* First update reports list in navigation. */
 	gsb_gui_navigation_remove_report (current_report_number);
 	gsb_data_report_remove (current_report_number);
+	gsb_report_set_current (0);
 	etats_onglet_force_fill_reports_list (GTK_NOTEBOOK (notebook_etats));
 
 	gsb_file_set_modified (TRUE);
