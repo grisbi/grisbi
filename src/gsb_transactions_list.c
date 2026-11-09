@@ -1901,6 +1901,7 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
         transaction_list_update_element (ELEMENT_MARK);
     }
     /* need to update the marked amount on the home page */
+    gsb_gui_navigation_update_statement_label (account_number);
     w_run->mise_a_jour_liste_comptes_accueil = TRUE;
 
     gsb_file_set_modified (TRUE);
