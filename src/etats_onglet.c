@@ -1713,7 +1713,7 @@ void etats_onglet_create_search_tiers_categ_ib_report (GtkWindow *dialog,
 	switch (search_data_report->page_num)
 	{
 		case GSB_CATEGORIES_PAGE:
-			report_name = g_strconcat (_("Searching Category, Sub_category containing: "), text, NULL);
+			report_name = g_strconcat (_("Searching Sub_category containing: "), text, NULL);
 			etat_onglet_set_search_report_data_for_categ (report_number, text, search_data_report);
 			break;
 		case GSB_BUDGETARY_LINES_PAGE:
