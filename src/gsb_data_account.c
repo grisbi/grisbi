@@ -3986,7 +3986,7 @@ void gsb_data_account_set_marked_balance_from_transaction (gint account_number,
 
 	floating_point = gsb_data_currency_get_floating_point (account->currency);
 	adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
-	if (sens == OPERATION_POINTEE)
+	if (sens == OPERATION_POINTEE || sens == OPERATION_RAPPROCHEE)
 		tmp_balance = gsb_real_add (account->marked_balance, adjusted_amout);
 	else
 		tmp_balance = gsb_real_sub (account->marked_balance, adjusted_amout);
