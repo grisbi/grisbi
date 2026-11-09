@@ -1757,9 +1757,13 @@ static gboolean gsb_transactions_list_switch_R_mark (gint transaction_number)
 	if (r_column == -1)
 		return FALSE;
 
-	/* if we are on the white line or a child of split, do nothing */
-	if (transaction_number == -1)
-		return FALSE;
+	/* if we are on the white line, a P transaction or a child of split, do nothing */
+	if (transaction_number == -1
+	 ||
+	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_POINTEE
+	 ||
+	 gsb_data_transaction_get_mother_transaction_number (transaction_number))
+	return FALSE;
 
     /* if we are reconciling, cancel the action */
 	w_run = (GrisbiWinRun *) grisbi_win_get_w_run ();
