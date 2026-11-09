@@ -897,27 +897,6 @@ static gboolean gsb_transactions_list_switch_mark (gint transaction_number)
 
     transaction_list_update_transaction (transaction_number);
 
-    /* if it's a split, set the mark to the children */
-    if (gsb_data_transaction_get_split_of_transaction (transaction_number))
-    {
-	GSList *list_tmp_transactions;
-	gint mark;
-
-	mark = gsb_data_transaction_get_marked_transaction (transaction_number);
-	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-
-	while (list_tmp_transactions)
-	{
-	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions->data);
-
-	    if (gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
-		gsb_data_transaction_set_marked_transaction (transaction_number_tmp,
-							      mark);
-	    list_tmp_transactions = list_tmp_transactions->next;
-	}
-    }
-
     /* if we are reconciling, update the amounts label */
 	if (w_run->equilibrage)
 	{
