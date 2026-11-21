@@ -325,19 +325,23 @@ GSList * gsb_category_assistant_scan_directory (const gchar *basename, GtkTreeMo
     dirname = g_build_filename ( gsb_dirs_get_categories_dir ( ), basename, NULL );
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
-	gchar * pos = strchr ( basename, '.' );
+	gchar * tmp = strdup(basename);
+	gchar * pos = strchr ( tmp, '.' );
 	if ( pos )
 	    *pos = '\0';
 	g_free ( dirname );
-	dirname = g_build_filename ( gsb_dirs_get_categories_dir ( ), basename, NULL );
+	dirname = g_build_filename ( gsb_dirs_get_categories_dir ( ), tmp, NULL );
+	g_free(tmp);
     }
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
-	gchar * pos = strchr ( basename, '_' );
+	gchar * tmp = strdup(basename);
+	gchar * pos = strchr ( tmp, '_' );
 	if ( pos )
 	    *pos = '\0';
 	g_free ( dirname );
 	dirname = g_build_filename ( gsb_dirs_get_categories_dir ( ), basename, NULL );
+	g_free(tmp);
     }
 
     dir = g_dir_open ( dirname, 0, NULL );
