@@ -1379,7 +1379,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2630;
 				ORGANIZATIONNAME = grisbi;
 				TargetAttributes = {
 					00B77C371DB2A0EC00A5D233 = {
