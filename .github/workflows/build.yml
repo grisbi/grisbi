@@ -29,11 +29,11 @@ jobs:
         shell: bash
         run: github-actions/setup.sh
 
-      - name: compile without goffice openssl ofx
+      - name: compile without openssl ofx
         shell: bash
         run: |
           ./autogen.sh
-          github-actions/build.sh --without-goffice --without-openssl --without-ofx --without-libxml2
+          github-actions/build.sh --without-openssl --without-ofx --without-libxml2
           time make --jobs=4
 
       - name: compile
