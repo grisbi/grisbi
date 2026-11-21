@@ -4731,9 +4731,8 @@ msgid "Searching"
 msgstr "Recherche"
 
 #: src/etats_onglet.c:1716
-#, fuzzy
 msgid "Searching Sub_category containing: "
-msgstr "Rechercher des catégories ou sous-catégories contenant : "
+msgstr "Rechercher des sous-catégories contenant : "
 
 #: src/etats_onglet.c:1720
 msgid "Searching IB, Sub_IB containing: "
