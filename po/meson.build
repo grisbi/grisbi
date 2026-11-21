@@ -31,7 +31,7 @@ i18n.merge_file(
   )
 
 # Validate MetaInfo file
-metainfo_file = 'po/grisbi.metainfo.xml'
+metainfo_file = 'po/org.grisbi.grisbi.metainfo.xml'
 ascli_exe = find_program('appstreamcli', required: false)
 if ascli_exe.found()
   test('validate metainfo file',
