@@ -1,3 +1,7 @@
+New in version 3.92.1
+- Linux: add Wayland support
+- Bug fixes
+
 New in version 3.92.0
 - improve reports HTML output
 - Bug fixes
