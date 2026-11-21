@@ -1735,7 +1735,7 @@ static gboolean gsb_import_enter_force_dir_page (GtkWidget *assistant)
 	{
 		GFileInfo *info = NULL;
 		const gchar *filename;
-		gchar *extension;
+		const gchar *extension;
 		const gchar *type = NULL;
 
 		if (!g_file_enumerator_iterate (direnum, &info, NULL, NULL, NULL))
