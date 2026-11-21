@@ -55,8 +55,7 @@ jobs:
 
           meson setup builddir \
             --prefix /c/projects/grisbi-inst \
-            -Ddebug=false \
-            -Dgoffice=false
+            -Ddebug=false
 
           time meson install -C builddir
 
