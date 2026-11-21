@@ -17,7 +17,6 @@ Source0		:	%{name}-%{version}.tar.bz2
 #-----------------------------------------------------------------------------
 BuildRequires	:	libgsf
 BuildRequires	:	glib
-BuildRequires	:	goffice-devel
 BuildRequires	:	gtk3+
 #-----------------------------------------------------------------------------
 Requires	:	glib
