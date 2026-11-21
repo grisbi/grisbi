@@ -512,9 +512,59 @@ gint gsb_form_transaction_validate_transfer (gint transaction_number,
 	gsb_data_transaction_set_amount (contra_transaction_number,
 									 gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number)));
 
+	/* if the transfer is between accounts with different currencies,
+	 * always ask the user for the exchange rate and the fees */
+	if (gsb_data_account_get_currency (account_transfer)
+		!= gsb_data_transaction_get_currency_number (transaction_number))
+		gsb_currency_exchange_dialog (gsb_data_account_get_currency (account_transfer),
+									  gsb_data_transaction_get_currency_number (transaction_number),
+									  0,
+									  null_real,
+									  null_real,
+									  TRUE);
 
 	/* we have to check the change */
 	gsb_currency_check_for_change (contra_transaction_number);
+
+	/* if the transfer is between accounts with different currencies,
+	 * convert the contra-transaction amount to the currency of the target account */
+	{
+		gint contra_account_currency = gsb_data_account_get_currency (account_transfer);
+		gint contra_transaction_currency = gsb_data_transaction_get_currency_number (contra_transaction_number);
+
+		if (contra_account_currency != contra_transaction_currency)
+		{
+			GsbReal exchange_rate = gsb_data_transaction_get_exchange_rate (contra_transaction_number);
+			GsbReal exchange_fees = gsb_data_transaction_get_exchange_fees (contra_transaction_number);
+			GsbReal amount = gsb_data_transaction_get_amount (contra_transaction_number);
+			gint change_between = gsb_data_transaction_get_change_between (contra_transaction_number);
+
+			if (exchange_rate.mantissa != 0)
+			{
+				GsbReal converted_amount = null_real;
+				GsbReal net_amount;
+
+				/* deduct the fees from the amount before the conversion */
+				net_amount = gsb_real_sub (gsb_real_abs (amount), exchange_fees);
+
+				/* convert to the target account currency */
+				if (change_between)
+					converted_amount = gsb_real_div (net_amount, exchange_rate);
+				else
+					converted_amount = gsb_real_mul (net_amount, exchange_rate);
+
+				/* set the converted amount with the target account currency */
+				gsb_data_transaction_set_currency_number (contra_transaction_number, contra_account_currency);
+				gsb_data_transaction_set_amount (contra_transaction_number, converted_amount);
+				gsb_data_transaction_set_exchange_rate (contra_transaction_number, null_real);
+				gsb_data_transaction_set_exchange_fees (contra_transaction_number, null_real);
+				gsb_data_transaction_set_change_between (contra_transaction_number, 0);
+
+				/* keep the fees on the source transaction */
+				gsb_data_transaction_set_exchange_fees (transaction_number, exchange_fees);
+			}
+		}
+	}
 
 	/* set the contra-method of payment if the contra-transaction was not a child of split,
 	 * there is no place into the transaction structure for that, so it was not taken with the form,
