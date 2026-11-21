@@ -39,6 +39,7 @@ if ascli_exe.found()
         args: ['validate',
                '--no-net',
                '--pedantic',
+               '--explain',
                metainfo_file]
   )
 endif
