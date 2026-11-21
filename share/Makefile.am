@@ -9,7 +9,7 @@ org.grisbi.Grisbi.desktop: grisbi.desktop.in
 if ! WIN32
 appstreamdir = $(datadir)/metainfo/
 appstream_in_files = grisbi.metainfo.xml.in
-appstream_DATA = $(appstream_in_files:.xml.in=.xml)
+appstream_DATA = org.grisbi.grisbi.metainfo.xml
 org.grisbi.grisbi.metainfo.xml: grisbi.metainfo.xml.in
 	$(AM_V_GEN)$(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 endif
