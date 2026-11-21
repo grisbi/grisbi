@@ -24,7 +24,7 @@ i18n.merge_file(
 i18n.merge_file(
   type : 'xml',
   input : '../share/grisbi.metainfo.xml.in',
-  output : 'grisbi.metainfo.xml',
+  output : 'org.grisbi.grisbi.metainfo.xml',
   po_dir : '',
   install : true,
   install_dir : join_paths (get_option ('datadir'), 'metainfo'),
