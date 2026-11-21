@@ -1,7 +1,6 @@
 brew 'autoconf'
 brew 'automake'
 brew 'gettext'
-brew 'goffice'
 brew 'gtk+3'
 brew 'gtk-mac-integration'
 brew 'jpeg'
