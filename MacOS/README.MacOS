@@ -49,9 +49,6 @@ modulesets_dir = "PATH_TO_grisbi/contrib/jhbuild/modulesets/"
 % jhbuild build -f gtk-mac-integration
 
 
-% # install goffice
-% jhbuild build goffice
-
 % # install libofx
 % jhbuild build libofx
 
