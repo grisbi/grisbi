@@ -72,25 +72,10 @@ case "$RUNNER_OS" in
 		# from brew
 		export PKG_CONFIG_PATH=/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig
 		export PATH="$PATH:/usr/local/opt/gettext/bin"
-
-# /usr/local/Cellar/goffice/0.10.57/include/libgoffice-0.10/goffice/math/goffice-math.h:37:5: error: 'GOFFICE_WITH_DECIMAL64' is not defined, evaluates to 0 [-Werror,-Wundef]
-# #if GOFFICE_WITH_DECIMAL64
-#     ^
-# 1 error generated.
-		CFLAGS+=" -Wno-undef"
 		;;
 
 	"Windows")
 		echo "Windows"
-
-		# ignore undefined macro
-# 		D:/a/_temp/msys64/tmp/inst/include/libgoffice-0.10/goffice/math/go-math.h:116:5: error: "_MSC_VER" is not defined, evaluates to 0 [-Werror=undef]
-#   116 | #if _MSC_VER
-#       |     ^~~~~~~~
-# D:/a/_temp/msys64/tmp/inst/include/libgoffice-0.10/goffice/math/go-math.h:120:7: error: "GOFFICE_WITH_WINREG" is not defined, evaluates to 0 [-Werror=undef]
-#   120 |  #if (GOFFICE_WITH_WINREG==1)
-#       |       ^~~~~~~~~~~~~~~~~~~
-		CFLAGS+=" -Wno-undef"
 
 #  CCLD     grisbi.exe
 #./.libs/lt-grisbi.c: In function 'lt_fatal':
