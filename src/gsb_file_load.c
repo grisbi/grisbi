@@ -1834,7 +1834,15 @@ static void gsb_file_load_currency_part (const gchar **attribute_names,
 
     if (!strcmp (attribute_names[i], "Fl"))
     {
-        gsb_data_currency_set_floating_point (currency_number, utils_str_atoi (attribute_values[i]));
+        /* the floating point comes from the file: clamp it to a sane range
+         * so that a crafted file cannot make format buffers overflow */
+        gint floating_point = utils_str_atoi (attribute_values[i]);
+
+        if (floating_point < 0)
+            floating_point = 0;
+        else if (floating_point > 8)
+            floating_point = 8;
+        gsb_data_currency_set_floating_point (currency_number, floating_point);
         i++;
         continue;
     }

@@ -938,9 +938,11 @@ gchar *utils_str_dtostr (gdouble number,
     gchar *str_number;
     gint nbre_char;
 
-    nbre_char = g_sprintf (buffer, "%.*f", nbre_decimal, number);
+    nbre_char = g_snprintf (buffer, sizeof (buffer), "%.*f", nbre_decimal, number);
 
-    if (nbre_char > G_ASCII_DTOSTR_BUF_SIZE)
+    /* g_snprintf returns the number of chars that would have been written;
+     * the whole string including the trailing NUL must fit in the buffer */
+    if (nbre_char < 0 || nbre_char >= (gint) sizeof (buffer))
         return NULL;
 
     str_number = g_strndup (buffer, nbre_char);
