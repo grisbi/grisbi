@@ -226,6 +226,10 @@ static void file_obfuscate_qif_start ( gchar *filename )
 	    continue;
 	}
 
+	/* stop at the NUL terminator: never read or write past the buffer */
+	if (file_content[position] == '\0')
+	    break;
+
 	/* ok, so now we need to change the content of the position, only for
 	 * digits or characters */
 	if (g_ascii_isdigit (file_content[position]))
@@ -239,7 +243,8 @@ static void file_obfuscate_qif_start ( gchar *filename )
     }
     while (file_content[position] != 0);
 
-    filename[strlen(filename) - 4] = 0;
+    if (g_str_has_suffix (filename, ".qif"))
+        filename[strlen(filename) - 4] = 0;
     new_filename = g_strconcat (filename, "-anonymized.qif", NULL);
 
     if (g_file_set_contents ( new_filename,
@@ -277,10 +282,13 @@ void file_obfuscate_qif_next_line ( gchar *file_content,
 				    gint *position,
 				    gint *position_in_line )
 {
-    while (file_content[*position] != '\n')
-	*position = *position + 1;
+    while (file_content[*position] != '\n' && file_content[*position] != '\0')
+        *position = *position + 1;
 
-    *position = *position + 1;
+    /* do not step past the NUL terminator */
+    if (file_content[*position] == '\n')
+        *position = *position + 1;
+
     *position_in_line = 0;
 }
 
