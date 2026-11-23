@@ -415,8 +415,10 @@ gboolean file_obfuscate_run ( void )
 
         if ( nom_fichier_comptes )
         {
-            /* remove the .gsb */
-            nom_fichier_comptes[strlen ( nom_fichier_comptes ) -4] = '\0';
+            /* remove the .gsb, but only if the name really ends with it:
+             * otherwise the index is negative for short names */
+            if (g_str_has_suffix (nom_fichier_comptes, ".gsb"))
+                nom_fichier_comptes[strlen ( nom_fichier_comptes ) - 4] = '\0';
             filename = g_strconcat ( nom_fichier_comptes, "-obfuscated.gsb", NULL);
         }
         else
@@ -559,7 +561,8 @@ GtkWidget *file_obfuscate_page_2 ( void )
         gchar *complete_filename;
 
         base_filename = g_strdup ( nom_fichier_comptes );
-        base_filename[strlen ( base_filename ) - 4] = 0;
+        if (g_str_has_suffix (base_filename, ".gsb"))
+            base_filename[strlen ( base_filename ) - 4] = 0;
         complete_filename = g_strconcat ( base_filename, "-obfuscated.gsb", NULL );
         filename = g_path_get_basename ( complete_filename );
         g_free ( complete_filename );

@@ -565,7 +565,8 @@ gboolean debug_start_log ( void )
         gchar *complete_filename;
         gchar *basename;
 
-        base_filename [strlen ( base_filename ) - 4] = 0;
+        if (g_str_has_suffix (base_filename, ".gsb"))
+            base_filename [strlen ( base_filename ) - 4] = 0;
         complete_filename = g_strconcat ( base_filename, "-log.txt", NULL);
         basename = g_path_get_basename ( complete_filename );
 
