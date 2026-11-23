@@ -608,6 +608,7 @@ gchar *widget_reconcile_build_label (gint reconcile_number,
 	size_t __size_expand;
 	int __expand;
 	int __reconcile_number;
+	gint pos;
 
 	/* old_label = NAME + NUMBER */
 	old_label = g_strdup (gsb_data_reconcile_get_name (reconcile_number));
@@ -632,19 +633,20 @@ gchar *widget_reconcile_build_label (gint reconcile_number,
 	/* we try to find some digits at the end of the name,
 	 * if found, get the biggest number until we find a non digit character */
 	__expand = 1;
-	tmp = old_label + (strlen (old_label) - 1) * sizeof (gchar);
+	/* use a signed index: strlen() - 1 wraps for an empty name */
+	pos = (gint) strlen (old_label) - 1;
 
-	while (tmp >= old_label)
+	while (pos >= 0)
 	{
-		if (!isdigit (tmp[0]))
+		if (!isdigit ((guchar) old_label[pos]))
 			break;
 
-		if (*tmp != '9')
+		if (old_label[pos] != '9')
 			__expand = 0;
-		tmp--;
+		pos--;
 	}
 
-	tmp ++; /* step forward to the first digit */
+	tmp = old_label + pos + 1; /* step forward to the first digit */
 
 	__reconcile_number = utils_str_atoi (tmp) + 1;
 
@@ -658,7 +660,9 @@ gchar *widget_reconcile_build_label (gint reconcile_number,
 	/* NAME + NUMBER + '\0' */
 	__size = __size_expand + strlen (old_label) * sizeof (gchar) + 1;
 	new_label = g_malloc0 (__size * sizeof (gchar));
-	sprintf (new_label, "%s%*d", old_label, (int)__size_expand, __reconcile_number);
+	/* snprintf, not sprintf: if atoi() overflows on a long digit run, the
+	 * number can be one char longer than __size_expand */
+	snprintf (new_label, __size, "%s%*d", old_label, (int)__size_expand, __reconcile_number);
 
 	/* replace ' ' by '0' in number */
 	tmp = new_label + strlen (old_label) * sizeof (gchar);
