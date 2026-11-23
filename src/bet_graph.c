@@ -466,6 +466,7 @@ gboolean bet_graph_populate_lines_by_forecast_data (BetGraphDataStruct *self)
 
                 str_date = gsb_format_gdate (date_courante);
                 strncpy (&libelle_axe_x[self->nbre_elemnts * TAILLE_MAX_LIBELLE], str_date, TAILLE_MAX_LIBELLE-1);
+                libelle_axe_x[self->nbre_elemnts * TAILLE_MAX_LIBELLE + TAILLE_MAX_LIBELLE-1] = '\0';
 
                 self->nbre_elemnts++;
                 g_free (str_date);
@@ -486,6 +487,7 @@ gboolean bet_graph_populate_lines_by_forecast_data (BetGraphDataStruct *self)
                         str_date = gsb_format_gdate (date_courante);
 
                         strncpy (&libelle_axe_x[self->nbre_elemnts * TAILLE_MAX_LIBELLE], str_date, TAILLE_MAX_LIBELLE-1);
+                        libelle_axe_x[self->nbre_elemnts * TAILLE_MAX_LIBELLE + TAILLE_MAX_LIBELLE-1] = '\0';
 						g_free (str_date);
                         tab_Y[self->nbre_elemnts-1] = prev_montant;
                         self->nbre_elemnts++;
@@ -655,6 +657,7 @@ gboolean bet_graph_populate_lines_by_hist_line (BetGraphDataStruct *self)
             desc = g_strdup_printf ("%s %d", gettext (short_str_months[date_month-1]),
 									g_date_get_year (start_current_fyear));
         strncpy (&libelle_axe_x[self->nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE-1);
+        libelle_axe_x[self->nbre_elemnts * TAILLE_MAX_LIBELLE + TAILLE_MAX_LIBELLE-1] = '\0';
 		g_free(desc);
 
         /* Pour un graphique line on n'affiche pas 0 comme donnée des mois futurs */
@@ -770,6 +773,7 @@ gboolean bet_graph_populate_sectors_by_sub_divisions (BetGraphDataStruct *self,
 											SPP_HISTORICAL_SUB_DIV_NUMBER, &div,
 											-1);
                         strncpy (&libelle_division[self->nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE-1);
+                        libelle_division[self->nbre_elemnts * TAILLE_MAX_LIBELLE + TAILLE_MAX_LIBELLE-1] = '\0';
                         tab_montant_division[self->nbre_elemnts] = utils_str_strtod ((amount == NULL) ? "0" : amount, NULL);
 
                         if (tab_montant_division[self->nbre_elemnts] < 0)
