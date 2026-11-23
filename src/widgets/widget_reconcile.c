@@ -658,7 +658,9 @@ gchar *widget_reconcile_build_label (gint reconcile_number,
 	/* NAME + NUMBER + '\0' */
 	__size = __size_expand + strlen (old_label) * sizeof (gchar) + 1;
 	new_label = g_malloc0 (__size * sizeof (gchar));
-	sprintf (new_label, "%s%*d", old_label, (int)__size_expand, __reconcile_number);
+	/* snprintf, not sprintf: if atoi() overflows on a long digit run, the
+	 * number can be one char longer than __size_expand */
+	snprintf (new_label, __size, "%s%*d", old_label, (int)__size_expand, __reconcile_number);
 
 	/* replace ' ' by '0' in number */
 	tmp = new_label + strlen (old_label) * sizeof (gchar);
