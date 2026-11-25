@@ -170,7 +170,10 @@ decrypt_v3(gchar *password, gchar **file_content, int length)
 	/* a crafted file may be shorter than the marker: without this check,
 	 * encrypted_len is negative and goes to g_malloc/memset/EVP_CipherUpdate */
 	if (length < (gint) V3_MARKER_SIZE)
+	{
+		alert_debug("File is short");
 		return 0;
+	}
 
 	/* skip the marker */
 	encrypted_buf = (unsigned char *)*file_content + V3_MARKER_SIZE;
@@ -251,7 +254,10 @@ decrypt_v2(gchar *password, gchar **file_content, gulong length)
     /* the buffer must be large enough for the marker check below (strncmp
      * reads V2_MARKER_SIZE bytes), and long enough to hold the marker itself */
     if (length < 2 * V2_MARKER_SIZE)
-        return 0;
+	{
+		alert_debug("File is short");
+		return 0;
+	}
 
     /* Create a temporary buffer that will hold the decrypted data without the
      * first marker. */
@@ -303,7 +309,10 @@ decrypt_v1(gchar *password, gchar **file_content, gulong length)
     /* the buffer must be large enough for the marker checks below, which
      * read up to 23 bytes ("Grisbi compressed file ") */
     if (length < V1_MARKER_SIZE + 23)
-        return 0;
+	{
+		alert_debug("File is short");
+		return 0;
+	}
 
     /* Create a temporary buffer that will hold the decrypted data without the
      * marker. A trailing null byte is also added. */
