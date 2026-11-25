@@ -3063,7 +3063,8 @@ static void gsb_file_load_reconcile_part (const gchar **attribute_names,
         date = gsb_parse_date_string_safe (attribute_values[i]);
         gsb_data_reconcile_set_init_date (reconcile_number, date);
         i++;
-        g_date_free (date);
+        if (date)
+            g_date_free (date);
         continue;
     }
 
